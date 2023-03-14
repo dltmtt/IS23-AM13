@@ -1,0 +1,134 @@
+@startuml
+'The controller will receiver the move command from the client and
+'will call remove and insert on the board and the bookshelf.
+'The link Board-Player is a static list.
+'The reference to CommonGoal (a list of 1 or 2 elements) is static.
+'The checks, like Bookshelf's checkComplete, go in the client.
+'Consider aggregating the layouts (with parameters).
+'[] Add a method setNickname (in Player?).
+'[] Convert Bookshelf goal in a hashMap.
+'[] Add a method drawCards.
+'[] Add (somewhere) a check for the insertion in the bookshelf of the selection.
+'[] Check when the board has to be refilled.
+
+class Board
+note top: Sets the available tiles in the constructor. We suppose this is the controller.
+
+Player "1" -- "1..2" CommonGoal
+Player "1" -- "1" PersonalGoal
+Player "1" - "1" Bookshelf
+Board "1" - "1" Player
+Item "81" --o "1" Board
+Item "1..30" --o "1" Bookshelf
+Color - Item
+CommonGoal -- Layout
+
+class Item {
+    -Color color
+    -int number
+    -- Getters --
+    +getColor()
+    +getNumber()
+    .. Constructors ..
+    +Item(Color color, int number)
+}
+
+class PersonalGoal {
+    -Bookshelf goal
+    +getGoal()
+    +getPoints(Bookshelf b)
+}
+note right of PersonalGoal::goal
+    The goal's configuration.
+end note
+
+class Player {
+    -String nickname
+    -int age
+    -int score
+    -boolean hasEndGameCard
+    -boolean isFirstPlayer
+    -Bookshelf bookshelf
+    -List<Boolean> commonGoalReached;
+    --
+    +calculateScore()
+    +isFirstPlayer()
+    .. Getters ..
+    +getNickname()
+    +getAge()
+    .. Constructors ..
+    +Player(String name)
+    +Player(String name, boolean isFirstPlayer)
+}
+
+class Board {
+    +fill()
+    .. Getters ..
+    +getCurrentPlayer()
+    +getPlayers()
+    +getItems()
+    .. Setters ..
+    +pick()
+    .. Constructors ..
+    +Board(int numberOfPlayers)
+}
+
+note left of Board::fill
+    This is the initializer.
+end note
+
+class CommonGoal {
+    -List<Integer> scoringList
+    -Layout layout
+    ---
+    +assignScore(Player player)
+    .. Getters ..
+    +getScoringList()
+    +getScoring()
+    +getLayout()
+    .. Constructors ..
+    +CommonGoal(int numberOfPlayers, Layout pattern)
+}
+
+enum Color {
+    GREEN
+    WHITE
+    YELLOW
+    BLUE
+    LIGHTBLUE
+    PINK
+}
+
+class Bookshelf {
+    -int remainingFreeCells
+    ---
+    +isFull()
+    +getFreeCells()
+    +insert(int row, List<Item> items)
+    ..Constructors..
+    Bookshelf()
+    Bookshelf(List<int, int, Item>)
+}
+
+abstract Layout {
+    +check(Bookshelf b)
+    +getCurrent(Bookshelf b)
+    +getLayoutType()
+}
+note left of Layout::getCurrent
+    Returns the number of instances currently occurring for the specific common goal.
+end note
+
+class SixSamePairs extends Layout
+class SameCorners extends Layout
+class FourSamePipes extends Layout
+class TwoSameSquares extends Layout
+class ThreeMixedColumns extends Layout
+class EightSameTiles extends Layout
+class SameDiagonal extends Layout
+class FourRows extends Layout
+class TwoDifferentColumns extends Layout
+class TwoDifferentRows extends Layout
+class DifferentX extends Layout
+class Slope extends Layout
+@enduml

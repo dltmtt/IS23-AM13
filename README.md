@@ -1,18 +1,11 @@
 # IS23-AM13
-Repo del progetto di ingegneria del software a.a. 2022-2023, sezione di Alessandro Margara
 
+Members of the group:
+- Corbo Simone (simone.corbo@mail.polimi.it)
+- De Gennaro Valeria (valeria.degennaro@mail.polimi.it)
+- Delton Matteo (matteo.delton@mail.polimi.it)
+- Di Raimondo Beatrice (beatrice.diraimondo@mail.polimi.it)
 
-for example in this way:
+# Documentation
 
-members
-
-Rossi Mario .... @polim.it
-Bianchi. .....
-
-
-# Development State
-
-| Functionality | State           | Current | Comment |
-|---------------|-----------------| ---- | ---- |
-| Feature 1 | :yellow_circle: | | |
-| Feature 2     | :red_circle:    | | |
+The initial class diagram can be found in the [docs](docs) folder.
