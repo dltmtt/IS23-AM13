@@ -23,6 +23,7 @@ Item "81" --o "1" Board
 Item "1..30" --o "1" Bookshelf
 Color - Item
 CommonGoal -- Layout
+GameBoard - Board
 
 class Item {
     -Color color
@@ -35,7 +36,10 @@ class Item {
 }
 
 class PersonalGoal {
-    -Bookshelf goal
+    -HashMap<[Integer,Integer],Color> goal
+    -int reached
+    ..Getters..
+    +getHashMap()
     +getGoal()
     +getPoints(Bookshelf b)
 }
@@ -58,7 +62,11 @@ class Player {
     -List<Boolean> commonGoalReached;
     --
     +calculateScore()
+    +calculatePersonalGoal()
+    +calculateCommonGoal()
+    +calculateGroups()
     +isFirstPlayer()
+    +drawPersonalCard()
     .. Getters ..
     +getNickname()
     +getAge()
@@ -71,11 +79,22 @@ note right of Player
     Constructor for first player
 end note
 
+class GameBoard {
+    -List<CommonGoal> commonGoal
+    -List<Player> players
+    -Player currentPlayer
+    ..Getters..
+    +getCurrentPlayer()
+    +getPlayers()
+    ..Setters..
+    +initialize()
+}
+
+
 class Board {
     +fill()
     .. Getters ..
-    +getCurrentPlayer()
-    +getPlayers()
+
     +getItems()
     .. Setters ..
     +pick()
