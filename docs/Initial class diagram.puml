@@ -11,9 +11,10 @@
 '[] Add (somewhere) a check for the insertion in the bookshelf of the selection.
 '[] Check when the board has to be refilled.
 
+
+
 class Board
 note top: Sets the available tiles in the constructor. We suppose this is the controller.
-
 Player "1" -- "1..2" CommonGoal
 Player "1" -- "1" PersonalGoal
 Player "1" - "1" Bookshelf
@@ -38,6 +39,11 @@ class PersonalGoal {
     +getGoal()
     +getPoints(Bookshelf b)
 }
+
+note left of PersonalGoal::reached
+    it indicates the number of cells filled with the "right colour"
+end note
+
 note right of PersonalGoal::goal
     The goal's configuration.
 end note
@@ -57,9 +63,13 @@ class Player {
     +getNickname()
     +getAge()
     .. Constructors ..
-    +Player(String name)
-    +Player(String name, boolean isFirstPlayer)
+    +Player(String name, boolean isFirstGame)
+    +Player(String name, boolean isFirstPlayer, boolean isFirstGame)
 }
+
+note right of Player
+    Constructor for first player
+end note
 
 class Board {
     +fill()
@@ -104,31 +114,65 @@ class Bookshelf {
     ---
     +isFull()
     +getFreeCells()
-    +insert(int row, List<Item> items)
+    +insert(int column, List<Item> items)
     ..Constructors..
-    Bookshelf()
-    Bookshelf(List<int, int, Item>)
+    +Bookshelf()
 }
 
 abstract Layout {
+    -int width
+    -int height
+    -int minDifferent
+    -int maxDifferent
+    -int occurrences
+    -boolean rotate
+    ---
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
+    ..Constructor..
+    +Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, boolean rotate)
 }
+
+note right of Layout::rotate
+    flag for possible rotation
+end note
+
 note left of Layout::getCurrent
     Returns the number of instances currently occurring for the specific common goal.
 end note
 
-class SixSamePairs extends Layout
-class SameCorners extends Layout
-class FourSamePipes extends Layout
-class TwoSameSquares extends Layout
-class ThreeMixedColumns extends Layout
-class EightSameTiles extends Layout
-class SameDiagonal extends Layout
-class FourRows extends Layout
-class TwoDifferentColumns extends Layout
-class TwoDifferentRows extends Layout
-class DifferentX extends Layout
-class Slope extends Layout
+class ShapeLayout extends Layout{
+    +check(Bookshelf b)
+    +getCurrent(Bookshelf b)
+    +getLayoutType()
+    ..Constructor..
+    +ShapeLayout()
+}
+
+class Stairs extends Layout{
+    -boolean diagonal
+    -boolean doubleDiagonal
+    ---
+    +check(Bookshelf b)
+        +getCurrent(Bookshelf b)
+        +getLayoutType()
+    ....Constructor....
+    +Stairs(boolean diagonal, boolean doubleDiagonal)
+}
+
+note left of Stairs::diagonal
+    it distinguishes the stair from the diagonal
+end note
+
+class Corners extends Layout{
+    +check(Bookshelf b)
+    +getCurrent(Bookshelf b)
+    +getLayoutType()
+    ..Constructor..
+    +Corners()
+}
+
+
+
 @enduml
