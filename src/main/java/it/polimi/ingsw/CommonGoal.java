@@ -2,7 +2,10 @@ package it.polimi.ingsw;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Beatrice
+ * This class is for the CommonGoal cards
+ */
 public class CommonGoal {
     private final Layout layout;
     private List<Integer> scoringList;
@@ -11,30 +14,40 @@ public class CommonGoal {
         List<Integer> scoringList = new ArrayList<>();
 
         if (numofplayers == 2) {
+            /**
+             * i=2 --> 8
+             * i=1 -->4
+             */
             for (int i = numofplayers; i > 0; i--) {
                 scoringList.add(4 * i);
             }
         } else if (numofplayers == 3) {
-            scoringList.add(8);
-            scoringList.add(6);
-            scoringList.add(4);
+            /**
+             * 3*3-3%2 = 8
+             * 3*2-2%2 = 6
+             * 3*1-1%2 = 2
+             */
+            for (int i = numofplayers; i > 0; i--) {
+                scoringList.add(3 * i - i % 2);
+            }
         } else {
             for (int i = numofplayers; i > 0; i--) {
                 scoringList.add(i * 2);
             }
         }
+
         this.layout = layout;
     }
 
     /*   public int assignScore(Player player){
 
        }
-
+*/
     public List getScoringList() {
-
+        return scoringList;
     }
 
-*/
+
 //points depending on the number of players
     // 2 players: 4,8
     // 3 players: 4,6,8
