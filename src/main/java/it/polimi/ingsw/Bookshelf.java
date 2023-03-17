@@ -14,11 +14,14 @@ import java.util.Optional;
 public class Bookshelf {
     private final int rows = 5;
     private final int columns = 6;
-    private final Optional<Item>[][] items;
 
+    @SuppressWarnings("unchecked")
+    private final Optional<Item>[][] items = (Optional<Item>[][]) new Optional<?>[rows][columns];
+
+    /**
+     * Creates a new bookshelf. All cells are empty.
+     */
     public Bookshelf() {
-        this.items = new Optional[getRows()][getColumns()];
-
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getColumns(); j++) {
                 this.items[i][j] = Optional.empty();
