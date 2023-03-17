@@ -3,12 +3,6 @@ package it.polimi.ingsw;
 import java.util.List;
 import java.util.Optional;
 
-class Item {
-    Item() {
-        System.out.println("This is an item.");
-    }
-}
-
 /**
  * @author Matteo
  * @see Item
