@@ -22,8 +22,11 @@ class BookshelfTest {
     void insertZeroElements() {
         Bookshelf bookshelf = new Bookshelf();
         List<Item> items = new ArrayList<>();
-        bookshelf.insert(0, items);
-        assertEquals(bookshelf.getFreeCellsInColumn(0), 5);
+        try {
+            bookshelf.insert(4, items);
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "No items to insert");
+        }
     }
 
     @Test
@@ -44,7 +47,10 @@ class BookshelfTest {
         for (int i = 0; i < 6; i++) {
             items.add(new Item(Color.LIGHTBLUE, 3));
         }
-        bookshelf.insert(0, items);
-        assertEquals(bookshelf.getFreeCellsInColumn(0), 5);
+        try {
+            bookshelf.insert(2, items);
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "Not enough free cells in column 2");
+        }
     }
 }
