@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
+/**
+ * @author Beatrice
+ * This class is for the Item, which is the single card put on the board
+ */
 public class Item {
     private final Color color;
     private final int number;
