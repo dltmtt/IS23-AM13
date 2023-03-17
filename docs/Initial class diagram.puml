@@ -4,12 +4,12 @@
 'The link Board-Player is a static list.
 'The reference to CommonGoal (a list of 1 or 2 elements) is static.
 'The checks, like Bookshelf's checkComplete, go in the client.
-'Consider aggregating the layouts (with parameters).
-'[] Add a method setNickname (in Player?).
-'[] Convert Bookshelf goal in a hashMap.
-'[] Add a method drawCards.
-'[] Add (somewhere) a check for the insertion in the bookshelf of the selection.
-'[] Check when the board has to be refilled.
+'[X] Consider aggregating the layouts (with parameters).
+'[ ] Add a method setNickname (in Player?).
+'[X] Convert Bookshelf goal in a hashMap.
+'[ ] Add a method drawCards. (in game?)
+'[ ] Add (somewhere) a check for the insertion in the bookshelf of the selection.
+'[ ] Check when the board has to be refilled. in game
 
 
 
@@ -36,12 +36,12 @@ class Item {
 }
 
 class PersonalGoal {
-    -HashMap<[Integer,Integer],Color> goal
-    -int reached
-    ..Getters..
-    +getHashMap()
-    +getGoal()
-    +getPoints(Bookshelf b)
+    -HashMap<[Integer, Integer], Color> personalGoalCard
+    -int currentReached
+    .. Getters ..
+    +getColor(IntegerPair hey)
+    +getPoints()
+    +ColorReached()
 }
 
 note left of PersonalGoal::reached
@@ -80,21 +80,21 @@ note right of Player
 end note
 
 class GameBoard {
-    -List<CommonGoal> commonGoal
+    -List<CommonGoal> commonGoalDeck
+    -List<PersonalGoal> personalGoalDeck
     -List<Player> players
     -Player currentPlayer
-    ..Getters..
+    .. Getters ..
     +getCurrentPlayer()
     +getPlayers()
-    ..Setters..
+    .. Setters ..
     +initialize()
+    +refill()
 }
 
 
 class Board {
-    +fill()
     .. Getters ..
-
     +getItems()
     .. Setters ..
     +pick()
@@ -132,9 +132,9 @@ class Bookshelf {
     -int remainingFreeCells
     ---
     +isFull()
-    +getFreeCells()
+'    +getFreeCells() (inutile?)
     +insert(int column, List<Item> items)
-    ..Constructors..
+    .. Constructors ..
     +Bookshelf()
 }
 
@@ -149,7 +149,7 @@ abstract Layout {
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
-    ..Constructor..
+    .. Constructors ..
     +Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, boolean rotate)
 }
 
@@ -165,7 +165,7 @@ class ShapeLayout extends Layout{
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
-    ..Constructor..
+    .. Constructors ..
     +ShapeLayout()
 }
 
@@ -174,9 +174,9 @@ class Stairs extends Layout{
     -boolean doubleDiagonal
     ---
     +check(Bookshelf b)
-        +getCurrent(Bookshelf b)
-        +getLayoutType()
-    ....Constructor....
+    +getCurrent(Bookshelf b)
+    +getLayoutType()
+    .. Constructors ..
     +Stairs(boolean diagonal, boolean doubleDiagonal)
 }
 
@@ -188,10 +188,7 @@ class Corners extends Layout{
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
-    ..Constructor..
+    .. Constructors ..
     +Corners()
 }
-
-
-
 @enduml
