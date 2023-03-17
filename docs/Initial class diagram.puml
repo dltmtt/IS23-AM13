@@ -36,12 +36,12 @@ class Item {
 }
 
 class PersonalGoal {
-    -HashMap<[Integer,Integer],Color> goal
-    -int reached
-    ..Getters..
-    +getHashMap()
-    +getGoal()
-    +getPoints(Bookshelf b)
+    -HashMap<[Integer, Integer], Color> personalGoalCard
+    -int currentReached
+    .. Getters ..
+    +getColor(IntegerPair hey)
+    +getPoints()
+    +ColorReached()
 }
 
 note left of PersonalGoal::reached
@@ -80,7 +80,8 @@ note right of Player
 end note
 
 class GameBoard {
-    -List<CommonGoal> commonGoal
+    -List<CommonGoal> commonGoalDeck
+    -List<PersonalGoal> personalGoalDeck
     -List<Player> players
     -Player currentPlayer
     .. Getters ..
