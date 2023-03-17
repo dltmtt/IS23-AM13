@@ -83,18 +83,17 @@ class GameBoard {
     -List<CommonGoal> commonGoal
     -List<Player> players
     -Player currentPlayer
-    ..Getters..
+    .. Getters ..
     +getCurrentPlayer()
     +getPlayers()
-    ..Setters..
+    .. Setters ..
     +initialize()
+    +refill()
 }
 
 
 class Board {
-    +fill()
     .. Getters ..
-
     +getItems()
     .. Setters ..
     +pick()
@@ -132,9 +131,9 @@ class Bookshelf {
     -int remainingFreeCells
     ---
     +isFull()
-    +getFreeCells()
+'    +getFreeCells() (inutile?)
     +insert(int column, List<Item> items)
-    ..Constructors..
+    .. Constructors ..
     +Bookshelf()
 }
 
@@ -149,7 +148,7 @@ abstract Layout {
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
-    ..Constructor..
+    .. Constructors ..
     +Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, boolean rotate)
 }
 
@@ -165,7 +164,7 @@ class ShapeLayout extends Layout{
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
-    ..Constructor..
+    .. Constructors ..
     +ShapeLayout()
 }
 
@@ -174,9 +173,9 @@ class Stairs extends Layout{
     -boolean doubleDiagonal
     ---
     +check(Bookshelf b)
-        +getCurrent(Bookshelf b)
-        +getLayoutType()
-    ....Constructor....
+    +getCurrent(Bookshelf b)
+    +getLayoutType()
+    .. Constructors ..
     +Stairs(boolean diagonal, boolean doubleDiagonal)
 }
 
@@ -188,10 +187,7 @@ class Corners extends Layout{
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
-    ..Constructor..
+    .. Constructors ..
     +Corners()
 }
-
-
-
 @enduml
