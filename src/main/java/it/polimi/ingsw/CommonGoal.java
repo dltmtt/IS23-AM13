@@ -15,20 +15,20 @@ public class CommonGoal {
 
         if (numofplayers == 2) {
             /**
-             * i=2 --> 8
-             * i=1 -->4
+             * i=2 --> 4*i=8
+             * i=1 --> 4*i=4
              */
             for (int i = numofplayers; i > 0; i--) {
                 scoringList.add(4 * i);
             }
         } else if (numofplayers == 3) {
             /**
-             * 3*3-3%2 = 8
-             * 3*2-2%2 = 6
-             * 3*1-1%2 = 2
+             * i=3 --> (4*i+4)/2=8
+             * i=2 --> (4*i+4)/2=6
+             * i=1 --> (4*i+4)/2=4
              */
             for (int i = numofplayers; i > 0; i--) {
-                scoringList.add(3 * i - i % 2);
+                scoringList.add((4 * i + 4) / 2);
             }
         } else {
             for (int i = numofplayers; i > 0; i--) {
