@@ -6,6 +6,10 @@ import java.util.List;
 public class GameBoard {
     private List<PersonalGoal> personalGoalDeck;
 
+    public GameBoard() {
+        initilize();
+    }
+
     public void initilize() {
         //cretion of personalGoalDeck
 

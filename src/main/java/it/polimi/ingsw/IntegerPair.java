@@ -16,5 +16,19 @@ public class IntegerPair {
     public Integer getY() {
         return y;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IntegerPair)) return false;
+        IntegerPair key = (IntegerPair) o;
+        return x == key.x && y == key.y;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        return result;
+    }
 
 }
