@@ -7,6 +7,9 @@ public class UsableCells {
     private List<IntegerPair> usableCells;
 
     public UsableCells(int numOfPlayer) {
+        /**
+         * these cells have to be filled either ways
+         */
         usableCells.add(new IntegerPair(1,4));
         usableCells.add(new IntegerPair(1,5));
         usableCells.add(new IntegerPair(2,3));
@@ -37,7 +40,9 @@ public class UsableCells {
         usableCells.add(new IntegerPair(7,3));
         usableCells.add(new IntegerPair(7,4));
 
-
+        /**
+         * these cells have to be filled only with at least 3 players
+         */
         if(numOfPlayer>=3){
             usableCells.add(new IntegerPair(5,0));
             usableCells.add(new IntegerPair(2,2));
@@ -48,6 +53,9 @@ public class UsableCells {
             usableCells.add(new IntegerPair(6,6));
             usableCells.add(new IntegerPair(8,5));
         }
+        /**
+         * these cells have to be filled only with 4 players
+         */
         if(numOfPlayer==4){
             usableCells.add(new IntegerPair(0,4));
             usableCells.add(new IntegerPair(1,5));
