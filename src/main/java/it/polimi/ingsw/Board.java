@@ -8,11 +8,12 @@ public class Board {
     //matrix 9x9
     private Item boardMatrix[][];
     private List<Item> itemBag;
-    UsableCells usableCells = new UsableCells();
+    private UsableCells usableCells;
+    private int numOfPlayer;
 
-    public Board() {
-
-
+    public Board(int numOfPlayer) {
+        usableCells=new UsableCells(numOfPlayer)
+        this.numOfPlayer=numOfPlayer;
         //initialization of bag of item
         for(int i=0;i<22;i++){
             itemBag.add(new Item(Color.GREEN,i%3));
@@ -37,7 +38,7 @@ public class Board {
 
     }
 
-    public void fill(int NumOfPlayer){
+    public void fill(){
         //these cells have to be filled either way
         //inserire eccezione di sacca vuota
         //usable cells
