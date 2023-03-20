@@ -4,23 +4,19 @@
 'The link Board-Player is a static list.
 'The reference to CommonGoal (a list of 1 or 2 elements) is static.
 'The checks, like Bookshelf's checkComplete, go in the client.
-'[X] Consider aggregating the layouts (with parameters).
-'[ ] Add a method setNickname (in Player?).
-'[X] Convert Bookshelf goal in a hashMap.
-'[ ] Add a method drawCards. (in game?)
-'[ ] Add (somewhere) a check for the insertion in the bookshelf of the selection.
-'[ ] Check when the board has to be refilled. in game
 
-
+'TODO:
+'[ ] Consider adding a method setNickname.
+'[ ] Add a method drawCards.
+'[ ] Check when the board has to be refilled.
 
 class Board
-note top: Sets the available tiles in the constructor. We suppose this is the controller.
 Player "1" -- "1..2" CommonGoal
 Player "1" -- "1" PersonalGoal
 Player "1" - "1" Bookshelf
 Board "1" - "1" Player
 Item "81" --o "1" Board
-Item "1..30" --o "1" Bookshelf
+Item "0..30" --o "1" Bookshelf
 Color - Item
 CommonGoal -- Layout
 GameBoard - Board
@@ -36,7 +32,7 @@ class Item {
 }
 
 class PersonalGoal {
-    -HashMap<[Integer, Integer], Color> personalGoalCard
+    -HashMap<IntegerPair, Color> personalGoalCard
     -int currentReached
     .. Getters ..
     +getColor(IntegerPair hey)
@@ -58,9 +54,8 @@ class Player {
     -int score
     -boolean hasEndGameCard
     -boolean isFirstPlayer
-    -Bookshelf bookshelf
     -List<Boolean> commonGoalReached;
-    --
+    ----
     +calculateScore()
     +calculatePersonalGoal()
     +calculateCommonGoal()
@@ -72,12 +67,8 @@ class Player {
     +getAge()
     .. Constructors ..
     +Player(String name, boolean isFirstGame)
-    +Player(String name, boolean isFirstPlayer, boolean isFirstGame)
+    +Player(String name, boolean isFirstGame, boolean isFirstPlayer)
 }
-
-note right of Player
-    Constructor for first player
-end note
 
 class GameBoard {
     -List<CommonGoal> commonGoalDeck
@@ -92,7 +83,6 @@ class GameBoard {
     +refill()
 }
 
-
 class Board {
     .. Getters ..
     +getItems()
@@ -102,14 +92,14 @@ class Board {
     +Board(int numberOfPlayers)
 }
 
-note left of Board::fill
-    This is the initializer.
+note left of Board::Board
+    Sets the available tiles.
 end note
 
 class CommonGoal {
     -List<Integer> scoringList
     -Layout layout
-    ---
+    ----
     +assignScore(Player player)
     .. Getters ..
     +getScoringList()
@@ -129,11 +119,14 @@ enum Color {
 }
 
 class Bookshelf {
-    -int remainingFreeCells
-    ---
-    +isFull()
-'    +getFreeCells() (inutile?)
+    -int rows
+    -int columns
+    ----
     +insert(int column, List<Item> items)
+    .. Getters ..
+    +getRows()
+    +getColumns()
+    +getFreeCellsInColumn(int column)
     .. Constructors ..
     +Bookshelf()
 }
@@ -145,7 +138,7 @@ abstract Layout {
     -int maxDifferent
     -int occurrences
     -boolean rotate
-    ---
+    ----
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
@@ -154,10 +147,10 @@ abstract Layout {
 }
 
 note right of Layout::rotate
-    flag for possible rotation
+    Flag for possible rotation.
 end note
 
-note left of Layout::getCurrent
+note right of Layout::getCurrent
     Returns the number of instances currently occurring for the specific common goal.
 end note
 
@@ -172,7 +165,7 @@ class ShapeLayout extends Layout{
 class Stairs extends Layout{
     -boolean diagonal
     -boolean doubleDiagonal
-    ---
+    ----
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
     +getLayoutType()
@@ -181,7 +174,7 @@ class Stairs extends Layout{
 }
 
 note left of Stairs::diagonal
-    it distinguishes the stair from the diagonal
+    It distinguishes the stair from the diagonal.
 end note
 
 class Corners extends Layout{
