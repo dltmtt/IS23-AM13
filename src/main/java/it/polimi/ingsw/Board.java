@@ -1,19 +1,23 @@
 package it.polimi.ingsw;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Board {
     //matrix 9x9
-    private Item[][] boardMatrix;
-    private List<Item> itemBag;
-    private UsableCells usableCells;
-    private int numOfPlayer;
+    private final Item[][] boardMatrix;
+    private final List<Item> itemBag;
+    private final UsableCells usableCells;
+
+    private final int numOfPlayer;
 
     public Board(int numOfPlayer) {
-        boardMatrix=new Item[9][9];
-        usableCells=new UsableCells(numOfPlayer);
-        this.numOfPlayer=numOfPlayer;
+        boardMatrix = new Item[9][9];
+        usableCells = new UsableCells(numOfPlayer);
+        itemBag = new ArrayList<>();
+        this.numOfPlayer = numOfPlayer;
+
         /**
          * bag of item initialized
          *
@@ -27,38 +31,37 @@ public class Board {
             itemBag.add(new Item(Color.GREEN,i%3));
         }
 
-        for(int i=0;i<22;i++){
-            itemBag.add(new Item(Color.PINK,i%3));
+        for (int i = 0; i < 22; i++) {
+            itemBag.add(new Item(Color.PINK, i % 3));
         }
-        for(int i=0;i<22;i++){
-            itemBag.add(new Item(Color.WHITE,i%3));
+        for (int i = 0; i < 22; i++) {
+            itemBag.add(new Item(Color.WHITE, i % 3));
         }
-        for(int i=0;i<22;i++){
-            itemBag.add(new Item(Color.YELLOW,i%3));
+        for (int i = 0; i < 22; i++) {
+            itemBag.add(new Item(Color.YELLOW, i % 3));
         }
-        for(int i=0;i<22;i++){
-            itemBag.add(new Item(Color.BLUE,i%3));
+        for (int i = 0; i < 22; i++) {
+            itemBag.add(new Item(Color.BLUE, i % 3));
         }
-        for(int i=0;i<22;i++){
-            itemBag.add(new Item(Color.LIGHTBLUE,i%3));
+        for (int i = 0; i < 22; i++) {
+            itemBag.add(new Item(Color.LIGHTBLUE, i % 3));
         }
 
 
     }
 
-    public void fill(){
+    public Item getItem(int row, int column) {
+        return boardMatrix[row][column];
+    }
 
-        //inserire eccezione di sacca vuota
+    public void fill() throws IllegalAccessException {
 
-        /**
-         * In every turn, it is drawn from the item bag a random item
-         *
-         * It is generated a random number, used to "choose" an item from the list, then it's removed
-         */
         Random randNumberGenerator = new Random();
-        for(int row=0;row<9;row++){
-            for(int column=0;column<9;column++){
-                if(usableCells.getList().contains(new IntegerPair(row,column))) {
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (itemBag.isEmpty()) {
+                    throw new IllegalAccessException("the list is empty");
+                } else if (usableCells.getList().contains(new IntegerPair(row, column))) {
                     int indexRandom = randNumberGenerator.nextInt(itemBag.size());
                     boardMatrix[row][column] = itemBag.get(indexRandom);
                     itemBag.remove(indexRandom);
@@ -68,4 +71,14 @@ public class Board {
 
         }
     }
+
+    public List<Item> pickFromBoard(List<IntegerPair> pickedFromB) throws IllegalAccessException {
+        List<Item> itemsPicked = new ArrayList<>();
+        for (int i = 0; i < pickedFromB.size(); i++) {
+            itemsPicked.add(boardMatrix[pickedFromB.get(i).getX()][pickedFromB.get(i).getY()]);
+            boardMatrix[pickedFromB.get(i).getX()][pickedFromB.get(i).getY()] = null;
+        }
+        return itemsPicked;
+    }
+
 }

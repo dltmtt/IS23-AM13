@@ -8,10 +8,10 @@ import java.util.List;
  */
 public class CommonGoal {
     private final Layout layout;
-    private List<Integer> scoringList;
+    private final List<Integer> scoringList;
 
     public CommonGoal(int numofplayers, Layout layout) {
-        List<Integer> scoringList = new ArrayList<>();
+        scoringList = new ArrayList<>();
 
         if (numofplayers == 2) {
             /**
