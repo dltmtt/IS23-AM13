@@ -22,4 +22,8 @@ public class Item {
     public Color getColor() {
         return color;
     }
+
+    public boolean equals(Item check){
+        return getColor()==check.getColor() && getNumber()==check.getNumber();
+    }
 }

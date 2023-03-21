@@ -6,24 +6,15 @@ public abstract class Layout {
     private final int minDifferent;
     private final int maxDifferent;
     private final int occurrences;
-    private final boolean rotate;
+    private final char direction;
 
-    public Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, boolean rotate) {
+    public Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction) {
         this.width = width;
         this.height = height;
         this.minDifferent = minDifferent;
         this.maxDifferent = maxDifferent;
         this.occurrences = occurrences;
-        this.rotate = rotate;
-    }
-
-    public Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, boolean rotate, boolean diagonal, boolean doublediagonal) {
-        this.width = width;
-        this.height = height;
-        this.minDifferent = minDifferent;
-        this.maxDifferent = maxDifferent;
-        this.occurrences = occurrences;
-        this.rotate = rotate;
+        this.direction = direction;
     }
 
     public boolean check(Bookshelf B) {
@@ -34,8 +25,8 @@ public abstract class Layout {
         return 0;
     }
 
-    public String getLayout() {
-        return width + "-" + height + "-" + minDifferent + "-" + maxDifferent + "-" + occurrences + "-" + rotate;
+    public String getInfo() {
+        return "-width="+width + " -height=" + height + "-minDifferent=" + minDifferent + "-maxDifferent=" + maxDifferent + "-occurrences=" + occurrences + "-direction=" + direction;
     }
 
     public int getWidth() {
@@ -58,7 +49,7 @@ public abstract class Layout {
         return occurrences;
     }
 
-    public boolean getRotate() {
-        return rotate;
+    public char getDirection() {
+        return direction;
     }
 }

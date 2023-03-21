@@ -137,13 +137,13 @@ abstract Layout {
     -int minDifferent
     -int maxDifferent
     -int occurrences
-    -boolean rotate
+    -char direction
     ----
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
-    +getLayoutType()
+    +getInfo()
     .. Constructors ..
-    +Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, boolean rotate)
+    +Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction)
 }
 
 note right of Layout::rotate
@@ -154,33 +154,33 @@ note right of Layout::getCurrent
     Returns the number of instances currently occurring for the specific common goal.
 end note
 
-class ShapeLayout extends Layout{
+class Rectangle extends Layout{
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
-    +getLayoutType()
+    +getInfo()
     .. Constructors ..
-    +ShapeLayout()
+    +Rectangle()
 }
 
-class Stairs extends Layout{
+class Stair extends Layout{
     -boolean diagonal
     -boolean doubleDiagonal
     ----
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
-    +getLayoutType()
+    +getInfo()
     .. Constructors ..
-    +Stairs(boolean diagonal, boolean doubleDiagonal)
+    +Stair(boolean diagonal, boolean doubleDiagonal)
 }
 
-note left of Stairs::diagonal
+note left of Stair::diagonal
     It distinguishes the stair from the diagonal.
 end note
 
 class Corners extends Layout{
     +check(Bookshelf b)
     +getCurrent(Bookshelf b)
-    +getLayoutType()
+    +getInfo()
     .. Constructors ..
     +Corners()
 }
