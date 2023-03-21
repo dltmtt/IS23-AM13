@@ -28,7 +28,7 @@ public class CommonGoal {
              * i=1 --> (4*i+4)/2=4
              */
             for (int i = numofplayers; i > 0; i--) {
-                scoringList.add((4 * i + 4) / 2);
+                scoringList.add(2 * i + 2);
             }
         } else {
             for (int i = numofplayers; i > 0; i--) {
@@ -53,9 +53,14 @@ public class CommonGoal {
     // 3 players: 4,6,8
     //4 players: 2,4,6,8
 
-    public int getScoring() {
-        int val = scoringList.get(0);
-        scoringList.remove(scoringList.get(0));
-        return val;
+
+    public int getScoring() throws IndexOutOfBoundsException {
+
+        if (scoringList.size() > 0) {
+            int val = scoringList.get(0);
+            scoringList.remove(scoringList.get(0));
+            return val;
+        } else
+            throw new IndexOutOfBoundsException();
     }
 }
