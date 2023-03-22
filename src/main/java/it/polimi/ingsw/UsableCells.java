@@ -45,20 +45,20 @@ public class UsableCells {
             usableCells.add(new IntegerPair(8, 3));
             usableCells.add(new IntegerPair(6, 2));
             usableCells.add(new IntegerPair(6, 6));
-            usableCells.add(new IntegerPair(8, 5));
+            usableCells.add(new IntegerPair(5, 8));
         }
         /**
          * these cells have to be filled only with 4 players
          */
-        if(numOfPlayer==4){
-            usableCells.add(new IntegerPair(0,4));
-            usableCells.add(new IntegerPair(1,5));
-            usableCells.add(new IntegerPair(3,1));
-            usableCells.add(new IntegerPair(4,0));
-            usableCells.add(new IntegerPair(4,8));
-            usableCells.add(new IntegerPair(5,7));
-            usableCells.add(new IntegerPair(7,3));
-            usableCells.add(new IntegerPair(8,4));
+        if(numOfPlayer==4) {
+            usableCells.add(new IntegerPair(0, 4));
+            usableCells.add(new IntegerPair(1, 3));
+            usableCells.add(new IntegerPair(3, 7));
+            usableCells.add(new IntegerPair(4, 0));
+            usableCells.add(new IntegerPair(4, 8));
+            usableCells.add(new IntegerPair(5, 1));
+            usableCells.add(new IntegerPair(7, 5));
+            usableCells.add(new IntegerPair(8, 4));
         }
 
 

@@ -50,6 +50,10 @@ public class Board {
 
     }
 
+    public List<Item> getItemBag() {
+        return itemBag;
+    }
+
     public Item getItem(int row, int column) {
         return boardMatrix[row][column];
     }
