@@ -53,6 +53,11 @@ public class CommonGoal {
     // 3 players: 4,6,8
     //4 players: 2,4,6,8
 
+    /**
+     * @return val, which is the first element of the scoringList and then it is removed
+     * @throws IndexOutOfBoundsException
+     * @author Beatrice
+     */
 
     public int getScoring() throws IndexOutOfBoundsException {
 
