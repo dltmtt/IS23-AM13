@@ -8,7 +8,7 @@ public class CommonGoalTest {
 
     @Test
     void check() {
-        Layout s = new Stair(2, 1, 3, 3, 2, 'c', true, true);
+        Layout s = new Stair(2, 3, 3, 'c');
         CommonGoal c = new CommonGoal(3, s);
 
 

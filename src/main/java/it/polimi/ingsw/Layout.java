@@ -5,15 +5,13 @@ public abstract class Layout {
     private final int height;
     private final int minDifferent;
     private final int maxDifferent;
-    private final int occurrences;
     private final char direction;
 
-    public Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction) {
+    public Layout(int width, int height, int minDifferent, int maxDifferent, char direction) {
         this.width = width;
         this.height = height;
         this.minDifferent = minDifferent;
         this.maxDifferent = maxDifferent;
-        this.occurrences = occurrences;
         this.direction = direction;
     }
 
@@ -21,12 +19,8 @@ public abstract class Layout {
         return false;
     }
 
-    public int getCurrent(Bookshelf B) {
-        return 0;
-    }
-
     public String getInfo() {
-        return "-width="+width + " -height=" + height + "-minDifferent=" + minDifferent + "-maxDifferent=" + maxDifferent + "-occurrences=" + occurrences + "-direction=" + direction;
+        return "-width="+width + " -height=" + height + "-minDifferent=" + minDifferent + "-maxDifferent=" + maxDifferent+ "-direction=" + direction;
     }
 
     public int getWidth() {
@@ -43,10 +37,6 @@ public abstract class Layout {
 
     public int getMaxDifferent() {
         return maxDifferent;
-    }
-
-    public int getOccurrences() {
-        return occurrences;
     }
 
     public char getDirection() {

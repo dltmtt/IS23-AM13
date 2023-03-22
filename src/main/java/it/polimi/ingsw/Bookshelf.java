@@ -91,8 +91,8 @@ public class Bookshelf {
      * @author Simone
      */
     public Optional<Item> getItemAt(int row, int column) throws ArrayIndexOutOfBoundsException {
-        if (row > rows || column > columns || row < 0 || column < 0) {
-            throw new ArrayIndexOutOfBoundsException("Invalid row or column for the method getItemAt");
+        if (row >= rows || column >= columns || row < 0 || column < 0) {
+            throw new ArrayIndexOutOfBoundsException("Invalid row or column for the method getItemAt -row:"+row+" -column: "+column);
         }
         return items[row][column];
     }

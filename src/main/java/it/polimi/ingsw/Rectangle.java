@@ -5,8 +5,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public class Rectangle extends Layout{
+    private int occurrences;
     public Rectangle(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction) {
-        super(width, height, minDifferent, maxDifferent, occurrences, direction);
+        super(width, height, minDifferent, maxDifferent, direction);
+        this.occurrences=occurrences;
     }
 
     public boolean check(Bookshelf b) {
@@ -15,6 +17,10 @@ public class Rectangle extends Layout{
         }else{
             return false;
         }
+    }
+
+    public int getOccurrences() {
+        return occurrences;
     }
 
     public int getCurrent(@NotNull Bookshelf b){
@@ -41,6 +47,6 @@ public class Rectangle extends Layout{
     }
 
     public String getInfo(){
-        return super.getInfo()+" -type=rectangle";
+        return super.getInfo()+"-occurrences=" + occurrences +" -type=rectangle";
     }
 }

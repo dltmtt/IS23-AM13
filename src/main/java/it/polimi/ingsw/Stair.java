@@ -1,67 +1,43 @@
 package it.polimi.ingsw;
 
-/** This class implements the methods of Layout for a diagonal/stair common goal
+import java.util.ArrayList;
+import java.util.List;
+//import java.util.Optional;
+
+/** This class implements the methods of Layout for a stair common goal
  *
  */
 public class Stair extends Layout {
-    /** this attribute specifies whether is a diagonal (true), or a stair (diagonal+lower half)
-     */
-    private boolean diagonal;
-
-    /** this attribute specifies whether is a double diagonal (true) (X Shape) or a simple diagonal (false)
-     */
-    private boolean doublediagonal;
 
     /**Constructor
      *
-     * @param width width of the diagonal
-     * @param height height of the diagonal
+     * @param dimension width and height of the diagonal
      * @param minDifferent minimum number of different types
      * @param maxDifferent maximum number of different types
-     * @param occurrences number of occurrences needed
      * @param direction specifies the direction of search (l: left, r: right, b: both)
-     * @param diagonal whether is a diagonal (true), or a stair (diagonal+lower half)
-     * @param doublediagonal this attribute specifies whether is a double diagonal (true) (X Shape) or a simple diagonal (false)
-     */
-    public Stair(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction, boolean diagonal, boolean doublediagonal) {
-        super(width, height, minDifferent, maxDifferent, occurrences, direction);
-        setDiagonal(diagonal);
-        setDoublediagonal(doublediagonal);
+    */
+    public Stair(int dimension, int minDifferent, int maxDifferent, char direction) {
+        super(dimension, dimension, minDifferent, maxDifferent, direction);
     }
 
+    private boolean check_left(Bookshelf b){
+        return false;
+    }
+
+    private boolean check_right(Bookshelf b){
+        return false;
+    }
 
     public boolean check(Bookshelf b) {
-        if(getCurrent(b)==getOccurrences()){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public int getCurrent(Bookshelf b){
-        int counter=0;
-            // Add implementation
-        return 1;
+        return switch (getDirection()) {
+            case 'l' -> check_left(b);
+            case 'r' -> check_right(b);
+            default -> check_right(b) || check_left(b);
+        };
     }
 
     public String getInfo(){
-        return super.getInfo()+"-type=stair -diagonal="+diagonal+" -doublediagonal="+doublediagonal;
-    }
-
-    public void setDiagonal(boolean diagonal) {
-        this.diagonal = diagonal;
-    }
-
-    public void setDoublediagonal(boolean doublediagonal) {
-        this.doublediagonal = doublediagonal;
-    }
-
-    public boolean isDiagonal() {
-        return diagonal;
-    }
-
-    public boolean isDoublediagonal() {
-        return doublediagonal;
+        return super.getInfo();
     }
 }
 
