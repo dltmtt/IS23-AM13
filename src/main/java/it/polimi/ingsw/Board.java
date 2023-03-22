@@ -77,6 +77,7 @@ public class Board {
     }
 
     public List<Item> pickFromBoard(List<IntegerPair> pickedFromB) throws IllegalAccessException {
+
         List<Item> itemsPicked = new ArrayList<>();
         for (int i = 0; i < pickedFromB.size(); i++) {
             itemsPicked.add(boardMatrix[pickedFromB.get(i).getX()][pickedFromB.get(i).getY()]);

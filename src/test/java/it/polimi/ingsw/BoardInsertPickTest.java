@@ -2,28 +2,30 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BoardInsertTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class BoardInsertPickTest {
     @Test
     /**
-     * this tests if Cell 00 is null with 3 player
+     * this tests if Cell 00 is null with 3 players
      * @throws IllegalAccessException
      */
-    void filWith3PlayerCell00() throws IllegalAccessException {
+    void filWith3playersCell00() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(0, 0));
     }
 
     /**
-     * this tests if the expected cells of row 0 are null, with 3 player
+     * this tests if the expected cells of row 0 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells0x() throws IllegalAccessException {
+    void fillWith3playersAllCells0x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(0, 0));
@@ -38,12 +40,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 1 are null, with 3 player
+     * this tests if the expected cells of row 1 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells1x() throws IllegalAccessException {
+    void fillWith3playersAllCells1x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(1, 0));
@@ -57,12 +59,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 2 are null, with 3 player
+     * this tests if the expected cells of row 2 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells2x() throws IllegalAccessException {
+    void fillWith3playersAllCells2x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(2, 0));
@@ -73,12 +75,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 3 are null, with 3 player
+     * this tests if the expected cells of row 3 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells3x() throws IllegalAccessException {
+    void fillWith3playersAllCells3x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(3, 7));
@@ -87,12 +89,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 4 are null, with 3 player
+     * this tests if the expected cells of row 4 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells4x() throws IllegalAccessException {
+    void fillWith3playersAllCells4x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(4, 0));
@@ -101,12 +103,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 5 are null, with 3 player
+     * this tests if the expected cells of row 5 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells5x() throws IllegalAccessException {
+    void fillWith3playersAllCells5x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(5, 0));
@@ -115,12 +117,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 6 are null, with 3 player
+     * this tests if the expected cells of row 6 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells6x() throws IllegalAccessException {
+    void fillWith3playersAllCells6x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(6, 0));
@@ -131,12 +133,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 7 are null, with 3 player
+     * this tests if the expected cells of row 7 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells7x() throws IllegalAccessException {
+    void fillWith3playersAllCells7x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(7, 0));
@@ -150,12 +152,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 8 are null, with 3 player
+     * this tests if the expected cells of row 8 are null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells8x() throws IllegalAccessException {
+    void fillWith3playersAllCells8x() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(8, 0));
@@ -170,24 +172,24 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 0 are NOT null, with 3 player
+     * this tests if the expected cells of row 0 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells0xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells0xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(0, 5));
     }
 
     /**
-     * this tests if the expected cells of row 1 are NOT null, with 3 player
+     * this tests if the expected cells of row 1 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells1xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells1xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(1, 4));
@@ -196,12 +198,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 2 are NOT null, with 3 player
+     * this tests if the expected cells of row 2 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells2xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells2xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
 
@@ -214,12 +216,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 3 are NOT null, with 3 player
+     * this tests if the expected cells of row 3 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells3xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells3xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
 
@@ -234,12 +236,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 4 are NOT null, with 3 player
+     * this tests if the expected cells of row 4 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells4xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells4xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(4, 1));
@@ -253,12 +255,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 5 are NOT null, with 3 player
+     * this tests if the expected cells of row 5 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells5xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells5xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(5, 2));
@@ -272,12 +274,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 6 are NOT null, with 3 player
+     * this tests if the expected cells of row 6 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells6xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells6xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(6, 2));
@@ -290,12 +292,12 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 7 are NOT null, with 3 player
+     * this tests if the expected cells of row 7 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells7xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells7xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(7, 3));
@@ -304,20 +306,25 @@ public class BoardInsertTest {
     }
 
     /**
-     * this tests if the expected cells of row 8 are NOT null, with 3 player
+     * this tests if the expected cells of row 8 are NOT null, with 3 players
      *
      * @throws IllegalAccessException
      */
     @Test
-    void fillWith3PlayerAllCells8xNotNull() throws IllegalAccessException {
+    void fillWith3playersAllCells8xNotNull() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(8, 3));
 
     }
 
+    /**
+     * this test controls the right cells filled with 4 playerss
+     *
+     * @throws IllegalAccessException
+     */
     @Test
-    void fillWith4Player() throws IllegalAccessException {
+    void fillWith4players() throws IllegalAccessException {
         Board b = new Board(4);
         b.fill();
         assertNotNull(b.getItem(0, 4));
@@ -328,5 +335,38 @@ public class BoardInsertTest {
         assertNotNull(b.getItem(5, 1));
         assertNotNull(b.getItem(7, 5));
         assertNotNull(b.getItem(8, 4));
+    }
+
+    /**
+     * this test controls that the item of bag is filled with 132 item with all possible number of player
+     */
+    @Test
+    void Itembaginitialized() {
+        Board b2 = new Board(2);
+        Board b3 = new Board(3);
+        Board b4 = new Board(4);
+        assertEquals(b2.getItemBag().size(), 132);
+        assertEquals(b3.getItemBag().size(), 132);
+        assertEquals(b4.getItemBag().size(), 132);
+    }
+
+    /**
+     * this test controls the pickFormBoard method
+     *
+     * @throws IllegalAccessException
+     */
+
+    @Test
+    void PickFormTest() throws IllegalAccessException {
+        Board b = new Board(3);
+        b.fill();
+        assertEquals(b.getItemBag().size(), 95);
+        List<IntegerPair> itempicked = new ArrayList<>();
+        itempicked.add(new IntegerPair(5, 7));
+        itempicked.add(new IntegerPair(5, 8));
+        List<Item> items = b.pickFromBoard(itempicked);
+        assertNull(b.getItem(5, 7));
+        assertNull(b.getItem(5, 8));
+
     }
 }
