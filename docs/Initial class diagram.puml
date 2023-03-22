@@ -1,25 +1,37 @@
 @startuml
-'The controller will receiver the move command from the client and
-'will call remove and insert on the board and the bookshelf.
-'The link Board-Player is a static list.
-'The reference to CommonGoal (a list of 1 or 2 elements) is static.
-'The checks, like Bookshelf's checkComplete, go in the client.
+'https://plantuml.com/class-diagram
+'https://plantuml.com/commons
 
-'TODO:
-'[ ] Consider adding a method setNickname.
-'[ ] Add a method drawCards.
-'[ ] Check when the board has to be refilled.
-
-class Board
-Player "1" -- "1..2" CommonGoal
-Player "1" -- "1" PersonalGoal
+Game -- Board
+Game "1" -- "2..4" Player
+Board - Player
+Board -left UsableCells
 Player "1" - "1" Bookshelf
-Board "1" - "1" Player
-Item "81" --o "1" Board
-Item "0..30" --o "1" Bookshelf
-Color - Item
-CommonGoal -- Layout
-GameBoard - Board
+Player "1" -- "1" PersonalGoal
+Player "1" -- "1..2" CommonGoal
+note on link
+    Player's reference to the common goals is static.
+end note
+CommonGoal "1" -- "1" Layout
+Item -- Color
+Board "1" o-- "81" Item
+Bookshelf "1" o-- "0..30" Item
+
+class Game {
+    -List<CommonGoal> commonGoalDeck
+    -List<PersonalGoal> personalGoalDeck
+    -Player currentPlayer
+    ----
+    +initialize()
+    +refill()
+    +drawPersonalGoals()
+    +move(Player player, Coordinates from, Coordinates to)
+    .. Getters ..
+    +getCurrentPlayer()
+    +getPlayers()
+}
+
+note right : This is the controller.
 
 class Item {
     -Color color
@@ -31,74 +43,59 @@ class Item {
     +Item(Color color, int number)
 }
 
-class PersonalGoal {
-    -HashMap<IntegerPair, Color> personalGoalCard
-    -int currentReached
+class Player {
+    -String nickname
+    -int age
+    -boolean hasEndGameCard
+    -boolean isFirstGame
+    -boolean isFirstPlayer
+    -boolean commonGoalReached[]
+    ----
+    +calculateScore()
+    +rearrangePickedItems(List<Item> items)
+    +move(Coordinates from, Coordinates to)
     .. Getters ..
-    +getColor(IntegerPair hey)
-    +getPoints()
-    +ColorReached()
+    +getNickname()
+    +getAge()
+    +isFirstPlayer()
+    .. Setters ..
+    +setPersonalGoal(PersonalGoal personalGoal)
+    .. Constructors ..
+    +Player(String nickname, boolean isFirstGame)
+    +Player(String nickname, boolean isFirstGame, boolean isFirstPlayer)
+}
+
+class Board {
+    +pick()
+    +fill()
+    .. Getters ..
+    +getItems()
+    .. Constructors ..
+    +Board(int numberOfPlayers)
+}
+
+interface AbleToGetPoints {
+    +{abstract} getPoints()
+}
+
+class PersonalGoal implements AbleToGetPoints {
+    -HashMap<Coordinates, Color> personalGoal
+    -int currentlyReached
+    .. Getters ..
+    +getColor(Coordinates coordinates)
+    +colorReached()
 }
 
 note left of PersonalGoal::reached
-    it indicates the number of cells filled with the "right colour"
+    It indicates the number of cells filled with the "right color"
 end note
 
 note right of PersonalGoal::goal
     The goal's configuration.
 end note
 
-class Player {
-    -String nickname
-    -int age
-    -int score
-    -boolean hasEndGameCard
-    -boolean isFirstPlayer
-    -List<Boolean> commonGoalReached;
-    ----
-    +calculateScore()
-    +calculatePersonalGoal()
-    +calculateCommonGoal()
-    +calculateGroups()
-    +isFirstPlayer()
-    +drawPersonalCard()
-    .. Getters ..
-    +getNickname()
-    +getAge()
-    .. Constructors ..
-    +Player(String name, boolean isFirstGame)
-    +Player(String name, boolean isFirstGame, boolean isFirstPlayer)
-}
-
-class GameBoard {
-    -List<CommonGoal> commonGoalDeck
-    -List<PersonalGoal> personalGoalDeck
-    -List<Player> players
-    -Player currentPlayer
-    .. Getters ..
-    +getCurrentPlayer()
-    +getPlayers()
-    .. Setters ..
-    +initialize()
-    +refill()
-}
-
-class Board {
-    .. Getters ..
-    +getItems()
-    .. Setters ..
-    +pick()
-    .. Constructors ..
-    +Board(int numberOfPlayers)
-}
-
-note left of Board::Board
-    Sets the available tiles.
-end note
-
-class CommonGoal {
+class CommonGoal implements AbleToGetPoints {
     -List<Integer> scoringList
-    -Layout layout
     ----
     +assignScore(Player player)
     .. Getters ..
@@ -116,9 +113,10 @@ enum Color {
     BLUE
     LIGHTBLUE
     PINK
+    +getRandomColor()
 }
 
-class Bookshelf {
+class Bookshelf implements AbleToGetPoints {
     -int rows
     -int columns
     ----
@@ -139,49 +137,31 @@ abstract Layout {
     -int occurrences
     -char direction
     ----
-    +check(Bookshelf b)
-    +getCurrent(Bookshelf b)
-    +getInfo()
+    +{abstract} check(Bookshelf b)
+    +{abstract} getCurrent(Bookshelf b)
+    +{abstract} getInfo()
     .. Constructors ..
     +Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction)
 }
 
-note right of Layout::rotate
-    Flag for possible rotation.
-end note
-
 note right of Layout::getCurrent
-    Returns the number of instances currently occurring for the specific common goal.
+    Returns the number of items in the correct position for a specific common goal.
 end note
 
-class Rectangle extends Layout{
-    +check(Bookshelf b)
-    +getCurrent(Bookshelf b)
-    +getInfo()
-    .. Constructors ..
+class Rectangle extends Layout {
     +Rectangle()
 }
 
-class Stair extends Layout{
+class Stair extends Layout {
     -boolean diagonal
     -boolean doubleDiagonal
     ----
-    +check(Bookshelf b)
-    +getCurrent(Bookshelf b)
-    +getInfo()
-    .. Constructors ..
     +Stair(boolean diagonal, boolean doubleDiagonal)
 }
 
-note left of Stair::diagonal
-    It distinguishes the stair from the diagonal.
-end note
+note bottom : Its attributes distinguish between different stair-like layouts.
 
-class Corners extends Layout{
-    +check(Bookshelf b)
-    +getCurrent(Bookshelf b)
-    +getInfo()
-    .. Constructors ..
+class Corners extends Layout {
     +Corners()
 }
 @enduml
