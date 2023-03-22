@@ -64,8 +64,8 @@ public class Bookshelf {
      * @throws IllegalArgumentException if the number of items to insert is greater than the number of free cells in the column
      */
     public void insert(int column, List<Item> items) {
-        if (column < 0 || column > getColumns()) {
-            throw new IllegalArgumentException("Column index must be between 0 and " + getColumns());
+        if (column < 0 || column > columns) {
+            throw new IllegalArgumentException("Column index must be between 0 and " + columns);
         }
 
         if (items.size() > getFreeCellsInColumn(column)) {
@@ -75,33 +75,36 @@ public class Bookshelf {
         if (items.size() == 0) {
             throw new IllegalArgumentException("No items to insert");
         }
+
         int freeCells = getFreeCellsInColumn(column);
         for (int i = 0; i < items.size(); i++) {
-            this.items[getRows() - freeCells + i][column] = Optional.ofNullable(items.get(i));
+            this.items[(rows - freeCells) + i][column] = Optional.ofNullable(items.get(i));
         }
     }
 
     /**
-     * This function returns
+     * This function returns the item in the position (row, column).
      *
-     * @param row    row (first row is 0)
-     * @param column column (first column is 0)
+     * @param row    row (starting from 0)
+     * @param column column (starting from 0)
+     * @return the item in the position (row, column)
      * @author Simone
      */
     public Optional<Item> getItemAt(int row, int column) throws ArrayIndexOutOfBoundsException {
-        if (row > getRows() || column > getColumns() || row < 0 || column < 0) {
-            throw new ArrayIndexOutOfBoundsException("invalid input getItemAt");
+        if (row > rows || column > columns || row < 0 || column < 0) {
+            throw new ArrayIndexOutOfBoundsException("Invalid row or column for the method getItemAt");
         }
         return items[row][column];
     }
 
     /**
-     * this function return whether a row is full
+     * This function tells whether a row is full or not.
      *
-     * @return true if the row is full
+     * @param row row to check for completion
+     * @return true if the row is completely full, false otherwise
      */
     public boolean isRowFull(int row) {
-        for (int col = 0; col < getColumns(); col++) {
+        for (int col = 0; col < columns; col++) {
             if (getItemAt(row, col).isEmpty()) {
                 return false;
             }
@@ -110,15 +113,12 @@ public class Bookshelf {
     }
 
     public List<Item> getColumnContent(int col) {
-        List<Item> content = new ArrayList<Item>();
-        Optional<Item> it;
-        for (int i = 0; i < getRows(); i++) {
-            it = getItemAt(i, col);
-            if (it.isPresent()) {
-                content.add(it.get());
-            }
+        List<Item> content = new ArrayList<>();
+        Optional<Item> item;
+        for (int i = 0; i < rows; i++) {
+            item = getItemAt(i, col);
+            item.ifPresent(content::add);
         }
         return content;
     }
-
 }
