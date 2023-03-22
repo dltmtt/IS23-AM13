@@ -134,14 +134,13 @@ abstract Layout {
     -int height
     -int minDifferent
     -int maxDifferent
-    -int occurrences
     -char direction
     ----
     +{abstract} check(Bookshelf b)
     +{abstract} getCurrent(Bookshelf b)
     +{abstract} getInfo()
     .. Constructors ..
-    +Layout(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction)
+    +Layout(int width, int height, int minDifferent, int maxDifferent, char direction)
 }
 
 note right of Layout::getCurrent
@@ -149,14 +148,16 @@ note right of Layout::getCurrent
 end note
 
 class Rectangle extends Layout {
-    +Rectangle()
+    -int occurrences
+    ---
+    +Rectangle(int width, int height, int minDifferent, int maxDifferent, char direction, int occurrences)
 }
 
 class Stair extends Layout {
     -boolean diagonal
     -boolean doubleDiagonal
     ----
-    +Stair(boolean diagonal, boolean doubleDiagonal)
+    +Stair(int width, int height, int minDifferent, int maxDifferent, char direction, boolean diagonal, boolean doubleDiagonal)
 }
 
 note bottom : Its attributes distinguish between different stair-like layouts.

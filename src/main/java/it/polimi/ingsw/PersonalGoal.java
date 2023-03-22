@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import java.util.HashMap;
-import java.util.HashMap;
 
 public class PersonalGoal {
     private final HashMap<IntegerPair, Color> personalGoalCard;
@@ -10,8 +9,8 @@ public class PersonalGoal {
 
 //    Constructor
 
-    public PersonalGoal (int numOfCard) {
-         personalGoalCard=new HashMap<>();
+    public PersonalGoal(int numOfCard) {
+        personalGoalCard = new HashMap<>();
 
 
         switch (numOfCard) {

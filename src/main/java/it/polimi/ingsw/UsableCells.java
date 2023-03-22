@@ -11,40 +11,33 @@ public class UsableCells {
          * these cells have to be filled either ways
          */
         usableCells = new ArrayList<>();
-        usableCells.add(new IntegerPair(1, 4));
-        usableCells.add(new IntegerPair(1, 5));
-        usableCells.add(new IntegerPair(2, 3));
-        usableCells.add(new IntegerPair(2, 4));
-        usableCells.add(new IntegerPair(2, 5));
-        usableCells.add(new IntegerPair(3, 1));
-        usableCells.add(new IntegerPair(3, 2));
-        usableCells.add(new IntegerPair(3, 3));
-        usableCells.add(new IntegerPair(3, 4));
-        usableCells.add(new IntegerPair(3, 5));
-        usableCells.add(new IntegerPair(3, 6));
-        usableCells.add(new IntegerPair(4,1));
-        usableCells.add(new IntegerPair(4,2));
-        usableCells.add(new IntegerPair(4,3));
-        usableCells.add(new IntegerPair(4,4));
-        usableCells.add(new IntegerPair(4,5));
-        usableCells.add(new IntegerPair(4,6));
-        usableCells.add(new IntegerPair(4,7));
-        usableCells.add(new IntegerPair(5,2));
-        usableCells.add(new IntegerPair(5,3));
-        usableCells.add(new IntegerPair(5,4));
-        usableCells.add(new IntegerPair(5,5));
-        usableCells.add(new IntegerPair(5,6));
-        usableCells.add(new IntegerPair(5,7));
-        usableCells.add(new IntegerPair(6,3));
-        usableCells.add(new IntegerPair(6,4));
-        usableCells.add(new IntegerPair(6,5));
-        usableCells.add(new IntegerPair(7,3));
-        usableCells.add(new IntegerPair(7,4));
+
+        for (int i = 1; i <= 7; i++) {
+            if (i < 7) {
+                for (int j = 4; j <= 5; j++) {
+                    usableCells.add(new IntegerPair(i, j));
+                }
+            }
+            if (i > 1) {
+                usableCells.add(new IntegerPair(i, 3));
+            }
+            if (i >= 3 && i <= 5) {
+                usableCells.add(new IntegerPair(i, 2));
+                usableCells.add(new IntegerPair(i, 6));
+            }
+            if (i >= 3 && i <= 4) {
+                usableCells.add(new IntegerPair(i, 1));
+            }
+            if (i >= 4 && i <= 5) {
+                usableCells.add(new IntegerPair(i, 7));
+            }
+        }
+        usableCells.add(new IntegerPair(7, 4));
 
         /**
          * these cells have to be filled only with at least 3 players
          */
-        if(numOfPlayer>=3) {
+        if (numOfPlayer >= 3) {
             usableCells.add(new IntegerPair(0, 5));
             usableCells.add(new IntegerPair(2, 2));
             usableCells.add(new IntegerPair(3, 0));
