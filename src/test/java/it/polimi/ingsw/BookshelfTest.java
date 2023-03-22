@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class BookshelfTest {
     @Test
@@ -16,7 +17,7 @@ class BookshelfTest {
         List<Item> items = new ArrayList<>();
         items.add(item);
         bookshelf.insert(0, items);
-        assertEquals(bookshelf.getFreeCellsInColumn(0), bookshelf.getRows()-items.size());
+        assertEquals(bookshelf.getFreeCellsInColumn(0), bookshelf.getRows() - items.size());
     }
 
     @Test
@@ -50,10 +51,11 @@ class BookshelfTest {
         for (int i = 0; i < 6; i++) {
             items.add(new Item(Color.LIGHTBLUE, 3));
         }
+        int column = 2;
         try {
-            bookshelf.insert(2, items);
+            bookshelf.insert(column, items);
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "Not enough free cells in column 2");
+            assertEquals(e.getMessage(), "Not enough free cells in column " + column);
         }
     }
 
@@ -62,8 +64,7 @@ class BookshelfTest {
         Bookshelf b = new Bookshelf();
         List<Item> items = new ArrayList<>();
         Color randomcolor;
-        Optional<Item> it = Optional.empty();
-        boolean val;
+        Optional<Item> item;
         Item check;
         for (int col = 0; col < b.getColumns(); col++) {
             items.clear();
@@ -75,36 +76,35 @@ class BookshelfTest {
             b.insert(col, items);
             for (int row = 0; row < b.getRows(); row++) {
                 try {
-                    it = b.getItemAt(row, col);
+                    item = b.getItemAt(row, col);
+                    assertEquals(item, Optional.ofNullable(items.get(row)));
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    if (row > b.getRows() || col > b.getColumns() || row < 0 || col < 0) {
-                        assertEquals(e.getMessage(), "invalid input getItemAt");
+                    if (row > b.getRows() || col > b.getColumns()) {
+                        assertEquals(e.getMessage(), "Invalid row or column for the method getItemAt");
                     } else {
                         fail();
                     }
                 }
-                assertEquals(it, Optional.ofNullable(items.get(row)));
             }
         }
     }
 
-
     @Test
-    void InsertingOneItemPerTime(){
+    void InsertingOneItemPerTime() {
         Bookshelf b = new Bookshelf();
         List<Item> items = new ArrayList<>();
-        List<Item> localCol= new ArrayList<>();
+        List<Item> localCol = new ArrayList<>();
         Color randomcolor;
-        Item it;
+        Item item;
         for (int col = 0; col < b.getColumns(); col++) {
             localCol.clear();
             for (int row = 0; row < b.getRows(); row++) {
                 items.clear();
                 randomcolor = Color.randomColor();
-                it = new Item(randomcolor, 3);
-                items.add(it);
+                item = new Item(randomcolor, 3);
+                items.add(item);
                 b.insert(col, items);
-                localCol.add(it);
+                localCol.add(item);
                 assertEquals(localCol, b.getColumnContent(col));
             }
         }
