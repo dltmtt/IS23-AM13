@@ -6,8 +6,8 @@ public class Diagonal extends Layout {
      */
     private boolean doublediagonal;
 
-    public Diagonal(int dimension, int minDifferent, int maxDifferent, char direction, boolean doublediagonal) {
-        super(dimension, dimension, minDifferent, maxDifferent, direction);
+    public Diagonal(int dimension, int minDifferent, int maxDifferent, boolean doublediagonal) {
+        super(dimension, dimension, minDifferent, maxDifferent);
         setDoublediagonal(doublediagonal);
     }
 

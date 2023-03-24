@@ -23,11 +23,11 @@ public class Stair extends Layout {
      */
 
     private boolean check_left(Bookshelf b){
-        int previousCol=b.getRows();
+        int previousCol=b.getCellsInColumn(0)+1;
         int currentCol=0;
         for(int i=0; i<b.getColumns(); i++) {
             currentCol = b.getCellsInColumn(i);
-            if (currentCol >= previousCol) {
+            if (currentCol != previousCol-1) {
                 return false;
             }
             previousCol = currentCol;
@@ -36,11 +36,11 @@ public class Stair extends Layout {
     }
 
     private boolean check_right(Bookshelf b){
-        int previousCol=0;
+        int previousCol=b.getCellsInColumn(0)-1;
         int currentCol=0;
         for(int i=0; i<b.getColumns(); i++) {
             currentCol = b.getCellsInColumn(i);
-            if (currentCol <= previousCol) {
+            if (currentCol != previousCol+1) {
                 return false;
             }
             previousCol = currentCol;
