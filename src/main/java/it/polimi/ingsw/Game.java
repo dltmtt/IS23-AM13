@@ -10,6 +10,8 @@ public class Game {
 
     private List<Player> players;
 
+    private Player currentPlayer;
+
     public Game() throws IllegalAccessException {
         initilize();
     }
