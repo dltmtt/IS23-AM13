@@ -11,6 +11,7 @@ public class Diagonal extends Layout {
         setDoublediagonal(doublediagonal);
     }
 
+
     public boolean check(Bookshelf b) {
 
         if (checkRight(b, 0, 0) || checkRight(b, 1, 0)) {

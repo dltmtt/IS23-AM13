@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DiagonalTest {
@@ -103,12 +104,35 @@ public class DiagonalTest {
     }
 
     void createFakeDiagonal(Bookshelf b) {
-        for (int i = 0; i < 3; i++) {
+        List<Item> itemList = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            itemList.add(new Item(Color.randomColor(), 0));
 
         }
+        b.insert(4, itemList);
+        itemList.remove(0);
+        b.insert(3, itemList);
+        itemList.remove(0);
+        b.insert(2, itemList);
+        itemList.remove(0);
+        b.insert(1, itemList);
+        //dimension 4 diagonal
+        for (int j = 0; j < b.getColumns() - 1; j++) {
+            b.insert(j, itemList);
+        }
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.randomColor(), 2));
+        b.insert(4, items);
+
     }
 
-
+    @Test
+    void checkFakeRightDiagonal() {
+        Bookshelf b = new Bookshelf();
+        Layout layout = new Diagonal(4, 1, 1, 'r', false);
+        createFakeDiagonal(b);
+        assertFalse(layout.check(b));
+    }
     //the following test checks every possible combination of diagonal, starting from any row or column, of any dimension, left and right
 
 //    @Test
