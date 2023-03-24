@@ -54,6 +54,16 @@ public class Bookshelf {
         return freeCells;
     }
 
+    public int getCellsInColumn(int column) {
+        int usedCells = 0;
+        for (int i = 0; i < getRows(); i++) {
+            if (this.items[i][column].isPresent()) {
+                usedCells++;
+            }
+        }
+        return usedCells;
+    }
+
     /**
      * Inserts a list of items in a column.
      *
@@ -69,7 +79,7 @@ public class Bookshelf {
         }
 
         if (items.size() > getFreeCellsInColumn(column)) {
-            throw new IllegalArgumentException("Not enough free cells in column " + column);
+            throw new IllegalArgumentException("Not enough free cells in column " + column+" available: "+getFreeCellsInColumn(column)+" required: "+items.size());
         }
 
         if (items.size() == 0) {
@@ -121,4 +131,28 @@ public class Bookshelf {
         }
         return content;
     }
+    
+    public void print(){
+        String singlerow;
+        List<String> stringbook=new ArrayList<>();
+        for(int row=0; row<getRows(); row++){
+            singlerow=row+"\t";
+            for(int col=0; col<getColumns(); col++){
+                singlerow+="\t"+
+                        (getItemAt(row, col).isPresent()? getItemAt(row, col).get().getColor().ordinal() : " ");
+            }
+            stringbook.add(singlerow);
+        }
+
+        for(int i=0; i<getRows(); i++) {
+            System.out.println(stringbook.get(stringbook.size()-i-1));
+        }
+
+        String colnum=" ";
+        for(int i=0; i<getColumns(); i++) {
+            colnum+="\t"+i;
+        }
+        System.out.println(" \t"+colnum);
+    }
+    
 }

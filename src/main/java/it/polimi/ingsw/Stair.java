@@ -4,36 +4,53 @@ import java.util.ArrayList;
 import java.util.List;
 //import java.util.Optional;
 
-/** This class implements the methods of Layout for a stair common goal
- *
+/** This class implements the methods for a Stair Common Goal
  */
 public class Stair extends Layout {
 
     /**Constructor
      *
-     * @param dimension width and height of the diagonal
-     * @param minDifferent minimum number of different types
-     * @param maxDifferent maximum number of different types
-     * @param direction specifies the direction of search (l: left, r: right, b: both)
+     * @param dimension width and height of the stair
     */
-    public Stair(int dimension, int minDifferent, int maxDifferent, char direction) {
-        super(dimension, dimension, minDifferent, maxDifferent, direction);
+    public Stair(int dimension) throws IllegalArgumentException{
+        super(dimension, dimension, 1, 6);
     }
 
+    /**
+     * Method to check if there's a stair towards left
+     * @param b bookshelf to check
+     * @return true if there's a stair towards left
+     */
+
     private boolean check_left(Bookshelf b){
-        return false;
+        int previousCol=b.getRows();
+        int currentCol=0;
+        for(int i=0; i<b.getColumns(); i++) {
+            currentCol = b.getCellsInColumn(i);
+            if (currentCol >= previousCol) {
+                return false;
+            }
+            previousCol = currentCol;
+        }
+        return true;
     }
 
     private boolean check_right(Bookshelf b){
-        return false;
+        int previousCol=0;
+        int currentCol=0;
+        for(int i=0; i<b.getColumns(); i++) {
+            currentCol = b.getCellsInColumn(i);
+            if (currentCol <= previousCol) {
+                return false;
+            }
+            previousCol = currentCol;
+        }
+        return true;
     }
 
     public boolean check(Bookshelf b) {
-        return switch (getDirection()) {
-            case 'l' -> check_left(b);
-            case 'r' -> check_right(b);
-            default -> check_right(b) || check_left(b);
-        };
+        return check_right(b) || check_left(b);
+
     }
 
     public String getInfo(){

@@ -5,10 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public class Rectangle extends Layout{
+
+    private char direction;
     private int occurrences;
     public Rectangle(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction) {
-        super(width, height, minDifferent, maxDifferent, direction);
+        super(width, height, minDifferent, maxDifferent);
         this.occurrences=occurrences;
+        this.direction=direction;
     }
 
     public boolean check(Bookshelf b) {

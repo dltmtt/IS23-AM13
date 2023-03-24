@@ -9,7 +9,7 @@ public class CommonGoalTest {
     @Test
     //void check() {
     void getScoringListcheck() {
-        Layout s = new Diagonal(2, 1, 3, 'l', false);
+        Layout s = new Diagonal(2, 1, 3, false);
         CommonGoal c = new CommonGoal(3, s);
 
 
@@ -31,7 +31,7 @@ public class CommonGoalTest {
 
     @Test
     void getScoringcheck() throws IndexOutOfBoundsException {
-        Layout s = new Diagonal(2, 1, 3, 'l', false);
+        Layout s = new Diagonal(2, 1, 3, false);
         CommonGoal c = new CommonGoal(3, s);
         assertEquals(c.getScoring(), 8);
         assertEquals(c.getScoring(), 6);
