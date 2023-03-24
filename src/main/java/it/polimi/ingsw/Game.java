@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import java.util.List;
+import java.util.Random;
 
 public class Game {
     private List<PersonalGoal> personalGoalDeck;
@@ -27,20 +28,20 @@ public class Game {
             //is added a new personal goal in the List
             personalGoalDeck.add(new PersonalGoal(i));
         }
-//        //potrebbe essere fatto un metodo a parte
-//        for(int i=0;i<players.size();i++){
-//            players.get(i).setPersonalGoal(drawPersonalCard());
-//        }
+        //potrebbe essere fatto un metodo a parte
+        for (Player player : players) {
+            player.setPersonalGoal(drawPersonalCard());
+        }
 
     }
 
-//    public PersonalGoal drawPersonalCard(){
-//        Random randomNumberGenerator= new Random();
-//        int number=randomNumberGenerator.nextInt(personalGoalDeck.size());
-//        PersonalGoal choosen=personalGoalDeck.get(number);
-//        personalGoalDeck.remove(number);
-//        return choosen;
-//    }
+    public PersonalGoal drawPersonalCard() {
+        Random randomNumberGenerator = new Random();
+        int number = randomNumberGenerator.nextInt(personalGoalDeck.size());
+        PersonalGoal choosen = personalGoalDeck.get(number);
+        personalGoalDeck.remove(number);
+        return choosen;
+    }
 
 
 //    public void Move(Player player,List<IntegerPair> coord, int column) throws IllegalAccessException {
