@@ -39,4 +39,8 @@ public class Player {
     public boolean hasEndGameCard() {
         return hasEndGameCard;
     }
+
+    public void setPersonalGoal(PersonalGoal personalGoal) {
+        this.personalGoal = personalGoal;
+    }
 }
