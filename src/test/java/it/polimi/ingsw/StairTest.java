@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +59,7 @@ public class StairTest {
         assertTrue(stair.check(b));
         b=new Bookshelf();
         createRightStair(b);
+        b.print();
         assertTrue(stair.check(b));
     }
 

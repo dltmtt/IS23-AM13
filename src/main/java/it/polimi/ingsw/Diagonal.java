@@ -22,6 +22,7 @@ public class Diagonal extends Layout {
 
     public boolean checkRight(Bookshelf b, int row, int column) {
         int counter = 1;
+
         while (row < b.getRows() - 1 && column < b.getColumns() - 1) {
             if (b.getItemAt(row, column).isPresent() && b.getItemAt(row + 1, column + 1).isPresent()) {
                 if (!b.getItemAt(row, column).get().getColor().equals(b.getItemAt(row + 1, column + 1).get().getColor())) {
@@ -57,6 +58,7 @@ public class Diagonal extends Layout {
         }
 
         return counter == 5;
+
     }
     //    public boolean check(Bookshelf b) {
 //        return switch (getDirection()) {
