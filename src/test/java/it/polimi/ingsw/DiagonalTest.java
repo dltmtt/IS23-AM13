@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,15 +64,6 @@ public class DiagonalTest {
         List<Item> itemlist=new ArrayList<>();
         Color diagonalcolor=Color.randomColor();
 
-        for(int i=0; i<=startingrow; i++){
-            itemlist.add(new Item(Color.randomColor(), 0));
-        }
-
-        for(int i=0; i<b.getColumns(); i++){
-            b.insert(i, itemlist);
-        }
-
-
         for(int i=0; i<dimension; i++){
             itemlist.clear();
             for(int j=0; j<i; j++){
@@ -83,76 +73,87 @@ public class DiagonalTest {
            // try {
                 b.insert(startingcolumn - i, itemlist);
            // }catch(IllegalArgumentException e){
-                bookshelfPrint(b);
-           // }
+            // bookshelfPrint(b);
+            // }
         }
+
     }
 
     @Test
     void checkSingleRightDiagonal() {
-        Bookshelf b=new Bookshelf();
-        Layout layout=new Diagonal(3, 1, 1, 'r', false);
-        createSingleRightDiagonal(b, 1, 1, 3);
+        Bookshelf b = new Bookshelf();
+        Layout layout = new Diagonal(5, 1, 1, 'r', false);
+        createSingleRightDiagonal(b, 0, 0, 5);
         assertTrue(layout.check(b));
+        Bookshelf b1 = new Bookshelf();
+        createSingleRightDiagonal(b1, 1, 0, 5);
+        assertTrue(layout.check(b1));
     }
 
     @Test
     void checkSingleLeftDiagonal() {
-        Bookshelf b=new Bookshelf();
-        Layout layout=new Diagonal(3, 1, 1, 'l', false);
-        createSingleLeftDiagonal(b, 3, 3, 3);
-        boolean result=layout.check(b);
-        if(!result){
-            bookshelfPrint(b);
-        }
+        Bookshelf b = new Bookshelf();
+        Layout layout = new Diagonal(5, 1, 1, 'l', false);
+        createSingleLeftDiagonal(b, 0, 4, 5);
+        boolean result = layout.check(b);
         assertTrue(result);
+        Bookshelf b1 = new Bookshelf();
+        createSingleLeftDiagonal(b1, 1, 4, 5);
+        assertTrue(layout.check(b1));
     }
+
+    void createFakeDiagonal(Bookshelf b) {
+        for (int i = 0; i < 3; i++) {
+
+        }
+    }
+
 
     //the following test checks every possible combination of diagonal, starting from any row or column, of any dimension, left and right
 
+//    @Test
+//    void checkSingleDiagonals_HEAVY(){
+//        Bookshelf b=new Bookshelf();
+//        Layout layout;
+//        boolean result;
+//        for(int dimension=2; dimension<Math.min(b.getRows(), b.getColumns())+1; dimension++){
+//            for(int row=0; row<b.getRows()-dimension; row++){
+//                for(int col=0; col<b.getColumns()-dimension; col++){
+//                    b=new Bookshelf();
+//                    createSingleRightDiagonal(b, row, col, dimension);
+//                    layout=new Diagonal(dimension, 1, 1, 'r', false);
+//                    result=layout.check(b);
+//                    if(!result){
+//                        bookshelfPrint(b);
+//                    }
+//                    assertTrue(result, "Single right failed, row: "+row+", column: "+col+" dimension: "+ dimension);
+//                }
+//            }
+//
+//            for(int row=0; row<b.getRows()-dimension; row++) {
+//                for (int col = dimension; col < b.getColumns(); col++) {
+//                    b = new Bookshelf();
+//                    createSingleLeftDiagonal(b, row, col, dimension);
+//                    layout = new Diagonal(dimension, 1, 1, 'l', false);
+//                    result=layout.check(b);
+//                    if(!result){
+//                        bookshelfPrint(b);
+//                    }
+//                    assertTrue(result, "Single left failed, row: "+row+", column: "+col+" dimension: "+ dimension);
+//                }
+//            }
+//        }
+//    }
+
+
     @Test
-    void checkSingleDiagonals_HEAVY(){
-        Bookshelf b=new Bookshelf();
+    public void provaright() {
+        Bookshelf b = new Bookshelf();
         Layout layout;
         boolean result;
-        for(int dimension=2; dimension<Math.min(b.getRows(), b.getColumns())+1; dimension++){
-            for(int row=0; row<b.getRows()-dimension; row++){
-                for(int col=0; col<b.getColumns()-dimension; col++){
-                    b=new Bookshelf();
-                    createSingleRightDiagonal(b, row, col, dimension);
-                    layout=new Diagonal(dimension, 1, 1, 'r', false);
-                    result=layout.check(b);
-                    if(!result){
-                        bookshelfPrint(b);
-                    }
-                    assertTrue(result, "Single right failed, row: "+row+", column: "+col+" dimension: "+ dimension);
-                }
-            }
-
-            for(int row=0; row<b.getRows()-dimension; row++) {
-                for (int col = dimension; col < b.getColumns(); col++) {
-                    b = new Bookshelf();
-                    createSingleLeftDiagonal(b, row, col, dimension);
-                    layout = new Diagonal(dimension, 1, 1, 'l', false);
-                    result=layout.check(b);
-                    if(!result){
-                        bookshelfPrint(b);
-                    }
-                    assertTrue(result, "Single left failed, row: "+row+", column: "+col+" dimension: "+ dimension);
-                }
-            }
-        }
-    }
-
-
-    @Test
-    public void provaright(){
-        Bookshelf b=new Bookshelf();
-        Layout layout;
-        boolean result;
-        for(int dimension=1; dimension<Math.min(b.getRows(), b.getColumns())+1; dimension++) {
-            for (int row = 0; row < b.getRows() - dimension+1; row++) {
-                for (int col = 0; col < b.getColumns() - dimension+1; col++) {
+        for (int dimension = 1; dimension < Math.min(b.getRows(), b.getColumns()) + 1; dimension++) {
+            for (int row = 0; row < b.getRows() - dimension + 1; row++) {
+                for (int col = 0; col < b.getColumns() - dimension + 1; col++) {
                     b = new Bookshelf();
                     createSingleRightDiagonal(b, row, col, dimension);
                     bookshelfPrint(b);
