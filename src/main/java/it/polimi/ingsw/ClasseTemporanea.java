@@ -2,36 +2,60 @@ package it.polimi.ingsw;
 
 public class ClasseTemporanea {
 
-    //calcola le adiacenze di quel colore
 
-    public int calculateGroups(Bookshelf b, int row, int column, Color color) {
+    //this function returns the score depending on the number of adjacent items
+    public int adjacentGroups(Bookshelf b, Color color) {
         int matches = 0;
-        if (row == 6 && column == 5) {
-            if (matches < 3) {
-                return 0;
-            }
-            if (matches == 3) {
-                return 2;
-            }
-            if (matches == 4) {
-                return 3;
-            }
-            if (matches == 5) {
-                return 5;
-            }
-            if (matches >= 6) {
-                return 8;
+        Boolean[][] copyb = new Boolean[6][5];
+        int score = 0;
+
+        for (int r = 0; r < b.getRows(); r++) {
+            for (int c = 0; c < b.getColumns(); c++) {
+                copyb[r][c] = true;
             }
         }
-        //solo ilcolore ??
-        if (b.getItemAt(row, column).equals(b.getItemAt(row + 1, column))) {
-            return matches + calculateGroups(b, row + 1, column, color);
+
+        for (int c = 0; c < b.getColumns(); c++) {
+            if (b.getItemAt(0, c).isPresent() && b.getItemAt(0, c).get().getColor().equals(color) && copyb[0][c]) {
+                copyb[0][c] = false;
+                if ((c - 1 >= 0 && !copyb[0][c - 1]) || (b.getItemAt(0, c + 1).isPresent() && b.getItemAt(0, c + 1).get().getColor().equals(color)) || ((b.getItemAt(1, c).isPresent() && b.getItemAt(1, c).get().getColor().equals(color)))) {
+                    matches++;
+                }
+            }
         }
-        if (b.getItemAt(row, column).equals(b.getItemAt(row, column + 1))) {
-            return matches + calculateGroups(b, row, column + 1, color);
+
+        System.out.println(matches);
+
+
+        for (int r = 1; r < b.getRows(); r++) {
+            for (int c = 0; c < b.getColumns(); c++) {
+                if (b.getItemAt(r, c).isPresent() && b.getItemAt(r, c).get().getColor().equals(color) && copyb[r][c]) {
+                    copyb[r][c] = false;
+                    matches++;
+                    System.out.println("riga-colonna:  " + r + c);
+                    System.out.println(matches);
+
+                }
+            }
+            System.out.println(score);
+            System.out.println(score);
         }
-        return 0;
+        score = score + calculatePoints(matches);
+        return score;
+
     }
 
+    public int calculatePoints(int matches) {
+        if (matches < 3)
+            return 0;
+        else if (matches == 3)
+            return 2;
+        else if (matches == 4)
+            return 3;
+        else if (matches == 5)
+            return 5;
+        else
+            return 8;
+    }
 
 }
