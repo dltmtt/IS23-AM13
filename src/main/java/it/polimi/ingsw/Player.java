@@ -58,6 +58,10 @@ public class Player {
         this.personalGoal = personalGoal;
     }
 
+    public void setCommonGoalPoints(CommonGoal commonGoal) {
+        commonGoalPoints[Arrays.asList(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
+    }
+
     /**
      * This method moves a straight line of tiles from the board to the bookshelf.
      *
