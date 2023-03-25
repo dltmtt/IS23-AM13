@@ -13,13 +13,13 @@ public class Game {
     private Player currentPlayer;
 
     public Game() throws IllegalAccessException {
-        initilize();
+        initialize();
     }
 
-    public void initilize() throws IllegalAccessException {
+    public void initialize() throws IllegalAccessException {
         //aggiungere creazione commonGoalDeck
         /**
-         * livìng room is created and filled
+         * living room is created and filled
          */
         livingRoom = new Board(players.size());
         livingRoom.fill();
@@ -40,9 +40,9 @@ public class Game {
     public PersonalGoal drawPersonalCard() {
         Random randomNumberGenerator = new Random();
         int number = randomNumberGenerator.nextInt(personalGoalDeck.size());
-        PersonalGoal choosen = personalGoalDeck.get(number);
+        PersonalGoal chosen = personalGoalDeck.get(number);
         personalGoalDeck.remove(number);
-        return choosen;
+        return chosen;
     }
 
 
