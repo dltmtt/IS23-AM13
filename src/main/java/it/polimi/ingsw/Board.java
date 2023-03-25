@@ -27,8 +27,8 @@ public class Board {
          *
          * At the end we have a list with 132 elements(item)
          **/
-        for(int i=0;i<22;i++){
-            itemBag.add(new Item(Color.GREEN,i%3));
+        for (int i = 0; i < 22; i++) {
+            itemBag.add(new Item(Color.GREEN, i % 3));
         }
 
         for (int i = 0; i < 22; i++) {
@@ -65,7 +65,7 @@ public class Board {
             for (int column = 0; column < 9; column++) {
                 if (itemBag.isEmpty()) {
                     throw new IllegalAccessException("the list is empty");
-                } else if (usableCells.getList().contains(new IntegerPair(row, column))) {
+                } else if (usableCells.getList().contains(new Coordinates(row, column))) {
                     int indexRandom = randNumberGenerator.nextInt(itemBag.size());
                     boardMatrix[row][column] = itemBag.get(indexRandom);
                     itemBag.remove(indexRandom);
@@ -76,7 +76,7 @@ public class Board {
         }
     }
 
-    public List<Item> pickFromBoard(List<IntegerPair> pickedFromB) throws IllegalAccessException {
+    public List<Item> pickFromBoard(List<Coordinates> pickedFromB) throws IllegalAccessException {
 
         List<Item> itemsPicked = new ArrayList<>();
         for (int i = 0; i < pickedFromB.size(); i++) {

@@ -361,9 +361,9 @@ public class BoardInsertPickTest {
         Board b = new Board(3);
         b.fill();
         assertEquals(b.getItemBag().size(), 95);
-        List<IntegerPair> itempicked = new ArrayList<>();
-        itempicked.add(new IntegerPair(5, 7));
-        itempicked.add(new IntegerPair(5, 8));
+        List<Coordinates> itempicked = new ArrayList<>();
+        itempicked.add(new Coordinates(5, 7));
+        itempicked.add(new Coordinates(5, 8));
         List<Item> items = b.pickFromBoard(itempicked);
         assertNull(b.getItem(5, 7));
         assertNull(b.getItem(5, 8));

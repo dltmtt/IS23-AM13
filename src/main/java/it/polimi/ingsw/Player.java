@@ -66,8 +66,8 @@ public class Player {
      * @param column the column of the bookshelf where the tiles will be placed (starting from 0)
      * @throws IllegalArgumentException if the line is not straight or if the selection is empty
      */
-    public void move(IntegerPair from, IntegerPair to, int column) throws IllegalArgumentException {
-        List<IntegerPair> list = new ArrayList<>();
+    public void move(Coordinates from, Coordinates to, int column) throws IllegalArgumentException {
+        List<Coordinates> list = new ArrayList<>();
         int lengthX = Math.abs(from.getX() - to.getX());
         int lengthY = Math.abs(from.getY() - to.getY());
         int length = Math.max(lengthX, lengthY);
@@ -82,11 +82,11 @@ public class Player {
 
         if (Math.abs(from.getX() - to.getX()) > Math.abs(from.getY() - to.getY())) {
             for (int i = 0; i < length; i++) {
-                list.add(new IntegerPair(from.getX() + i, from.getY()));
+                list.add(new Coordinates(from.getX() + i, from.getY()));
             }
         } else {
             for (int i = 0; i < length; i++) {
-                list.add(new IntegerPair(from.getX(), from.getY() + i));
+                list.add(new Coordinates(from.getX(), from.getY() + i));
             }
         }
 

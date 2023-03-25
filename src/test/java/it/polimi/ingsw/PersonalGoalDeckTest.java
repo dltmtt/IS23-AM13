@@ -12,7 +12,7 @@ public class PersonalGoalDeckTest {
      */
 
     void calculatePoints() {
-        PersonalGoal personalGoal=new PersonalGoal(1);
+        PersonalGoal personalGoal = new PersonalGoal(1);
         personalGoal.ColorReached();
         personalGoal.ColorReached();
         personalGoal.ColorReached();
@@ -25,7 +25,7 @@ public class PersonalGoalDeckTest {
      */
     @Test
     void ZeroPoints() {
-        PersonalGoal personalGoal=new PersonalGoal(3);
+        PersonalGoal personalGoal = new PersonalGoal(3);
         assertEquals(personalGoal.getPoints(), 0);
     }
 
@@ -34,10 +34,10 @@ public class PersonalGoalDeckTest {
      */
     @Test
     void LessThan3Points() {
-        PersonalGoal personalGoal=new PersonalGoal(2);
+        PersonalGoal personalGoal = new PersonalGoal(2);
         personalGoal.ColorReached();
         personalGoal.ColorReached();
-        assertEquals(personalGoal.getPoints(),2);
+        assertEquals(personalGoal.getPoints(), 2);
     }
 
     /**
@@ -46,8 +46,8 @@ public class PersonalGoalDeckTest {
 
     @Test
     void getRightColor() {
-        PersonalGoal personalGoal=new PersonalGoal(0);
+        PersonalGoal personalGoal = new PersonalGoal(0);
 
-        assertEquals(personalGoal.getColor(new IntegerPair(3,0)),Color.YELLOW);
+        assertEquals(personalGoal.getColor(new Coordinates(3, 0)), Color.YELLOW);
     }
 }
