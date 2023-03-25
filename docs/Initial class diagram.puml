@@ -25,7 +25,7 @@ class Game {
     +initialize()
     +refill()
     +drawPersonalGoals()
-    +move(Player player, Coordinates from, Coordinates to)
+    +move(Player player, Coordinates from, Coordinates to, int column)
     .. Getters ..
     +getCurrentPlayer()
     +getPlayers()
@@ -52,14 +52,15 @@ class Player {
     -boolean commonGoalReached[]
     ----
     +calculateScore()
-    +rearrangePickedItems(List<Item> items)
-    +move(Coordinates from, Coordinates to)
+    +rearrangePickedItems(List<Item> items, int[] order)
+    +move(Coordinates from, Coordinates to, int column)
     .. Getters ..
     +getNickname()
     +getAge()
     +isFirstPlayer()
     .. Setters ..
     +setPersonalGoal(PersonalGoal personalGoal)
+    +{static} setCommonGoal(CommonGoal commonGoal, int index)
     .. Constructors ..
     +Player(String nickname, boolean isFirstGame)
     +Player(String nickname, boolean isFirstGame, boolean isFirstPlayer)
