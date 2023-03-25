@@ -12,7 +12,7 @@ import java.util.Optional;
  * It has 5 rows and 6 columns.
  * Each cell can contain an item.
  */
-public class Bookshelf {
+public class Bookshelf implements AbleToGetPoints {
     private final int rows = 6;
     private final int columns = 5;
 
@@ -79,7 +79,7 @@ public class Bookshelf {
         }
 
         if (items.size() > getFreeCellsInColumn(column)) {
-            throw new IllegalArgumentException("Not enough free cells in column " + column+" available: "+getFreeCellsInColumn(column)+" required: "+items.size());
+            throw new IllegalArgumentException("Not enough free cells in column " + column + " available: " + getFreeCellsInColumn(column) + " required: " + items.size());
         }
 
         if (items.size() == 0) {
@@ -102,7 +102,7 @@ public class Bookshelf {
      */
     public Optional<Item> getItemAt(int row, int column) throws ArrayIndexOutOfBoundsException {
         if (row >= rows || column >= columns || row < 0 || column < 0) {
-            throw new ArrayIndexOutOfBoundsException("Invalid row or column for the method getItemAt -row:"+row+" -column: "+column);
+            throw new ArrayIndexOutOfBoundsException("Invalid row or column for the method getItemAt -row:" + row + " -column: " + column);
         }
         return items[row][column];
     }
@@ -122,6 +122,12 @@ public class Bookshelf {
         return true;
     }
 
+    public int getPoints() {
+        int points = 0;
+        // TODO: Implement this method
+        return points;
+    }
+
     public List<Item> getColumnContent(int col) {
         List<Item> content = new ArrayList<>();
         Optional<Item> item;
@@ -131,28 +137,28 @@ public class Bookshelf {
         }
         return content;
     }
-    
-    public void print(){
+
+    public void print() {
         String singlerow;
-        List<String> stringbook=new ArrayList<>();
-        for(int row=0; row<getRows(); row++){
-            singlerow=row+"\t";
-            for(int col=0; col<getColumns(); col++){
-                singlerow+="\t"+
-                        (getItemAt(row, col).isPresent()? getItemAt(row, col).get().getColor().ordinal() : " ");
+        List<String> stringbook = new ArrayList<>();
+        for (int row = 0; row < getRows(); row++) {
+            singlerow = row + "\t";
+            for (int col = 0; col < getColumns(); col++) {
+                singlerow += "\t" +
+                        (getItemAt(row, col).isPresent() ? getItemAt(row, col).get().getColor().ordinal() : " ");
             }
             stringbook.add(singlerow);
         }
 
-        for(int i=0; i<getRows(); i++) {
-            System.out.println(stringbook.get(stringbook.size()-i-1));
+        for (int i = 0; i < getRows(); i++) {
+            System.out.println(stringbook.get(stringbook.size() - i - 1));
         }
 
-        String colnum=" ";
-        for(int i=0; i<getColumns(); i++) {
-            colnum+="\t"+i;
+        String colnum = " ";
+        for (int i = 0; i < getColumns(); i++) {
+            colnum += "\t" + i;
         }
-        System.out.println(" \t"+colnum);
+        System.out.println(" \t" + colnum);
     }
-    
+
 }
