@@ -17,20 +17,16 @@ public class Game {
     }
 
     public void initialize() throws IllegalAccessException {
-        //aggiungere creazione commonGoalDeck
-        /**
-         * living room is created and filled
-         */
+        // TODO: Aggiungere creazione commonGoalDeck
+        // Living room is created and filled
         livingRoom = new Board(players.size());
         livingRoom.fill();
-        /**
-         * personalGoalDeck is created with this 'for' which adds in the list a new card based on the assigned number
-         */
+        // PersonalGoalDeck is created with this 'for' which adds in the list a new card based on the assigned number
         for (int i = 0; i < 11; i++) {
-            //is added a new personal goal in the List
+            // Add a new personal goal in the List
             personalGoalDeck.add(new PersonalGoal(i));
         }
-        //potrebbe essere fatto un metodo a parte
+        // Potrebbe essere fatto un metodo a parte
         for (Player player : players) {
             player.setPersonalGoal(drawPersonalCard());
         }
