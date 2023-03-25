@@ -84,7 +84,7 @@ public class CornersTest {
         b.insert(4, items);
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemDiff);
-
+        b.print();
     }
 
     @Test
@@ -104,6 +104,9 @@ public class CornersTest {
         Bookshelf b1 = new Bookshelf();
         createFakeCorner(b, 1);
         assertFalse(layout.check(b1));
+        Bookshelf b2 = new Bookshelf();
+        createFakeCorner(b2, 2);
+        assertFalse(layout.check(b2));
 
     }
 

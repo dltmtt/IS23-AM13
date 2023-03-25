@@ -126,13 +126,13 @@ public class DiagonalTest {
 
     }
 
-    @Test
-    void checkFakeRightDiagonal() {
-        Bookshelf b = new Bookshelf();
-        Layout layout = new Diagonal(4, 1, 1, false);
-        createFakeDiagonal(b);
-        assertFalse(layout.check(b));
-    }
+//    @Test
+//    void checkFakeRightDiagonal() {
+//        Bookshelf b = new Bookshelf();
+//        Layout layout = new Diagonal(4, 1, 1, false);
+//        createFakeDiagonal(b);
+//        assertFalse(layout.check(b));
+//    }
     //the following test checks every possible combination of diagonal, starting from any row or column, of any dimension, left and right
 
 //    @Test
@@ -182,9 +182,112 @@ public class DiagonalTest {
                     createSingleRightDiagonal(b, row, col, dimension);
                     bookshelfPrint(b);
                     System.out.println("row: " + row + ", column: " + col + " dimension: " + dimension);
-                    }
                 }
             }
+        }
+    }
+
+    void createFakeDigonal(Bookshelf b, int type) {
+        List<Item> equalItem = new ArrayList<>();
+        equalItem.add(new Item(Color.randomColor(), 0));
+
+        switch (type) {
+            case 0:
+                EmptyBookshelf();
+                break;
+            case 1:
+                OnlyFirstCellRight(b, equalItem);
+                break;
+            case 2:
+                Dimension2Right(b, equalItem);
+                break;
+            case 3:
+                Dimension3Right(b, equalItem);
+                break;
+
+            case 4:
+                Dimension4Right(b, equalItem);
+                break;
+
+            case 5:
+                OnlyFirstCellLeft(b, equalItem);
+                break;
+
+        }
+
+
+    }
+
+    void EmptyBookshelf() {
+    }
+
+    void OnlyFirstCellRight(Bookshelf b, List<Item> items) {
+        b.insert(0, items);
+    }
+
+    void OnlyFirstCellLeft(Bookshelf b, List<Item> items) {
+        b.insert(4, items);
+    }
+
+    void Dimension2Right(Bookshelf b, List<Item> items) {
+        b.insert(0, items);
+        List<Item> casual = new ArrayList<>();
+        casual.add(new Item(Color.randomColor(), 0));
+
+        b.insert(1, casual);
+        b.insert(1, items);
+    }
+
+    void Dimension3Right(Bookshelf b, List<Item> items) {
+        b.insert(0, items);
+        List<Item> casual = new ArrayList<>();
+        casual.add(new Item(Color.randomColor(), 0));
+        b.insert(1, casual);
+        b.insert(1, items);
+        casual.add(new Item(Color.randomColor(), 0));
+        b.insert(2, casual);
+        b.insert(2, items);
+    }
+
+    void Dimension4Right(Bookshelf b, List<Item> items) {
+        b.insert(0, items);
+        List<Item> casual = new ArrayList<>();
+        casual.add(new Item(Color.randomColor(), 0));
+        b.insert(1, casual);
+        b.insert(1, items);
+        casual.add(new Item(Color.randomColor(), 0));
+        b.insert(2, casual);
+        b.insert(2, items);
+        casual.add(new Item(Color.randomColor(), 0));
+        b.insert(3, casual);
+        b.insert(3, items);
+    }
+
+
+    @Test
+    void checkFakeRightDiagonal() {
+        Layout layout = new Diagonal(5, 1, 1, false);
+        Bookshelf b0 = new Bookshelf();
+        Bookshelf b1 = new Bookshelf();
+        Bookshelf b2 = new Bookshelf();
+        Bookshelf b3 = new Bookshelf();
+        Bookshelf b4 = new Bookshelf();
+        //empty
+        createFakeDigonal(b0, 0);
+        //only 1 right
+        createFakeDigonal(b1, 1);
+        //dimension 2 right
+        createFakeDigonal(b2, 2);
+        //dimension 3 right
+        createFakeDigonal(b3, 3);
+        //dimension 4 right
+        createFakeDigonal(b4, 4);
+        assertFalse(layout.check(b0));
+        assertFalse(layout.check(b1));
+        assertFalse(layout.check(b2));
+        assertFalse(layout.check(b3));
+        assertFalse(layout.check(b4));
+
     }
 }
 
