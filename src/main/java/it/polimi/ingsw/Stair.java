@@ -1,33 +1,30 @@
 package it.polimi.ingsw;
 
-import java.util.ArrayList;
-import java.util.List;
-//import java.util.Optional;
-
-/** This class implements the methods for a Stair Common Goal
+/**
+ * This class implements the methods for a Stair common goal.
  */
 public class Stair extends Layout {
 
-    /**Constructor
+    /**
+     * Constructor
      *
      * @param dimension width and height of the stair
-    */
-    public Stair(int dimension) throws IllegalArgumentException{
+     */
+    public Stair(int dimension) throws IllegalArgumentException {
         super(dimension, dimension, 1, 6);
     }
 
     /**
      * Method to check if there's a stair towards left
+     *
      * @param b bookshelf to check
      * @return true if there's a stair towards left
      */
-
-    private boolean check_left(Bookshelf b){
-        int previousCol=b.getCellsInColumn(0)+1;
-        int currentCol=0;
-        for(int i=0; i<b.getColumns(); i++) {
-            currentCol = b.getCellsInColumn(i);
-            if (currentCol != previousCol-1) {
+    private boolean check_left(Bookshelf b) {
+        int previousCol = b.getCellsInColumn(0) + 1;
+        for (int i = 0; i < b.getColumns(); i++) {
+            int currentCol = b.getCellsInColumn(i);
+            if (currentCol != previousCol - 1) {
                 return false;
             }
             previousCol = currentCol;
@@ -35,12 +32,17 @@ public class Stair extends Layout {
         return true;
     }
 
-    private boolean check_right(Bookshelf b){
-        int previousCol=b.getCellsInColumn(0)-1;
-        int currentCol=0;
-        for(int i=0; i<b.getColumns(); i++) {
-            currentCol = b.getCellsInColumn(i);
-            if (currentCol != previousCol+1) {
+    /**
+     * Method to check if there's a stair towards right
+     *
+     * @param b bookshelf to check
+     * @return true if there's a stair towards right
+     */
+    private boolean check_right(Bookshelf b) {
+        int previousCol = b.getCellsInColumn(0) - 1;
+        for (int i = 0; i < b.getColumns(); i++) {
+            int currentCol = b.getCellsInColumn(i);
+            if (currentCol != previousCol + 1) {
                 return false;
             }
             previousCol = currentCol;
@@ -50,10 +52,9 @@ public class Stair extends Layout {
 
     public boolean check(Bookshelf b) {
         return check_right(b) || check_left(b);
-
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return super.getInfo();
     }
 }
