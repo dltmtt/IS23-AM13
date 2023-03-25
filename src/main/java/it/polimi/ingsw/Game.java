@@ -45,10 +45,7 @@ public class Game {
         return chosen;
     }
 
-
-//    public void Move(Player player,List<Coordinates> coord, int column) throws IllegalAccessException {
-//       player.getBookshelf().insert(column,livingRoom.pickFromBoard(coord));
-//    }
-
-
+    public void move(Player player, Coordinates from, Coordinates to, int column) {
+        player.move(from, to, column);
+    }
 }
