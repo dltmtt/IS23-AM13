@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Board {
-    //matrix 9x9
+    // Matrix 9x9
     private final Item[][] boardMatrix;
     private final List<Item> itemBag;
     private final UsableCells usableCells;
@@ -18,15 +18,12 @@ public class Board {
         itemBag = new ArrayList<>();
         this.numOfPlayer = numOfPlayer;
 
-        /**
-         * bag of item initialized
-         *
-         * i%3-> for the 3 possible images for each color, it is only used for the view.
-         *
-         * i<22->'cause each color has 22 occurences
-         *
-         * At the end we have a list with 132 elements(item)
-         **/
+        /*
+         * Bag of Item initialized
+         * i % 3 -> for the 3 possible images for each color, it is only used for the view.
+         * i < 22 -> 'cause each color has 22 occurrences
+         * At the end we have a list with 132 elements (Item)
+         */
         for (int i = 0; i < 22; i++) {
             itemBag.add(new Item(Color.GREEN, i % 3));
         }
@@ -59,7 +56,6 @@ public class Board {
     }
 
     public void fill() throws IllegalAccessException {
-
         Random randNumberGenerator = new Random();
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
@@ -77,13 +73,11 @@ public class Board {
     }
 
     public List<Item> pickFromBoard(List<Coordinates> pickedFromB) throws IllegalAccessException {
-
         List<Item> itemsPicked = new ArrayList<>();
-        for (int i = 0; i < pickedFromB.size(); i++) {
-            itemsPicked.add(boardMatrix[pickedFromB.get(i).getX()][pickedFromB.get(i).getY()]);
-            boardMatrix[pickedFromB.get(i).getX()][pickedFromB.get(i).getY()] = null;
+        for (Coordinates coordinates : pickedFromB) {
+            itemsPicked.add(boardMatrix[coordinates.getX()][coordinates.getY()]);
+            boardMatrix[coordinates.getX()][coordinates.getY()] = null;
         }
         return itemsPicked;
     }
-
 }
