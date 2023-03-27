@@ -9,7 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CalculateGroupsTest {
 
-
+    /**
+     * 1 group
+     */
     @Test
     void calculateBluGropus() {
         Bookshelf b = new Bookshelf();
@@ -22,13 +24,24 @@ public class CalculateGroupsTest {
         items1.add(new Item(Color.BLUE, 1));
         items1.add(new Item(Color.BLUE, 1));
         b.insert(1, items1);
-
+        b.print();
         ClasseTemporanea T = new ClasseTemporanea();
-        assertEquals(T.adjacentGroups(b, Color.BLUE), 3);
+        int score = 0;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (b.getItemAt(i, j).isPresent()) {
+                    score += T.calculatePoints(T.adjacentGroups(b, b.getItemAt(i, j).get().getColor(), i, j));
+                }
+            }
+        }
+        assertEquals(score, 3);
+
 
     }
 
-
+    /**
+     * 2 groups diiferent color
+     */
     @Test
     void calculatebluGroups2() {
         Bookshelf b = new Bookshelf();
@@ -60,13 +73,22 @@ public class CalculateGroupsTest {
         items4.add(new Item(Color.YELLOW, 1));
         b.insert(4, items4);
 
-
+        int score = 0;
         ClasseTemporanea T = new ClasseTemporanea();
-        assertEquals(T.adjacentGroups(b, Color.BLUE), 8);
-        assertEquals(T.adjacentGroups(b, Color.YELLOW), 5);
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (b.getItemAt(i, j).isPresent()) {
+                    score += T.calculatePoints(T.adjacentGroups(b, b.getItemAt(i, j).get().getColor(), i, j));
+                }
+            }
+        }
+        assertEquals(score, 13);
 
     }
 
+    /**
+     * 2 groups different color with another color in the middle
+     */
     @Test
     void calculatebluGroups3() {
         Bookshelf b = new Bookshelf();
@@ -100,8 +122,15 @@ public class CalculateGroupsTest {
 
 
         ClasseTemporanea T = new ClasseTemporanea();
-        assertEquals(T.adjacentGroups(b, Color.BLUE), 8);
-        assertEquals(T.adjacentGroups(b, Color.YELLOW), 2);
+        int score = 0;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (b.getItemAt(i, j).isPresent()) {
+                    score += T.calculatePoints(T.adjacentGroups(b, b.getItemAt(i, j).get().getColor(), i, j));
+                }
+            }
+        }
+        assertEquals(score, 10);
     }
 
 
@@ -156,12 +185,18 @@ public class CalculateGroupsTest {
         items4.add(new Item(Color.PINK, 1));
         b.insert(4, items4);
 
-
+        b.print();
         ClasseTemporanea T = new ClasseTemporanea();
-     //   assertEquals(T.adjacentGroups(b, Color.BLUE), 12);
-        assertEquals(T.adjacentGroups(b, Color.YELLOW), 2);
-        assertEquals(T.adjacentGroups(b, Color.PINK), 8);
-        assertEquals(T.adjacentGroups(b, Color.WHITE), 0);
+        int score = 0;
+        for (int j = 0; j < 5; j++) {
+            for (int i = 0; i < 6; i++) {
+                if (b.getItemAt(i, j).isPresent()) {
+                    score += T.calculatePoints(T.adjacentGroups(b, b.getItemAt(i, j).get().getColor(), i, j));
+
+                }
+            }
+        }
+        assertEquals(score, 23);
 
     }
 }
