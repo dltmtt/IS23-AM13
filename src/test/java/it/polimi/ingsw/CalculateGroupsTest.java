@@ -158,7 +158,7 @@ public class CalculateGroupsTest {
 
 
         ClasseTemporanea T = new ClasseTemporanea();
-        //     assertEquals(T.adjacentGroups(b, Color.BLUE), 12);
+     //   assertEquals(T.adjacentGroups(b, Color.BLUE), 12);
         assertEquals(T.adjacentGroups(b, Color.YELLOW), 2);
         assertEquals(T.adjacentGroups(b, Color.PINK), 8);
         assertEquals(T.adjacentGroups(b, Color.WHITE), 0);

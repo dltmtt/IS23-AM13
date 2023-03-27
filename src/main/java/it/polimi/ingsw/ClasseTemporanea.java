@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 public class ClasseTemporanea {
 
-
     //this function returns the score depending on the number of adjacent items
     public int adjacentGroups(Bookshelf b, Color color) {
         int matches = 0;
@@ -15,6 +14,7 @@ public class ClasseTemporanea {
             }
         }
 
+
         for (int c = 0; c < b.getColumns(); c++) {
             if (b.getItemAt(0, c).isPresent() && b.getItemAt(0, c).get().getColor().equals(color) && copyb[0][c]) {
                 copyb[0][c] = false;
@@ -26,7 +26,6 @@ public class ClasseTemporanea {
 
         System.out.println(matches);
 
-
         for (int r = 1; r < b.getRows(); r++) {
             for (int c = 0; c < b.getColumns(); c++) {
                 if (b.getItemAt(r, c).isPresent() && b.getItemAt(r, c).get().getColor().equals(color) && copyb[r][c]) {
@@ -37,10 +36,10 @@ public class ClasseTemporanea {
 
                 }
             }
-            System.out.println(score);
+
             System.out.println(score);
         }
-        score = score + calculatePoints(matches);
+        score += calculatePoints(matches);
         return score;
 
     }
