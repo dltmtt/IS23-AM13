@@ -58,8 +58,22 @@ public class ClasseTemporanea {
 //        return score;
 //
 //    }
+    public int calculateGroups(Bookshelf b) {
+        int score = 0;
+        for (int j = 0; j < 5; j++) {
+            for (int i = 0; i < 6; i++) {
+                if (b.getItemAt(i, j).isPresent()) {
+                    score += calculatePoints(adjacentGroups(b, b.getItemAt(i, j).get().getColor(), i, j));
+
+                }
+            }
+        }
+        return score;
+    }
+
 
     public int adjacentGroups(Bookshelf b, Color color, int row, int column) {
+
         int matches;
 
         if (row >= b.getRows() || column >= b.getColumns()) {
@@ -79,7 +93,6 @@ public class ClasseTemporanea {
             matches = 1 + adjacentGroups(b, color, row + 1, column) + adjacentGroups(b, color, row, column + 1);
 
         }
-
         return matches;
     }
     public int calculatePoints(int matches) {
