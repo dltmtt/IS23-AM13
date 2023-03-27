@@ -2,16 +2,15 @@ package it.polimi.ingsw;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
+public class Square extends Layout{
 
-public class Rectangle extends Layout{
-
-    private char direction;
+    /**
+     *
+     */
     private int occurrences;
-    public Rectangle(int width, int height, int minDifferent, int maxDifferent, int occurrences, char direction) {
-        super(width, height, minDifferent, maxDifferent);
+    public Square(int dimension, int minDifferent, int maxDifferent, int occurrences) {
+        super(dimension, dimension, minDifferent, maxDifferent);
         this.occurrences=occurrences;
-        this.direction=direction;
     }
 
     public boolean check(Bookshelf b) {
@@ -26,18 +25,32 @@ public class Rectangle extends Layout{
         return occurrences;
     }
 
+    private int bottomUpCheck(@NotNull Bookshelf b){
+        return 0;
+
+    }
+
+    private int topDownCheck(@NotNull Bookshelf b){
+        return 0;
+    }
+
     public int getCurrent(@NotNull Bookshelf b){
         int counter=0;
         int validcells=0;
+
+        //validity matrix
         boolean[][] valid = new boolean[b.getColumns()][b.getRows()];
+
+        //reset validity
         for(int i=0; i<b.getRows(); i++){
             for(int j=0; j<b.getColumns(); j++){
                 valid[i][j]=true;
             }
         }
+
+
         for (int col = 0; col < b.getColumns() - getWidth(); col++) {
             for(int row=0; row< b.getRows()-getHeight(); row++) {
-                validcells = 0;
                 if(b.getRows()-b.getFreeCellsInColumn(col)-row>=getHeight() )
                 for (int width = col; width < col + getWidth(); width++) {
                     for (int height = row; height<row+getHeight(); height++){
