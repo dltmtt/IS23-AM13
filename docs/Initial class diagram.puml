@@ -135,30 +135,35 @@ abstract Layout {
     -int height
     -int minDifferent
     -int maxDifferent
-    -char direction
     ----
     +{abstract} check(Bookshelf b)
     +{abstract} getInfo()
     .. Constructors ..
-    +Layout(int width, int height, int minDifferent, int maxDifferent, char direction)
+    +Layout(int width, int height, int minDifferent, int maxDifferent)
 }
 
 note right of Layout::getCurrent
     Returns the number of items in the correct position for a specific common goal.
 end note
 
-class Rectangle extends Layout {
+class XShape extends Layout{
++XShape(int width, int height, int maxDifferent, int minDifferent)
+}
+
+class FullLine extends Layout{
+    -int occurrences
++FullLine(int width, int height, int maxDifferent, int minDifferent, int occurrences)
+}
+
+class Square extends Layout {
     -int occurrences
     ---
     +getCurrent(Bookshelf b)
-    +Rectangle(int width, int height, int minDifferent, int maxDifferent, char direction, int occurrences)
+    +Square(int dimension, int minDifferent, int maxDifferent, int occurrences)
 }
 
 class Diagonal extends Layout {
-    -boolean doubleDiagonal
-    ----
-
-    +Diagonal(int width, int height, int minDifferent, int maxDifferent, char direction, boolean doubleDiagonal)
+    +Diagonal(int width, int height, int minDifferent, int maxDifferent)
 }
 
 class Stairs extends Layout {

@@ -90,7 +90,7 @@ public class CornersTest {
     @Test
     void cornerCheck() {
         Bookshelf b = new Bookshelf();
-        Layout layout = new Corners(1, 1, 1, 1);
+        Layout layout = new Corners(1, 1);
         createCorner(b);
         assertTrue(layout.check(b));
     }
@@ -98,7 +98,7 @@ public class CornersTest {
     @Test
     void checkFakeCorner() {
         Bookshelf b = new Bookshelf();
-        Layout layout = new Corners(1, 1, 1, 1);
+        Layout layout = new Corners(1, 1);
         createFakeCorner(b, 0);
         assertFalse(layout.check(b));
         Bookshelf b1 = new Bookshelf();
