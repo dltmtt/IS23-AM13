@@ -12,6 +12,7 @@ public class Board {
 
     private final int numOfPlayer;
 
+
     public Board(int numOfPlayer) {
         boardMatrix = new Item[9][9];
         usableCells = new UsableCells(numOfPlayer);
@@ -54,6 +55,7 @@ public class Board {
     public Item getItem(int row, int column) {
         return boardMatrix[row][column];
     }
+
 
     public void fill() throws IllegalAccessException {
         Random randNumberGenerator = new Random();
