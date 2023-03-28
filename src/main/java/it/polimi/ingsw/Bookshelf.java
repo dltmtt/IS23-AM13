@@ -6,26 +6,38 @@ import java.util.Optional;
 
 /**
  * @author Matteo
- * @see Item
+ * @test CalculateGroupsTest
+ *
  * <p>
  * This class represents a bookshelf.
  * It has 5 rows and 6 columns.
  * Each cell can contain an item.
+ * @see Item
  */
 public class Bookshelf implements AbleToGetPoints {
     private final int rows = 6;
     private final int columns = 5;
+    private final boolean[][] boolMatrix;
 
     @SuppressWarnings("unchecked")
     private final Optional<Item>[][] items = (Optional<Item>[][]) new Optional[rows][columns];
 
     /**
      * Creates a new bookshelf. All cells are empty.
+     * <p>
+     * boolMatrix is a matrix of booleans that is used to check if a cell can be visited (and it has not been visited yet).
+     * It is initialized to true.
      */
     public Bookshelf() {
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getColumns(); j++) {
                 this.items[i][j] = Optional.empty();
+            }
+        }
+        boolMatrix = new boolean[6][5];
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                boolMatrix[i][j] = true;
             }
         }
     }
@@ -122,10 +134,75 @@ public class Bookshelf implements AbleToGetPoints {
         return true;
     }
 
+
+    /**
+     * This method calculates the points of adjacent groups of items of the bookshelf.
+     *
+     * @return the total score of adjacent groups of items of the given bookshelf
+     * @author Valeria
+     */
     public int getPoints() {
         int points = 0;
-        // TODO: Implement this method
+        for (int j = 0; j < columns; j++) {
+            for (int i = 0; i < rows; i++) {
+                if (items[i][j].isPresent()) {
+                    points += calculatePoints(adjacentGroups(items[i][j].get().getColor(), i, j));
+                }
+            }
+        }
         return points;
+    }
+
+    /**
+     * Counts the number of items, in a given bookshelf, that match the given color
+     *
+     * @param color  the color to match
+     * @param row    the starting row
+     * @param column the starting column
+     * @return the number of items that match the given color
+     * @author Valeria
+     */
+    public int adjacentGroups(Color color, int row, int column) {
+        int matches;
+
+        if (row >= rows || column >= columns) {
+            return 0;
+        }
+
+        if (items[row][column].isEmpty()) {
+            return 0;
+        }
+
+        if (!items[row][column].get().getColor().equals(color)) {
+            return 0;
+        }
+
+        if (!boolMatrix[row][column]) {
+            matches = adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1);
+        } else {
+            boolMatrix[row][column] = false;
+            matches = 1 + adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1);
+        }
+        return matches;
+    }
+
+    /**
+     * Calculates the points for a given number of matches
+     *
+     * @param matches the number of matches
+     * @return the points for the given number of matches
+     */
+    public int calculatePoints(int matches) {
+        if (matches < 3)
+            return 0;
+        else if (matches == 3)
+            return 2;
+        else if (matches == 4)
+            return 3;
+        else if (matches == 5)
+            return 5;
+        else
+            return 8;
     }
 
     public List<Item> getColumnContent(int col) {
@@ -139,26 +216,25 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     public void print() {
-        String singlerow;
-        List<String> stringbook = new ArrayList<>();
+        String singleRow;
+        List<String> stringBook = new ArrayList<>();
         for (int row = 0; row < getRows(); row++) {
-            singlerow = row + "\t";
+            singleRow = row + "\t";
             for (int col = 0; col < getColumns(); col++) {
-                singlerow += "\t" +
+                singleRow += "\t" +
                         (getItemAt(row, col).isPresent() ? getItemAt(row, col).get().getColor().ordinal() : " ");
             }
-            stringbook.add(singlerow);
+            stringBook.add(singleRow);
         }
 
         for (int i = 0; i < getRows(); i++) {
-            System.out.println(stringbook.get(stringbook.size() - i - 1));
+            System.out.println(stringBook.get(stringBook.size() - i - 1));
         }
 
-        String colnum = " ";
+        String colNum = " ";
         for (int i = 0; i < getColumns(); i++) {
-            colnum += "\t" + i;
+            colNum += "\t" + i;
         }
-        System.out.println(" \t" + colnum);
+        System.out.println(" \t" + colNum);
     }
-
 }

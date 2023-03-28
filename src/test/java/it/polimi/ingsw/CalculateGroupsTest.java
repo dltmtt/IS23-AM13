@@ -25,8 +25,8 @@ public class CalculateGroupsTest {
         items1.add(new Item(Color.BLUE, 1));
         b.insert(1, items1);
 
-        ClasseTemporanea T = new ClasseTemporanea();
-        assertEquals(T.calculateGroups(b), 3);
+
+        assertEquals(b.getPoints(), 3);
 
 
     }
@@ -65,8 +65,7 @@ public class CalculateGroupsTest {
         items4.add(new Item(Color.YELLOW, 1));
         b.insert(4, items4);
 
-        ClasseTemporanea T = new ClasseTemporanea();
-        assertEquals(T.calculateGroups(b), 13);
+        assertEquals(b.getPoints(), 13);
 
     }
 
@@ -105,13 +104,12 @@ public class CalculateGroupsTest {
         b.insert(4, items4);
 
 
-        ClasseTemporanea T = new ClasseTemporanea();
-        assertEquals(T.calculateGroups(b), 10);
+        assertEquals(b.getPoints(), 10);
     }
 
 
     @Test
-    void calculatebluGroups4() {
+    void calculateBlueGroups4() {
         Bookshelf b = new Bookshelf();
 
         List<Item> items = new ArrayList<>();
@@ -162,8 +160,7 @@ public class CalculateGroupsTest {
         b.insert(4, items4);
 
 
-        ClasseTemporanea T = new ClasseTemporanea();
-        assertEquals(T.calculateGroups(b), 23);
+        assertEquals(b.getPoints(), 23);
 
     }
 }
