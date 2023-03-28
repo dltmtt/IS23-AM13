@@ -2,13 +2,15 @@ package it.polimi.ingsw;
 
 /**
  * This class implements the methods for a Stair common goal.
+ *
+ * @test This class is tested in StairTest.java
  */
 public class Stair extends Layout {
-
     /**
-     * Constructor
+     * This constructor creates a stair layout
      *
-     * @param dimension width and height of the stair
+     * @param dimension the dimension of the stair
+     * @throws IllegalArgumentException if the parameters are invalid
      */
     public Stair(int dimension) throws IllegalArgumentException {
         super(dimension, dimension, 1, 6);
@@ -19,8 +21,13 @@ public class Stair extends Layout {
      *
      * @param b bookshelf to check
      * @return true if there's a stair towards left
+     * @throws IllegalArgumentException if the bookshelf is null
      */
-    private boolean check_left(Bookshelf b) {
+    private boolean check_left(Bookshelf b) throws IllegalArgumentException {
+        if (b == null) {
+            throw new IllegalArgumentException("The bookshelf cannot be null");
+        }
+
         int previousCol = b.getCellsInColumn(0) + 1;
         for (int i = 0; i < b.getColumns(); i++) {
             int currentCol = b.getCellsInColumn(i);
@@ -37,8 +44,13 @@ public class Stair extends Layout {
      *
      * @param b bookshelf to check
      * @return true if there's a stair towards right
+     * @throws IllegalArgumentException if the bookshelf is null
      */
-    private boolean check_right(Bookshelf b) {
+    private boolean check_right(Bookshelf b) throws IllegalArgumentException {
+        if (b == null) {
+            throw new IllegalArgumentException("The bookshelf cannot be null");
+        }
+
         int previousCol = b.getCellsInColumn(0) - 1;
         for (int i = 0; i < b.getColumns(); i++) {
             int currentCol = b.getCellsInColumn(i);
@@ -50,7 +62,18 @@ public class Stair extends Layout {
         return true;
     }
 
-    public boolean check(Bookshelf b) {
+    /**
+     * Method to check if there's a stair
+     *
+     * @param b bookshelf to check
+     * @return true if there's a stair
+     * @throws IllegalArgumentException if the bookshelf is null
+     */
+    public boolean check(Bookshelf b) throws IllegalArgumentException {
+        if (b == null) {
+            throw new IllegalArgumentException("The bookshelf cannot be null");
+        }
+
         return check_right(b) || check_left(b);
     }
 
