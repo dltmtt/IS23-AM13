@@ -1,9 +1,7 @@
 package it.polimi.ingsw;
 
 public class Diagonal extends Layout {
-    /**
-     * this attribute specifies whether is a double diagonal (true) (X Shape) or a simple diagonal (false)
-     */
+
     public Diagonal(int dimension, int minDifferent, int maxDifferent) {
         super(dimension, dimension, minDifferent, maxDifferent);
     }

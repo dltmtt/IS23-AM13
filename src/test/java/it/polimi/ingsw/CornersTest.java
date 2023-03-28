@@ -84,7 +84,7 @@ public class CornersTest {
         b.insert(4, items);
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemDiff);
-        b.print();
+        b.cli_print();
     }
 
     @Test

@@ -59,7 +59,7 @@ public class StairTest {
         assertTrue(stair.check(b));
         b=new Bookshelf();
         createRightStair(b);
-        b.print();
+        //b.print();
         assertTrue(stair.check(b));
     }
 
@@ -74,7 +74,7 @@ public class StairTest {
             b.insert(i, itemList);
         }
         createLeftStair(b);
-        b.print();
+        b.cli_print();
         assertTrue(stair.check(b));
         b=new Bookshelf();
         for(int i=0; i<b.getColumns(); i++){

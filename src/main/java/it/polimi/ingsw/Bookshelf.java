@@ -1,9 +1,11 @@
 package it.polimi.ingsw;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.swing.*;
 /**
  * @author Matteo
  * @see Item
@@ -12,7 +14,7 @@ import java.util.Optional;
  * It has 5 rows and 6 columns.
  * Each cell can contain an item.
  */
-public class Bookshelf implements AbleToGetPoints {
+public class Bookshelf implements AbleToGetPoints{
     private final int rows = 6;
     private final int columns = 5;
 
@@ -128,17 +130,18 @@ public class Bookshelf implements AbleToGetPoints {
         return points;
     }
 
-    public List<Item> getColumnContent(int col) {
+    public List<Item> getColumnContent(int col) throws IllegalArgumentException{
+        if(col<0 || col>columns){throw new IllegalArgumentException("Invalid number of column ("+col+")");}
         List<Item> content = new ArrayList<>();
         Optional<Item> item;
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < getCellsInColumn(col); i++) {
             item = getItemAt(i, col);
             item.ifPresent(content::add);
         }
         return content;
     }
 
-    public void print() {
+    public void cli_print() {
         String singlerow;
         List<String> stringbook = new ArrayList<>();
         for (int row = 0; row < getRows(); row++) {
@@ -159,6 +162,116 @@ public class Bookshelf implements AbleToGetPoints {
             colnum += "\t" + i;
         }
         System.out.println(" \t" + colnum);
+    }
+// public void print() throws IOException {
+//     int left_offset=11;
+//     int vertical_space=11;
+//     int bottom_offset=11;
+//     int col_width=90;
+//     int col_height=90;
+//
+//
+//
+//     /*
+//     JFrame frame = new JFrame(); //JFrame Creation
+//     frame.setTitle("Bookshelf"); //Add the title to frame
+//     frame.setLayout(null); //Terminates default flow layout
+//     //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Terminate program on close button
+//
+//     Container c = frame.getContentPane(); //Gets the content layer
+//     JLabel bookshelf = new JLabel(); //JLabel Creation
+//     JLabel item;
+//     bookshelf.setIcon(new ImageIcon("resources/OurVariants/back.jpg")); //Sets the image to be displayed as an icon
+//
+//     Dimension bookshelfSize = bookshelf.getPreferredSize(); //Gets the size of the image
+//     Dimension itemSize;
+//     frame.setBounds(100, 200, bookshelfSize.width, bookshelfSize.height); //Sets the position of the frame
+//
+//     bookshelf.setBounds(0, 0, bookshelfSize.width, bookshelfSize.height); //Sets the location of the image
+//
+//     c.add(bookshelf); //Adds objects to the container
+//     List<Item> itemList;
+//
+//     for(int col=0; col<getColumns(); col++){
+//         itemList=getColumnContent(col);
+//         for(int i=0; i< itemList.size(); i++){
+//             item=new JLabel();
+//             item.setIcon(new ImageIcon("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png")); //Sets the image to be displayed as an icon
+//             itemSize=item.getPreferredSize();
+//             item.setBounds(left_offset+col_width*col, bookshelfSize.height-bottom_offset-(i+1)*col_height, itemSize.width, itemSize.height); //Sets the location of the image
+//             c.add(item);
+//         }
+//     }
+//
+//     frame.setVisible(true); // Exhibit the frame
+//
+//     // Open a JPEG file, load into a BufferedImage.
+//     BufferedImage img = ImageIO.read(new File("resources/OurVariants/back.jpg"));
+//
+//     // Obtain the Graphics2D context associated with the BufferedImage.
+//     Graphics2D g = img.createGraphics();
+//
+//     //g.
+// }
+
+    public void print(){
+        //Without JPanel images would be added to JFrame on top of each other.
+        //That way only last image would be visible.
+        int left_offset=11;
+        int vertical_space=11;
+        int bottom_offset=11;
+        int col_width=90;
+        int col_height=90;
+
+
+        JPanel panel= new JPanel ();
+
+        ImageIcon BackgroundImage= new ImageIcon("resources/OurVariants/back.jpg");
+
+        panel.setLayout(null);
+        panel.add(new JLabel(BackgroundImage));
+        //panel.setAlignmentX(1);
+        Dimension bookshelfSize = new Dimension(BackgroundImage.getIconWidth(), BackgroundImage.getIconHeight());
+
+
+        JFrame frame= new JFrame ("Bookshelf Display V1.0");
+        List<Item> itemList=new ArrayList<>();
+        JLabel item;
+        ImageIcon itemImage;
+
+
+        for(int col=0; col<getColumns(); col++){
+            itemList=getColumnContent(col);
+                for(int i=0; i< itemList.size(); i++){
+                    //System.out.println("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
+                    itemImage=new ImageIcon("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
+                    item=new JLabel(itemImage);
+                    item.setLayout(null);
+                    item.setLocation(left_offset+col_width*col, bookshelfSize.height-bottom_offset-(i+1)*col_height);
+                    item.setVisible(true);
+                    item.getWidth();
+                    panel.add(item);
+                }
+        }
+        frame.getContentPane().add(panel);
+        frame.pack();
+        frame.setVisible(true);
+        //frame.setLayout(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+        Bookshelf b=new Bookshelf();
+        List<Item> itemList=new ArrayList<>();
+        for(int i=0; i< b.getColumns(); i++){
+            itemList.clear();
+            for(int j=0; j<b.getRows(); j++){
+                itemList.add(new Item(Color.randomColor(), 0));
+            }
+            b.insert(i, itemList);
+        }
+        b.cli_print();
+        b.print();
     }
 
 }
