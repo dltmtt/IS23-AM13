@@ -1,4 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.commonGoalLayout;
+
+import it.polimi.ingsw.Model.Game.Bookshelf;
+import it.polimi.ingsw.Model.Items.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,6 @@ import java.util.List;
  * The width and height of the layout are set to 3 because the number of rows and columns is taken directly from the examined bookshelf.
  *
  * @author Simone
- * @test This class is tested in XShapeTest.java
  */
 public class XShape extends Layout {
     /**
@@ -64,28 +66,28 @@ public class XShape extends Layout {
 
                         //bottom left
                         colorList.clear();
-                        colorList.add(b.getItemAt(row, col).get().getColor());
+                        colorList.add(b.getItemAt(row, col).get().color());
 
                         //bottom right
-                        Color color = b.getItemAt(row, col + 2).get().getColor();
+                        Color color = b.getItemAt(row, col + 2).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
 
                         //central
-                        color = b.getItemAt(row + 1, col + 1).get().getColor();
+                        color = b.getItemAt(row + 1, col + 1).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
 
                         //upper left
-                        color = b.getItemAt(row + 2, col).get().getColor();
+                        color = b.getItemAt(row + 2, col).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
 
                         //upper right
-                        color = b.getItemAt(row + 2, col).get().getColor();
+                        color = b.getItemAt(row + 2, col).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }

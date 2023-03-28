@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Model.Game.Board;
+import it.polimi.ingsw.Model.Items.Item;
+import it.polimi.ingsw.Model.Utilities.Coordinates;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BoardInsertPickTest {
     @Test
     /**
-     * this tests if Cell 00 is null with 3 players
+     * This tests if Cell 00 is null with 3 players.
+     *
      * @throws IllegalAccessException
      */
     void filWith3playersCell00() throws IllegalAccessException {
@@ -20,7 +24,7 @@ public class BoardInsertPickTest {
     }
 
     /**
-     * this tests if the expected cells of row 0 are null, with 3 players
+     * This tests if the expected cells of row 0 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -36,11 +40,10 @@ public class BoardInsertPickTest {
         assertNull(b.getItem(0, 6));
         assertNull(b.getItem(0, 7));
         assertNull(b.getItem(0, 8));
-
     }
 
     /**
-     * this tests if the expected cells of row 1 are null, with 3 players
+     * This tests if the expected cells of row 1 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -59,7 +62,7 @@ public class BoardInsertPickTest {
     }
 
     /**
-     * this tests if the expected cells of row 2 are null, with 3 players
+     * This tests if the expected cells of row 2 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -75,7 +78,7 @@ public class BoardInsertPickTest {
     }
 
     /**
-     * this tests if the expected cells of row 3 are null, with 3 players
+     * This tests if the expected cells of row 3 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -85,11 +88,10 @@ public class BoardInsertPickTest {
         b.fill();
         assertNull(b.getItem(3, 7));
         assertNull(b.getItem(3, 8));
-
     }
 
     /**
-     * this tests if the expected cells of row 4 are null, with 3 players
+     * This tests if the expected cells of row 4 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -99,11 +101,10 @@ public class BoardInsertPickTest {
         b.fill();
         assertNull(b.getItem(4, 0));
         assertNull(b.getItem(4, 8));
-
     }
 
     /**
-     * this tests if the expected cells of row 5 are null, with 3 players
+     * This tests if the expected cells of row 5 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -113,11 +114,10 @@ public class BoardInsertPickTest {
         b.fill();
         assertNull(b.getItem(5, 0));
         assertNull(b.getItem(5, 1));
-
     }
 
     /**
-     * this tests if the expected cells of row 6 are null, with 3 players
+     * This tests if the expected cells of row 6 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -129,11 +129,10 @@ public class BoardInsertPickTest {
         assertNull(b.getItem(6, 1));
         assertNull(b.getItem(6, 7));
         assertNull(b.getItem(6, 8));
-
     }
 
     /**
-     * this tests if the expected cells of row 7 are null, with 3 players
+     * This tests if the expected cells of row 7 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -148,11 +147,10 @@ public class BoardInsertPickTest {
         assertNull(b.getItem(7, 6));
         assertNull(b.getItem(7, 7));
         assertNull(b.getItem(7, 8));
-
     }
 
     /**
-     * this tests if the expected cells of row 8 are null, with 3 players
+     * This tests if the expected cells of row 8 are null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -168,11 +166,10 @@ public class BoardInsertPickTest {
         assertNull(b.getItem(8, 6));
         assertNull(b.getItem(8, 7));
         assertNull(b.getItem(8, 8));
-
     }
 
     /**
-     * this tests if the expected cells of row 0 are NOT null, with 3 players
+     * This tests if the expected cells of row 0 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -184,7 +181,7 @@ public class BoardInsertPickTest {
     }
 
     /**
-     * this tests if the expected cells of row 1 are NOT null, with 3 players
+     * This tests if the expected cells of row 1 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -194,11 +191,10 @@ public class BoardInsertPickTest {
         b.fill();
         assertNotNull(b.getItem(1, 4));
         assertNotNull(b.getItem(1, 5));
-
     }
 
     /**
-     * this tests if the expected cells of row 2 are NOT null, with 3 players
+     * This tests if the expected cells of row 2 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -212,11 +208,10 @@ public class BoardInsertPickTest {
         assertNotNull(b.getItem(2, 4));
         assertNotNull(b.getItem(2, 5));
         assertNotNull(b.getItem(2, 6));
-
     }
 
     /**
-     * this tests if the expected cells of row 3 are NOT null, with 3 players
+     * This tests if the expected cells of row 3 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -232,11 +227,10 @@ public class BoardInsertPickTest {
         assertNotNull(b.getItem(3, 4));
         assertNotNull(b.getItem(3, 5));
         assertNotNull(b.getItem(3, 6));
-
     }
 
     /**
-     * this tests if the expected cells of row 4 are NOT null, with 3 players
+     * This tests if the expected cells of row 4 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -251,11 +245,10 @@ public class BoardInsertPickTest {
         assertNotNull(b.getItem(4, 5));
         assertNotNull(b.getItem(4, 6));
         assertNotNull(b.getItem(4, 7));
-
     }
 
     /**
-     * this tests if the expected cells of row 5 are NOT null, with 3 players
+     * This tests if the expected cells of row 5 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -270,11 +263,10 @@ public class BoardInsertPickTest {
         assertNotNull(b.getItem(5, 6));
         assertNotNull(b.getItem(5, 7));
         assertNotNull(b.getItem(5, 8));
-
     }
 
     /**
-     * this tests if the expected cells of row 6 are NOT null, with 3 players
+     * This tests if the expected cells of row 6 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -287,12 +279,10 @@ public class BoardInsertPickTest {
         assertNotNull(b.getItem(6, 4));
         assertNotNull(b.getItem(6, 5));
         assertNotNull(b.getItem(6, 6));
-
-
     }
 
     /**
-     * this tests if the expected cells of row 7 are NOT null, with 3 players
+     * This tests if the expected cells of row 7 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -302,11 +292,10 @@ public class BoardInsertPickTest {
         b.fill();
         assertNotNull(b.getItem(7, 3));
         assertNotNull(b.getItem(7, 4));
-
     }
 
     /**
-     * this tests if the expected cells of row 8 are NOT null, with 3 players
+     * This tests if the expected cells of row 8 are NOT null, with 3 players.
      *
      * @throws IllegalAccessException
      */
@@ -315,11 +304,10 @@ public class BoardInsertPickTest {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(8, 3));
-
     }
 
     /**
-     * this test controls the right cells filled with 4 playerss
+     * This test controls the right cells filled with 4 players.
      *
      * @throws IllegalAccessException
      */
@@ -338,10 +326,10 @@ public class BoardInsertPickTest {
     }
 
     /**
-     * this test controls that the item of bag is filled with 132 item with all possible number of player
+     * This test controls that the item of bag is filled with 132 item with all possible number of players.
      */
     @Test
-    void Itembaginitialized() {
+    void itemBagInitialized() {
         Board b2 = new Board(2);
         Board b3 = new Board(3);
         Board b4 = new Board(4);
@@ -351,22 +339,20 @@ public class BoardInsertPickTest {
     }
 
     /**
-     * this test controls the pickFormBoard method
+     * This test controls the pickFormBoard method.
      *
      * @throws IllegalAccessException
      */
-
     @Test
-    void PickFormTest() throws IllegalAccessException {
+    void pickFormTest() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertEquals(b.getItemBag().size(), 95);
-        List<Coordinates> itempicked = new ArrayList<>();
-        itempicked.add(new Coordinates(5, 7));
-        itempicked.add(new Coordinates(5, 8));
-        List<Item> items = b.pickFromBoard(itempicked);
+        List<Coordinates> itemPicked = new ArrayList<>();
+        itemPicked.add(new Coordinates(5, 7));
+        itemPicked.add(new Coordinates(5, 8));
+        List<Item> items = b.pickFromBoard(itemPicked);
         assertNull(b.getItem(5, 7));
         assertNull(b.getItem(5, 8));
-
     }
 }

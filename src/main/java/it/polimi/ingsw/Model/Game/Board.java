@@ -1,4 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.Game;
+
+import it.polimi.ingsw.Model.Items.Color;
+import it.polimi.ingsw.Model.Items.Item;
+import it.polimi.ingsw.Model.Utilities.Coordinates;
+import it.polimi.ingsw.Model.Utilities.UsableCells;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +82,8 @@ public class Board {
     public List<Item> pickFromBoard(List<Coordinates> pickedFromB) throws IllegalAccessException {
         List<Item> itemsPicked = new ArrayList<>();
         for (Coordinates coordinates : pickedFromB) {
-            itemsPicked.add(boardMatrix[coordinates.getX()][coordinates.getY()]);
-            boardMatrix[coordinates.getX()][coordinates.getY()] = null;
+            itemsPicked.add(boardMatrix[coordinates.x()][coordinates.y()]);
+            boardMatrix[coordinates.x()][coordinates.y()] = null;
         }
         return itemsPicked;
     }

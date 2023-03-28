@@ -1,5 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.commonGoalLayout;
 
+
+import it.polimi.ingsw.Model.Game.Bookshelf;
 
 /**
  * @author Simone
@@ -77,7 +79,7 @@ public abstract class Layout {
     /**
      * This method returns a string with the information about the layout
      *
-     * @return infos about the layout
+     * @return info about the layout
      * @author Simone
      */
     public String getInfo() {

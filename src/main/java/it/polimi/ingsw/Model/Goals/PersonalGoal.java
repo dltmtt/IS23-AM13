@@ -1,4 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.Goals;
+
+import it.polimi.ingsw.Model.Items.Color;
+import it.polimi.ingsw.Model.Utilities.Coordinates;
 
 import java.util.HashMap;
 
@@ -7,11 +10,13 @@ public class PersonalGoal {
     private int currentReached;
     private int counter;
 
-//    Constructor
-
+    /**
+     * This constructor creates a personal goal card
+     *
+     * @param numOfCard
+     */
     public PersonalGoal(int numOfCard) {
         personalGoalCard = new HashMap<>();
-
 
         switch (numOfCard) {
             case 0 -> {
@@ -115,21 +120,27 @@ public class PersonalGoal {
         }
     }
 
-
     public Color getColor(Coordinates key) {
         return personalGoalCard.get(key);
 
     }
 
+    /**
+     * this method returns the number of points of the personal goal card
+     *
+     * @return the number of points of the personal goal card
+     */
     public int getPoints() {
         int points = currentReached;
         if (points < 3) {
             return points;
         }
         return points + counter;
-
     }
 
+    /**
+     * this method returns the number of colors reached
+     */
     public void ColorReached() {
         currentReached++;
 
@@ -145,8 +156,6 @@ public class PersonalGoal {
 
             }
         }
-
     }
-
 }
 

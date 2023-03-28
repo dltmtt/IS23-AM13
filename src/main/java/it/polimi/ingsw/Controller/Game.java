@@ -1,4 +1,11 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Controller;
+
+
+import it.polimi.ingsw.Model.Game.Board;
+import it.polimi.ingsw.Model.Game.Player;
+import it.polimi.ingsw.Model.Goals.CommonGoal;
+import it.polimi.ingsw.Model.Goals.PersonalGoal;
+import it.polimi.ingsw.Model.Utilities.Coordinates;
 
 import java.util.List;
 import java.util.Random;
@@ -16,6 +23,11 @@ public class Game {
         initialize();
     }
 
+    /**
+     * This method initializes the game, creating the personalGoalDeck, the commonGoalDeck and the livingRoom
+     *
+     * @throws IllegalAccessException if the number of players is invalid
+     */
     public void initialize() throws IllegalAccessException {
         // TODO: Aggiungere creazione commonGoalDeck
         // Living room is created and filled
@@ -30,9 +42,13 @@ public class Game {
         for (Player player : players) {
             player.setPersonalGoal(drawPersonalCard());
         }
-
     }
 
+    /**
+     * This method draws a personal goal card from the personalGoalDeck for the player
+     *
+     * @return the personal goal card drawn
+     */
     public PersonalGoal drawPersonalCard() {
         Random randomNumberGenerator = new Random();
         int number = randomNumberGenerator.nextInt(personalGoalDeck.size());
@@ -41,6 +57,14 @@ public class Game {
         return chosen;
     }
 
+    /**
+     * This is the move method, it calls the move method of the player
+     *
+     * @param player
+     * @param from
+     * @param to
+     * @param column
+     */
     public void move(Player player, Coordinates from, Coordinates to, int column) {
         player.move(from, to, column);
     }

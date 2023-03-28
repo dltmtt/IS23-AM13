@@ -1,13 +1,14 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.commonGoalLayout;
+
+import it.polimi.ingsw.Model.Game.Bookshelf;
+
 
 /**
  * This class implements the methods for a Diagonal common goal.
  *
  * @author Simone
- * @test This class is tested in DiagonalTest.java
  */
 public class Diagonal extends Layout {
-
     /**
      * This constructor creates a diagonal layout
      *
@@ -51,12 +52,11 @@ public class Diagonal extends Layout {
      */
 
     public boolean checkRight(Bookshelf b, int row, int column) throws IllegalArgumentException {
-
         if (b == null) {
             throw new IllegalArgumentException("The bookshelf cannot be null");
         }
 
-        //check if the row and the column are valid
+        // Check if the row and the column are valid
         if (row < 0 || row >= b.getRows() || column < 0 || column >= b.getColumns()) {
             String message = "";
             if (row < 0 || row >= b.getRows())
@@ -66,12 +66,11 @@ public class Diagonal extends Layout {
             throw new IllegalArgumentException(message);
         }
 
-
         int counter = 1;
-        //check if there are 5 items of the same color in a diagonal from the top right to the bottom left
+        // Check if there are 5 items of the same color in a diagonal from the top right to the bottom left
         while (row < b.getRows() - 1 && column < b.getColumns() - 1) {
             if (b.getItemAt(row, column).isPresent() && b.getItemAt(row + 1, column + 1).isPresent()) {
-                if (!b.getItemAt(row, column).get().getColor().equals(b.getItemAt(row + 1, column + 1).get().getColor())) {
+                if (!b.getItemAt(row, column).get().color().equals(b.getItemAt(row + 1, column + 1).get().color())) {
                     break;
                 } else {
                     counter++;
@@ -97,12 +96,11 @@ public class Diagonal extends Layout {
      * @author Valeria
      */
     public boolean checkLeft(Bookshelf b, int row, int column) throws IllegalArgumentException {
-
         if (b == null) {
             throw new IllegalArgumentException("The bookshelf cannot be null");
         }
 
-        //check if the row and the column are valid
+        // Check if the row and the column are valid
         if (row < 0 || row >= b.getRows() || column < 0 || column >= b.getColumns()) {
             String message = "";
             if (row < 0 || row >= b.getRows())
@@ -114,7 +112,7 @@ public class Diagonal extends Layout {
         int counter = 1;
         while (row < b.getRows() - 1 && column > 0) {
             if (b.getItemAt(row, column).isPresent() && b.getItemAt(row + 1, column - 1).isPresent()) {
-                if (!b.getItemAt(row, column).get().getColor().equals(b.getItemAt(row + 1, column - 1).get().getColor())) {
+                if (!b.getItemAt(row, column).get().color().equals(b.getItemAt(row + 1, column - 1).get().color())) {
                     break;
                 } else {
                     counter++;
@@ -125,9 +123,7 @@ public class Diagonal extends Layout {
                 break;
             }
         }
-
         return counter == 5;
-
     }
 
     public String getInfo() {

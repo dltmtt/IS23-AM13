@@ -1,4 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.Game;
+
+import it.polimi.ingsw.Model.Goals.CommonGoal;
+import it.polimi.ingsw.Model.Goals.PersonalGoal;
+import it.polimi.ingsw.Model.Items.Item;
+import it.polimi.ingsw.Model.Utilities.Coordinates;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,8 +77,8 @@ public class Player {
      */
     public void move(Coordinates from, Coordinates to, int column) throws IllegalArgumentException {
         List<Coordinates> list = new ArrayList<>();
-        int lengthX = Math.abs(from.getX() - to.getX());
-        int lengthY = Math.abs(from.getY() - to.getY());
+        int lengthX = Math.abs(from.x() - to.x());
+        int lengthY = Math.abs(from.y() - to.y());
         int length = Math.max(lengthX, lengthY);
 
         if (length == 0) {
@@ -84,13 +89,13 @@ public class Player {
             throw new IllegalArgumentException("You can only move in a straight line.");
         }
 
-        if (Math.abs(from.getX() - to.getX()) > Math.abs(from.getY() - to.getY())) {
+        if (Math.abs(from.x() - to.x()) > Math.abs(from.y() - to.y())) {
             for (int i = 0; i < length; i++) {
-                list.add(new Coordinates(from.getX() + i, from.getY()));
+                list.add(new Coordinates(from.x() + i, from.y()));
             }
         } else {
             for (int i = 0; i < length; i++) {
-                list.add(new Coordinates(from.getX(), from.getY() + i));
+                list.add(new Coordinates(from.x(), from.y() + i));
             }
         }
 

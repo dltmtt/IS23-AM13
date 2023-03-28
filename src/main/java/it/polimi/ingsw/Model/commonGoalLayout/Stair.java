@@ -1,9 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model.commonGoalLayout;
+
+import it.polimi.ingsw.Model.Game.Bookshelf;
 
 /**
  * This class implements the methods for a Stair common goal.
- *
- * @test This class is tested in StairTest.java
  */
 public class Stair extends Layout {
     /**

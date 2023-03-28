@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Model.Game.Bookshelf;
+import it.polimi.ingsw.Model.Items.Color;
+import it.polimi.ingsw.Model.Items.Item;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,8 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class BookshelfTest {
-
-
     @Test
     void insertAnElement() {
         Bookshelf bookshelf = new Bookshelf();
