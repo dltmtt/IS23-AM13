@@ -8,12 +8,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CalculateGroupsTest {
-
     /**
      * 1 group
      */
     @Test
-    void calculateBluGropus() {
+    void calculateBlueGroups() {
         Bookshelf b = new Bookshelf();
         List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
@@ -27,15 +26,13 @@ public class CalculateGroupsTest {
 
 
         assertEquals(b.getPoints(), 3);
-
-
     }
 
     /**
-     * 2 groups diiferent color
+     * 2 groups different color
      */
     @Test
-    void calculatebluGroups2() {
+    void calculateBlueGroups2() {
         Bookshelf b = new Bookshelf();
 
         List<Item> items = new ArrayList<>();
@@ -66,14 +63,13 @@ public class CalculateGroupsTest {
         b.insert(4, items4);
 
         assertEquals(b.getPoints(), 13);
-
     }
 
     /**
      * 2 groups different color with another color in the middle
      */
     @Test
-    void calculatebluGroups3() {
+    void calculateBlueGroups3() {
         Bookshelf b = new Bookshelf();
 
         List<Item> items = new ArrayList<>();
@@ -102,7 +98,6 @@ public class CalculateGroupsTest {
         items4.add(new Item(Color.YELLOW, 1));
         items4.add(new Item(Color.YELLOW, 1));
         b.insert(4, items4);
-
 
         assertEquals(b.getPoints(), 10);
     }
@@ -149,7 +144,6 @@ public class CalculateGroupsTest {
         items3.add(new Item(Color.PINK, 1));
         b.insert(3, items3);
 
-
         List<Item> items4 = new ArrayList<>();
         items4.add(new Item(Color.YELLOW, 1));
         items4.add(new Item(Color.YELLOW, 1));
@@ -159,8 +153,6 @@ public class CalculateGroupsTest {
         items4.add(new Item(Color.PINK, 1));
         b.insert(4, items4);
 
-
         assertEquals(b.getPoints(), 23);
-
     }
 }

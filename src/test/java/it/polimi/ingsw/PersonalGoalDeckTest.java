@@ -8,9 +8,8 @@ public class PersonalGoalDeckTest {
 
     @Test
     /**
-     * "calculatePoints" tests if the calculation of the points for the number of color reached in personal goal
+     * "calculatePoints" tests if the calculation of the points for the number of color reached in personal goal.
      */
-
     void calculatePoints() {
         PersonalGoal personalGoal = new PersonalGoal(1);
         personalGoal.ColorReached();
@@ -21,7 +20,7 @@ public class PersonalGoalDeckTest {
     }
 
     /**
-     * "zeroPoints" tests the right setup of personal goal
+     * "zeroPoints" tests the right setup of personal goal.
      */
     @Test
     void ZeroPoints() {
@@ -30,7 +29,7 @@ public class PersonalGoalDeckTest {
     }
 
     /**
-     * "LessThan3Points" tests what happens if it is reached less than 3 color of the personal goal
+     * "LessThan3Points" tests what happens if it is reached less than 3 color of the personal goal.
      */
     @Test
     void LessThan3Points() {
@@ -41,9 +40,8 @@ public class PersonalGoalDeckTest {
     }
 
     /**
-     * "getRightColor" tests the method "getcolor" of personal c
+     * "getRightColor" tests the method "getColor" of personal c.
      */
-
     @Test
     void getRightColor() {
         PersonalGoal personalGoal = new PersonalGoal(0);

@@ -2,8 +2,6 @@ package it.polimi.ingsw;
 
 /**
  * This class implements the methods for a Stair common goal.
- *
- * @test This class is tested in StairTest.java
  */
 public class Stair extends Layout {
     /**

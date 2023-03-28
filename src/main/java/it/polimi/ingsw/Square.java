@@ -2,13 +2,14 @@ package it.polimi.ingsw;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 /**
  * @author Simone
  * This class implements the methods for a Square common goal.
  * @implNote This class is not yet finished, it is just a draft.
  */
 public class Square extends Layout {
-
     /**
      * The number of ideal occurrences of the layout
      */
@@ -33,7 +34,6 @@ public class Square extends Layout {
         this.occurrences = occurrences;
     }
 
-
     /**
      * This function checks if the Square layout is valid in the bookshelf
      *
@@ -55,7 +55,6 @@ public class Square extends Layout {
 
     private int bottomUpCheck(@NotNull Bookshelf b) {
         return 0;
-
     }
 
     private int topDownCheck(@NotNull Bookshelf b) {
@@ -64,25 +63,22 @@ public class Square extends Layout {
 
     public int getCurrent(@NotNull Bookshelf b) {
         int counter = 0;
-        int validcells = 0;
+        int validCells = 0;
 
-        //validity matrix
+        // Validity matrix
         boolean[][] valid = new boolean[b.getColumns()][b.getRows()];
 
-        //reset validity
+        // Reset validity
         for (int i = 0; i < b.getRows(); i++) {
-            for (int j = 0; j < b.getColumns(); j++) {
-                valid[i][j] = true;
-            }
+            Arrays.fill(valid[i], true);
         }
-
 
         for (int col = 0; col < b.getColumns() - getWidth(); col++) {
             for (int row = 0; row < b.getRows() - getHeight(); row++) {
                 if (b.getRows() - b.getFreeCellsInColumn(col) - row >= getHeight())
                     for (int width = col; width < col + getWidth(); width++) {
                         for (int height = row; height < row + getHeight(); height++) {
-                            //if(b.get)
+//                            if(b.get)
                         }
                     }
             }

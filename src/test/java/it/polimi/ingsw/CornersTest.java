@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CornersTest {
-
     void createCorner(Bookshelf b) {
         List<Item> soloItem = new ArrayList<>();
         List<Item> items = new ArrayList<>();
@@ -23,20 +22,13 @@ public class CornersTest {
         b.insert(4, items);
         b.insert(0, soloItem);
         b.insert(4, soloItem);
-
     }
 
     void createFakeCorner(Bookshelf b, int choose) {
         switch (choose) {
-            case 0:
-                EmptyBookshelf();
-                break;
-            case 1:
-                OneDifferent(b);
-                break;
-            case 2:
-                LastDifferent(b);
-                break;
+            case 0 -> EmptyBookshelf();
+            case 1 -> OneDifferent(b);
+            case 2 -> LastDifferent(b);
         }
     }
 
@@ -62,7 +54,6 @@ public class CornersTest {
         b.insert(4, items);
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemEqual);
-
     }
 
     void LastDifferent(Bookshelf b) {
@@ -107,8 +98,5 @@ public class CornersTest {
         Bookshelf b2 = new Bookshelf();
         createFakeCorner(b2, 2);
         assertFalse(layout.check(b2));
-
     }
-
-
 }

@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
  * This class implements the methods for a Corners common goal.
  *
  * @author Simone
- * @test This class is tested in CornersTest.java
  */
 public class Corners extends Layout {
 
@@ -55,19 +54,19 @@ public class Corners extends Layout {
             //add the colors of the four corners to the list
 
             //bottom left
-            color = b.getItemAt(0, 0).get().getColor();
+            color = b.getItemAt(0, 0).get().color();
             colorList.add(color);
 
             //top left
-            color = b.getItemAt(b.getRows() - 1, 0).get().getColor();
+            color = b.getItemAt(b.getRows() - 1, 0).get().color();
             colorList.add(color);
 
             //top right
-            color = b.getItemAt(b.getRows() - 1, b.getColumns() - 1).get().getColor();
+            color = b.getItemAt(b.getRows() - 1, b.getColumns() - 1).get().color();
             colorList.add(color);
 
 
-            color = b.getItemAt(0, b.getColumns() - 1).get().getColor();
+            color = b.getItemAt(0, b.getColumns() - 1).get().color();
             colorList.add(color);
 
             //remove duplicates

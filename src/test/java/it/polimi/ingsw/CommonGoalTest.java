@@ -5,10 +5,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommonGoalTest {
-
     @Test
-    //void check() {
-    void getScoringListcheck() {
+    void getScoringListCheck() {
         Layout s = new Diagonal(2, 1, 3);
         CommonGoal c = new CommonGoal(3, s);
 
@@ -26,11 +24,11 @@ public class CommonGoalTest {
         assertEquals(c2.getScoringList().get(0), 8);
         assertEquals(c2.getScoringList().get(1), 6);
         assertEquals(c2.getScoringList().get(2), 4);
-        // assertEquals(c.getScoringList().get(3),2);
+//        assertEquals(c.getScoringList().get(3),2);
     }
 
     @Test
-    void getScoringcheck() throws IndexOutOfBoundsException {
+    void getScoringCheck() throws IndexOutOfBoundsException {
         Layout s = new Diagonal(2, 1, 3);
         CommonGoal c = new CommonGoal(3, s);
         assertEquals(c.getScoring(), 8);

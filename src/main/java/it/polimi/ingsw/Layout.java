@@ -77,7 +77,7 @@ public abstract class Layout {
     /**
      * This method returns a string with the information about the layout
      *
-     * @return infos about the layout
+     * @return info about the layout
      * @author Simone
      */
     public String getInfo() {

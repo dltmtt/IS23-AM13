@@ -7,11 +7,8 @@ public class PersonalGoal {
     private int currentReached;
     private int counter;
 
-//    Constructor
-
     public PersonalGoal(int numOfCard) {
         personalGoalCard = new HashMap<>();
-
 
         switch (numOfCard) {
             case 0 -> {
@@ -115,7 +112,6 @@ public class PersonalGoal {
         }
     }
 
-
     public Color getColor(Coordinates key) {
         return personalGoalCard.get(key);
 
@@ -127,7 +123,6 @@ public class PersonalGoal {
             return points;
         }
         return points + counter;
-
     }
 
     public void ColorReached() {
@@ -145,8 +140,6 @@ public class PersonalGoal {
 
             }
         }
-
     }
-
 }
 

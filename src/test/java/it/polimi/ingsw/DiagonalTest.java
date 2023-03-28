@@ -9,71 +9,69 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DiagonalTest {
-
-    public void bookshelfPrint(Bookshelf b){
-        String singlerow;
-        List<String> stringbook=new ArrayList<>();
-        for(int row=0; row<b.getRows(); row++){
-            singlerow=row+"\t";
-            for(int col=0; col<b.getColumns(); col++){
-                singlerow+="\t"+
-                        (b.getItemAt(row, col).isPresent()? b.getItemAt(row, col).get().getColor().ordinal() : " ");
+    public void bookshelfPrint(Bookshelf b) {
+        StringBuilder singleRow;
+        List<String> stringBook = new ArrayList<>();
+        for (int row = 0; row < b.getRows(); row++) {
+            singleRow = new StringBuilder(row + "\t");
+            for (int col = 0; col < b.getColumns(); col++) {
+                singleRow.append("\t").append(b.getItemAt(row, col).isPresent() ? b.getItemAt(row, col).get().color().ordinal() : " ");
             }
-            stringbook.add(singlerow);
+            stringBook.add(singleRow.toString());
         }
 
-        for(int i=0; i<b.getRows(); i++) {
-            System.out.println(stringbook.get(stringbook.size()-i-1));
+        for (int i = 0; i < b.getRows(); i++) {
+            System.out.println(stringBook.get(stringBook.size() - i - 1));
         }
 
-        String colnum=" ";
-        for(int i=0; i<b.getColumns(); i++) {
-            colnum+="\t"+i;
+        StringBuilder colNum = new StringBuilder(" ");
+        for (int i = 0; i < b.getColumns(); i++) {
+            colNum.append("\t").append(i);
         }
-        System.out.println(" \t"+colnum);
+        System.out.println(" \t" + colNum);
     }
 
 
-    public void createSingleRightDiagonal(Bookshelf b, int startingrow, int startingcolumn, int dimension){
-        List<Item> itemlist=new ArrayList<>();
-        Color diagonalcolor=Color.randomColor();
+    public void createSingleRightDiagonal(Bookshelf b, int startingRow, int startingColumn, int dimension) {
+        List<Item> itemlist = new ArrayList<>();
+        Color diagonalcolor = Color.randomColor();
 
-        for(int i=0; i<startingrow; i++){
+        for (int i = 0; i < startingRow; i++) {
             itemlist.add(new Item(Color.randomColor(), 0));
         }
 
-        for(int i=0; i<b.getColumns(); i++){
-            if(itemlist.size()>0){
+        for (int i = 0; i < b.getColumns(); i++) {
+            if (itemlist.size() > 0) {
                 b.insert(i, itemlist);
             }
         }
 
 
-        for(int i=0; i<dimension; i++){
+        for (int i = 0; i < dimension; i++) {
             itemlist.clear();
-            for(int j=0; j<i; j++){
+            for (int j = 0; j < i; j++) {
                 itemlist.add(new Item(Color.randomColor(), 0));
             }
             itemlist.add(new Item(diagonalcolor, 0));
-            b.insert(startingcolumn+i, itemlist);
+            b.insert(startingColumn + i, itemlist);
         }
     }
 
-    //in createLeftDiagonal, (startingrow, startingcolumn) refers to the rightmost element of the diagonal
+    //in createLeftDiagonal, (startingRow, startingColumn) refers to the rightmost element of the diagonal
 
-    public void createSingleLeftDiagonal(Bookshelf b, int startingrow, int startingcolumn, int dimension){
-        List<Item> itemlist=new ArrayList<>();
-        Color diagonalcolor=Color.randomColor();
+    public void createSingleLeftDiagonal(Bookshelf b, int startingRow, int startingColumn, int dimension) {
+        List<Item> itemlist = new ArrayList<>();
+        Color diagonalcolor = Color.randomColor();
 
-        for(int i=0; i<dimension; i++){
+        for (int i = 0; i < dimension; i++) {
             itemlist.clear();
-            for(int j=0; j<i; j++){
+            for (int j = 0; j < i; j++) {
                 itemlist.add(new Item(Color.randomColor(), 0));
             }
             itemlist.add(new Item(diagonalcolor, 0));
-           // try {
-                b.insert(startingcolumn - i, itemlist);
-           // }catch(IllegalArgumentException e){
+            // try {
+            b.insert(startingColumn - i, itemlist);
+            // }catch(IllegalArgumentException e){
             // bookshelfPrint(b);
             // }
         }
@@ -116,7 +114,7 @@ public class DiagonalTest {
         b.insert(2, itemList);
         itemList.remove(0);
         b.insert(1, itemList);
-        //dimension 4 diagonal
+        // Dimension 4 diagonal
         for (int j = 0; j < b.getColumns() - 1; j++) {
             b.insert(j, itemList);
         }
@@ -171,7 +169,7 @@ public class DiagonalTest {
 
 
     @Test
-    public void provaright() {
+    public void provaRight() {
         Bookshelf b = new Bookshelf();
         Layout layout;
         boolean result;
@@ -187,35 +185,18 @@ public class DiagonalTest {
         }
     }
 
-    void createFakeDigonal(Bookshelf b, int type) {
+    void createFakeDiagonal(Bookshelf b, int type) {
         List<Item> equalItem = new ArrayList<>();
         equalItem.add(new Item(Color.randomColor(), 0));
 
         switch (type) {
-            case 0:
-                EmptyBookshelf();
-                break;
-            case 1:
-                OnlyFirstCellRight(b, equalItem);
-                break;
-            case 2:
-                Dimension2Right(b, equalItem);
-                break;
-            case 3:
-                Dimension3Right(b, equalItem);
-                break;
-
-            case 4:
-                Dimension4Right(b, equalItem);
-                break;
-
-            case 5:
-                OnlyFirstCellLeft(b, equalItem);
-                break;
-
+            case 0 -> EmptyBookshelf();
+            case 1 -> OnlyFirstCellRight(b, equalItem);
+            case 2 -> Dimension2Right(b, equalItem);
+            case 3 -> Dimension3Right(b, equalItem);
+            case 4 -> Dimension4Right(b, equalItem);
+            case 5 -> OnlyFirstCellLeft(b, equalItem);
         }
-
-
     }
 
     void EmptyBookshelf() {
@@ -263,7 +244,6 @@ public class DiagonalTest {
         b.insert(3, items);
     }
 
-
     @Test
     void checkFakeRightDiagonal() {
         Layout layout = new Diagonal(5, 1, 1);
@@ -272,23 +252,20 @@ public class DiagonalTest {
         Bookshelf b2 = new Bookshelf();
         Bookshelf b3 = new Bookshelf();
         Bookshelf b4 = new Bookshelf();
-        //empty
-        createFakeDigonal(b0, 0);
-        //only 1 right
-        createFakeDigonal(b1, 1);
-        //dimension 2 right
-        createFakeDigonal(b2, 2);
-        //dimension 3 right
-        createFakeDigonal(b3, 3);
-        //dimension 4 right
-        createFakeDigonal(b4, 4);
+        // Empty
+        createFakeDiagonal(b0, 0);
+        // Only 1 right
+        createFakeDiagonal(b1, 1);
+        // Dimension 2 right
+        createFakeDiagonal(b2, 2);
+        // Dimension 3 right
+        createFakeDiagonal(b3, 3);
+        // Dimension 4 right
+        createFakeDiagonal(b4, 4);
         assertFalse(layout.check(b0));
         assertFalse(layout.check(b1));
         assertFalse(layout.check(b2));
         assertFalse(layout.check(b3));
         assertFalse(layout.check(b4));
-
     }
 }
-
-

@@ -30,7 +30,6 @@ public class Game {
         for (Player player : players) {
             player.setPersonalGoal(drawPersonalCard());
         }
-
     }
 
     public PersonalGoal drawPersonalCard() {

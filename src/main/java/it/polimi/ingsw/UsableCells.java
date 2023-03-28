@@ -7,9 +7,7 @@ public class UsableCells {
     private final List<Coordinates> usableCells;
 
     public UsableCells(int numOfPlayer) {
-        /**
-         * these cells have to be filled either ways
-         */
+        // These cells have to be filled either way
         usableCells = new ArrayList<>();
 
         for (int i = 1; i <= 7; i++) {
@@ -34,9 +32,7 @@ public class UsableCells {
         }
         usableCells.add(new Coordinates(7, 4));
 
-        /**
-         * these cells have to be filled only with at least 3 players
-         */
+        // These cells have to be filled only with at least 3 players
         if (numOfPlayer >= 3) {
             usableCells.add(new Coordinates(0, 5));
             usableCells.add(new Coordinates(2, 2));
@@ -47,9 +43,8 @@ public class UsableCells {
             usableCells.add(new Coordinates(6, 6));
             usableCells.add(new Coordinates(5, 8));
         }
-        /**
-         * these cells have to be filled only with 4 players
-         */
+
+        // These cells have to be filled only with 4 players
         if (numOfPlayer == 4) {
             usableCells.add(new Coordinates(0, 4));
             usableCells.add(new Coordinates(1, 3));
@@ -60,8 +55,6 @@ public class UsableCells {
             usableCells.add(new Coordinates(7, 5));
             usableCells.add(new Coordinates(8, 4));
         }
-
-
     }
 
     public List<Coordinates> getList() {

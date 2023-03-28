@@ -77,8 +77,8 @@ public class Board {
     public List<Item> pickFromBoard(List<Coordinates> pickedFromB) throws IllegalAccessException {
         List<Item> itemsPicked = new ArrayList<>();
         for (Coordinates coordinates : pickedFromB) {
-            itemsPicked.add(boardMatrix[coordinates.getX()][coordinates.getY()]);
-            boardMatrix[coordinates.getX()][coordinates.getY()] = null;
+            itemsPicked.add(boardMatrix[coordinates.x()][coordinates.y()]);
+            boardMatrix[coordinates.x()][coordinates.y()] = null;
         }
         return itemsPicked;
     }

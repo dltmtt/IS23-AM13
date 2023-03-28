@@ -1,14 +1,14 @@
 package it.polimi.ingsw;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.*;
 /**
  * @author Matteo
- * @test CalculateGroupsTest
  *
  * <p>
  * This class represents a bookshelf.
@@ -16,10 +16,10 @@ import javax.swing.*;
  * Each cell can contain an item.
  * @see Item
  */
-public class Bookshelf implements AbleToGetPoints{
+public class Bookshelf implements AbleToGetPoints {
     private final int rows = 6;
     private final int columns = 5;
-    private final boolean[][] boolMatrix;
+    private final boolean[][] booleanMatrix;
 
     @SuppressWarnings("unchecked")
     private final Optional<Item>[][] items = (Optional<Item>[][]) new Optional[rows][columns];
@@ -27,21 +27,35 @@ public class Bookshelf implements AbleToGetPoints{
     /**
      * Creates a new bookshelf. All cells are empty.
      * <p>
-     * boolMatrix is a matrix of booleans that is used to check if a cell can be visited (and it has not been visited yet).
+     * booleanMatrix is a matrix of booleans that is used to check if a cell can be visited (and it has not been visited yet).
      * It is initialized to true.
      */
     public Bookshelf() {
-        for (int i = 0; i < getRows(); i++) {
-            for (int j = 0; j < getColumns(); j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 this.items[i][j] = Optional.empty();
             }
         }
-        boolMatrix = new boolean[6][5];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                boolMatrix[i][j] = true;
-            }
+
+        booleanMatrix = new boolean[rows][columns];
+        for (boolean[] row : booleanMatrix) {
+            Arrays.fill(row, true);
         }
+    }
+
+    // NOTE: this method is used only for testing purposes, it will be removed in the final version.
+    public static void main(String[] args) {
+        Bookshelf b = new Bookshelf();
+        List<Item> itemList = new ArrayList<>();
+        for (int i = 0; i < b.getColumns(); i++) {
+            itemList.clear();
+            for (int j = 0; j < b.getRows(); j++) {
+                itemList.add(new Item(Color.randomColor(), 0));
+            }
+            b.insert(i, itemList);
+        }
+        b.cli_print();
+        b.print();
     }
 
     public int getRows() {
@@ -136,7 +150,6 @@ public class Bookshelf implements AbleToGetPoints{
         return true;
     }
 
-
     /**
      * This method calculates the points of adjacent groups of items of the bookshelf.
      *
@@ -148,12 +161,13 @@ public class Bookshelf implements AbleToGetPoints{
         for (int j = 0; j < columns; j++) {
             for (int i = 0; i < rows; i++) {
                 if (items[i][j].isPresent()) {
-                    points += calculatePoints(adjacentGroups(items[i][j].get().getColor(), i, j));
+                    points += calculatePoints(adjacentGroups(items[i][j].get().color(), i, j));
                 }
             }
         }
         return points;
     }
+
     /**
      * Counts the number of items, in a given bookshelf, that match the given color
      *
@@ -174,18 +188,19 @@ public class Bookshelf implements AbleToGetPoints{
             return 0;
         }
 
-        if (!items[row][column].get().getColor().equals(color)) {
+        if (!items[row][column].get().color().equals(color)) {
             return 0;
         }
 
-        if (!boolMatrix[row][column]) {
+        if (!booleanMatrix[row][column]) {
             matches = adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1);
         } else {
-            boolMatrix[row][column] = false;
+            booleanMatrix[row][column] = false;
             matches = 1 + adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1);
         }
         return matches;
     }
+
     /**
      * Calculates the points for a given number of matches
      *
@@ -205,8 +220,10 @@ public class Bookshelf implements AbleToGetPoints{
             return 8;
     }
 
-    public List<Item> getColumnContent(int col) throws IllegalArgumentException{
-        if(col<0 || col>columns){throw new IllegalArgumentException("Invalid number of column ("+col+")");}
+    public List<Item> getColumnContent(int col) throws IllegalArgumentException {
+        if (col < 0 || col > columns) {
+            throw new IllegalArgumentException("Invalid number of column (" + col + ")");
+        }
         List<Item> content = new ArrayList<>();
         Optional<Item> item;
         for (int i = 0; i < getCellsInColumn(col); i++) {
@@ -216,28 +233,6 @@ public class Bookshelf implements AbleToGetPoints{
         return content;
     }
 
-    public void cli_print() {
-        String singleRow;
-        List<String> stringBook = new ArrayList<>();
-        for (int row = 0; row < getRows(); row++) {
-            singleRow = row + "\t";
-            for (int col = 0; col < getColumns(); col++) {
-                singleRow += "\t" +
-                        (getItemAt(row, col).isPresent() ? getItemAt(row, col).get().getColor().ordinal() : " ");
-            }
-            stringBook.add(singleRow);
-        }
-
-        for (int i = 0; i < getRows(); i++) {
-            System.out.println(stringBook.get(stringBook.size() - i - 1));
-        }
-
-        String colNum = " ";
-        for (int i = 0; i < getColumns(); i++) {
-            colNum += "\t" + i;
-        }
-        System.out.println(" \t" + colNum);
-    }
 // public void print() throws IOException {
 //     int left_offset=11;
 //     int vertical_space=11;
@@ -289,64 +284,68 @@ public class Bookshelf implements AbleToGetPoints{
 //     //g.
 // }
 
-    public void print(){
-        //Without JPanel images would be added to JFrame on top of each other.
-        //That way only last image would be visible.
-        int left_offset=11;
-        int vertical_space=11;
-        int bottom_offset=11;
-        int col_width=90;
-        int col_height=90;
+    public void cli_print() {
+        StringBuilder singleRow;
+        List<String> stringBook = new ArrayList<>();
+        for (int row = 0; row < getRows(); row++) {
+            singleRow = new StringBuilder(row + "\t");
+            for (int col = 0; col < getColumns(); col++) {
+                singleRow.append("\t").append(getItemAt(row, col).isPresent() ? getItemAt(row, col).get().color().ordinal() : " ");
+            }
+            stringBook.add(singleRow.toString());
+        }
 
+        for (int i = 0; i < getRows(); i++) {
+            System.out.println(stringBook.get(stringBook.size() - i - 1));
+        }
 
-        JPanel panel= new JPanel ();
+        StringBuilder colNum = new StringBuilder(" ");
+        for (int i = 0; i < getColumns(); i++) {
+            colNum.append("\t").append(i);
+        }
+        System.out.println(" \t" + colNum);
+    }
 
-        ImageIcon BackgroundImage= new ImageIcon("resources/OurVariants/back.jpg");
+    public void print() {
+        // Without JPanel images would be added to JFrame on top of each other.
+        // That way only last image would be visible.
+        int left_offset = 11;
+        int vertical_space = 11;
+        int bottom_offset = 11;
+        int col_width = 90;
+        int col_height = 90;
+
+        JPanel panel = new JPanel();
+
+        ImageIcon BackgroundImage = new ImageIcon("resources/OurVariants/back.jpg");
 
         panel.setLayout(null);
         panel.add(new JLabel(BackgroundImage));
-        //panel.setAlignmentX(1);
+//        panel.setAlignmentX(1);
         Dimension bookshelfSize = new Dimension(BackgroundImage.getIconWidth(), BackgroundImage.getIconHeight());
 
-
-        JFrame frame= new JFrame ("Bookshelf Display V1.0");
-        List<Item> itemList=new ArrayList<>();
+        JFrame frame = new JFrame("Bookshelf Display V1.0");
+        List<Item> itemList;
         JLabel item;
         ImageIcon itemImage;
 
-
-        for(int col=0; col<getColumns(); col++){
-            itemList=getColumnContent(col);
-                for(int i=0; i< itemList.size(); i++){
-                    //System.out.println("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
-                    itemImage=new ImageIcon("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
-                    item=new JLabel(itemImage);
-                    item.setLayout(null);
-                    item.setLocation(left_offset+col_width*col, bookshelfSize.height-bottom_offset-(i+1)*col_height);
-                    item.setVisible(true);
-                    item.getWidth();
-                    panel.add(item);
-                }
+        for (int col = 0; col < getColumns(); col++) {
+            itemList = getColumnContent(col);
+            for (int i = 0; i < itemList.size(); i++) {
+//                System.out.println("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
+                itemImage = new ImageIcon("resources/OurVariants/" + itemList.get(i).color().toString().toLowerCase() + ".png");
+                item = new JLabel(itemImage);
+                item.setLayout(null);
+                item.setLocation(left_offset + col_width * col, bookshelfSize.height - bottom_offset - (i + 1) * col_height);
+                item.setVisible(true);
+                item.getWidth();
+                panel.add(item);
+            }
         }
         frame.getContentPane().add(panel);
         frame.pack();
         frame.setVisible(true);
-        //frame.setLayout(null);
+//        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-    public static void main(String[] args) {
-        Bookshelf b=new Bookshelf();
-        List<Item> itemList=new ArrayList<>();
-        for(int i=0; i< b.getColumns(); i++){
-            itemList.clear();
-            for(int j=0; j<b.getRows(); j++){
-                itemList.add(new Item(Color.randomColor(), 0));
-            }
-            b.insert(i, itemList);
-        }
-        b.cli_print();
-        b.print();
-    }
-
 }
