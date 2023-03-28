@@ -83,7 +83,7 @@ public class DiagonalTest {
     @Test
     void checkSingleRightDiagonal() {
         Bookshelf b = new Bookshelf();
-        Layout layout = new Diagonal(5, 1, 1, false);
+        Layout layout = new Diagonal(5, 1, 1);
         createSingleRightDiagonal(b, 0, 0, 5);
         assertTrue(layout.check(b));
         Bookshelf b1 = new Bookshelf();
@@ -94,7 +94,7 @@ public class DiagonalTest {
     @Test
     void checkSingleLeftDiagonal() {
         Bookshelf b = new Bookshelf();
-        Layout layout = new Diagonal(5, 1, 1, false);
+        Layout layout = new Diagonal(5, 1, 1);
         createSingleLeftDiagonal(b, 0, 4, 5);
         boolean result = layout.check(b);
         assertTrue(result);
@@ -266,7 +266,7 @@ public class DiagonalTest {
 
     @Test
     void checkFakeRightDiagonal() {
-        Layout layout = new Diagonal(5, 1, 1, false);
+        Layout layout = new Diagonal(5, 1, 1);
         Bookshelf b0 = new Bookshelf();
         Bookshelf b1 = new Bookshelf();
         Bookshelf b2 = new Bookshelf();

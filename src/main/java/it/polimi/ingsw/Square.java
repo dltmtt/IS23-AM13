@@ -1,0 +1,68 @@
+package it.polimi.ingsw;
+
+import org.jetbrains.annotations.NotNull;
+
+public class Square extends Layout{
+
+    /**
+     *
+     */
+    private int occurrences;
+    public Square(int dimension, int minDifferent, int maxDifferent, int occurrences) {
+        super(dimension, dimension, minDifferent, maxDifferent);
+        this.occurrences=occurrences;
+    }
+
+    public boolean check(Bookshelf b) {
+        if(getCurrent(b)==getOccurrences()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public int getOccurrences() {
+        return occurrences;
+    }
+
+    private int bottomUpCheck(@NotNull Bookshelf b){
+        return 0;
+
+    }
+
+    private int topDownCheck(@NotNull Bookshelf b){
+        return 0;
+    }
+
+    public int getCurrent(@NotNull Bookshelf b){
+        int counter=0;
+        int validcells=0;
+
+        //validity matrix
+        boolean[][] valid = new boolean[b.getColumns()][b.getRows()];
+
+        //reset validity
+        for(int i=0; i<b.getRows(); i++){
+            for(int j=0; j<b.getColumns(); j++){
+                valid[i][j]=true;
+            }
+        }
+
+
+        for (int col = 0; col < b.getColumns() - getWidth(); col++) {
+            for(int row=0; row< b.getRows()-getHeight(); row++) {
+                if(b.getRows()-b.getFreeCellsInColumn(col)-row>=getHeight() )
+                for (int width = col; width < col + getWidth(); width++) {
+                    for (int height = row; height<row+getHeight(); height++){
+                        //if(b.get)
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+
+    public String getInfo(){
+        return super.getInfo()+"-occurrences=" + occurrences +" -type=rectangle";
+    }
+}
