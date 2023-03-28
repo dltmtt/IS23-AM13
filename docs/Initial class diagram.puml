@@ -146,18 +146,18 @@ note right of Layout::getCurrent
     Returns the number of items in the correct position for a specific common goal.
 end note
 
-class XShape extends Layout{
-+XShape(int width, int height, int maxDifferent, int minDifferent)
+class XShape extends Layout {
+    +XShape(int width, int height, int maxDifferent, int minDifferent)
 }
 
-class FullLine extends Layout{
+class FullLine extends Layout {
     -int occurrences
-+FullLine(int width, int height, int maxDifferent, int minDifferent, int occurrences)
+    +FullLine(int width, int height, int maxDifferent, int minDifferent, int occurrences)
 }
 
 class Square extends Layout {
     -int occurrences
-    ---
+    ----
     +getCurrent(Bookshelf b)
     +Square(int dimension, int minDifferent, int maxDifferent, int occurrences)
 }
@@ -167,7 +167,6 @@ class Diagonal extends Layout {
 }
 
 class Stairs extends Layout {
-
     +Stairs(int width, int height, int minDifferent, int maxDifferent)
 }
 
