@@ -15,10 +15,13 @@ public enum Color {
     PINK;
 
     private static final Random rnd = new Random();
+
     /**
      * function to obtain a random color
+     *
+     * @return a random color
      */
-    public static Color randomColor()  {
+    public static Color randomColor() {
         Color[] colors = values();
         return colors[rnd.nextInt(colors.length)];
     }
