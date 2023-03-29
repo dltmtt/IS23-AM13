@@ -2,6 +2,10 @@ package it.polimi.ingsw.Models.CommonGoalLayout;
 
 
 import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Item.Item;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Simone
@@ -125,5 +129,10 @@ public abstract class Layout {
 
     public int getMaxDifferent() {
         return maxDifferent;
+    }
+
+
+    public int getDifferentColors(List<Item> itemList) {
+        return itemList.stream().map(it -> it.color()).distinct().collect(Collectors.toList()).size();
     }
 }

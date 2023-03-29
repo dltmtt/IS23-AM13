@@ -145,13 +145,23 @@ public class Bookshelf implements AbleToGetPoints {
      * @param row row to check for completion
      * @return true if the row is completely full, false otherwise
      */
-    public boolean isRowFull(int row) {
+    public boolean isRowFull(int row) throws IllegalArgumentException {
+        if (row >= rows || row < 0) {
+            throw new IllegalArgumentException("Invalid row for the method isRowFull -row:" + row);
+        }
         for (int col = 0; col < columns; col++) {
             if (getItemAt(row, col).isEmpty()) {
                 return false;
             }
         }
         return true;
+    }
+
+    public boolean isColumnFull(int col) throws IllegalArgumentException {
+        if (col >= columns || col < 0) {
+            throw new IllegalArgumentException("Invalid column for the method isColumnFull -column:" + col);
+        }
+        return getItemAt(rows - 1, col).isPresent();
     }
 
     /**
@@ -225,6 +235,15 @@ public class Bookshelf implements AbleToGetPoints {
             return 8;
     }
 
+    /**
+     * This method returns the item contained in a column.
+     * Empty cells are not included.
+     *
+     * @param col the column index
+     * @return the content of the column
+     * @throws IllegalArgumentException if the column index is not between 0 and the number of columns
+     */
+
     public List<Item> getColumnContent(int col) throws IllegalArgumentException {
         if (col < 0 || col > columns) {
             throw new IllegalArgumentException("Invalid number of column (" + col + ")");
@@ -233,6 +252,29 @@ public class Bookshelf implements AbleToGetPoints {
         Optional<Item> item;
         for (int i = 0; i < getCellsInColumn(col); i++) {
             item = getItemAt(i, col);
+            item.ifPresent(content::add);
+        }
+        return content;
+    }
+
+
+    /**
+     * This method returns the item contained in a column.
+     * Empty cells are not included.
+     *
+     * @param row the row index
+     * @return the content of the column
+     * @throws IllegalArgumentException if the column index is not between 0 and the number of columns
+     */
+
+    public List<Item> getRowContent(int row) throws IllegalArgumentException {
+        if (row < 0 || row > getRows()) {
+            throw new IllegalArgumentException("Invalid number of row (" + row + ")");
+        }
+        List<Item> content = new ArrayList<>();
+        Optional<Item> item;
+        for (int i = 0; i < getColumns(); i++) {
+            item = getItemAt(row, i);
             item.ifPresent(content::add);
         }
         return content;
@@ -353,4 +395,6 @@ public class Bookshelf implements AbleToGetPoints {
 //        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+
 }
