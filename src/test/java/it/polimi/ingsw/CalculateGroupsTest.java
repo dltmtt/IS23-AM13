@@ -159,4 +159,316 @@ public class CalculateGroupsTest {
         assertEquals(b.getPoints(), 23);
     }
 
+    @Test
+    void WorstCaseScenario1() {
+        Bookshelf b = new Bookshelf();
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(0, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(1, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(2, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(3, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(4, items);
+
+        assertEquals(b.getPoints(), 10);
+
+    }
+
+    @Test
+    void WorstScenario2_HalfSnake() {
+        Bookshelf b = new Bookshelf();
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(0, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.WHITE, 1));
+        b.insert(1, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(2, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(3, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(4, items);
+
+        assertEquals(b.getPoints(), 12);
+    }
+
+    @Test
+    void WorstScenario3_Snake() {
+        Bookshelf b = new Bookshelf();
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(0, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.WHITE, 1));
+        b.insert(1, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(2, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(3, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(4, items);
+
+        assertEquals(b.getPoints(), 8);
+    }
+
+    @Test
+    void WorstCaseScenario_snake_and_2_others() {
+        Bookshelf b = new Bookshelf();
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(0, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(1, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(2, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        b.insert(3, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        b.insert(4, items);
+
+        assertEquals(b.getPoints(), 13);
+    }
+
+    @Test
+    void ZeroPoints() {
+        Bookshelf b = new Bookshelf();
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(0, items);
+
+        items.clear();
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(1, items);
+
+        items.clear();
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(2, items);
+
+        items.clear();
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        b.insert(3, items);
+
+        items.clear();
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        b.insert(4, items);
+
+        assertEquals(b.getPoints(), 0);
+    }
+
+    @Test
+    void Donut() {
+        Bookshelf b = new Bookshelf();
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(0, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(1, items);
+
+        items.clear();
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(2, items);
+
+        items.clear();
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.WHITE, 1));
+        b.insert(3, items);
+
+        items.clear();
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(4, items);
+
+        assertEquals(b.getPoints(), 19);
+    }
 }

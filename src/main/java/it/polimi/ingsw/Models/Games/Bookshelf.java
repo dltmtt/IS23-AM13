@@ -184,7 +184,7 @@ public class Bookshelf implements AbleToGetPoints {
     public int adjacentGroups(Color color, int row, int column) {
         int matches;
 
-        if (row >= rows || column >= columns) {
+        if (row >= rows || column >= columns || row < 0 || column < 0) {
             return 0;
         }
 
@@ -198,9 +198,10 @@ public class Bookshelf implements AbleToGetPoints {
 
         if (!booleanMatrix[row][column]) {
             matches = adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1);
+
         } else {
             booleanMatrix[row][column] = false;
-            matches = 1 + adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1);
+            matches = 1 + adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1) + adjacentGroups(color, row - 1, column) + adjacentGroups(color, row, column - 1);
         }
         return matches;
     }
