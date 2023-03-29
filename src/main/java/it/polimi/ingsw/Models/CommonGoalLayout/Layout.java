@@ -1,11 +1,10 @@
 package it.polimi.ingsw.Models.CommonGoalLayout;
 
 
-import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Item;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Simone
@@ -132,7 +131,11 @@ public abstract class Layout {
     }
 
 
-    public int getDifferentColors(List<Item> itemList) {
-        return itemList.stream().map(it -> it.color()).distinct().collect(Collectors.toList()).size();
+    public int getDifferentColors(List<Item> itemList) throws IllegalArgumentException {
+        if (itemList == null) {
+            throw new IllegalArgumentException("itemList is null");
+
+        }
+        return itemList.stream().map(Item::color).distinct().toList().size();
     }
 }

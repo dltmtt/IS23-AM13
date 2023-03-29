@@ -2,8 +2,8 @@ package it.polimi.ingsw.Controllers;
 
 
 import it.polimi.ingsw.Models.CommonGoalLayout.*;
-import it.polimi.ingsw.Models.Games.Board;
-import it.polimi.ingsw.Models.Games.Player;
+import it.polimi.ingsw.Models.Game.Board;
+import it.polimi.ingsw.Models.Game.Player;
 import it.polimi.ingsw.Models.Goal.CommonGoal;
 import it.polimi.ingsw.Models.Goal.PersonalGoal;
 import it.polimi.ingsw.Models.Utility.Coordinates;
@@ -93,13 +93,13 @@ public class Game {
         layouts.add(new Corners(1, 1));
         layouts.add(new XShape(3, 1, 1));
         //columnLine_layout
-        layouts.add(new FullLine(1, 1, 1, 3, 3, false));
+        layouts.add(new FullLine(1, 3, 3, false));
         //rowLine_layout
-        layouts.add(new FullLine(1, 1, 1, 3, 4, true));
+        layouts.add(new FullLine(1, 3, 4, true));
         //twoColumnLine_layout
-        layouts.add(new FullLine(1, 1, 6, 6, 2, false));
+        layouts.add(new FullLine(6, 6, 2, false));
         //twoRowLine_layout
-        layouts.add(new FullLine(1, 1, 5, 5, 2, true));
+        layouts.add(new FullLine(5, 5, 2, true));
 
         //da aggiungere square
         //da aggiungere rectangle

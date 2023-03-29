@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Models.CommonGoalLayout;
 
-import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Item;
 
 import java.util.List;
@@ -24,14 +24,12 @@ public class FullLine extends Layout {
     /**
      * Constructor of the class
      *
-     * @param width        the width of the bookshelf
-     * @param height       the height of the bookshelf
      * @param minDifferent the minimum number of different colors
      * @param maxDifferent the maximum number of different colors
      * @param occurrences  the number of occurrences of the layout
      * @param horizontal   true if the layout is horizontal (a row), false if it is vertical (a column)
      */
-    public FullLine(int width, int height, int minDifferent, int maxDifferent, int occurrences, boolean horizontal) {
+    public FullLine(int minDifferent, int maxDifferent, int occurrences, boolean horizontal) {
         super(0, 0, minDifferent, maxDifferent);
         this.occurrences = occurrences;
         this.horizontal = horizontal;
@@ -81,6 +79,6 @@ public class FullLine extends Layout {
     }
 
     public String getInfo() {
-        return super.getInfo() + " FullLine -occurrences" + occurrences;
+        return super.getInfo() + " -type= fullLine -occurrences" + occurrences;
     }
 }

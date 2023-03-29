@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Models.CommonGoalLayout;
 
-import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 
 import java.util.ArrayList;
@@ -76,7 +76,9 @@ public class Corners extends Layout {
             colorList = colorList.stream().distinct().collect(Collectors.toList());
 
             //check if the number of distinct colors is between the minimum and the maximum
-            return colorList.size() >= getMinDifferent() && colorList.size() <= getMaxDifferent();
+            boolean result = colorList.size() >= getMinDifferent() && colorList.size() <= getMaxDifferent();
+
+            return result;
         }
     }
 

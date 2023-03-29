@@ -2,9 +2,10 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
 import it.polimi.ingsw.Models.CommonGoalLayout.Stair;
-import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.Models.Item.Item;
+import it.polimi.ingsw.TestUtility.BookshelfUtilities;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,44 +13,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StairTest {
-    void createLeftStair(Bookshelf b) {
-        List<Item> itemList = new ArrayList<>();
+public class StairTest extends BookshelfUtilities {
 
-        for (int i = 0; i < 5; i++) {
-            itemList.add(new Item(Color.randomColor(), 0));
-        }
-
-        b.insert(0, itemList);
-        itemList.remove(0);
-        b.insert(1, itemList);
-        itemList.remove(0);
-        b.insert(2, itemList);
-        itemList.remove(0);
-        b.insert(3, itemList);
-        itemList.remove(0);
-        b.insert(4, itemList);
-        itemList.remove(0);
-    }
-
-    void createRightStair(Bookshelf b) {
-        List<Item> itemList = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            itemList.add(new Item(Color.randomColor(), 0));
-        }
-
-        b.insert(4, itemList);
-        itemList.remove(0);
-        b.insert(3, itemList);
-        itemList.remove(0);
-        b.insert(2, itemList);
-        itemList.remove(0);
-        b.insert(1, itemList);
-        itemList.remove(0);
-        b.insert(0, itemList);
-        itemList.remove(0);
-    }
 
     @Test
     void StairCheckRowZero() {
