@@ -2,8 +2,8 @@ package it.polimi.ingsw.Controllers;
 
 
 import it.polimi.ingsw.Models.CommonGoalLayout.*;
-import it.polimi.ingsw.Models.Games.Board;
-import it.polimi.ingsw.Models.Games.Player;
+import it.polimi.ingsw.Models.Game.Board;
+import it.polimi.ingsw.Models.Game.Player;
 import it.polimi.ingsw.Models.Goal.CommonGoal;
 import it.polimi.ingsw.Models.Goal.PersonalGoal;
 import it.polimi.ingsw.Models.Utility.Coordinates;

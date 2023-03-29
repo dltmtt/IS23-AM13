@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Models.CommonGoalLayout;
 
-import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Game.Bookshelf;
 
 /**
  * This class implements the methods for a Stair common goal.

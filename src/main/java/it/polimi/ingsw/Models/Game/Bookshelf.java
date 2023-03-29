@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Models.Games;
+package it.polimi.ingsw.Models.Game;
 
 import it.polimi.ingsw.Models.Interfaces.AbleToGetPoints;
 import it.polimi.ingsw.Models.Item.Color;
@@ -27,7 +27,7 @@ public class Bookshelf implements AbleToGetPoints {
     private final boolean[][] booleanMatrix;
 
     @SuppressWarnings("unchecked")
-    private final Optional<Item>[][] items = (Optional<Item>[][]) new Optional[rows][columns];
+    private final Optional<Item>[][] items;
 
     /**
      * Creates a new bookshelf. All cells are empty.
@@ -45,12 +45,14 @@ public class Bookshelf implements AbleToGetPoints {
 
             rows = Integer.parseInt(prop.getProperty("bookshelf.rows"));
             columns = Integer.parseInt(prop.getProperty("bookshelf.columns"));
+
         } catch (IOException ex) {
             ex.printStackTrace();
             rows = 6;
             columns = 5;
         }
 
+        items = (Optional<Item>[][]) new Optional[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 this.items[i][j] = Optional.empty();
@@ -84,6 +86,10 @@ public class Bookshelf implements AbleToGetPoints {
 
     public int getColumns() {
         return columns;
+    }
+
+    public int getSize() {
+        return rows * columns;
     }
 
     /**

@@ -2,86 +2,14 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Models.CommonGoalLayout.Diagonal;
 import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
-import it.polimi.ingsw.Models.Games.Bookshelf;
-import it.polimi.ingsw.Models.Item.Color;
-import it.polimi.ingsw.Models.Item.Item;
+import it.polimi.ingsw.Models.Game.Bookshelf;
+import it.polimi.ingsw.TestUtility.BookshelfUtilities;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DiagonalTest {
-    public void bookshelfPrint(Bookshelf b) {
-        StringBuilder singleRow;
-        List<String> stringBook = new ArrayList<>();
-        for (int row = 0; row < b.getRows(); row++) {
-            singleRow = new StringBuilder(row + "\t");
-            for (int col = 0; col < b.getColumns(); col++) {
-                singleRow.append("\t").append(b.getItemAt(row, col).isPresent() ? b.getItemAt(row, col).get().color().ordinal() : " ");
-            }
-            stringBook.add(singleRow.toString());
-        }
-
-        for (int i = 0; i < b.getRows(); i++) {
-            System.out.println(stringBook.get(stringBook.size() - i - 1));
-        }
-
-        StringBuilder colNum = new StringBuilder(" ");
-        for (int i = 0; i < b.getColumns(); i++) {
-            colNum.append("\t").append(i);
-        }
-        System.out.println(" \t" + colNum);
-    }
-
-
-    public void createSingleRightDiagonal(Bookshelf b, int startingRow, int startingColumn, int dimension) {
-        List<Item> itemlist = new ArrayList<>();
-        Color diagonalcolor = Color.randomColor();
-
-        for (int i = 0; i < startingRow; i++) {
-            itemlist.add(new Item(Color.randomColor(), 0));
-        }
-
-        for (int i = 0; i < b.getColumns(); i++) {
-            if (itemlist.size() > 0) {
-                b.insert(i, itemlist);
-            }
-        }
-
-
-        for (int i = 0; i < dimension; i++) {
-            itemlist.clear();
-            for (int j = 0; j < i; j++) {
-                itemlist.add(new Item(Color.randomColor(), 0));
-            }
-            itemlist.add(new Item(diagonalcolor, 0));
-            b.insert(startingColumn + i, itemlist);
-        }
-    }
-
-    //in createLeftDiagonal, (startingRow, startingColumn) refers to the rightmost element of the diagonal
-
-    public void createSingleLeftDiagonal(Bookshelf b, int startingRow, int startingColumn, int dimension) {
-        List<Item> itemlist = new ArrayList<>();
-        Color diagonalcolor = Color.randomColor();
-
-        for (int i = 0; i < dimension; i++) {
-            itemlist.clear();
-            for (int j = 0; j < i; j++) {
-                itemlist.add(new Item(Color.randomColor(), 0));
-            }
-            itemlist.add(new Item(diagonalcolor, 0));
-            // try {
-            b.insert(startingColumn - i, itemlist);
-            // }catch(IllegalArgumentException e){
-            // bookshelfPrint(b);
-            // }
-        }
-
-    }
+public class DiagonalTest extends BookshelfUtilities {
 
     @Test
     void checkSingleRightDiagonal() {
@@ -106,28 +34,6 @@ public class DiagonalTest {
         assertTrue(layout.check(b1));
     }
 
-    void createFakeDiagonal(Bookshelf b) {
-        List<Item> itemList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            itemList.add(new Item(Color.randomColor(), 0));
-
-        }
-        b.insert(4, itemList);
-        itemList.remove(0);
-        b.insert(3, itemList);
-        itemList.remove(0);
-        b.insert(2, itemList);
-        itemList.remove(0);
-        b.insert(1, itemList);
-        // Dimension 4 diagonal
-        for (int j = 0; j < b.getColumns() - 1; j++) {
-            b.insert(j, itemList);
-        }
-        List<Item> items = new ArrayList<>();
-        items.add(new Item(Color.randomColor(), 2));
-        b.insert(4, items);
-
-    }
 
 //    @Test
 //    void checkFakeRightDiagonal() {
@@ -183,70 +89,11 @@ public class DiagonalTest {
                 for (int col = 0; col < b.getColumns() - dimension + 1; col++) {
                     b = new Bookshelf();
                     createSingleRightDiagonal(b, row, col, dimension);
-                    bookshelfPrint(b);
+                    b.cli_print();
                     System.out.println("row: " + row + ", column: " + col + " dimension: " + dimension);
                 }
             }
         }
-    }
-
-    void createFakeDiagonal(Bookshelf b, int type) {
-        List<Item> equalItem = new ArrayList<>();
-        equalItem.add(new Item(Color.randomColor(), 0));
-
-        switch (type) {
-            case 0 -> EmptyBookshelf();
-            case 1 -> OnlyFirstCellRight(b, equalItem);
-            case 2 -> Dimension2Right(b, equalItem);
-            case 3 -> Dimension3Right(b, equalItem);
-            case 4 -> Dimension4Right(b, equalItem);
-            case 5 -> OnlyFirstCellLeft(b, equalItem);
-        }
-    }
-
-    void EmptyBookshelf() {
-    }
-
-    void OnlyFirstCellRight(Bookshelf b, List<Item> items) {
-        b.insert(0, items);
-    }
-
-    void OnlyFirstCellLeft(Bookshelf b, List<Item> items) {
-        b.insert(4, items);
-    }
-
-    void Dimension2Right(Bookshelf b, List<Item> items) {
-        b.insert(0, items);
-        List<Item> casual = new ArrayList<>();
-        casual.add(new Item(Color.randomColor(), 0));
-
-        b.insert(1, casual);
-        b.insert(1, items);
-    }
-
-    void Dimension3Right(Bookshelf b, List<Item> items) {
-        b.insert(0, items);
-        List<Item> casual = new ArrayList<>();
-        casual.add(new Item(Color.randomColor(), 0));
-        b.insert(1, casual);
-        b.insert(1, items);
-        casual.add(new Item(Color.randomColor(), 0));
-        b.insert(2, casual);
-        b.insert(2, items);
-    }
-
-    void Dimension4Right(Bookshelf b, List<Item> items) {
-        b.insert(0, items);
-        List<Item> casual = new ArrayList<>();
-        casual.add(new Item(Color.randomColor(), 0));
-        b.insert(1, casual);
-        b.insert(1, items);
-        casual.add(new Item(Color.randomColor(), 0));
-        b.insert(2, casual);
-        b.insert(2, items);
-        casual.add(new Item(Color.randomColor(), 0));
-        b.insert(3, casual);
-        b.insert(3, items);
     }
 
     @Test

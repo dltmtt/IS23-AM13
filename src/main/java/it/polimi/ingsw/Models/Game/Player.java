@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Models.Games;
+package it.polimi.ingsw.Models.Game;
 
 import it.polimi.ingsw.Models.Goal.CommonGoal;
 import it.polimi.ingsw.Models.Goal.PersonalGoal;

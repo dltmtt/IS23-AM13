@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Models.CommonGoalLayout;
 
 
-import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Item;
 
 import java.util.List;

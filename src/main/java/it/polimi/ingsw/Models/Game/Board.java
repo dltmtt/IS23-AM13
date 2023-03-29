@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Models.Games;
+package it.polimi.ingsw.Models.Game;
 
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.Models.Item.Item;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Models.Goal;
 
 import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
-import it.polimi.ingsw.Models.Games.Bookshelf;
-import it.polimi.ingsw.Models.Games.Player;
+import it.polimi.ingsw.Models.Game.Bookshelf;
+import it.polimi.ingsw.Models.Game.Player;
 
 import java.util.ArrayList;
 import java.util.List;
