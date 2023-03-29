@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Model.Goals.PersonalGoal;
-import it.polimi.ingsw.Model.Items.Color;
-import it.polimi.ingsw.Model.Utilities.Coordinates;
+import it.polimi.ingsw.Models.Goal.PersonalGoal;
+import it.polimi.ingsw.Models.Item.Color;
+import it.polimi.ingsw.Models.Utility.Coordinates;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

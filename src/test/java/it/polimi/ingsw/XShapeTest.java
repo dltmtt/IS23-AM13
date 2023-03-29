@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Model.Game.Bookshelf;
-import it.polimi.ingsw.Model.Items.Color;
-import it.polimi.ingsw.Model.Items.Item;
-import it.polimi.ingsw.Model.commonGoalLayout.Layout;
-import it.polimi.ingsw.Model.commonGoalLayout.XShape;
+import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
+import it.polimi.ingsw.Models.CommonGoalLayout.XShape;
+import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Item.Color;
+import it.polimi.ingsw.Models.Item.Item;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Model.Goals;
+package it.polimi.ingsw.Models.Goal;
 
-import it.polimi.ingsw.Model.Items.Color;
-import it.polimi.ingsw.Model.Utilities.Coordinates;
+import it.polimi.ingsw.Models.Item.Color;
+import it.polimi.ingsw.Models.Utility.Coordinates;
 
 import java.util.HashMap;
 

@@ -1,11 +1,11 @@
-package it.polimi.ingsw.Controller;
+package it.polimi.ingsw.Controllers;
 
 
-import it.polimi.ingsw.Model.Game.Board;
-import it.polimi.ingsw.Model.Game.Player;
-import it.polimi.ingsw.Model.Goals.CommonGoal;
-import it.polimi.ingsw.Model.Goals.PersonalGoal;
-import it.polimi.ingsw.Model.Utilities.Coordinates;
+import it.polimi.ingsw.Models.Games.Board;
+import it.polimi.ingsw.Models.Games.Player;
+import it.polimi.ingsw.Models.Goal.CommonGoal;
+import it.polimi.ingsw.Models.Goal.PersonalGoal;
+import it.polimi.ingsw.Models.Utility.Coordinates;
 
 import java.util.List;
 import java.util.Random;

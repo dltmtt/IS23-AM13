@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Model.commonGoalLayout;
+package it.polimi.ingsw.Models.CommonGoalLayout;
 
-import it.polimi.ingsw.Model.Game.Bookshelf;
-import it.polimi.ingsw.Model.Items.Color;
+import it.polimi.ingsw.Models.Games.Bookshelf;
+import it.polimi.ingsw.Models.Item.Color;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Model.Goals.CommonGoal;
-import it.polimi.ingsw.Model.commonGoalLayout.Diagonal;
-import it.polimi.ingsw.Model.commonGoalLayout.Layout;
+import it.polimi.ingsw.Models.CommonGoalLayout.Diagonal;
+import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
+import it.polimi.ingsw.Models.Goal.CommonGoal;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Model.Items;
+package it.polimi.ingsw.Models.Item;
 
 /**
  * @author Beatrice

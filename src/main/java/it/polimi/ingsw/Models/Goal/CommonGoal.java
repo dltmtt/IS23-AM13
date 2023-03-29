@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Model.Goals;
+package it.polimi.ingsw.Models.Goal;
 
-import it.polimi.ingsw.Model.Game.Player;
-import it.polimi.ingsw.Model.commonGoalLayout.Layout;
+import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
+import it.polimi.ingsw.Models.Games.Player;
 
 import java.util.ArrayList;
 import java.util.List;

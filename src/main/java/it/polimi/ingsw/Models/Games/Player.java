@@ -1,9 +1,9 @@
-package it.polimi.ingsw.Model.Game;
+package it.polimi.ingsw.Models.Games;
 
-import it.polimi.ingsw.Model.Goals.CommonGoal;
-import it.polimi.ingsw.Model.Goals.PersonalGoal;
-import it.polimi.ingsw.Model.Items.Item;
-import it.polimi.ingsw.Model.Utilities.Coordinates;
+import it.polimi.ingsw.Models.Goal.CommonGoal;
+import it.polimi.ingsw.Models.Goal.PersonalGoal;
+import it.polimi.ingsw.Models.Item.Item;
+import it.polimi.ingsw.Models.Utility.Coordinates;
 
 import java.util.ArrayList;
 import java.util.Arrays;
