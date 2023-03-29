@@ -6,10 +6,11 @@ import it.polimi.ingsw.Models.Item.Item;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Matteo
@@ -21,8 +22,8 @@ import java.util.Optional;
  * @see Item
  */
 public class Bookshelf implements AbleToGetPoints {
-    private final int rows = 6;
-    private final int columns = 5;
+    private static int rows;
+    private static int columns;
     private final boolean[][] booleanMatrix;
 
     @SuppressWarnings("unchecked")
@@ -35,6 +36,21 @@ public class Bookshelf implements AbleToGetPoints {
      * It is initialized to true.
      */
     public Bookshelf() {
+        try (InputStream input = new FileInputStream("settings/settings.properties")) {
+
+            Properties prop = new Properties();
+
+            // load a properties file
+            prop.load(input);
+
+            rows = Integer.parseInt(prop.getProperty("bookshelf.rows"));
+            columns = Integer.parseInt(prop.getProperty("bookshelf.columns"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            rows = 6;
+            columns = 5;
+        }
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 this.items[i][j] = Optional.empty();
@@ -48,7 +64,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     // NOTE: this method is used only for testing purposes, it will be removed in the final version.
-    public static void main(String[] args) {
+/*    public static void main(String[] args) throws IOException {
         Bookshelf b = new Bookshelf();
         List<Item> itemList = new ArrayList<>();
         for (int i = 0; i < b.getColumns(); i++) {
@@ -60,7 +76,7 @@ public class Bookshelf implements AbleToGetPoints {
         }
         b.cli_print();
         b.print();
-    }
+    }*/
 
     public int getRows() {
         return rows;

@@ -32,7 +32,7 @@ public class FullLine extends Layout {
      * @param horizontal   true if the layout is horizontal (a row), false if it is vertical (a column)
      */
     public FullLine(int width, int height, int minDifferent, int maxDifferent, int occurrences, boolean horizontal) {
-        super(width, height, minDifferent, maxDifferent);
+        super(0, 0, minDifferent, maxDifferent);
         this.occurrences = occurrences;
         this.horizontal = horizontal;
 
