@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MultiServer {
-    private static final int port = 1000;
+    public static final int port = 1000;
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
@@ -19,7 +19,7 @@ public class MultiServer {
             }
 
         } catch (IOException e) {
-            System.out.println("Error");
+            System.err.println("Error");
         }
         serverSocket.close();
 
