@@ -15,6 +15,7 @@ public class Player {
     // Maybe we don't need this, we assign the common goal points in the CommonGoal class
     private static List<CommonGoal> commonGoals = new ArrayList<>();
     private static Board board;
+    private final List<Boolean> commonGoalCompleted = new ArrayList<>(2);
     private final String nickname;
     private final int age;
     private final boolean isFirstGame;
@@ -33,6 +34,8 @@ public class Player {
         this.bookshelf = bookshelf;
         Player.board = board;
         Arrays.fill(commonGoalPoints, 0);
+        commonGoalCompleted.add(false);
+        commonGoalCompleted.add(false);
     }
 
     public static void setCommonGoal(List<CommonGoal> commonGoals) {
@@ -101,6 +104,13 @@ public class Player {
 
         try {
             bookshelf.insert(column, board.pickFromBoard(list));
+            for (int i = 0; i < commonGoals.size(); i++) {
+                if (!commonGoalCompleted.get(i)) continue;
+                if (commonGoals.get(i).check(this.bookshelf)) {
+                    commonGoals.get(i).assignScore(this);
+                    commonGoalCompleted.set(i, true);
+                }
+            }
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }

@@ -1,5 +1,12 @@
 package it.polimi.ingsw;
 
-public class GetPointsTest {
+import org.junit.jupiter.api.Test;
 
+public class GetPointsTest {
+    @Test
+    void generalTest() throws IllegalAccessException {
+
+
+    }
 }
+

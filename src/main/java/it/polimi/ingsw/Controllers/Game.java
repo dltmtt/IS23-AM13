@@ -21,8 +21,8 @@ public class Game {
 
     private Player currentPlayer;
 
-    public Game() throws IllegalAccessException {
-        initialize();
+    public Game(int numOfPlayer) throws IllegalAccessException {
+        initialize(numOfPlayer);
     }
 
     /**
@@ -31,7 +31,10 @@ public class Game {
      * @throws IllegalAccessException if the number of players is invalid
      */
 
-    public void initialize() throws IllegalAccessException {
+    public void initialize(int numOfPlayer) throws IllegalAccessException {
+        this.players = new ArrayList<>(numOfPlayer);
+        //TODO: aggiungere i giocatori loggati
+
         // CommonGoalDeck is created and filled
         commonGoalDeck_creation();
 
@@ -69,9 +72,12 @@ public class Game {
         int first = randomNumberGenerator.nextInt(commonGoalDeck.size());
         List<CommonGoal> chosen = new ArrayList<>();
         chosen.add(commonGoalDeck.get(first));
+        commonGoalDeck.get(first).setScoringList(players.size());
         commonGoalDeck.remove(first);
         int second = randomNumberGenerator.nextInt(commonGoalDeck.size());
         chosen.add(commonGoalDeck.get(second));
+        commonGoalDeck.get(second).setScoringList(players.size());
+        commonGoalDeck.remove(second);
         return chosen;
     }
 

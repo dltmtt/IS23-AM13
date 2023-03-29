@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Models.Goal;
 
 import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
+import it.polimi.ingsw.Models.Games.Bookshelf;
 import it.polimi.ingsw.Models.Games.Player;
 
 import java.util.ArrayList;
@@ -14,12 +15,14 @@ public class CommonGoal {
     private final Layout layout;
     private List<Integer> scoringList;
 
+
     public CommonGoal(Layout layout) {
         this.layout = layout;
     }
 
     public void assignScore(Player player) {
         player.setCommonGoalPoints(this);
+        scoringList.remove(0);
     }
 
     public List<Integer> getScoringList() {
@@ -72,5 +75,15 @@ public class CommonGoal {
         int val = scoringList.get(0);
         scoringList.remove(scoringList.get(0));
         return val;
+    }
+
+    /**
+     * This method checks if the bookshelf satisfies the layout
+     *
+     * @param bookshelf
+     * @return
+     */
+    public boolean check(Bookshelf bookshelf) {
+        return layout.check(bookshelf);
     }
 }
