@@ -13,14 +13,14 @@ import java.util.List;
 
 public class Player {
     // Maybe we don't need this, we assign the common goal points in the CommonGoal class
-    private static final CommonGoal[] commonGoals = new CommonGoal[2];
+    private static List<CommonGoal> commonGoals = new ArrayList<>();
     private static Board board;
     private final String nickname;
     private final int age;
     private final boolean isFirstGame;
     private final boolean isFirstPlayer;
     private final boolean hasEndGameCard;
-    private final int[] commonGoalPoints = new int[commonGoals.length];
+    private final int[] commonGoalPoints = new int[commonGoals.size()];
     private final Bookshelf bookshelf;
     private PersonalGoal personalGoal;
 
@@ -35,8 +35,8 @@ public class Player {
         Arrays.fill(commonGoalPoints, 0);
     }
 
-    public static void setCommonGoal(CommonGoal commonGoal, int index) {
-        commonGoals[index] = commonGoal;
+    public static void setCommonGoal(List<CommonGoal> commonGoals) {
+        Player.commonGoals = commonGoals;
     }
 
     public String getNickname() {
@@ -64,7 +64,7 @@ public class Player {
     }
 
     public void setCommonGoalPoints(CommonGoal commonGoal) {
-        commonGoalPoints[Arrays.asList(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
+        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
     }
 
     /**

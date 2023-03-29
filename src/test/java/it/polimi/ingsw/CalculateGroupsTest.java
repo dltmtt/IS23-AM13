@@ -471,4 +471,56 @@ public class CalculateGroupsTest {
 
         assertEquals(b.getPoints(), 19);
     }
+
+    @Test
+    void spiral() {
+        Bookshelf b = new Bookshelf();
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(0, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(1, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(2, items);
+
+        items.clear();
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(3, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(4, items);
+
+        assertEquals(b.getPoints(), 11);
+    }
 }

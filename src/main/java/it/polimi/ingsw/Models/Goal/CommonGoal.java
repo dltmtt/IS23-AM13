@@ -12,9 +12,21 @@ import java.util.List;
  */
 public class CommonGoal {
     private final Layout layout;
-    private final List<Integer> scoringList;
+    private List<Integer> scoringList;
 
-    public CommonGoal(int numOfPlayers, Layout layout) {
+    public CommonGoal(Layout layout) {
+        this.layout = layout;
+    }
+
+    public void assignScore(Player player) {
+        player.setCommonGoalPoints(this);
+    }
+
+    public List<Integer> getScoringList() {
+        return scoringList;
+    }
+
+    public void setScoringList(int numOfPlayers) {
         scoringList = new ArrayList<>();
 
         if (numOfPlayers == 2) {
@@ -39,16 +51,6 @@ public class CommonGoal {
                 scoringList.add(i * 2);
             }
         }
-
-        this.layout = layout;
-    }
-
-    public void assignScore(Player player) {
-        player.setCommonGoalPoints(this);
-    }
-
-    public List<Integer> getScoringList() {
-        return scoringList;
     }
 
     // Points depending on the number of players
