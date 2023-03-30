@@ -39,23 +39,20 @@ public class Corners extends Layout {
     @Override
     public boolean check(Bookshelf b) throws IllegalArgumentException {
         // Check if the bookshelf is null
-        if (b == null) throw new IllegalArgumentException("The bookshelf cannot be null");
-
+        if (b == null) {
+            throw new IllegalArgumentException("The bookshelf cannot be null");
+        }
 
         // Local list of distinct colors
         List<Color> colorList = new ArrayList<>();
 
-
         // Local color variable
         Color color;
-
 
         // Check if the bookshelf has no free cells in the first and last column
         if (b.getFreeCellsInColumn(0) != 0 || b.getFreeCellsInColumn(b.getColumns() - 1) != 0) {
             return false;
-        } else {
-            // Add the colors of the four corners to the list
-
+        } else { // Add the colors of the four corners to the list
             // Bottom left
             color = b.getItemAt(0, 0).get().color();
             colorList.add(color);
@@ -68,6 +65,7 @@ public class Corners extends Layout {
             color = b.getItemAt(b.getRows() - 1, b.getColumns() - 1).get().color();
             colorList.add(color);
 
+            // Bottom right
             color = b.getItemAt(0, b.getColumns() - 1).get().color();
             colorList.add(color);
 
@@ -75,9 +73,7 @@ public class Corners extends Layout {
             colorList = colorList.stream().distinct().collect(Collectors.toList());
 
             // Check if the number of distinct colors is between the minimum and the maximum
-            boolean result = colorList.size() >= getMinDifferent() && colorList.size() <= getMaxDifferent();
-
-            return result;
+            return colorList.size() >= getMinDifferent() && colorList.size() <= getMaxDifferent();
         }
     }
 

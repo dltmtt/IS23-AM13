@@ -78,7 +78,6 @@ public abstract class Layout {
      */
     public abstract boolean check(Bookshelf b) throws IllegalArgumentException;
 
-
     /**
      * This method returns a string with the information about the layout.
      *

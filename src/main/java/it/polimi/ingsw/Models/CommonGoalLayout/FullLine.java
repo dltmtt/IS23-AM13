@@ -64,7 +64,6 @@ public class FullLine extends Layout {
         } else {
             // Check every column
             for (int j = 0; j < b.getColumns(); j++) {
-
                 if (b.isColumnFull(j)) {
                     List<Item> colContent = b.getColumnContent(j);
                     int differentColors = getDifferentColors(colContent);

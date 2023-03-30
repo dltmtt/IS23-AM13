@@ -30,7 +30,7 @@ public class XShape extends Layout {
      * @author Simone
      */
     public XShape(int dimension, int minDifferent, int maxDifferent) {
-        //for now dimension parameter (width and height) are ignored
+        // For now dimension parameter (width and height) are ignored
         super(3, 3, minDifferent, maxDifferent);
     }
 
