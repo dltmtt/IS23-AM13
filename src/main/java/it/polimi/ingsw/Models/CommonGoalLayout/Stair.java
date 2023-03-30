@@ -13,7 +13,7 @@ public class Stair extends Layout {
      * @throws IllegalArgumentException if the parameters are invalid
      */
     public Stair(int dimension) throws IllegalArgumentException {
-        //stair layout ony checks only for the number of items in a column, so the min and max number of different colors is 1 and 6
+        // Stair layout ony checks only for the number of items in a column, so the min and max number of different colors is 1 and 6
         super(dimension, dimension, 1, 6);
     }
 

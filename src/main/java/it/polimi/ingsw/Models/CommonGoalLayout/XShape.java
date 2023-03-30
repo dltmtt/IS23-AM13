@@ -34,7 +34,6 @@ public class XShape extends Layout {
         super(3, 3, minDifferent, maxDifferent);
     }
 
-
     /**
      * This method checks
      *
@@ -54,46 +53,44 @@ public class XShape extends Layout {
         for (row = 0; row < b.getRows() - getHeight() + 1; row++) {
             for (col = 0; col < b.getColumns() - getWidth() + 1; col++) {
                 if (b.getItemAt(row, col).isPresent()) {
-                    //The first check to make sure there are the minimum number of item to begin the check
-                    //in particular, if the check starts on (0,0) then the following cells must be filled: (2, 0), (2, 1), (2, 2)
-                    //so in general, given the parameters row and column, the check can proceed if and only if, cell from (row+getHeight()-1, col) to (row+getHeight-1, col+getWidth()-1) are filled
+                    // The first check to make sure there are the minimum number of item to begin the check
+                    // in particular, if the check starts on (0,0) then the following cells must be filled: (2, 0), (2, 1), (2, 2)
+                    // so in general, given the parameters row and column, the check can proceed if and only if, cell from (row+getHeight()-1, col) to (row+getHeight-1, col+getWidth()-1) are filled
                     check_iteration = true;
                     for (int index = col; index < col + getWidth() - 1; index++) {
                         check_iteration = check_iteration && b.getItemAt(row + getHeight() - 1, index).isPresent();
                     }
 
                     if (check_iteration) {
-
-                        //bottom left
+                        // Bottom left
                         colorList.clear();
                         colorList.add(b.getItemAt(row, col).get().color());
 
-                        //bottom right
+                        // Bottom right
                         Color color = b.getItemAt(row, col + 2).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
 
-                        //central
+                        // Central
                         color = b.getItemAt(row + 1, col + 1).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
 
-                        //upper left
+                        // Upper left
                         color = b.getItemAt(row + 2, col).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
 
-                        //upper right
+                        // Upper right
                         color = b.getItemAt(row + 2, col).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
 
-
-                        //the final check is all about the number of different colors found
+                        // The final check is all about the number of different colors found
                         if (colorList.size() >= getMinDifferent() && colorList.size() <= getMaxDifferent()) {
                             return true;
                         }

@@ -10,7 +10,7 @@ import it.polimi.ingsw.Models.Game.Bookshelf;
  */
 public class Diagonal extends Layout {
     /**
-     * This constructor creates a diagonal layout
+     * This constructor creates a diagonal layout.
      *
      * @param dimension    the dimension of the layout
      * @param minDifferent the minimum number of different colors in the layout
@@ -23,7 +23,7 @@ public class Diagonal extends Layout {
     }
 
     /**
-     * This method checks if there are 5 cards of the same color in a diagonal
+     * This method checks if there are 5 cards of the same color in a diagonal.
      *
      * @param b the bookshelf to check
      * @return true if there are 5 cards of the same color in a diagonal, false otherwise
@@ -50,7 +50,6 @@ public class Diagonal extends Layout {
      * @author Simone
      * @author Valeria
      */
-
     public boolean checkRight(Bookshelf b, int row, int column) throws IllegalArgumentException {
         if (b == null) {
             throw new IllegalArgumentException("The bookshelf cannot be null");
@@ -81,7 +80,6 @@ public class Diagonal extends Layout {
                 break;
             }
         }
-
         return counter == 5;
     }
 

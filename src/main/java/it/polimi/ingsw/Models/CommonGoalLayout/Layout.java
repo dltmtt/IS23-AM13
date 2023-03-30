@@ -70,7 +70,7 @@ public abstract class Layout {
     }
 
     /**
-     * This method checks if the layout is valid for the bookshelf
+     * This method checks if the layout is valid for the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is valid for the bookshelf, false otherwise
@@ -80,7 +80,7 @@ public abstract class Layout {
 
 
     /**
-     * This method returns a string with the information about the layout
+     * This method returns a string with the information about the layout.
      *
      * @return info about the layout
      * @author Simone
@@ -90,7 +90,7 @@ public abstract class Layout {
     }
 
     /**
-     * This method returns the width of the layout
+     * This method returns the width of the layout.
      *
      * @return the width of the layout
      * @author Simone
@@ -100,7 +100,7 @@ public abstract class Layout {
     }
 
     /**
-     * This method returns the height of the layout
+     * This method returns the height of the layout.
      *
      * @return the height of the layout
      * @author Simone
@@ -110,7 +110,7 @@ public abstract class Layout {
     }
 
     /**
-     * This method returns the minimum number of different colors in a layout
+     * This method returns the minimum number of different colors in a layout.
      *
      * @return the minimum number of different colors in a layout
      * @author Simone
@@ -120,7 +120,7 @@ public abstract class Layout {
     }
 
     /**
-     * This method returns the maximum number of different colors in a layout
+     * This method returns the maximum number of different colors in a layout.
      *
      * @return the maximum number of different colors in a layout
      * @author Simone
@@ -134,7 +134,6 @@ public abstract class Layout {
     public int getDifferentColors(List<Item> itemList) throws IllegalArgumentException {
         if (itemList == null) {
             throw new IllegalArgumentException("itemList is null");
-
         }
         return itemList.stream().map(Item::color).distinct().toList().size();
     }

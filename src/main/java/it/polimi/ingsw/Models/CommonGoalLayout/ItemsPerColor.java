@@ -6,7 +6,6 @@ import it.polimi.ingsw.Models.Item.Color;
 import java.util.Arrays;
 
 public class ItemsPerColor extends Layout {
-
     public ItemsPerColor(int minDifferent, int maxDifferent) throws IllegalArgumentException {
         super(1, 1, minDifferent, maxDifferent);
     }
@@ -17,7 +16,7 @@ public class ItemsPerColor extends Layout {
     }
 
     /**
-     * This method checks if there are at least the minimum number of items of any color in the bookshelf
+     * This method checks if there are at least the minimum number of items of any color in the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is valid for the bookshelf, false otherwise

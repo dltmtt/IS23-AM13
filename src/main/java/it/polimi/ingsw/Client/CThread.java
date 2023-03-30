@@ -11,13 +11,10 @@ public class CThread extends Thread {
     private BufferedReader in;
     private PrintWriter out;
 
-
     public CThread(InetAddress address) {
         try {
-
             socket = new Socket(address, MultiServer.port);
             System.out.println("Client n. ");
-
         } catch (IOException e) {
             //creation of socket not done successfully
             e.printStackTrace();
@@ -34,22 +31,17 @@ public class CThread extends Thread {
             } catch (IOException ex) {
                 System.err.println("error");
             }
-
         }
-
-
     }
 
-
     public void run() {
-        //write what the method does
+        // Write what the method does
         //...
         try {
-            //client disconnecting
+            // Client disconnecting
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

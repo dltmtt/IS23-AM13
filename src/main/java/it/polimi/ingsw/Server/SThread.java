@@ -15,16 +15,15 @@ class SThread extends Thread {
         try {
             socket = sk;
 
-            //creation of the input stream
+            // Creation of the input stream
             in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 
-            // creation of the output stream
+            // Creation of the output stream
             bufferedWriter = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream()));
             out = new PrintWriter(bufferedWriter, true);
             start();
 
             System.out.println("Server started");
-
         } catch (IOException e) {
             System.err.println("error");
         }
@@ -41,7 +40,7 @@ class SThread extends Thread {
             System.out.println("error");
         }
 
-        //socket closure
+        // Socket closure
         try {
             serverSocket.close();
         } catch (IOException e) {

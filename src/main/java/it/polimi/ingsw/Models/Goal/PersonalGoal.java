@@ -11,7 +11,7 @@ public class PersonalGoal {
     private int counter;
 
     /**
-     * This constructor creates a personal goal card
+     * This constructor creates a personal goal card.
      *
      * @param numOfCard
      */
@@ -126,7 +126,7 @@ public class PersonalGoal {
     }
 
     /**
-     * this method returns the number of points of the personal goal card
+     * This method returns the number of points of the personal goal card.
      *
      * @return the number of points of the personal goal card
      */
@@ -139,7 +139,7 @@ public class PersonalGoal {
     }
 
     /**
-     * this method returns the number of colors reached
+     * This method returns the number of colors reached.
      */
     public void ColorReached() {
         currentReached++;
@@ -153,7 +153,6 @@ public class PersonalGoal {
                 } else {
                     counter = currentReached;
                 }
-
             }
         }
     }

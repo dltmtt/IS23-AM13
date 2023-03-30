@@ -24,7 +24,7 @@ public class Corners extends Layout {
      * @author Simone
      */
     public Corners(int minDifferent, int maxDifferent) {
-        //set width and height to 0 because it takes the number of rows and columns directly from the examined bookshelf
+        // Set width and height to 0 because it takes the number of rows and columns directly from the examined bookshelf
         super(0, 0, minDifferent, maxDifferent);
     }
 
@@ -38,44 +38,43 @@ public class Corners extends Layout {
      */
     @Override
     public boolean check(Bookshelf b) throws IllegalArgumentException {
-        //check if the bookshelf is null
+        // Check if the bookshelf is null
         if (b == null) throw new IllegalArgumentException("The bookshelf cannot be null");
 
 
-        //local list of distinct colors
+        // Local list of distinct colors
         List<Color> colorList = new ArrayList<>();
 
 
-        //local color variable
+        // Local color variable
         Color color;
 
 
-        //check if the bookshelf has no free cells in the first and last column
+        // Check if the bookshelf has no free cells in the first and last column
         if (b.getFreeCellsInColumn(0) != 0 || b.getFreeCellsInColumn(b.getColumns() - 1) != 0) {
             return false;
         } else {
-            //add the colors of the four corners to the list
+            // Add the colors of the four corners to the list
 
-            //bottom left
+            // Bottom left
             color = b.getItemAt(0, 0).get().color();
             colorList.add(color);
 
-            //top left
+            // Top left
             color = b.getItemAt(b.getRows() - 1, 0).get().color();
             colorList.add(color);
 
-            //top right
+            // Top right
             color = b.getItemAt(b.getRows() - 1, b.getColumns() - 1).get().color();
             colorList.add(color);
-
 
             color = b.getItemAt(0, b.getColumns() - 1).get().color();
             colorList.add(color);
 
-            //remove duplicates
+            // Remove duplicates
             colorList = colorList.stream().distinct().collect(Collectors.toList());
 
-            //check if the number of distinct colors is between the minimum and the maximum
+            // Check if the number of distinct colors is between the minimum and the maximum
             boolean result = colorList.size() >= getMinDifferent() && colorList.size() <= getMaxDifferent();
 
             return result;

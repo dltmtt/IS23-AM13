@@ -13,11 +13,9 @@ public class CommonGoalTest {
         Layout s = new Diagonal(2, 1, 3);
         CommonGoal c = new CommonGoal(s);
 
-
         assertEquals(c.getScoringList().get(0), 8);
         assertEquals(c.getScoringList().get(1), 6);
         assertEquals(c.getScoringList().get(2), 4);
-
 
         CommonGoal c1 = new CommonGoal(s);
         assertEquals(c1.getScoringList().get(0), 8);

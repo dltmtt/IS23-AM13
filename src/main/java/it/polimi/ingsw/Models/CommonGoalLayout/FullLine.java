@@ -6,8 +6,8 @@ import it.polimi.ingsw.Models.Item.Item;
 import java.util.List;
 
 /**
- * This class represents the layout of the common goal card "Full Line"
- * A full line is a row or a column with every cell filled
+ * This class represents the layout of the common goal card "Full Line".
+ * A full line is a row or a column with every cell filled.
  *
  * @author Simone
  */
@@ -62,14 +62,13 @@ public class FullLine extends Layout {
                 i++;
             }
         } else {
-
-            //check every column
+            // Check every column
             for (int j = 0; j < b.getColumns(); j++) {
 
                 if (b.isColumnFull(j)) {
                     List<Item> colContent = b.getColumnContent(j);
-                    int differentcolors = getDifferentColors(colContent);
-                    if (differentcolors >= getMinDifferent() && differentcolors <= getMaxDifferent()) {
+                    int differentColors = getDifferentColors(colContent);
+                    if (differentColors >= getMinDifferent() && differentColors <= getMaxDifferent()) {
                         counter++;
                     }
                 }

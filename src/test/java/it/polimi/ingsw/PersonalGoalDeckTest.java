@@ -8,18 +8,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PersonalGoalDeckTest {
+    PersonalGoal personalGoal;
 
     @Test
     /**
      * "calculatePoints" tests if the calculation of the points for the number of color reached in personal goal.
      */
     void calculatePoints() {
-        PersonalGoal personalGoal = new PersonalGoal(1);
+        personalGoal = new PersonalGoal(1);
         personalGoal.ColorReached();
         personalGoal.ColorReached();
         personalGoal.ColorReached();
         assertEquals(personalGoal.getPoints(), 4);
-
     }
 
     /**
@@ -27,7 +27,7 @@ public class PersonalGoalDeckTest {
      */
     @Test
     void ZeroPoints() {
-        PersonalGoal personalGoal = new PersonalGoal(3);
+        personalGoal = new PersonalGoal(3);
         assertEquals(personalGoal.getPoints(), 0);
     }
 
@@ -36,7 +36,7 @@ public class PersonalGoalDeckTest {
      */
     @Test
     void LessThan3Points() {
-        PersonalGoal personalGoal = new PersonalGoal(2);
+        personalGoal = new PersonalGoal(2);
         personalGoal.ColorReached();
         personalGoal.ColorReached();
         assertEquals(personalGoal.getPoints(), 2);
@@ -47,8 +47,7 @@ public class PersonalGoalDeckTest {
      */
     @Test
     void getRightColor() {
-        PersonalGoal personalGoal = new PersonalGoal(0);
-
+        personalGoal = new PersonalGoal(0);
         assertEquals(personalGoal.getColor(new Coordinates(3, 0)), Color.YELLOW);
     }
 }

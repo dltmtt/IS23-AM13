@@ -15,7 +15,6 @@ public class CommonGoal {
     private final Layout layout;
     private List<Integer> scoringList;
 
-
     public CommonGoal(Layout layout) {
         this.layout = layout;
     }
