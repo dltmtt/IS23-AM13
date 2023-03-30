@@ -11,29 +11,35 @@ public class CommonGoalTest {
     @Test
     void getScoringListCheck() {
         Layout s = new Diagonal(2, 1, 3);
-        CommonGoal c = new CommonGoal(s);
-
-        assertEquals(c.getScoringList().get(0), 8);
-        assertEquals(c.getScoringList().get(1), 6);
-        assertEquals(c.getScoringList().get(2), 4);
-
-        CommonGoal c1 = new CommonGoal(s);
-        assertEquals(c1.getScoringList().get(0), 8);
-        assertEquals(c1.getScoringList().get(1), 4);
 
         CommonGoal c2 = new CommonGoal(s);
-        assertEquals(c2.getScoringList().get(0), 8);
-        assertEquals(c2.getScoringList().get(1), 6);
-        assertEquals(c2.getScoringList().get(2), 4);
-//        assertEquals(c.getScoringList().get(3),2);
+        c2.setScoringList(2);
+        assertEquals(4, c2.getScoringList().get(1));
+        assertEquals(8, c2.getScoringList().get(0));
+
+        CommonGoal c3 = new CommonGoal(s);
+        c3.setScoringList(3);
+        assertEquals(4, c3.getScoringList().get(2));
+        assertEquals(6, c3.getScoringList().get(1));
+        assertEquals(8, c3.getScoringList().get(0));
+
+        CommonGoal c4 = new CommonGoal(s);
+        c4.setScoringList(4);
+        assertEquals(2, c4.getScoringList().get(3));
+        assertEquals(4, c4.getScoringList().get(2));
+        assertEquals(6, c4.getScoringList().get(1));
+        assertEquals(8, c4.getScoringList().get(0));
     }
 
     @Test
     void getScoringCheck() throws IndexOutOfBoundsException {
         Layout s = new Diagonal(2, 1, 3);
-        CommonGoal c = new CommonGoal(s);
-        assertEquals(c.getScoring(), 8);
-        assertEquals(c.getScoring(), 6);
-        assertEquals(c.getScoring(), 4);
+
+        CommonGoal c4 = new CommonGoal(s);
+        c4.setScoringList(4);
+        assertEquals(8, c4.getScoring());
+        assertEquals(6, c4.getScoring());
+        assertEquals(4, c4.getScoring());
+        assertEquals(2, c4.getScoring());
     }
 }
