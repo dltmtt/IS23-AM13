@@ -17,7 +17,7 @@ import java.util.*;
  *
  * <p>
  * This class represents a bookshelf.
- * It has 5 rows and 6 columns.
+ * It has 6 rows and 5 columns.
  * Each cell can contain an item.
  * @see Item
  */
@@ -25,8 +25,6 @@ public class Bookshelf implements AbleToGetPoints {
     private static int rows;
     private static int columns;
     private final boolean[][] booleanMatrix;
-
-    @SuppressWarnings("unchecked")
     private final Optional<Item>[][] items;
 
     /**
@@ -37,17 +35,16 @@ public class Bookshelf implements AbleToGetPoints {
      */
     public Bookshelf() {
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             Properties prop = new Properties();
 
-            // load a properties file
+            // Load a properties file
             prop.load(input);
 
             rows = Integer.parseInt(prop.getProperty("bookshelf.rows"));
             columns = Integer.parseInt(prop.getProperty("bookshelf.columns"));
-
         } catch (IOException ex) {
             ex.printStackTrace();
+            // If there is an error, use the default values
             rows = 6;
             columns = 5;
         }
@@ -100,7 +97,7 @@ public class Bookshelf implements AbleToGetPoints {
      */
     public int getFreeCellsInColumn(int column) {
         int freeCells = 0;
-        for (int i = 0; i < getRows(); i++) {
+        for (int i = 0; i < rows; i++) {
             if (this.items[i][column].isEmpty()) {
                 freeCells++;
             }
@@ -110,7 +107,7 @@ public class Bookshelf implements AbleToGetPoints {
 
     public int getCellsInColumn(int column) {
         int usedCells = 0;
-        for (int i = 0; i < getRows(); i++) {
+        for (int i = 0; i < rows; i++) {
             if (this.items[i][column].isPresent()) {
                 usedCells++;
             }
