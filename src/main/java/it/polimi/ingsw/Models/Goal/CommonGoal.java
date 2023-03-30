@@ -28,42 +28,32 @@ public class CommonGoal {
         return scoringList;
     }
 
+    /**
+     * This method sets the scoring for the common goals according to the number of players.
+     * If there are 2 players, the scoringList is filled with 4 and 8.
+     * If there are 3 players, the scoringList is filled with 4, 6 and 8.
+     * If there are 4 players, the scoringList is filled with 2, 4, 6 and 8.
+     *
+     * @param numOfPlayers the number of players
+     */
     public void setScoringList(int numOfPlayers) {
         scoringList = new ArrayList<>();
 
-        if (numOfPlayers == 2) {
-            /*
-             * i=2 --> 4*i=8
-             * i=1 --> 4*i=4
-             */
-            for (int i = numOfPlayers; i > 0; i--) {
-                scoringList.add(4 * i);
-            }
-        } else if (numOfPlayers == 3) {
-            /*
-             * i=3 --> (4*i+4)/2=8
-             * i=2 --> (4*i+4)/2=6
-             * i=1 --> (4*i+4)/2=4
-             */
-            for (int i = numOfPlayers; i > 0; i--) {
-                scoringList.add(2 * i + 2);
-            }
-        } else {
-            for (int i = numOfPlayers; i > 0; i--) {
-                scoringList.add(i * 2);
+        for (int i = numOfPlayers; i > 0; i--) {
+            switch (numOfPlayers) {
+                case 2 -> scoringList.add(4 * i); // Add 4, 8
+                case 3 -> scoringList.add(2 * i + 2); // Add 4, 6, 8
+                default -> scoringList.add(2 * i); // Add 2, 4, 6, 8
             }
         }
     }
 
-    // Points depending on the number of players
-    // 2 players: 4, 8
-    // 3 players: 4, 6, 8
-    // 4 players: 2, 4, 6, 8
-
     // TODO: check the exception type
 
     /**
-     * @return val, which is the first element of the scoringList, and then it is removed
+     * Return the highest common goal scoring and remove it from the stack.
+     *
+     * @return the first element of the scoringList
      * @throws IndexOutOfBoundsException if the list is empty
      * @author Beatrice
      */
@@ -71,16 +61,16 @@ public class CommonGoal {
         if (scoringList.size() == 0)
             throw new IndexOutOfBoundsException();
 
-        int val = scoringList.get(0);
+        int value = scoringList.get(0);
         scoringList.remove(scoringList.get(0));
-        return val;
+        return value;
     }
 
     /**
-     * This method checks if the bookshelf satisfies the layout
+     * This method checks if the bookshelf satisfies the layout.
      *
-     * @param bookshelf
-     * @return
+     * @param bookshelf the bookshelf to check
+     * @return true if the bookshelf satisfies the layout, false otherwise§
      */
     public boolean check(Bookshelf bookshelf) {
         return layout.check(bookshelf);
