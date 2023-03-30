@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.Models.Item.Item;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,13 +12,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CalculateGroupsTest {
+    Bookshelf b;
+    List<Item> items;
+
+    @BeforeEach
+    void setUp() {
+        b = new Bookshelf();
+        items = new ArrayList<>();
+    }
+
     /**
      * 1 group
      */
     @Test
     void calculateBlueGroups() {
-        Bookshelf b = new Bookshelf();
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         b.insert(0, items);
@@ -27,7 +35,6 @@ public class CalculateGroupsTest {
         items1.add(new Item(Color.BLUE, 1));
         b.insert(1, items1);
 
-
         assertEquals(b.getPoints(), 3);
     }
 
@@ -36,9 +43,6 @@ public class CalculateGroupsTest {
      */
     @Test
     void calculateBlueGroups2() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         b.insert(0, items);
@@ -59,7 +63,6 @@ public class CalculateGroupsTest {
         items3.add(new Item(Color.BLUE, 1));
         b.insert(3, items3);
 
-
         List<Item> items4 = new ArrayList<>();
         items4.add(new Item(Color.YELLOW, 1));
         items4.add(new Item(Color.YELLOW, 1));
@@ -73,9 +76,6 @@ public class CalculateGroupsTest {
      */
     @Test
     void calculateBlueGroups3() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         b.insert(0, items);
@@ -96,7 +96,6 @@ public class CalculateGroupsTest {
         items3.add(new Item(Color.BLUE, 1));
         b.insert(3, items3);
 
-
         List<Item> items4 = new ArrayList<>();
         items4.add(new Item(Color.YELLOW, 1));
         items4.add(new Item(Color.YELLOW, 1));
@@ -108,9 +107,6 @@ public class CalculateGroupsTest {
 
     @Test
     void calculateGroups4() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.WHITE, 1));
@@ -118,7 +114,6 @@ public class CalculateGroupsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         b.insert(0, items);
-
 
         List<Item> items1 = new ArrayList<>();
         items1.add(new Item(Color.YELLOW, 1));
@@ -161,9 +156,6 @@ public class CalculateGroupsTest {
 
     @Test
     void WorstCaseScenario1() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
@@ -209,14 +201,10 @@ public class CalculateGroupsTest {
         b.insert(4, items);
 
         assertEquals(b.getPoints(), 10);
-
     }
 
     @Test
     void WorstScenario2_HalfSnake() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
@@ -266,9 +254,6 @@ public class CalculateGroupsTest {
 
     @Test
     void WorstScenario3_Snake() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
@@ -318,9 +303,6 @@ public class CalculateGroupsTest {
 
     @Test
     void WorstCaseScenario_snake_and_2_others() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
@@ -370,9 +352,6 @@ public class CalculateGroupsTest {
 
     @Test
     void ZeroPoints() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.WHITE, 1));
@@ -422,9 +401,6 @@ public class CalculateGroupsTest {
 
     @Test
     void Donut() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.WHITE, 1));
@@ -474,9 +450,6 @@ public class CalculateGroupsTest {
 
     @Test
     void spiral() {
-        Bookshelf b = new Bookshelf();
-
-        List<Item> items = new ArrayList<>();
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.PINK, 1));

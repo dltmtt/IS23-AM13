@@ -5,14 +5,21 @@ import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
 import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.TestUtility.BookshelfUtilities;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ItemsPerColorTest extends BookshelfUtilities {
+    Bookshelf b;
+
+    @BeforeEach
+    void setUp() {
+        b = new Bookshelf();
+    }
+
     @Test
     public void EightSameColorItems() {
-        Bookshelf b = new Bookshelf();
         Layout L = new ItemsPerColor(8, 8);
         for (Color color : Color.values()) {
             b = new Bookshelf();
@@ -20,14 +27,14 @@ public class ItemsPerColorTest extends BookshelfUtilities {
             assert L.check(b);
         }
 
-        int goalnum = 6;
-        //and the other way round
+        int goalNum = 6;
+        // And the other way round
         for (Color color : Color.values()) {
-            for (int numofelements = 1; numofelements < b.getSize(); numofelements++) {
+            for (int numOfElements = 1; numOfElements < b.getSize(); numOfElements++) {
                 b = new Bookshelf();
-                L = new ItemsPerColor(goalnum, goalnum);
-                createRandomElements(b, color, numofelements);
-                if (goalnum == numofelements) {
+                L = new ItemsPerColor(goalNum, goalNum);
+                createRandomElements(b, color, numOfElements);
+                if (goalNum == numOfElements) {
                     if (!L.check(b)) {
                         b.cli_print();
                         System.out.println(L.getInfo());
@@ -38,7 +45,5 @@ public class ItemsPerColorTest extends BookshelfUtilities {
                 }
             }
         }
-
     }
-
 }

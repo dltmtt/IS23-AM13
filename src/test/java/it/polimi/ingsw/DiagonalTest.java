@@ -4,16 +4,22 @@ import it.polimi.ingsw.Models.CommonGoalLayout.Diagonal;
 import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
 import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.TestUtility.BookshelfUtilities;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DiagonalTest extends BookshelfUtilities {
+    Bookshelf b;
+
+    @BeforeEach
+    void setUp() {
+        b = new Bookshelf();
+    }
 
     @Test
     void checkSingleRightDiagonal() {
-        Bookshelf b = new Bookshelf();
         Layout layout = new Diagonal(5, 1, 1);
         createSingleRightDiagonal(b, 0, 0, 5);
         assertTrue(layout.check(b));
@@ -24,7 +30,6 @@ public class DiagonalTest extends BookshelfUtilities {
 
     @Test
     void checkSingleLeftDiagonal() {
-        Bookshelf b = new Bookshelf();
         Layout layout = new Diagonal(5, 1, 1);
         createSingleLeftDiagonal(b, 0, 4, 5);
         boolean result = layout.check(b);
@@ -81,7 +86,6 @@ public class DiagonalTest extends BookshelfUtilities {
 
     @Test
     public void provaRight() {
-        Bookshelf b = new Bookshelf();
         Layout layout;
         boolean result;
         for (int dimension = 1; dimension < Math.min(b.getRows(), b.getColumns()) + 1; dimension++) {

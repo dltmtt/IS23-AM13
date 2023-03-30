@@ -4,16 +4,22 @@ import it.polimi.ingsw.Models.CommonGoalLayout.Corners;
 import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
 import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.TestUtility.BookshelfUtilities;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CornersTest extends BookshelfUtilities {
+    Bookshelf b;
+
+    @BeforeEach
+    void setUp() {
+        b = new Bookshelf();
+    }
 
     @Test
     void cornerCheck() {
-        Bookshelf b = new Bookshelf();
         Layout layout = new Corners(1, 1);
         createCorner(b);
         assertTrue(layout.check(b));
@@ -21,7 +27,6 @@ public class CornersTest extends BookshelfUtilities {
 
     @Test
     void checkFakeCorner() {
-        Bookshelf b = new Bookshelf();
         Layout layout = new Corners(1, 1);
         createFakeCorner(b, 0);
         assertFalse(layout.check(b));

@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.Models.Item.Item;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,11 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class BookshelfTest {
+    Bookshelf bookshelf;
+    List<Item> items;
+
+    @BeforeEach
+    void setUp() {
+        bookshelf = new Bookshelf();
+        items = new ArrayList<>();
+    }
+
     @Test
     void insertAnElement() {
-        Bookshelf bookshelf = new Bookshelf();
         Item item = new Item(Color.BLUE, 1);
-        List<Item> items = new ArrayList<>();
         items.add(item);
         bookshelf.insert(0, items);
         assertEquals(bookshelf.getFreeCellsInColumn(0), bookshelf.getRows() - items.size());
@@ -25,8 +33,6 @@ class BookshelfTest {
 
     @Test
     void insertZeroElements() {
-        Bookshelf bookshelf = new Bookshelf();
-        List<Item> items = new ArrayList<>();
         try {
             bookshelf.insert(4, items);
         } catch (IllegalArgumentException e) {
@@ -36,8 +42,6 @@ class BookshelfTest {
 
     @Test
     void fillColumn() {
-        Bookshelf bookshelf = new Bookshelf();
-        List<Item> items = new ArrayList<>();
         for (int i = 0; i < bookshelf.getRows(); i++) {
             items.add(new Item(Color.GREEN, 2));
         }
@@ -49,8 +53,6 @@ class BookshelfTest {
 
     @Test
     void insertMoreElementsThanFreeCells() {
-        Bookshelf bookshelf = new Bookshelf();
-        List<Item> items = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             items.add(new Item(Color.LIGHTBLUE, 3));
         }
@@ -64,25 +66,23 @@ class BookshelfTest {
 
     @Test
     void checkInsertedElements() {
-        Bookshelf b = new Bookshelf();
-        List<Item> items = new ArrayList<>();
         Color randomcolor;
         Optional<Item> item;
         Item check;
-        for (int col = 0; col < b.getColumns(); col++) {
+        for (int col = 0; col < bookshelf.getColumns(); col++) {
             items.clear();
-            for (int row = 0; row < b.getRows(); row++) {
+            for (int row = 0; row < bookshelf.getRows(); row++) {
                 randomcolor = Color.randomColor();
                 check = new Item(randomcolor, 3);
                 items.add(check);
             }
-            b.insert(col, items);
-            for (int row = 0; row < b.getRows(); row++) {
+            bookshelf.insert(col, items);
+            for (int row = 0; row < bookshelf.getRows(); row++) {
                 try {
-                    item = b.getItemAt(row, col);
+                    item = bookshelf.getItemAt(row, col);
                     assertEquals(item, Optional.ofNullable(items.get(row)));
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    if (row > b.getRows() || col > b.getColumns()) {
+                    if (row > bookshelf.getRows() || col > bookshelf.getColumns()) {
                         assertEquals(e.getMessage(), "Invalid row or column for the method getItemAt");
                     } else {
                         fail();
@@ -94,21 +94,19 @@ class BookshelfTest {
 
     @Test
     void InsertingOneItemPerTime() {
-        Bookshelf b = new Bookshelf();
-        List<Item> items = new ArrayList<>();
         List<Item> localCol = new ArrayList<>();
         Color randomcolor;
         Item item;
-        for (int col = 0; col < b.getColumns(); col++) {
+        for (int col = 0; col < bookshelf.getColumns(); col++) {
             localCol.clear();
-            for (int row = 0; row < b.getRows(); row++) {
+            for (int row = 0; row < bookshelf.getRows(); row++) {
                 items.clear();
                 randomcolor = Color.randomColor();
                 item = new Item(randomcolor, 3);
                 items.add(item);
-                b.insert(col, items);
+                bookshelf.insert(col, items);
                 localCol.add(item);
-                assertEquals(localCol, b.getColumnContent(col));
+                assertEquals(localCol, bookshelf.getColumnContent(col));
             }
         }
     }

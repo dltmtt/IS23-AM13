@@ -5,6 +5,7 @@ import it.polimi.ingsw.Models.CommonGoalLayout.XShape;
 import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.Models.Item.Item;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,7 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XShapeTest {
     private final Layout XShape = new XShape(3, 1, 1);
-    private Bookshelf b = new Bookshelf();
+    private Bookshelf b;
+
+    @BeforeEach
+    void setUp() {
+        b = new Bookshelf();
+    }
 
     @Test
     void base_IsolatedX() {
@@ -34,7 +40,6 @@ public class XShapeTest {
         XCenter.add(new Item(Color.randomColor(), 0));
 
         List<Item> itemList = new ArrayList<>();
-
 
         // This test is composed by various batches, because of the nature of random generated colors...
         // for normal testing I think 100 would be enough.

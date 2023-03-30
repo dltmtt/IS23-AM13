@@ -6,6 +6,7 @@ import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.Models.Item.Item;
 import it.polimi.ingsw.TestUtility.BookshelfUtilities;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,12 +15,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StairTest extends BookshelfUtilities {
+    Bookshelf b;
+    Layout stair;
 
+    @BeforeEach
+    void setUp() {
+        b = new Bookshelf();
+        stair = new Stair(b.getColumns());
+    }
 
     @Test
     void StairCheckRowZero() {
-        Bookshelf b = new Bookshelf();
-        Layout stair = new Stair(b.getColumns());
         createLeftStair(b);
         assertTrue(stair.check(b));
         b = new Bookshelf();
@@ -30,8 +36,6 @@ public class StairTest extends BookshelfUtilities {
 
     @Test
     void StairCheckRowOne() {
-        Bookshelf b = new Bookshelf();
-        Layout stair = new Stair(b.getColumns());
         List<Item> itemList = new ArrayList<>();
         for (int i = 0; i < b.getColumns(); i++) {
             itemList.clear();
