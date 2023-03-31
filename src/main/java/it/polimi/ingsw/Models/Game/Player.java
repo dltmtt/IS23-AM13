@@ -32,8 +32,6 @@ public class Player {
         this.hasEndGameCard = hasEndGameCard;
         this.bookshelf = bookshelf;
         Player.board = board;
-//        commonGoalPoints.add(0);
-//        commonGoalPoints.add(0);
         commonGoalCompleted.add(false);
         commonGoalCompleted.add(false);
     }

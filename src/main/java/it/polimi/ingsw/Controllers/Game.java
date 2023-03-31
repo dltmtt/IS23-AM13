@@ -15,9 +15,9 @@ import java.util.Random;
 public class Game {
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
+    private final Board livingRoom;
     private List<PersonalGoal> personalGoalDeck;
     private List<CommonGoal> commonGoalDeck;
-    private final Board livingRoom;
     private Bookshelf bookshelf;
     private Player currentPlayer;
 
@@ -41,19 +41,19 @@ public class Game {
         // TODO: add logged in players
 
         // CommonGoalDeck is created and filled
-        //commonGoalDeck_creation();
+        commonGoalDeck_creation();
 
         // PersonalGoalDeck is created and filled
-        //personalGoalDeck_creation();
+        personalGoalDeck_creation();
 
 
         // Draw a personal goal card for each player
-//        for (Player player : players) {
-//            player.setPersonalGoal(drawPersonalGoal());
-//        }
+        for (Player player : players) {
+            player.setPersonalGoal(drawPersonalGoal());
+        }
 
         // Draw two common goal cards
-        //Player.setCommonGoal(drawCommonGoals());
+        Player.setCommonGoal(drawCommonGoals());
     }
 
     // drawPersonalGoal() and drawCommonGoals() are basically the same method,
