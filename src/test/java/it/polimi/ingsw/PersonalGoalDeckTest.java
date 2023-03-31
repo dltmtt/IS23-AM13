@@ -16,14 +16,14 @@ public class PersonalGoalDeckTest {
     void calculatePoints() {
         personalGoal = new PersonalGoal(1);
         Bookshelf b = new Bookshelf();
-        assertEquals(personalGoal.getPoints(b), 4);
+        assertEquals(4, personalGoal.getPoints(b));
     }
 
     // Tests the right setup of personal goal
     @Test
     void zeroPoints() {
         personalGoal = new PersonalGoal(3);
-        assertEquals(personalGoal.getPoints(new Bookshelf()), 0);
+        assertEquals(0, personalGoal.getPoints(new Bookshelf()));
     }
 
     // Tests what happens if it is reached less than 3 color of the personal goal
@@ -32,13 +32,13 @@ public class PersonalGoalDeckTest {
         personalGoal = new PersonalGoal(2);
         personalGoal.colorReached();
         personalGoal.colorReached();
-        assertEquals(personalGoal.getPoints(new Bookshelf()), 2);
+        assertEquals(2, personalGoal.getPoints(new Bookshelf()));
     }
 
     // Tests the method getColor of personalGoal
     @Test
     void getRightColor() {
         personalGoal = new PersonalGoal(0);
-        assertEquals(personalGoal.getColor(new Coordinates(3, 0)), Color.YELLOW);
+        assertEquals(Color.YELLOW, personalGoal.getColor(new Coordinates(3, 0)));
     }
 }
