@@ -97,4 +97,5 @@ public class GetPointsTest {
         assertEquals(28, score1);
 
     }
+
 }
