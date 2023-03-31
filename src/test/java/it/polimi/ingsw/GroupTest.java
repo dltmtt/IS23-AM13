@@ -1,8 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Models.CommonGoalLayout.Corners;
-import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
 import it.polimi.ingsw.Models.Game.Bookshelf;
+import it.polimi.ingsw.Models.Item.Item;
 import it.polimi.ingsw.TestUtility.BookshelfUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,14 +9,16 @@ import org.junit.jupiter.api.Test;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import static java.lang.Integer.parseInt;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CornersTest extends BookshelfUtilities {
-    Bookshelf b;
+public class GroupTest extends BookshelfUtilities {
+
+    Bookshelf bookshelf;
+    List<Item> items;
 
     @BeforeEach
     void setup() {
@@ -39,28 +40,17 @@ public class CornersTest extends BookshelfUtilities {
             rowsSetting = 5;
             colsSetting = 6;
         }
-
-        b = new Bookshelf(rowsSetting, colsSetting);
+        bookshelf = new Bookshelf(rowsSetting, colsSetting);
+        items = new ArrayList<>();
     }
 
     @Test
-    void cornerCheck() {
-        Layout layout = new Corners(1, 1);
-        createCorner(b);
-        assertTrue(layout.check(b));
+    public void testGroup() {
+        //testing possible problematics dispositions of the bookshelves
+        bookshelf.clearBooleanMatrix();
+        bookshelf.clearBookshelf();
+
     }
 
-    @Test
-    void checkFakeCorner() {
-        Layout layout = new Corners(1, 1);
-        createFakeCorner(b, 0);
-        assertFalse(layout.check(b));
-        b.clearBookshelf();
-        createFakeCorner(b, 1);
-        assertFalse(layout.check(b));
-        //Bookshelf b2 = new Bookshelf(settings_height, settings_width);
-        //Create Fake Corner possibly has a bug
-        //createFakeCorner(b2, 2);
-        //assertFalse(layout.check(b2));
-    }
+
 }

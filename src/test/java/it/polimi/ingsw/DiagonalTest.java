@@ -7,6 +7,12 @@ import it.polimi.ingsw.TestUtility.BookshelfUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,7 +21,25 @@ public class DiagonalTest extends BookshelfUtilities {
 
     @BeforeEach
     void setup() {
-        b = new Bookshelf();
+        // Read the settings from the properties file
+        int rowsSetting;
+        int colsSetting;
+
+        Properties prop = new Properties();
+        //In case the file is not found, the default values will be used
+        try (InputStream input = new FileInputStream("settings/settings.properties")) {
+
+            // Load a properties file
+            prop.load(input);
+            rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
+            colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // If there is an error, use the default values
+            rowsSetting = 5;
+            colsSetting = 6;
+        }
+        b = new Bookshelf(rowsSetting, colsSetting);
     }
 
     @Test
@@ -23,9 +47,9 @@ public class DiagonalTest extends BookshelfUtilities {
         Layout layout = new Diagonal(5, 1, 1);
         createSingleRightDiagonal(b, 0, 0, 5);
         assertTrue(layout.check(b));
-        Bookshelf b1 = new Bookshelf();
-        createSingleRightDiagonal(b1, 1, 0, 5);
-        assertTrue(layout.check(b1));
+        b.clearBookshelf();
+        createSingleRightDiagonal(b, 1, 0, 5);
+        assertTrue(layout.check(b));
     }
 
     @Test
@@ -34,9 +58,9 @@ public class DiagonalTest extends BookshelfUtilities {
         createSingleLeftDiagonal(b, 0, 4, 5);
         boolean result = layout.check(b);
         assertTrue(result);
-        Bookshelf b1 = new Bookshelf();
-        createSingleLeftDiagonal(b1, 1, 4, 5);
-        assertTrue(layout.check(b1));
+        b.clearBookshelf();
+        createSingleLeftDiagonal(b, 1, 4, 5);
+        assertTrue(layout.check(b));
     }
 
 
@@ -91,7 +115,7 @@ public class DiagonalTest extends BookshelfUtilities {
         for (int dimension = 1; dimension < Math.min(b.getRows(), b.getColumns()) + 1; dimension++) {
             for (int row = 0; row < b.getRows() - dimension + 1; row++) {
                 for (int col = 0; col < b.getColumns() - dimension + 1; col++) {
-                    b = new Bookshelf();
+                    b.clearBookshelf();
                     createSingleRightDiagonal(b, row, col, dimension);
                     b.cli_print();
                     System.out.println("row: " + row + ", column: " + col + " dimension: " + dimension);
@@ -103,25 +127,11 @@ public class DiagonalTest extends BookshelfUtilities {
     @Test
     void checkFakeRightDiagonal() {
         Layout layout = new Diagonal(5, 1, 1);
-        Bookshelf b0 = new Bookshelf();
-        Bookshelf b1 = new Bookshelf();
-        Bookshelf b2 = new Bookshelf();
-        Bookshelf b3 = new Bookshelf();
-        Bookshelf b4 = new Bookshelf();
-        // Empty
-        createFakeDiagonal(b0, 0);
-        // Only 1 right
-        createFakeDiagonal(b1, 1);
-        // Dimension 2 right
-        createFakeDiagonal(b2, 2);
-        // Dimension 3 right
-        createFakeDiagonal(b3, 3);
-        // Dimension 4 right
-        createFakeDiagonal(b4, 4);
-        assertFalse(layout.check(b0));
-        assertFalse(layout.check(b1));
-        assertFalse(layout.check(b2));
-        assertFalse(layout.check(b3));
-        assertFalse(layout.check(b4));
+
+        for (int i = 0; i < 5; i++) {
+            b.clearBookshelf();
+            createFakeDiagonal(b, i);
+            assertFalse(layout.check(b));
+        }
     }
 }
