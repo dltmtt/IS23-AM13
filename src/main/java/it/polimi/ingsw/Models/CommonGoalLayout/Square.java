@@ -5,19 +5,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
+// Not finished yet, just a draft
+
 /**
- * @author Simone
- * This class implements the methods for a Square common goal.
- * @implNote This class is not yet finished, it is just a draft.
+ * The common goal layout with a square of cells of the same type.
  */
 public class Square extends Layout {
-    /**
-     * The number of ideal occurrences of the layout
-     */
+    // The number of ideal occurrences of the layout
     private final int occurrences;
 
     /**
-     * This constructor creates a square layout
+     * Creates a square layout.
      *
      * @param dimension    the dimension of the square
      * @param minDifferent the minimum number of different colors in the layout
@@ -36,7 +34,7 @@ public class Square extends Layout {
     }
 
     /**
-     * This function checks if the Square layout is valid in the bookshelf
+     * Checks if the Square layout is valid in the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is valid, false otherwise
@@ -46,7 +44,7 @@ public class Square extends Layout {
     }
 
     /**
-     * This function returns the goal of occurrences of the layout
+     * Returns the goal of occurrences of the layout.
      *
      * @return the number of occurrences of the layout
      */

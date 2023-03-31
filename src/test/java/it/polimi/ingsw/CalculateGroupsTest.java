@@ -16,14 +16,12 @@ public class CalculateGroupsTest {
     List<Item> items;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         b = new Bookshelf();
         items = new ArrayList<>();
     }
 
-    /**
-     * 1 group
-     */
+    // 1 group
     @Test
     void calculateBlueGroups() {
         items.add(new Item(Color.BLUE, 1));
@@ -38,9 +36,7 @@ public class CalculateGroupsTest {
         assertEquals(b.getPoints(), 3);
     }
 
-    /**
-     * 2 groups different color
-     */
+    // 2 groups with different colors
     @Test
     void calculateBlueGroups2() {
         items.add(new Item(Color.BLUE, 1));
@@ -71,9 +67,7 @@ public class CalculateGroupsTest {
         assertEquals(b.getPoints(), 13);
     }
 
-    /**
-     * 2 groups different color with another color in the middle
-     */
+    // 2 groups with different colors with another color in the middle
     @Test
     void calculateBlueGroups3() {
         items.add(new Item(Color.BLUE, 1));
@@ -155,7 +149,7 @@ public class CalculateGroupsTest {
     }
 
     @Test
-    void WorstCaseScenario1() {
+    void worstCaseScenario1() {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
@@ -204,7 +198,7 @@ public class CalculateGroupsTest {
     }
 
     @Test
-    void WorstScenario2_HalfSnake() {
+    void worstScenario2HalfSnake() {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
@@ -253,7 +247,7 @@ public class CalculateGroupsTest {
     }
 
     @Test
-    void WorstScenario3_Snake() {
+    void worstScenario3Snake() {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
@@ -351,7 +345,7 @@ public class CalculateGroupsTest {
     }
 
     @Test
-    void ZeroPoints() {
+    void zeroPoints() {
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.WHITE, 1));
@@ -400,7 +394,7 @@ public class CalculateGroupsTest {
     }
 
     @Test
-    void Donut() {
+    void donut() {
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.WHITE, 1));

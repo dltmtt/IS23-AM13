@@ -15,11 +15,11 @@ public class BookshelfUtilities {
     public void createCorner(Bookshelf b) {
         List<Item> soloItem = new ArrayList<>();
         List<Item> items = new ArrayList<>();
-        soloItem.add(new Item(Color.randomColor(), 0));
+        soloItem.add(new Item(Color.getRandomColor(), 0));
         b.insert(0, soloItem);
         b.insert(4, soloItem);
         for (int i = 0; i < 4; i++) {
-            items.add(new Item(Color.randomColor(), 4));
+            items.add(new Item(Color.getRandomColor(), 4));
         }
         b.insert(0, items);
         b.insert(4, items);
@@ -29,29 +29,29 @@ public class BookshelfUtilities {
 
     public void createFakeCorner(Bookshelf b, int choose) {
         switch (choose) {
-            case 0 -> EmptyBookshelf();
-            case 1 -> OneDifferent(b);
-            case 2 -> LastDifferent(b);
+            case 0 -> emptyBookshelf();
+            case 1 -> oneDifferent(b);
+            case 2 -> lastDifferent(b);
         }
     }
 
-    public void EmptyBookshelf() {
+    public void emptyBookshelf() {
     }
 
-    public void OneDifferent(Bookshelf b) {
+    public void oneDifferent(Bookshelf b) {
         List<Item> soloItemEqual = new ArrayList<>();
         List<Item> soloItemDiff = new ArrayList<>();
         List<Item> items = new ArrayList<>();
-        soloItemDiff.add(new Item(Color.randomColor(), 4));
-        soloItemEqual.add(new Item(Color.randomColor(), 3));
+        soloItemDiff.add(new Item(Color.getRandomColor(), 4));
+        soloItemEqual.add(new Item(Color.getRandomColor(), 3));
         while (soloItemDiff.get(0).equals(soloItemEqual.get(0))) {
             soloItemDiff.remove(0);
-            soloItemDiff.add(new Item(Color.randomColor(), 4));
+            soloItemDiff.add(new Item(Color.getRandomColor(), 4));
         }
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemDiff);
         for (int i = 0; i < 4; i++) {
-            items.add(new Item(Color.randomColor(), 3));
+            items.add(new Item(Color.getRandomColor(), 3));
         }
         b.insert(0, items);
         b.insert(4, items);
@@ -59,20 +59,20 @@ public class BookshelfUtilities {
         b.insert(4, soloItemEqual);
     }
 
-    public void LastDifferent(Bookshelf b) {
+    public void lastDifferent(Bookshelf b) {
         List<Item> soloItemEqual = new ArrayList<>();
         List<Item> soloItemDiff = new ArrayList<>();
         List<Item> items = new ArrayList<>();
-        soloItemDiff.add(new Item(Color.randomColor(), 4));
-        soloItemEqual.add(new Item(Color.randomColor(), 3));
+        soloItemDiff.add(new Item(Color.getRandomColor(), 4));
+        soloItemEqual.add(new Item(Color.getRandomColor(), 3));
         while (soloItemDiff.get(0).equals(soloItemEqual.get(0))) {
             soloItemDiff.remove(0);
-            soloItemDiff.add(new Item(Color.randomColor(), 4));
+            soloItemDiff.add(new Item(Color.getRandomColor(), 4));
         }
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemEqual);
         for (int i = 0; i < 4; i++) {
-            items.add(new Item(Color.randomColor(), 3));
+            items.add(new Item(Color.getRandomColor(), 3));
         }
         b.insert(0, items);
         b.insert(4, items);
@@ -94,7 +94,7 @@ public class BookshelfUtilities {
 
         int cellRemaining = (b.getRows() * b.getColumns()) - itemList.size();
 
-        // For some weird reason, the order of the operations in Java, makes weird things if I put directly the value of cellRemaining
+        // For some weird reason, the order of the operations in Java, makes weird things if I put directly the value of cellRemaining.
         for (int i = 0; i < cellRemaining; i++) {
             randomNum = ThreadLocalRandom.current().nextInt(0, colorsWithoutChosenColor.size());
             itemList.add(new Item(colorsWithoutChosenColor.get(randomNum), 0));
@@ -115,10 +115,10 @@ public class BookshelfUtilities {
 
     public void createSingleRightDiagonal(Bookshelf b, int startingRow, int startingColumn, int dimension) {
         List<Item> itemList = new ArrayList<>();
-        Color diagonalColor = Color.randomColor();
+        Color diagonalColor = Color.getRandomColor();
 
         for (int i = 0; i < startingRow; i++) {
-            itemList.add(new Item(Color.randomColor(), 0));
+            itemList.add(new Item(Color.getRandomColor(), 0));
         }
 
         for (int i = 0; i < b.getColumns(); i++) {
@@ -130,7 +130,7 @@ public class BookshelfUtilities {
         for (int i = 0; i < dimension; i++) {
             itemList.clear();
             for (int j = 0; j < i; j++) {
-                itemList.add(new Item(Color.randomColor(), 0));
+                itemList.add(new Item(Color.getRandomColor(), 0));
             }
             itemList.add(new Item(diagonalColor, 0));
             b.insert(startingColumn + i, itemList);
@@ -140,20 +140,21 @@ public class BookshelfUtilities {
     // In createLeftDiagonal, (startingRow, startingColumn) refers to the rightmost element of the diagonal
 
     public void createSingleLeftDiagonal(Bookshelf b, int startingRow, int startingColumn, int dimension) {
-        List<Item> itemlist = new ArrayList<>();
-        Color diagonalcolor = Color.randomColor();
+        List<Item> itemList = new ArrayList<>();
+        Color diagonalcolor = Color.getRandomColor();
 
         for (int i = 0; i < dimension; i++) {
-            itemlist.clear();
+            itemList.clear();
             for (int j = 0; j < i; j++) {
-                itemlist.add(new Item(Color.randomColor(), 0));
+                itemList.add(new Item(Color.getRandomColor(), 0));
             }
-            itemlist.add(new Item(diagonalcolor, 0));
-            // try {
-            b.insert(startingColumn - i, itemlist);
-            // }catch(IllegalArgumentException e){
-            // bookshelfPrint(b);
-            // }
+            itemList.add(new Item(diagonalcolor, 0));
+            b.insert(startingColumn - i, itemList);
+//            try {
+//                b.insert(startingColumn - i, itemList);
+//            } catch (IllegalArgumentException e) {
+//                bookshelfPrint(b);
+//            }
         }
 
     }
@@ -161,7 +162,7 @@ public class BookshelfUtilities {
     public void createFakeDiagonal(Bookshelf b) {
         List<Item> itemList = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            itemList.add(new Item(Color.randomColor(), 0));
+            itemList.add(new Item(Color.getRandomColor(), 0));
         }
         b.insert(4, itemList);
         itemList.remove(0);
@@ -175,62 +176,62 @@ public class BookshelfUtilities {
             b.insert(j, itemList);
         }
         List<Item> items = new ArrayList<>();
-        items.add(new Item(Color.randomColor(), 2));
+        items.add(new Item(Color.getRandomColor(), 2));
         b.insert(4, items);
     }
 
     public void createFakeDiagonal(Bookshelf b, int type) {
         List<Item> equalItem = new ArrayList<>();
-        equalItem.add(new Item(Color.randomColor(), 0));
+        equalItem.add(new Item(Color.getRandomColor(), 0));
 
         switch (type) {
-            case 0 -> EmptyBookshelf();
-            case 1 -> OnlyFirstCellRight(b, equalItem);
+            case 0 -> emptyBookshelf();
+            case 1 -> onlyFirstCellRight(b, equalItem);
             case 2 -> Dimension2Right(b, equalItem);
-            case 3 -> Dimension3Right(b, equalItem);
-            case 4 -> Dimension4Right(b, equalItem);
-            case 5 -> OnlyFirstCellLeft(b, equalItem);
+            case 3 -> dimension3Right(b, equalItem);
+            case 4 -> dimension4Right(b, equalItem);
+            case 5 -> onlyFirstCellLeft(b, equalItem);
         }
     }
 
-    public void OnlyFirstCellRight(Bookshelf b, List<Item> items) {
+    public void onlyFirstCellRight(Bookshelf b, List<Item> items) {
         b.insert(0, items);
     }
 
-    public void OnlyFirstCellLeft(Bookshelf b, List<Item> items) {
+    public void onlyFirstCellLeft(Bookshelf b, List<Item> items) {
         b.insert(4, items);
     }
 
     public void Dimension2Right(Bookshelf b, List<Item> items) {
         b.insert(0, items);
         List<Item> casual = new ArrayList<>();
-        casual.add(new Item(Color.randomColor(), 0));
+        casual.add(new Item(Color.getRandomColor(), 0));
 
         b.insert(1, casual);
         b.insert(1, items);
     }
 
-    public void Dimension3Right(Bookshelf b, List<Item> items) {
+    public void dimension3Right(Bookshelf b, List<Item> items) {
         b.insert(0, items);
         List<Item> casual = new ArrayList<>();
-        casual.add(new Item(Color.randomColor(), 0));
+        casual.add(new Item(Color.getRandomColor(), 0));
         b.insert(1, casual);
         b.insert(1, items);
-        casual.add(new Item(Color.randomColor(), 0));
+        casual.add(new Item(Color.getRandomColor(), 0));
         b.insert(2, casual);
         b.insert(2, items);
     }
 
-    public void Dimension4Right(Bookshelf b, List<Item> items) {
+    public void dimension4Right(Bookshelf b, List<Item> items) {
         b.insert(0, items);
         List<Item> casual = new ArrayList<>();
-        casual.add(new Item(Color.randomColor(), 0));
+        casual.add(new Item(Color.getRandomColor(), 0));
         b.insert(1, casual);
         b.insert(1, items);
-        casual.add(new Item(Color.randomColor(), 0));
+        casual.add(new Item(Color.getRandomColor(), 0));
         b.insert(2, casual);
         b.insert(2, items);
-        casual.add(new Item(Color.randomColor(), 0));
+        casual.add(new Item(Color.getRandomColor(), 0));
         b.insert(3, casual);
         b.insert(3, items);
     }
@@ -256,7 +257,7 @@ public class BookshelfUtilities {
         for (int col = numberOfCol; col < b.getColumns(); col++) {
             itemList.clear();
             for (int i = 0; i < b.getRows(); i++) {
-                itemList.add(new Item(Color.randomColor(), 0));
+                itemList.add(new Item(Color.getRandomColor(), 0));
             }
             b.insert(col, itemList);
         }
@@ -284,7 +285,7 @@ public class BookshelfUtilities {
         for (int col = 0; col < b.getColumns(); col++) {
             itemList.clear();
             for (int i = 0; i < b.getFreeCellsInColumn(col); i++) {
-                itemList.add(new Item(Color.randomColor(), 0));
+                itemList.add(new Item(Color.getRandomColor(), 0));
             }
             b.insert(col, itemList);
         }
@@ -294,7 +295,7 @@ public class BookshelfUtilities {
         List<Item> itemList = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            itemList.add(new Item(Color.randomColor(), 0));
+            itemList.add(new Item(Color.getRandomColor(), 0));
         }
 
         b.insert(0, itemList);
@@ -313,7 +314,7 @@ public class BookshelfUtilities {
         List<Item> itemList = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            itemList.add(new Item(Color.randomColor(), 0));
+            itemList.add(new Item(Color.getRandomColor(), 0));
         }
 
         b.insert(4, itemList);

@@ -14,7 +14,7 @@ public class DiagonalTest extends BookshelfUtilities {
     Bookshelf b;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         b = new Bookshelf();
     }
 
@@ -47,7 +47,7 @@ public class DiagonalTest extends BookshelfUtilities {
 //        createFakeDiagonal(b);
 //        assertFalse(layout.check(b));
 //    }
-    //the following test checks every possible combination of diagonal, starting from any row or column, of any dimension, left and right
+    // The following test checks every possible combination of diagonal, starting from any row or column, of any dimension, left and right
 
 //    @Test
 //    void checkSingleDiagonals_HEAVY(){

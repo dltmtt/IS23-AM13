@@ -50,14 +50,33 @@ public class Player {
         return age;
     }
 
+    /**
+     * Tells whether it is the player's first game or not.
+     * If it is, the game will be played with only one common goal instead of two.
+     *
+     * @return true if it is the player's first game, false otherwise
+     */
     public boolean isFirstGame() {
         return isFirstGame;
     }
 
+    /**
+     * Tells whether the player is the first to play or not.
+     * If it is, the player will hold the 1st player seat.
+     *
+     * @return true if the player is the first to play, false otherwise
+     */
     public boolean isFirstPlayer() {
         return isFirstPlayer;
     }
 
+    /**
+     * Tells whether the player has the end game card or not.
+     * The end game card is assigned to the first player to fill their bookshelf.
+     * It gives a bonus point to the player who holds it.
+     *
+     * @return true if the player has the end game card, false otherwise
+     */
     public boolean hasEndGameCard() {
         return hasEndGameCard;
     }
@@ -67,15 +86,16 @@ public class Player {
     }
 
     public void setCommonGoalPoints(CommonGoal commonGoal) {
-        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
+//        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
+        commonGoalPoints[commonGoals.indexOf(commonGoal)] = commonGoal.getScoring();
     }
 
     /**
-     * This method moves a straight line of tiles from the board to the bookshelf.
+     * Moves a straight line of tiles from the board to the bookshelf.
      *
      * @param from   the starting point of the line
      * @param to     the ending point of the line
-     * @param column the column of the bookshelf where the tiles will be placed (starting from 0)
+     * @param column the index of the column of the bookshelf where the tiles will be placed (starting from 0)
      * @throws IllegalArgumentException if the line is not straight or if the selection is empty
      */
     public void move(Coordinates from, Coordinates to, int column) throws IllegalArgumentException {
@@ -117,12 +137,13 @@ public class Player {
     }
 
     /**
-     * This method rearranges the picked items according to the given order.
-     * For example, if the order is [2, 0, 1], the first item will be placed in the third position,
+     * Rearranges the picked items in the given order.
+     * The order is an array of integers, where the i-th element is the new position of the i-th item (starting from 0).
+     * For example, if the order is (2, 0, 1), the first item will be placed in the third position,
      * the second item will be placed in the first position and the third item will be placed in the second position.
      *
      * @param items the items to rearrange
-     * @param order the order in which the items will be placed
+     * @param order the desired order
      * @throws IllegalArgumentException  if the number of items and the number of positions are not the same or if an item is placed in two different positions
      * @throws IndexOutOfBoundsException if the new position is out of bounds
      */
@@ -150,7 +171,10 @@ public class Player {
     }
 
     /**
-     * This method calculates the score of the player.
+     * Calculates the score of the player.
+     * It is made of the points given by adjacent items in the bookshelf,
+     * the points given by personal and common goals,
+     * and the points given by the end game card (if the player has it).
      *
      * @return the score of the player
      */
@@ -161,7 +185,7 @@ public class Player {
             score += 1;
         }
 
-        // Do we really have to implement "getPoints()" in CommonGoal?
+        // Do we really have to implement getPoints in CommonGoal?
         for (int scoring : commonGoalPoints) {
             score += scoring;
         }

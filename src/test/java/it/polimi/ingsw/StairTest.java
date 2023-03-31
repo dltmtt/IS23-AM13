@@ -19,7 +19,7 @@ public class StairTest extends BookshelfUtilities {
     Layout stair;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         b = new Bookshelf();
         stair = new Stair(b.getColumns());
     }
@@ -39,7 +39,7 @@ public class StairTest extends BookshelfUtilities {
         List<Item> itemList = new ArrayList<>();
         for (int i = 0; i < b.getColumns(); i++) {
             itemList.clear();
-            itemList.add(new Item(Color.randomColor(), 0));
+            itemList.add(new Item(Color.getRandomColor(), 0));
             b.insert(i, itemList);
         }
         createLeftStair(b);
@@ -48,7 +48,7 @@ public class StairTest extends BookshelfUtilities {
         b = new Bookshelf();
         for (int i = 0; i < b.getColumns(); i++) {
             itemList.clear();
-            itemList.add(new Item(Color.randomColor(), 0));
+            itemList.add(new Item(Color.getRandomColor(), 0));
             b.insert(i, itemList);
         }
         createRightStair(b);

@@ -6,20 +6,11 @@ import it.polimi.ingsw.Models.Item.Item;
 import java.util.List;
 
 /**
- * This class represents the layout of the common goal card "Full Line".
- * A full line is a row or a column with every cell filled.
- *
- * @author Simone
+ * The common goal layout with a row or a column with every cell filled.
  */
 public class FullLine extends Layout {
-    /**
-     * The number of occurrences of the layout
-     */
-    private final int occurrences;
-    /**
-     * True if the layout is horizontal (a row), false if it is vertical (a column)
-     */
-    private final boolean horizontal;
+    private final int occurrences; // number of occurrences of the layout
+    private final boolean horizontal; // true if the layout is a row, false if it a column
 
     /**
      * Constructor of the class

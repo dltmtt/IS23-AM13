@@ -18,37 +18,37 @@ public class XShapeTest {
     private Bookshelf b;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         b = new Bookshelf();
     }
 
     @Test
     void base_IsolatedX() {
         // Chooses the color to paint the X
-        Color Xcolor = Color.randomColor();
+        Color Xcolor = Color.getRandomColor();
 
         // Left and right border of the X
         List<Item> XBorder = new ArrayList<>();
         XBorder.add(new Item(Xcolor, 0));
-        XBorder.add(new Item(Color.randomColor(), 0));
+        XBorder.add(new Item(Color.getRandomColor(), 0));
         XBorder.add(new Item(Xcolor, 0));
 
         // Central column of the X
         List<Item> XCenter = new ArrayList<>();
-        XCenter.add(new Item(Color.randomColor(), 0));
+        XCenter.add(new Item(Color.getRandomColor(), 0));
         XCenter.add(new Item(Xcolor, 0));
-        XCenter.add(new Item(Color.randomColor(), 0));
+        XCenter.add(new Item(Color.getRandomColor(), 0));
 
         List<Item> itemList = new ArrayList<>();
 
-        // This test is composed by various batches, because of the nature of random generated colors...
+        // This test is composed by various batches, because of the nature of random generated colors…
         // for normal testing I think 100 would be enough.
         int testNumber = 100;
 
         for (int test = 0; test < testNumber; test++) {
-            // For cycle to select every possible starting row for the X shape
+            // Select every possible starting row for the X shape
             for (int startingRow = 0; startingRow < b.getRows() - XShape.getHeight() + 1; startingRow++) {
-                // For cycle to select every possible starting column for the X shape
+                // Select every possible starting column for the X shape
                 for (int startingCol = 0; startingCol < b.getColumns() - XShape.getWidth() + 1; startingCol++) {
                     b = new Bookshelf();
 
@@ -56,7 +56,7 @@ public class XShapeTest {
                     for (int col = 0; col < b.getColumns(); col++) {
                         itemList.clear();
                         for (int baseRow = 0; baseRow < startingRow; baseRow++) {
-                            itemList.add(new Item(Color.randomColor(), 0));
+                            itemList.add(new Item(Color.getRandomColor(), 0));
                         }
                         if (!itemList.isEmpty()) {
                             b.insert(col, itemList);
@@ -73,7 +73,7 @@ public class XShapeTest {
                         itemList.clear();
                         if (b.getFreeCellsInColumn(col) != 0) {
                             for (int i = 0; i < b.getFreeCellsInColumn(col); i++) {
-                                itemList.add(new Item(Color.randomColor(), 0));
+                                itemList.add(new Item(Color.getRandomColor(), 0));
                             }
                             b.insert(col, itemList);
                         }

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Models.Item;
 
 /**
- * @author Beatrice
- * This class is for the Item, which is the single card put on the board
+ * An item made of a color and a number identifying its drawing.
  */
 public record Item(Color color, int number) {
     public boolean equals(Item check) {

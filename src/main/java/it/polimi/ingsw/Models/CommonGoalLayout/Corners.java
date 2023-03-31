@@ -9,19 +9,15 @@ import java.util.stream.Collectors;
 
 
 /**
- * This class implements the methods for a Corners common goal.
- *
- * @author Simone
+ * The common goal layout with four tiles of the same type in the four corners of the bookshelf.
  */
 public class Corners extends Layout {
-
     /**
      * Creates a new Corner layout with the given parameters.
      * The width and height of the layout are set to 0 because the number of rows and columns is taken directly from the examined bookshelf.
      *
      * @param minDifferent the minimum number of different colors in a layout
      * @param maxDifferent the maximum number of different colors in a layout
-     * @author Simone
      */
     public Corners(int minDifferent, int maxDifferent) {
         // Set width and height to 0 because it takes the number of rows and columns directly from the examined bookshelf
@@ -29,12 +25,11 @@ public class Corners extends Layout {
     }
 
     /**
-     * This method checks if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum.
+     * Checks if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum.
      *
      * @param b the bookshelf to be checked
      * @return true if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum, false otherwise
      * @throws IllegalArgumentException if the bookshelf is null
-     * @author Simone
      */
     @Override
     public boolean check(Bookshelf b) throws IllegalArgumentException {

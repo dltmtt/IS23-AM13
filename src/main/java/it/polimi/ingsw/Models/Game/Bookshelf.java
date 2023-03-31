@@ -13,12 +13,11 @@ import java.util.List;
 import java.util.*;
 
 /**
- * @author Matteo
- *
- * <p>
- * This class represents a bookshelf.
- * It has 6 rows and 5 columns.
+ * A bookshelf, where the player can collect items.
+ * It has <code>rows</code> rows (6 by default) and <code>columns</code> (5 by default) columns.
  * Each cell can contain an item.
+ *
+ * @author Matteo
  * @see Item
  */
 public class Bookshelf implements AbleToGetPoints {
@@ -28,10 +27,10 @@ public class Bookshelf implements AbleToGetPoints {
     private final Optional<Item>[][] items;
 
     /**
-     * Creates a new bookshelf. All cells are empty.
+     * Creates a new bookshelf where all cells are empty.
      * <p>
-     * booleanMatrix is a matrix of booleans that is used to check if a cell can be visited (and it has not been visited yet).
-     * It is initialized to true.
+     * <code>booleanMatrix</code> is used to check if a cell can be visited (and it has not been visited yet).
+     * It is initialized to <code>true</code>.
      */
     public Bookshelf() {
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
@@ -63,37 +62,44 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     // NOTE: this method is used only for testing purposes, it will be removed in the final version.
-/*    public static void main(String[] args) throws IOException {
-        Bookshelf b = new Bookshelf();
-        List<Item> itemList = new ArrayList<>();
-        for (int i = 0; i < b.getColumns(); i++) {
-            itemList.clear();
-            for (int j = 0; j < b.getRows(); j++) {
-                itemList.add(new Item(it.polimi.ingsw.Models.Item.Color.randomColor(), 0));
-            }
-            b.insert(i, itemList);
-        }
-        b.cli_print();
-        b.print();
-    }*/
+//    public static void main(String[] args) {
+//        Bookshelf b = new Bookshelf();
+//        List<Item> itemList = new ArrayList<>();
+//        for (int i = 0; i < b.getColumns(); i++) {
+//            itemList.clear();
+//            for (int j = 0; j < b.getRows(); j++) {
+//                itemList.add(new Item(it.polimi.ingsw.Models.Item.Color.getRandomColor(), 0));
+//            }
+//            b.insert(i, itemList);
+//        }
+//        b.cli_print();
+//        b.print();
+//    }
 
+    /**
+     * @return the number of rows in this bookshelf
+     */
     public int getRows() {
         return rows;
     }
 
+    /**
+     * @return the number of columns in this bookshelf
+     */
     public int getColumns() {
         return columns;
     }
 
+    /**
+     * @return the number of cells in this bookshelf
+     */
     public int getSize() {
         return rows * columns;
     }
 
     /**
-     * Returns the number of free cells in a column.
-     *
      * @param column the column index
-     * @return the number of free cells in the column
+     * @return the number of free cells in the column with index <code>column</code>
      */
     public int getFreeCellsInColumn(int column) {
         int freeCells = 0;
@@ -105,6 +111,10 @@ public class Bookshelf implements AbleToGetPoints {
         return freeCells;
     }
 
+    /**
+     * @param column the column index
+     * @return the number of used cells in the column with index <code>column</code>
+     */
     public int getCellsInColumn(int column) {
         int usedCells = 0;
         for (int i = 0; i < rows; i++) {
@@ -122,7 +132,7 @@ public class Bookshelf implements AbleToGetPoints {
      * @param items  the list of items to insert
      * @throws IllegalArgumentException if the column index is not between 0 and the number of columns
      * @throws IllegalArgumentException if the list of items is empty
-     * @throws IllegalArgumentException if the number of items to insert is greater than the number of free cells in the column
+     * @throws IllegalArgumentException if there are more items to insert than free cells in the column
      */
     public void insert(int column, List<Item> items) {
         if (column < 0 || column > columns) {
@@ -144,12 +154,9 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * This function returns the item in the position (row, column).
-     *
-     * @param row    row (starting from 0)
-     * @param column column (starting from 0)
-     * @return the item in the position (row, column)
-     * @author Simone
+     * @param row    the row index (starting from 0)
+     * @param column the column index (starting from 0)
+     * @return the item in the position (<code>row</code>, <code>column</code>)
      */
     public Optional<Item> getItemAt(int row, int column) throws ArrayIndexOutOfBoundsException {
         if (row >= rows || column >= columns || row < 0 || column < 0) {
@@ -159,9 +166,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * This function tells whether a row is full or not.
-     *
-     * @param row row to check for completion
+     * @param row the index of the row to check
      * @return true if the row is completely full, false otherwise
      */
     public boolean isRowFull(int row) throws IllegalArgumentException {
@@ -176,6 +181,11 @@ public class Bookshelf implements AbleToGetPoints {
         return true;
     }
 
+    /**
+     * @param col the index of the column to check
+     * @return true if the column is completely full, false otherwise
+     * @throws IllegalArgumentException if the column index is not between 0 (inclusive) and the number of columns (exclusive)
+     */
     public boolean isColumnFull(int col) throws IllegalArgumentException {
         if (col >= columns || col < 0) {
             throw new IllegalArgumentException("Invalid column for the method isColumnFull -column:" + col);
@@ -184,22 +194,28 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * This method calculates the points of adjacent groups of items of the bookshelf.
+     * Calculates the points given by adjacent item tiles in this bookshelf.
+     * Groups of adjacent item tiles of the same type grant points depending
+     * on how many tiles are connected (with one side touching).
+     * Items with the same background color are considered of the same type.
      *
-     * @return the total score of adjacent groups of items of the given bookshelf
-     * @author Valeria
+     * @return the total score given by adjacent groups of items in this bookshelf
+     * @see #adjacentGroups(Color, int, int)
+     * @see #calculateGroupPoints(int)
      */
     public int getPoints() {
         int points = 0;
         for (int j = 0; j < columns; j++) {
             for (int i = 0; i < rows; i++) {
                 if (items[i][j].isPresent()) {
-                    points += calculatePoints(adjacentGroups(items[i][j].get().color(), i, j));
+                    points += calculateGroupPoints(adjacentGroups(items[i][j].get().color(), i, j));
                 }
             }
         }
         return points;
     }
+
+    // TODO: ask for an explanation of the following method
 
     /**
      * Counts the number of items, in a given bookshelf, that match the given color
@@ -208,7 +224,6 @@ public class Bookshelf implements AbleToGetPoints {
      * @param row    the starting row
      * @param column the starting column
      * @return the number of items that match the given color
-     * @author Valeria
      */
     public int adjacentGroups(Color color, int row, int column) {
         int matches;
@@ -236,12 +251,19 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * Calculates the points for a given number of matches
+     * Calculates the points given by a group of adjacent items of the same type.
+     * Points are calculated as follows:
+     * <ul>
+     *  <li>2 points for 3 adjacent tiles of the same type
+     *  <li>3 points for 4 adjacent tiles of the same type
+     *  <li>5 points for 5 adjacent tiles of the same type
+     *  <li>8 points for 6 or more adjacent tiles of the same type
+     * </ul>
      *
-     * @param matches the number of matches
-     * @return the points for the given number of matches
+     * @param matches the number of adjacent items of the same type
+     * @return the points given by a group of items
      */
-    public int calculatePoints(int matches) {
+    public int calculateGroupPoints(int matches) {
         if (matches < 3)
             return 0;
         else if (matches == 3)
@@ -255,14 +277,12 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * This method returns the item contained in a column.
-     * Empty cells are not included.
+     * Gets the content of a column as a list of items. Empty cells are not included.
      *
      * @param col the column index
-     * @return the content of the column
+     * @return the items in the column
      * @throws IllegalArgumentException if the column index is not between 0 and the number of columns
      */
-
     public List<Item> getColumnContent(int col) throws IllegalArgumentException {
         if (col < 0 || col > columns) {
             throw new IllegalArgumentException("Invalid number of column (" + col + ")");
@@ -278,14 +298,12 @@ public class Bookshelf implements AbleToGetPoints {
 
 
     /**
-     * This method returns the item contained in a column.
-     * Empty cells are not included.
+     * Gets the content of a row as a list of items. Empty cells are not included.
      *
      * @param row the row index
-     * @return the content of the column
-     * @throws IllegalArgumentException if the column index is not between 0 and the number of columns
+     * @return the items in the row
+     * @throws IllegalArgumentException if the row index is not between 0 and the number of rows
      */
-
     public List<Item> getRowContent(int row) throws IllegalArgumentException {
         if (row < 0 || row > getRows()) {
             throw new IllegalArgumentException("Invalid number of row (" + row + ")");
@@ -414,6 +432,4 @@ public class Bookshelf implements AbleToGetPoints {
 //        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-
 }

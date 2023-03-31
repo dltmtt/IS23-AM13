@@ -4,34 +4,30 @@ import it.polimi.ingsw.Models.Game.Bookshelf;
 
 
 /**
- * This class implements the methods for a Diagonal common goal.
- *
- * @author Simone
+ * The common goal layout with five cards of the same type in a diagonal.
  */
 public class Diagonal extends Layout {
     /**
-     * This constructor creates a diagonal layout.
+     * Creates a diagonal layout.
      *
      * @param dimension    the dimension of the layout
      * @param minDifferent the minimum number of different colors in the layout
      * @param maxDifferent the maximum number of different colors in the layout
      * @throws IllegalArgumentException if the parameters are invalid
-     * @author Simone
      */
     public Diagonal(int dimension, int minDifferent, int maxDifferent) throws IllegalArgumentException {
         super(dimension, dimension, minDifferent, maxDifferent);
     }
 
     /**
-     * This method checks if there are 5 cards of the same color in a diagonal.
+     * Checks if there are 5 cards of the same color in a diagonal.
      *
      * @param b the bookshelf to check
      * @return true if there are 5 cards of the same color in a diagonal, false otherwise
      * @throws IllegalArgumentException if the bookshelf is null
-     * @author Simone
      */
     public boolean check(Bookshelf b) throws IllegalArgumentException {
-        //check if the bookshelf is null
+        // Check if the bookshelf is null
         if (b == null) throw new IllegalArgumentException("The bookshelf cannot be null");
 
         if (checkRight(b, 0, 0) || checkRight(b, 1, 0)) {
@@ -41,14 +37,12 @@ public class Diagonal extends Layout {
     }
 
     /**
-     * This method checks if there are 5 cards of the same color in a diagonal from the top right to the bottom left
+     * Checks if there are 5 cards of the same color in a diagonal from the top right to the bottom left.
      *
      * @param b      the bookshelf to check
      * @param row    the row of the first card
      * @param column the column of the first card
      * @return true if there are 5 cards of the same color in a diagonal from the top right to the bottom left, false otherwise
-     * @author Simone
-     * @author Valeria
      */
     public boolean checkRight(Bookshelf b, int row, int column) throws IllegalArgumentException {
         if (b == null) {
@@ -90,8 +84,6 @@ public class Diagonal extends Layout {
      * @param row    the row of the first card
      * @param column the column of the first card
      * @return true if there are 5 cards of the same color in a diagonal from the top left to the bottom right, false otherwise
-     * @author Simone
-     * @author Valeria
      */
     public boolean checkLeft(Bookshelf b, int row, int column) throws IllegalArgumentException {
         if (b == null) {

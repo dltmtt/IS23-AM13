@@ -16,11 +16,10 @@ public class ItemsPerColor extends Layout {
     }
 
     /**
-     * This method checks if there are at least the minimum number of items of any color in the bookshelf.
+     * Checks if there are at least the minimum number of items of any color in the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is valid for the bookshelf, false otherwise
-     * @author Simone
      */
     @Override
     public boolean check(Bookshelf b) throws IllegalArgumentException {

@@ -14,12 +14,12 @@ public class ItemsPerColorTest extends BookshelfUtilities {
     Bookshelf b;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         b = new Bookshelf();
     }
 
     @Test
-    public void EightSameColorItems() {
+    public void eightSameColorItems() {
         Layout L = new ItemsPerColor(8, 8);
         for (Color color : Color.values()) {
             b = new Bookshelf();

@@ -14,7 +14,7 @@ public class CornersTest extends BookshelfUtilities {
     Bookshelf b;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         b = new Bookshelf();
     }
 

@@ -8,8 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A common goal card, which has a layout to be matched by the players'
+ * bookshelves and a stack of scores to be assigned to the players.
+ *
  * @author Beatrice
- * This class is for the CommonGoal cards
+ * @see Layout
+ * @see Player
+ * @see Bookshelf
  */
 public class CommonGoal {
     private final Layout layout;
@@ -19,6 +24,11 @@ public class CommonGoal {
         this.layout = layout;
     }
 
+    /**
+     * Assigns the highest available score to the player and removes it from the stack.
+     *
+     * @param player the player to assign the score to
+     */
     public void assignScore(Player player) {
         player.setCommonGoalPoints(this);
         scoringList.remove(0);
@@ -29,10 +39,12 @@ public class CommonGoal {
     }
 
     /**
-     * This method sets the scoring for the common goals according to the number of players.
-     * If there are 2 players, the scoringList is filled with 4 and 8.
-     * If there are 3 players, the scoringList is filled with 4, 6 and 8.
-     * If there are 4 players, the scoringList is filled with 2, 4, 6 and 8.
+     * Sets the scoring for the common goals according to the number of players.
+     * <ul>
+     *  <li>If there are 2 players, the scoringList is filled with 4 and 8.
+     *  <li>If there are 3 players, the scoringList is filled with 4, 6 and 8.
+     *  <li>If there are 4 players, the scoringList is filled with 2, 4, 6 and 8.
+     * </ul>
      *
      * @param numOfPlayers the number of players
      */
@@ -48,14 +60,11 @@ public class CommonGoal {
         }
     }
 
-    // TODO: check the exception type
-
     /**
-     * Return the highest common goal scoring and remove it from the stack.
+     * Returns the highest common goal scoring and removes it from the stack.
      *
-     * @return the first element of the scoringList
+     * @return the first element of <code>scoringList</code>
      * @throws IndexOutOfBoundsException if the list is empty
-     * @author Beatrice
      */
     public int getScoring() throws IndexOutOfBoundsException {
         if (scoringList.size() == 0)
@@ -67,10 +76,10 @@ public class CommonGoal {
     }
 
     /**
-     * This method checks if the bookshelf satisfies the layout.
+     * Checks if the bookshelf fulfills the layout of the common goal.
      *
-     * @param bookshelf the bookshelf to check
-     * @return true if the bookshelf satisfies the layout, false otherwise§
+     * @param bookshelf the bookshelf to compare with the layout
+     * @return true if the bookshelf fulfills the layout, false otherwise
      */
     public boolean check(Bookshelf bookshelf) {
         return layout.check(bookshelf);

@@ -3,11 +3,14 @@ package it.polimi.ingsw.Models.CommonGoalLayout;
 import it.polimi.ingsw.Models.Game.Bookshelf;
 
 /**
- * This class implements the methods for a Stair common goal.
+ * The common goal layout with columns of increasing or decreasing height.
+ * Starting from the first column on the left or on the right,
+ * each next column must be made of exactly one more tile.
+ * Tiles can be of any type.
  */
 public class Stair extends Layout {
     /**
-     * This constructor creates a stair layout
+     * Creates a stair layout.
      *
      * @param dimension the dimension of the stair
      * @throws IllegalArgumentException if the parameters are invalid
@@ -18,7 +21,7 @@ public class Stair extends Layout {
     }
 
     /**
-     * Method to check if there's a stair towards left
+     * Checks if there's a stair towards left.
      *
      * @param b bookshelf to check
      * @return true if there's a stair towards left
@@ -41,7 +44,7 @@ public class Stair extends Layout {
     }
 
     /**
-     * Method to check if there's a stair towards right
+     * Checks if there's a stair towards right.
      *
      * @param b bookshelf to check
      * @return true if there's a stair towards right
@@ -64,7 +67,7 @@ public class Stair extends Layout {
     }
 
     /**
-     * Method to check if there's a stair
+     * Checks if there's a stair.
      *
      * @param b bookshelf to check
      * @return true if there's a stair

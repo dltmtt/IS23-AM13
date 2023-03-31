@@ -11,14 +11,17 @@ public class PersonalGoal {
     private int counter;
 
     /**
-     * This constructor creates a personal goal card.
+     * Creates a personal goal card.
+     * It is a representation of the spaces that a player
+     * has to fill with his bookshelf's items.
      *
-     * @param numOfCard
+     * @param layout the layout of the personal goal.
      */
-    public PersonalGoal(int numOfCard) {
+    // TODO: add the possibility to load custom personal goals from a file
+    public PersonalGoal(int layout) {
         personalGoalCard = new HashMap<>();
 
-        switch (numOfCard) {
+        switch (layout) {
             case 0 -> {
                 personalGoalCard.put(new Coordinates(0, 2), Color.PINK);
                 personalGoalCard.put(new Coordinates(1, 4), Color.GREEN);
@@ -115,33 +118,28 @@ public class PersonalGoal {
                 personalGoalCard.put(new Coordinates(3, 4), Color.YELLOW);
                 personalGoalCard.put(new Coordinates(4, 2), Color.LIGHTBLUE);
             }
-            default -> {
-            }
         }
     }
 
     public Color getColor(Coordinates key) {
         return personalGoalCard.get(key);
-
     }
 
     /**
-     * This method returns the number of points of the personal goal card.
+     * Gets the number of points gained by the player according to how many spaces are matched.
      *
-     * @return the number of points of the personal goal card
+     * @return the number of points gained by the player
      */
     public int getPoints() {
-        int points = currentReached;
-        if (points < 3) {
-            return points;
-        }
-        return points + counter;
+        return currentReached < 3 ? currentReached : currentReached + counter;
     }
 
+    // TODO: ask if you mean the number of matches?
+
     /**
-     * This method returns the number of colors reached.
+     * Returns the number of colors reached.
      */
-    public void ColorReached() {
+    public void colorReached() {
         currentReached++;
 
         if (currentReached > 2) {

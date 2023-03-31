@@ -3,8 +3,7 @@ package it.polimi.ingsw.Models.Item;
 import java.util.Random;
 
 /**
- * @author Beatrice
- * This enum is for the colors of the different cards
+ * The color of an item. It identifies the different types of items.
  */
 public enum Color {
     GREEN,
@@ -14,14 +13,13 @@ public enum Color {
     LIGHTBLUE,
     PINK;
 
-    private static final Random rnd = new Random();
-
     /**
-     * function to obtain a random color
+     * Picks a random color from the available ones.
      *
      * @return a random color
      */
-    public static Color randomColor() {
+    public static Color getRandomColor() {
+        Random rnd = new Random();
         Color[] colors = values();
         return colors[rnd.nextInt(colors.length)];
     }

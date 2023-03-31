@@ -26,13 +26,13 @@ public class Game {
     }
 
     /**
-     * This method initializes the game, creating the personalGoalDeck, the commonGoalDeck and the livingRoom
+     * Creates the <code>personalGoalDeck</code>, the <code>commonGoalDeck</code> and the <code>livingRoom</code>.
      *
      * @throws IllegalAccessException if the number of players is invalid
      */
     public void initialize(int numOfPlayer) throws IllegalAccessException {
         this.players = new ArrayList<>(numOfPlayer);
-        // TODO: aggiungere i giocatori loggati
+        // TODO: add logged in players
 
         // CommonGoalDeck is created and filled
         commonGoalDeck_creation();
@@ -75,7 +75,7 @@ public class Game {
 
     /**
      * Draw the appropriate number of common goal cards from the commonGoalDeck and set their scoring according to the number of players.
-     * The number of common goal cards is 1 if it's the first game for any of the players, otherwise it's 2.
+     * The number of common goal cards is 1 if it is the first game for any of the players, otherwise it is 2.
      *
      * @return the list of common goal cards drawn
      */
@@ -83,7 +83,7 @@ public class Game {
         Random randomNumberGenerator = new Random();
         List<CommonGoal> extracted = new ArrayList<>();
 
-        // If it's the first game for any of the players, play with 1 common goal, otherwise play with 2.
+        // If it is the first game for any of the players, play with 1 common goal, otherwise play with 2.
         boolean firstGame = false;
         for (Player player : players) {
             if (player.isFirstGame()) {
@@ -108,7 +108,7 @@ public class Game {
     // TODO: Add missing layouts
 
     /**
-     * This method creates the commonGoalDeck.
+     * Creates a deck with all the possible layouts for the common goals.
      */
     public void commonGoalDeck_creation() {
         int dimension = Math.min(bookshelf.getRows(), bookshelf.getColumns());
@@ -119,13 +119,13 @@ public class Game {
         layouts.add(new Diagonal(dimension, 1, 1));
         layouts.add(new Corners(1, 1));
         layouts.add(new XShape(3, 1, 1));
-        // columnLine_layout
+        // columnLine layout
         layouts.add(new FullLine(1, 3, 3, false));
-        // rowLine_layout
+        // rowLine layout
         layouts.add(new FullLine(1, 3, 4, true));
-        // twoColumnLine_layout
+        // twoColumnLine layout
         layouts.add(new FullLine(6, 6, 2, false));
-        // twoRowLine_layout
+        // twoRowLine layout
         layouts.add(new FullLine(5, 5, 2, true));
 
         // TODO: aggiungere Square
@@ -137,7 +137,9 @@ public class Game {
     }
 
     /**
-     * This method creates the personalGoalDeck
+     * Creates a deck with all the possible personal goals.
+     * A personal goal is a matrix with highlighted spaces with the corresponding item tiles
+     * that players have to replicate in their bookshelves to get points.
      */
     public void personalGoalDeck_creation() {
         for (int i = 0; i < personalGoalDeckSize; i++) {
@@ -147,7 +149,7 @@ public class Game {
     }
 
     /**
-     * This method move a column or a row of items from the board to the player's bookshelf.
+     * Moves column or a row of items from the board to the player's bookshelf.
      *
      * @param player the player who wants to move the items
      * @param from   the starting board's coordinates of the items to move

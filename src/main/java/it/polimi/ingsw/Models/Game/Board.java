@@ -17,7 +17,6 @@ public class Board {
     private final UsableCells usableCells;
     private final int numOfPlayer;
 
-
     public Board(int numOfPlayer) {
         boardMatrix = new Item[boardSize][boardSize];
         usableCells = new UsableCells(numOfPlayer);
@@ -25,8 +24,8 @@ public class Board {
         this.numOfPlayer = numOfPlayer;
 
         // Initialize the bag of items. For each color, there are 22 occurrences with 3 different images for a total of 132 items.
-        for (int i = 0; i < numOfColorOccurrences; i++) {
-            for (Color color : Color.values()) {
+        for (Color color : Color.values()) {
+            for (int i = 0; i < numOfColorOccurrences; i++) {
                 itemBag.add(new Item(color, i % 3));
             }
         }

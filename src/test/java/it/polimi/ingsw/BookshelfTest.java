@@ -4,6 +4,7 @@ import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.Models.Item.Item;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ class BookshelfTest {
     List<Item> items;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         bookshelf = new Bookshelf();
         items = new ArrayList<>();
     }
@@ -28,7 +29,7 @@ class BookshelfTest {
         Item item = new Item(Color.BLUE, 1);
         items.add(item);
         bookshelf.insert(0, items);
-        assertEquals(bookshelf.getFreeCellsInColumn(0), bookshelf.getRows() - items.size());
+        assertEquals(bookshelf.getRows() - items.size(), bookshelf.getFreeCellsInColumn(0));
     }
 
     @Test
@@ -47,20 +48,21 @@ class BookshelfTest {
         }
         bookshelf.insert(0, items);
         for (int i = 0; i < bookshelf.getRows(); i++) {
-            assertEquals(bookshelf.getItemAt(i, 0), Optional.ofNullable(items.get(i)));
+            assertEquals(Optional.ofNullable(items.get(i)), bookshelf.getItemAt(i, 0));
         }
     }
 
     @Test
+    @DisplayName("Insert more elements than free cells")
     void insertMoreElementsThanFreeCells() {
         for (int i = 0; i < 6; i++) {
-            items.add(new Item(Color.LIGHTBLUE, 3));
+            items.add(new Item(Color.getRandomColor(), 3));
         }
         int column = 2;
         try {
             bookshelf.insert(column, items);
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "Not enough free cells in column " + column);
+            assertEquals("Not enough free cells in column " + column, e.getMessage());
         }
     }
 
@@ -72,7 +74,7 @@ class BookshelfTest {
         for (int col = 0; col < bookshelf.getColumns(); col++) {
             items.clear();
             for (int row = 0; row < bookshelf.getRows(); row++) {
-                randomcolor = Color.randomColor();
+                randomcolor = Color.getRandomColor();
                 check = new Item(randomcolor, 3);
                 items.add(check);
             }
@@ -80,10 +82,10 @@ class BookshelfTest {
             for (int row = 0; row < bookshelf.getRows(); row++) {
                 try {
                     item = bookshelf.getItemAt(row, col);
-                    assertEquals(item, Optional.ofNullable(items.get(row)));
+                    assertEquals(Optional.ofNullable(items.get(row)), item);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     if (row > bookshelf.getRows() || col > bookshelf.getColumns()) {
-                        assertEquals(e.getMessage(), "Invalid row or column for the method getItemAt");
+                        assertEquals("Invalid row or column for the method getItemAt", e.getMessage());
                     } else {
                         fail();
                     }
@@ -93,7 +95,8 @@ class BookshelfTest {
     }
 
     @Test
-    void InsertingOneItemPerTime() {
+    @DisplayName("Insert items one by one")
+    void insertItemsOneByOne() {
         List<Item> localCol = new ArrayList<>();
         Color randomcolor;
         Item item;
@@ -101,7 +104,7 @@ class BookshelfTest {
             localCol.clear();
             for (int row = 0; row < bookshelf.getRows(); row++) {
                 items.clear();
-                randomcolor = Color.randomColor();
+                randomcolor = Color.getRandomColor();
                 item = new Item(randomcolor, 3);
                 items.add(item);
                 bookshelf.insert(col, items);

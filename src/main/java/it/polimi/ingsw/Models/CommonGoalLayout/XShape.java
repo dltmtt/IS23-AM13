@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class implements the methods for an X Shape common goal.
- * The X Shape is a 3x3 layout with the following cells filled:
- * - bottom left
- * - bottom right
- * - central
- * - upper left
- * - upper right
+ * The common goal layout with tiles of the same type forming an X shape.
+ * The X Shape is a 3×3 layout with the following cells filled:
+ * <ul>
+ *  <li>bottom left
+ *  <li>bottom right
+ *  <li>central
+ *  <li>upper left
+ *  <li>upper right
+ * </ul>
  * The number of different colors in the layout must be between the minimum and the maximum.
  * The width and height of the layout are set to 3 because the number of rows and columns is taken directly from the examined bookshelf.
- *
- * @author Simone
  */
 public class XShape extends Layout {
     /**
@@ -27,7 +27,6 @@ public class XShape extends Layout {
      * @param dimension    the width and height of the layout
      * @param minDifferent the minimum number of different colors in a layout
      * @param maxDifferent the maximum number of different colors in a layout
-     * @author Simone
      */
     public XShape(int dimension, int minDifferent, int maxDifferent) {
         // For now dimension parameter (width and height) are ignored
@@ -35,12 +34,11 @@ public class XShape extends Layout {
     }
 
     /**
-     * This method checks
+     * Checks if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum.
      *
      * @param b the bookshelf to be checked
      * @return true if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum, false otherwise
      * @throws IllegalArgumentException if the bookshelf is null
-     * @author Simone
      */
     public boolean check(Bookshelf b) throws IllegalArgumentException {
         if (b == null) throw new IllegalArgumentException("The bookshelf cannot be null");

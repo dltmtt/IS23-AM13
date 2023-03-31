@@ -7,12 +7,11 @@ public class UsableCells {
     private final List<Coordinates> usableCells;
 
     /**
-     * This constructor creates a list of usable cells
+     * Creates a list of cells that can be filled with items.
      *
      * @param numOfPlayer the number of players
      * @throws IllegalArgumentException if the number of players is invalid
      */
-
     public UsableCells(int numOfPlayer) {
         // These cells have to be filled either way
         usableCells = new ArrayList<>();
