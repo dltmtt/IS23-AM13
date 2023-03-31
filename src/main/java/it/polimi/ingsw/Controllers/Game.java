@@ -15,9 +15,9 @@ import java.util.Random;
 public class Game {
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
+    private final Board livingRoom;
     private List<PersonalGoal> personalGoalDeck;
     private List<CommonGoal> commonGoalDeck;
-    private final Board livingRoom;
     private Bookshelf bookshelf;
     private Player currentPlayer;
 
@@ -126,10 +126,12 @@ public class Game {
         layouts.add(new FullLine(1, 3, 3, false));
         // rowLine layout
         layouts.add(new FullLine(1, 3, 4, true));
-        // twoColumnLine layout
-        layouts.add(new FullLine(6, 6, 2, false));
-        // twoRowLine layout
-        layouts.add(new FullLine(5, 5, 2, true));
+
+        // Column where each item has a different type. Its length is equal to the number of rows.
+        layouts.add(new FullLine(bookshelf.getRows(), bookshelf.getRows(), 2, false));
+
+        // Row where each item has a different type. Its length is equal to the number of columns.
+        layouts.add(new FullLine(bookshelf.getColumns(), bookshelf.getColumns(), 2, true));
 
         // TODO: aggiungere Square
         // TODO: aggiungere Rectangle

@@ -13,12 +13,14 @@ public class FullLine extends Layout {
     private final boolean horizontal; // true if the layout is a row, false if it a column
 
     /**
-     * Constructor of the class
+     * Creates a full line layout, either horizontal or vertical.
+     * The minimum and maximum number of different types of items in the layout are given by <code>minDifferent</code> and <code>maxDifferent</code>.
+     * An item type is defined by its color.
      *
-     * @param minDifferent the minimum number of different colors
-     * @param maxDifferent the maximum number of different colors
-     * @param occurrences  the number of occurrences of the layout
-     * @param horizontal   true if the layout is horizontal (a row), false if it is vertical (a column)
+     * @param minDifferent the minimum number of different types of items in this layout
+     * @param maxDifferent the maximum number of different types of items in this layout
+     * @param occurrences  the number of occurrences of this layout required to fulfill the common goal
+     * @param horizontal   true if this layout is horizontal (a row), false if it is vertical (a column)
      */
     public FullLine(int minDifferent, int maxDifferent, int occurrences, boolean horizontal) {
         super(0, 0, minDifferent, maxDifferent);

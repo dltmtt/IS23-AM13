@@ -11,7 +11,6 @@ import java.util.List;
  * A common goal card, which has a layout to be matched by the players'
  * bookshelves and a stack of scores to be assigned to the players.
  *
- * @author Beatrice
  * @see Layout
  * @see Player
  * @see Bookshelf
@@ -20,6 +19,11 @@ public class CommonGoal {
     private final Layout layout;
     private List<Integer> scoringList;
 
+    /**
+     * Creates a new common goal with the given layout.
+     *
+     * @param layout the layout of the common goal
+     */
     public CommonGoal(Layout layout) {
         this.layout = layout;
     }
