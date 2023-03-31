@@ -2,29 +2,60 @@ package it.polimi.ingsw.Controllers;
 
 import it.polimi.ingsw.Models.CommonGoalLayout.*;
 import it.polimi.ingsw.Models.Game.Board;
-import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Game.Player;
 import it.polimi.ingsw.Models.Goal.CommonGoal;
 import it.polimi.ingsw.Models.Goal.PersonalGoal;
 import it.polimi.ingsw.Models.Utility.Coordinates;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
+
+import static java.lang.Integer.parseInt;
 
 public class Game {
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
     private final Board livingRoom;
-    private List<PersonalGoal> personalGoalDeck;
-    private List<CommonGoal> commonGoalDeck;
-    private Bookshelf bookshelf;
+    private final int bookshelfColumns;
+    private final int bookshelfRows;
+    private final List<CommonGoal> commonGoalDeck;
+    private final List<PersonalGoal> personalGoalDeck;
     private Player currentPlayer;
 
     public Game(int numOfPlayer) throws IllegalAccessException {
+
+        // Read the settings from the properties file
+        int rowsSetting;
+        int colsSetting;
+
+        Properties prop = new Properties();
+        //In case the file is not found, the default values will be used
+        try (InputStream input = new FileInputStream("settings/settings.properties")) {
+
+            // Load a properties file
+            prop.load(input);
+            rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
+            colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // If there is an error, use the default values
+            rowsSetting = 5;
+            colsSetting = 6;
+        }
+        this.bookshelfRows = rowsSetting;
+        this.bookshelfColumns = colsSetting;
+
         this.players = new ArrayList<>(numOfPlayer);// Living room is created and filled
         livingRoom = new Board(numOfPlayer);
         livingRoom.fill();
+        commonGoalDeck = new ArrayList<>();
+        personalGoalDeck = new ArrayList<>();
+
     }
 
     public Board getLivingRoom() {
@@ -114,7 +145,8 @@ public class Game {
      * Creates a deck with all the possible layouts for the common goals.
      */
     public void commonGoalDeck_creation() {
-        int dimension = Math.min(bookshelf.getRows(), bookshelf.getColumns());
+
+        int dimension = Math.min(bookshelfColumns, bookshelfRows);
         List<Layout> layouts = new ArrayList<>();
 
         // TODO: parametrize the rest of the layouts.

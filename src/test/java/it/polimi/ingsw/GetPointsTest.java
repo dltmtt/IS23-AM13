@@ -12,9 +12,14 @@ import it.polimi.ingsw.Models.Item.Item;
 import it.polimi.ingsw.Models.Utility.Coordinates;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetPointsTest {
@@ -25,10 +30,30 @@ public class GetPointsTest {
     @Test
     void generalTest() throws IllegalAccessException {
 
+        // Read the settings from the properties file
+        int rowsSetting;
+        int colsSetting;
+
+        Properties prop = new Properties();
+        //In case the file is not found, the default values will be used
+        try (InputStream input = new FileInputStream("settings/settings.properties")) {
+
+            // Load a properties file
+            prop.load(input);
+            rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
+            colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // If there is an error, use the default values
+            rowsSetting = 5;
+            colsSetting = 6;
+        }
+
+
         Game game = new Game(3);
-        Player player1 = new Player("test1", 20, true, true, false, new Bookshelf(), game.getLivingRoom());
-        Player player2 = new Player("test2", 20, true, true, false, new Bookshelf(), game.getLivingRoom());
-        Player player3 = new Player("test3", 20, true, true, false, new Bookshelf(), game.getLivingRoom());
+        Player player1 = new Player("test1", 20, true, true, false, new Bookshelf(rowsSetting, colsSetting), game.getLivingRoom());
+        Player player2 = new Player("test2", 20, true, true, false, new Bookshelf(rowsSetting, colsSetting), game.getLivingRoom());
+        Player player3 = new Player("test3", 20, true, true, false, new Bookshelf(rowsSetting, colsSetting), game.getLivingRoom());
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.addPlayer(player3);

@@ -6,11 +6,10 @@ import it.polimi.ingsw.Models.Item.Item;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.*;
+import java.util.Optional;
 
 /**
  * A bookshelf, where the player can collect items.
@@ -21,44 +20,43 @@ import java.util.*;
  * @see Item
  */
 public class Bookshelf implements AbleToGetPoints {
-    private static int rows;
-    private static int columns;
-    private final boolean[][] booleanMatrix;
     private final Optional<Item>[][] items;
+    // This matrix is used to check if a cell can be visited (and it has not been visited yet).
+    // true[i][j] = the cell (i, j) can be visited
+    private final boolean[][] booleanMatrix;
+    private final int rows;
+    private final int columns;
 
     /**
      * Creates a new bookshelf where all cells are empty.
      * <p>
      * <code>booleanMatrix</code> is used to check if a cell can be visited (and it has not been visited yet).
      * It is initialized to <code>true</code>.
+     *
+     * @param rows    the number of rows of the bookshelf
+     * @param columns the number of columns of the bookshelf
+     * @throws IllegalArgumentException if <code>rows</code> or <code>columns</code> are less than 1
      */
-    public Bookshelf() {
-        try (InputStream input = new FileInputStream("settings/settings.properties")) {
-            Properties prop = new Properties();
-
-            // Load a properties file
-            prop.load(input);
-
-            rows = Integer.parseInt(prop.getProperty("bookshelf.rows"));
-            columns = Integer.parseInt(prop.getProperty("bookshelf.columns"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // If there is an error, use the default values
-            rows = 6;
-            columns = 5;
-        }
-
-        items = (Optional<Item>[][]) new Optional[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                this.items[i][j] = Optional.empty();
+    public Bookshelf(int rows, int columns) {
+        if (rows < 1 || columns < 1) {
+            String errorMessage = "Bookshelf Constructor: Invalid parameters ";
+            if (rows < 1) {
+                errorMessage += "rows set to an invalid value (" + rows + "), 1 or more required";
             }
+            if (columns < 1) {
+                errorMessage += "columns set to an invalid value (" + columns + "), 1 or more required";
+            }
+            throw new IllegalArgumentException(errorMessage);
         }
 
-        booleanMatrix = new boolean[rows][columns];
-        for (boolean[] row : booleanMatrix) {
-            Arrays.fill(row, true);
-        }
+
+        this.rows = rows;
+        this.columns = columns;
+
+        items = (Optional<Item>[][]) new Optional[this.rows][this.columns];
+        booleanMatrix = new boolean[this.rows][this.columns];
+        clearBookshelf();
+        clearBooleanMatrix();
     }
 
     // NOTE: this method is used only for testing purposes, it will be removed in the final version.
@@ -123,6 +121,22 @@ public class Bookshelf implements AbleToGetPoints {
             }
         }
         return usedCells;
+    }
+
+    //Clears the boolean matrix
+    public void clearBooleanMatrix() {
+        for (boolean[] row : booleanMatrix) {
+            Arrays.fill(row, true);
+        }
+    }
+
+    public void clearBookshelf() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                this.items[i][j] = Optional.empty();
+            }
+        }
+        clearBooleanMatrix();
     }
 
     /**
@@ -205,6 +219,7 @@ public class Bookshelf implements AbleToGetPoints {
      */
     public int getPoints() {
         int points = 0;
+        clearBooleanMatrix();
         for (int j = 0; j < columns; j++) {
             for (int i = 0; i < rows; i++) {
                 if (items[i][j].isPresent()) {
@@ -217,13 +232,15 @@ public class Bookshelf implements AbleToGetPoints {
 
     // TODO: ask for an explanation of the following method
 
+    //TODO: clear the matrix after the method is called
+
     /**
-     * Counts the number of items, in a given bookshelf, that match the given color
+     * Counts the size of the group of adjacent items of the same colors, starting from the <code>(row, column)</code> cell.
      *
      * @param color  the color to match
      * @param row    the starting row
      * @param column the starting column
-     * @return the number of items that match the given color
+     * @return the size of the group
      */
     public int adjacentGroups(Color color, int row, int column) {
         int matches;
