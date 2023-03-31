@@ -26,9 +26,8 @@ public class DiagonalTest extends BookshelfUtilities {
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -112,9 +111,9 @@ public class DiagonalTest extends BookshelfUtilities {
     public void provaRight() {
         Layout layout;
         boolean result;
-        for (int dimension = 1; dimension < Math.min(b.getRows(), b.getColumns()) + 1; dimension++) {
-            for (int row = 0; row < b.getRows() - dimension + 1; row++) {
-                for (int col = 0; col < b.getColumns() - dimension + 1; col++) {
+        for (int dimension = 1; dimension < Math.min(Bookshelf.getRows(), Bookshelf.getColumns()) + 1; dimension++) {
+            for (int row = 0; row < Bookshelf.getRows() - dimension + 1; row++) {
+                for (int col = 0; col < Bookshelf.getColumns() - dimension + 1; col++) {
                     b.clearBookshelf();
                     createSingleRightDiagonal(b, row, col, dimension);
                     b.cli_print();

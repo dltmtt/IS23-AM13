@@ -16,16 +16,15 @@ import java.util.Optional;
  * It has <code>rows</code> rows (6 by default) and <code>columns</code> (5 by default) columns.
  * Each cell can contain an item.
  *
- * @author Matteo
  * @see Item
  */
 public class Bookshelf implements AbleToGetPoints {
+    private static int rows;
+    private static int columns;
     private final Optional<Item>[][] items;
     // This matrix is used to check if a cell can be visited (and it has not been visited yet).
-    // true[i][j] = the cell (i, j) can be visited
+    // booleanMatrix[i][j] = true means that the cell (i, j) can be visited.
     private final boolean[][] booleanMatrix;
-    private final int rows;
-    private final int columns;
 
     /**
      * Creates a new bookshelf where all cells are empty.
@@ -35,7 +34,7 @@ public class Bookshelf implements AbleToGetPoints {
      *
      * @param rows    the number of rows of the bookshelf
      * @param columns the number of columns of the bookshelf
-     * @throws IllegalArgumentException if <code>rows</code> or <code>columns</code> are less than 1
+     * @throws IllegalArgumentException if either <code>rows</code> or <code>columns</code> is less than 1
      */
     public Bookshelf(int rows, int columns) {
         if (rows < 1 || columns < 1) {
@@ -49,12 +48,12 @@ public class Bookshelf implements AbleToGetPoints {
             throw new IllegalArgumentException(errorMessage);
         }
 
+        Bookshelf.rows = rows;
+        Bookshelf.columns = columns;
 
-        this.rows = rows;
-        this.columns = columns;
-
-        items = (Optional<Item>[][]) new Optional[this.rows][this.columns];
-        booleanMatrix = new boolean[this.rows][this.columns];
+        // noinspection unchecked
+        items = (Optional<Item>[][]) new Optional[Bookshelf.rows][Bookshelf.columns];
+        booleanMatrix = new boolean[Bookshelf.rows][Bookshelf.columns];
         clearBookshelf();
         clearBooleanMatrix();
     }
@@ -75,23 +74,31 @@ public class Bookshelf implements AbleToGetPoints {
 //    }
 
     /**
-     * @return the number of rows in this bookshelf
+     * @return the number of rows in a bookshelf
      */
-    public int getRows() {
+    public static int getRows() {
         return rows;
     }
 
-    /**
-     * @return the number of columns in this bookshelf
-     */
-    public int getColumns() {
-        return columns;
+    public static void setRows(int rows) {
+        Bookshelf.rows = rows;
     }
 
     /**
-     * @return the number of cells in this bookshelf
+     * @return the number of columns in a bookshelf
      */
-    public int getSize() {
+    public static int getColumns() {
+        return columns;
+    }
+
+    public static void setColumns(int columns) {
+        Bookshelf.columns = columns;
+    }
+
+    /**
+     * @return the number of cells in a bookshelf
+     */
+    public static int getSize() {
         return rows * columns;
     }
 
@@ -123,7 +130,7 @@ public class Bookshelf implements AbleToGetPoints {
         return usedCells;
     }
 
-    //Clears the boolean matrix
+    // Clears the boolean matrix
     public void clearBooleanMatrix() {
         for (boolean[] row : booleanMatrix) {
             Arrays.fill(row, true);
@@ -223,6 +230,7 @@ public class Bookshelf implements AbleToGetPoints {
         for (int j = 0; j < columns; j++) {
             for (int i = 0; i < rows; i++) {
                 if (items[i][j].isPresent()) {
+                    // noinspection OptionalGetWithoutIsPresent
                     points += calculateGroupPoints(adjacentGroups(items[i][j].get().color(), i, j));
                 }
             }
@@ -230,9 +238,7 @@ public class Bookshelf implements AbleToGetPoints {
         return points;
     }
 
-    // TODO: ask for an explanation of the following method
-
-    //TODO: clear the matrix after the method is called
+    // TODO: clear the matrix after the method is called
 
     /**
      * Counts the size of the group of adjacent items of the same colors, starting from the <code>(row, column)</code> cell.
@@ -253,13 +259,13 @@ public class Bookshelf implements AbleToGetPoints {
             return 0;
         }
 
+        // noinspection OptionalGetWithoutIsPresent
         if (!items[row][column].get().color().equals(color)) {
             return 0;
         }
 
         if (!booleanMatrix[row][column]) {
             matches = adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1);
-
         } else {
             booleanMatrix[row][column] = false;
             matches = 1 + adjacentGroups(color, row + 1, column) + adjacentGroups(color, row, column + 1) + adjacentGroups(color, row - 1, column) + adjacentGroups(color, row, column - 1);
@@ -312,7 +318,6 @@ public class Bookshelf implements AbleToGetPoints {
         }
         return content;
     }
-
 
     /**
      * Gets the content of a row as a list of items. Empty cells are not included.

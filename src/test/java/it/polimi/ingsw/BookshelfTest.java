@@ -30,9 +30,8 @@ class BookshelfTest {
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -52,7 +51,7 @@ class BookshelfTest {
         Item item = new Item(Color.BLUE, 1);
         items.add(item);
         bookshelf.insert(0, items);
-        assertEquals(bookshelf.getRows() - items.size(), bookshelf.getFreeCellsInColumn(0));
+        assertEquals(Bookshelf.getRows() - items.size(), bookshelf.getFreeCellsInColumn(0));
     }
 
     @Test
@@ -66,11 +65,11 @@ class BookshelfTest {
 
     @Test
     void fillColumn() {
-        for (int i = 0; i < bookshelf.getRows(); i++) {
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
             items.add(new Item(Color.GREEN, 2));
         }
         bookshelf.insert(0, items);
-        for (int i = 0; i < bookshelf.getRows(); i++) {
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
             assertEquals(Optional.ofNullable(items.get(i)), bookshelf.getItemAt(i, 0));
         }
     }
@@ -94,20 +93,20 @@ class BookshelfTest {
         Color randomcolor;
         Optional<Item> item;
         Item check;
-        for (int col = 0; col < bookshelf.getColumns(); col++) {
+        for (int col = 0; col < Bookshelf.getColumns(); col++) {
             items.clear();
-            for (int row = 0; row < bookshelf.getRows(); row++) {
+            for (int row = 0; row < Bookshelf.getRows(); row++) {
                 randomcolor = Color.getRandomColor();
                 check = new Item(randomcolor, 3);
                 items.add(check);
             }
             bookshelf.insert(col, items);
-            for (int row = 0; row < bookshelf.getRows(); row++) {
+            for (int row = 0; row < Bookshelf.getRows(); row++) {
                 try {
                     item = bookshelf.getItemAt(row, col);
                     assertEquals(Optional.ofNullable(items.get(row)), item);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    if (row > bookshelf.getRows() || col > bookshelf.getColumns()) {
+                    if (row > Bookshelf.getRows() || col > Bookshelf.getColumns()) {
                         assertEquals("Invalid row or column for the method getItemAt", e.getMessage());
                     } else {
                         fail();
@@ -123,9 +122,9 @@ class BookshelfTest {
         List<Item> localCol = new ArrayList<>();
         Color randomcolor;
         Item item;
-        for (int col = 0; col < bookshelf.getColumns(); col++) {
+        for (int col = 0; col < Bookshelf.getColumns(); col++) {
             localCol.clear();
-            for (int row = 0; row < bookshelf.getRows(); row++) {
+            for (int row = 0; row < Bookshelf.getRows(); row++) {
                 items.clear();
                 randomcolor = Color.getRandomColor();
                 item = new Item(randomcolor, 3);

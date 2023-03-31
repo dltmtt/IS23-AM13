@@ -29,9 +29,8 @@ public class XShapeTest {
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -71,13 +70,13 @@ public class XShapeTest {
 
         for (int test = 0; test < testNumber; test++) {
             // Select every possible starting row for the X shape
-            for (int startingRow = 0; startingRow < b.getRows() - XShape.getHeight() + 1; startingRow++) {
+            for (int startingRow = 0; startingRow < Bookshelf.getRows() - XShape.getHeight() + 1; startingRow++) {
                 // Select every possible starting column for the X shape
-                for (int startingCol = 0; startingCol < b.getColumns() - XShape.getWidth() + 1; startingCol++) {
+                for (int startingCol = 0; startingCol < Bookshelf.getColumns() - XShape.getWidth() + 1; startingCol++) {
                     b.clearBookshelf();
 
                     // Creation of the base
-                    for (int col = 0; col < b.getColumns(); col++) {
+                    for (int col = 0; col < Bookshelf.getColumns(); col++) {
                         itemList.clear();
                         for (int baseRow = 0; baseRow < startingRow; baseRow++) {
                             itemList.add(new Item(Color.getRandomColor(), 0));
@@ -93,7 +92,7 @@ public class XShapeTest {
                     b.insert(startingCol + 2, XBorder);
 
                     // Filling the remaining cells
-                    for (int col = 0; col < b.getColumns(); col++) {
+                    for (int col = 0; col < Bookshelf.getColumns(); col++) {
                         itemList.clear();
                         if (b.getFreeCellsInColumn(col) != 0) {
                             for (int i = 0; i < b.getFreeCellsInColumn(col); i++) {

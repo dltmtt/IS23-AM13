@@ -27,8 +27,8 @@ public class ItemsPerColor extends Layout {
             throw new IllegalArgumentException("Invalid bookshelf");
         }
         int[] numberOfItems = new int[(int) Arrays.stream(Color.values()).count()];
-        for (int i = 0; i < b.getRows(); i++) {
-            for (int j = 0; j < b.getColumns(); j++) {
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
+            for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 if (b.getItemAt(i, j).isPresent()) {
                     numberOfItems[b.getItemAt(i, j).get().color().ordinal()]++;
                 }

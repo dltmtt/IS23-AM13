@@ -2,6 +2,7 @@ package it.polimi.ingsw.Controllers;
 
 import it.polimi.ingsw.Models.CommonGoalLayout.*;
 import it.polimi.ingsw.Models.Game.Board;
+import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Game.Player;
 import it.polimi.ingsw.Models.Goal.CommonGoal;
 import it.polimi.ingsw.Models.Goal.PersonalGoal;
@@ -21,22 +22,18 @@ public class Game {
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
     private final Board livingRoom;
-    private final int bookshelfColumns;
-    private final int bookshelfRows;
     private final List<CommonGoal> commonGoalDeck;
     private final List<PersonalGoal> personalGoalDeck;
     private Player currentPlayer;
 
-    public Game(int numOfPlayer) throws IllegalAccessException {
-
+    public Game(int numOfPlayers) throws IllegalAccessException {
         // Read the settings from the properties file
         int rowsSetting;
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -47,15 +44,15 @@ public class Game {
             rowsSetting = 5;
             colsSetting = 6;
         }
-        this.bookshelfRows = rowsSetting;
-        this.bookshelfColumns = colsSetting;
 
-        this.players = new ArrayList<>(numOfPlayer);// Living room is created and filled
-        livingRoom = new Board(numOfPlayer);
+        Bookshelf.setRows(rowsSetting);
+        Bookshelf.setColumns(colsSetting);
+
+        this.players = new ArrayList<>(numOfPlayers); // Living room is created and filled
+        livingRoom = new Board(numOfPlayers);
         livingRoom.fill();
         commonGoalDeck = new ArrayList<>();
         personalGoalDeck = new ArrayList<>();
-
     }
 
     public Board getLivingRoom() {
@@ -64,19 +61,15 @@ public class Game {
 
     /**
      * Creates the <code>personalGoalDeck</code>, the <code>commonGoalDeck</code> and the <code>livingRoom</code>.
-     *
-     * @throws IllegalAccessException if the number of players is invalid
      */
-    public void initialize(int numOfPlayer) throws IllegalAccessException {
-
+    public void initialize() {
         // TODO: add logged in players
 
         // CommonGoalDeck is created and filled
-        commonGoalDeck_creation();
+        createCommonGoalDeck();
 
         // PersonalGoalDeck is created and filled
-        personalGoalDeck_creation();
-
+        createPersonalGoalDeck();
 
         // Draw a personal goal card for each player
         for (Player player : players) {
@@ -144,9 +137,8 @@ public class Game {
     /**
      * Creates a deck with all the possible layouts for the common goals.
      */
-    public void commonGoalDeck_creation() {
-
-        int dimension = Math.min(bookshelfColumns, bookshelfRows);
+    public void createCommonGoalDeck() {
+        int dimension = Math.min(Bookshelf.getColumns(), Bookshelf.getRows());
         List<Layout> layouts = new ArrayList<>();
 
         // TODO: parametrize the rest of the layouts.
@@ -160,10 +152,10 @@ public class Game {
         layouts.add(new FullLine(1, 3, 4, true));
 
         // Column where each item has a different type. Its length is equal to the number of rows.
-        layouts.add(new FullLine(bookshelf.getRows(), bookshelf.getRows(), 2, false));
+        layouts.add(new FullLine(Bookshelf.getRows(), Bookshelf.getRows(), 2, false));
 
         // Row where each item has a different type. Its length is equal to the number of columns.
-        layouts.add(new FullLine(bookshelf.getColumns(), bookshelf.getColumns(), 2, true));
+        layouts.add(new FullLine(Bookshelf.getColumns(), Bookshelf.getColumns(), 2, true));
 
         // TODO: aggiungere Square
         // TODO: aggiungere Rectangle
@@ -178,7 +170,7 @@ public class Game {
      * A personal goal is a matrix with highlighted spaces with the corresponding item tiles
      * that players have to replicate in their bookshelves to get points.
      */
-    public void personalGoalDeck_creation() {
+    public void createPersonalGoalDeck() {
         for (int i = 0; i < personalGoalDeckSize; i++) {
             // Add a new personal goal in the List
             personalGoalDeck.add(new PersonalGoal(i));

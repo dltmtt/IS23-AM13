@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class FullLine extends Layout {
     private final int occurrences; // number of occurrences of the layout
-    private final boolean horizontal; // true if the layout is a row, false if it a column
+    private final boolean horizontal; // true if the layout is a row, false if it is a column
 
     /**
      * Creates a full line layout, either horizontal or vertical.
@@ -26,7 +26,6 @@ public class FullLine extends Layout {
         super(0, 0, minDifferent, maxDifferent);
         this.occurrences = occurrences;
         this.horizontal = horizontal;
-
     }
 
     /**
@@ -47,7 +46,7 @@ public class FullLine extends Layout {
 
         if (horizontal) {
             // Check every row until there are no more full rows
-            while (i < b.getRows() && b.isRowFull(i)) {
+            while (i < Bookshelf.getRows() && b.isRowFull(i)) {
                 List<Item> rowContent = b.getRowContent(i);
                 if (getDifferentColors(rowContent) >= getMinDifferent() && getDifferentColors(rowContent) <= getMaxDifferent()) {
                     counter++;
@@ -56,7 +55,7 @@ public class FullLine extends Layout {
             }
         } else {
             // Check every column
-            for (int j = 0; j < b.getColumns(); j++) {
+            for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 if (b.isColumnFull(j)) {
                     List<Item> colContent = b.getColumnContent(j);
                     int differentColors = getDifferentColors(colContent);

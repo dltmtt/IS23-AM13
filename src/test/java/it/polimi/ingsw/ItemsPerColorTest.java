@@ -21,15 +21,13 @@ public class ItemsPerColorTest extends BookshelfUtilities {
 
     @BeforeEach
     void setup() {
-
         // Read the settings from the properties file
         int rowsSetting;
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -56,7 +54,7 @@ public class ItemsPerColorTest extends BookshelfUtilities {
         int goalNum = 6;
         // And the other way round
         for (Color color : Color.values()) {
-            for (int numOfElements = 1; numOfElements < b.getSize(); numOfElements++) {
+            for (int numOfElements = 1; numOfElements < Bookshelf.getSize(); numOfElements++) {
                 b.clearBookshelf();
                 L = new ItemsPerColor(goalNum, goalNum);
                 createRandomElements(b, color, numOfElements);

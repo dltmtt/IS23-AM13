@@ -92,7 +92,7 @@ public class BookshelfUtilities {
         // To prevent the chosen color to be chosen again
         colorsWithoutChosenColor = Stream.of(Color.values()).filter(color -> color != chosenColor).toList();
 
-        int cellRemaining = (b.getRows() * b.getColumns()) - itemList.size();
+        int cellRemaining = Bookshelf.getSize() - itemList.size();
 
         // For some weird reason, the order of the operations in Java, makes weird things if I put directly the value of cellRemaining.
         for (int i = 0; i < cellRemaining; i++) {
@@ -106,9 +106,9 @@ public class BookshelfUtilities {
         }
 
         // Inserting the items in the bookshelf
-        for (int i = 0; i < b.getRows(); i++) {
-            for (int j = 0; j < b.getColumns(); j++) {
-                b.insert(j, Collections.singletonList(itemList.get(i * b.getColumns() + j)));
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
+            for (int j = 0; j < Bookshelf.getColumns(); j++) {
+                b.insert(j, Collections.singletonList(itemList.get(i * Bookshelf.getColumns() + j)));
             }
         }
     }
@@ -121,7 +121,7 @@ public class BookshelfUtilities {
             itemList.add(new Item(Color.getRandomColor(), 0));
         }
 
-        for (int i = 0; i < b.getColumns(); i++) {
+        for (int i = 0; i < Bookshelf.getColumns(); i++) {
             if (itemList.size() > 0) {
                 b.insert(i, itemList);
             }
@@ -172,7 +172,7 @@ public class BookshelfUtilities {
         itemList.remove(0);
         b.insert(1, itemList);
         // Dimension 4 diagonal
-        for (int j = 0; j < b.getColumns() - 1; j++) {
+        for (int j = 0; j < Bookshelf.getColumns() - 1; j++) {
             b.insert(j, itemList);
         }
         List<Item> items = new ArrayList<>();
@@ -246,7 +246,7 @@ public class BookshelfUtilities {
                 itemList.add(new Item(colors[i], 0));
             }
 
-            for (int i = 0; i < b.getRows() - different; i++) {
+            for (int i = 0; i < Bookshelf.getRows() - different; i++) {
                 itemList.add(new Item(colors[0], 0));
             }
 
@@ -254,9 +254,9 @@ public class BookshelfUtilities {
         }
 
         // Fill the remaining columns with random colors
-        for (int col = numberOfCol; col < b.getColumns(); col++) {
+        for (int col = numberOfCol; col < Bookshelf.getColumns(); col++) {
             itemList.clear();
-            for (int i = 0; i < b.getRows(); i++) {
+            for (int i = 0; i < Bookshelf.getRows(); i++) {
                 itemList.add(new Item(Color.getRandomColor(), 0));
             }
             b.insert(col, itemList);
@@ -272,17 +272,17 @@ public class BookshelfUtilities {
             goalRow.add(new Item(colors[i], 0));
         }
 
-        for (int i = 0; i < b.getColumns() - different; i++) {
+        for (int i = 0; i < Bookshelf.getColumns() - different; i++) {
             goalRow.add(new Item(colors[0], 0));
         }
 
         for (int number = 0; number < numberOfRow; number++) {
-            for (int i = 0; i < b.getColumns(); i++) {
+            for (int i = 0; i < Bookshelf.getColumns(); i++) {
                 b.insert(i, Collections.singletonList(goalRow.get(i)));
             }
         }
 
-        for (int col = 0; col < b.getColumns(); col++) {
+        for (int col = 0; col < Bookshelf.getColumns(); col++) {
             itemList.clear();
             for (int i = 0; i < b.getFreeCellsInColumn(col); i++) {
                 itemList.add(new Item(Color.getRandomColor(), 0));

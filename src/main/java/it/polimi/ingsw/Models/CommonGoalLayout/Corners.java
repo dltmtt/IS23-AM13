@@ -31,6 +31,7 @@ public class Corners extends Layout {
      * @return true if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum, false otherwise
      * @throws IllegalArgumentException if the bookshelf is null
      */
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
     public boolean check(Bookshelf b) throws IllegalArgumentException {
         // Check if the bookshelf is null
@@ -45,7 +46,7 @@ public class Corners extends Layout {
         Color color;
 
         // Check if the bookshelf has no free cells in the first and last column
-        if (b.getFreeCellsInColumn(0) != 0 || b.getFreeCellsInColumn(b.getColumns() - 1) != 0) {
+        if (b.getFreeCellsInColumn(0) != 0 || b.getFreeCellsInColumn(Bookshelf.getColumns() - 1) != 0) {
             return false;
         } else { // Add the colors of the four corners to the list
             // Bottom left
@@ -53,15 +54,15 @@ public class Corners extends Layout {
             colorList.add(color);
 
             // Top left
-            color = b.getItemAt(b.getRows() - 1, 0).get().color();
+            color = b.getItemAt(Bookshelf.getRows() - 1, 0).get().color();
             colorList.add(color);
 
             // Top right
-            color = b.getItemAt(b.getRows() - 1, b.getColumns() - 1).get().color();
+            color = b.getItemAt(Bookshelf.getRows() - 1, Bookshelf.getColumns() - 1).get().color();
             colorList.add(color);
 
             // Bottom right
-            color = b.getItemAt(0, b.getColumns() - 1).get().color();
+            color = b.getItemAt(0, Bookshelf.getColumns() - 1).get().color();
             colorList.add(color);
 
             // Remove duplicates

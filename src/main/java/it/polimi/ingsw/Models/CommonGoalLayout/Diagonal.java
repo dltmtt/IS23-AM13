@@ -33,7 +33,7 @@ public class Diagonal extends Layout {
         if (checkRight(b, 0, 0) || checkRight(b, 1, 0)) {
             return true;
         }
-        return checkLeft(b, 0, b.getColumns() - 1) || checkLeft(b, 1, b.getColumns() - 1); //|| checkRight(b, 0, 0);
+        return checkLeft(b, 0, Bookshelf.getColumns() - 1) || checkLeft(b, 1, Bookshelf.getColumns() - 1); //|| checkRight(b, 0, 0);
     }
 
     /**
@@ -50,18 +50,18 @@ public class Diagonal extends Layout {
         }
 
         // Check if the row and the column are valid
-        if (row < 0 || row >= b.getRows() || column < 0 || column >= b.getColumns()) {
+        if (row < 0 || row >= Bookshelf.getRows() || column < 0 || column >= Bookshelf.getColumns()) {
             String message = "";
-            if (row < 0 || row >= b.getRows())
-                message += "The row must be valid (0-" + (b.getRows() - 1) + "), received " + row + " ";
-            if (column < 0 || column >= b.getColumns())
-                message += "The column must be valid (0-" + (b.getColumns() - 1) + "), received " + column + " ";
+            if (row < 0 || row >= Bookshelf.getRows())
+                message += "The row must be valid (0-" + (Bookshelf.getRows() - 1) + "), received " + row + " ";
+            if (column < 0 || column >= Bookshelf.getColumns())
+                message += "The column must be valid (0-" + (Bookshelf.getColumns() - 1) + "), received " + column + " ";
             throw new IllegalArgumentException(message);
         }
 
         int counter = 1;
         // Check if there are 5 items of the same color in a diagonal from the top right to the bottom left
-        while (row < b.getRows() - 1 && column < b.getColumns() - 1) {
+        while (row < Bookshelf.getRows() - 1 && column < Bookshelf.getColumns() - 1) {
             if (b.getItemAt(row, column).isPresent() && b.getItemAt(row + 1, column + 1).isPresent()) {
                 if (!b.getItemAt(row, column).get().color().equals(b.getItemAt(row + 1, column + 1).get().color())) {
                     break;
@@ -91,16 +91,16 @@ public class Diagonal extends Layout {
         }
 
         // Check if the row and the column are valid
-        if (row < 0 || row >= b.getRows() || column < 0 || column >= b.getColumns()) {
+        if (row < 0 || row >= Bookshelf.getRows() || column < 0 || column >= Bookshelf.getColumns()) {
             String message = "";
-            if (row < 0 || row >= b.getRows())
-                message += "The row must be valid (0-" + (b.getRows() - 1) + "), received " + row + " ";
-            if (column < 0 || column >= b.getColumns())
-                message += "The column must be valid (0-" + (b.getColumns() - 1) + "), received " + column + " ";
+            if (row < 0 || row >= Bookshelf.getRows())
+                message += "The row must be valid (0-" + (Bookshelf.getRows() - 1) + "), received " + row + " ";
+            if (column < 0 || column >= Bookshelf.getColumns())
+                message += "The column must be valid (0-" + (Bookshelf.getColumns() - 1) + "), received " + column + " ";
             throw new IllegalArgumentException(message);
         }
         int counter = 1;
-        while (row < b.getRows() - 1 && column > 0) {
+        while (row < Bookshelf.getRows() - 1 && column > 0) {
             if (b.getItemAt(row, column).isPresent() && b.getItemAt(row + 1, column - 1).isPresent()) {
                 if (!b.getItemAt(row, column).get().color().equals(b.getItemAt(row + 1, column - 1).get().color())) {
                     break;

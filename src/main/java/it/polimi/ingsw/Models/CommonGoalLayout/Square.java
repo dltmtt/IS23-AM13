@@ -65,16 +65,16 @@ public class Square extends Layout {
         int validCells = 0;
 
         // Validity matrix
-        boolean[][] valid = new boolean[b.getColumns()][b.getRows()];
+        boolean[][] valid = new boolean[Bookshelf.getColumns()][Bookshelf.getRows()];
 
         // Reset validity
-        for (int i = 0; i < b.getRows(); i++) {
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
             Arrays.fill(valid[i], true);
         }
 
-        for (int col = 0; col < b.getColumns() - getWidth(); col++) {
-            for (int row = 0; row < b.getRows() - getHeight(); row++) {
-                if (b.getRows() - b.getFreeCellsInColumn(col) - row >= getHeight())
+        for (int col = 0; col < Bookshelf.getColumns() - getWidth(); col++) {
+            for (int row = 0; row < Bookshelf.getRows() - getHeight(); row++) {
+                if (Bookshelf.getRows() - b.getFreeCellsInColumn(col) - row >= getHeight())
                     for (int width = col; width < col + getWidth(); width++) {
                         for (int height = row; height < row + getHeight(); height++) {
 //                            if(b.get)

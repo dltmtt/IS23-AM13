@@ -48,8 +48,8 @@ public class XShape extends Layout {
         int col;
         int row;
 
-        for (row = 0; row < b.getRows() - getHeight() + 1; row++) {
-            for (col = 0; col < b.getColumns() - getWidth() + 1; col++) {
+        for (row = 0; row < Bookshelf.getRows() - getHeight() + 1; row++) {
+            for (col = 0; col < Bookshelf.getColumns() - getWidth() + 1; col++) {
                 if (b.getItemAt(row, col).isPresent()) {
                     // The first check to make sure there are the minimum number of item to begin the check
                     // in particular, if the check starts on (0,0) then the following cells must be filled: (2, 0), (2, 1), (2, 2)

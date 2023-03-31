@@ -30,9 +30,8 @@ public class StairTest extends BookshelfUtilities {
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -43,8 +42,9 @@ public class StairTest extends BookshelfUtilities {
             rowsSetting = 5;
             colsSetting = 6;
         }
+
         b = new Bookshelf(rowsSetting, colsSetting);
-        stair = new Stair(b.getColumns());
+        stair = new Stair(Bookshelf.getColumns());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class StairTest extends BookshelfUtilities {
     @Test
     void StairCheckRowOne() {
         List<Item> itemList = new ArrayList<>();
-        for (int i = 0; i < b.getColumns(); i++) {
+        for (int i = 0; i < Bookshelf.getColumns(); i++) {
             itemList.clear();
             itemList.add(new Item(Color.getRandomColor(), 0));
             b.insert(i, itemList);
@@ -69,7 +69,7 @@ public class StairTest extends BookshelfUtilities {
         b.cli_print();
         assertTrue(stair.check(b));
         b.clearBookshelf();
-        for (int i = 0; i < b.getColumns(); i++) {
+        for (int i = 0; i < Bookshelf.getColumns(); i++) {
             itemList.clear();
             itemList.add(new Item(Color.getRandomColor(), 0));
             b.insert(i, itemList);

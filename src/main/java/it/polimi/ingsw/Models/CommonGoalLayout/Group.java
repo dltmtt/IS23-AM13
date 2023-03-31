@@ -42,8 +42,8 @@ public class Group extends Layout {
     public boolean check(Bookshelf b) throws IllegalArgumentException {
         int counter = 0;
         b.clearBooleanMatrix();
-        for (int row = 0; row < b.getRows(); row++) {
-            for (int col = 0; col < b.getColumns(); col++) {
+        for (int row = 0; row < Bookshelf.getRows(); row++) {
+            for (int col = 0; col < Bookshelf.getColumns(); col++) {
                 if (b.getItemAt(row, col).isPresent()) {
                     if (b.adjacentGroups(b.getItemAt(row, col).get().color(), row, col) >= size) {
                         counter++;
