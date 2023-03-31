@@ -27,9 +27,8 @@ public class CalculateGroupsTest {
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -40,6 +39,7 @@ public class CalculateGroupsTest {
             rowsSetting = 5;
             colsSetting = 6;
         }
+
         b = new Bookshelf(rowsSetting, colsSetting);
         items = new ArrayList<>();
     }
@@ -56,7 +56,7 @@ public class CalculateGroupsTest {
         items1.add(new Item(Color.BLUE, 1));
         b.insert(1, items1);
 
-        assertEquals(b.getPoints(), 3);
+        assertEquals(3, b.getPoints());
     }
 
     // 2 groups with different colors
@@ -87,7 +87,7 @@ public class CalculateGroupsTest {
         items4.add(new Item(Color.YELLOW, 1));
         b.insert(4, items4);
 
-        assertEquals(b.getPoints(), 13);
+        assertEquals(13, b.getPoints());
     }
 
     // 2 groups with different colors with another color in the middle
@@ -118,7 +118,7 @@ public class CalculateGroupsTest {
         items4.add(new Item(Color.YELLOW, 1));
         b.insert(4, items4);
 
-        assertEquals(b.getPoints(), 10);
+        assertEquals(10, b.getPoints());
     }
 
 
@@ -168,7 +168,7 @@ public class CalculateGroupsTest {
         items4.add(new Item(Color.PINK, 1));
         b.insert(4, items4);
 
-        assertEquals(b.getPoints(), 23);
+        assertEquals(23, b.getPoints());
     }
 
     @Test
@@ -217,7 +217,7 @@ public class CalculateGroupsTest {
         items.add(new Item(Color.PINK, 1));
         b.insert(4, items);
 
-        assertEquals(b.getPoints(), 10);
+        assertEquals(10, b.getPoints());
     }
 
     @Test
@@ -266,7 +266,7 @@ public class CalculateGroupsTest {
         items.add(new Item(Color.PINK, 1));
         b.insert(4, items);
 
-        assertEquals(b.getPoints(), 12);
+        assertEquals(12, b.getPoints());
     }
 
     @Test
@@ -315,7 +315,7 @@ public class CalculateGroupsTest {
         items.add(new Item(Color.PINK, 1));
         b.insert(4, items);
 
-        assertEquals(b.getPoints(), 8);
+        assertEquals(8, b.getPoints());
     }
 
     @Test
@@ -364,7 +364,7 @@ public class CalculateGroupsTest {
         items.add(new Item(Color.GREEN, 1));
         b.insert(4, items);
 
-        assertEquals(b.getPoints(), 13);
+        assertEquals(13, b.getPoints());
     }
 
     @Test
@@ -413,7 +413,7 @@ public class CalculateGroupsTest {
         items.add(new Item(Color.GREEN, 1));
         b.insert(4, items);
 
-        assertEquals(b.getPoints(), 0);
+        assertEquals(0, b.getPoints());
     }
 
     @Test
@@ -462,7 +462,7 @@ public class CalculateGroupsTest {
         items.add(new Item(Color.BLUE, 1));
         b.insert(4, items);
 
-        assertEquals(b.getPoints(), 19);
+        assertEquals(19, b.getPoints());
     }
 
     @Test
@@ -511,6 +511,6 @@ public class CalculateGroupsTest {
         items.add(new Item(Color.PINK, 1));
         b.insert(4, items);
 
-        assertEquals(b.getPoints(), 11);
+        assertEquals(11, b.getPoints());
     }
 }
