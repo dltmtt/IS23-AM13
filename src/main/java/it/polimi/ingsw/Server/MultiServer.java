@@ -5,10 +5,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MultiServer {
-    public static final int port = 1000;
+    public static final int port = 1050;
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(port);
+        ServerSocket serverSocket = null;
+        Socket socket = null;
+
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         try {
             while (true) {
@@ -20,5 +28,9 @@ public class MultiServer {
             System.err.println("Error");
         }
         serverSocket.close();
+
+         
     }
+
+
 }
