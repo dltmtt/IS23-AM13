@@ -26,9 +26,8 @@ public class CornersTest extends BookshelfUtilities {
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -50,6 +49,7 @@ public class CornersTest extends BookshelfUtilities {
         assertTrue(layout.check(b));
     }
 
+    // WARNING: This test fails
     @Test
     void checkFakeCorner() {
         Layout layout = new Corners(1, 1);
@@ -58,9 +58,9 @@ public class CornersTest extends BookshelfUtilities {
         b.clearBookshelf();
         createFakeCorner(b, 1);
         assertFalse(layout.check(b));
-        //Bookshelf b2 = new Bookshelf(settings_height, settings_width);
-        //Create Fake Corner possibly has a bug
-        //createFakeCorner(b2, 2);
-        //assertFalse(layout.check(b2));
+//        Bookshelf b2 = new Bookshelf(settings_height, settings_width);
+//        Create Fake Corner possibly has a bug
+//        createFakeCorner(b2, 2);
+//        assertFalse(layout.check(b2));
     }
 }

@@ -16,7 +16,6 @@ import java.util.Properties;
 import static java.lang.Integer.parseInt;
 
 public class GroupTest extends BookshelfUtilities {
-
     Bookshelf bookshelf;
     List<Item> items;
 
@@ -27,9 +26,8 @@ public class GroupTest extends BookshelfUtilities {
         int colsSetting;
 
         Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
+        // In case the file is not found, the default values will be used
         try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -46,11 +44,8 @@ public class GroupTest extends BookshelfUtilities {
 
     @Test
     public void testGroup() {
-        //testing possible problematics dispositions of the bookshelves
+        // Testing possible problematics dispositions of the bookshelves
         bookshelf.clearBooleanMatrix();
         bookshelf.clearBookshelf();
-
     }
-
-
 }
