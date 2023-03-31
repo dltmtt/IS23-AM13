@@ -15,13 +15,18 @@ public class Board {
     private final Item[][] boardMatrix;
     private final List<Item> itemBag;
     private final UsableCells usableCells;
-    private final int numOfPlayer;
 
-    public Board(int numOfPlayer) {
+    /**
+     * Creates a new square board of size <code>boardSize</code>,
+     * fills the bag of items with every possible item and defines
+     * the usable cells in this board based on the number of players.
+     *
+     * @param numOfPlayers the number of players in the game
+     */
+    public Board(int numOfPlayers) {
         boardMatrix = new Item[boardSize][boardSize];
-        usableCells = new UsableCells(numOfPlayer);
+        usableCells = new UsableCells(numOfPlayers);
         itemBag = new ArrayList<>();
-        this.numOfPlayer = numOfPlayer;
 
         // Initialize the bag of items. For each color, there are 22 occurrences with 3 different images for a total of 132 items.
         for (Color color : Color.values()) {
