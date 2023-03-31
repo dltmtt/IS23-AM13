@@ -50,6 +50,10 @@ public class Player {
         return age;
     }
 
+    public Bookshelf getBookshelf() {
+        return bookshelf;
+    }
+
     /**
      * Tells whether it is the player's first game or not.
      * If it is, the game will be played with only one common goal instead of two.
@@ -90,6 +94,7 @@ public class Player {
         commonGoalPoints[commonGoals.indexOf(commonGoal)] = commonGoal.getScoring();
     }
 
+
     /**
      * Moves a straight line of tiles from the board to the bookshelf.
      *
@@ -127,7 +132,7 @@ public class Player {
             for (int i = 0; i < commonGoals.size(); i++) {
                 if (!commonGoalCompleted.get(i)) continue;
                 if (commonGoals.get(i).check(this.bookshelf)) {
-                    commonGoals.get(i).assignScore(this);
+                    setCommonGoalPoints(commonGoals.get(i));
                     commonGoalCompleted.set(i, true);
                 }
             }
@@ -169,6 +174,7 @@ public class Player {
         items.clear();
         items.addAll(rearrangedItems);
     }
+
 
     /**
      * Calculates the score of the player.

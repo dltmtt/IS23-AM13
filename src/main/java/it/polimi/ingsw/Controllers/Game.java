@@ -18,11 +18,11 @@ public class Game {
     private List<CommonGoal> commonGoalDeck;
     private Board livingRoom;
     private Bookshelf bookshelf;
-    private List<Player> players;
+    private final List<Player> players;
     private Player currentPlayer;
 
     public Game(int numOfPlayer) throws IllegalAccessException {
-        initialize(numOfPlayer);
+        this.players = new ArrayList<>(numOfPlayer);
     }
 
     /**
@@ -31,7 +31,7 @@ public class Game {
      * @throws IllegalAccessException if the number of players is invalid
      */
     public void initialize(int numOfPlayer) throws IllegalAccessException {
-        this.players = new ArrayList<>(numOfPlayer);
+
         // TODO: add logged in players
 
         // CommonGoalDeck is created and filled
@@ -158,5 +158,9 @@ public class Game {
      */
     public void move(Player player, Coordinates from, Coordinates to, int column) {
         player.move(from, to, column);
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 }

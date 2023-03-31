@@ -24,15 +24,6 @@ public class CommonGoal {
         this.layout = layout;
     }
 
-    /**
-     * Assigns the highest available score to the player and removes it from the stack.
-     *
-     * @param player the player to assign the score to
-     */
-    public void assignScore(Player player) {
-        player.setCommonGoalPoints(this);
-        scoringList.remove(0);
-    }
 
     public List<Integer> getScoringList() {
         return scoringList;
