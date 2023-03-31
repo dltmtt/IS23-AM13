@@ -18,6 +18,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetPointsTest {
+
+    //player1 is the first to reach both common goals and 5/6 items of the personal goal
+    //so he should get 9 points from the personal goal and 16 points from the common goals
+    //plus 3 points for one group of 4 adjacent items, for a total of 28 points
     @Test
     void generalTest() throws IllegalAccessException {
 
@@ -91,7 +95,6 @@ public class GetPointsTest {
         int score1 = player1.calculateScore();
 
         assertEquals(28, score1);
-
 
     }
 }
