@@ -6,7 +6,6 @@ import it.polimi.ingsw.Models.Item.Item;
 import it.polimi.ingsw.Models.Utility.Coordinates;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -21,7 +20,7 @@ public class Player {
     private final boolean isFirstGame;
     private final boolean isFirstPlayer;
     private final boolean hasEndGameCard;
-    private final int[] commonGoalPoints = new int[commonGoals.size()];
+    private final List<Integer> commonGoalPoints = new ArrayList<>(2);
     private final Bookshelf bookshelf;
     private PersonalGoal personalGoal;
 
@@ -33,7 +32,8 @@ public class Player {
         this.hasEndGameCard = hasEndGameCard;
         this.bookshelf = bookshelf;
         Player.board = board;
-        Arrays.fill(commonGoalPoints, 0);
+//        commonGoalPoints.add(0);
+//        commonGoalPoints.add(0);
         commonGoalCompleted.add(false);
         commonGoalCompleted.add(false);
     }
@@ -91,7 +91,7 @@ public class Player {
 
     public void setCommonGoalPoints(CommonGoal commonGoal) {
 //        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
-        commonGoalPoints[commonGoals.indexOf(commonGoal)] = commonGoal.getScoring();
+        commonGoalPoints.add(commonGoal.getScoring());
     }
 
 
@@ -130,10 +130,11 @@ public class Player {
         try {
             bookshelf.insert(column, board.pickFromBoard(list));
             for (int i = 0; i < commonGoals.size(); i++) {
-                if (!commonGoalCompleted.get(i)) continue;
-                if (commonGoals.get(i).check(this.bookshelf)) {
-                    setCommonGoalPoints(commonGoals.get(i));
-                    commonGoalCompleted.set(i, true);
+                if (!commonGoalCompleted.get(i)) {
+                    if (commonGoals.get(i).check(this.bookshelf)) {
+                        setCommonGoalPoints(commonGoals.get(i));
+                        commonGoalCompleted.set(i, true);
+                    }
                 }
             }
         } catch (IllegalAccessException e) {
@@ -194,10 +195,12 @@ public class Player {
         // Do we really have to implement getPoints in CommonGoal?
         for (int scoring : commonGoalPoints) {
             score += scoring;
+
         }
 
-        score += personalGoal.getPoints();
+        score += personalGoal.getPoints(bookshelf);
         score += bookshelf.getPoints();
+
 
         return score;
     }

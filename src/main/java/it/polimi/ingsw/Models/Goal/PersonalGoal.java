@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Models.Goal;
 
+import it.polimi.ingsw.Models.Game.Bookshelf;
 import it.polimi.ingsw.Models.Item.Color;
 import it.polimi.ingsw.Models.Utility.Coordinates;
 
@@ -130,7 +131,14 @@ public class PersonalGoal {
      *
      * @return the number of points gained by the player
      */
-    public int getPoints() {
+    public int getPoints(Bookshelf bookshelf) {
+        for (Coordinates coordinates : personalGoalCard.keySet()) {
+            if (bookshelf.getItemAt(coordinates.x(), coordinates.y()).isPresent()) {
+                if (bookshelf.getItemAt(coordinates.x(), coordinates.y()).get().color() == personalGoalCard.get(coordinates)) {
+                    colorReached();
+                }
+            }
+        }
         return currentReached < 3 ? currentReached : currentReached + counter;
     }
 
@@ -153,6 +161,7 @@ public class PersonalGoal {
                 }
             }
         }
+
     }
 }
 

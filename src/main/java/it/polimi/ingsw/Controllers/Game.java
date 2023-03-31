@@ -14,15 +14,21 @@ import java.util.Random;
 
 public class Game {
     private static final int personalGoalDeckSize = 12;
+    private final List<Player> players;
     private List<PersonalGoal> personalGoalDeck;
     private List<CommonGoal> commonGoalDeck;
-    private Board livingRoom;
+    private final Board livingRoom;
     private Bookshelf bookshelf;
-    private final List<Player> players;
     private Player currentPlayer;
 
     public Game(int numOfPlayer) throws IllegalAccessException {
-        this.players = new ArrayList<>(numOfPlayer);
+        this.players = new ArrayList<>(numOfPlayer);// Living room is created and filled
+        livingRoom = new Board(numOfPlayer);
+        livingRoom.fill();
+    }
+
+    public Board getLivingRoom() {
+        return livingRoom;
     }
 
     /**
@@ -35,22 +41,19 @@ public class Game {
         // TODO: add logged in players
 
         // CommonGoalDeck is created and filled
-        commonGoalDeck_creation();
+        //commonGoalDeck_creation();
 
         // PersonalGoalDeck is created and filled
-        personalGoalDeck_creation();
+        //personalGoalDeck_creation();
 
-        // Living room is created and filled
-        livingRoom = new Board(players.size());
-        livingRoom.fill();
 
         // Draw a personal goal card for each player
-        for (Player player : players) {
-            player.setPersonalGoal(drawPersonalGoal());
-        }
+//        for (Player player : players) {
+//            player.setPersonalGoal(drawPersonalGoal());
+//        }
 
         // Draw two common goal cards
-        Player.setCommonGoal(drawCommonGoals());
+        //Player.setCommonGoal(drawCommonGoals());
     }
 
     // drawPersonalGoal() and drawCommonGoals() are basically the same method,
