@@ -225,10 +225,10 @@ public class GetPointsTest {
             j++;
         }
         player1.move(new Coordinates(i, j), new Coordinates(i, j + 1), 2);
-        player1.getBookshelf().cli_print();
 
 //        assertEquals(29, player1.calculateScore());
         assertEquals(27, player2.calculateScore());
+
 
     }
 }

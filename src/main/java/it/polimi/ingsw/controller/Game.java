@@ -11,6 +11,7 @@ import it.polimi.ingsw.utils.BookshelfUtilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Game {
@@ -184,7 +185,7 @@ public class Game {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         if (lastRound) {
             if (players.get(currentPlayerIndex).isFirstPlayer()) {
-                setWinner();
+                printWinners(setWinner());
             } else {
                 currentPlayer = players.get(currentPlayerIndex);
             }
@@ -193,23 +194,36 @@ public class Game {
         }
     }
 
-    public Player setWinner() {
+    public List<Player> setWinner() {
+        List<Player> winners = new ArrayList<>();
         List<Integer> finalScoring = new ArrayList<>();
         //TODO: add case of tie
+
         for (Player player : players) {
             finalScoring.add(player.calculateScore());
         }
-        if (finalScoring.stream().distinct().count() < players.size()) {
-            System.out.println("Tie");
+        if (finalScoring.stream().distinct().count() == players.size()) {
+            int max = finalScoring.stream().max(Integer::compare).get();
+            System.out.println(max);
+            int winnerIndex = finalScoring.indexOf(max);
+            winners.add(players.get(winnerIndex));
+        } else {
+            List<Integer> maxScores = finalScoring.stream().filter(i -> Objects.equals(i, finalScoring.stream().max(Integer::compare).get())).toList();
+            for (Integer score : maxScores) {
+                winners.add(players.get(maxScores.indexOf(score)));
+            }
         }
-        int max = finalScoring.stream().max(Integer::compare).get();
-        System.out.println(max);
-        int winnerIndex = finalScoring.indexOf(max);
-        System.out.println("The winner is " + players.get(winnerIndex).getNickname());
-        return players.get(winnerIndex);
-
+        return winners;
 
     }
 
+    public void printWinners(List<Player> winners) {
+        if (winners.size() > 1) {
+            winners.removeIf(Player::isFirstPlayer);
+        }
+        for (Player winner : winners) {
+            System.out.println("The winner is " + winner.getNickname());
+        }
+    }
 
 }
