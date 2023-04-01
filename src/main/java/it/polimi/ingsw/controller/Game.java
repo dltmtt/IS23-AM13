@@ -20,6 +20,7 @@ public class Game {
     private final List<CommonGoal> commonGoalDeck;
     private final List<PersonalGoal> personalGoalDeck;
     private Player currentPlayer;
+    private boolean lastRound = false;
 
     public Game(int numOfPlayers) throws IllegalAccessException {
         BookshelfUtilities.loadSettings();
@@ -153,18 +154,62 @@ public class Game {
     }
 
     /**
-     * Moves column or a row of items from the board to the player's bookshelf.
+     * Moves column or a row of items from the board to the player's bookshelf. If the bookshelf is full, the player gets the end game card and
+     * the last round starts. At the end, the turn is changed.
      *
-     * @param player the player who wants to move the items
      * @param from   the starting board's coordinates of the items to move
      * @param to     the final board's coordinates of the items to move
      * @param column the index of the bookshelf's column where the items will be moved
      */
-    public void move(Player player, Coordinates from, Coordinates to, int column) {
-        player.move(from, to, column);
+    public void move(Coordinates from, Coordinates to, int column) {
+        currentPlayer.move(from, to, column);
+        if (currentPlayer.getBookshelf().isBookshelfFull()) {
+            if (!lastRound) {
+                currentPlayer.setHasEndGameCard(true);
+                lastRound = true;
+            }
+        }
+        changeTurn();
     }
 
     public void addPlayer(Player player) {
         players.add(player);
     }
+
+    /**
+     * Changes the turn to the next player.
+     */
+    public void changeTurn() {
+        int currentPlayerIndex = players.indexOf(currentPlayer);
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        if (lastRound) {
+            if (players.get(currentPlayerIndex).isFirstPlayer()) {
+                setWinner();
+            } else {
+                currentPlayer = players.get(currentPlayerIndex);
+            }
+        } else {
+            currentPlayer = players.get(currentPlayerIndex);
+        }
+    }
+
+    public Player setWinner() {
+        List<Integer> finalScoring = new ArrayList<>();
+        //TODO: add case of tie
+        for (Player player : players) {
+            finalScoring.add(player.calculateScore());
+        }
+        if (finalScoring.stream().distinct().count() < players.size()) {
+            System.out.println("Tie");
+        }
+        int max = finalScoring.stream().max(Integer::compare).get();
+        System.out.println(max);
+        int winnerIndex = finalScoring.indexOf(max);
+        System.out.println("The winner is " + players.get(winnerIndex).getNickname());
+        return players.get(winnerIndex);
+
+
+    }
+
+
 }

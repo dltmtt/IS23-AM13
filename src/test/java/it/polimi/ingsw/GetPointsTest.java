@@ -3,6 +3,8 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.controller.Game;
 import it.polimi.ingsw.model.commongoallayout.Corners;
 import it.polimi.ingsw.model.commongoallayout.Diagonal;
+import it.polimi.ingsw.model.commongoallayout.FullLine;
+import it.polimi.ingsw.model.commongoallayout.XShape;
 import it.polimi.ingsw.model.game.Bookshelf;
 import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.goal.CommonGoal;
@@ -93,5 +95,140 @@ public class GetPointsTest {
         int score1 = player1.calculateScore();
 
         assertEquals(28, score1);
+    }
+
+    //player1: reaches 4/6 cells of personal goal(4 points), full line common goal as first(8 points), x-shape common goal as second (4 points)  and 13 points from adjacent items.
+    //Total score: 29 points.
+    //player2: reaches 6/6 cells of personal goal(12 points),x-shape common goal as first (8 points)  and 7 points from adjacent items.
+    //Total score: 27 points.
+    @Test
+    void TwoPlayerMatch_Player1Wins() throws IllegalAccessException {
+        Game game = new Game(2);
+        Player player1 = new Player("Valeria", 21, false, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
+        Player player2 = new Player("Arianna", 20, false, false, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.initialize();
+
+        player1.setPersonalGoal(new PersonalGoal(9));
+        player2.setPersonalGoal(new PersonalGoal(8));
+
+        List<CommonGoal> commonGoals = new ArrayList<>();
+        commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false))); //vertical fullline
+        commonGoals.add(new CommonGoal(new XShape(3, 1, 1)));
+        commonGoals.get(0).setScoringList(2);
+        commonGoals.get(1).setScoringList(2);
+        Player.setCommonGoal(commonGoals);
+
+        //player1 set-up
+        List<Item> items = new ArrayList<>();
+
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        player1.getBookshelf().insert(1, items);
+        items.clear();
+
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        player1.getBookshelf().insert(3, items);
+        items.clear();
+
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        player1.getBookshelf().insert(4, items);
+        items.clear();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.PINK, 1));
+        player1.getBookshelf().insert(0, items);
+        items.clear();
+
+        //player1 reach common goal full line as first
+        player1.move(new Coordinates(1, 4), new Coordinates(1, 5), 0);
+
+        //player2 set-up
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        player2.getBookshelf().insert(0, items);
+        items.clear();
+
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        player2.getBookshelf().insert(1, items);
+        items.clear();
+
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.WHITE, 1));
+        player2.getBookshelf().insert(2, items);
+        items.clear();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        player2.getBookshelf().insert(3, items);
+        items.clear();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        player2.getBookshelf().insert(4, items);
+        items.clear();
+
+        //player2 reach common goal x-shape as first
+        player2.move(new Coordinates(2, 1), new Coordinates(2, 2), 0);
+
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        player1.getBookshelf().insert(2, items);
+        items.clear();
+
+        //player1 reach common goal x-shape as second
+        int i = 4;
+        int j = 1;
+        while (game.getLivingRoom().getItem(i, j).color() == Color.GREEN || game.getLivingRoom().getItem(i, j).color() == Color.YELLOW) {
+            i++;
+            j++;
+        }
+        player1.move(new Coordinates(i, j), new Coordinates(i, j + 1), 2);
+        player1.getBookshelf().cli_print();
+
+//        assertEquals(29, player1.calculateScore());
+        assertEquals(27, player2.calculateScore());
+
     }
 }

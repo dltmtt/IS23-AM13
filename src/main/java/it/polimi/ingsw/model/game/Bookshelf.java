@@ -146,6 +146,15 @@ public class Bookshelf implements AbleToGetPoints {
         clearBooleanMatrix();
     }
 
+    public boolean isBookshelfFull() {
+        for (int i = 0; i < Bookshelf.columns; i++) {
+            if (!isColumnFull(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Inserts a list of items in a column.
      *
@@ -213,6 +222,7 @@ public class Bookshelf implements AbleToGetPoints {
         }
         return getItemAt(rows - 1, col).isPresent();
     }
+
 
     /**
      * Calculates the points given by adjacent item tiles in this bookshelf.

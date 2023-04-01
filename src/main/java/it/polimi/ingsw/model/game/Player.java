@@ -19,9 +19,9 @@ public class Player {
     private final int age;
     private final boolean isFirstGame;
     private final boolean isFirstPlayer;
-    private final boolean hasEndGameCard;
     private final List<Integer> commonGoalPoints = new ArrayList<>(2);
     private final Bookshelf bookshelf;
+    private boolean hasEndGameCard;
     private PersonalGoal personalGoal;
 
     public Player(String nickname, int age, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard, Bookshelf bookshelf, Board board) {
@@ -83,6 +83,10 @@ public class Player {
         return hasEndGameCard;
     }
 
+    public void setHasEndGameCard(boolean hasEndGameCard) {
+        this.hasEndGameCard = hasEndGameCard;
+    }
+
     public void setPersonalGoal(PersonalGoal personalGoal) {
         this.personalGoal = personalGoal;
     }
@@ -92,6 +96,10 @@ public class Player {
         commonGoalPoints.add(commonGoal.getScoring());
     }
 
+    //metodo temporaneo
+    public List<CommonGoal> getCommonGoals() {
+        return commonGoals;
+    }
 
     /**
      * Moves a straight line of tiles from the board to the bookshelf.
@@ -193,12 +201,9 @@ public class Player {
         // Do we really have to implement getPoints in CommonGoal?
         for (int scoring : commonGoalPoints) {
             score += scoring;
-
         }
-
         score += personalGoal.getPoints(bookshelf);
         score += bookshelf.getPoints();
-
 
         return score;
     }

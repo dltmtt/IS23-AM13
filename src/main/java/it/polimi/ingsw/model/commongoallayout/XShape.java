@@ -65,17 +65,25 @@ public class XShape extends Layout {
                         colorList.add(b.getItemAt(row, col).get().color());
 
                         // Bottom right
+                        if (b.getItemAt(row, col + 2).isEmpty()) {
+                            continue;
+                        }
                         Color color = b.getItemAt(row, col + 2).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
 
+                        if (b.getItemAt(row + 1, col + 1).isEmpty()) {
+                            continue;
+                        }
                         // Central
                         color = b.getItemAt(row + 1, col + 1).get().color();
                         if (!colorList.contains(color)) {
                             colorList.add(color);
                         }
-
+                        if (b.getItemAt(row + 2, col).isEmpty()) {
+                            continue;
+                        }
                         // Upper left
                         color = b.getItemAt(row + 2, col).get().color();
                         if (!colorList.contains(color)) {
