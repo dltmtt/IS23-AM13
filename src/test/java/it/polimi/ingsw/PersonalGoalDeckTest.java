@@ -1,45 +1,28 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Models.Game.Bookshelf;
-import it.polimi.ingsw.Models.Goal.PersonalGoal;
-import it.polimi.ingsw.Models.Item.Color;
-import it.polimi.ingsw.Models.Utility.Coordinates;
+import it.polimi.ingsw.model.game.Bookshelf;
+import it.polimi.ingsw.model.goal.PersonalGoal;
+import it.polimi.ingsw.model.item.Color;
+import it.polimi.ingsw.model.utility.Coordinates;
+import it.polimi.ingsw.utils.BookshelfUtilities;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PersonalGoalDeckTest {
     PersonalGoal personalGoal;
     Bookshelf b;
 
+    @BeforeAll
+    static void setupAll() {
+        BookshelfUtilities.loadSettings();
+    }
+
     @BeforeEach
     void setup() {
-        // Read the settings from the properties file
-        int rowsSetting;
-        int colsSetting;
-
-        Properties prop = new Properties();
-        //In case the file is not found, the default values will be used
-        try (InputStream input = new FileInputStream("settings/settings.properties")) {
-
-            // Load a properties file
-            prop.load(input);
-            rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
-            colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // If there is an error, use the default values
-            rowsSetting = 5;
-            colsSetting = 6;
-        }
-        b = new Bookshelf(rowsSetting, colsSetting);
+        b = new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns());
     }
 
     // Tests the right setup of personal goal

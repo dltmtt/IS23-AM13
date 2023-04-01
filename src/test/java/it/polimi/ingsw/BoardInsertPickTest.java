@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Models.Game.Board;
-import it.polimi.ingsw.Models.Item.Item;
-import it.polimi.ingsw.Models.Utility.Coordinates;
+import it.polimi.ingsw.model.game.Board;
+import it.polimi.ingsw.model.item.Item;
+import it.polimi.ingsw.model.utility.Coordinates;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,11 +1,11 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Models.CommonGoalLayout.Layout;
-import it.polimi.ingsw.Models.CommonGoalLayout.Stair;
-import it.polimi.ingsw.Models.Game.Bookshelf;
-import it.polimi.ingsw.Models.Item.Color;
-import it.polimi.ingsw.Models.Item.Item;
-import it.polimi.ingsw.TestUtility.BookshelfUtilities;
+import it.polimi.ingsw.model.commongoallayout.Layout;
+import it.polimi.ingsw.model.commongoallayout.Stair;
+import it.polimi.ingsw.model.game.Bookshelf;
+import it.polimi.ingsw.model.item.Color;
+import it.polimi.ingsw.model.item.Item;
+import it.polimi.ingsw.utils.BookshelfUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,7 @@ import java.util.Properties;
 import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StairTest extends BookshelfUtilities {
+public class StairTest {
     Bookshelf b;
     Layout stair;
 
@@ -49,10 +49,10 @@ public class StairTest extends BookshelfUtilities {
 
     @Test
     void StairCheckRowZero() {
-        createLeftStair(b);
+        BookshelfUtilities.createLeftStair(b);
         assertTrue(stair.check(b));
         b.clearBookshelf();
-        createRightStair(b);
+        BookshelfUtilities.createRightStair(b);
 //        b.print();
         assertTrue(stair.check(b));
     }
@@ -65,7 +65,7 @@ public class StairTest extends BookshelfUtilities {
             itemList.add(new Item(Color.getRandomColor(), 0));
             b.insert(i, itemList);
         }
-        createLeftStair(b);
+        BookshelfUtilities.createLeftStair(b);
         b.cli_print();
         assertTrue(stair.check(b));
         b.clearBookshelf();
@@ -74,7 +74,7 @@ public class StairTest extends BookshelfUtilities {
             itemList.add(new Item(Color.getRandomColor(), 0));
             b.insert(i, itemList);
         }
-        createRightStair(b);
+        BookshelfUtilities.createRightStair(b);
         assertTrue(stair.check(b));
     }
 }

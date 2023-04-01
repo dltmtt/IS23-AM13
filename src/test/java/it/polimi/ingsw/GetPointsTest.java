@@ -1,15 +1,15 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Controllers.Game;
-import it.polimi.ingsw.Models.CommonGoalLayout.Corners;
-import it.polimi.ingsw.Models.CommonGoalLayout.Diagonal;
-import it.polimi.ingsw.Models.Game.Bookshelf;
-import it.polimi.ingsw.Models.Game.Player;
-import it.polimi.ingsw.Models.Goal.CommonGoal;
-import it.polimi.ingsw.Models.Goal.PersonalGoal;
-import it.polimi.ingsw.Models.Item.Color;
-import it.polimi.ingsw.Models.Item.Item;
-import it.polimi.ingsw.Models.Utility.Coordinates;
+import it.polimi.ingsw.controller.Game;
+import it.polimi.ingsw.model.commongoallayout.Corners;
+import it.polimi.ingsw.model.commongoallayout.Diagonal;
+import it.polimi.ingsw.model.game.Bookshelf;
+import it.polimi.ingsw.model.game.Player;
+import it.polimi.ingsw.model.goal.CommonGoal;
+import it.polimi.ingsw.model.goal.PersonalGoal;
+import it.polimi.ingsw.model.item.Color;
+import it.polimi.ingsw.model.item.Item;
+import it.polimi.ingsw.model.utility.Coordinates;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
