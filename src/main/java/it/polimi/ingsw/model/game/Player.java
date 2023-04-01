@@ -203,6 +203,7 @@ public class Player {
             score += scoring;
         }
         score += personalGoal.getPoints(bookshelf);
+        System.out.println(this.getNickname() + " " + score);
         score += bookshelf.getPoints();
 
         return score;

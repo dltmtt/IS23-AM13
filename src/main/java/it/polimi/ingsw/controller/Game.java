@@ -51,6 +51,9 @@ public class Game {
         // Draw a personal goal card for each player
         for (Player player : players) {
             player.setPersonalGoal(drawPersonalGoal());
+            if (player.isFirstPlayer()) {
+                currentPlayer = player;
+            }
         }
 
         // Draw two common goal cards
@@ -182,15 +185,15 @@ public class Game {
      */
     public void changeTurn() {
         int currentPlayerIndex = players.indexOf(currentPlayer);
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
         if (lastRound) {
-            if (players.get(currentPlayerIndex).isFirstPlayer()) {
+            if (players.get(nextPlayerIndex).isFirstPlayer()) {
                 printWinners(setWinner());
             } else {
-                currentPlayer = players.get(currentPlayerIndex);
+                currentPlayer = players.get(nextPlayerIndex);
             }
         } else {
-            currentPlayer = players.get(currentPlayerIndex);
+            currentPlayer = players.get(nextPlayerIndex);
         }
     }
 
@@ -204,7 +207,6 @@ public class Game {
         }
         if (finalScoring.stream().distinct().count() == players.size()) {
             int max = finalScoring.stream().max(Integer::compare).get();
-            System.out.println(max);
             int winnerIndex = finalScoring.indexOf(max);
             winners.add(players.get(winnerIndex));
         } else {
