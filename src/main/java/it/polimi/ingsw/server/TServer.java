@@ -2,7 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.ClientHandler;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -10,7 +10,8 @@ import java.util.concurrent.Executors;
 
 public class TServer {
     private final int portNumber;
-    ServerSocket serverSocket = null;
+    private ServerSocket serverSocket = null;
+    private Socket clientSocket;
 
     public TServer(int port) {
         this.portNumber = port;
@@ -39,12 +40,36 @@ public class TServer {
             try {
                 //accepting the connection, it possible
                 assert serverSocket != null;
-                Socket socket = serverSocket.accept();
-                ex.submit(new ClientHandler(socket));
+                clientSocket = serverSocket.accept();
+                ex.submit(new ClientHandler(clientSocket));
+                try {
+                    log();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } catch (IOException e) {
                 break;
             }
         }
         ex.shutdown();
+    }
+
+    public void log() throws IOException {
+        String name;
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        name = in.readLine();
+        System.out.println("The name is: " + name);
+        int age;
+        age = in.read();
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+
+        if (age >= 8) {
+            out.println(name + ", you can play!");
+        } else {
+            out.println(name + "you're too young!");
+        }
+        in.close();
+        out.flush();
+        out.close();
     }
 }
