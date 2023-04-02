@@ -11,7 +11,6 @@ import it.polimi.ingsw.utils.BookshelfUtilities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class Game {
@@ -212,6 +211,7 @@ public class Game {
         }
     }
 
+
     public List<Player> setWinner() {
         List<Player> winners = new ArrayList<>();
         List<Integer> finalScoring = new ArrayList<>();
@@ -221,22 +221,31 @@ public class Game {
             finalScoring.add(player.calculateScore());
         }
 
-        if (finalScoring.stream().distinct().count() == players.size()) {
+        if (finalScoring.stream().distinct().count() < players.size()) {
+            //there is a tie
             int max = finalScoring.stream().max(Integer::compare).get();
-            int winnerIndex = finalScoring.indexOf(max);
-            winners.add(players.get(winnerIndex));
-        } else {
-            List<Integer> maxScores = finalScoring.stream().filter(i -> Objects.equals(i, finalScoring.stream().max(Integer::compare).get())).toList();
-            for (Integer score : maxScores) {
-                winners.add(players.get(maxScores.indexOf(score)));
+            for (Integer score : finalScoring) {
+                if (score == max) {
+                    winners.add(players.get(finalScoring.indexOf(score)));
+                    players.remove(finalScoring.indexOf(score));
+                }
             }
+        } else {
+            int max = finalScoring.stream().max(Integer::compare).get();
+            winners.add(players.get(finalScoring.indexOf(max)));
         }
+
         return winners;
     }
 
     public void printWinners(List<Player> winners) {
+
         if (winners.size() > 1) {
-            winners.removeIf(Player::isFirstPlayer);
+            for (Player winner : winners) {
+                if (winner.isFirstPlayer()) {
+                    winners.remove(winner);
+                }
+            }
         }
 
         for (Player winner : winners) {
