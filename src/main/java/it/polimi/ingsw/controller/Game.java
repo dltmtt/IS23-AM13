@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Game {
+    // This value is tied to the switch statement in the PersonalGoal class
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
     private final Board livingRoom;
@@ -42,11 +43,8 @@ public class Game {
     public void initialize() {
         // TODO: add logged in players
 
-        // CommonGoalDeck is created and filled
-        createCommonGoalDeck();
-
-        // PersonalGoalDeck is created and filled
-        createPersonalGoalDeck();
+        fillCommonGoalDeck();
+        fillPersonalGoalDeck();
 
         // Draw a personal goal card for each player
         for (Player player : players) {
@@ -112,33 +110,51 @@ public class Game {
         return extracted;
     }
 
-    // TODO: Add missing layouts
-
     /**
      * Creates a deck with all the possible layouts for the common goals.
      */
-    public void createCommonGoalDeck() {
-        int dimension = Math.min(Bookshelf.getColumns(), Bookshelf.getRows());
+    private void fillCommonGoalDeck() {
         List<Layout> layouts = new ArrayList<>();
+        int dimension = Math.min(Bookshelf.getColumns(), Bookshelf.getRows());
 
-        // TODO: parametrize the rest of the layouts.
-        layouts.add(new Stair(dimension));
-        layouts.add(new Diagonal(dimension, 1, 1));
+        // Four tiles of the same type in the four corners of the bookshelf.
         layouts.add(new Corners(1, 1));
-        layouts.add(new XShape(3, 1, 1));
-        // columnLine layout
+
+        // As many tiles of the same type as the smaller dimension of the bookshelf forming a diagonal.
+        layouts.add(new Diagonal(dimension, 1, 1));
+
+        // Three columns each formed tiles of maximum three different types.
         layouts.add(new FullLine(1, 3, 3, false));
-        // rowLine layout
+
+        // Four lines each formed tiles of maximum three different types.
         layouts.add(new FullLine(1, 3, 4, true));
 
-        // Column where each item has a different type. Its length is equal to the number of rows.
+        // Two columns where each item has a different type. Their length is equal to the number of rows.
         layouts.add(new FullLine(Bookshelf.getRows(), Bookshelf.getRows(), 2, false));
 
-        // Row where each item has a different type. Its length is equal to the number of columns.
+        // Two rows where each item has a different type. Their length is equal to the number of columns.
         layouts.add(new FullLine(Bookshelf.getColumns(), Bookshelf.getColumns(), 2, true));
 
-        // TODO: aggiungere Square
-        // TODO: aggiungere Rectangle
+        // TODO: replace placeholders (parameters set to 0).
+        // Six groups each containing at least 2 tiles of the same type.
+        layouts.add(new Group(0, 0, 6, 0));
+
+        // TODO: replace placeholders (parameters set to 0).
+        // Four groups each containing at least 4 tiles of the same type.
+        layouts.add(new Group(0, 0, 4, 0));
+
+        // TODO: replace placeholders (parameters set to 0).
+        // Eight tiles of the same type.
+        layouts.add(new ItemsPerColor(0, 0));
+
+        // Two 2×2 squares with items of the same type.
+        layouts.add(new Square(2, 1, 1, 2));
+
+        // A stair as big as the smaller dimension of the bookshelf.
+        layouts.add(new Stair(dimension));
+
+        // Five tiles of the same type forming an X.
+        layouts.add(new XShape(3, 1, 1));
 
         for (Layout layout : layouts) {
             commonGoalDeck.add(new CommonGoal(layout));
@@ -150,9 +166,8 @@ public class Game {
      * A personal goal is a matrix with highlighted spaces with the corresponding item tiles
      * that players have to replicate in their bookshelves to get points.
      */
-    public void createPersonalGoalDeck() {
+    public void fillPersonalGoalDeck() {
         for (int i = 0; i < personalGoalDeckSize; i++) {
-            // Add a new personal goal in the List
             personalGoalDeck.add(new PersonalGoal(i));
         }
     }
@@ -200,11 +215,12 @@ public class Game {
     public List<Player> setWinner() {
         List<Player> winners = new ArrayList<>();
         List<Integer> finalScoring = new ArrayList<>();
-        //TODO: add case of tie
+        // TODO: add case of tie
 
         for (Player player : players) {
             finalScoring.add(player.calculateScore());
         }
+
         if (finalScoring.stream().distinct().count() == players.size()) {
             int max = finalScoring.stream().max(Integer::compare).get();
             int winnerIndex = finalScoring.indexOf(max);
@@ -216,16 +232,15 @@ public class Game {
             }
         }
         return winners;
-
     }
 
     public void printWinners(List<Player> winners) {
         if (winners.size() > 1) {
             winners.removeIf(Player::isFirstPlayer);
         }
+
         for (Player winner : winners) {
             System.out.println("The winner is " + winner.getNickname());
         }
     }
-
 }
