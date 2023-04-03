@@ -51,7 +51,7 @@ public class Group extends Layout {
                 }
             }
         }
-        return counter == occurrences;
+        return counter >= occurrences;
     }
 
 
