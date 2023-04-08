@@ -1,5 +1,7 @@
 package it.polimi.ingsw.utils;
 
+import it.polimi.ingsw.model.commongoallayout.Group;
+import it.polimi.ingsw.model.commongoallayout.Layout;
 import it.polimi.ingsw.model.game.Bookshelf;
 import it.polimi.ingsw.model.item.Color;
 import it.polimi.ingsw.model.item.Item;
@@ -357,5 +359,620 @@ public class BookshelfUtilities {
         itemList.remove(0);
         b.insert(0, itemList);
         itemList.remove(0);
+    }
+
+    /**
+     * Creates problematic layouts in the bookshelf
+     * Please refer to the documentation for more information about the specific layouts
+     *
+     * @param b       the bookshelf
+     * @param variant the variant of the layout (between 0 and 11)
+     * @return the correct layout goal to be checked
+     */
+    public static Layout createProblematicLayouts(Bookshelf b, int variant) {
+        //creates different problematics layout in the bookshelf depending on the variant chosen
+        //it is implemented with a switch statement
+        List<Color> colorList = List.of(Color.values());
+        List<Item> items = new ArrayList<>();
+        b.clearBooleanMatrix();
+        b.clearBookshelf();
+
+        switch (variant) {
+
+            case (0) -> {
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(0, items);
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(1, items);
+
+                items.clear();
+                //third column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(4, items);
+                return new Group(1, 1, 4, 4);
+            }
+
+            case (1) -> {
+
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(4), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+
+                b.insert(0, items);
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(3), 0));
+
+                b.insert(1, items);
+
+                items.clear();
+                //third column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(4), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(4), 0));
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(4), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(4), 0));
+
+                b.insert(4, items);
+                return new Group(1, 1, 4, 4);
+            }
+
+            case (2) -> {
+
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+
+                b.insert(0, items);
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+
+                b.insert(1, items);
+
+                items.clear();
+                //third column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(4), 0));
+                items.add(new Item(colorList.get(4), 0));
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(4), 0));
+                items.add(new Item(colorList.get(4), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(4, items);
+                return new Group(1, 1, 6, 4);
+            }
+
+            case (3) -> {
+
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                //one empty space
+
+                b.insert(0, items);
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                //two empty spaces
+
+                b.insert(1, items);
+
+                items.clear();
+                //third column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                //two empty spaces
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                //two empty spaces
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+
+                b.insert(4, items);
+                return new Group(1, 1, 4, 4);
+            }
+
+            case (4) -> {
+
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                //three empty spaces
+
+
+                b.insert(0, items);
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+
+                b.insert(1, items);
+
+                items.clear();
+                //third column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(0), 0));
+                //one empty space
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                //one empty space
+
+                b.insert(4, items);
+                return new Group(1, 1, 5, 4);
+            }
+
+            case (5) -> {
+
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+
+                b.insert(0, items);
+                b.insert(2, items);
+
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+
+                b.insert(1, items);
+                b.insert(3, items);
+
+                items.clear();
+                //last column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+
+                b.insert(4, items);
+
+                return new Group(1, 1, 7, 4);
+            }
+
+            case (6) -> {
+
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(3), 0));
+
+                b.insert(0, items);
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(3), 0));
+
+                b.insert(1, items);
+
+                items.clear();
+                //third column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(3), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(4, items);
+                return new Group(1, 1, 7, 4);
+            }
+
+            case (7) -> {
+
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+
+                b.insert(0, items);
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+
+                b.insert(1, items);
+
+                items.clear();
+                //third column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(4, items);
+                return new Group(1, 1, 7, 4);
+            }
+
+            case (8) -> {
+
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+
+                b.insert(0, items);
+
+                items.clear();
+                //second column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+
+                b.insert(1, items);
+
+                items.clear();
+                //third column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+
+                b.insert(4, items);
+                return new Group(1, 1, 6, 4);
+            }
+
+            case (9) -> {
+
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+
+                b.insert(0, items);
+                b.insert(1, items);
+
+                items.clear();
+
+                //third column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(0), 0));
+                //one empty space
+
+                b.insert(2, items);
+
+                items.clear();
+                //fourth column
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(2), 0));
+                items.add(new Item(colorList.get(2), 0));
+                //one empty space
+
+                b.insert(3, items);
+
+                items.clear();
+
+                //fifth column
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(0), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+                items.add(new Item(colorList.get(1), 0));
+
+                b.insert(4, items);
+                return new Group(1, 1, 6, 4);
+            }
+
+
+            case (10) -> {
+                int groupsize = 4;
+                //correctly identifying a column of 4 items of the same color
+                for (int i = 0; i < Bookshelf.getColumns(); i++) {
+                    items.clear();
+                    for (int index = 0; index < groupsize; index++) {
+                        items.add(new Item(colorList.get(i % (colorList.size() - 1)), 0));
+                    }
+
+                    int numrem = Bookshelf.getRows() - items.size();
+                    for (int remaining = 0; remaining < numrem; remaining++) {
+                        items.add(new Item(colorList.get(colorList.size() - 1), 0));
+                    }
+                    b.insert(i, items);
+                }
+                return new Group(1, 1, Bookshelf.getColumns(), groupsize);
+            }
+
+            case (11) -> {
+                //correctly identifying a row of 4 items of the same color
+                int groupsize = 4;
+
+                for (int i = 0; i < groupsize; i++) {
+                    items.add(new Item(colorList.get(i % (colorList.size() - 1)), 0));
+                }
+                for (int i = 0; i < Bookshelf.getRows() - items.size(); i++) {
+                    items.add(new Item(colorList.get(colorList.size() - 1), 0));
+                }
+                for (int i = 0; i < groupsize; i++) {
+                    b.insert(i, items);
+                }
+
+                items.clear();
+                for (int i = 0; i < Bookshelf.getColumns(); i++) {
+                    items.add(new Item(colorList.get(colorList.size() - 1), 0));
+                }
+
+
+                for (int i = groupsize; i < Bookshelf.getColumns(); i++) {
+                    b.insert(i, items);
+                }
+                return new Group(1, 1, Bookshelf.getColumns(), groupsize);
+            }
+
+            default -> throw new IllegalStateException("Unexpected value: " + variant);
+        }
     }
 }

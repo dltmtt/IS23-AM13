@@ -31,7 +31,7 @@ public class StairTest {
 
         Properties prop = new Properties();
         // In case the file is not found, the default values will be used
-        try (InputStream input = new FileInputStream("settings/settings.properties")) {
+        try (InputStream input = new FileInputStream("src/main/resources/settings.properties")) {
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
