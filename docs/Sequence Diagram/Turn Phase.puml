@@ -1,0 +1,31 @@
+@startuml
+
+box "Client" #LightBlue
+participant Client
+end box
+
+box "Server" #Pink
+participant ConnectionHandler
+participant GameController
+participant Game
+end box
+
+ConnectionHandler <-- GameController: currentPlayer turn
+ConnectionHandler -->Client: it's your turn
+Client->Client: check move
+Client-> ConnectionHandler: Move
+ConnectionHandler->GameController: Move
+GameController->Game: Move
+Game->Game: check move
+Game--> GameController: Game Update
+GameController-->ConnectionHandler: Game Update
+ConnectionHandler-->Client: Game Update
+Client->ConnectionHandler: bookshelf points update
+ConnectionHandler->GameController: bookshelf points update
+GameController->GameController: check points
+
+
+
+
+
+@enduml
