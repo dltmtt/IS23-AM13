@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.commongoallayout;
+package it.polimi.ingsw.model.commonGoalLayout;
 
 import it.polimi.ingsw.model.game.Bookshelf;
 import it.polimi.ingsw.model.item.Item;

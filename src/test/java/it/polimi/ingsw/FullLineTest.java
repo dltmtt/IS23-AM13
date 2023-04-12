@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.commongoallayout.FullLine;
-import it.polimi.ingsw.model.commongoallayout.Layout;
+import it.polimi.ingsw.model.commonGoalLayout.FullLine;
+import it.polimi.ingsw.model.commonGoalLayout.Layout;
 import it.polimi.ingsw.model.game.Bookshelf;
 import it.polimi.ingsw.utils.BookshelfUtilities;
 import org.junit.jupiter.api.BeforeAll;

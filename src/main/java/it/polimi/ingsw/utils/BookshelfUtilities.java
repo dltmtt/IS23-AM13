@@ -1,7 +1,7 @@
 package it.polimi.ingsw.utils;
 
-import it.polimi.ingsw.model.commongoallayout.Group;
-import it.polimi.ingsw.model.commongoallayout.Layout;
+import it.polimi.ingsw.model.commonGoalLayout.Group;
+import it.polimi.ingsw.model.commonGoalLayout.Layout;
 import it.polimi.ingsw.model.game.Bookshelf;
 import it.polimi.ingsw.model.item.Color;
 import it.polimi.ingsw.model.item.Item;

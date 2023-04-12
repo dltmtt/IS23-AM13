@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.Game;
-import it.polimi.ingsw.model.commongoallayout.Corners;
-import it.polimi.ingsw.model.commongoallayout.Diagonal;
-import it.polimi.ingsw.model.commongoallayout.FullLine;
-import it.polimi.ingsw.model.commongoallayout.XShape;
+import it.polimi.ingsw.model.commonGoalLayout.Corners;
+import it.polimi.ingsw.model.commonGoalLayout.Diagonal;
+import it.polimi.ingsw.model.commonGoalLayout.FullLine;
+import it.polimi.ingsw.model.commonGoalLayout.XShape;
 import it.polimi.ingsw.model.game.Bookshelf;
 import it.polimi.ingsw.model.game.Player;
 import it.polimi.ingsw.model.goal.CommonGoal;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.commongoallayout.Diagonal;
-import it.polimi.ingsw.model.commongoallayout.Layout;
+import it.polimi.ingsw.model.commonGoalLayout.Diagonal;
+import it.polimi.ingsw.model.commonGoalLayout.Layout;
 import it.polimi.ingsw.model.goal.CommonGoal;
 import org.junit.jupiter.api.Test;
 

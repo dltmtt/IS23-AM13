@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.commongoallayout.*;
+import it.polimi.ingsw.model.commonGoalLayout.*;
 import it.polimi.ingsw.model.game.Board;
 import it.polimi.ingsw.model.game.Bookshelf;
 import it.polimi.ingsw.model.game.Player;
