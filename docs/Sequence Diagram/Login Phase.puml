@@ -1,0 +1,34 @@
+@startuml
+title "Login phase"
+
+box "Client" #LightBlue
+participant Client
+end box
+
+box "Server" #Pink
+participant ConnectionHandler
+participant UserChecker
+end box
+
+'Client-Server connections
+Client<--UserChecker: ping
+Client->ConnectionHandler: pong
+Client<--ConnectionHandler: login
+Client<--ConnectionHandler: username request
+Client->ConnectionHandler: username
+
+
+'Server-UserChecker connections
+ConnectionHandler->UserChecker: check username
+UserChecker-->ConnectionHandler: result
+
+'alt cases
+alt successful case
+Client<--ConnectionHandler: data request
+else unsuccessful case
+Client<--ConnectionHandler: error
+end
+
+Client->ConnectionHandler: UserData
+Client<--ConnectionHandler: success
+@enduml

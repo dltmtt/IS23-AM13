@@ -1,0 +1,34 @@
+@startuml
+
+box "Client" #LightBlue
+participant Client
+end box
+
+box "Server" #Pink
+participant ConnectionHandler
+participant Room
+participant Game
+end box
+
+Room --> ConnectionHandler : 4 players logged in
+ConnectionHandler --> Client : starting game
+Client -> ConnectionHandler : game starter
+
+ConnectionHandler-> Room : check if there are still enough players
+alt yes
+Room --> ConnectionHandler : there are
+ConnectionHandler --> Client : starting match
+Client -> ConnectionHandler : ACK
+ConnectionHandler -> Game : ACK
+Room -> Game : new Game
+Game --> Room : Game Data
+Room --> ConnectionHandler : Game Data
+ConnectionHandler --> Client : Game Data
+note right of Client: Game starts here
+else no
+Room --> ConnectionHandler : there aren't
+ConnectionHandler --> Client : waiting for more players
+end
+
+
+@enduml
