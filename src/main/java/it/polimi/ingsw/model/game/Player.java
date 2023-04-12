@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.game;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.goal.CommonGoal;
 import it.polimi.ingsw.model.goal.PersonalGoal;
 import it.polimi.ingsw.model.item.Item;
@@ -13,6 +14,7 @@ import java.util.List;
 public class Player {
     // Maybe we don't need this, we assign the common goal points in the CommonGoal class
     private static List<CommonGoal> commonGoals = new ArrayList<>();
+    Gson gson = new Gson();
     private static Board board;
     private final List<Boolean> commonGoalCompleted = new ArrayList<>(2);
     private final String nickname;
