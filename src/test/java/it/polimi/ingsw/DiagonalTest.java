@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.commonGoalLayout.Diagonal;
-import it.polimi.ingsw.model.commonGoalLayout.Layout;
-import it.polimi.ingsw.model.game.Bookshelf;
+import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.layouts.Diagonal;
+import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.BookshelfUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

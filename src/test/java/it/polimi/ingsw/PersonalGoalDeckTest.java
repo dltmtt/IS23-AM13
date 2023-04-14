@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.game.Bookshelf;
-import it.polimi.ingsw.model.goal.PersonalGoal;
-import it.polimi.ingsw.model.item.Color;
-import it.polimi.ingsw.model.utility.Coordinates;
+import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.PersonalGoal;
 import it.polimi.ingsw.utils.BookshelfUtilities;
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

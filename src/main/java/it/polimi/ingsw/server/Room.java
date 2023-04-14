@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.model.game.Player;
+import it.polimi.ingsw.server.model.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

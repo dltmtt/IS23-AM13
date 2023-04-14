@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.interfaces;
+package it.polimi.ingsw.server.model;
 
 public interface AbleToGetPoints {
     int getPoints();

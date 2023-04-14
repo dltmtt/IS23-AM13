@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.ClientHandler;
+import it.polimi.ingsw.client.ClientController;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -8,17 +8,17 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TServer {
+public class TCPServer {
     private final int portNumber;
-    private ServerSocket serverSocket = null;
+    private ServerSocket serverSocket;
     private Socket clientSocket;
 
-    public TServer(int port) {
+    public TCPServer(int port) {
         this.portNumber = port;
     }
 
     public static void main(String[] args) {
-        TServer echoServer = new TServer(1234);
+        TCPServer echoServer = new TCPServer(1234);
         echoServer.run();
     }
 
@@ -41,7 +41,7 @@ public class TServer {
                 //accepting the connection, it possible
                 assert serverSocket != null;
                 clientSocket = serverSocket.accept();
-                ex.submit(new ClientHandler(clientSocket));
+                ex.submit(new ClientController(clientSocket));
                 try {
                     log();
                 } catch (Exception e) {

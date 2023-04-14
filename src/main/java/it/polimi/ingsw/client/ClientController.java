@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable {
+public class ClientController implements Runnable {
     private final Socket socket;
 
-    public ClientHandler(Socket socket) {
+    public ClientController(Socket socket) {
         this.socket = socket;
     }
 

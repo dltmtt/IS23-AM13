@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.utility;
+package it.polimi.ingsw.utils;
 
 public record Coordinates(Integer x, Integer y) {
     @Override

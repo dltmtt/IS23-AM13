@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.game.Board;
-import it.polimi.ingsw.model.item.Item;
-import it.polimi.ingsw.model.utility.Coordinates;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.Coordinates;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardInsertPickTest {
+public class BoardTest {
     // Tests if Cell 00 is null with 3 players
     @Test
     void filWith3playersCell00() throws IllegalAccessException {

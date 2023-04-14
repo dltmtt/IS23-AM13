@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model.item;
+package it.polimi.ingsw.server.model;
+
+import it.polimi.ingsw.utils.Color;
 
 /**
  * An item made of a color and a number identifying its drawing.

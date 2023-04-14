@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.commonGoalLayout;
+package it.polimi.ingsw.server.model.layouts;
 
-import it.polimi.ingsw.model.game.Bookshelf;
+import it.polimi.ingsw.server.model.Bookshelf;
 
 
 /**
@@ -63,7 +63,7 @@ public class Diagonal extends Layout {
         // Check if there are 5 items of the same color in a diagonal from the top right to the bottom left
         while (row < Bookshelf.getRows() - 1 && column < Bookshelf.getColumns() - 1) {
             if (b.getItemAt(row, column).isPresent() && b.getItemAt(row + 1, column + 1).isPresent()) {
-                if (!b.getItemAt(row, column).get().color().equals(b.getItemAt(row + 1, column + 1).get().color())) {
+                if (b.getItemAt(row, column).get().color() != b.getItemAt(row + 1, column + 1).get().color()) {
                     break;
                 } else {
                     counter++;
@@ -102,7 +102,7 @@ public class Diagonal extends Layout {
         int counter = 1;
         while (row < Bookshelf.getRows() - 1 && column > 0) {
             if (b.getItemAt(row, column).isPresent() && b.getItemAt(row + 1, column - 1).isPresent()) {
-                if (!b.getItemAt(row, column).get().color().equals(b.getItemAt(row + 1, column - 1).get().color())) {
+                if (b.getItemAt(row, column).get().color() != b.getItemAt(row + 1, column - 1).get().color()) {
                     break;
                 } else {
                     counter++;

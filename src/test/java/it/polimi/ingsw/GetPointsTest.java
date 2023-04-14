@@ -1,17 +1,12 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.Game;
-import it.polimi.ingsw.model.commonGoalLayout.Corners;
-import it.polimi.ingsw.model.commonGoalLayout.Diagonal;
-import it.polimi.ingsw.model.commonGoalLayout.FullLine;
-import it.polimi.ingsw.model.commonGoalLayout.XShape;
-import it.polimi.ingsw.model.game.Bookshelf;
-import it.polimi.ingsw.model.game.Player;
-import it.polimi.ingsw.model.goal.CommonGoal;
-import it.polimi.ingsw.model.goal.PersonalGoal;
-import it.polimi.ingsw.model.item.Color;
-import it.polimi.ingsw.model.item.Item;
-import it.polimi.ingsw.model.utility.Coordinates;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.layouts.Corners;
+import it.polimi.ingsw.server.model.layouts.Diagonal;
+import it.polimi.ingsw.server.model.layouts.FullLine;
+import it.polimi.ingsw.server.model.layouts.XShape;
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,8 +15,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetPointsTest {
-
-
     // player1 is the first to reach both common goals and 5/6 items of the personal goal,
     // so he should get 9 points from the personal goal and 16 points from the common goals
     // plus 3 points for one group of 4 adjacent items, for a total of 28 points.

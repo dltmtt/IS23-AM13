@@ -1,8 +1,6 @@
-package it.polimi.ingsw.model.game;
+package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.model.interfaces.AbleToGetPoints;
-import it.polimi.ingsw.model.item.Color;
-import it.polimi.ingsw.model.item.Item;
+import it.polimi.ingsw.utils.Color;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +63,7 @@ public class Bookshelf implements AbleToGetPoints {
 //        for (int i = 0; i < b.getColumns(); i++) {
 //            itemList.clear();
 //            for (int j = 0; j < b.getRows(); j++) {
-//                itemList.add(new item(it.polimi.ingsw.model.item.Color.getRandomColor(), 0));
+//                itemList.add(new item(it.polimi.ingsw.utils.Color.getRandomColor(), 0));
 //            }
 //            b.insert(i, itemList);
 //        }
@@ -147,7 +145,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     public boolean isBookshelfFull() {
-        for (int i = 0; i < Bookshelf.columns; i++) {
+        for (int i = 0; i < columns; i++) {
             if (!isColumnFull(i)) {
                 return false;
             }
@@ -270,7 +268,7 @@ public class Bookshelf implements AbleToGetPoints {
         }
 
         // noinspection OptionalGetWithoutIsPresent
-        if (!items[row][column].get().color().equals(color)) {
+        if (items[row][column].get().color() != color) {
             return 0;
         }
 

@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.commonGoalLayout.ItemsPerColor;
-import it.polimi.ingsw.model.commonGoalLayout.Layout;
-import it.polimi.ingsw.model.game.Bookshelf;
-import it.polimi.ingsw.model.item.Color;
+import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.layouts.ItemsPerColor;
+import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.BookshelfUtilities;
+import it.polimi.ingsw.utils.Color;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,9 @@
-package it.polimi.ingsw.model.utility;
+package it.polimi.ingsw.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//
 public class UsableCells {
     private final List<Coordinates> usableCells;
 

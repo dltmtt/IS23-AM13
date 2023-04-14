@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.commonGoalLayout;
+package it.polimi.ingsw.server.model.layouts;
 
-import it.polimi.ingsw.model.game.Bookshelf;
+import it.polimi.ingsw.server.model.Bookshelf;
 
 /**
  * The common goal layout with columns of increasing or decreasing height.
@@ -85,4 +85,3 @@ public class Stair extends Layout {
         return super.getInfo() + " -type: stair";
     }
 }
-

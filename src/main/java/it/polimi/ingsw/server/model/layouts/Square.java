@@ -1,6 +1,6 @@
-package it.polimi.ingsw.model.commonGoalLayout;
+package it.polimi.ingsw.server.model.layouts;
 
-import it.polimi.ingsw.model.game.Bookshelf;
+import it.polimi.ingsw.server.model.Bookshelf;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

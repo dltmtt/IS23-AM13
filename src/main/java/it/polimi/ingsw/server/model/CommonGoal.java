@@ -1,8 +1,6 @@
-package it.polimi.ingsw.model.goal;
+package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.model.commonGoalLayout.Layout;
-import it.polimi.ingsw.model.game.Bookshelf;
-import it.polimi.ingsw.model.game.Player;
+import it.polimi.ingsw.server.model.layouts.Layout;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,9 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.commonGoalLayout.*;
-import it.polimi.ingsw.model.game.Board;
-import it.polimi.ingsw.model.game.Bookshelf;
-import it.polimi.ingsw.model.game.Player;
-import it.polimi.ingsw.model.goal.CommonGoal;
-import it.polimi.ingsw.model.goal.PersonalGoal;
-import it.polimi.ingsw.model.utility.Coordinates;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.layouts.*;
 import it.polimi.ingsw.utils.BookshelfUtilities;
+import it.polimi.ingsw.utils.Coordinates;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +17,7 @@ public class Game {
     private final List<CommonGoal> commonGoalDeck;
     private final List<PersonalGoal> personalGoalDeck;
     private Player currentPlayer;
-    private boolean lastRound = false;
+    private boolean lastRound;
 
     public Game(int numOfPlayers) throws IllegalAccessException {
         BookshelfUtilities.loadSettings();

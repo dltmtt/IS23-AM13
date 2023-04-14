@@ -1,10 +1,9 @@
 package it.polimi.ingsw.utils;
 
-import it.polimi.ingsw.model.commonGoalLayout.Group;
-import it.polimi.ingsw.model.commonGoalLayout.Layout;
-import it.polimi.ingsw.model.game.Bookshelf;
-import it.polimi.ingsw.model.item.Color;
-import it.polimi.ingsw.model.item.Item;
+import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.server.model.layouts.Group;
+import it.polimi.ingsw.server.model.layouts.Layout;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,7 +17,7 @@ import java.util.stream.Stream;
 
 import static java.lang.Integer.parseInt;
 
-public class BookshelfUtilities {
+public final class BookshelfUtilities {
     /**
      * Reads settings from a <code>.properties</code> file and sets <code>Bookshelf</code>'s rows and columns.
      */
