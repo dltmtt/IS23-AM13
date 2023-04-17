@@ -28,7 +28,7 @@ public class Game {
     private Player currentPlayer;
     private boolean lastRound;
 
-    public Game(int numOfPlayers) throws IllegalAccessException {
+    public Game(int numOfPlayers) throws IllegalAccessException, IOException, ParseException {
         BookshelfUtilities.loadSettings();
         this.players = new ArrayList<>(numOfPlayers); // Living room is created and filled
         livingRoom = new Board(numOfPlayers);

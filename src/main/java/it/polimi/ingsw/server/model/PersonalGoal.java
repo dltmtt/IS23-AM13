@@ -14,8 +14,7 @@ public class PersonalGoal {
      * Creates a personal goal card.
      * It is a representation of the spaces that a player
      * has to fill with his bookshelf's items.
-     *
-     * @param layout the layout of the personal goal.   
+     * @param hashMap which is initialized by reading a json file
      */
     // TODO: add the possibility to load custom personal goals from a file
     public PersonalGoal(HashMap<Coordinates,Color> hashMap) {

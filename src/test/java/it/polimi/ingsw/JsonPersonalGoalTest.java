@@ -10,15 +10,15 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Random;
+
 
 public class JsonPersonalGoalTest {
     @Test
-    public void firstCardfirstCellTest() throws IOException, ParseException {
+    public void firstCardFirstCellTest() throws IOException, ParseException {
 
         HashMap<Coordinates, Color> personalGoalCard = new HashMap<>();
 

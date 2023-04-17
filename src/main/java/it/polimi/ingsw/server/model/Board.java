@@ -3,7 +3,14 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.UsableCells;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,7 +20,7 @@ public class Board {
     private static final int numOfColorOccurrences = 22;
     private final Item[][] boardMatrix;
     private final List<Item> itemBag;
-    private final UsableCells usableCells;
+    private final List<Coordinates> usableCells;
 
     /**
      * Creates a new square board of size <code>boardSize</code>,
@@ -22,11 +29,22 @@ public class Board {
      *
      * @param numOfPlayers the number of players in the game
      */
-    public Board(int numOfPlayers) {
+    public Board(int numOfPlayers) throws IOException, ParseException {
         boardMatrix = new Item[boardSize][boardSize];
-        usableCells = new UsableCells(numOfPlayers);
         itemBag = new ArrayList<>();
+        usableCells=new ArrayList<>();
+        JSONParser parser = new JSONParser();
+        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/usable_cells.json"));
+        JSONArray usableCellsArray = (JSONArray) personalGoalJson.get("usable_cells");
 
+        for(int i=0;i<=numOfPlayers-2;i++){
+            JSONObject elem= (JSONObject) usableCellsArray.get(i);
+            JSONArray current_usable=(JSONArray) elem.get("current_usable");
+            for(Object o: current_usable){
+                JSONObject cell= (JSONObject) o;
+                usableCells.add(new Coordinates(Math.toIntExact((Long) cell.get("x")),Math.toIntExact((Long) cell.get("y"))));
+            }
+        }
         // Initialize the bag of items. For each color, there are 22 occurrences with 3 different images for a total of 132 items.
         for (Color color : Color.values()) {
             for (int i = 0; i < numOfColorOccurrences; i++) {
@@ -49,7 +67,7 @@ public class Board {
             for (int column = 0; column < boardSize; column++) {
                 if (itemBag.isEmpty()) {
                     throw new IllegalAccessException("the list is empty");
-                } else if (usableCells.getList().contains(new Coordinates(row, column))) {
+                } else if (usableCells.contains(new Coordinates(row, column))) {
                     int indexRandom = randNumberGenerator.nextInt(itemBag.size());
                     boardMatrix[row][column] = itemBag.get(indexRandom);
                     itemBag.remove(indexRandom);
