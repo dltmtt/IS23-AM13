@@ -15,7 +15,7 @@ public class PersonalGoal {
      * It is a representation of the spaces that a player
      * has to fill with his bookshelf's items.
      *
-     * @param layout the layout of the personal goal.
+     * @param layout the layout of the personal goal.   
      */
     // TODO: add the possibility to load custom personal goals from a file
     public PersonalGoal(int layout) {
