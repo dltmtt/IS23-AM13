@@ -17,14 +17,14 @@ public class Square extends Layout {
     /**
      * Creates a square layout.
      *
-     * @param dimension    the dimension of the square
+     * @param size         the dimension of the square
      * @param minDifferent the minimum number of different colors in the layout
      * @param maxDifferent the maximum number of different colors in the layout
      * @param occurrences  the number of occurrences of the layout
      * @throws IllegalArgumentException if the parameters are invalid
      */
-    public Square(int dimension, int minDifferent, int maxDifferent, int occurrences) throws IllegalArgumentException {
-        super(dimension, dimension, minDifferent, maxDifferent);
+    public Square(int minDifferent, int maxDifferent, int occurrences, int size) throws IllegalArgumentException {
+        super(size, size, minDifferent, maxDifferent);
 
         if (occurrences < 0) {
             throw new IllegalArgumentException("Invalid number of occurrences");

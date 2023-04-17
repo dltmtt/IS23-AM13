@@ -28,7 +28,7 @@ public class XShape extends Layout {
      * @param minDifferent the minimum number of different colors in a layout
      * @param maxDifferent the maximum number of different colors in a layout
      */
-    public XShape(int dimension, int minDifferent, int maxDifferent) {
+    public XShape(int minDifferent, int maxDifferent, int dimension) {
         // For now dimension parameter (width and height) are ignored
         super(3, 3, minDifferent, maxDifferent);
     }
