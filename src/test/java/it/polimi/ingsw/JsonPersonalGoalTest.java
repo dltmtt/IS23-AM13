@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 
+import it.polimi.ingsw.server.model.PersonalGoal;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.JSONArray;
@@ -35,4 +36,13 @@ public class JsonPersonalGoalTest {
 
     }
 
+    @Test
+    void drawTest() throws IllegalAccessException, IOException, ParseException {
+        Game g=new Game(3);
+
+        g.fillPersonalGoalDeck();
+        PersonalGoal p= g.drawPersonalGoal();
+        p.cli_print();
+
+    }
 }

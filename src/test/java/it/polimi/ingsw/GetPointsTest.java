@@ -7,8 +7,10 @@ import it.polimi.ingsw.server.model.layouts.FullLine;
 import it.polimi.ingsw.server.model.layouts.XShape;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class GetPointsTest {
     // so he should get 9 points from the personal goal and 16 points from the common goals
     // plus 3 points for one group of 4 adjacent items, for a total of 28 points.
     @Test
-    void generalTest() throws IllegalAccessException {
+    void generalTest() throws IllegalAccessException, IOException, ParseException {
         Game game = new Game(3);
         Player player1 = new Player("test1", 20, true, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         Player player2 = new Player("test2", 20, true, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
@@ -36,9 +38,9 @@ public class GetPointsTest {
         commonGoals.get(1).setScoringList(3);
         Player.setCommonGoal(commonGoals);
 
-        player1.setPersonalGoal(new PersonalGoal(1));
-        player2.setPersonalGoal(new PersonalGoal(2));
-        player3.setPersonalGoal(new PersonalGoal(3));
+//        player1.setPersonalGoal(new PersonalGoal(1));
+//        player2.setPersonalGoal(new PersonalGoal(2));
+//        player3.setPersonalGoal(new PersonalGoal(3));
 
         List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
@@ -97,7 +99,7 @@ public class GetPointsTest {
     //player2: reaches 6/6 cells of personal goal(12 points),x-shape common goal as first (8 points)  and 7 points from adjacent items.
     //Total score: 27 points.
     @Test
-    void TwoPlayerMatch_Player1Wins() throws IllegalAccessException {
+    void TwoPlayerMatch_Player1Wins() throws IllegalAccessException, IOException, ParseException {
         Game game = new Game(2);
         Player player1 = new Player("Valeria", 21, false, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         Player player2 = new Player("Arianna", 20, false, false, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
@@ -105,8 +107,8 @@ public class GetPointsTest {
         game.addPlayer(player2);
         game.initialize();
 
-        player1.setPersonalGoal(new PersonalGoal(9));
-        player2.setPersonalGoal(new PersonalGoal(8));
+//        player1.setPersonalGoal(new PersonalGoal(9));
+//        player2.setPersonalGoal(new PersonalGoal(8));
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false))); //vertical fullline
@@ -227,15 +229,15 @@ public class GetPointsTest {
     }
 
     @Test
-    void TwoPlayerMatch_tie() throws IllegalAccessException {
+    void TwoPlayerMatch_tie() throws IllegalAccessException, IOException, ParseException {
         Game game = new Game(2);
         Player player1 = new Player("Valeria", 21, false, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         Player player2 = new Player("Arianna", 20, false, false, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.initialize();
-        player1.setPersonalGoal(new PersonalGoal(9));
-        player2.setPersonalGoal(new PersonalGoal(8));
+//        player1.setPersonalGoal(new PersonalGoal(9));
+//        player2.setPersonalGoal(new PersonalGoal(8));
 
 
         List<CommonGoal> commonGoals = new ArrayList<>();

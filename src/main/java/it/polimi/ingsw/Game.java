@@ -3,9 +3,18 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.layouts.*;
 import it.polimi.ingsw.utils.BookshelfUtilities;
+import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -15,7 +24,7 @@ public class Game {
     private final List<Player> players;
     private final Board livingRoom;
     private final List<CommonGoal> commonGoalDeck;
-    private final List<PersonalGoal> personalGoalDeck;
+    private final List<Integer> personalGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
 
@@ -35,7 +44,7 @@ public class Game {
     /**
      * Creates the <code>personalGoalDeck</code>, the <code>commonGoalDeck</code> and the <code>livingRoom</code>.
      */
-    public void initialize() {
+    public void initialize() throws IOException, ParseException {
         // TODO: add logged in players
 
         fillCommonGoalDeck();
@@ -61,11 +70,25 @@ public class Game {
      *
      * @return the personal goal card drawn
      */
-    public PersonalGoal drawPersonalGoal() {
+    public PersonalGoal drawPersonalGoal() throws IOException, ParseException {
         Random randomNumberGenerator = new Random();
 
         int randomPersonalGoalIndex = randomNumberGenerator.nextInt(personalGoalDeck.size());
-        PersonalGoal extracted = personalGoalDeck.get(randomPersonalGoalIndex);
+        HashMap<Coordinates, Color> personalGoalCard = new HashMap<>();
+
+        JSONParser parser = new JSONParser();
+        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/personal_goals.json"));
+        JSONArray deck = (JSONArray) personalGoalJson.get("personal_goal_configurations");
+
+        JSONObject personalGoal = (JSONObject) deck.get(randomPersonalGoalIndex);
+
+
+        JSONArray configuration = (JSONArray) personalGoal.get("configuration");
+        for (Object o : configuration) {
+            JSONObject cell = (JSONObject) o;
+            personalGoalCard.put(new Coordinates(Math.toIntExact((Long) cell.get("x")), Math.toIntExact((Long) cell.get("y"))), Color.valueOf((String) cell.get("color")));
+        }
+        PersonalGoal extracted = new PersonalGoal(personalGoalCard);
 
         // Remove the extracted personal goal from the deck so that it can't be drawn again.
         personalGoalDeck.remove(randomPersonalGoalIndex);
@@ -163,7 +186,7 @@ public class Game {
      */
     public void fillPersonalGoalDeck() {
         for (int i = 0; i < personalGoalDeckSize; i++) {
-            personalGoalDeck.add(new PersonalGoal(i));
+            personalGoalDeck.add(i);
         }
     }
 
