@@ -6,29 +6,29 @@ participant Client
 end box
 
 box "Server" #Pink
-participant ConnectionHandler
+participant ServerController
 participant UserChecker
 end box
 
 'Client-Server connections
-Client<--UserChecker: ping
-Client->ConnectionHandler: pong
-Client<--ConnectionHandler: login
-Client<--ConnectionHandler: username request
-Client->ConnectionHandler: username
+Client<--ServerController: ping
+Client->ServerController: pong
+Client<--ServerController: login
+Client<--ServerController: username request
+Client->ServerController: username
 
 
 'Server-UserChecker connections
-ConnectionHandler->UserChecker: check username
-UserChecker-->ConnectionHandler: result
+ServerController->UserChecker: check username
+UserChecker-->ServerController: result
 
 'alt cases
 alt successful case
-Client<--ConnectionHandler: data request
+Client<--ServerController: data request
 else unsuccessful case
-Client<--ConnectionHandler: error
+Client<--ServerController: error
 end
 
-Client->ConnectionHandler: UserData
-Client<--ConnectionHandler: success
+Client->ServerController: UserData
+Client<--ServerController: success
 @enduml
