@@ -15,7 +15,7 @@ public class Diagonal extends Layout {
      * @param maxDifferent the maximum number of different colors in the layout
      * @throws IllegalArgumentException if the parameters are invalid
      */
-    public Diagonal(int dimension, int minDifferent, int maxDifferent) throws IllegalArgumentException {
+    public Diagonal(int minDifferent, int maxDifferent, int dimension) throws IllegalArgumentException {
         super(dimension, dimension, minDifferent, maxDifferent);
     }
 

@@ -1,0 +1,130 @@
+{
+  "common_goal_configurations": [
+    {
+      "id": 0,
+      "type": "group",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1,
+          "occurrences": 6,
+          "size": 2
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "type": "group",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1,
+          "occurrences": 4,
+          "size": 4
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "corners",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "square",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1,
+          "occurrences": 2,
+          "size": 2
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "fullLine",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 3,
+          "occurrences": 3,
+          "horizontal": false
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "itemsPerColor",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "diagonal",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1,
+          "dimension": 5
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "fullLine",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 3,
+          "occurrences": 4,
+          "horizontal": true
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "fullLine",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1,
+          "occurrences": 2,
+          "horizontal": false
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "type": "fullLine",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1,
+          "occurrences": 2,
+          "horizontal": true
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "xShape",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 1,
+          "dimension": 3
+        }
+      ]
+    }
+  ]
+}
