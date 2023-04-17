@@ -1,39 +1,38 @@
 package it.polimi.ingsw;
 
 
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Random;
 
 public class JsonPersonalGoalTest {
     @Test
-    public void test() throws IOException, ParseException {
+    public void firstCardfirstCellTest() throws IOException, ParseException {
+
+        HashMap<Coordinates, Color> personalGoalCard = new HashMap<>();
 
         JSONParser parser = new JSONParser();
-        JSONArray a = (JSONArray) parser.parse(new FileReader("src/main/resources/PersonalGoal.json"));
+        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/personal_goals.json"));
+        JSONArray deck = (JSONArray) personalGoalJson.get("personal_goal_configurations");
 
-        for (Object o : a) {
-            JSONObject person = (JSONObject) o;
+        JSONObject personalGoal = (JSONObject) deck.get(0);
 
-            String name = (String) person.get("name");
-            System.out.println(name);
 
-            String city = (String) person.get("city");
-            System.out.println(city);
+        JSONArray configuration = (JSONArray) personalGoal.get("configuration");
+        JSONObject cell= (JSONObject) configuration.get(0);
+        personalGoalCard.put(new Coordinates( Math.toIntExact((Long) cell.get("x")),Math.toIntExact((Long) cell.get("y"))),Color.valueOf((String) cell.get("color")));
+        assert personalGoalCard.get(new Coordinates(2,0)).equals(Color.PINK);
 
-            String job = (String) person.get("job");
-            System.out.println(job);
-
-            JSONArray cars = (JSONArray) person.get("cars");
-
-            for (Object c : cars) {
-                System.out.println(c);
-            }
-        }
     }
+
 }
