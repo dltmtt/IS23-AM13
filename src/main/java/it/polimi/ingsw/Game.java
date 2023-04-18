@@ -1,9 +1,12 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.layouts.*;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.CommonGoal;
+import it.polimi.ingsw.server.model.PersonalGoal;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.utils.BookshelfUtilities;
 import it.polimi.ingsw.utils.Coordinates;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -16,8 +19,8 @@ public class Game {
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
     private final Board livingRoom;
-    private final List<CommonGoal> commonGoalDeck;
     private final List<Integer> personalGoalDeck;
+    private List<CommonGoal> commonGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
 
@@ -28,6 +31,10 @@ public class Game {
         livingRoom.fill();
         commonGoalDeck = new ArrayList<>();
         personalGoalDeck = new ArrayList<>();
+
+        fillCommonGoalDeck(numOfPlayers);
+        fillPersonalGoalDeck();
+
     }
 
     public Board getLivingRoom() {
@@ -38,10 +45,16 @@ public class Game {
      * Creates the <code>personalGoalDeck</code>, the <code>commonGoalDeck</code> and the <code>livingRoom</code>.
      */
     public void initialize() throws IOException, ParseException {
-        // TODO: add logged in players
 
-        fillCommonGoalDeck();
+        // decks created when game is created
+        // for test purposes, we can initialize it again
+        // TODO: fix tests
+        // TODO: add logged in players
+        commonGoalDeck.clear();
+        personalGoalDeck.clear();
+        fillCommonGoalDeck(players.size());
         fillPersonalGoalDeck();
+
 
         // Draw a personal goal card for each player
         for (Player player : players) {
@@ -94,8 +107,6 @@ public class Game {
         for (int i = 0; i < commonGoalNumber; i++) {
             int randomLayoutIndex = randomNumberGenerator.nextInt(commonGoalDeck.size());
             extracted.add(commonGoalDeck.get(randomLayoutIndex));
-            commonGoalDeck.get(randomLayoutIndex).setScoringList(players.size());
-
             // Remove the extracted common goal from the deck so that it can't be drawn again.
             commonGoalDeck.remove(randomLayoutIndex);
         }
@@ -106,52 +117,10 @@ public class Game {
     /**
      * Creates a deck with all the possible layouts for the common goals.
      */
-    private void fillCommonGoalDeck() {
-        List<Layout> layouts = new ArrayList<>();
-        int dimension = Math.min(Bookshelf.getColumns(), Bookshelf.getRows());
+    private void fillCommonGoalDeck(int numOfPlayers) throws IOException, ParseException {
+        //int dimension = Math.min(Bookshelf.getColumns(), Bookshelf.getRows());
+        commonGoalDeck = SettingLoader.commonGoalLoader(numOfPlayers);
 
-        // Four tiles of the same type in the four corners of the bookshelf.
-        layouts.add(new Corners(1, 1));
-
-        // As many tiles of the same type as the smaller dimension of the bookshelf forming a diagonal.
-        layouts.add(new Diagonal(1, 1, dimension));
-
-        // Three columns each formed tiles of maximum three different types.
-        layouts.add(new FullLine(1, 3, 3, false));
-
-        // Four lines each formed tiles of maximum three different types.
-        layouts.add(new FullLine(1, 3, 4, true));
-
-        // Two columns where each item has a different type. Their length is equal to the number of rows.
-        layouts.add(new FullLine(Bookshelf.getRows(), Bookshelf.getRows(), 2, false));
-
-        // Two rows where each item has a different type. Their length is equal to the number of columns.
-        layouts.add(new FullLine(Bookshelf.getColumns(), Bookshelf.getColumns(), 2, true));
-
-        // TODO: replace placeholders (parameters set to 0).
-        // Six groups each containing at least 2 tiles of the same type.
-        layouts.add(new Group(0, 0, 6, 0));
-
-        // TODO: replace placeholders (parameters set to 0).
-        // Four groups each containing at least 4 tiles of the same type.
-        layouts.add(new Group(0, 0, 4, 0));
-
-        // TODO: replace placeholders (parameters set to 0).
-        // Eight tiles of the same type.
-        layouts.add(new ItemsPerColor(0, 0));
-
-        // Two 2×2 squares with items of the same type.
-        layouts.add(new Square(1, 1, 2, 2));
-
-        // A stair as big as the smaller dimension of the bookshelf.
-        layouts.add(new Stair(dimension, 1, 6));
-
-        // Five tiles of the same type forming an X.
-        layouts.add(new XShape(1, 1, 3));
-
-        for (Layout layout : layouts) {
-            commonGoalDeck.add(new CommonGoal(layout));
-        }
     }
 
     /**
@@ -245,5 +214,9 @@ public class Game {
         for (Player winner : winners) {
             System.out.println("The winner is " + winner.getNickname());
         }
+    }
+
+    public List<CommonGoal> getCommonGoalDeck() {
+        return commonGoalDeck;
     }
 }

@@ -26,16 +26,16 @@ public class GetPointsTest {
         Player player1 = new Player("test1", 20, true, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         Player player2 = new Player("test2", 20, true, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         Player player3 = new Player("test3", 20, true, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
+        int numofplayers = 3;
+
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.addPlayer(player3);
         game.initialize();
 
         List<CommonGoal> commonGoals = new ArrayList<>();
-        commonGoals.add(new CommonGoal(new Corners(1, 1)));
-        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5)));
-        commonGoals.get(0).setScoringList(3);
-        commonGoals.get(1).setScoringList(3);
+        commonGoals.add(new CommonGoal(new Corners(1, 1), numofplayers));
+        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), numofplayers));
         Player.setCommonGoal(commonGoals);
 
         player1.setPersonalGoal(new PersonalGoal(1));
@@ -100,9 +100,11 @@ public class GetPointsTest {
     //Total score: 27 points.
     @Test
     void TwoPlayerMatch_Player1Wins() throws IllegalAccessException, IOException, ParseException {
-        Game game = new Game(2);
+        int numOfPlayers = 2;
+        Game game = new Game(numOfPlayers);
         Player player1 = new Player("Valeria", 21, false, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         Player player2 = new Player("Arianna", 20, false, false, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
+
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.initialize();
@@ -111,10 +113,8 @@ public class GetPointsTest {
         player2.setPersonalGoal(new PersonalGoal(8));
 
         List<CommonGoal> commonGoals = new ArrayList<>();
-        commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false))); //vertical fullline
-        commonGoals.add(new CommonGoal(new XShape(1, 1, 3)));
-        commonGoals.get(0).setScoringList(2);
-        commonGoals.get(1).setScoringList(2);
+        commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false), numOfPlayers)); //vertical fullline
+        commonGoals.add(new CommonGoal(new XShape(1, 1, 3), numOfPlayers));
         Player.setCommonGoal(commonGoals);
 
         //player1 set-up
@@ -230,7 +230,8 @@ public class GetPointsTest {
 
     @Test
     void TwoPlayerMatch_tie() throws IllegalAccessException, IOException, ParseException {
-        Game game = new Game(2);
+        int numOfPlayers = 2;
+        Game game = new Game(numOfPlayers);
         Player player1 = new Player("Valeria", 21, false, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         Player player2 = new Player("Arianna", 20, false, false, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         game.addPlayer(player1);
@@ -241,10 +242,8 @@ public class GetPointsTest {
 
 
         List<CommonGoal> commonGoals = new ArrayList<>();
-        commonGoals.add(new CommonGoal(new Corners(1, 1)));
-        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5)));
-        commonGoals.get(0).setScoringList(2);
-        commonGoals.get(1).setScoringList(2);
+        commonGoals.add(new CommonGoal(new Corners(1, 1), numOfPlayers));
+        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), numOfPlayers));
         Player.setCommonGoal(commonGoals);
 
         List<Item> items = new ArrayList<>();

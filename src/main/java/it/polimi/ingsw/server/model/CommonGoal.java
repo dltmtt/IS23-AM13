@@ -15,23 +15,10 @@ import java.util.List;
  */
 public class CommonGoal {
     private final Layout layout;
-    private List<Integer> scoringList;
+    private final List<Integer> scoringList;
 
     /**
      * Creates a new common goal with the given layout.
-     *
-     * @param layout the layout of the common goal
-     */
-    public CommonGoal(Layout layout) {
-        this.layout = layout;
-    }
-
-
-    public List<Integer> getScoringList() {
-        return scoringList;
-    }
-
-    /**
      * Sets the scoring for the common goals according to the number of players.
      * <ul>
      *  <li>If there are 2 players, the scoringList is filled with 4 and 8.
@@ -39,9 +26,13 @@ public class CommonGoal {
      *  <li>If there are 4 players, the scoringList is filled with 2, 4, 6 and 8.
      * </ul>
      *
+     * @param layout       the layout of the common goal
      * @param numOfPlayers the number of players
      */
-    public void setScoringList(int numOfPlayers) {
+    public CommonGoal(Layout layout, int numOfPlayers) {
+        this.layout = layout;
+
+
         scoringList = new ArrayList<>();
 
         for (int i = numOfPlayers; i > 0; i--) {
@@ -51,6 +42,15 @@ public class CommonGoal {
                 default -> scoringList.add(2 * i); // Add 2, 4, 6, 8
             }
         }
+    }
+
+
+    public List<Integer> getScoringList() {
+        return scoringList;
+    }
+
+    public Layout getLayout() {
+        return layout;
     }
 
     /**

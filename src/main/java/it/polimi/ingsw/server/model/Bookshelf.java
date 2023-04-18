@@ -101,6 +101,13 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     * @return the number of rows or columns, whichever is smaller
+     */
+    public static int getDimension() {
+        return Math.min(rows, columns);
+    }
+
+    /**
      * @param column the column index
      * @return the number of free cells in the column with index <code>column</code>
      */

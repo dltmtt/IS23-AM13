@@ -36,6 +36,6 @@ build/
 
 
 ### LaTex Files ###
-.aux
-.log
-.synctex.gz
+*.aux
+*.log
+*.synctex.gz

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import com.google.gson.Gson;
+
 import it.polimi.ingsw.utils.Coordinates;
 
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ public class Player {
     private final boolean isFirstPlayer;
     private final List<Integer> commonGoalPoints = new ArrayList<>(2);
     private final Bookshelf bookshelf;
-    Gson gson = new Gson();
     private boolean hasEndGameCard;
     private PersonalGoal personalGoal;
 
