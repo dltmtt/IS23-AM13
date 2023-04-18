@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TCPServer {
+    private static final int minAge = 8;
     private final int portNumber;
     private ServerSocket serverSocket;
     private Socket clientSocket;
@@ -23,22 +24,22 @@ public class TCPServer {
     }
 
     public void run() {
-        //it creates new Threads when it's necessary,
-        //but it uses the existing ones until it's possible to
+        // ExecutorService Creates new threads when it's necessary,
+        // but uses the existing ones when possible.
         ExecutorService ex = Executors.newCachedThreadPool();
 
-        //opening a new socket
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        //if here, the server is ready
-        System.out.println("server is ready");
+        // If here, the server is ready
+        System.out.println("The server is ready");
+
         while (true) {
             try {
-                //accepting the connection, it possible
+                // Accepting the connection, if possible
                 assert serverSocket != null;
                 clientSocket = serverSocket.accept();
                 ex.submit(new ClientController(clientSocket));
@@ -55,19 +56,19 @@ public class TCPServer {
     }
 
     public void log() throws IOException {
-        String name;
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        name = in.readLine();
-        System.out.println("The name is: " + name);
-        int age;
-        age = in.read();
         PrintWriter out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
-        if (age >= 8) {
-            out.println(name + ", you can play!");
-        } else {
-            out.println(name + "you're too young!");
+        String name;
+        name = in.readLine();
+        out.println("The name is: " + name);
+
+        int age;
+        age = in.read();
+        if (age < minAge) {
+            out.println("The player " + name + " must be accompanied by an adult to play.");
         }
+
         in.close();
         out.flush();
         out.close();
