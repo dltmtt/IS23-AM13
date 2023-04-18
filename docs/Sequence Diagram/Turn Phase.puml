@@ -3,6 +3,7 @@
 
 box "Client" #LightBlue
 participant ClientModel
+participant ClientParser
 participant ClientController
 
 end box
@@ -18,10 +19,12 @@ ServerParser <-- GameController: currentPlayer turn
 ServerParser --> ServerController: currentPlayer turn
 
 ServerController -->ClientController: it's your turn
-ClientController -->ClientModel: it's your turn
+ClientController -->ClientParser: it's your turn
+ClientParser -->ClientModel: It's your turn
 ClientModel->ClientModel: pick();
 ClientModel->ClientModel: checkPick();
-ClientModel->ClientController: pick
+ClientModel->ClientParser: pick
+ClientParser->ClientController: pick
 
 ClientController-> ServerController: pick
 
@@ -35,13 +38,19 @@ GameController-->ServerParser: result check pick
 alt pick is valid
 ServerParser-->ServerController: pick is valid
 ServerController-->ClientController: pick is valid
-ClientModel<--ClientController:rearrange();
+ClientParser<--ClientController:rearrange();
+ClientModel<--ClientParser:rearrange();
+
 else pick is invalid
 ServerParser-->ServerController: please pick again
-
 ServerController-->ClientController: please pick again
+ClientController-->ClientParser: please pick again
+ClientParser-->ClientModel: please pick again
+
+
 end
-ClientModel->ClientController:rearrange
+ClientModel->ClientParser:rearrange
+ClientParser->ClientController:rearrange
 ClientController->ServerController: rearrange
 ServerController->ServerParser: rearrange
 ServerParser->GameController: rearrange
@@ -57,7 +66,8 @@ GameController-->ServerParser: Game Update
 
 ServerParser-->ServerController: Game Update
 ServerController-->ClientController: Game Update
-ClientController-->ClientModel: Game Update
+ClientController-->ClientParser: Game Update
+ClientParser-->ClientModel: Game Update
 
 
 
@@ -65,7 +75,8 @@ else game is over
 GameController-->ServerParser: game over
 ServerParser-->ServerController: game over
 ServerController-->ClientController: game over
-ClientController-->ClientModel: game over
+ClientController-->ClientParser: game over
+ClientParser-->ClientModel: game over
 
 
 GameController->Game: setWinner()
@@ -73,6 +84,8 @@ Game-->GameController: winner(s)
 GameController-->ServerParser: winner(s)
 ServerParser--> ServerController: winner(s)
 ServerController-->ClientController: winner(s)
+ClientController-->ClientParser: winner(s)
+ClientParser-->ClientModel: winner(s)
 
 end
 'Client->ServerController: bookshelf points update
