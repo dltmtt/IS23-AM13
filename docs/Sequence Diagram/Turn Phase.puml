@@ -2,32 +2,40 @@
 
 
 box "Client" #LightBlue
-participant Client
+participant ClientModel
+participant ClientController
+
 end box
 
 box "Server" #Pink
 participant ServerController
+participant ServerParser
 participant GameController
 participant Game
 end box
 
 ServerController <-- GameController: currentPlayer turn
-ServerController -->Client: it's your turn
-Client->Client: check move
-Client-> ServerController: Pick
-ServerController->GameController: Pick
+ServerController -->ClientController: it's your turn
+ClientController -->ClientModel: it's your turn
+ClientModel->ClientModel: pick();
+ClientModel->ClientModel: checkPick();
+ClientModel->ClientController: pick
+
+ClientController-> ServerController: pick
+ServerController->GameController: pick
 GameController->Game: Pick
 Game->Game: checkPick();
 Game-->GameController: result check pick
 alt pick is valid
 GameController-->ServerController: pick is valid
-ServerController-->Client: pick is valid
-Client->Client:rearrange();
+ServerController-->ClientController: pick is valid
+ClientModel<--ClientController:rearrange();
 else pick is invalid
 GameController-->ServerController: please pick again
-ServerController-->Client: please pick again
+ServerController-->ClientController: please pick again
 end
-Client->ServerController: rearrange
+ClientModel->ClientController:rearrange
+ClientController->ServerController: rearrange
 ServerController->GameController: rearrange
 GameController->Game: rearrange
 Game->Game: move();
@@ -37,15 +45,15 @@ GameController->GameController: gameOver();
 alt game is not over
 
 GameController-->ServerController: Game Update
-ServerController-->Client: Game Update
+ServerController-->ClientController: Game Update
 
 else game is over
 GameController-->ServerController: game over
-ServerController-->Client: game over
+ServerController-->ClientController: game over
 GameController->Game: setWinner()
 Game-->GameController: winner(s)
 GameController-->ServerController: winner(s)
-ServerController-->Client: winner(s)
+ServerController-->ClientController: winner(s)
 
 end
 'Client->ServerController: bookshelf points update
