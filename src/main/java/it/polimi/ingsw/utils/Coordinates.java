@@ -1,10 +1,6 @@
 package it.polimi.ingsw.utils;
 
 public record Coordinates(Integer x, Integer y) {
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Coordinates key)) return false;
-        return x.equals(key.x) && y.equals(key.y);
-    }
+    // There's no need to override default methods such as equals,
+    // records take care of them.
 }
