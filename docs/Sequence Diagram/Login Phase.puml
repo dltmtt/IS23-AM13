@@ -11,8 +11,9 @@ participant UserChecker
 end box
 
 'Client-Server connections
-Client<--ServerController: ping
-Client->ServerController: pong
+Client->ServerController: ping
+Client<--ServerController: pong
+
 Client<--ServerController: login
 Client<--ServerController: username request
 Client->ServerController: username

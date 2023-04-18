@@ -60,6 +60,8 @@ public class Square extends Layout {
         return 0;
     }
 
+
+    //TODO finish this method
     public int getCurrent(@NotNull Bookshelf b) {
         int counter = 0;
         int validCells = 0;
