@@ -14,16 +14,43 @@ end box
 ServerController <-- GameController: currentPlayer turn
 ServerController -->Client: it's your turn
 Client->Client: check move
-Client-> ServerController: Move
-ServerController->GameController: Move
-GameController->Game: Move
-Game->Game: check move
+Client-> ServerController: Pick
+ServerController->GameController: Pick
+GameController->Game: Pick
+Game->Game: checkPick();
+Game-->GameController: result check pick
+alt pick is valid
+GameController-->ServerController: pick is valid
+ServerController-->Client: pick is valid
+Client->Client:rearrange();
+else pick is invalid
+GameController-->ServerController: please pick again
+ServerController-->Client: please pick again
+end
+Client->ServerController: rearrange
+ServerController->GameController: rearrange
+GameController->Game: rearrange
+Game->Game: move();
 Game--> GameController: Game Update
+GameController->GameController: gameOver();
+
+alt game is not over
+
 GameController-->ServerController: Game Update
 ServerController-->Client: Game Update
-Client->ServerController: bookshelf points update
-ServerController->GameController: bookshelf points update
-GameController->GameController: check points
+
+else game is over
+GameController-->ServerController: game over
+ServerController-->Client: game over
+GameController->Game: setWinner()
+Game-->GameController: winner(s)
+GameController-->ServerController: winner(s)
+ServerController-->Client: winner(s)
+
+end
+'Client->ServerController: bookshelf points update
+'ServerController->GameController: bookshelf points update
+'GameController->GameController: check points
 
 
 
