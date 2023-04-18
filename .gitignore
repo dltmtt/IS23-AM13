@@ -33,3 +33,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+### LaTex Files ###
+.aux
+.log
+.synctex.gz
