@@ -2,13 +2,11 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
-import it.polimi.ingsw.utils.UsableCells;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,17 +30,17 @@ public class Board {
     public Board(int numOfPlayers) throws IOException, ParseException {
         boardMatrix = new Item[boardSize][boardSize];
         itemBag = new ArrayList<>();
-        usableCells=new ArrayList<>();
+        usableCells = new ArrayList<>();
         JSONParser parser = new JSONParser();
         JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/usable_cells.json"));
         JSONArray usableCellsArray = (JSONArray) personalGoalJson.get("usable_cells");
 
-        for(int i=0;i<=numOfPlayers-2;i++){
-            JSONObject elem= (JSONObject) usableCellsArray.get(i);
-            JSONArray current_usable=(JSONArray) elem.get("current_usable");
-            for(Object o: current_usable){
-                JSONObject cell= (JSONObject) o;
-                usableCells.add(new Coordinates(Math.toIntExact((Long) cell.get("x")),Math.toIntExact((Long) cell.get("y"))));
+        for (int i = 0; i <= numOfPlayers - 2; i++) {
+            JSONObject elem = (JSONObject) usableCellsArray.get(i);
+            JSONArray current_usable = (JSONArray) elem.get("current_usable");
+            for (Object o : current_usable) {
+                JSONObject cell = (JSONObject) o;
+                usableCells.add(new Coordinates(Math.toIntExact((Long) cell.get("x")), Math.toIntExact((Long) cell.get("y"))));
             }
         }
         // Initialize the bag of items. For each color, there are 22 occurrences with 3 different images for a total of 132 items.
