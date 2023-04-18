@@ -2,7 +2,9 @@
 title "Login phase"
 
 box "Client" #LightBlue
-participant Client
+participant ClientModel
+participant ClientParser
+participant ClientController
 end box
 
 box "Server" #Pink
@@ -12,12 +14,23 @@ participant UserChecker
 end box
 
 'Client-Server connections
-Client->ServerController: ping
-Client<--ServerController: pong
+ClientModel->ClientParser: ping
+ClientParser->ClientController: ping
+ClientController->ServerController: ping
+ClientController<--ServerController: pong
+ClientParser<--ClientController: pong
+ClientModel<--ClientParser: pong
 
-Client<--ServerController: login
-Client<--ServerController: username request
-Client->ServerController: username
+ClientController<--ServerController: login
+ClientParser<--ClientController: login
+ClientModel<--ClientParser: login
+ClientController<--ServerController: username request
+ClientParser<--ClientController: username request
+ClientModel<--ClientParser: username request
+ClientModel->ClientParser: username
+ClientParser->ClientController: username
+ClientController->ServerController: username
+
 ServerController->ServerParser: parse username
 
 'Server-UserChecker connections
@@ -26,11 +39,23 @@ UserChecker-->ServerParser: result
 ServerParser-->ServerController: result
 'alt cases
 alt successful case
-Client<--ServerController: data request
+ClientController<--ServerController: data request
+ClientParser<--ClientController: data request
+ClientModel<--ClientParser: data request
 else unsuccessful case
-Client<--ServerController: error
+ClientController<--ServerController: error
+ClientParser<--ClientController: error
+ClientModel<--ClientParser: error
 end
 
-Client->ServerController: UserData
-Client<--ServerController: success
+ClientModel->ClientParser: UserData
+ClientParser->ClientController: UserData
+ClientController->ServerController: UserData
+
+ClientController<--ServerController: success
+ClientParser<--ClientController: success
+ClientModel<--ClientParser: success
+
+
+
 @enduml
