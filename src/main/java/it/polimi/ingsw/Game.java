@@ -72,28 +72,10 @@ public class Game {
      */
     public PersonalGoal drawPersonalGoal() throws IOException, ParseException {
         Random randomNumberGenerator = new Random();
-
         int randomPersonalGoalIndex = randomNumberGenerator.nextInt(personalGoalDeck.size());
-        HashMap<Coordinates, Color> personalGoalCard = new HashMap<>();
-
-        JSONParser parser = new JSONParser();
-        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/personal_goals.json"));
-        JSONArray deck = (JSONArray) personalGoalJson.get("personal_goal_configurations");
-
-        JSONObject personalGoal = (JSONObject) deck.get(randomPersonalGoalIndex);
-
-
-        JSONArray configuration = (JSONArray) personalGoal.get("configuration");
-        for (Object o : configuration) {
-            JSONObject cell = (JSONObject) o;
-            personalGoalCard.put(new Coordinates(Math.toIntExact((Long) cell.get("x")), Math.toIntExact((Long) cell.get("y"))), Color.valueOf((String) cell.get("color")));
-        }
-        PersonalGoal extracted = new PersonalGoal(personalGoalCard);
-
         // Remove the extracted personal goal from the deck so that it can't be drawn again.
         personalGoalDeck.remove(randomPersonalGoalIndex);
-
-        return extracted;
+        return new PersonalGoal(randomPersonalGoalIndex);
     }
 
     /**

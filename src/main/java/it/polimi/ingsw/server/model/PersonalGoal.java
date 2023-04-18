@@ -2,7 +2,14 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class PersonalGoal {
@@ -14,11 +21,24 @@ public class PersonalGoal {
      * Creates a personal goal card.
      * It is a representation of the spaces that a player
      * has to fill with his bookshelf's items.
-     * @param hashMap which is initialized by reading a json file
+     * @param randomPersonalGoalIndex the index of the personal goal card to be created
      */
     // TODO: add the possibility to load custom personal goals from a file
-    public PersonalGoal(HashMap<Coordinates,Color> hashMap) {
-        personalGoalCard = hashMap;
+    public PersonalGoal(int randomPersonalGoalIndex) throws IOException, ParseException {
+        personalGoalCard = new HashMap<>();
+        JSONParser parser = new JSONParser();
+        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/personal_goals.json"));
+        JSONArray deck = (JSONArray) personalGoalJson.get("personal_goal_configurations");
+
+        JSONObject personalGoal = (JSONObject) deck.get(randomPersonalGoalIndex);
+
+
+        JSONArray configuration = (JSONArray) personalGoal.get("configuration");
+        for (Object o : configuration) {
+            JSONObject cell = (JSONObject) o;
+            personalGoalCard.put(new Coordinates(Math.toIntExact((Long) cell.get("x")), Math.toIntExact((Long) cell.get("y"))), Color.valueOf((String) cell.get("color")));
+        }
+
 //
 //        switch (layout) {
 //            case 0 -> {

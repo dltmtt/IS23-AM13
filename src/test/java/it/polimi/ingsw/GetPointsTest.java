@@ -38,9 +38,9 @@ public class GetPointsTest {
         commonGoals.get(1).setScoringList(3);
         Player.setCommonGoal(commonGoals);
 
-//        player1.setPersonalGoal(new PersonalGoal(1));
-//        player2.setPersonalGoal(new PersonalGoal(2));
-//        player3.setPersonalGoal(new PersonalGoal(3));
+        player1.setPersonalGoal(new PersonalGoal(1));
+        player2.setPersonalGoal(new PersonalGoal(2));
+        player3.setPersonalGoal(new PersonalGoal(3));
 
         List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
@@ -107,8 +107,8 @@ public class GetPointsTest {
         game.addPlayer(player2);
         game.initialize();
 
-//        player1.setPersonalGoal(new PersonalGoal(9));
-//        player2.setPersonalGoal(new PersonalGoal(8));
+        player1.setPersonalGoal(new PersonalGoal(9));
+        player2.setPersonalGoal(new PersonalGoal(8));
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false))); //vertical fullline
@@ -236,8 +236,8 @@ public class GetPointsTest {
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.initialize();
-//        player1.setPersonalGoal(new PersonalGoal(9));
-//        player2.setPersonalGoal(new PersonalGoal(8));
+        player1.setPersonalGoal(new PersonalGoal(9));
+        player2.setPersonalGoal(new PersonalGoal(8));
 
 
         List<CommonGoal> commonGoals = new ArrayList<>();
