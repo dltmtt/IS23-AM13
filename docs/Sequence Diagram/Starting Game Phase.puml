@@ -1,7 +1,9 @@
 @startuml
 
 box "Client" #LightBlue
-participant Client
+participant ClientModel
+participant ClientParser
+participant ClientController
 end box
 
 box "Server" #Pink
@@ -13,8 +15,13 @@ end box
 
 Room --> ServerParser : 4 players logged in
 ServerParser -->ServerController: 4 players logged in
-ServerController --> Client : starting game
-Client -> ServerController : game starter
+ServerController --> ClientController : starting game
+ClientController --> ClientParser : starting game
+ClientParser --> ClientModel : starting game
+
+ClientModel -> ClientParser : game starter
+ClientParser -> ClientController : game starter
+ClientController -> ServerController : game starter
 
 ServerController-> ServerParser : check if there are still enough players
 ServerParser-> Room : check if there are still enough players
@@ -22,8 +29,12 @@ ServerParser-> Room : check if there are still enough players
 alt yes
 Room --> ServerParser : there are
 ServerParser --> ServerController : there are
-ServerController --> Client : starting match
-Client -> ServerController : ACK
+ServerController --> ClientController : starting match
+ClientController --> ClientParser : starting match
+ClientParser --> ClientModel : starting match
+ClientModel -> ClientParser : ACK
+ClientParser -> ClientController : ACK
+ClientController -> ServerController : ACK
 ServerController -> ServerParser : ACK
 ServerParser -> Game : ACK
 Room -> Game : new Game
@@ -31,12 +42,16 @@ Game --> Room : Game Data
 Room --> ServerParser : Game Data
 ServerParser --> ServerController : Game Data
 
-ServerController --> Client : Game Data
-note right of Client: Game starts here
+ServerController --> ClientController : Game Data
+ClientController --> ClientParser : Game Data
+ClientParser --> ClientModel : Game Data
+note right of ClientModel: Game starts here
 else no
 Room --> ServerParser : there aren't
 ServerParser --> ServerController : there aren't
-ServerController --> Client : waiting for more players
+ServerController --> ClientController : waiting for more players
+ClientController --> ClientParser : waiting for more players
+ClientParser --> ClientModel : waiting for more players
 end
 
 
