@@ -6,27 +6,36 @@ end box
 
 box "Server" #Pink
 participant ServerController
+participant ServerParser
 participant Room
 participant Game
 end box
 
-Room --> ServerController : 4 players logged in
+Room --> ServerParser : 4 players logged in
+ServerParser -->ServerController: 4 players logged in
 ServerController --> Client : starting game
 Client -> ServerController : game starter
 
-ServerController-> Room : check if there are still enough players
+ServerController-> ServerParser : check if there are still enough players
+ServerParser-> Room : check if there are still enough players
+
 alt yes
-Room --> ServerController : there are
+Room --> ServerParser : there are
+ServerParser --> ServerController : there are
 ServerController --> Client : starting match
 Client -> ServerController : ACK
-ServerController -> Game : ACK
+ServerController -> ServerParser : ACK
+ServerParser -> Game : ACK
 Room -> Game : new Game
 Game --> Room : Game Data
-Room --> ServerController : Game Data
+Room --> ServerParser : Game Data
+ServerParser --> ServerController : Game Data
+
 ServerController --> Client : Game Data
 note right of Client: Game starts here
 else no
-Room --> ServerController : there aren't
+Room --> ServerParser : there aren't
+ServerParser --> ServerController : there aren't
 ServerController --> Client : waiting for more players
 end
 

@@ -7,6 +7,7 @@ end box
 
 box "Server" #Pink
 participant ServerController
+participant ServerParser
 participant UserChecker
 end box
 
@@ -17,12 +18,12 @@ Client<--ServerController: pong
 Client<--ServerController: login
 Client<--ServerController: username request
 Client->ServerController: username
-
+ServerController->ServerParser: parse username
 
 'Server-UserChecker connections
-ServerController->UserChecker: check username
-UserChecker-->ServerController: result
-
+ServerParser->UserChecker: check username
+UserChecker-->ServerParser: result
+ServerParser-->ServerController: result
 'alt cases
 alt successful case
 Client<--ServerController: data request

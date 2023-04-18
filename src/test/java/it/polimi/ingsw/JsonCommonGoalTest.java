@@ -22,6 +22,5 @@ public class JsonCommonGoalTest {
             JSONObject config = (JSONObject) o;
             System.out.println(config.get("id") + " " + config.get("type"));
         }
-
     }
 }

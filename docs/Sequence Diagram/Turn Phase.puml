@@ -14,7 +14,9 @@ participant GameController
 participant Game
 end box
 
-ServerController <-- GameController: currentPlayer turn
+ServerParser <-- GameController: currentPlayer turn
+ServerParser --> ServerController: currentPlayer turn
+
 ServerController -->ClientController: it's your turn
 ClientController -->ClientModel: it's your turn
 ClientModel->ClientModel: pick();
@@ -22,37 +24,54 @@ ClientModel->ClientModel: checkPick();
 ClientModel->ClientController: pick
 
 ClientController-> ServerController: pick
-ServerController->GameController: pick
-GameController->Game: Pick
+
+ServerController->ServerParser: pick
+ServerParser->GameController: pick
+GameController->Game: pick
 Game->Game: checkPick();
 Game-->GameController: result check pick
+GameController-->ServerParser: result check pick
+
 alt pick is valid
-GameController-->ServerController: pick is valid
+ServerParser-->ServerController: pick is valid
 ServerController-->ClientController: pick is valid
 ClientModel<--ClientController:rearrange();
 else pick is invalid
-GameController-->ServerController: please pick again
+ServerParser-->ServerController: please pick again
+
 ServerController-->ClientController: please pick again
 end
 ClientModel->ClientController:rearrange
 ClientController->ServerController: rearrange
-ServerController->GameController: rearrange
+ServerController->ServerParser: rearrange
+ServerParser->GameController: rearrange
 GameController->Game: rearrange
 Game->Game: move();
 Game--> GameController: Game Update
+
 GameController->GameController: gameOver();
 
 alt game is not over
 
-GameController-->ServerController: Game Update
+GameController-->ServerParser: Game Update
+
+ServerParser-->ServerController: Game Update
 ServerController-->ClientController: Game Update
+ClientController-->ClientModel: Game Update
+
+
 
 else game is over
-GameController-->ServerController: game over
+GameController-->ServerParser: game over
+ServerParser-->ServerController: game over
 ServerController-->ClientController: game over
+ClientController-->ClientModel: game over
+
+
 GameController->Game: setWinner()
 Game-->GameController: winner(s)
-GameController-->ServerController: winner(s)
+GameController-->ServerParser: winner(s)
+ServerParser--> ServerController: winner(s)
 ServerController-->ClientController: winner(s)
 
 end

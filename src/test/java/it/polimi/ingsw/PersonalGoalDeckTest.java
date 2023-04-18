@@ -48,6 +48,6 @@ public class PersonalGoalDeckTest {
     @Test
     void getRightColor() throws IOException, ParseException {
         personalGoal = new PersonalGoal(0);
-        assertEquals(Color.YELLOW, personalGoal.getColor(new Coordinates(3, 0)));
+        assertEquals(Color.YELLOW, personalGoal.getColor(new Coordinates(0, 3)));
     }
 }
