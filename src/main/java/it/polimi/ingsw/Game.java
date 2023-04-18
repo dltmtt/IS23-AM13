@@ -121,7 +121,7 @@ public class Game {
         layouts.add(new Corners(1, 1));
 
         // As many tiles of the same type as the smaller dimension of the bookshelf forming a diagonal.
-        layouts.add(new Diagonal(dimension, 1, 1));
+        layouts.add(new Diagonal(1, 1, dimension));
 
         // Three columns each formed tiles of maximum three different types.
         layouts.add(new FullLine(1, 3, 3, false));
@@ -148,13 +148,13 @@ public class Game {
         layouts.add(new ItemsPerColor(0, 0));
 
         // Two 2×2 squares with items of the same type.
-        layouts.add(new Square(2, 1, 1, 2));
+        layouts.add(new Square(1, 1, 2, 2));
 
         // A stair as big as the smaller dimension of the bookshelf.
         layouts.add(new Stair(dimension));
 
         // Five tiles of the same type forming an X.
-        layouts.add(new XShape(3, 1, 1));
+        layouts.add(new XShape(1, 1, 3));
 
         for (Layout layout : layouts) {
             commonGoalDeck.add(new CommonGoal(layout));

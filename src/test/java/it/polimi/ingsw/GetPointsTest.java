@@ -33,7 +33,7 @@ public class GetPointsTest {
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Corners(1, 1)));
-        commonGoals.add(new CommonGoal(new Diagonal(5, 1, 1)));
+        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5)));
         commonGoals.get(0).setScoringList(3);
         commonGoals.get(1).setScoringList(3);
         Player.setCommonGoal(commonGoals);
@@ -112,7 +112,7 @@ public class GetPointsTest {
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false))); //vertical fullline
-        commonGoals.add(new CommonGoal(new XShape(3, 1, 1)));
+        commonGoals.add(new CommonGoal(new XShape(1, 1, 3)));
         commonGoals.get(0).setScoringList(2);
         commonGoals.get(1).setScoringList(2);
         Player.setCommonGoal(commonGoals);
@@ -242,7 +242,7 @@ public class GetPointsTest {
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Corners(1, 1)));
-        commonGoals.add(new CommonGoal(new Diagonal(5, 1, 1)));
+        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5)));
         commonGoals.get(0).setScoringList(2);
         commonGoals.get(1).setScoringList(2);
         Player.setCommonGoal(commonGoals);
