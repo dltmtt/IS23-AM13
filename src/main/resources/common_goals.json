@@ -125,6 +125,16 @@
           "dimension": 3
         }
       ]
+    },
+    {
+      "id": 11,
+      "type": "stair",
+      "parameters": [
+        {
+          "minDifferent": 1,
+          "maxDifferent": 6
+        }
+      ]
     }
   ]
 }

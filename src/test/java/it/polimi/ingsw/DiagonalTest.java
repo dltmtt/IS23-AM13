@@ -26,7 +26,7 @@ public class DiagonalTest {
 
     @Test
     void checkSingleRightDiagonal() {
-        Layout layout = new Diagonal(5, 1, 1);
+        Layout layout = new Diagonal(1, 1, 5);
         BookshelfUtilities.createSingleRightDiagonal(b, 0, 0, 5);
         assertTrue(layout.check(b));
         b.clearBookshelf();
@@ -36,7 +36,7 @@ public class DiagonalTest {
 
     @Test
     void checkSingleLeftDiagonal() {
-        Layout layout = new Diagonal(5, 1, 1);
+        Layout layout = new Diagonal(1, 1, 5);
         BookshelfUtilities.createSingleLeftDiagonal(b, 0, 4, 5);
         boolean result = layout.check(b);
         assertTrue(result);
@@ -108,7 +108,7 @@ public class DiagonalTest {
 
     @Test
     void checkFakeRightDiagonal() {
-        Layout layout = new Diagonal(5, 1, 1);
+        Layout layout = new Diagonal(1, 1, 5);
 
         for (int i = 0; i < 5; i++) {
             b.clearBookshelf();

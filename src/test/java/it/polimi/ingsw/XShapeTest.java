@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XShapeTest {
-    private final Layout XShape = new XShape(3, 1, 1);
+    private final Layout XShape = new XShape(1, 1, 3);
     private Bookshelf b;
 
     @BeforeAll

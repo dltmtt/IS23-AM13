@@ -44,7 +44,7 @@ public class StairTest {
         }
 
         b = new Bookshelf(rowsSetting, colsSetting);
-        stair = new Stair(Bookshelf.getColumns());
+        stair = new Stair(Bookshelf.getColumns(), 1, 6);
     }
 
     @Test

@@ -3,18 +3,11 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.layouts.*;
 import it.polimi.ingsw.utils.BookshelfUtilities;
-import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -151,7 +144,7 @@ public class Game {
         layouts.add(new Square(1, 1, 2, 2));
 
         // A stair as big as the smaller dimension of the bookshelf.
-        layouts.add(new Stair(dimension));
+        layouts.add(new Stair(dimension, 1, 6));
 
         // Five tiles of the same type forming an X.
         layouts.add(new XShape(1, 1, 3));

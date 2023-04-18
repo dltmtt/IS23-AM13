@@ -12,12 +12,14 @@ public class Stair extends Layout {
     /**
      * Creates a stair layout.
      *
-     * @param dimension the dimension of the stair
+     * @param dimension    the dimension of the stair (number of columns)
+     * @param minDifferent
+     * @param maxDifferent
      * @throws IllegalArgumentException if the parameters are invalid
      */
-    public Stair(int dimension) throws IllegalArgumentException {
+    public Stair(int dimension, int minDifferent, int maxDifferent) throws IllegalArgumentException {
         // Stair layout ony checks only for the number of items in a column, so the min and max number of different colors is 1 and 6
-        super(dimension, dimension, 1, 6);
+        super(dimension, dimension, minDifferent, maxDifferent);
     }
 
     /**
