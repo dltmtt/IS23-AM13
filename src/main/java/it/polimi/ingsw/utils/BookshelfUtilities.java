@@ -952,10 +952,16 @@ public final class BookshelfUtilities {
     }
 
     public static void randomFill(Bookshelf b) {
-        Random num = new Random();
+        Random colorIndex = new Random();
+        Random numIndex = new Random();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             for (int j = 0; j < Bookshelf.getRows(); j++) {
-                b.insert(i, new ArrayList<>(Collections.singleton(new Item(Color.getRandomColor(), num.nextInt(3) + 1))));
+
+                Color randomColor = Color.getRandomColor();
+                int randomNum = numIndex.nextInt(3) + 1;
+
+
+                b.insert(i, new ArrayList<>(Collections.singleton(new Item(randomColor, randomNum))));
             }
         }
     }

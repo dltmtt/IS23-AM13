@@ -213,12 +213,12 @@ public class PrintsNicer {
 
                 List<String> column = new ArrayList<>();
 
-                for (int i = Bookshelf.getRows(); i >= 0; i--) {
-                    if (i == 0) {
+                for (int i = Bookshelf.getRows() - 1; i >= 0; i--) {
+                    if (i == Bookshelf.getRows() - 1) {
                         column.add(smallTop);
                         column.add(bookshelfBorder + cellContent(items[i][0]) + bookshelfBorder);
                         column.add(smallVers);
-                    } else if (i == Bookshelf.getRows() - 1) {
+                    } else if (i == 0) {
                         column.add(bookshelfBorder + cellContent(items[i][0]) + bookshelfBorder);
                         column.add(smallBottom);
                     } else {
@@ -281,15 +281,15 @@ public class PrintsNicer {
                         for (int col = 0; col < Bookshelf.getColumns(); col++) {
                             if (col == 0) {
                                 //first column
-                                middleRow.append(bookshelfBorder + cellContent(items[0][col]));
+                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(bottomLeftBookshelfBorder);
                             } else if (col == Bookshelf.getColumns() - 1) {
                                 //last column
-                                middleRow.append(bookshelfBorder + cellContent(items[0][col]) + bookshelfBorder);
+                                middleRow.append(bookshelfBorder + cellContent(items[row][col]) + bookshelfBorder);
                                 bottomRow.append(bottomRightBookshelfBorder);
                             } else {
                                 //middle columns
-                                middleRow.append(bookshelfBorder + cellContent(items[0][col]));
+                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(bottomCenterBookshelfBorder);
                             }
                         }
@@ -305,15 +305,15 @@ public class PrintsNicer {
                         for (int col = 0; col < Bookshelf.getColumns(); col++) {
                             if (col == 0) {
                                 //first column
-                                middleRow.append(bookshelfBorder + cellContent(items[0][col]));
+                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(middleLeftBookshelfBorder);
                             } else if (col == Bookshelf.getColumns() - 1) {
                                 //last column
-                                middleRow.append(bookshelfBorder + cellContent(items[0][col]) + bookshelfBorder);
+                                middleRow.append(bookshelfBorder + cellContent(items[row][col]) + bookshelfBorder);
                                 bottomRow.append(middleRightBookshelfBorder);
                             } else {
                                 //middle columns
-                                middleRow.append(bookshelfBorder + cellContent(items[0][col]));
+                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(middleCenterBookshelfBorder);
                             }
                         }

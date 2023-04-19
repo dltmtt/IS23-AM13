@@ -413,6 +413,7 @@ public class Bookshelf implements AbleToGetPoints {
 //
 //     //g.
 // }
+
     /**
      * Prints the board on the console.
      * TODO: move this method to the Client package
@@ -486,5 +487,9 @@ public class Bookshelf implements AbleToGetPoints {
         frame.setVisible(true);
 //        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public Optional<Item>[][] getItems() {
+        return items;
     }
 }
