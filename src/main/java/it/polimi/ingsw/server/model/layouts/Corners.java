@@ -77,4 +77,9 @@ public class Corners extends Layout {
     public String getInfo() {
         return super.getInfo();
     }
+
+    public void cli_print() {
+        StringBuilder cell= new StringBuilder();
+        cell.append("▘");
+    }
 }

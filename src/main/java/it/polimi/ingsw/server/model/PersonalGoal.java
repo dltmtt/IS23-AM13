@@ -68,11 +68,38 @@ public class PersonalGoal {
 
     }
 
-    public void cli_print() {
+    public String toString() {
         for (Coordinates c : personalGoalCard.keySet()) {
             System.out.println("x :" + c.x() + "\n" + "y :" + c.y() + "\n" + personalGoalCard.get(c) + "\n");
         }
+        return null;
     }
+
+    public void cli_print(){
+
+        StringBuilder cell;
+        for (int row = Bookshelf.getRows()-1; row >= 0; row--) {
+            cell = new StringBuilder();
+            for (int column = 0; column < Bookshelf.getColumns(); column++) {
+                cell.append("[");
+                if (!personalGoalCard.containsKey(new Coordinates(row, column))) {
+                    cell.append(Color.BLACK)
+                            //.append(boardMatrix[row][column].color().toString().charAt(0))
+                            .append("⏹")
+                            .append(Color.RESET_COLOR);
+                } else {
+                    cell.append(Color.toANSItext(personalGoalCard.get(new Coordinates(row,column)), false))
+                            //.append(boardMatrix[row][column].color().toString().charAt(0))
+                            .append("⏹")
+                            .append(Color.RESET_COLOR);
+                }
+                cell.append("]");
+            }
+            System.out.println(cell);
+        }
+
+    }
+
 
     public HashMap<Coordinates, Color> getPersonalGoalCard() {
         return personalGoalCard;

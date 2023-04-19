@@ -86,7 +86,7 @@ public class Board {
     public void cli_print() {
         StringBuilder cell;
 
-        for (int row = 0; row < boardSize; row++) {
+        for (int row = boardSize-1; row >= 0; row--) {
             cell = new StringBuilder();
             for (int column = 0; column < boardSize; column++) {
                 cell.append("[");

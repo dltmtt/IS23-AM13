@@ -120,4 +120,24 @@ class BookshelfTest {
             }
         }
     }
+
+    @Test
+    void cli_draw_test() {
+        List<Item> localCol = new ArrayList<>();
+        Color randomcolor;
+        Item item;
+        for (int col = 0; col < Bookshelf.getColumns(); col++) {
+            localCol.clear();
+            for (int row = 0; row < Bookshelf.getRows(); row++) {
+                items.clear();
+                randomcolor = Color.getRandomColor();
+                item = new Item(randomcolor, 3);
+                items.add(item);
+                bookshelf.insert(col, items);
+                localCol.add(item);
+                assertEquals(localCol, bookshelf.getColumnContent(col));
+            }
+        }
+        bookshelf.cli_print();
+    }
 }

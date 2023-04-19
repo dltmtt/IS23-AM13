@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
 
 import javax.swing.*;
 import java.awt.*;
@@ -406,25 +407,45 @@ public class Bookshelf implements AbleToGetPoints {
 // }
 
     public void cli_print() {
-        StringBuilder singleRow;
-        List<String> stringBook = new ArrayList<>();
-        for (int row = 0; row < getRows(); row++) {
-            singleRow = new StringBuilder(row + "\t");
-            for (int col = 0; col < getColumns(); col++) {
-                singleRow.append("\t").append(getItemAt(row, col).isPresent() ? getItemAt(row, col).get().color().ordinal() : " ");
+        StringBuilder cell;
+        for (int row = getRows()-1; row >= 0; row--) {
+            cell = new StringBuilder();
+            for (int column = 0; column <getColumns(); column++) {
+                cell.append("[");
+                if (items[row][column].isEmpty()) {
+                    cell.append(Color.BLACK)
+                            //.append(boardMatrix[row][column].color().toString().charAt(0))
+                            .append("⏹")
+                            .append(Color.RESET_COLOR);
+                } else {
+                    cell.append(Color.toANSItext(items[row][column].get().color(), false))
+                            //.append(boardMatrix[row][column].color().toString().charAt(0))
+                            .append("⏹")
+                            .append(Color.RESET_COLOR);
+                }
+                cell.append("]");
             }
-            stringBook.add(singleRow.toString());
+            System.out.println(cell);
         }
-
-        for (int i = 0; i < getRows(); i++) {
-            System.out.println(stringBook.get(stringBook.size() - i - 1));
-        }
-
-        StringBuilder colNum = new StringBuilder(" ");
-        for (int i = 0; i < getColumns(); i++) {
-            colNum.append("\t").append(i);
-        }
-        System.out.println(" \t" + colNum);
+//        StringBuilder singleRow;
+//        List<String> stringBook = new ArrayList<>();
+//        for (int row = 0; row < getRows(); row++) {
+//            singleRow = new StringBuilder(row + "\t");
+//            for (int col = 0; col < getColumns(); col++) {
+//                singleRow.append("\t").append(getItemAt(row, col).isPresent() ? getItemAt(row, col).get().color().ordinal() : " ");
+//            }
+//            stringBook.add(singleRow.toString());
+//        }
+//
+//        for (int i = 0; i < getRows(); i++) {
+//            System.out.println(stringBook.get(stringBook.size() - i - 1));
+//        }
+//
+//        StringBuilder colNum = new StringBuilder(" ");
+//        for (int i = 0; i < getColumns(); i++) {
+//            colNum.append("\t").append(i);
+//        }
+//        System.out.println(" \t" + colNum);
     }
 
     public void print() {
