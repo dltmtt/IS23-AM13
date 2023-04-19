@@ -82,4 +82,17 @@ public class Board {
         }
         return itemsPicked;
     }
+
+    public void cli_print(){
+        for (int row = 0; row < boardSize; row++) {
+            for (int column = 0; column < boardSize; column++) {
+                if (boardMatrix[row][column] == null) {
+                    System.out.print("-");
+                } else {
+                    System.out.print(boardMatrix[row][column].color().toString().charAt(0));
+                }
+            }
+            System.out.println();
+        }
+    }
 }

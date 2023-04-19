@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.layouts.FullLine;
 import it.polimi.ingsw.server.model.layouts.XShape;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
@@ -31,16 +32,16 @@ public class GetPointsTest {
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.addPlayer(player3);
-        game.initialize();
+        game.start();
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Corners(1, 1), numofplayers));
         commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), numofplayers));
         Player.setCommonGoal(commonGoals);
 
-        player1.setPersonalGoal(new PersonalGoal(1));
-        player2.setPersonalGoal(new PersonalGoal(2));
-        player3.setPersonalGoal(new PersonalGoal(3));
+        player1.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(1));
+        player2.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(2));
+        player3.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(3));
 
         List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
@@ -107,10 +108,10 @@ public class GetPointsTest {
 
         game.addPlayer(player1);
         game.addPlayer(player2);
-        game.initialize();
+        game.start();
 
-        player1.setPersonalGoal(new PersonalGoal(9));
-        player2.setPersonalGoal(new PersonalGoal(8));
+        player1.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
+        player2.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false), numOfPlayers)); //vertical fullline
@@ -236,9 +237,9 @@ public class GetPointsTest {
         Player player2 = new Player("Arianna", 20, false, false, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
         game.addPlayer(player1);
         game.addPlayer(player2);
-        game.initialize();
-        player1.setPersonalGoal(new PersonalGoal(9));
-        player2.setPersonalGoal(new PersonalGoal(8));
+        game.start();
+        player1.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
+        player2.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
 
 
         List<CommonGoal> commonGoals = new ArrayList<>();

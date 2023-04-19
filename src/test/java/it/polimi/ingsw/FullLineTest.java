@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.layouts.FullLine;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.BookshelfUtilities;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ public class FullLineTest {
 
     @BeforeAll
     static void setupAll() {
-        BookshelfUtilities.loadSettings();
+        SettingLoader.loadBookshelfSettings();
     }
 
     @BeforeEach

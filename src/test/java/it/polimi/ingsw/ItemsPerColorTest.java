@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.layouts.ItemsPerColor;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.BookshelfUtilities;
 import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ public class ItemsPerColorTest {
 
     @BeforeAll
     static void setupAll() {
-        BookshelfUtilities.loadSettings();
+        SettingLoader.loadBookshelfSettings();
     }
 
     @BeforeEach

@@ -5,42 +5,13 @@ import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.Group;
 import it.polimi.ingsw.server.model.layouts.Layout;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 import static java.lang.Integer.parseInt;
 
 public final class BookshelfUtilities {
-    /**
-     * Reads settings from a <code>.properties</code> file and sets <code>Bookshelf</code>'s rows and columns.
-     */
-    public static void loadSettings() {
-        Properties prop = new Properties();
-        int rowsSetting;
-        int colsSetting;
-
-        try (InputStream settings = new FileInputStream("src/main/resources/settings.properties")) {
-            prop.load(settings);
-            rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
-            colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // In case the file is not found or there is and error reading the file,
-            // the default values will be used instead
-            rowsSetting = 5;
-            colsSetting = 6;
-        }
-
-        Bookshelf.setRows(rowsSetting);
-        Bookshelf.setColumns(colsSetting);
-    }
 
     public static void createColumn(Bookshelf b, int different, int numberOfCol) {
         Color[] colors = Color.values();
@@ -128,12 +99,16 @@ public final class BookshelfUtilities {
         List<Item> soloItemEqual = new ArrayList<>();
         List<Item> soloItemDiff = new ArrayList<>();
         List<Item> items = new ArrayList<>();
-        soloItemDiff.add(new Item(Color.getRandomColor(), 4));
-        soloItemEqual.add(new Item(Color.getRandomColor(), 3));
-        while (soloItemDiff.get(0).equals(soloItemEqual.get(0))) {
-            soloItemDiff.remove(0);
-            soloItemDiff.add(new Item(Color.getRandomColor(), 4));
-        }
+        
+        List<Color> colorlist= new ArrayList<>(Arrays.stream(Color.values()).toList());
+        //random index of colors
+        int randomColor = new Random().nextInt(colorlist.size());
+        soloItemDiff.add(new Item(colorlist.get(randomColor), 4));
+
+        colorlist.remove(randomColor);
+        randomColor= new Random().nextInt(colorlist.size());
+        soloItemEqual.add(new Item(colorlist.get(randomColor), 3));
+
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemDiff);
         for (int i = 0; i < 4; i++) {
@@ -149,12 +124,15 @@ public final class BookshelfUtilities {
         List<Item> soloItemEqual = new ArrayList<>();
         List<Item> soloItemDiff = new ArrayList<>();
         List<Item> items = new ArrayList<>();
-        soloItemDiff.add(new Item(Color.getRandomColor(), 4));
-        soloItemEqual.add(new Item(Color.getRandomColor(), 3));
-        while (soloItemDiff.get(0).equals(soloItemEqual.get(0))) {
-            soloItemDiff.remove(0);
-            soloItemDiff.add(new Item(Color.getRandomColor(), 4));
-        }
+        List<Color> colorlist= new ArrayList<>(Arrays.stream(Color.values()).toList());
+        //random index of colors
+        int randomColor = new Random().nextInt(colorlist.size());
+        soloItemDiff.add(new Item(colorlist.get(randomColor), 4));
+
+        colorlist.remove(randomColor);
+        randomColor= new Random().nextInt(colorlist.size());
+        soloItemEqual.add(new Item(colorlist.get(randomColor), 3));
+
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemEqual);
         for (int i = 0; i < 4; i++) {
