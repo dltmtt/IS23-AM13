@@ -45,7 +45,14 @@ public class Square extends Layout {
 
     @Override
     public void cli_print() {
-
+        String cell = """
+                ◼ ◼ - - - -
+                ◼ ◼ - - - -
+                - - - - ◼ ◼
+                - - - - ◼ ◼
+                - - - - - -
+                - - - - - -""";
+        System.out.println(cell);
     }
 
     /**

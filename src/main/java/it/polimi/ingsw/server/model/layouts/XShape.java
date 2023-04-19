@@ -109,7 +109,12 @@ public class XShape extends Layout {
 
     @Override
     public void cli_print() {
+        String cell = """
+                - ◼ - ◼ -\s
+                - - ◼ - -\s
+                - ◼ - ◼ -\s""";
 
+        System.out.println(cell);
     }
 
     public String getInfo() {

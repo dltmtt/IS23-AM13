@@ -44,7 +44,7 @@ public class Diagonal extends Layout {
                 if (i == j)
                     cell.append("◼");
                 else
-                    cell.append("  ");
+                    cell.append("--");
             }
             cell.append("\n");
         }

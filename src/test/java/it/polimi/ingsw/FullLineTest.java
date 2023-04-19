@@ -46,7 +46,7 @@ public class FullLineTest {
 
     @Test
     public void fourRowsMax3DiffCol() {
-        Layout fullLine = new FullLine(1, 3, 3, true);
+        Layout fullLine = new FullLine(1, 3, 4, true);
         BookshelfUtilities.createRow(b, 2, 3);
         if (!fullLine.check(b)) {
             b.cli_print();
