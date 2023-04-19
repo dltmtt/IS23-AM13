@@ -38,7 +38,17 @@ public class Diagonal extends Layout {
 
     @Override
     public void cli_print() {
-
+        StringBuilder cell = new StringBuilder();
+        for (int i = 0; i < Bookshelf.getColumns(); i++) {
+            for (int j = 0; j < Bookshelf.getColumns(); j++) {
+                if (i == j)
+                    cell.append("◼");
+                else
+                    cell.append("  ");
+            }
+            cell.append("\n");
+        }
+        System.out.println(cell);
     }
 
     /**

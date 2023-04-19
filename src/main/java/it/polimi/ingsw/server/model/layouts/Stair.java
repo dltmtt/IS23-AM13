@@ -83,9 +83,12 @@ public class Stair extends Layout {
         return check_right(b) || check_left(b);
     }
 
-    @Override
     public void cli_print() {
-
+        StringBuilder cell = new StringBuilder();
+        for (int i = 0; i < Bookshelf.getColumns(); i++) {
+            cell.append("◼ ");
+            System.out.println(cell);
+        }
     }
 
     public String getInfo() {
