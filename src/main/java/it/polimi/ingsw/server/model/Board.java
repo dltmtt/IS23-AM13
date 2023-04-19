@@ -82,4 +82,28 @@ public class Board {
         }
         return itemsPicked;
     }
+
+    public void cli_print() {
+        StringBuilder cell;
+
+        for (int row = 0; row < boardSize; row++) {
+            cell = new StringBuilder();
+            for (int column = 0; column < boardSize; column++) {
+                cell.append("[");
+                if (boardMatrix[row][column] == null) {
+                    cell.append(Color.BLACK)
+                            //.append(boardMatrix[row][column].color().toString().charAt(0))
+                            .append("⏹")
+                            .append(Color.RESET_COLOR);
+                } else {
+                    cell.append(Color.toANSItext(boardMatrix[row][column].color(), false))
+                            //.append(boardMatrix[row][column].color().toString().charAt(0))
+                            .append("⏹")
+                            .append(Color.RESET_COLOR);
+                }
+                cell.append("]");
+            }
+            System.out.println(cell);
+        }
+    }
 }

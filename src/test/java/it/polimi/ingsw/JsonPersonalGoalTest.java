@@ -4,6 +4,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.server.model.PersonalGoal;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

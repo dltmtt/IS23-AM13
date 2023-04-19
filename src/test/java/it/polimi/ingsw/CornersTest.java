@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.layouts.Corners;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.BookshelfUtilities;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ public class CornersTest {
 
     @BeforeAll
     static void setupAll() {
-        BookshelfUtilities.loadSettings();
+        SettingLoader.loadBookshelfSettings();
     }
 
     @BeforeEach
@@ -31,18 +32,20 @@ public class CornersTest {
         assertTrue(layout.check(b));
     }
 
-    // WARNING: This test fails
     @Test
     void checkFakeCorner() {
-        Layout layout = new Corners(1, 1);
-        BookshelfUtilities.createFakeCorner(b, 0);
-        assertFalse(layout.check(b));
-        b.clearBookshelf();
-        BookshelfUtilities.createFakeCorner(b, 1);
-        assertFalse(layout.check(b));
-//        Bookshelf b2 = new Bookshelf(settings_height, settings_width);
-//        Create Fake Corner possibly has a bug
-//        createFakeCorner(b2, 2);
-//        assertFalse(layout.check(b2));
+        for(int i=0; i<100; i++) {
+            Layout layout = new Corners(1, 1);
+            BookshelfUtilities.createFakeCorner(b, 0);
+            assertFalse(layout.check(b));
+            b.clearBookshelf();
+            b.clearBooleanMatrix();
+            BookshelfUtilities.createFakeCorner(b, 1);
+            assertFalse(layout.check(b));
+            b.clearBookshelf();
+            b.clearBooleanMatrix();
+            BookshelfUtilities.createFakeCorner(b, 2);
+            assertFalse(layout.check(b));
+        }
     }
 }
