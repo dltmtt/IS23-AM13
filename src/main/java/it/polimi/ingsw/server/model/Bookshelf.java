@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.Coordinates;
+import it.polimi.ingsw.utils.PrintsNicer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,6 +71,14 @@ public class Bookshelf implements AbleToGetPoints {
 //        b.cli_print();
 //        b.print();
 //    }
+
+    public Bookshelf() {
+        // noinspection unchecked
+        items = (Optional<Item>[][]) new Optional[Bookshelf.rows][Bookshelf.columns];
+        booleanMatrix = new boolean[Bookshelf.rows][Bookshelf.columns];
+        clearBookshelf();
+        clearBooleanMatrix();
+    }
 
     /**
      * @return the number of rows in a bookshelf
@@ -412,9 +420,9 @@ public class Bookshelf implements AbleToGetPoints {
 
     public void cli_print() {
         StringBuilder cell;
-        for (int row = getRows()-1; row >= 0; row--) {
+        for (int row = getRows() - 1; row >= 0; row--) {
             cell = new StringBuilder();
-            for (int column = 0; column <getColumns(); column++) {
+            for (int column = 0; column < getColumns(); column++) {
                 cell.append("[");
                 if (items[row][column].isEmpty()) {
                     cell.append(Color.BLACK)
@@ -431,6 +439,10 @@ public class Bookshelf implements AbleToGetPoints {
             }
             System.out.println(cell);
         }
+    }
+
+    public void cli_print_2() {
+        PrintsNicer.stringifyBookshelf(items).forEach(System.out::println);
     }
 
     public void print() {

@@ -9,8 +9,6 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
-import static java.lang.Integer.parseInt;
-
 public final class BookshelfUtilities {
 
     public static void createColumn(Bookshelf b, int different, int numberOfCol) {
@@ -99,14 +97,14 @@ public final class BookshelfUtilities {
         List<Item> soloItemEqual = new ArrayList<>();
         List<Item> soloItemDiff = new ArrayList<>();
         List<Item> items = new ArrayList<>();
-        
-        List<Color> colorlist= new ArrayList<>(Arrays.stream(Color.values()).toList());
+
+        List<Color> colorlist = new ArrayList<>(Arrays.stream(Color.values()).toList());
         //random index of colors
         int randomColor = new Random().nextInt(colorlist.size());
         soloItemDiff.add(new Item(colorlist.get(randomColor), 4));
 
         colorlist.remove(randomColor);
-        randomColor= new Random().nextInt(colorlist.size());
+        randomColor = new Random().nextInt(colorlist.size());
         soloItemEqual.add(new Item(colorlist.get(randomColor), 3));
 
         b.insert(0, soloItemEqual);
@@ -124,13 +122,13 @@ public final class BookshelfUtilities {
         List<Item> soloItemEqual = new ArrayList<>();
         List<Item> soloItemDiff = new ArrayList<>();
         List<Item> items = new ArrayList<>();
-        List<Color> colorlist= new ArrayList<>(Arrays.stream(Color.values()).toList());
+        List<Color> colorlist = new ArrayList<>(Arrays.stream(Color.values()).toList());
         //random index of colors
         int randomColor = new Random().nextInt(colorlist.size());
         soloItemDiff.add(new Item(colorlist.get(randomColor), 4));
 
         colorlist.remove(randomColor);
-        randomColor= new Random().nextInt(colorlist.size());
+        randomColor = new Random().nextInt(colorlist.size());
         soloItemEqual.add(new Item(colorlist.get(randomColor), 3));
 
         b.insert(0, soloItemEqual);
@@ -952,4 +950,14 @@ public final class BookshelfUtilities {
             default -> throw new IllegalStateException("Unexpected value: " + variant);
         }
     }
+
+    public static void randomFill(Bookshelf b) {
+        Random num = new Random();
+        for (int i = 0; i < Bookshelf.getColumns(); i++) {
+            for (int j = 0; j < Bookshelf.getRows(); j++) {
+                b.insert(i, new ArrayList<>(Collections.singleton(new Item(Color.getRandomColor(), num.nextInt(3) + 1))));
+            }
+        }
+    }
+
 }
