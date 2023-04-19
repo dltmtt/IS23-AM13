@@ -44,7 +44,7 @@ public class PersonalGoalDeckTest {
         assertEquals(2, personalGoal.getPoints(b));
     }
 
-    // WARNING: this test fails (but I think it is a WIP).
+    // WARNING: this test fails (but I think it is a Work In Progress).
     @Test
     void getRightColor() throws IOException, ParseException {
         personalGoal = SettingLoader.loadSpecificPersonalGoal(0);
