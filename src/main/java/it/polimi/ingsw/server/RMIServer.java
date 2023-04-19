@@ -11,7 +11,7 @@ import java.util.List;
 public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
     public int port = 1234;
     public String address = "127.0.0.1";
-    List clients = Collections.synchronizedList(new ArrayList<>());
+    List<Object> clients = Collections.synchronizedList(new ArrayList<>());
 
 
     //costruttore
@@ -30,14 +30,15 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerInterface
     }
 
     @Override
-    public List insertNewClient(Player player) throws RemoteException {
+    //invece di player va client, ma ancora non abbiamo la classe
+    public void insertNewClient(Player player) throws RemoteException {
         clients.add(player);
-        return clients;
     }
 
     @Override
     public void reset() throws RemoteException {
         //resetta il gioco
     }
+
 
 }

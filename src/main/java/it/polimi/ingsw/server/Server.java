@@ -2,10 +2,11 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.model.Player;
 
+import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 public class Server {
     public static int minNumPlayers = 2;
@@ -14,10 +15,11 @@ public class Server {
     public static int rmi_port = 1234;
     ServerSocket serverSocket;
     RMIServer rmiServer;
+    private Map<String, Player> players;
 
     public Server() throws IOException {
-        HashMap<Player, Room> turns = new HashMap<>();
-        ArrayList<Room> rooms = new ArrayList<>();
+        //  Map<Player, Room> turns = new HashMap<>();
+        ArrayList<Room> rooms = new ArrayList<>();  //list of the rooms created
         serverSocket = new ServerSocket();
         rmiServer = new RMIServer();
     }
@@ -48,4 +50,20 @@ public class Server {
     }
 
 
+    public void login(String username, Player player) throws LoginException {
+        if (username.length() > 0 && !players.containsKey(username)) {
+            //setto il nome del giocatore a username
+            System.out.println("Player" + username + "connected");
+        } else if (username.length() == 0) {
+            System.out.println("The username is not valid");
+        } else {
+            System.out.println("The player" + username + "has already logged in");
+            throw new LoginException();
+        }
+    }
+
+    //this method returns the player with username "name"
+    public Player getPlayer(String name) {
+        return players.get(name);
+    }
 }
