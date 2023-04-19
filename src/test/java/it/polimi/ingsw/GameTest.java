@@ -2,15 +2,19 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.PersonalGoal;
+import it.polimi.ingsw.server.model.Player;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameTest {
     @Test
     public void GoalLoading() throws IOException, ParseException, IllegalAccessException {
-        Game game = new Game(4);
+        List<Player> players = new ArrayList<>(4);
+        Game game = new Game(players);
         for (CommonGoal commonGoal : game.getCommonGoalDeck()) {
             System.out.println(commonGoal.getLayout().getInfo());
             System.out.println(commonGoal.getScoringList());
@@ -24,11 +28,10 @@ public class GameTest {
     @Test
     public void BoardFilling() {
         Game game;
-        try {
-            game = new Game(4);
-        } catch (IllegalAccessException | IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+        List<Player> players = new ArrayList<>(4);
+
+
+        game = new Game(players);
         game.start();
         game.getLivingRoom().cli_print();
 

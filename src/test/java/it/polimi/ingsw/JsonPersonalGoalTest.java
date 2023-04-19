@@ -2,19 +2,20 @@ package it.polimi.ingsw;
 
 
 import it.polimi.ingsw.server.model.PersonalGoal;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
-
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class JsonPersonalGoalTest {
@@ -32,18 +33,20 @@ public class JsonPersonalGoalTest {
 
 
         JSONArray configuration = (JSONArray) personalGoal.get("configuration");
-        JSONObject cell= (JSONObject) configuration.get(0);
-        personalGoalCard.put(new Coordinates( Math.toIntExact((Long) cell.get("x")),Math.toIntExact((Long) cell.get("y"))),Color.valueOf((String) cell.get("color")));
-        assert personalGoalCard.get(new Coordinates(2,0)).equals(Color.PINK);
+        JSONObject cell = (JSONObject) configuration.get(0);
+        personalGoalCard.put(new Coordinates(Math.toIntExact((Long) cell.get("x")), Math.toIntExact((Long) cell.get("y"))), Color.valueOf((String) cell.get("color")));
+        assert personalGoalCard.get(new Coordinates(2, 0)).equals(Color.PINK);
 
     }
 
     @Test
-    void drawTest() throws IllegalAccessException, IOException, ParseException {
-        Game g=new Game(3);
+    void drawTest() throws IOException, ParseException {
+        List<Player> players = new ArrayList<>(3);
+
+        Game g = new Game(players);
 
         g.fillPersonalGoalDeck();
-        PersonalGoal p= g.drawPersonalGoal();
+        PersonalGoal p = g.drawPersonalGoal();
         p.cli_print();
 
     }

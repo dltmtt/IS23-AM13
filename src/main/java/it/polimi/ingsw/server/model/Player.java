@@ -17,24 +17,26 @@ public class Player {
     private final boolean isFirstGame;
     private final boolean isFirstPlayer;
     private final List<Integer> commonGoalPoints = new ArrayList<>(2);
-    private final Bookshelf bookshelf;
+    private Bookshelf bookshelf;
     private boolean hasEndGameCard;
     private PersonalGoal personalGoal;
 
-    public Player(String nickname, int age, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard, Bookshelf bookshelf, Board board) {
+    public Player(String nickname, int age, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard) {
         this.nickname = nickname;
         this.age = age;
         this.isFirstGame = isFirstGame;
         this.isFirstPlayer = isFirstPlayer;
         this.hasEndGameCard = hasEndGameCard;
-        this.bookshelf = bookshelf;
-        Player.board = board;
         commonGoalCompleted.add(false);
         commonGoalCompleted.add(false);
     }
 
     public static void setCommonGoal(List<CommonGoal> commonGoals) {
         Player.commonGoals = commonGoals;
+    }
+
+    public static void setBoard(Board board) {
+        Player.board = board;
     }
 
     public String getNickname() {
@@ -47,6 +49,10 @@ public class Player {
 
     public Bookshelf getBookshelf() {
         return bookshelf;
+    }
+
+    public void setBookshelf(Bookshelf bookshelf) {
+        this.bookshelf = bookshelf;
     }
 
     /**

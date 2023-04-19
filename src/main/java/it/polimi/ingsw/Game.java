@@ -1,9 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.server.model.Board;
-import it.polimi.ingsw.server.model.CommonGoal;
-import it.polimi.ingsw.server.model.PersonalGoal;
-import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
@@ -23,16 +20,27 @@ public class Game {
     private Player currentPlayer;
     private boolean lastRound;
 
-    public Game(int numOfPlayers) throws IllegalAccessException, IOException, ParseException {
+    public Game(List<Player> players) {
         SettingLoader.loadBookshelfSettings();
-        this.players = new ArrayList<>(numOfPlayers); // Living room is created and filled
-        livingRoom = new Board(numOfPlayers);
-        livingRoom.fill();
+        this.players = new ArrayList<>();
+        this.players.addAll(players);
+        try {
+            livingRoom = new Board(players.size());
+        } catch (ParseException | IOException e) {
+            throw new RuntimeException(e + ", error in loading the board");
+        }
+
+        Player.setBoard(livingRoom);
+
         commonGoalDeck = new ArrayList<>();
         personalGoalDeck = new ArrayList<>();
 
-        fillCommonGoalDeck(numOfPlayers);
-        fillPersonalGoalDeck();
+        try {
+            fillCommonGoalDeck(players.size());
+            fillPersonalGoalDeck();
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e + ", error in loading the goal decks");
+        }
 
     }
 
@@ -43,10 +51,13 @@ public class Game {
     /**
      * Creates the <code>personalGoalDeck</code>, the <code>commonGoalDeck</code> and the <code>livingRoom</code>.
      */
-    public void start(){
+    public void start() {
         // Draw a personal goal card for each player
         boolean isFirstGame = false;
         for (Player player : players) {
+
+            player.setBookshelf(new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()));
+
             player.setPersonalGoal(drawPersonalGoal());
             if (player.isFirstPlayer()) {
                 currentPlayer = player;
@@ -75,7 +86,7 @@ public class Game {
      *
      * @return the personal goal card drawn
      */
-    public PersonalGoal drawPersonalGoal(){
+    public PersonalGoal drawPersonalGoal() {
         Random randomNumberGenerator = new Random();
         int randomPersonalGoalIndex = randomNumberGenerator.nextInt(personalGoalDeck.size());
         // Remove the extracted personal goal from the deck so that it can't be drawn again.
@@ -90,7 +101,7 @@ public class Game {
      *
      * @return the list of common goal cards drawn
      */
-    public List<CommonGoal> drawCommonGoals(boolean isFirstGame){
+    public List<CommonGoal> drawCommonGoals(boolean isFirstGame) {
         Random randomNumberGenerator = new Random();
         List<CommonGoal> extracted = new ArrayList<>();
 
@@ -120,7 +131,7 @@ public class Game {
      * that players have to replicate in their bookshelves to get points.
      */
     public void fillPersonalGoalDeck() throws IOException, ParseException {
-        personalGoalDeck=SettingLoader.personalGoalLoader();
+        personalGoalDeck = SettingLoader.personalGoalLoader();
     }
 
     /**

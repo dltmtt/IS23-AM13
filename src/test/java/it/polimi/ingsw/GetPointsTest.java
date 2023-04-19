@@ -1,6 +1,8 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.CommonGoal;
+import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.layouts.Corners;
 import it.polimi.ingsw.server.model.layouts.Diagonal;
 import it.polimi.ingsw.server.model.layouts.FullLine;
@@ -23,25 +25,23 @@ public class GetPointsTest {
     // plus 3 points for one group of 4 adjacent items, for a total of 28 points.
     @Test
     void generalTest() throws IllegalAccessException, IOException, ParseException {
-        Game game = new Game(3);
-        Player player1 = new Player("test1", 20, true, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
-        Player player2 = new Player("test2", 20, true, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
-        Player player3 = new Player("test3", 20, true, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
-        int numofplayers = 3;
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("test1", 20, true, true, false));
+        players.add(new Player("test2", 20, true, true, false));
+        players.add(new Player("test3", 20, true, true, false));
 
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.addPlayer(player3);
+
+        Game game = new Game(players);
         game.start();
 
         List<CommonGoal> commonGoals = new ArrayList<>();
-        commonGoals.add(new CommonGoal(new Corners(1, 1), numofplayers));
-        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), numofplayers));
+        commonGoals.add(new CommonGoal(new Corners(1, 1), players.size()));
+        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), players.size()));
         Player.setCommonGoal(commonGoals);
 
-        player1.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(1));
-        player2.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(2));
-        player3.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(3));
+        players.get(0).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(1));
+        players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(2));
+        players.get(2).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(3));
 
         List<Item> items = new ArrayList<>();
         items.add(new Item(Color.BLUE, 1));
@@ -50,7 +50,7 @@ public class GetPointsTest {
         items.add(new Item(Color.WHITE, 1));
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.BLUE, 1));
-        player1.getBookshelf().insert(0, items);
+        players.get(0).getBookshelf().insert(0, items);
         items.clear();
 
         items.add(new Item(Color.PINK, 1));
@@ -59,7 +59,7 @@ public class GetPointsTest {
         items.add(new Item(Color.LIGHTBLUE, 1));
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.GREEN, 1));
-        player1.getBookshelf().insert(1, items);
+        players.get(0).getBookshelf().insert(1, items);
         items.clear();
 
         items.add(new Item(Color.PINK, 1));
@@ -67,7 +67,7 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.BLUE, 1));
-        player1.getBookshelf().insert(2, items);
+        players.get(0).getBookshelf().insert(2, items);
         items.clear();
 
         items.add(new Item(Color.PINK, 1));
@@ -76,7 +76,7 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.WHITE, 1));
-        player1.getBookshelf().insert(3, items);
+        players.get(0).getBookshelf().insert(3, items);
         items.clear();
 
         items.add(new Item(Color.BLUE, 1));
@@ -85,12 +85,12 @@ public class GetPointsTest {
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
-        player1.getBookshelf().insert(4, items);
+        players.get(0).getBookshelf().insert(4, items);
         items.clear();
 
-        player1.move(new Coordinates(2, 2), new Coordinates(2, 3), 2);
+        players.get(0).move(new Coordinates(2, 2), new Coordinates(2, 3), 2);
 
-        int score1 = player1.calculateScore();
+        int score1 = players.get(0).calculateScore();
 
         assertEquals(28, score1);
     }
@@ -101,21 +101,20 @@ public class GetPointsTest {
     //Total score: 27 points.
     @Test
     void TwoPlayerMatch_Player1Wins() throws IllegalAccessException, IOException, ParseException {
-        int numOfPlayers = 2;
-        Game game = new Game(numOfPlayers);
-        Player player1 = new Player("Valeria", 21, false, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
-        Player player2 = new Player("Arianna", 20, false, false, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
 
-        game.addPlayer(player1);
-        game.addPlayer(player2);
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("Valeria", 21, false, true, false));
+        players.add(new Player("Arianna", 20, false, false, false));
+
+        Game game = new Game(players);
         game.start();
 
-        player1.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
-        player2.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
+        players.get(0).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
+        players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
 
         List<CommonGoal> commonGoals = new ArrayList<>();
-        commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false), numOfPlayers)); //vertical fullline
-        commonGoals.add(new CommonGoal(new XShape(1, 1, 3), numOfPlayers));
+        commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false), players.size())); //vertical fullline
+        commonGoals.add(new CommonGoal(new XShape(1, 1, 3), players.size()));
         Player.setCommonGoal(commonGoals);
 
         //player1 set-up
@@ -127,7 +126,7 @@ public class GetPointsTest {
         items.add(new Item(Color.LIGHTBLUE, 1));
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.LIGHTBLUE, 1));
-        player1.getBookshelf().insert(1, items);
+        players.get(0).getBookshelf().insert(1, items);
         items.clear();
 
         items.add(new Item(Color.PINK, 1));
@@ -136,7 +135,7 @@ public class GetPointsTest {
         items.add(new Item(Color.WHITE, 1));
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.YELLOW, 1));
-        player1.getBookshelf().insert(3, items);
+        players.get(0).getBookshelf().insert(3, items);
         items.clear();
 
         items.add(new Item(Color.WHITE, 1));
@@ -145,7 +144,7 @@ public class GetPointsTest {
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.YELLOW, 1));
-        player1.getBookshelf().insert(4, items);
+        players.get(0).getBookshelf().insert(4, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -153,11 +152,11 @@ public class GetPointsTest {
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.PINK, 1));
-        player1.getBookshelf().insert(0, items);
+        players.get(0).getBookshelf().insert(0, items);
         items.clear();
 
         //player1 reach common goal full line as first
-        player1.move(new Coordinates(1, 4), new Coordinates(1, 5), 0);
+        players.get(0).move(new Coordinates(1, 4), new Coordinates(1, 5), 0);
 
         //player2 set-up
         items.add(new Item(Color.GREEN, 1));
@@ -165,7 +164,7 @@ public class GetPointsTest {
         items.add(new Item(Color.LIGHTBLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.LIGHTBLUE, 1));
-        player2.getBookshelf().insert(0, items);
+        players.get(1).getBookshelf().insert(0, items);
         items.clear();
 
         items.add(new Item(Color.WHITE, 1));
@@ -174,7 +173,7 @@ public class GetPointsTest {
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.GREEN, 1));
-        player2.getBookshelf().insert(1, items);
+        players.get(1).getBookshelf().insert(1, items);
         items.clear();
 
         items.add(new Item(Color.LIGHTBLUE, 1));
@@ -183,7 +182,7 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.WHITE, 1));
-        player2.getBookshelf().insert(2, items);
+        players.get(1).getBookshelf().insert(2, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -192,7 +191,7 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.PINK, 1));
-        player2.getBookshelf().insert(3, items);
+        players.get(1).getBookshelf().insert(3, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -201,18 +200,18 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.PINK, 1));
-        player2.getBookshelf().insert(4, items);
+        players.get(1).getBookshelf().insert(4, items);
         items.clear();
 
         //player2 reach common goal x-shape as first
-        player2.move(new Coordinates(2, 1), new Coordinates(2, 2), 0);
+        players.get(1).move(new Coordinates(2, 1), new Coordinates(2, 2), 0);
 
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.GREEN, 1));
-        player1.getBookshelf().insert(2, items);
+        players.get(0).getBookshelf().insert(2, items);
         items.clear();
 
         //player1 reach common goal x-shape as second
@@ -222,29 +221,28 @@ public class GetPointsTest {
             i++;
             j++;
         }
-        player1.move(new Coordinates(i, j), new Coordinates(i, j + 1), 2);
+        players.get(0).move(new Coordinates(i, j), new Coordinates(i, j + 1), 2);
 
 //        assertEquals(29, player1.calculateScore());
-        assertEquals(27, player2.calculateScore());
+        assertEquals(27, players.get(1).calculateScore());
 
     }
 
     @Test
     void TwoPlayerMatch_tie() throws IllegalAccessException, IOException, ParseException {
-        int numOfPlayers = 2;
-        Game game = new Game(numOfPlayers);
-        Player player1 = new Player("Valeria", 21, false, true, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
-        Player player2 = new Player("Arianna", 20, false, false, false, new Bookshelf(Bookshelf.getRows(), Bookshelf.getColumns()), game.getLivingRoom());
-        game.addPlayer(player1);
-        game.addPlayer(player2);
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("Valeria", 21, false, true, false));
+        players.add(new Player("Arianna", 20, false, false, false));
+        Game game = new Game(players);
         game.start();
-        player1.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
-        player2.setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
+
+        players.get(0).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
+        players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
 
 
         List<CommonGoal> commonGoals = new ArrayList<>();
-        commonGoals.add(new CommonGoal(new Corners(1, 1), numOfPlayers));
-        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), numOfPlayers));
+        commonGoals.add(new CommonGoal(new Corners(1, 1), players.size()));
+        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), players.size()));
         Player.setCommonGoal(commonGoals);
 
         List<Item> items = new ArrayList<>();
@@ -254,7 +252,7 @@ public class GetPointsTest {
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.YELLOW, 1));
-        player1.getBookshelf().insert(0, items);
+        players.get(0).getBookshelf().insert(0, items);
         items.clear();
 
         items.add(new Item(Color.PINK, 1));
@@ -263,7 +261,7 @@ public class GetPointsTest {
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.GREEN, 1));
-        player1.getBookshelf().insert(1, items);
+        players.get(0).getBookshelf().insert(1, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -272,7 +270,7 @@ public class GetPointsTest {
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.YELLOW, 1));
-        player1.getBookshelf().insert(2, items);
+        players.get(0).getBookshelf().insert(2, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -281,7 +279,7 @@ public class GetPointsTest {
         items.add(new Item(Color.WHITE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
-        player1.getBookshelf().insert(3, items);
+        players.get(0).getBookshelf().insert(3, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -290,7 +288,7 @@ public class GetPointsTest {
         items.add(new Item(Color.WHITE, 1));
         items.add(new Item(Color.WHITE, 1));
         items.add(new Item(Color.WHITE, 1));
-        player1.getBookshelf().insert(4, items);
+        players.get(0).getBookshelf().insert(4, items);
         items.clear();
 
         game.move(new Coordinates(3, 4), new Coordinates(3, 5), 0);
@@ -302,7 +300,7 @@ public class GetPointsTest {
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.GREEN, 1));
-        player2.getBookshelf().insert(0, items);
+        players.get(1).getBookshelf().insert(0, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -311,7 +309,7 @@ public class GetPointsTest {
         items.add(new Item(Color.YELLOW, 1));
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.YELLOW, 1));
-        player2.getBookshelf().insert(1, items);
+        players.get(1).getBookshelf().insert(1, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -320,7 +318,7 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.WHITE, 1));
-        player2.getBookshelf().insert(2, items);
+        players.get(1).getBookshelf().insert(2, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -329,7 +327,7 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.GREEN, 1));
-        player2.getBookshelf().insert(3, items);
+        players.get(1).getBookshelf().insert(3, items);
         items.clear();
 
         items.add(new Item(Color.GREEN, 1));
@@ -338,7 +336,7 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.YELLOW, 1));
-        player2.getBookshelf().insert(4, items);
+        players.get(1).getBookshelf().insert(4, items);
         items.clear();
 
         game.move(new Coordinates(3, 5), new Coordinates(3, 6), 0);
