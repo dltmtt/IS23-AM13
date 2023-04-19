@@ -9,15 +9,15 @@ import static java.lang.Integer.parseInt;
  * Each color has a different hex color code.
  */
 public enum Color {
-    GREEN("#8e9d47", "32"),
-    WHITE("#ebe1bf", "37"),
-    YELLOW("#e1a546", "33"),
-    BLUE("#00648d", "34"),
-    LIGHTBLUE("#62b2b1", "36"),
-    PINK("#c64b79", "35");
-    //RED("#c64b79", "31");
+    GREEN("#8e9d47", "92"),
+    WHITE("#ebe1bf", "97"),
+    YELLOW("#e1a546", "93"),
+    BLUE("#00648d", "94"),
+    LIGHTBLUE("#62b2b1", "96"),
+    PINK("#c64b79", "95");
 
     public static final String RESET_COLOR = "\u001B[0m";
+    public static final String BLACK = "\u001B[30m";
     private static final String ESC_STR = "\u001B";
     private final String hexCode;
     private final String ansiColorCode;
@@ -65,6 +65,8 @@ public enum Color {
         return ansiColorCode;
     }
 
+
+    // TODO not working at the moment, come back later :)
     public String fromHEXtoANSI(String hexCode, boolean isBackground) throws IllegalArgumentException {
 
 

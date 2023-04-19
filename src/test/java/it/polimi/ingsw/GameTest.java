@@ -16,7 +16,7 @@ public class GameTest {
             System.out.println(commonGoal.getScoringList());
         }
         for (PersonalGoal personalGoal : game.getPersonalGoalDeck()) {
-            System.out.println(personalGoal.getPersonalGoalCard().toString());
+            personalGoal.getPersonalGoal().cli_print();
         }
 
     }

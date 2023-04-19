@@ -2,14 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,12 +15,13 @@ public class PersonalGoal {
      * Creates a personal goal card.
      * It is a representation of the spaces that a player
      * has to fill with his bookshelf's items.
+     *
      * @param loadedCoordinates the coordinates of the spaces to fill, read from a file
-     * @param loadedColors the colors of the spaces to fill, read from a file
+     * @param loadedColors      the colors of the spaces to fill, read from a file
      */
     public PersonalGoal(List<Coordinates> loadedCoordinates, List<Color> loadedColors) {
         personalGoalCard = new HashMap<>();
-        for(int i=0; i<Math.min(loadedCoordinates.size(), loadedColors.size()); i++){
+        for (int i = 0; i < Math.min(loadedCoordinates.size(), loadedColors.size()); i++) {
             personalGoalCard.put(loadedCoordinates.get(i), loadedColors.get(i));
         }
     }
@@ -74,9 +68,9 @@ public class PersonalGoal {
 
     }
 
-    public void cli_print(){
-        for(Coordinates c: personalGoalCard.keySet()){
-            System.out.println("x :"+c.x()+"\n"+"y :"+c.y()+"\n"+personalGoalCard.get(c)+"\n");
+    public void cli_print() {
+        for (Coordinates c : personalGoalCard.keySet()) {
+            System.out.println("x :" + c.x() + "\n" + "y :" + c.y() + "\n" + personalGoalCard.get(c) + "\n");
         }
     }
 
@@ -90,5 +84,9 @@ public class PersonalGoal {
 
     public int getCurrentReached() {
         return currentReached;
+    }
+
+    public PersonalGoal getPersonalGoal() {
+        return this;
     }
 }

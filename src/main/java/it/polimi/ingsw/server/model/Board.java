@@ -86,21 +86,19 @@ public class Board {
     public void cli_print() {
         StringBuilder cell;
 
-        String ANSI_RESET = "\u001B[0m";
-        String ANSI_BLACK = "\u001B[30m";
-        String ANSI_RED = "\u001B[31m";
-
-        //System.out.println(Color.toANSItext(Color.RED, false) + "This text is red!" + Color.RESET_COLOR);
-
         for (int row = 0; row < boardSize; row++) {
             cell = new StringBuilder();
             for (int column = 0; column < boardSize; column++) {
                 cell.append("[");
                 if (boardMatrix[row][column] == null) {
-                    cell.append(" ");
+                    cell.append(Color.BLACK)
+                            //.append(boardMatrix[row][column].color().toString().charAt(0))
+                            .append("⏹")
+                            .append(Color.RESET_COLOR);
                 } else {
                     cell.append(Color.toANSItext(boardMatrix[row][column].color(), false))
-                            .append(boardMatrix[row][column].color().toString().charAt(0))
+                            //.append(boardMatrix[row][column].color().toString().charAt(0))
+                            .append("⏹")
                             .append(Color.RESET_COLOR);
                 }
                 cell.append("]");
