@@ -74,6 +74,10 @@ public class PersonalGoal {
         }
         return null;
     }
+    /**
+     * Prints the personal goal card.
+     * TODO: move this method to the Client package
+     */
 
     public void cli_print(){
 

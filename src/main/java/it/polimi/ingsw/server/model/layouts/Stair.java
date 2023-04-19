@@ -83,6 +83,11 @@ public class Stair extends Layout {
         return check_right(b) || check_left(b);
     }
 
+    @Override
+    public void cli_print() {
+
+    }
+
     public String getInfo() {
         return super.getInfo() + " -type: stair";
     }

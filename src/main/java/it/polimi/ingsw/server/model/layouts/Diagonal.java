@@ -36,6 +36,11 @@ public class Diagonal extends Layout {
         return checkLeft(b, 0, Bookshelf.getColumns() - 1) || checkLeft(b, 1, Bookshelf.getColumns() - 1); //|| checkRight(b, 0, 0);
     }
 
+    @Override
+    public void cli_print() {
+
+    }
+
     /**
      * Checks if there are 5 cards of the same color in a diagonal from the top right to the bottom left.
      *

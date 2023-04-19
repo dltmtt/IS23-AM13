@@ -80,6 +80,12 @@ public class Corners extends Layout {
 
     public void cli_print() {
         StringBuilder cell= new StringBuilder();
-        cell.append("▘");
+        cell.append("◼");
+        cell.append("-- ".repeat(Math.max(0, Bookshelf.getColumns() - 4)));
+        cell.append("--■");
+        cell.append("\n╎     ╎".repeat(Math.max(0, 2)));
+        cell.append("\n◼-- --◼");
+
+        System.out.println(cell);
     }
 }

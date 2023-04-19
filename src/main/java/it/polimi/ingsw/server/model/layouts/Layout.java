@@ -62,6 +62,11 @@ public abstract class Layout {
      * @return true if the layout is valid for the bookshelf, false otherwise
      */
     public abstract boolean check(Bookshelf b) throws IllegalArgumentException;
+    /**
+     * Prints the layout in the CLI.
+     * TODO: move this method to the Client package
+     */
+    public abstract void cli_print();
 
     /**
      * Returns a string with the information about the layout.

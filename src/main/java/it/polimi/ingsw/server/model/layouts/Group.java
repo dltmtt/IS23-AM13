@@ -54,6 +54,11 @@ public class Group extends Layout {
         return counter >= occurrences;
     }
 
+    @Override
+    public void cli_print() {
+
+    }
+
 
     public int getOccurrences() {
         return occurrences;

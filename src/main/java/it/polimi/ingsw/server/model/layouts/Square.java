@@ -43,6 +43,11 @@ public class Square extends Layout {
         return getCurrent(b) == getOccurrences();
     }
 
+    @Override
+    public void cli_print() {
+
+    }
+
     /**
      * Returns the goal of occurrences of the layout.
      *

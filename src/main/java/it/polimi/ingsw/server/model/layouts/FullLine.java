@@ -68,6 +68,11 @@ public class FullLine extends Layout {
         return counter >= occurrences;
     }
 
+    @Override
+    public void cli_print() {
+
+    }
+
     public String getInfo() {
         return super.getInfo() + " -type= fullLine -occurrences" + occurrences;
     }

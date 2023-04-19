@@ -405,6 +405,10 @@ public class Bookshelf implements AbleToGetPoints {
 //
 //     //g.
 // }
+    /**
+     * Prints the board on the console.
+     * TODO: move this method to the Client package
+     */
 
     public void cli_print() {
         StringBuilder cell;
@@ -427,25 +431,6 @@ public class Bookshelf implements AbleToGetPoints {
             }
             System.out.println(cell);
         }
-//        StringBuilder singleRow;
-//        List<String> stringBook = new ArrayList<>();
-//        for (int row = 0; row < getRows(); row++) {
-//            singleRow = new StringBuilder(row + "\t");
-//            for (int col = 0; col < getColumns(); col++) {
-//                singleRow.append("\t").append(getItemAt(row, col).isPresent() ? getItemAt(row, col).get().color().ordinal() : " ");
-//            }
-//            stringBook.add(singleRow.toString());
-//        }
-//
-//        for (int i = 0; i < getRows(); i++) {
-//            System.out.println(stringBook.get(stringBook.size() - i - 1));
-//        }
-//
-//        StringBuilder colNum = new StringBuilder(" ");
-//        for (int i = 0; i < getColumns(); i++) {
-//            colNum.append("\t").append(i);
-//        }
-//        System.out.println(" \t" + colNum);
     }
 
     public void print() {

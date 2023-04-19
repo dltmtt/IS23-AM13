@@ -107,6 +107,11 @@ public class XShape extends Layout {
         return false;
     }
 
+    @Override
+    public void cli_print() {
+
+    }
+
     public String getInfo() {
         return super.getInfo() + "X Shape";
     }
