@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.utils.CLIUtilities;
 import it.polimi.ingsw.utils.Color;
 
 import java.util.ArrayList;
@@ -78,14 +79,24 @@ public class Corners extends Layout {
         return super.getInfo();
     }
 
+    // NOTE: this should not be in the model, it will be moved to the view
     public void cli_print() {
-        StringBuilder cell= new StringBuilder();
-        cell.append("◼");
-        cell.append("-- ".repeat(Math.max(0, Bookshelf.getColumns() - 4)));
-        cell.append("--■");
-        cell.append("\n╎     ╎".repeat(Math.max(0, 2)));
-        cell.append("\n◼-- --◼");
+        StringBuilder card = new StringBuilder();
 
-        System.out.println(cell);
+        // Draw an m×n card with fullCells in the corners and emptyCells everywhere else
+        int m = 5;
+        int n = 6;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if ((i == 0 && j == 0) || (i == 0 && j == n - 1) || (i == m - 1 && j == 0) || (i == m - 1 && j == n - 1)) {
+                    card.append(CLIUtilities.filledCell);
+                } else {
+                    card.append(CLIUtilities.emptyCell);
+                }
+            }
+            card.append("\n");
+        }
+
+        System.out.println(card);
     }
 }
