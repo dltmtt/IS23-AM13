@@ -6,7 +6,6 @@ public class Group extends Layout {
     private final int occurrences;
     private final int size;
 
-
     /**
      * Creates a group layout.
      *
@@ -54,7 +53,6 @@ public class Group extends Layout {
         return counter >= occurrences;
     }
 
-    @Override
     public void cli_print() {
         //occurrences can be either 4 or 6
         StringBuilder cell = new StringBuilder();
@@ -70,7 +68,6 @@ public class Group extends Layout {
         }
         System.out.println(cell);
     }
-
 
     public int getOccurrences() {
         return occurrences;

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
-import it.polimi.ingsw.utils.CLIUtilities;
 import it.polimi.ingsw.utils.Color;
 
 import java.util.ArrayList;
@@ -23,6 +22,8 @@ public class Corners extends Layout {
     public Corners(int minDifferent, int maxDifferent) {
         // Set width and height to 0 because it takes the number of rows and columns directly from the examined bookshelf
         super(0, 0, minDifferent, maxDifferent);
+        description = "Four tiles of the same type in the four " +
+                "corners of the bookshelf. ";
     }
 
     /**
@@ -77,26 +78,5 @@ public class Corners extends Layout {
     @Override
     public String getInfo() {
         return super.getInfo();
-    }
-
-    // NOTE: this should not be in the model, it will be moved to the view
-    public void cli_print() {
-        StringBuilder card = new StringBuilder();
-
-        // Draw an m×n card with fullCells in the corners and emptyCells everywhere else
-        int m = 5;
-        int n = 6;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if ((i == 0 && j == 0) || (i == 0 && j == n - 1) || (i == m - 1 && j == 0) || (i == m - 1 && j == n - 1)) {
-                    card.append(CLIUtilities.filledCell);
-                } else {
-                    card.append(CLIUtilities.emptyCell);
-                }
-            }
-            card.append("\n");
-        }
-
-        System.out.println(card);
     }
 }

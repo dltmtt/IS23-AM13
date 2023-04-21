@@ -43,7 +43,6 @@ public class Square extends Layout {
         return getCurrent(b) == getOccurrences();
     }
 
-    @Override
     public void cli_print() {
         String cell = """
                 ◼ ◼ - - - -
@@ -73,7 +72,7 @@ public class Square extends Layout {
     }
 
 
-    //TODO finish this method
+    // TODO finish this method
     public int getCurrent(@NotNull Bookshelf b) {
         int counter = 0;
         int validCells = 0;

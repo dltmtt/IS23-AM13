@@ -76,6 +76,7 @@ public class XShape extends Layout {
                         if (b.getItemAt(row + 1, col + 1).isEmpty()) {
                             continue;
                         }
+
                         // Central
                         color = b.getItemAt(row + 1, col + 1).get().color();
                         if (!colorList.contains(color)) {
@@ -84,6 +85,7 @@ public class XShape extends Layout {
                         if (b.getItemAt(row + 2, col).isEmpty()) {
                             continue;
                         }
+
                         // Upper left
                         color = b.getItemAt(row + 2, col).get().color();
                         if (!colorList.contains(color)) {
@@ -107,7 +109,6 @@ public class XShape extends Layout {
         return false;
     }
 
-    @Override
     public void cli_print() {
         String cell = """
                 - ◼ - ◼ -\s

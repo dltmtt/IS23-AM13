@@ -36,13 +36,4 @@ public class ItemsPerColor extends Layout {
         }
         return Arrays.stream(numberOfItems).anyMatch(x -> (x >= getMinDifferent() && x <= getMaxDifferent()));
     }
-
-    @Override
-    public void cli_print() {
-        String cell = """
-                ◼ ◼ ◼
-                ◼ ◼ ◼
-                 ◼ ◼\s""";
-        System.out.println(cell);
-    }
 }

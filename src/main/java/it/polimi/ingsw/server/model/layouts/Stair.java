@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.utils.CLIUtilities;
 
 /**
  * The common goal layout with columns of increasing or decreasing height.
@@ -86,7 +87,7 @@ public class Stair extends Layout {
     public void cli_print() {
         StringBuilder cell = new StringBuilder();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
-            cell.append("◼ ");
+            cell.append(CLIUtilities.filledCell);
             System.out.println(cell);
         }
     }

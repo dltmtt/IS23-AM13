@@ -68,7 +68,6 @@ public class FullLine extends Layout {
         return counter >= occurrences;
     }
 
-    @Override
     public void cli_print() {
         StringBuilder cell = new StringBuilder();
 
