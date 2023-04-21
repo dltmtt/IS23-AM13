@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+'https://plantuml.com/commons
+
+title Login
+
+participant Client
+participant Server
+
+Client -> Server: ping
+Client <-- Server: pong
+
+Client -> Server: loginRequest
+loop until usernameOkay
+    Client <- Server: usernameRequest
+    Client --> Server: username
+    Server -> Server: checkUsername
+end
+loop until dataOkay
+    Client <- Server: dataRequest
+    Client --> Server: data
+    Server -> Server: checkData
+end
+Client <-- Server: loginOkay
+@enduml

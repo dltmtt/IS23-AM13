@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+'https://plantuml.com/commons
+
+title Game start (1 room)
+
+box Client
+    actor Player1
+    actor Player2
+    actor Player3
+    actor Player4
+end box
+participant Server
+
+Player1 -> Server: login
+Player2 -> Server: login
+opt
+    Player3 -> Server: login
+    Player4 -> Server: login
+end
+note right: At least 2 players have to be logged in
+
+alt 4 players are logged in
+    Player1 <-- Server: startingGame
+    Player2 <-- Server: startingGame
+    Player3 <-- Server: startingGame
+    Player4 <-- Server: startingGame
+else
+    Player1 -> Server: startGame
+    Player1 <-- Server: startingGame
+    Player2 <-- Server: startingGame
+    Player3 <-- Server: startingGame
+    Player4 <-- Server: startingGame
+end
+note right: Game starts automatically if 4 players are logged in,\notherwise the host has to start the game manually
+@enduml

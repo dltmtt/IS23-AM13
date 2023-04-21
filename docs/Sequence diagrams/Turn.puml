@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+'https://plantuml.com/commons
+
+title Turn
+
+participant Client
+participant Server
+
+Client <- Server: playerNTurn
+
+loop until pickIsValid
+    Client -> Server: pick
+    Server -> Server: checkPick
+    Client <-- Server: result
+end
+
+opt
+    Client -> Client: rearrange
+end
+
+Client -> Server: Insert(newOrder)
+Server -> Server: checkInsert
+note right: We can't be sure the client is not cheating.
+'Maybe we should check if the items are the same as before
+
+Server -> Server: updateGameStatus
+
+Server -> Server: isGameOver
+alt gameIsOver
+    Server -> Server: setWinners
+    Client <-- Server: gameOver(winners)
+else gameIsNotOver
+    Server -> Server: setNextPlayer
+    Client <-- Server: newGameStatus
+end
+@enduml
