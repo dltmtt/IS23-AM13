@@ -6,7 +6,7 @@ import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CommonGoalCliTest {
+public class CommonGoalCLITest {
     @BeforeEach
     void setUp() {
         SettingLoader.loadBookshelfSettings();
@@ -34,7 +34,7 @@ public class CommonGoalCliTest {
         System.out.println("\n");
 //        itemPerColor.cli_print();
         System.out.println("\n");
-        xShape.cli_print();
+//        xShape.cli_print();
         System.out.println("\n");
         group1.cli_print();
         System.out.println("\n");

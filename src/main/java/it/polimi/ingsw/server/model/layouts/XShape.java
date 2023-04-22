@@ -109,15 +109,6 @@ public class XShape extends Layout {
         return false;
     }
 
-    public void cli_print() {
-        String cell = """
-                - ◼ - ◼ -\s
-                - - ◼ - -\s
-                - ◼ - ◼ -\s""";
-
-        System.out.println(cell);
-    }
-
     public String getInfo() {
         return super.getInfo() + "X Shape";
     }
