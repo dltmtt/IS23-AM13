@@ -23,7 +23,6 @@ public enum Color {
     private final String ansiColorCode;
 
     Color(String hexColorCode, String ansiColorCode) {
-
         this.hexCode = hexColorCode;
         this.ansiColorCode = ansiColorCode;
     }
@@ -45,14 +44,13 @@ public enum Color {
     }
 
     public static String toANSItext(Color color, boolean isBackground) throws IllegalArgumentException {
-
-
         if (color == null) {
             throw new IllegalArgumentException("Color cannot be null");
         }
+
         int ansiCode = parseInt(color.getAnsiColorCode());
-        int backgroudOffset = isBackground ? 10 : 0;
-        ansiCode += backgroudOffset;
+        int backgroundOffset = isBackground ? 10 : 0;
+        ansiCode += backgroundOffset;
 
         return ESC_STR + "[" + ansiCode + "m";
     }
@@ -65,11 +63,8 @@ public enum Color {
         return ansiColorCode;
     }
 
-
     // TODO not working at the moment, come back later :)
     public String fromHEXtoANSI(String hexCode, boolean isBackground) throws IllegalArgumentException {
-
-
         if (hexCode == null) {
             throw new IllegalArgumentException("Hex code cannot be null");
         }
