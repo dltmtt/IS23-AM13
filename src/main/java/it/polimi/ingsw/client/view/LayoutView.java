@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view;
 
-public abstract class Layout {
+public abstract class LayoutView {
     public String description;
 
     /**

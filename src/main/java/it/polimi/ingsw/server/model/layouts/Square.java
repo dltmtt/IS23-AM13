@@ -43,16 +43,6 @@ public class Square extends Layout {
         return getCurrent(b) == getOccurrences();
     }
 
-    public void cli_print() {
-        String cell = """
-                ◼ ◼ - - - -
-                ◼ ◼ - - - -
-                - - - - ◼ ◼
-                - - - - ◼ ◼
-                - - - - - -
-                - - - - - -""";
-        System.out.println(cell);
-    }
 
     /**
      * Returns the goal of occurrences of the layout.

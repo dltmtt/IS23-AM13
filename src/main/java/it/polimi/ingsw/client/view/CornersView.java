@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.utils.CLIUtilities;
 
-public class CornersView extends Layout {
+public class CornersView extends LayoutView {
     public CornersView() {
         description = "Four tiles of the same type in the four " +
                 "corners of the bookshelf. ";

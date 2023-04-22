@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.CLIUtilities;
 
-public class DiagonalView extends Layout {
+public class DiagonalView extends LayoutView {
 
     public DiagonalView() {
         description = "  Five tiles of the same type forming a " +

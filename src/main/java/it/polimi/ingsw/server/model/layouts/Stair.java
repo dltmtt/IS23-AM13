@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
-import it.polimi.ingsw.utils.CLIUtilities;
 
 /**
  * The common goal layout with columns of increasing or decreasing height.
@@ -14,8 +13,8 @@ public class Stair extends Layout {
      * Creates a stair layout.
      *
      * @param dimension    the dimension of the stair (number of columns)
-     * @param minDifferent
-     * @param maxDifferent
+     * @param minDifferent the minimum number of different colors
+     * @param maxDifferent the maximum number of different colors
      * @throws IllegalArgumentException if the parameters are invalid
      */
     public Stair(int minDifferent, int maxDifferent, int dimension) throws IllegalArgumentException {
@@ -82,14 +81,6 @@ public class Stair extends Layout {
         }
 
         return check_right(b) || check_left(b);
-    }
-
-    public void cli_print() {
-        StringBuilder cell = new StringBuilder();
-        for (int i = 0; i < Bookshelf.getColumns(); i++) {
-            cell.append(CLIUtilities.filledCell);
-            System.out.println(cell);
-        }
     }
 
     public String getInfo() {

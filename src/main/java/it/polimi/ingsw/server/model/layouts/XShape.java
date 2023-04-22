@@ -109,6 +109,7 @@ public class XShape extends Layout {
         return false;
     }
 
+
     public String getInfo() {
         return super.getInfo() + "X Shape";
     }

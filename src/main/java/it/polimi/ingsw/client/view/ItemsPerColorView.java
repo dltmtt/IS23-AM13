@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.utils.CLIUtilities;
 
-public class ItemsPerColorView extends Layout {
+public class ItemsPerColorView extends LayoutView {
     public ItemsPerColorView() {
         description = "\tEight tiles of the same type. No restriction about the positions.";
     }

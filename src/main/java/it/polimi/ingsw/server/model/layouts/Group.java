@@ -53,21 +53,6 @@ public class Group extends Layout {
         return counter >= occurrences;
     }
 
-    public void cli_print() {
-        //occurrences can be either 4 or 6
-        StringBuilder cell = new StringBuilder();
-
-        if (occurrences == 4) {
-            cell.append("◼  ◼  ◼  ◼  -\n".repeat(Math.max(0, Bookshelf.getRows())));
-        } else { //occurrences=6
-            cell.append("◼ - - - - -\n");
-            cell.append("◼ - ◼ - - -\n");
-            cell.append("- - ◼ - - -\n");
-            cell.append("- - ◼ - ◼ -\n");
-            cell.append("- - ◼ - ◼ -\n");
-        }
-        System.out.println(cell);
-    }
 
     public int getOccurrences() {
         return occurrences;
