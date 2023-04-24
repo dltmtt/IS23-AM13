@@ -41,14 +41,14 @@ public class CommonGoalCLITest {
 //        group2.cli_print();
 //        System.out.println("\n");
 //        square.cli_print();
-        System.out.println("\n");
-        fullLine1.cli_print();
-        System.out.println("\n");
-        fullLine2.cli_print();
-        System.out.println("\n");
-        fullLine3.cli_print();
-        System.out.println("\n");
-        fullLine4.cli_print();
+//        System.out.println("\n");
+//        fullLine1.cli_print();
+//        System.out.println("\n");
+//        fullLine2.cli_print();
+//        System.out.println("\n");
+//        fullLine3.cli_print();
+//        System.out.println("\n");
+//        fullLine4.cli_print();
 //    }
     }
 }

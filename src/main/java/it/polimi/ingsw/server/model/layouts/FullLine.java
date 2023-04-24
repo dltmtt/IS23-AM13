@@ -68,48 +68,6 @@ public class FullLine extends Layout {
         return counter >= occurrences;
     }
 
-    public void cli_print() {
-        StringBuilder cell = new StringBuilder();
-
-        if (occurrences == 2) {
-            //this shape can be either horizontal or vertical
-            //all the elements must be different
-            if (horizontal) {
-                cell.append("-  -  -  -  -\n");
-                cell.append("▣  ▤  ▥  ▧  ▨\n");
-                cell.append("-  -  -  -  -\n");
-                cell.append("-  -  -  -  -\n");
-                cell.append("▣  ▤  ▥  ▧  ▨\n");
-                cell.append("-  -  -  -  -");
-            } else { //it's vertical
-                cell.append("▣  -  -  -  ▥\n");
-                cell.append("▤  -  -  -  ▧\n");
-                cell.append("▥  -  -  -  ▨\n");
-                cell.append("▦  -  -  -  ▤\n");
-                cell.append("▧  -  -  -  ▣\n");
-                cell.append("▨  -  -  -  ▦\n");
-
-            }
-        } else if (occurrences == 3) { //max 3 different
-            cell.append("▣  -  ▦  -  ▣\n");
-            cell.append("▥  -  ▣  -  ▣\n");
-            cell.append("▥  -  ▤  -  ▣\n");
-            cell.append("▨  -  ▣  -  ▤\n");
-            cell.append("▨  -  ▤  -  ▣\n");
-            cell.append("▨  -  ▤  -  ▦\n");
-
-        } else {  //occurrences==4 && max 3 different
-            cell.append("▣  ▤  ▥  ▣  ▣\n");
-            cell.append("▤  ▤  ▤  ▣  ▥\n");
-            cell.append("-  -  -  -  -\n");
-            cell.append("▥  ▤  ▥  ▥  ▣\n");
-            cell.append("▣  ▣  ▥  ▤  ▣\n");
-            cell.append("-  -  -  -  -\n");
-        }
-
-        System.out.println(cell);
-    }
-
     public String getInfo() {
         return super.getInfo() + " -type= fullLine -occurrences" + occurrences;
     }

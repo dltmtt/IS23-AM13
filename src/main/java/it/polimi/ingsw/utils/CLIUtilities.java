@@ -9,12 +9,12 @@ import java.util.List;
 public final class CLIUtilities {
     public static final String emptyCell = "⬜️";
     public static final String filledCell = "⬛️";
+    public static final String differentCell = "\uD83D\uDFE5";
     public static final String upperLeftBox = "╭";
     public static final String upperRightBox = "╮";
     public static final String lowerLeftBox = "╰";
     public static final String lowerRightBox = "╯";
-    public static final String horizontalBox = "\t━\t";
-    public static final String verticalBox = "╵";
+
 
     /**
      * Asks the user a close-ended question and returns the answer.
