@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.utils.CLIUtilities;
+import org.apache.commons.cli.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,14 +14,56 @@ public class MainView {
     private static final String insertUsernameAgainPrompt = "Please, insert your username again: ";
 
     public static void main(String[] args) {
-        // This section is temporary. Mode will be read from args or from a config file.
-        String mode = "cli";
-        if (mode.equals("cli")) {
-            MainView mainView = new MainView();
-            System.out.print(insertUsernamePrompt);
-            mainView.readUsernameCLI();
-        } else if (mode.equals("gui")) {
-            System.out.println("GUI has not been implemented yet but this code will never run anyway.");
+        Options options = new Options();
+
+        Option protocol = new Option("p", "protocol", true, "network protocol to use (default: rmi)");
+        Option mode = new Option("m", "mode", true, "launch cli or gui (default: cli)");
+        Option help = new Option("h", "help", false, "show help message");
+
+        options.addOption(protocol); // Not used yet
+        options.addOption(mode);
+        options.addOption(help);
+
+        CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
+        CommandLine line = null;
+
+        try {
+            line = parser.parse(options, args);
+        } catch (ParseException e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+
+        if (line.hasOption("help")) {
+            formatter.printHelp("myshelfie", options);
+            System.exit(0);
+        }
+
+        // Use the default values if the user does not specify them
+        String modeValue = line.getOptionValue("mode", "cli");
+        String protocolValue = line.getOptionValue("protocol", "rmi");
+
+        switch (protocolValue) {
+            case "rmi" -> System.out.println("Using RMI (not implemented yet).");
+            case "socket" -> System.out.println("Using socket (not implemented yet).");
+            default -> {
+                System.err.println("Invalid protocol: " + protocolValue + ". Use 'rmi' or 'socket'.");
+                System.exit(1);
+            }
+        }
+
+        switch (modeValue) {
+            case "cli" -> {
+                MainView mainView = new MainView();
+                System.out.print(insertUsernamePrompt);
+                mainView.readUsernameCLI();
+            }
+            case "gui" -> System.out.println("GUI has not been implemented yet.");
+            default -> {
+                System.err.println("Invalid mode: " + modeValue + ". Use 'cli' or 'gui'.");
+                System.exit(1);
+            }
         }
     }
 
