@@ -55,6 +55,14 @@ public class Player {
         this.bookshelf = bookshelf;
     }
 
+    public PersonalGoal getPersonalGoal() {
+        return personalGoal;
+    }
+
+    public void setPersonalGoal(PersonalGoal personalGoal) {
+        this.personalGoal = personalGoal;
+    }
+
     /**
      * Tells whether it is the player's first game or not.
      * If it is, the game will be played with only one common goal instead of two.
@@ -88,10 +96,6 @@ public class Player {
 
     public void setHasEndGameCard(boolean hasEndGameCard) {
         this.hasEndGameCard = hasEndGameCard;
-    }
-
-    public void setPersonalGoal(PersonalGoal personalGoal) {
-        this.personalGoal = personalGoal;
     }
 
     public void setCommonGoalPoints(CommonGoal commonGoal) {
