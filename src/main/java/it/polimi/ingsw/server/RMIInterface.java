@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.RequestMessage;
 import it.polimi.ingsw.server.model.Player;
 
 import java.rmi.Remote;
@@ -17,4 +18,15 @@ public interface RMIInterface extends Remote {
 
     //azzero il gioco prima di iniziarne un altro
     void reset() throws RemoteException;
+
+    void sendRequestMessage(RequestMessage requestMessage) throws RemoteException;
+
+    void sendAnswerMessage(AnswerMessage answerMessage) throws RemoteException;
+
+    void ping(String username) throws RemoteException;
+
+    void pong() throws RemoteException;
+
+    void receiveMessage(RequestMessage message) throws RemoteException;
+
 }

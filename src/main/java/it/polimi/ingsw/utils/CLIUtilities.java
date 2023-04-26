@@ -9,7 +9,6 @@ import java.util.List;
 public final class CLIUtilities {
     public static final String emptyCell = "⬜️";
     public static final String filledCell = "⬛️";
-    public static final String differentCell = "\uD83D\uDFE5";
     public static final String upperLeftBox = "╭";
     public static final String upperRightBox = "╮";
     public static final String lowerLeftBox = "╰";
