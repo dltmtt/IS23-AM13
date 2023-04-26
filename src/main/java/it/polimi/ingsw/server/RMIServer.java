@@ -11,11 +11,17 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIServer implements RMIInterface {
     static int port = 50573;
+    /*
+    instead:
+    if(argc==2){
+        String host = args[0];
+        int port = Integer.parseInt(args[1]);
+    }
+     */
 
     public RMIServer() throws RemoteException {
         super();
     }
-
 
     public static void main(String[] args) throws RemoteException {
 
