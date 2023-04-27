@@ -1,7 +1,7 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.rmi;
 
-import it.polimi.ingsw.server.RMIInterface;
 import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.rmi.RMIInterface;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,6 +25,12 @@ public class RMIClient {
             RMIInterface stub = (RMIInterface) registry.lookup("server");
 
             //invoca i metodi
+            stub.ping("Valeria");
+            try {
+                boolean pong = stub.pong();
+            } catch (Exception e) {
+                System.out.println("pong not received");
+            }
 
             System.out.println("ciao");
         } catch (Exception e) {

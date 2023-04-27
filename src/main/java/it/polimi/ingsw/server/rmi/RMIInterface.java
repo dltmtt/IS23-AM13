@@ -1,7 +1,8 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.rmi;
 
-import it.polimi.ingsw.client.RequestMessage;
 import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.utils.AnswerMessage;
+import it.polimi.ingsw.utils.RequestMessage;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -25,7 +26,7 @@ public interface RMIInterface extends Remote {
 
     void ping(String username) throws RemoteException;
 
-    void pong() throws RemoteException;
+    boolean pong() throws RemoteException;
 
     void receiveMessage(RequestMessage message) throws RemoteException;
 
