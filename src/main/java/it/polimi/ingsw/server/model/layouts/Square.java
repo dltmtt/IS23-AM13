@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.utils.Color;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 public class Square extends Layout {
     // The number of ideal occurrences of the layout
     private final int occurrences;
+
 
     /**
      * Creates a square layout.
@@ -40,7 +42,24 @@ public class Square extends Layout {
      * @return true if the layout is valid, false otherwise
      */
     public boolean check(Bookshelf b) {
-        return getCurrent(b) == getOccurrences();
+        int found = 0;
+        while (found < 2) {
+            for (int i = 0; i < Bookshelf.getColumns(); i++) {
+                for (int j = 0; j < Bookshelf.getRows(); j++) {
+                    if (b.getItemAt(i, j).isPresent()) {
+                        found += searchSquare(b.getItemAt(i, j).get().color(), i, j);
+                    }
+                }
+            }
+        }
+        return found == 2;
+    }
+
+    public int searchSquare(Color color, int row, int column) {
+//        if(){
+//
+//        }
+        return 1;
     }
 
 
