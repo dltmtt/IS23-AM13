@@ -100,7 +100,7 @@ public class DiagonalTest {
                 for (int col = 0; col < Bookshelf.getColumns() - dimension + 1; col++) {
                     b.clearBookshelf();
                     BookshelfUtilities.createSingleRightDiagonal(b, row, col, dimension);
-                    b.cli_print();
+//                    b.cli_print();
                     System.out.println("row: " + row + ", column: " + col + " dimension: " + dimension);
                 }
             }

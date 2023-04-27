@@ -140,7 +140,7 @@ public final class BookshelfUtilities {
         b.insert(4, items);
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemDiff);
-        b.cli_print();
+//        b.cli_print();
     }
 
     // In createLeftDiagonal, (startingRow, startingColumn) refers to the rightmost element of the diagonal

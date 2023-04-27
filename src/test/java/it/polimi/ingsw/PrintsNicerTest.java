@@ -60,22 +60,22 @@ public class PrintsNicerTest {
     void fullBookshelfTest() {
         Bookshelf b = new Bookshelf();
         BookshelfUtilities.randomFill(b);
-        b.cli_print_2();
-        b.cli_print();
+//        b.cli_print_2();
+//        b.cli_print();
     }
 
     @Test
     void emptyBookshelfTest() {
         Bookshelf b = new Bookshelf();
-        b.cli_print_2();
+//        b.cli_print_2();
         b = new Bookshelf(1, 1);
-        b.cli_print_2();
+//        b.cli_print_2();
         b = new Bookshelf(1, 3);
-        b.cli_print_2();
+//        b.cli_print_2();
         b = new Bookshelf(3, 1);
-        b.cli_print_2();
+//        b.cli_print_2();
         b = new Bookshelf(3, 13);
-        b.cli_print_2();
+//        b.cli_print_2();
 
     }
 

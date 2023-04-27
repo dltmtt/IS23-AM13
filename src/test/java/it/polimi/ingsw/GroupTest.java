@@ -34,7 +34,7 @@ public class GroupTest {
         for (int config = 0; config < 12; config++) {
             layout = BookshelfUtilities.createProblematicLayouts(bookshelf, config);
             if (!layout.check(bookshelf)) {
-                bookshelf.cli_print();
+//                bookshelf.cli_print();
                 System.out.println("Config: " + config);
             }
             assertTrue(layout.check(bookshelf));

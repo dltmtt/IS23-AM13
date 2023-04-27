@@ -8,7 +8,8 @@ import java.util.List;
 
 public final class CLIUtilities {
     public static final String emptyCell = "⬜️";
-    public static final String filledCell = "⬛️";
+    public static final String filledCell = "⬛";
+    public static final String diffCell = "\uD83D\uDFE5";
     public static final String upperLeftBox = "╭";
     public static final String upperRightBox = "╮";
     public static final String lowerLeftBox = "╰";
@@ -96,4 +97,5 @@ public final class CLIUtilities {
         String answer = askCloseEndedQuestion("Is that correct?", List.of("y", "n"), "y");
         return answer.equals("y");
     }
+
 }

@@ -33,7 +33,7 @@ public class GameTest {
 
         game = new Game(players);
         game.start();
-        game.getLivingRoom().cli_print();
+//        game.getLivingRoom().cli_print();
 
 
     }

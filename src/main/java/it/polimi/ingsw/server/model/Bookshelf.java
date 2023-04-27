@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.PrintsNicer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -418,33 +417,6 @@ public class Bookshelf implements AbleToGetPoints {
      * Prints the board on the console.
      * TODO: move this method to the Client package
      */
-
-    public void cli_print() {
-        StringBuilder cell;
-        for (int row = getRows() - 1; row >= 0; row--) {
-            cell = new StringBuilder();
-            for (int column = 0; column < getColumns(); column++) {
-                cell.append("[");
-                if (items[row][column].isEmpty()) {
-                    cell.append(Color.BLACK)
-                            //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
-                } else {
-                    cell.append(Color.toANSItext(items[row][column].get().color(), false))
-                            //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
-                }
-                cell.append("]");
-            }
-            System.out.println(cell);
-        }
-    }
-
-    public void cli_print_2() {
-        PrintsNicer.stringifyBookshelf(items).forEach(System.out::println);
-    }
 
     public void print() {
         // Without JPanel images would be added to JFrame on top of each other.
