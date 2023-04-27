@@ -1,3 +1,5 @@
+package it.polimi.ingsw.client.socket;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,44 +8,65 @@ import java.net.Socket;
 import java.util.Scanner;
 
 // Client class
-class ClientSocket {
+public class ClientSocket {
 
-    // driver code
-    public static void main(String[] args) {
-        // establish a connection by providing host and port
-        // number
-        try (Socket socket = new Socket("localhost", 1234)) {
+    private final Socket socket;
+    private final PrintWriter out;
 
-            // writing to server
-            PrintWriter out = new PrintWriter(
-                    socket.getOutputStream(), true);
+    // reading from server
+    private final BufferedReader in;
 
-            // reading from server
-            BufferedReader in
-                    = new BufferedReader(new InputStreamReader(
-                    socket.getInputStream()));
+    // object of scanner class
+    private final Scanner sc;
+    private String line = null;
 
-            // object of scanner class
-            Scanner sc = new Scanner(System.in);
-            String line = null;
 
-            while (!"exit".equalsIgnoreCase(line)) {
-
-                // reading from user
-                line = sc.nextLine();
-
-                // sending the user input to server
-                out.println(line);
-                out.flush();
-
-                // displaying server reply
-                System.out.println("Server replied " + in.readLine());
-            }
-
-            // closing the scanner object
-            sc.close();
+    public ClientSocket() throws RuntimeException {
+        try {
+            socket = new Socket("localhost", 1234);
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            sc = new Scanner(System.in);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
+
+    // driver code
+    //public static void main(String[] args) {
+    //    ClientSocket client = new ClientSocket();
+    //client.run();
+    //}
+
+    public void sendMessage(String message) {
+        out.println(message);
+        out.flush();
+    }
+
+    public void sendInput() {
+        while (!"exit".equalsIgnoreCase(line)) {
+            // reading from user
+            line = sc.nextLine();
+
+            // sending the user input to server
+            out.println(line);
+            out.flush();
+            // displaying server reply
+            try {
+                System.out.println("Server replied " + in.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
