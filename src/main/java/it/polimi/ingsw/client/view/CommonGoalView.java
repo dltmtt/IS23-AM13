@@ -4,6 +4,21 @@ import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.CLIUtilities;
 
 public class CommonGoalView {
+
+    public static void print(String type, int occurrences, int size, boolean horizontal) {
+        switch (type) {
+            case "Corners" -> cornersPrintLayout();
+            case "Diagonal" -> diagonalPrintLayout();
+            case "FullLine" -> fullLinePrintLayout(occurrences, horizontal);
+            case "Group" -> groupPrintLayout(occurrences, size);
+            case "XShape" -> xShapePrintLayout();
+            case "ItemsPerColor" -> itemsPerColorPrintLayout();
+            case "Stair" -> stairPrintLayout();
+            case "Square" -> squarePrintLayout();
+            default -> System.out.println("Error in CommonGoalView");
+        }
+    }
+
     public static void cornersPrintLayout() {
         String description = "Four tiles of the same type in the four " +
                 "corners of the bookshelf. ";

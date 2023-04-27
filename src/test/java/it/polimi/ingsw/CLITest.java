@@ -35,7 +35,7 @@ public class CLITest {
     }
 
     @Test
-    void CommonGoal() {
+    void CommonGoalAll() {
         CommonGoalView.itemsPerColorPrintLayout();
         CommonGoalView.squarePrintLayout();
         CommonGoalView.cornersPrintLayout();
@@ -51,6 +51,19 @@ public class CLITest {
 
     }
 
-
+    @Test
+    void CommonGoalSelected() {
+        CommonGoalView.print("Stair", 0, 0, false);
+        CommonGoalView.print("Corners", 0, 0, false);
+        CommonGoalView.print("Diagonal", 0, 0, false);
+        CommonGoalView.print("FullLine", 2, 0, true);
+        CommonGoalView.print("Group", 6, 2, false);
+        CommonGoalView.print("XShape", 0, 0, false);
+        CommonGoalView.print("ItemsPerColor", 0, 0, false);
+        CommonGoalView.print("Square", 0, 0, false);
+        CommonGoalView.print("FullLine", 4, 0, true);
+        CommonGoalView.print("FullLine", 2, 0, false);
+        CommonGoalView.print("FullLine", 3, 0, false);
+    }
 }
 
