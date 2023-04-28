@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 // Client class
-public class ClientSocket {
+public class ClientCSSocket {
 
     private final Socket socket;
     private final PrintWriter out;
@@ -23,9 +23,9 @@ public class ClientSocket {
     private String line = null;
 
 
-    public ClientSocket() throws RuntimeException {
+    public ClientCSSocket(String ip, int port) throws RuntimeException {
         try {
-            socket = new Socket("localhost", 1234);
+            socket = new Socket(ip, port);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             sc = new Scanner(System.in);
@@ -36,7 +36,7 @@ public class ClientSocket {
 
     // driver code
     //public static void main(String[] args) {
-    //    ClientSocket client = new ClientSocket();
+    //    ClientCSSocket client = new ClientCSSocket();
     //client.run();
     //}
 
@@ -76,4 +76,7 @@ public class ClientSocket {
         }
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
 }

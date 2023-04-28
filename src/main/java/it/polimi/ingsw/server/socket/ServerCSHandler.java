@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.socket;
 
+import it.polimi.ingsw.client.socket.ClientCSSocket;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,13 +12,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 // Server class
-public class TCPServer {
-    private final List<Socket> socketList = new ArrayList<>();
-    private final List<ClientHandler> clientHandlerList = new ArrayList<>();
+public class ServerCSHandler {
+    private final HashMap<Socket, ClientCSSocket> socketList = new HashMap<>();
+    //private final List<ClientHandler> clientHandlerList = new ArrayList<>();
     private ServerSocket server = null;
     private String line;
 
@@ -28,7 +29,7 @@ public class TCPServer {
         return server;
     }
 
-    public List<Socket> getSocketList() {
+    public HashMap<Socket, ClientCSSocket> getSocketList() {
         return socketList;
     }
 
@@ -46,21 +47,25 @@ public class TCPServer {
                 // socket object to receive incoming client
                 // requests
                 try {
-                    Socket client = server.accept();
+                    Socket clientServer = server.accept();
 
-                    socketList.add(client);
 
-                    // Displaying that new client is connected
+                    //create a ServerClient socket
+                    ClientCSSocket serverClient = new ClientCSSocket(clientServer.getInetAddress().getHostAddress(), SettingLoader.getServerPort());
+
+                    socketList.put(clientServer, serverClient);
+
+                    // Displaying that new clientServer is connected
                     // to server
-                    System.out.println("New client connected"
-                            + client.getInetAddress()
+                    System.out.println("New clientServer connected"
+                            + clientServer.getInetAddress()
                             .getHostAddress());
 
                     // create a new thread object
                     ClientHandler clientSock
-                            = new ClientHandler(client);
+                            = new ClientHandler(clientServer);
 
-                    // This thread will handle the client
+                    // This thread will handle the clientServer
                     // separately
                     new Thread(clientSock).start();
                 } catch (IOException e) {
@@ -87,9 +92,9 @@ public class TCPServer {
     public void serverClose() {
         if (server != null) {
             try {
-                for (ClientHandler clients : clientHandlerList) {
-                    clients.clientSocket.close();
+                for (ClientCSSocket clients : socketList.values()) {
                     clients.close();
+                    socketList.get(clients).close();
                 }
                 server.close();
             } catch (IOException e) {
@@ -139,8 +144,8 @@ public class TCPServer {
                         break;
                     } else if (line.equalsIgnoreCase("shutdown")) {
                         System.out.println("Server shutting down...");
-                        for (Socket client : socketList) {
-                            socketClose(client);
+                        for (ClientCSSocket client : socketList.values()) {
+                            socketClose(client.getSocket());
                         }
                         serverClose();
                         System.out.println("Server shutdown");

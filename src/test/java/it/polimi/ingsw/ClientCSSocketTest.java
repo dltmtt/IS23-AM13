@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.socket.ClientSocket;
+import it.polimi.ingsw.client.socket.ClientCSSocket;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,18 +14,20 @@ import java.io.IOException;
 
 import static org.junit.Assert.fail;
 
-public class ClientSocketTest {
+public class ClientCSSocketTest {
 
     @BeforeAll
     public static void setUp() {
+
         SettingLoader.loadBookshelfSettings();
+        SettingLoader.loadConnectionSettings();
     }
 
     @Test
     public void ClientTest() {
-        ClientSocket clientSocket = null;
+        ClientCSSocket clientSocket = null;
         try {
-            clientSocket = new ClientSocket();
+            clientSocket = new ClientCSSocket("localhost", 1234);
         } catch (Exception e) {
             e.printStackTrace();
             Assertions.fail();
@@ -38,9 +40,9 @@ public class ClientSocketTest {
 
     @Test
     public void JSONClientTest() {
-        ClientSocket clientSocket = null;
+        ClientCSSocket clientSocket = null;
         try {
-            clientSocket = new ClientSocket();
+            clientSocket = new ClientCSSocket("localhost", 1234);
         } catch (Exception e) {
             e.printStackTrace();
             Assertions.fail();

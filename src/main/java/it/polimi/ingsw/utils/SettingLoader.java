@@ -14,7 +14,10 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Random;
 
 import static java.lang.Integer.parseInt;
 
@@ -23,13 +26,23 @@ import static java.lang.Integer.parseInt;
  * It also provides methods to create the decks of the game.
  */
 public class SettingLoader {
+    private static String serverIp;
+    private static int serverPort;
+
+    public static int getServerPort() {
+        return serverPort;
+    }
+
+    public static String getServerIp() {
+        return serverIp;
+    }
 
     /**
      * Loads the settings of the common goals from the JSON file.
      *
+     * @return the complete common goal deck
      * @throws IOException    if the file is not found
      * @throws ParseException if the file is not in JSON format
-     * @return the complete common goal deck
      */
 
     public static PersonalGoal loadSpecificPersonalGoal(int randomPersonalGoalIndex) throws IOException, ParseException {
@@ -60,7 +73,7 @@ public class SettingLoader {
         JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/personal_goals.json"));
         // accessing the array of personal goals configurations
         JSONArray personalGoalConfigurations = (JSONArray) personalGoalJson.get("personal_goal_configurations");
-        for(Object o: personalGoalConfigurations){
+        for (Object o : personalGoalConfigurations) {
             JSONObject personalGoalCard = (JSONObject) o;
             JSONArray configuration = (JSONArray) personalGoalCard.get("configuration");
 
@@ -75,7 +88,7 @@ public class SettingLoader {
         }
 
         //giving a big 'ol shuffle to the personal goal deck
-        for(int j = 0; j < loadedPersonalGoals.size(); j++){
+        for (int j = 0; j < loadedPersonalGoals.size(); j++) {
             Random rand = new Random();
 
             for (int i = 0; i < loadedPersonalGoals.size(); i++) {
@@ -161,7 +174,7 @@ public class SettingLoader {
         }
 
         //giving a big 'ol shuffle to the common goals
-        for(int j = 0; j < loadedCommonGoals.size(); j++){
+        for (int j = 0; j < loadedCommonGoals.size(); j++) {
             Random rand = new Random();
 
             for (int i = 0; i < loadedCommonGoals.size(); i++) {
@@ -195,5 +208,19 @@ public class SettingLoader {
         Bookshelf.setColumns(colsSetting);
     }
 
+    public static void loadConnectionSettings() {
+        Properties prop = new Properties();
 
+        try (InputStream settings = new FileInputStream("src/main/resources/settings.properties")) {
+            prop.load(settings);
+            serverIp = prop.getProperty("connection.ip");
+            serverPort = parseInt(prop.getProperty("connection.port"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // In case the file is not found or there is and error reading the file,
+            // the default values will be used instead
+            serverIp = "localhost";
+            serverPort = 1234;
+        }
+    }
 }
