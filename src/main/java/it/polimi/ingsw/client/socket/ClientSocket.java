@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.socket;
 
+import org.json.simple.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,6 +42,11 @@ public class ClientSocket {
 
     public void sendMessage(String message) {
         out.println(message);
+        out.flush();
+    }
+
+    public void sendJsonObjet(JSONObject json) {
+        out.println(json.toJSONString());
         out.flush();
     }
 

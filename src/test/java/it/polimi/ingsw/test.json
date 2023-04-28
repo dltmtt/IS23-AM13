@@ -1,0 +1,20 @@
+{
+  "bookshelf": [
+    {
+      "rows": 6,
+      "columns": 5
+    }
+  ],
+  "players": [
+    {
+      "maxAge": 99,
+      "minAge": 8
+    }
+  ],
+  "game": [
+    {
+      "minPlayers": 2,
+      "maxPlayers": 4
+    }
+  ]
+}

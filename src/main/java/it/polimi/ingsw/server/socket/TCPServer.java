@@ -1,5 +1,9 @@
 package it.polimi.ingsw.server.socket;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,22 +45,29 @@ public class TCPServer {
 
                 // socket object to receive incoming client
                 // requests
-                Socket client = server.accept();
-                socketList.add(client);
+                try {
+                    Socket client = server.accept();
 
-                // Displaying that new client is connected
-                // to server
-                System.out.println("New client connected"
-                        + client.getInetAddress()
-                        .getHostAddress());
+                    socketList.add(client);
 
-                // create a new thread object
-                ClientHandler clientSock
-                        = new ClientHandler(client);
+                    // Displaying that new client is connected
+                    // to server
+                    System.out.println("New client connected"
+                            + client.getInetAddress()
+                            .getHostAddress());
 
-                // This thread will handle the client
-                // separately
-                new Thread(clientSock).start();
+                    // create a new thread object
+                    ClientHandler clientSock
+                            = new ClientHandler(client);
+
+                    // This thread will handle the client
+                    // separately
+                    new Thread(clientSock).start();
+                } catch (IOException e) {
+                    System.out.println("Server closed");
+                    break;
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,12 +147,23 @@ public class TCPServer {
                         break;
 
                     } else {
-                        // writing the received message from
-                        // client
-                        System.out.printf(" Sent from the client: %s\n", line);
+                        // writing the received message from the client
 
+                        //convert the line string in a Json object
+                        JSONParser parser = new JSONParser();
+                        try {
+                            JSONObject json = (JSONObject) parser.parse(line);
+                            System.out.println(" Sent from the client: \t" + json.toJSONString());
+                            //TODO
+                            //Inserire chiamata al parser
+
+
+                        } catch (ParseException e) {
+                            //A string is received
+                            System.out.println(" Sent from the client: \t" + line);
+                        }
                         //COMUNICAZIONE SERVER -> CLIENT
-                        out.println(line);
+                        //out.println(line);
                     }
                 }
             } catch (IOException e) {
