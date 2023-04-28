@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.rmi;
 
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.rmi.RMIInterface;
+import it.polimi.ingsw.utils.FullRoomException;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,19 +24,19 @@ public class RMIClient {
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", port);
             //invocation of the stub
             RMIInterface stub = (RMIInterface) registry.lookup("server");
-
+            boolean pong = false;
             //invoca i metodi
             stub.ping("Valeria");
-            try {
-                boolean pong = stub.pong();
-            } catch (Exception e) {
-                System.out.println("pong not received");
+            while (!pong) {
+                pong = stub.pong();
             }
 
-            System.out.println("ciao");
+            stub.login("Valeria", 22, true);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(-1);
+        } catch (FullRoomException e) {
+            throw new RuntimeException(e);
         }
     }
 }
