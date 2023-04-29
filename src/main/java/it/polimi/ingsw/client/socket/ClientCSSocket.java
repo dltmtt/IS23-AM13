@@ -1,3 +1,4 @@
+/*
 package it.polimi.ingsw.client.socket;
 
 import org.json.simple.JSONObject;
@@ -80,3 +81,4 @@ public class ClientCSSocket {
         return socket;
     }
 }
+*/
