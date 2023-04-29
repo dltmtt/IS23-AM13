@@ -41,6 +41,7 @@ public class Game {
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e + ", error in loading the goal decks");
         }
+
     }
 
     public Player getCurrentPlayer() {
@@ -69,7 +70,6 @@ public class Game {
                 isFirstGame = true;
             }
         }
-
         // Draw two common goal cards
         Player.setCommonGoal(drawCommonGoals(isFirstGame));
 
@@ -78,6 +78,8 @@ public class Game {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
     // drawPersonalGoal() and drawCommonGoals() are basically the same method,
@@ -155,8 +157,8 @@ public class Game {
         changeTurn();
     }
 
-    public void addPlayer(String nickname, int age, boolean isFirstGame, boolean isFirstPlayer) {
-        players.add(new Player(nickname, age, isFirstGame, isFirstPlayer, false));
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 
     /**
@@ -204,8 +206,13 @@ public class Game {
     }
 
     public void printWinners(List<Player> winners) {
+
         if (winners.size() > 1) {
-            winners.removeIf(Player::isFirstPlayer);
+            for (Player winner : winners) {
+                if (winner.isFirstPlayer()) {
+                    winners.remove(winner);
+                }
+            }
         }
 
         for (Player winner : winners) {
