@@ -1,11 +1,11 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.server.socket.MultiEchoServer;
+import it.polimi.ingsw.client.socket.Client;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class ServerSocketTest {
+public class ClientSocketTest {
 
     @BeforeAll
     public static void setUp() {
@@ -13,10 +13,10 @@ public class ServerSocketTest {
     }
 
     @Test
-    public void ServerTest() {
-        MultiEchoServer server = new MultiEchoServer();
+    public void ClientTest() {
+        Client client = new Client();
         try {
-            server.startServer();
+            client.sendMessage("ciao");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
