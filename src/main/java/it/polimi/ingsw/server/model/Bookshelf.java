@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.PrintsNicer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -463,5 +464,9 @@ public class Bookshelf implements AbleToGetPoints {
 
     public Optional<Item>[][] getItems() {
         return items;
+    }
+
+    public void cli_print() {
+        PrintsNicer.stringifyBookshelf(items).forEach(System.out::println);
     }
 }

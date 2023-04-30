@@ -14,7 +14,8 @@ import java.util.Arrays;
 public class Square extends Layout {
     // The number of ideal occurrences of the layout
     private final int occurrences;
-
+    private final int size;
+    boolean[][] booleanMatrix = new boolean[Bookshelf.getRows()][Bookshelf.getColumns()];
 
     /**
      * Creates a square layout.
@@ -33,6 +34,10 @@ public class Square extends Layout {
         }
 
         this.occurrences = occurrences;
+        this.size = size;
+        for (int i = 0; i < Bookshelf.getColumns(); i++) {
+            Arrays.fill(booleanMatrix[i], true);
+        }
     }
 
     /**
@@ -43,25 +48,50 @@ public class Square extends Layout {
      */
     public boolean check(Bookshelf b) {
         int found = 0;
-        while (found < 2) {
-            for (int i = 0; i < Bookshelf.getColumns(); i++) {
-                for (int j = 0; j < Bookshelf.getRows(); j++) {
-                    if (b.getItemAt(i, j).isPresent()) {
-                        found += searchSquare(b.getItemAt(i, j).get().color(), i, j);
-                    }
+        for (int j = 0; j < Bookshelf.getColumns(); j++) {
+            for (int i = 0; i < Bookshelf.getRows(); i++) {
+                if (b.getItemAt(i, j).isPresent()) {
+                    found += searchSquare(b, b.getItemAt(i, j).get().color(), i, j);
                 }
+                if (found == occurrences) return true;
             }
         }
-        return found == 2;
+        return false;
     }
 
-    public int searchSquare(Color color, int row, int column) {
-//        if(){
-//
-//        }
-        return 1;
-    }
+    public int searchSquare(Bookshelf b, Color color, int row, int column) {
+        int current = 1;
+        if (row >= Bookshelf.getRows() - 1 || column >= Bookshelf.getColumns() - 1) {
+            return 0;
+        }
+        if (!booleanMatrix[row][column]) {
+            return 0;
+        }
 
+        for (int i = 1; i < size; i++) {
+            if (booleanMatrix[row][column + i] && b.getItemAt(row, column + i).isPresent() && b.getItemAt(row, column + i).get().color().equals(color)) {
+                current++;
+            }
+            if (booleanMatrix[row + i][column] && b.getItemAt(row + i, column).isPresent() && b.getItemAt(row + i, column).get().color().equals(color)) {
+                current++;
+            }
+            if (booleanMatrix[row + i][column + i] && b.getItemAt(row + i, column + i).isPresent() && b.getItemAt(row + i, column + i).get().color().equals(color)) {
+                current++;
+            }
+        }
+
+        if (current == size * size) {
+            booleanMatrix[row][column] = false;
+            for (int i = 1; i < size; i++) {
+                booleanMatrix[row][column + i] = false;
+                booleanMatrix[row + i][column] = false;
+                booleanMatrix[row + i][column + i] = false;
+            }
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 
     /**
      * Returns the goal of occurrences of the layout.
