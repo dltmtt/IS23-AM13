@@ -1,6 +1,5 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Game {
+public class GameModel {
     // This value is tied to the switch statement in the PersonalGoal class
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
@@ -20,7 +19,17 @@ public class Game {
     private Player currentPlayer;
     private boolean lastRound;
 
-    public Game(List<Player> players) {
+    // Note for @Valeria: I created this constructor in order to be able
+    // to test my work.
+    public GameModel() {
+        SettingLoader.loadBookshelfSettings();
+        players = new ArrayList<>();
+        livingRoom = null;
+        commonGoalDeck = new ArrayList<>();
+        personalGoalDeck = new ArrayList<>();
+    }
+
+    public GameModel(List<Player> players) {
         SettingLoader.loadBookshelfSettings();
         this.players = new ArrayList<>();
         this.players.addAll(players);
