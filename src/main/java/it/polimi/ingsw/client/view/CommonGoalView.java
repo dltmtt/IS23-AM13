@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.server.model.Bookshelf;
-import it.polimi.ingsw.utils.CLIUtilities;
+import it.polimi.ingsw.utils.CliUtilities;
 
 public class CommonGoalView {
 
@@ -29,7 +29,7 @@ public class CommonGoalView {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n - 1; j++) {
                 if ((i == 0 && j == 0) || (i == 0 && j == n - 2) || (i == m - 1 && j == 0) || (i == m - 1 && j == n - 2)) {
-                    card.append(CLIUtilities.filledCell);
+                    card.append(CliUtilities.filledCell);
                 } else {
                     card.append("  ");
                     if (i == 1 && j == n - 2) {
@@ -50,7 +50,7 @@ public class CommonGoalView {
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 if (i == j)
-                    cell.append(CLIUtilities.filledCell);
+                    cell.append(CliUtilities.filledCell);
                 else
                     cell.append("  ");
                 if (i == 1 && j == Bookshelf.getColumns() - 1)
@@ -65,36 +65,36 @@ public class CommonGoalView {
     public static void fullLinePrintLayout(int occurrences, boolean horizontal) {
         String description = fullLineDescription(occurrences, horizontal);
         StringBuilder card = new StringBuilder();
-        card.append(CLIUtilities.upperLeftBox);
+        card.append(CliUtilities.upperLeftBox);
         if (horizontal) {
             card.append(" ".repeat(12));
-            card.append(CLIUtilities.upperRightBox);
+            card.append(CliUtilities.upperRightBox);
             card.append("\n");
             card.append(" ");
             if (occurrences == 2) {
                 for (int i = 0; i < Bookshelf.getColumns(); i++) {
-                    card.append(CLIUtilities.diffCell);
+                    card.append(CliUtilities.diffCell);
                 }
 
             } else {
                 for (int i = 0; i < Bookshelf.getColumns(); i++) {
-                    card.append(CLIUtilities.emptyCell);
+                    card.append(CliUtilities.emptyCell);
                 }
             }
             card.append("\t\t").append(description);
             card.append("\n");
-            card.append(CLIUtilities.lowerLeftBox);
+            card.append(CliUtilities.lowerLeftBox);
             card.append(" ".repeat(12));
-            card.append(CLIUtilities.lowerRightBox);
+            card.append(CliUtilities.lowerRightBox);
 
         } else {
             card.append(" ".repeat(7));
-            card.append(CLIUtilities.upperRightBox);
+            card.append(CliUtilities.upperRightBox);
             card.append("\n");
             if (occurrences == 2) {
                 for (int i = 0; i < Bookshelf.getRows(); i++) {
                     card.append(" ".repeat(3));
-                    card.append(CLIUtilities.diffCell);
+                    card.append(CliUtilities.diffCell);
                     if (i == 2) {
                         card.append("\t\t").append(description);
                     }
@@ -103,16 +103,16 @@ public class CommonGoalView {
             } else {
                 for (int i = 0; i < Bookshelf.getRows(); i++) {
                     card.append(" ".repeat(3));
-                    card.append(CLIUtilities.emptyCell);
+                    card.append(CliUtilities.emptyCell);
                     if (i == 2) {
                         card.append("\t\t").append(description);
                     }
                     card.append("\n");
                 }
             }
-            card.append(CLIUtilities.lowerLeftBox);
+            card.append(CliUtilities.lowerLeftBox);
             card.append(" ".repeat(7));
-            card.append(CLIUtilities.lowerRightBox);
+            card.append(CliUtilities.lowerRightBox);
         }
         card.append(" ");
         card.append("x").append(occurrences);
@@ -146,13 +146,13 @@ public class CommonGoalView {
         String description = occurrences + " groups each containing at least  2 tiles of the same type (not necessarily in the depicted shape).";
         StringBuilder cell;
         //occurrences can be either 4 or 6
-        cell = new StringBuilder(CLIUtilities.upperLeftBox +
+        cell = new StringBuilder(CliUtilities.upperLeftBox +
                 " ".repeat(5) +
-                CLIUtilities.upperRightBox +
+                CliUtilities.upperRightBox +
                 "\n");
         for (int i = 0; i < size; i++) {
             cell.append(" ".repeat(2));
-            cell.append(CLIUtilities.filledCell);
+            cell.append(CliUtilities.filledCell);
             if (occurrences == 4) {
                 if (i == 1) {
                     cell.append(" ".repeat(7)).append(description);
@@ -164,9 +164,9 @@ public class CommonGoalView {
             }
             cell.append("\n");
         }
-        cell.append(CLIUtilities.lowerLeftBox);
+        cell.append(CliUtilities.lowerLeftBox);
         cell.append(" ".repeat(5));
-        cell.append(CLIUtilities.lowerRightBox);
+        cell.append(CliUtilities.lowerRightBox);
         cell.append(" " + "x").append(occurrences);
         System.out.println(cell);
     }
@@ -174,9 +174,9 @@ public class CommonGoalView {
     public static void itemsPerColorPrintLayout() {
         String description = "\tEight tiles of the same type. No restriction about the positions.";
         StringBuilder cell = new StringBuilder();
-        cell.append(" ").append(CLIUtilities.filledCell).append(CLIUtilities.filledCell).append(" ").append("\n");
+        cell.append(" ").append(CliUtilities.filledCell).append(CliUtilities.filledCell).append(" ").append("\n");
         for (int i = 0; i < 2; i++) {
-            cell.append(CLIUtilities.filledCell.repeat(3));
+            cell.append(CliUtilities.filledCell.repeat(3));
             if (i == 0) {
                 cell.append(description);
             }
@@ -188,20 +188,20 @@ public class CommonGoalView {
     public static void squarePrintLayout() {
         String description = "   Two groups each containing 4 tiles of " +
                 "the same type in a 2x2 square. The two squares are independent. ";
-        String cell = CLIUtilities.upperLeftBox +
+        String cell = CliUtilities.upperLeftBox +
                 " ".repeat(7) +
-                CLIUtilities.upperRightBox +
+                CliUtilities.upperRightBox +
                 "\n" +
                 "  " +
-                CLIUtilities.filledCell.repeat(2) +
+                CliUtilities.filledCell.repeat(2) +
                 " ".repeat(7) + description +
                 "\n" +
                 "  " +
-                CLIUtilities.filledCell.repeat(2) +
+                CliUtilities.filledCell.repeat(2) +
                 "\n" +
-                CLIUtilities.lowerLeftBox +
+                CliUtilities.lowerLeftBox +
                 " ".repeat(7) +
-                CLIUtilities.lowerRightBox +
+                CliUtilities.lowerRightBox +
                 " ".repeat(3) + "x2";
 
         System.out.println(cell);
@@ -212,7 +212,7 @@ public class CommonGoalView {
                 "height. Tiles can be of any type.  ";
         StringBuilder cell = new StringBuilder();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
-            cell.append(CLIUtilities.emptyCell.repeat(i + 1));
+            cell.append(CliUtilities.emptyCell.repeat(i + 1));
             if (i == 2) {
                 cell.append(description);
             }
@@ -228,7 +228,7 @@ public class CommonGoalView {
         for (int i = 0; i < 2 * k + 1; i++) {
             for (int j = 0; j < 2 * k + 1; j++) {
                 if (i == j || i + j == 2 * k) {
-                    card.append(CLIUtilities.filledCell);
+                    card.append(CliUtilities.filledCell);
                 } else {
                     card.append("  ");
                 }

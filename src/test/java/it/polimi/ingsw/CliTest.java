@@ -1,7 +1,8 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.view.CommonGoalView;
-import it.polimi.ingsw.client.view.PersonalGoalview;
+import it.polimi.ingsw.client.view.PersonalGoalView;
+import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.PersonalGoal;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.utils.SettingLoader;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CLITest {
+public class CliTest {
 
     @BeforeEach
     void setUp() {
@@ -26,11 +27,11 @@ public class CLITest {
         players.add(new Player("Player1", 20, true, true, false));
         players.add(new Player("Player2", 20, false, false, false));
         players.add(new Player("Player3", 20, false, false, false));
-        Game game = new Game(players);
+        GameModel game = new GameModel(players);
         game.start();
         PersonalGoal personalGoal =
                 game.getCurrentPlayer().getPersonalGoal();
-        PersonalGoalview personalGoalview = new PersonalGoalview(personalGoal.getPersonalGoalCard());
+        PersonalGoalView personalGoalview = new PersonalGoalView(personalGoal.getPersonalGoalCard());
         personalGoalview.printLayout();
     }
 
@@ -66,4 +67,3 @@ public class CLITest {
         CommonGoalView.print("FullLine", 3, 0, false);
     }
 }
-

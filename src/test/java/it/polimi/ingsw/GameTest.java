@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.CommonGoal;
+import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.PersonalGoal;
 import it.polimi.ingsw.server.model.Player;
 import org.json.simple.parser.ParseException;
@@ -14,27 +15,25 @@ public class GameTest {
     @Test
     public void GoalLoading() throws IOException, ParseException, IllegalAccessException {
         List<Player> players = new ArrayList<>(4);
-        Game game = new Game(players);
-        for (CommonGoal commonGoal : game.getCommonGoalDeck()) {
+        GameModel gameModel = new GameModel(players);
+
+        for (CommonGoal commonGoal : gameModel.getCommonGoalDeck()) {
             System.out.println(commonGoal.getLayout().getInfo());
             System.out.println(commonGoal.getScoringList());
         }
-        for (PersonalGoal personalGoal : game.getPersonalGoalDeck()) {
+
+        for (PersonalGoal personalGoal : gameModel.getPersonalGoalDeck()) {
             System.out.println(personalGoal.getPersonalGoal().toString());
         }
-
     }
 
     @Test
     public void BoardFilling() {
-        Game game;
+        GameModel gameModel;
         List<Player> players = new ArrayList<>(4);
-
-
-        game = new Game(players);
-        game.start();
-//        game.getLivingRoom().cli_print();
-
-
+        
+        gameModel = new GameModel(players);
+        gameModel.start();
+//        gameModel.getLivingRoom().cli_print();
     }
 }

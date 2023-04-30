@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.CommonGoal;
+import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.layouts.Corners;
@@ -31,8 +32,8 @@ public class GetPointsTest {
         players.add(new Player("test3", 20, true, true, false));
 
 
-        Game game = new Game(players);
-        game.start();
+        GameModel gameModel = new GameModel(players);
+        gameModel.start();
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Corners(1, 1), players.size()));
@@ -106,8 +107,8 @@ public class GetPointsTest {
         players.add(new Player("Valeria", 21, false, true, false));
         players.add(new Player("Arianna", 20, false, false, false));
 
-        Game game = new Game(players);
-        game.start();
+        GameModel gameModel = new GameModel(players);
+        gameModel.start();
 
         players.get(0).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
         players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
@@ -217,7 +218,7 @@ public class GetPointsTest {
         //player1 reach common goal x-shape as second
         int i = 4;
         int j = 1;
-        while (game.getLivingRoom().getItem(i, j).color() == Color.GREEN || game.getLivingRoom().getItem(i, j).color() == Color.YELLOW) {
+        while (gameModel.getLivingRoom().getItem(i, j).color() == Color.GREEN || gameModel.getLivingRoom().getItem(i, j).color() == Color.YELLOW) {
             i++;
             j++;
         }
@@ -233,8 +234,8 @@ public class GetPointsTest {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Valeria", 21, false, true, false));
         players.add(new Player("Arianna", 20, false, false, false));
-        Game game = new Game(players);
-        game.start();
+        GameModel gameModel = new GameModel(players);
+        gameModel.start();
 
         players.get(0).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
         players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
@@ -291,7 +292,7 @@ public class GetPointsTest {
         players.get(0).getBookshelf().insert(4, items);
         items.clear();
 
-        game.move(new Coordinates(3, 4), new Coordinates(3, 5), 0);
+        gameModel.move(new Coordinates(3, 4), new Coordinates(3, 5), 0);
 //        assertEquals(35, player1.calculateScore());
 
         //player2 set-up
@@ -339,10 +340,8 @@ public class GetPointsTest {
         players.get(1).getBookshelf().insert(4, items);
         items.clear();
 
-        game.move(new Coordinates(3, 5), new Coordinates(3, 6), 0);
+        gameModel.move(new Coordinates(3, 5), new Coordinates(3, 6), 0);
 //        player2.getBookshelf().cli_print();
 //        assertEquals(35, player2.calculateScore());
-
-
     }
 }
