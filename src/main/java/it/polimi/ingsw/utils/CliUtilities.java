@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CLIUtilities {
+public final class CliUtilities {
     public static final String emptyCell = "⬜️";
     public static final String filledCell = "⬛";
     public static final String diffCell = "\uD83D\uDFE5";
@@ -14,6 +14,11 @@ public final class CLIUtilities {
     public static final String upperRightBox = "╮";
     public static final String lowerLeftBox = "╰";
     public static final String lowerRightBox = "╯";
+    public static final String SUCCESS_COLOR = "\u001B[32m";
+    public static final String ERROR_COLOR = "\u001B[31m";
+    public static final String WARNING_COLOR = "\u001B[33m";
+    public static final String GRAY = "\u001B[37m";
+    public static final String RESET = "\u001B[0m";
 
 
     /**
