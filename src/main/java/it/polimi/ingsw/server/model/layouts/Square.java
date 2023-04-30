@@ -35,7 +35,7 @@ public class Square extends Layout {
 
         this.occurrences = occurrences;
         this.size = size;
-        for (int i = 0; i < Bookshelf.getColumns(); i++) {
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
             Arrays.fill(booleanMatrix[i], true);
         }
     }
@@ -58,6 +58,16 @@ public class Square extends Layout {
         }
         return false;
     }
+
+    /**
+     * Searches for a square of the same color in the bookshelf.
+     *
+     * @param b      the bookshelf to check
+     * @param color  the color of the square
+     * @param row    the row of the first cell of the square
+     * @param column the column of the first cell of the square
+     * @return 1-> if the square is found, 0-> otherwise
+     */
 
     public int searchSquare(Bookshelf b, Color color, int row, int column) {
         int current = 1;
@@ -90,6 +100,19 @@ public class Square extends Layout {
             return 1;
         } else {
             return 0;
+        }
+    }
+
+    /**
+     * Prints the boolean matrix. This method is used only for debugging.
+     */
+
+    public void printBool() {
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
+            for (int j = 0; j < Bookshelf.getColumns(); j++) {
+                System.out.print(booleanMatrix[i][j] + " ");
+            }
+            System.out.println();
         }
     }
 

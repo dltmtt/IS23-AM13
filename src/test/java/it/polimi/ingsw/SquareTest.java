@@ -29,7 +29,7 @@ public class SquareTest {
         List<Item> items = new ArrayList<>();
 
         items.add(new Item(Color.BLUE, 1));
-        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 2));
         items.add(new Item(Color.PINK, 1));
         b.insert(0, items);
         items.clear();
@@ -50,6 +50,8 @@ public class SquareTest {
         items.add(new Item(Color.LIGHTBLUE, 1));
         b.insert(3, items);
 
+        System.out.println("FirstTest");
+        b.cli_print();
 
         assertTrue(square.check(b));
 
@@ -86,6 +88,7 @@ public class SquareTest {
         items.add(new Item(Color.LIGHTBLUE, 1));
         b.insert(3, items);
 
+        System.out.println("FalseTest");
         b.cli_print();
 
         assertFalse(square.check(b));
@@ -121,6 +124,7 @@ public class SquareTest {
         items.add(new Item(Color.LIGHTBLUE, 1));
         b.insert(3, items);
 
+        System.out.println("FalseTest2");
         b.cli_print();
 
         assertFalse(square.check(b));
@@ -160,6 +164,7 @@ public class SquareTest {
         items.add(new Item(Color.LIGHTBLUE, 1));
         b.insert(3, items);
 
+        System.out.println("TrueTest");
         b.cli_print();
 
         assertTrue(square.check(b));
@@ -209,6 +214,52 @@ public class SquareTest {
         items.add(new Item(Color.GREEN, 1));
         b.insert(4, items);
 
+        System.out.println("TrueTest2");
+        b.cli_print();
+        assertTrue(square.check(b));
+    }
+
+    @Test
+    void TrueTest3() {
+        Layout square = new Square(1, 1, 2, 2);
+
+        Bookshelf b = new Bookshelf();
+        List<Item> items = new ArrayList<>();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(0, items);
+        items.clear();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(1, items);
+        items.clear();
+
+        items.add(new Item(Color.PINK, 1));
+        b.insert(2, items);
+        items.clear();
+
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        b.insert(3, items);
+        items.clear();
+
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        b.insert(4, items);
+
+        System.out.println("TrueTest3");
         b.cli_print();
 
         assertTrue(square.check(b));

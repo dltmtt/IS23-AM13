@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.client.view.BookshelfView;
 import it.polimi.ingsw.client.view.CommonGoalView;
 import it.polimi.ingsw.client.view.PersonalGoalView;
-import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.PersonalGoal;
-import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +19,7 @@ public class CliTest {
     @BeforeEach
     void setUp() {
         SettingLoader.loadBookshelfSettings();
+
     }
 
     @Test
@@ -38,16 +39,27 @@ public class CliTest {
     @Test
     void CommonGoalAll() {
         CommonGoalView.itemsPerColorPrintLayout();
+        System.out.println();
         CommonGoalView.squarePrintLayout();
+        System.out.println();
         CommonGoalView.cornersPrintLayout();
+        System.out.println();
         CommonGoalView.diagonalPrintLayout();
+        System.out.println();
         CommonGoalView.fullLinePrintLayout(2, true);
+        System.out.println();
         CommonGoalView.fullLinePrintLayout(4, true);
+        System.out.println();
         CommonGoalView.fullLinePrintLayout(2, false);
+        System.out.println();
         CommonGoalView.fullLinePrintLayout(3, false);
+        System.out.println();
         CommonGoalView.groupPrintLayout(6, 2);
+        System.out.println();
         CommonGoalView.groupPrintLayout(4, 4);
+        System.out.println();
         CommonGoalView.stairPrintLayout();
+        System.out.println();
         CommonGoalView.xShapePrintLayout();
 
     }
@@ -65,5 +77,42 @@ public class CliTest {
         CommonGoalView.print("FullLine", 4, 0, true);
         CommonGoalView.print("FullLine", 2, 0, false);
         CommonGoalView.print("FullLine", 3, 0, false);
+    }
+
+    @Test
+    void bookshelfsTest() {
+        Bookshelf b1 = new Bookshelf();
+        Bookshelf b2 = new Bookshelf();
+        Bookshelf b3 = new Bookshelf();
+        Bookshelf b4 = new Bookshelf();
+
+        List<Item> items = new ArrayList<>();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b1.insert(0, items);
+        items.clear();
+
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        b1.insert(1, items);
+        items.clear();
+
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b2.insert(2, items);
+        BookshelfView bookshelfView1 = new BookshelfView(b1);
+        BookshelfView bookshelfView2 = new BookshelfView(b2);
+        System.out.println("Your bookshelf:");
+        bookshelfView1.printBookshelf();
+        System.out.println("Opponent's bookshelf:");
+        bookshelfView2.printOtherBookshelf();
     }
 }
