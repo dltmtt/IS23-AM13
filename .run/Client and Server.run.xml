@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Client and Server" type="CompoundRunConfigurationType">
+        <toRun name="Client" type="Application"/>
+        <toRun name="Server" type="Application"/>
+        <method v="2"/>
+    </configuration>
+</component>
