@@ -6,10 +6,10 @@ import it.polimi.ingsw.utils.Coordinates;
 
 import java.util.HashMap;
 
-public class PersonalGoalview {
+public class PersonalGoalView {
     private final HashMap<Coordinates, Color> personalGoalCard;
 
-    public PersonalGoalview(HashMap<Coordinates, Color> personalGoal) {
+    public PersonalGoalView(HashMap<Coordinates, Color> personalGoal) {
         this.personalGoalCard = personalGoal;
     }
 
