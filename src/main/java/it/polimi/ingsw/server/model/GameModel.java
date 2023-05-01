@@ -19,16 +19,6 @@ public class GameModel {
     private Player currentPlayer;
     private boolean lastRound;
 
-    // Note for @Valeria: I created this constructor in order to be able
-    // to test my work.
-    public GameModel() {
-        SettingLoader.loadBookshelfSettings();
-        players = new ArrayList<>();
-        livingRoom = null;
-        commonGoalDeck = new ArrayList<>();
-        personalGoalDeck = new ArrayList<>();
-    }
-
     public GameModel(List<Player> players) {
         SettingLoader.loadBookshelfSettings();
         this.players = new ArrayList<>();
@@ -51,6 +41,11 @@ public class GameModel {
             throw new RuntimeException(e + ", error in loading the goal decks");
         }
 
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players.clear();
+        this.players.addAll(players);
     }
 
     public Player getCurrentPlayer() {

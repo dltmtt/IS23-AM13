@@ -17,4 +17,10 @@ public abstract class GameView {
     public abstract void showLogin();
 
     public abstract void showMessage(String message);
+
+    public abstract int readAge();
+
+    public abstract int promptAge();
+
+    public abstract boolean promptFirstGame();
 }

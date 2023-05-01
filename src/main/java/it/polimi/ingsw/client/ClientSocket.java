@@ -13,4 +13,9 @@ public class ClientSocket extends Client {
     public void logout() {
         // Implementation
     }
+
+    @Override
+    public void run() {
+        // Implementation
+    }
 }

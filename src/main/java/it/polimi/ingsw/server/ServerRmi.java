@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.commons.CommunicationImplementation;
 import it.polimi.ingsw.commons.CommunicationInterface;
 import it.polimi.ingsw.server.model.GameModel;
 
@@ -24,7 +23,7 @@ public class ServerRmi implements ServerInterface {
 
     @Override
     public void start() throws RemoteException {
-        server = new CommunicationImplementation();
+        server = new Server();
         stub = (CommunicationInterface) UnicastRemoteObject.exportObject(server, 0);
 
         registry = LocateRegistry.createRegistry(PORT_RMI);
@@ -39,4 +38,9 @@ public class ServerRmi implements ServerInterface {
         UnicastRemoteObject.unexportObject(server, true);
         System.out.println("RMI server stopped.");
     }
+
+//    @Override
+//    public String sendMessage(String clientMessage) throws RemoteException {
+//
+//    }
 }

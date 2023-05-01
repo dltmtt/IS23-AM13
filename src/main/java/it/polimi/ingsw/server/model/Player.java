@@ -13,10 +13,10 @@ public class Player {
     private static Board board;
     private final List<Boolean> commonGoalCompleted = new ArrayList<>(2);
     private final String nickname;
-    private final int age;
-    private final boolean isFirstGame;
     private final boolean isFirstPlayer;
     private final List<Integer> commonGoalPoints = new ArrayList<>(2);
+    private boolean isFirstGame;
+    private int age;
     private Bookshelf bookshelf;
     private boolean hasEndGameCard;
     private PersonalGoal personalGoal;
@@ -47,6 +47,10 @@ public class Player {
         return age;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public Bookshelf getBookshelf() {
         return bookshelf;
     }
@@ -71,6 +75,10 @@ public class Player {
      */
     public boolean isFirstGame() {
         return isFirstGame;
+    }
+
+    public void setFirstGame(boolean isFirstGame) {
+        this.isFirstGame = isFirstGame;
     }
 
     /**
@@ -188,7 +196,6 @@ public class Player {
         items.clear();
         items.addAll(rearrangedItems);
     }
-
 
     /**
      * Calculates the score of the player.

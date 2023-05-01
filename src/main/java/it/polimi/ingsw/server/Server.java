@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.commons.CommunicationInterface;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,17 +19,16 @@ import static it.polimi.ingsw.utils.CliUtilities.RESET;
  * The server can be stopped by typing {@value #SHUTDOWN_COMMAND} in the console.
  * This will stop both the RMI and the socket servers.
  */
-public class Server implements ServerInterface {
+public class Server implements ServerInterface, CommunicationInterface {
     protected static final int PORT_RMI = 1099;
     protected static final int PORT_SOCKET = 1234;
     protected static final String HOSTNAME = "localhost";
     private static final String SHUTDOWN_COMMAND = "exit";
-    private final GameModel gameModel;
     private final ServerRmi rmiServer;
 
 
     public Server() {
-        this.gameModel = new GameModel();
+//        this.gameModel = new GameModel();
         try {
             this.rmiServer = new ServerRmi(this.gameModel);
         } catch (RemoteException e) {
@@ -60,6 +61,11 @@ public class Server implements ServerInterface {
         }).start();
     }
 
+    public void setGameModel(GameModel gameModel) {
+        this.gameModel = gameModel;
+    }
+
+    @Override
     public void start() {
         try {
             rmiServer.start();
@@ -70,6 +76,7 @@ public class Server implements ServerInterface {
         System.out.println("The server is ready.");
     }
 
+    @Override
     public void stop() {
         System.out.println("Shutting down...");
         try {
@@ -78,5 +85,45 @@ public class Server implements ServerInterface {
             e.printStackTrace();
         }
         System.exit(0);
+    }
+
+    @Override
+    public String sendMessage(String clientMessage) {
+        if (clientMessage.startsWith("username")) {
+            // TODO: parse the JSON, this is just a mock
+            // Maybe we should use different methods for different requests
+            String username = clientMessage.substring(8);
+            System.out.println(username + " requested login.");
+            String response = checkUsername(username);
+            if (response.equals("ok")) {
+                players.add(new Player(username, 0, false, false, false));
+                return "Welcome, " + username + "!\n"; // This should be a JSON that the view will parse and display
+            } else {
+                return response;
+            }
+        } else if (clientMessage.startsWith("age")) {
+            int age = Integer.parseInt(clientMessage.substring(3));
+            players.get(players.size() - 1).setAge(age);
+            return age >= 8 ? "ok" : "no";
+        } else if (clientMessage.startsWith("firstGame")) {
+            boolean firstGame = Boolean.parseBoolean(clientMessage.substring(9));
+            players.get(players.size() - 1).setFirstGame(firstGame);
+            return "ok";
+        } else {
+            System.out.println(clientMessage + " requested unknown");
+            return "Unknown request";
+        }
+    }
+
+    public String checkUsername(String username) {
+        String response = null;
+        for (Player player : players) {
+            if (player.getNickname().equals(username)) {
+                response = "Username already taken";
+                return response;
+            }
+        }
+        response = "ok";
+        return response;
     }
 }

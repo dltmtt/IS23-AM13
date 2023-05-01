@@ -51,14 +51,31 @@ public class ClientRmi extends Client {
         }
     }
 
+    @Override
+    public void run() {
+        controller.showLoginScreen();
+    }
 
     @Override
     public void login(String username) {
+        int age = 0;
+        boolean firstGame = false;
         try {
-//            stub.login(username, 18, true);
-            String responseMessage = server.sendMessage("login" + username); // This message will be a JSON
+            String responseMessage = server.sendMessage("username" + username); // This message will be a JSON
             // TODO: parse the JSON (now it's plain text)
+            if (responseMessage.startsWith("Welcome")) {
+                age = controller.showAgeScreen();
+            } else {
+                System.out.println("Response message is " + responseMessage + ". Retry");
+//                System.out.println("Retry"); // TODO: actually retry
+            }
             gameView.showMessage(responseMessage);
+            String ageResponse = server.sendMessage("age" + age);
+            if (!ageResponse.startsWith("ok")) {
+                System.out.println("Remember that you need to be supervised by an adult to play this game.");
+            }
+            firstGame = controller.showFirstGamescreen();
+            String nextStep = server.sendMessage("firstGame" + firstGame);
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
         }

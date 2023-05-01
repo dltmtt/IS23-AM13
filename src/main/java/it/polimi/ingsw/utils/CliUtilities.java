@@ -103,4 +103,9 @@ public final class CliUtilities {
         return answer.equals("y");
     }
 
+
+    public static boolean askYesNoQuestion(String question) throws IOException {
+        String answer = askCloseEndedQuestion(question, List.of("y", "n"), "y");
+        return answer.equals("y");
+    }
 }

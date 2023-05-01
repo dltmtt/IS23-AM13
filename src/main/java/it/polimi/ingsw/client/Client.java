@@ -17,6 +17,8 @@ public abstract class Client {
         this.gameView = gameView;
     }
 
+    public abstract void run();
+
     public abstract void login(String username);
 
     public abstract void logout();

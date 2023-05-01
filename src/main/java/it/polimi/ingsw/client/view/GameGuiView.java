@@ -16,4 +16,21 @@ public class GameGuiView extends GameView {
     public void showMessage(String message) {
         System.out.println("showMessage() not implemented yet in " + this.getClass().getName());
     }
+
+    @Override
+    public int readAge() {
+        System.out.println("readAge() not implemented yet in " + this.getClass().getName());
+        return 0;
+    }
+
+    @Override
+    public int promptAge() {
+        System.out.println("showAge() not implemented yet in " + this.getClass().getName());
+        return 0;
+    }
+
+    @Override
+    public boolean promptFirstGame() {
+        return true;
+    }
 }

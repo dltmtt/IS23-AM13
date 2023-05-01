@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.view.GameCliView;
 import it.polimi.ingsw.client.view.GameGuiView;
 import it.polimi.ingsw.client.view.GameView;
-import it.polimi.ingsw.server.model.GameModel;
 import org.apache.commons.cli.*;
 
 /**
@@ -60,8 +59,9 @@ public class MyShelfie {
         }
 
         // TODO: check if this part makes sense
-        GameModel gameModel = new GameModel();
-        GameController gameController = new GameController(gameModel, gameView, client);
-        gameController.showLoginScreen();
+        GameController gameController = new GameController(null, gameView, client);
+        gameView.setController(gameController);
+        client.setView(gameView);
+        client.run();
     }
 }
