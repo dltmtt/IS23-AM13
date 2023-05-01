@@ -13,6 +13,7 @@ import static it.polimi.ingsw.utils.CliUtilities.*;
 
 public class ClientRmi extends Client {
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
+    GameController controller = new GameController(null, gameView, this);
     private Registry registry;
     private CommunicationInterface server;
 
@@ -79,6 +80,7 @@ public class ClientRmi extends Client {
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
         }
+
     }
 
     @Override

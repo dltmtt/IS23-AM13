@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.utils.CliUtilities.GRAY;
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
@@ -25,6 +27,8 @@ public class Server implements ServerInterface, CommunicationInterface {
     protected static final String HOSTNAME = "localhost";
     private static final String SHUTDOWN_COMMAND = "exit";
     private final ServerRmi rmiServer;
+    private final List<Player> players = new ArrayList<>();
+    private GameModel gameModel = null;
 
 
     public Server() {

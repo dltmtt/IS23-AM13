@@ -5,6 +5,7 @@ import it.polimi.ingsw.utils.CliUtilities;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class GameCliView extends GameView {
     /**
@@ -38,6 +39,19 @@ public class GameCliView extends GameView {
         return username;
     }
 
+    public int readAge() {
+        int age = 0;
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+            age = Integer.parseInt(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("An error occurred while reading the age.");
+        }
+        return age;
+    }
+
     @Override
     public void showLogin() {
         showMessage(welcomeMessage);
@@ -49,6 +63,33 @@ public class GameCliView extends GameView {
             e.printStackTrace();
             System.err.println("An error occurred while logging in.");
         }
+    }
+
+    public boolean readFirstGame() {
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+            String response = in.readLine();
+            return Objects.equals(response, "Y");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("An error occurred while reading the age.");
+            return false;
+        }
+    }
+
+    public int promptAge() {
+        showMessage(insertAgePrompt);
+        return readAge();
+    }
+
+    public boolean promptFirstGame() {
+        try {
+            CliUtilities.askYesNoQuestion(firstGamePrompt);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return readFirstGame();
     }
 
     @Override

@@ -26,4 +26,12 @@ public class GameController {
     public void showLoginScreen() {
         gameView.showLogin();
     }
+
+    public int showAgeScreen() {
+        return gameView.promptAge();
+    }
+
+    public boolean showFirstGamescreen() {
+        return gameView.promptFirstGame();
+    }
 }
