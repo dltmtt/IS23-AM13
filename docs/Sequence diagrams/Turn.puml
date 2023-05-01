@@ -7,7 +7,7 @@ title Turn
 participant Client
 participant Server
 
-Client <- Server: playerNTurn
+Client <- Server: playerTurn(n)
 
 loop until pickIsValid
     Client -> Server: pick
