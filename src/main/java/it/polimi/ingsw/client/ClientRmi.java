@@ -16,6 +16,7 @@ public class ClientRmi extends Client {
     GameController controller = new GameController(null, gameView, this);
     private Registry registry;
     private CommunicationInterface server;
+    private final ClientParser parser = new ClientParser();
 
     public ClientRmi() {
         // All these messages should probably be moved to the view
@@ -50,6 +51,7 @@ public class ClientRmi extends Client {
             System.out.println("Unable to connect to the server. Is it running?");
             System.exit(1);
         }
+
     }
 
     @Override
