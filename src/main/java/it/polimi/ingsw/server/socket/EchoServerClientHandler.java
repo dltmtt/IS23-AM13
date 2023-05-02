@@ -43,12 +43,12 @@ public class EchoServerClientHandler implements Runnable {
                     str = br.readLine();
                     if (str.equals("exit")) {
                         close();
-                        break;
                     } else {
-                        System.out.println(str);
+                        System.out.println("From " + socket.getInetAddress().getHostName() + " :" + str);
                     }
                 } catch (IOException | NullPointerException e) {
                     System.err.println("client disconnected");
+                    break;
                 }
             }
         }

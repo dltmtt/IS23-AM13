@@ -125,14 +125,6 @@ public class Square extends Layout {
         return occurrences;
     }
 
-    private int bottomUpCheck(@NotNull Bookshelf b) {
-        return 0;
-    }
-
-    private int topDownCheck(@NotNull Bookshelf b) {
-        return 0;
-    }
-
 
     // TODO finish this method
     public int getCurrent(@NotNull Bookshelf b) {
@@ -161,6 +153,6 @@ public class Square extends Layout {
     }
 
     public String getInfo() {
-        return super.getInfo() + "-occurrences=" + occurrences + " -type=rectangle";
+        return super.getInfo() + "-occurrences=" + occurrences + "-size= " + size + " -type=square";
     }
 }

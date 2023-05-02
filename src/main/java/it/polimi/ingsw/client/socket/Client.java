@@ -43,32 +43,34 @@ public class Client {
         {
             while (true) {
                 try {
-                    System.out.println(br.readLine());
+                    System.out.println("From " + s.getInetAddress() + ": " + br.readLine());
                 } catch (IOException e) {
-                    System.err.println("server disconnected");
+                    System.err.println("server disconnected, unable to read");
+                    break;
                 }
             }
         }
         ).start();
 
-//        new Thread(() ->
-//                //send to the server
-//        {
-//            String str;
-//            while (true) {
-//                try {
-//                    if (!(str = kb.readLine()).equals("exit")) {
-//                        // send to the server
-//                        dos.writeBytes(str + "\n");
-//                    } else {
-//                        close();
-//                    }
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }
-//        ).start();
+        new Thread(() ->
+                //send to the server
+        {
+            String str;
+            while (true) {
+                try {
+                    if (!(str = kb.readLine()).equals("exit")) {
+                        // send to the server
+                        dos.writeBytes(str + "\n");
+                    } else {
+                        close();
+                    }
+                } catch (IOException e) {
+                    System.err.println("server disconnected, unable to send messages");
+                    break;
+                }
+            }
+        }
+        ).start();
     }
 
     public void sendMessage(String str) {
@@ -111,5 +113,6 @@ public class Client {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.exit(0);
     }
 }

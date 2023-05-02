@@ -13,6 +13,8 @@ import java.util.concurrent.Executors;
 public class MultiEchoServer {
     public List<EchoServerClientHandler> clientHandlers;
 
+    //public HashMap<InetAddress, Player> connectedPlayers = new HashMap<>();
+
     public MultiEchoServer() {
         clientHandlers = null;
     }
@@ -37,6 +39,7 @@ public class MultiEchoServer {
                 System.out.println("Connection established");
                 //clientHandlers.add(new EchoServerClientHandler(s));
                 //new Thread(clientHandlers.get(clientHandlers.size() - 1));
+
                 executor.submit(new EchoServerClientHandler(s));
             } catch (IOException e) {
                 System.out.println("Accept failed: 888");

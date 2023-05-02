@@ -16,12 +16,10 @@ public class ClientSocketTest {
     public static void main(String[] args) {
         Client client = new Client();
         try {
-            client.sendMessage("ciao");
+            client.sendMessage("ciao, messaggio mandato in automatico");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        while (true) {
-            client.sendInput();
-        }
+        client.close();
     }
 }
