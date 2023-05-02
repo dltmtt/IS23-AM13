@@ -59,10 +59,12 @@ public class GameCliView extends GameView {
         String username = readUsername();
         try {
             gameController.login(username);
+
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("An error occurred while logging in.");
         }
+
     }
 
     public boolean readFirstGame() {

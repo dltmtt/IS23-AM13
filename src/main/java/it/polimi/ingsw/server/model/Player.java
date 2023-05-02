@@ -13,8 +13,8 @@ public class Player {
     private static Board board;
     private final List<Boolean> commonGoalCompleted = new ArrayList<>(2);
     private final String nickname;
-    private final boolean isFirstPlayer;
     private final List<Integer> commonGoalPoints = new ArrayList<>(2);
+    private boolean isFirstPlayer;
     private boolean isFirstGame;
     private int age;
     private Bookshelf bookshelf;
@@ -37,6 +37,10 @@ public class Player {
 
     public static void setBoard(Board board) {
         Player.board = board;
+    }
+
+    public void setIsFirstPlayer(boolean isFirstPlayer) {
+        this.isFirstPlayer = isFirstPlayer;
     }
 
     public String getNickname() {

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.view.GameCliView;
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.commons.CommunicationInterface;
+import it.polimi.ingsw.utils.FullRoomException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -12,6 +13,7 @@ import java.rmi.registry.Registry;
 import static it.polimi.ingsw.utils.CliUtilities.*;
 
 public class ClientRmi extends Client {
+    private final ClientParser parser = new ClientParser();
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
     GameController controller = new GameController(null, gameView, this);
     private Registry registry;
@@ -50,6 +52,7 @@ public class ClientRmi extends Client {
             System.out.println("Unable to connect to the server. Is it running?");
             System.exit(1);
         }
+
     }
 
     @Override
@@ -79,6 +82,8 @@ public class ClientRmi extends Client {
             String nextStep = server.sendMessage("firstGame" + firstGame);
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
+        } catch (FullRoomException e) {
+            throw new RuntimeException(e);
         }
 
     }

@@ -2,15 +2,13 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.commons.CommunicationInterface;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.utils.FullRoomException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.ingsw.utils.CliUtilities.GRAY;
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
@@ -27,9 +25,9 @@ public class Server implements ServerInterface, CommunicationInterface {
     protected static final String HOSTNAME = "localhost";
     private static final String SHUTDOWN_COMMAND = "exit";
     private final ServerRmi rmiServer;
-    private final List<Player> players = new ArrayList<>();
+    private final ServerParser parser = new ServerParser();
+    private final ServerController controller = new ServerController();
     private GameModel gameModel = null;
-
 
     public Server() {
 //        this.gameModel = new GameModel();
@@ -92,42 +90,37 @@ public class Server implements ServerInterface, CommunicationInterface {
     }
 
     @Override
-    public String sendMessage(String clientMessage) {
-        if (clientMessage.startsWith("username")) {
+    public String sendMessage(String clientMessage) throws FullRoomException {
+        String category = parser.getMessageCategory(clientMessage);
+
+        if (category.equals("username")) {
             // TODO: parse the JSON, this is just a mock
             // Maybe we should use different methods for different requests
-            String username = clientMessage.substring(8);
-            System.out.println(username + " requested login.");
-            String response = checkUsername(username);
-            if (response.equals("ok")) {
-                players.add(new Player(username, 0, false, false, false));
+            String username = parser.getUsername(clientMessage);
+            boolean checking = controller.checkUsername(username);
+            if (checking) {
+                controller.addPlayerByUsername(username);
+                System.out.println(username + " requested login.");
                 return "Welcome, " + username + "!\n"; // This should be a JSON that the view will parse and display
             } else {
-                return response;
+                //TODO: actual retry
+                return "retry";
             }
-        } else if (clientMessage.startsWith("age")) {
-            int age = Integer.parseInt(clientMessage.substring(3));
-            players.get(players.size() - 1).setAge(age);
+
+        } else if (category.equals("age")) {
+            int age = parser.getAge(clientMessage);
+            controller.addPlayerAge(age);
             return age >= 8 ? "ok" : "no";
-        } else if (clientMessage.startsWith("firstGame")) {
-            boolean firstGame = Boolean.parseBoolean(clientMessage.substring(9));
-            players.get(players.size() - 1).setFirstGame(firstGame);
-            return "ok";
+        } else if (category.equals("firstGame")) {
+            boolean firstGame = parser.getFirstGame(clientMessage);
+            controller.addPlayerFirstGame(firstGame);
+
+            return controller.checkRoom();
         } else {
             System.out.println(clientMessage + " requested unknown");
             return "Unknown request";
         }
+
     }
 
-    public String checkUsername(String username) {
-        String response = null;
-        for (Player player : players) {
-            if (player.getNickname().equals(username)) {
-                response = "Username already taken";
-                return response;
-            }
-        }
-        response = "ok";
-        return response;
-    }
 }
