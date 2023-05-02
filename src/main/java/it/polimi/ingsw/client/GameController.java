@@ -34,4 +34,8 @@ public class GameController {
     public boolean showFirstGamescreen() {
         return gameView.promptFirstGame();
     }
+
+    public int showNumberOfPlayersScreen() {
+        return gameView.promptNumberOfPlayers();
+    }
 }

@@ -80,6 +80,19 @@ public class GameCliView extends GameView {
         }
     }
 
+    public int readNumberOfPlayers() {
+        int numberOfPlayers = 0;
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+            numberOfPlayers = Integer.parseInt(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("An error occurred while reading the age.");
+        }
+        return numberOfPlayers;
+    }
+
     public int promptAge() {
         showMessage(insertAgePrompt);
         return readAge();
@@ -87,11 +100,16 @@ public class GameCliView extends GameView {
 
     public boolean promptFirstGame() {
         try {
-            CliUtilities.askYesNoQuestion(firstGamePrompt);
+            return CliUtilities.askYesNoQuestion(firstGamePrompt);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return readFirstGame();
+//        return readFirstGame();
+    }
+
+    public int promptNumberOfPlayers() {
+        showMessage(insertNumberOfPlayersPrompt);
+        return readNumberOfPlayers();
     }
 
     @Override

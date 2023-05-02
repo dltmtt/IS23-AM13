@@ -33,4 +33,9 @@ public class GameGuiView extends GameView {
     public boolean promptFirstGame() {
         return true;
     }
+
+    @Override
+    public int promptNumberOfPlayers() {
+        return 0;
+    }
 }

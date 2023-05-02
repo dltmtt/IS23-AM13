@@ -80,6 +80,10 @@ public class ClientRmi extends Client {
             }
             firstGame = controller.showFirstGamescreen();
             String nextStep = server.sendMessage("firstGame" + firstGame);
+            if (nextStep.startsWith("FirstPlayer")) {
+                int numPlayer = controller.showNumberOfPlayersScreen();
+                String numPlayerResponse = server.sendMessage("numPlayer" + numPlayer);
+            }
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
         } catch (FullRoomException e) {

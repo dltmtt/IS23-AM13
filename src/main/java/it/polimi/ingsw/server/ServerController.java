@@ -33,16 +33,16 @@ public class ServerController {
 
     public void addPlayerFirstGame(boolean firstGame) throws FullRoomException {
         players.get(players.size() - 1).setFirstGame(firstGame);
-        startRoom();
     }
 
-    public void startRoom() throws FullRoomException {
+    public String startRoom() throws FullRoomException {
         if (room == null) {
             Random random = new Random();
             int idRoom = random.nextInt(1000);
             room = new Room(idRoom);
             players.get(players.size() - 1).setIsFirstPlayer(true);
             room.addPlayer(players.get(players.size() - 1));
+            return "FirstPlayer";
         } else if (!room.full()) {
             players.get(players.size() - 1).setIsFirstPlayer(false);
             room.addPlayer(players.get(players.size() - 1));
@@ -50,6 +50,7 @@ public class ServerController {
             //TODO: gestire l'eccezione
             throw new FullRoomException("Room is full");
         }
+        return null;
     }
 
     public String checkRoom() {

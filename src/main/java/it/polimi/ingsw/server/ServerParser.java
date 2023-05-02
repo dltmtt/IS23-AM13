@@ -9,6 +9,10 @@ public class ServerParser {
             return "username";
         } else if (message.startsWith("age")) {
             return "age";
+        } else if (message.startsWith("firstGame")) {
+            return "firstGame";
+        } else if (message.startsWith("numPlayer")) {
+            return "numPlayer";
         }
         return null;
     }
