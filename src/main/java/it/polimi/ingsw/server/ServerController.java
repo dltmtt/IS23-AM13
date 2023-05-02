@@ -64,5 +64,12 @@ public class ServerController {
         return "waiting for other players to join";
     }
 
+    public String checkNumPlayer(int numPlayer) {
+        if (numPlayer > 4) {
+            return "retry";
+        }
+        return "ok";
+    }
+
 
 }

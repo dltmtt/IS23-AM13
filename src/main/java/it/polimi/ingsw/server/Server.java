@@ -117,13 +117,11 @@ public class Server implements ServerInterface, CommunicationInterface {
 //            System.out.println("First game: " + firstGame);
             return controller.startRoom(); // if the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
         } else if (category.equals("numPlayer")) {
-            System.out.println("number recived!");
-            return "ok";
+            int numPlayer = parser.getNumPlayer(clientMessage);
+            return controller.checkNumPlayer(numPlayer);
         } else {
             System.out.println(clientMessage + " requested unknown");
             return "Unknown request";
         }
-
     }
-
 }

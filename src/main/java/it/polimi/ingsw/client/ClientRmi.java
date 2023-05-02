@@ -83,6 +83,11 @@ public class ClientRmi extends Client {
             if (nextStep.startsWith("FirstPlayer")) {
                 int numPlayer = controller.showNumberOfPlayersScreen();
                 String numPlayerResponse = server.sendMessage("numPlayer" + numPlayer);
+                while (numPlayerResponse.startsWith("retry")) {
+                    System.out.println("Illegal number of players. Retry.");
+                    numPlayer = controller.showNumberOfPlayersScreen();
+                    numPlayerResponse = server.sendMessage("numPlayer" + numPlayer);
+                }
             }
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception

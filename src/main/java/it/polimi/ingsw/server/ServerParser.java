@@ -28,4 +28,8 @@ public class ServerParser {
     public boolean getFirstGame(String message) {
         return Boolean.parseBoolean(message.substring(9));
     }
+
+    public int getNumPlayer(String message) {
+        return Integer.parseInt(message.substring(9));
+    }
 }
