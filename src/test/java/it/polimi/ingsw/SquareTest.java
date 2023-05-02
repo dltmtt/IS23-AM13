@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.server.model.layouts.FullLine;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.server.model.layouts.Square;
 import it.polimi.ingsw.utils.Color;
@@ -263,5 +264,59 @@ public class SquareTest {
         b.cli_print();
 
         assertTrue(square.check(b));
+    }
+
+    @Test
+    void TrueTest4() {
+        Layout square = new Square(1, 1, 2, 2);
+        Layout fullLine = new FullLine(1, 1, 1, false);
+
+        Bookshelf b = new Bookshelf();
+        List<Item> items = new ArrayList<>();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(0, items);
+        items.clear();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(1, items);
+        items.clear();
+
+
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(2, items);
+        items.clear();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        b.insert(3, items);
+        items.clear();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        b.insert(4, items);
+
+        System.out.println("TrueTest4");
+        b.cli_print();
+
+        assertTrue(square.check(b));
+        assertTrue(fullLine.check(b));
     }
 }

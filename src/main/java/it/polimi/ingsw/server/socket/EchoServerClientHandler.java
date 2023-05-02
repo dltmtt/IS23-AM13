@@ -78,6 +78,7 @@ public class EchoServerClientHandler implements Runnable {
 
     public void close() {
         // close connection
+        sendMessage("Connection closed");
         ps.close();
         try {
             br.close();

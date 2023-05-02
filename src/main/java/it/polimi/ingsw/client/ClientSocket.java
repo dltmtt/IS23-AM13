@@ -16,12 +16,19 @@ public class ClientSocket extends Client {
     public Socket s = null;
     public DataOutputStream dos;
     public BufferedReader br, kb;
+    public Thread listenThread;
+    public Thread sendThread;
 
+
+    /**
+     * Constructor to create DataOutputStream and BufferedReader
+     */
     public ClientSocket() {
         // Create client socket
         try {
             s = new Socket(HOSTNAME, PORT_SOCKET);
         } catch (IOException e) {
+            System.err.println("Unable to connect to server");
             throw new RuntimeException(e);
         }
 
@@ -29,6 +36,7 @@ public class ClientSocket extends Client {
         try {
             dos = new DataOutputStream(s.getOutputStream());
         } catch (IOException e) {
+            System.err.println("Unable to create output stream");
             throw new RuntimeException(e);
         }
 
@@ -36,10 +44,48 @@ public class ClientSocket extends Client {
         try {
             br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         } catch (IOException e) {
+            System.err.println("Unable to create input stream");
             throw new RuntimeException(e);
         }
         // to read data from the keyboard
         kb = new BufferedReader(new InputStreamReader(System.in));
+
+        //Listen for messages from the server
+        listenThread = new Thread(() ->
+                // receive from the server
+        {
+            while (true) {
+                try {
+                    System.out.println("From " + s.getInetAddress() + ": " + br.readLine());
+                } catch (IOException e) {
+                    System.out.println("server disconnected, unable to read");
+                    break;
+                }
+            }
+        });
+
+        //Send messages to the server
+        sendThread = new Thread(() ->
+                //sender thread
+        {
+            String str;
+            while (true) {
+                //send keyboard input to the server
+                try {
+                    sendInput();
+                } catch (IOException e) {
+                    System.out.println("server disconnected, unable to send");
+                    break;
+                }
+            }
+        }
+        );
+    }
+
+    @Override
+    public void run() {
+        listenThread.start();
+        sendThread.start();
     }
 
     public void sendMessage(String str) {
@@ -58,17 +104,13 @@ public class ClientSocket extends Client {
         }
     }
 
-    public void sendInput() {
+    public void sendInput() throws IOException {
         String str;
-        try {
-            if (!(str = kb.readLine()).equals("exit")) {
-                // send to the server
-                dos.writeBytes(str + "\n");
-            } else {
-                close();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!(str = kb.readLine()).equals("exit")) {
+            // send to the server
+            dos.writeBytes(str + "\n");
+        } else {
+            close();
         }
     }
 
@@ -82,45 +124,9 @@ public class ClientSocket extends Client {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        listenThread.interrupt();
+        sendThread.interrupt();
         System.exit(0);
-    }
-
-    @Override
-    public void run() {
-
-        new Thread(() ->
-                // receive from the server
-        {
-            while (true) {
-                try {
-                    System.out.println("From " + s.getInetAddress() + ": " + br.readLine());
-                } catch (IOException e) {
-                    System.out.println("server disconnected, unable to read");
-                    break;
-                }
-            }
-        }
-        ).start();
-
-        new Thread(() ->
-                //send to the server
-        {
-            String str;
-            while (true) {
-                try {
-                    if (!(str = kb.readLine()).equals("exit")) {
-                        // send to the server
-                        dos.writeBytes(str + "\n");
-                    } else {
-                        close();
-                    }
-                } catch (IOException e) {
-                    System.out.println("server disconnected, unable to send messages");
-                    break;
-                }
-            }
-        }
-        ).start();
     }
 
     @Override

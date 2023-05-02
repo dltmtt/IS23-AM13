@@ -22,15 +22,17 @@ public class MultiEchoServer implements ServerInterface {
 
     public HashMap<EchoServerClientHandler, Player> connectedPlayers;
 
+    public ServerSocket ss;
+
+    public Socket s = null;
+    public ExecutorService executor;
+
+
     public MultiEchoServer() {
         clientHandlers = new ArrayList<>();
         connectedPlayers = new HashMap<>();
-    }
-
-    @Override
-    public void start() {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        ServerSocket ss = null;
+        executor = Executors.newCachedThreadPool();
+        ss = null;
         try {
             // Create server Socket
             ss = new ServerSocket(888);
@@ -45,7 +47,11 @@ public class MultiEchoServer implements ServerInterface {
         }
         System.out.println("Listening for a connection");
 
-        Socket s = null;
+
+    }
+
+    @Override
+    public void start() {
         EchoServerClientHandler newClient = null;
         while (true) {
             try {
@@ -64,18 +70,26 @@ public class MultiEchoServer implements ServerInterface {
                 break;
             }
         }
-        try {
-            ss.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        executor.shutdown();
     }
 
     @Override
     public void stop() throws RemoteException, NotBoundException {
         //TODO
-        System.out.println("Stopping socket server (not implemented yet)...");
+        System.out.println("Stopping socket server...");
+        sendToAll("Server is shutting down...");
+        try {
+            ss.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        closeAllConnections();
+        executor.shutdownNow();
+    }
+
+    public void closeAllConnections() {
+        for (EchoServerClientHandler clientHandler : clientHandlers) {
+            clientHandler.close();
+        }
     }
 
     public void sendToAll(String message) {
