@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="MyShelfie with server (socket)" type="CompoundRunConfigurationType">
+        <toRun name="MyShelfie (socket)" type="Application"/>
+        <toRun name="Server" type="Application"/>
+        <method v="2"/>
+    </configuration>
+</component>
