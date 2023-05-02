@@ -13,7 +13,7 @@ public class ServerSocketTest {
     }
 
     @Test
-    public void ServerTest() {
+    public static void main(String[] args) {
         MultiEchoServer server = new MultiEchoServer();
         try {
             server.startServer();

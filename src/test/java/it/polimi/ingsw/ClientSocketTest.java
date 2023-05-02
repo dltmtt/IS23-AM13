@@ -13,12 +13,15 @@ public class ClientSocketTest {
     }
 
     @Test
-    public void ClientTest() {
+    public static void main(String[] args) {
         Client client = new Client();
         try {
             client.sendMessage("ciao");
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+        while (true) {
+            client.sendInput();
         }
     }
 }

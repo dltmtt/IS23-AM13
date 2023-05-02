@@ -6,12 +6,15 @@ package it.polimi.ingsw.server.socket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MultiEchoServer {
+    public List<EchoServerClientHandler> clientHandlers;
 
     public MultiEchoServer() {
+        clientHandlers = null;
     }
 
     public void startServer() throws Exception {
@@ -32,6 +35,8 @@ public class MultiEchoServer {
             try {
                 s = ss.accept();
                 System.out.println("Connection established");
+                //clientHandlers.add(new EchoServerClientHandler(s));
+                //new Thread(clientHandlers.get(clientHandlers.size() - 1));
                 executor.submit(new EchoServerClientHandler(s));
             } catch (IOException e) {
                 System.out.println("Accept failed: 888");

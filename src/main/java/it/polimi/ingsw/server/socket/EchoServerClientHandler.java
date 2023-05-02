@@ -10,6 +10,7 @@ public class EchoServerClientHandler implements Runnable {
     private final Socket socket;
     public PrintStream ps;
     public BufferedReader br, kb;
+    public Thread listener;
 
     public EchoServerClientHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -36,10 +37,27 @@ public class EchoServerClientHandler implements Runnable {
     public void run() {
         new Thread(() ->
         {
-            try {
-                System.out.println(br.readLine());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            String str;
+            while (true) {
+                try {
+                    str = br.readLine();
+                    if (str.equals("exit")) {
+                        close();
+                        break;
+                    } else {
+                        System.out.println(str);
+                    }
+                } catch (IOException | NullPointerException e) {
+                    System.err.println("client disconnected");
+                }
+            }
+        }
+        ).start();
+        new Thread(() ->
+        {
+            String str;
+            while (true) {
+                sendMessage();
             }
         }
         ).start();
@@ -52,7 +70,6 @@ public class EchoServerClientHandler implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         // send to client
         ps.println(str1);
     }

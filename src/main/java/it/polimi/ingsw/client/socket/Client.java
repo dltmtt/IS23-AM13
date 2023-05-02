@@ -35,21 +35,40 @@ public class Client {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        kb = new BufferedReader(new InputStreamReader(System.in));
         // to read data from the keyboard
+        kb = new BufferedReader(new InputStreamReader(System.in));
 
         new Thread(() ->
                 // receive from the server
-                //qui ascolta
         {
-            try {
-                System.out.println(br.readLine());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            while (true) {
+                try {
+                    System.out.println(br.readLine());
+                } catch (IOException e) {
+                    System.err.println("server disconnected");
+                }
             }
         }
         ).start();
+
+//        new Thread(() ->
+//                //send to the server
+//        {
+//            String str;
+//            while (true) {
+//                try {
+//                    if (!(str = kb.readLine()).equals("exit")) {
+//                        // send to the server
+//                        dos.writeBytes(str + "\n");
+//                    } else {
+//                        close();
+//                    }
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }
+//        ).start();
     }
 
     public void sendMessage(String str) {
@@ -58,6 +77,7 @@ public class Client {
         if (!(str.equals("exit"))) {
             // send to the server
             try {
+                dos.flush();
                 dos.writeBytes(str + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
