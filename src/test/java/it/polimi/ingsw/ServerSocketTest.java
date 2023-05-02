@@ -16,7 +16,7 @@ public class ServerSocketTest {
     public static void main(String[] args) {
         MultiEchoServer server = new MultiEchoServer();
         try {
-            server.startServer();
+            server.start();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

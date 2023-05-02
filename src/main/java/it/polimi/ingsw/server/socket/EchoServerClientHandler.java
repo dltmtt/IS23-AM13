@@ -31,7 +31,6 @@ public class EchoServerClientHandler implements Runnable {
 
         // to read data from the keyboard
         kb = new BufferedReader(new InputStreamReader(System.in));
-        run();
     }
 
     public void run() {
@@ -47,7 +46,7 @@ public class EchoServerClientHandler implements Runnable {
                         System.out.println("From " + socket.getInetAddress().getHostName() + " :" + str);
                     }
                 } catch (IOException | NullPointerException e) {
-                    System.err.println("client disconnected");
+                    System.out.println("client disconnected");
                     break;
                 }
             }

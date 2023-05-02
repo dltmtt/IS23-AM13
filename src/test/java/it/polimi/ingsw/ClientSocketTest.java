@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.socket.Client;
+import it.polimi.ingsw.client.ClientSocket;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,12 +14,13 @@ public class ClientSocketTest {
 
     @Test
     public static void main(String[] args) {
-        Client client = new Client();
+        ClientSocket clientSocket = new ClientSocket();
+        clientSocket.run();
         try {
-            client.sendMessage("ciao, messaggio mandato in automatico");
+            clientSocket.sendMessage("ciao, messaggio mandato in automatico");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        //client.close();
+        //clientSocket.close();
     }
 }
