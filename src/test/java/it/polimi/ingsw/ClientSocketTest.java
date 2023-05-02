@@ -20,6 +20,6 @@ public class ClientSocketTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        client.close();
+        //client.close();
     }
 }
