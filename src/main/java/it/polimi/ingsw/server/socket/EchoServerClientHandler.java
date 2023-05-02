@@ -10,7 +10,6 @@ public class EchoServerClientHandler implements Runnable {
     private final Socket socket;
     public PrintStream ps;
     public BufferedReader br, kb;
-    public Thread listener;
 
     public EchoServerClientHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -56,13 +55,13 @@ public class EchoServerClientHandler implements Runnable {
         {
             String str;
             while (true) {
-                sendMessage();
+                sendInput();
             }
         }
         ).start();
     }
 
-    public void sendMessage() {
+    public void sendInput() {
         String str1;
         try {
             str1 = kb.readLine();
@@ -71,6 +70,10 @@ public class EchoServerClientHandler implements Runnable {
         }
         // send to client
         ps.println(str1);
+    }
+
+    public void sendMessage(String message) {
+        ps.println(message);
     }
 
     public void close() {

@@ -11,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -22,7 +23,7 @@ public class MultiEchoServer implements ServerInterface {
     public HashMap<EchoServerClientHandler, Player> connectedPlayers;
 
     public MultiEchoServer() {
-        clientHandlers = null;
+        clientHandlers = new ArrayList<>();
         connectedPlayers = new HashMap<>();
     }
 
@@ -53,8 +54,9 @@ public class MultiEchoServer implements ServerInterface {
                 newClient = new EchoServerClientHandler(s);
                 //clientHandlers.add(new EchoServerClientHandler(s));
                 //new Thread(clientHandlers.get(clientHandlers.size() - 1));
-
                 executor.submit(newClient);
+                newClient.sendMessage("Welcome to the server!");
+                sendToAllExcept("A new player has joined the game!", newClient);
                 clientHandlers.add(newClient);
             } catch (IOException e) {
                 System.out.println("Accept failed: 888");
@@ -74,5 +76,23 @@ public class MultiEchoServer implements ServerInterface {
     public void stop() throws RemoteException, NotBoundException {
         //TODO
         System.out.println("Stopping soket server (not implemented yet)...");
+    }
+
+    public void sendToAll(String message) {
+        for (EchoServerClientHandler clientHandler : clientHandlers) {
+            clientHandler.sendMessage(message);
+        }
+    }
+
+    public void sendToAllExcept(String message, EchoServerClientHandler clientHandler) {
+        for (EchoServerClientHandler client : clientHandlers) {
+            if (client != clientHandler) {
+                client.sendMessage(message);
+            }
+        }
+    }
+
+    public int getConnectedPlayers() {
+        return clientHandlers.size();
     }
 }
