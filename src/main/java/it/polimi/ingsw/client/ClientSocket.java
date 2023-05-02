@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import static it.polimi.ingsw.commons.CommunicationInterface.HOSTNAME;
+import static it.polimi.ingsw.commons.CommunicationInterface.PORT_SOCKET;
+
 public class ClientSocket extends Client {
     public Socket s = null;
     public DataOutputStream dos;
@@ -17,7 +20,7 @@ public class ClientSocket extends Client {
     public ClientSocket() {
         // Create client socket
         try {
-            s = new Socket("localhost", 888);
+            s = new Socket(HOSTNAME, PORT_SOCKET);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -48,7 +51,7 @@ public class ClientSocket extends Client {
                 dos.flush();
                 dos.writeBytes(str + "\n");
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.err.println("server disconnected, unable to send messages");
             }
         } else {
             close();

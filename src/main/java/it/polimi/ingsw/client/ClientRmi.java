@@ -10,6 +10,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import static it.polimi.ingsw.commons.CommunicationInterface.HOSTNAME;
+import static it.polimi.ingsw.commons.CommunicationInterface.PORT_RMI;
 import static it.polimi.ingsw.utils.CliUtilities.*;
 
 public class ClientRmi extends Client {

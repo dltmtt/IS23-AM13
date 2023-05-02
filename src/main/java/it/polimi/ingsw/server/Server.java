@@ -20,9 +20,6 @@ import static it.polimi.ingsw.utils.CliUtilities.RESET;
  * This will stop both the RMI and the socket servers.
  */
 public class Server implements ServerInterface, CommunicationInterface {
-    protected static final int PORT_RMI = 1099;
-    protected static final int PORT_SOCKET = 1234;
-    protected static final String HOSTNAME = "localhost";
     private static final String SHUTDOWN_COMMAND = "exit";
     private final ServerRmi rmiServer;
     private final ServerParser parser = new ServerParser();

@@ -75,7 +75,7 @@ public class MultiEchoServer implements ServerInterface {
     @Override
     public void stop() throws RemoteException, NotBoundException {
         //TODO
-        System.out.println("Stopping soket server (not implemented yet)...");
+        System.out.println("Stopping socket server (not implemented yet)...");
     }
 
     public void sendToAll(String message) {
