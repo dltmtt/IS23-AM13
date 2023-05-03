@@ -121,6 +121,9 @@ public class Server implements ServerInterface, CommunicationInterface {
                 int numPlayer = parser.getNumPlayer(clientMessage);
                 return parser.sendMessage(controller.checkNumPlayer(numPlayer));
             }
+            case "ready" -> {
+                return parser.sendMessage(controller.checkRoom());
+            }
             default -> {
                 System.out.println(clientMessage + " requested unknown");
                 return parser.sendMessage("Unknown request.");

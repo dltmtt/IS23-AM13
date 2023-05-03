@@ -110,7 +110,15 @@ public class ClientRmi extends Client {
 
     public void waitingRoom() throws FullRoomException, RemoteException {
         System.out.println("Waiting for other players to join...");
-//        String response = server.sendMessage("waitingRoom");
+        String response = parser.getMessage(server.sendMessage(parser.sendReady()));
+        while (response == null) {
+            response = parser.getMessage(server.sendMessage(parser.sendReady()));
+        }
+        startGame();
+    }
+
+    public void startGame() {
+        System.out.println("Game started!");
     }
 
     @Override

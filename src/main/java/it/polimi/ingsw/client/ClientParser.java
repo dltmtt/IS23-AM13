@@ -24,5 +24,9 @@ public class ClientParser {
         return message.getMessage();
     }
 
+    public Message sendReady() {
+        return new Message("ready", "", 0, false, 0);
+    }
+
 
 }

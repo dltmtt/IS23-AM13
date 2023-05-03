@@ -16,6 +16,7 @@ public class ServerParser {
             case "age" -> "age";
             case "firstGame" -> "firstGame";
             case "numPlayer" -> "numPlayer";
+            case "ready" -> "ready";
             default -> null;
         };
     }

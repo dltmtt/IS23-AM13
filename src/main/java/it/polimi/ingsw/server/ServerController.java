@@ -58,10 +58,8 @@ public class ServerController {
             gameModel = new GameModel(players);
             gameModel.start();
             return "Game started";
-        } else if (room.getNumberOfPlayers() >= 2) {
-            return "first player can start the game";
         }
-        return "waiting for other players to join";
+        return null;
     }
 
     public String checkNumPlayer(int numPlayer) {
