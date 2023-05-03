@@ -1,35 +1,34 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.commons.Message;
+
 public class ServerParser {
 
 
-    public String getMessageCategory(String message) {
-        String category = null;
-        if (message.startsWith("username")) {
-            return "username";
-        } else if (message.startsWith("age")) {
-            return "age";
-        } else if (message.startsWith("firstGame")) {
-            return "firstGame";
-        } else if (message.startsWith("numPlayer")) {
-            return "numPlayer";
-        }
-        return null;
+    public String getMessageCategory(Message message) {
+        String category = message.getCategory();
+        return switch (category) {
+            case "username" -> "username";
+            case "age" -> "age";
+            case "firstGame" -> "firstGame";
+            case "numPlayer" -> "numPlayer";
+            default -> null;
+        };
     }
 
-    public String getUsername(String message) {
-        return message.substring(8);
+    public String getUsername(Message message) {
+        return message.getUsername();
     }
 
-    public int getAge(String message) {
-        return Integer.parseInt(message.substring(3));
+    public int getAge(Message message) {
+        return message.getAge();
     }
 
-    public boolean getFirstGame(String message) {
-        return Boolean.parseBoolean(message.substring(9));
+    public boolean getFirstGame(Message message) {
+        return message.getFirstGame();
     }
 
-    public int getNumPlayer(String message) {
-        return Integer.parseInt(message.substring(9));
+    public int getNumPlayer(Message message) {
+        return message.getNumPlayer();
     }
 }

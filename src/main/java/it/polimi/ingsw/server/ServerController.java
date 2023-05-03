@@ -50,7 +50,7 @@ public class ServerController {
             //TODO: gestire l'eccezione
             throw new FullRoomException("Room is full");
         }
-        return null;
+        return "ok";
     }
 
     public String checkRoom() {
@@ -68,6 +68,7 @@ public class ServerController {
         if (numPlayer > 4) {
             return "retry";
         }
+        room.setNumberOfPlayers(numPlayer);
         return "ok";
     }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.commons.CommunicationInterface;
+import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.GameModel;
 import it.polimi.ingsw.utils.FullRoomException;
 
@@ -87,38 +88,43 @@ public class Server implements ServerInterface, CommunicationInterface {
     }
 
     @Override
-    public String sendMessage(String clientMessage) throws FullRoomException {
+    public String sendMessage(Message clientMessage) throws FullRoomException {
         String category = parser.getMessageCategory(clientMessage);
 
-        if (category.equals("username")) {
-            // TODO: parse the JSON, this is just a mock
-            // Maybe we should use different methods for different requests
-            String username = parser.getUsername(clientMessage);
-            boolean checking = controller.checkUsername(username);
-            if (checking) {
-                controller.addPlayerByUsername(username);
-                System.out.println(username + " requested login.");
-                return "Welcome, " + username + "!\n"; // This should be a JSON that the view will parse and display
-            } else {
-                //TODO: actual retry
-                return "retry";
+        switch (category) {
+            case "username" -> {
+                // TODO: parse the JSON, this is just a mock
+                // Maybe we should use different methods for different requests
+                String username = parser.getUsername(clientMessage);
+                boolean checking = controller.checkUsername(username);
+                if (checking) {
+                    controller.addPlayerByUsername(username);
+                    System.out.println(username + " requested login.");
+                    return "Welcome, " + username + "!\n"; // This should be a JSON that the view will parse and display
+                } else {
+                    //TODO: actual retry
+                    return "retry";
+                }
             }
-
-        } else if (category.equals("age")) {
-            int age = parser.getAge(clientMessage);
-            controller.addPlayerAge(age);
-            return age >= 8 ? "ok" : "no";
-        } else if (category.equals("firstGame")) {
-            boolean firstGame = parser.getFirstGame(clientMessage);
-            controller.addPlayerFirstGame(firstGame);
+            case "age" -> {
+                int age = parser.getAge(clientMessage);
+                controller.addPlayerAge(age);
+                return age >= 8 ? "ok" : "no";
+            }
+            case "firstGame" -> {
+                boolean firstGame = parser.getFirstGame(clientMessage);
+                controller.addPlayerFirstGame(firstGame);
 //            System.out.println("First game: " + firstGame);
-            return controller.startRoom(); // if the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
-        } else if (category.equals("numPlayer")) {
-            int numPlayer = parser.getNumPlayer(clientMessage);
-            return controller.checkNumPlayer(numPlayer);
-        } else {
-            System.out.println(clientMessage + " requested unknown");
-            return "Unknown request";
+                return controller.startRoom(); // if the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
+            }
+            case "numPlayer" -> {
+                int numPlayer = parser.getNumPlayer(clientMessage);
+                return controller.checkNumPlayer(numPlayer);
+            }
+            default -> {
+                System.out.println(clientMessage + " requested unknown");
+                return "Unknown request";
+            }
         }
     }
 }

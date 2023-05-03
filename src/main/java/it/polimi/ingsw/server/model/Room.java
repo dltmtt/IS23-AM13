@@ -27,8 +27,13 @@ public class Room {
         return players.size();
     }
 
+    public void setNumberOfPlayers(int maxPlayers) {
+        Room.maxPlayers = maxPlayers;
+        Room.minPlayers = 2;
+    }
+
     public boolean full() {
-        return players.size() >= minPlayers;
+        return players.size() == maxPlayers;
     }
 
     public int getRoomId() {

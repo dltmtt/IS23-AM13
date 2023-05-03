@@ -13,5 +13,5 @@ public interface CommunicationInterface extends Remote {
     int PORT_SOCKET = 888;
     String HOSTNAME = "localhost"; // Shared by RMI and socket
 
-    String sendMessage(String clientMessage) throws RemoteException, FullRoomException;
+    String sendMessage(Message message) throws RemoteException, FullRoomException;
 }
