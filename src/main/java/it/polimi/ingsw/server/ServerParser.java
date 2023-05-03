@@ -5,6 +5,10 @@ import it.polimi.ingsw.commons.Message;
 public class ServerParser {
 
 
+    public Message sendMessage(String message) {
+        return new Message(message);
+    }
+
     public String getMessageCategory(Message message) {
         String category = message.getCategory();
         return switch (category) {

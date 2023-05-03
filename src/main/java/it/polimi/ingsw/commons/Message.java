@@ -24,6 +24,17 @@ public class Message implements Serializable {
         }
     }
 
+    public Message(String singleMessage) {
+        gson = new JSONObject();
+        String path = "src/main/java/it/polimi/ingsw/commons/Message.json";
+        gson.put("message", singleMessage);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getCategory() {
         return (String) gson.get("category");
     }
@@ -42,6 +53,10 @@ public class Message implements Serializable {
 
     public int getNumPlayer() {
         return (int) gson.get("numPlayer");
+    }
+
+    public String getMessage() {
+        return (String) gson.get("message");
     }
 
 

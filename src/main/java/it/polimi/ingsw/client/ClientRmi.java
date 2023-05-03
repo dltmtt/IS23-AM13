@@ -74,8 +74,7 @@ public class ClientRmi extends Client {
         int age = 0;
         boolean firstGame;
         try {
-            message = new Message("username", username, 0, false, 0);
-            String responseMessage = server.sendMessage(message); // This message will be a JSON
+            String responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username))); // This message will be a JSON
             // TODO: parse the JSON (now it's plain text)
             if (responseMessage.startsWith("Welcome")) {
                 age = controller.showAgeScreen();
@@ -84,19 +83,19 @@ public class ClientRmi extends Client {
 //                System.out.println("Retry"); // TODO: actually retry
             }
             gameView.showMessage(responseMessage);
-            String ageResponse = server.sendMessage(new Message("age", null, age, false, 0));
+            String ageResponse = parser.getMessage(server.sendMessage(parser.senAge(age)));
             if (!ageResponse.startsWith("ok")) {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
             firstGame = controller.showFirstGamescreen();
-            String nextStep = server.sendMessage(new Message("firstGame", null, 0, firstGame, 0));
+            String nextStep = parser.getMessage(server.sendMessage(parser.sendfirstGame(firstGame)));
             if (nextStep.startsWith("FirstPlayer")) {
                 int numPlayer = controller.showNumberOfPlayersScreen();
-                String numPlayerResponse = server.sendMessage(new Message("numPlayer", null, numPlayer, false, 0));
+                String numPlayerResponse = parser.getMessage(server.sendMessage(parser.sendNumPlayer(numPlayer)));
                 while (numPlayerResponse.startsWith("retry")) {
                     System.out.println("Illegal number of players. Retry.");
                     numPlayer = controller.showNumberOfPlayersScreen();
-                    numPlayerResponse = server.sendMessage(new Message("numPlayer", null, numPlayer, false, 0));
+                    numPlayerResponse = parser.getMessage(server.sendMessage(parser.sendNumPlayer(numPlayer)));
                 }
                 //end of login
             }
