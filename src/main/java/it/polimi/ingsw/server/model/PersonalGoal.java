@@ -10,6 +10,7 @@ public class PersonalGoal {
     private final HashMap<Coordinates, Color> personalGoalCard;
     private int currentReached;
     private int counter;
+    private final int index;
 
     /**
      * Creates a personal goal card.
@@ -19,11 +20,16 @@ public class PersonalGoal {
      * @param loadedCoordinates the coordinates of the spaces to fill, read from a file
      * @param loadedColors      the colors of the spaces to fill, read from a file
      */
-    public PersonalGoal(List<Coordinates> loadedCoordinates, List<Color> loadedColors) {
+    public PersonalGoal(List<Coordinates> loadedCoordinates, List<Color> loadedColors, int index) {
         personalGoalCard = new HashMap<>();
         for (int i = 0; i < Math.min(loadedCoordinates.size(), loadedColors.size()); i++) {
             personalGoalCard.put(loadedCoordinates.get(i), loadedColors.get(i));
         }
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public Color getColor(Coordinates key) {
@@ -74,15 +80,16 @@ public class PersonalGoal {
         }
         return null;
     }
+
     /**
      * Prints the personal goal card.
      * TODO: move this method to the Client package
      */
 
-    public void cli_print(){
+    public void cli_print() {
 
         StringBuilder cell;
-        for (int row = Bookshelf.getRows()-1; row >= 0; row--) {
+        for (int row = Bookshelf.getRows() - 1; row >= 0; row--) {
             cell = new StringBuilder();
             for (int column = 0; column < Bookshelf.getColumns(); column++) {
                 cell.append("[");
@@ -92,7 +99,7 @@ public class PersonalGoal {
                             .append("⏹")
                             .append(Color.RESET_COLOR);
                 } else {
-                    cell.append(Color.toANSItext(personalGoalCard.get(new Coordinates(row,column)), false))
+                    cell.append(Color.toANSItext(personalGoalCard.get(new Coordinates(row, column)), false))
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
                             .append("⏹")
                             .append(Color.RESET_COLOR);

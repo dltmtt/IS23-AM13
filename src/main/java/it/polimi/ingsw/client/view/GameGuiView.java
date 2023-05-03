@@ -1,10 +1,5 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.Coordinates;
-
-import java.util.HashMap;
-
 public class GameGuiView extends GameView {
     @Override
     public String readUsername() {
@@ -45,7 +40,7 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public void showPersonalCard(HashMap<Coordinates, Color> card) {
+    public void showPersonalCard(int card) {
         System.out.println("showPersonalCard() not implemented yet in " + this.getClass().getName());
     }
 }

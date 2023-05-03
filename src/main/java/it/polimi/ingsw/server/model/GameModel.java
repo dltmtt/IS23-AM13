@@ -14,7 +14,7 @@ public class GameModel {
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
     private final Board livingRoom;
-    private List<PersonalGoal> personalGoalDeck;
+    private final List<PersonalGoal> personalGoalDeck;
     private List<CommonGoal> commonGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
@@ -139,7 +139,10 @@ public class GameModel {
      * that players have to replicate in their bookshelves to get points.
      */
     public void fillPersonalGoalDeck() throws IOException, ParseException {
-        personalGoalDeck = SettingLoader.personalGoalLoader();
+//        personalGoalDeck = SettingLoader.personalGoalLoader();
+        for (int i = 0; i < 12; i++) {
+            personalGoalDeck.add(SettingLoader.loadSpecificPersonalGoal(i));
+        }
     }
 
     /**

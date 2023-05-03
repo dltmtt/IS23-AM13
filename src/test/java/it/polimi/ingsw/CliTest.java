@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.view.BookshelfView;
 import it.polimi.ingsw.client.view.CommonGoalView;
-import it.polimi.ingsw.client.view.PersonalGoalView;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.SettingLoader;
@@ -32,8 +31,8 @@ public class CliTest {
         game.start();
         PersonalGoal personalGoal =
                 game.getCurrentPlayer().getPersonalGoal();
-        PersonalGoalView personalGoalview = new PersonalGoalView(personalGoal.getPersonalGoalCard());
-        personalGoalview.printLayout();
+//        PersonalGoalView personalGoalview = new PersonalGoalView(personalGoal.getPersonalGoalCard());
+//        personalGoalview.printLayout();
     }
 
     @Test

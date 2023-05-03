@@ -26,6 +26,11 @@ public class Corners extends Layout {
                 "corners of the bookshelf. ";
     }
 
+    @Override
+    public String getName() {
+        return "corners";
+    }
+
     /**
      * Checks if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum.
      *

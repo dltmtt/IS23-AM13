@@ -31,6 +31,11 @@ public class Group extends Layout {
         this.size = size;
     }
 
+    @Override
+    public String getName() {
+        return "Group";
+    }
+
     /**
      * Checks if the layout is valid for the bookshelf.
      *

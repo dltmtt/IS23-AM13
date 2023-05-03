@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.GameController;
-import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.Coordinates;
+import it.polimi.ingsw.utils.SettingLoader;
+import org.json.simple.parser.ParseException;
 
-import java.util.HashMap;
+import java.io.IOException;
 
 public abstract class GameView {
     protected final String insertUsernamePrompt = "Please, insert your username: ";
@@ -14,6 +14,11 @@ public abstract class GameView {
     protected final String welcomeMessage = "Welcome to My Shelfie!\n";
     protected final String insertNumberOfPlayersPrompt = "Please, insert the number of players you want to play with: ";
     GameController gameController;
+
+    public GameView() {
+        SettingLoader.loadBookshelfSettings();
+    }
+
 
     public abstract String readUsername();
 
@@ -33,5 +38,5 @@ public abstract class GameView {
 
     public abstract int promptNumberOfPlayers();
 
-    public abstract void showPersonalCard(HashMap<Coordinates, Color> card);
+    public abstract void showPersonalCard(int card) throws IOException, ParseException;
 }

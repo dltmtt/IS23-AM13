@@ -2,11 +2,8 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Item;
-import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.Coordinates;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Optional;
 
 public class ClientParser implements Serializable {
@@ -47,7 +44,7 @@ public class ClientParser implements Serializable {
         return new Message("startGame");
     }
 
-    public HashMap<Coordinates, Color> getPersonalGoal(Message message) {
+    public int getPersonalGoal(Message message) {
         return message.getPersonalGoal();
     }
 

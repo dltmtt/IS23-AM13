@@ -3,7 +3,6 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.commons.CommunicationInterface;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.socket.MultiEchoServer;
 import it.polimi.ingsw.utils.FullRoomException;
 
 import java.io.BufferedReader;
@@ -24,7 +23,7 @@ import static it.polimi.ingsw.utils.CliUtilities.RESET;
 public class Server implements ServerInterface, CommunicationInterface {
     private static final String SHUTDOWN_COMMAND = "exit";
     private final ServerRmi rmiServer;
-    private final MultiEchoServer socketServer;
+    //    private final MultiEchoServer socketServer;
     private final ServerParser parser = new ServerParser();
     private final ServerController controller = new ServerController();
     private GameModel gameModel = null;
@@ -33,7 +32,7 @@ public class Server implements ServerInterface, CommunicationInterface {
 //        this.gameModel = new GameModel();
         try {
             this.rmiServer = new ServerRmi(this.gameModel);
-            this.socketServer = new MultiEchoServer();
+//            this.socketServer = new MultiEchoServer();
         } catch (RemoteException e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to create RMI server.");
@@ -72,7 +71,7 @@ public class Server implements ServerInterface, CommunicationInterface {
     public void start() {
         try {
             rmiServer.start();
-            socketServer.start();
+//            socketServer.start();
         } catch (RemoteException e) {
             e.printStackTrace();
             System.exit(1);
@@ -85,7 +84,7 @@ public class Server implements ServerInterface, CommunicationInterface {
         System.out.println("Shutting down...");
         try {
             rmiServer.stop();
-            socketServer.stop();
+//            socketServer.stop();
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
         }

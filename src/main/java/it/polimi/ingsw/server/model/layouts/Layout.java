@@ -14,6 +14,7 @@ public abstract class Layout {
     // Minimum/maximum number of different colors in a layout
     private final int minDifferent;
     private final int maxDifferent;
+    public String name;
     public String description;
 
     /**
@@ -54,6 +55,8 @@ public abstract class Layout {
         this.minDifferent = minDifferent;
         this.maxDifferent = maxDifferent;
     }
+
+    public abstract String getName();
 
     /**
      * Checks if the layout is valid for the bookshelf.

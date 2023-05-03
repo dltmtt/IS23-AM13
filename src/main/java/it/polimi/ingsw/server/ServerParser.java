@@ -4,14 +4,13 @@ import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
-import it.polimi.ingsw.server.model.PersonalGoal;
 
 import java.util.List;
 
 public class ServerParser {
 
 
-    public Message sendStartGame(PersonalGoal personalGoalCard, List<CommonGoal> commonGoalcard, Bookshelf bookshelf, Board livingroom) {
+    public Message sendStartGame(int personalGoalCard, List<CommonGoal> commonGoalcard, Bookshelf bookshelf, Board livingroom) {
         return new Message(personalGoalCard, commonGoalcard, bookshelf, livingroom);
     }
 

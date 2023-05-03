@@ -15,6 +15,11 @@ public class ItemsPerColor extends Layout {
         return super.getInfo() + " -type=ItemsPerColor";
     }
 
+    @Override
+    public String getName() {
+        return "itemsPerColor";
+    }
+
     /**
      * Checks if there are at least the minimum number of items of any color in the bookshelf.
      *

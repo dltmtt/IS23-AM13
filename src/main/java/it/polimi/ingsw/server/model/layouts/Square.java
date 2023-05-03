@@ -40,6 +40,11 @@ public class Square extends Layout {
         }
     }
 
+    @Override
+    public String getName() {
+        return "Square";
+    }
+
     /**
      * Checks if the Square layout is valid in the bookshelf.
      *

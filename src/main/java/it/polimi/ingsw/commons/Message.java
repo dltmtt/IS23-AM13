@@ -1,14 +1,14 @@
 package it.polimi.ingsw.commons;
 
-import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.Coordinates;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.CommonGoal;
+import it.polimi.ingsw.server.model.Item;
 import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ public class Message implements Serializable {
      */
     public Message(String category, String username, int age, boolean firstgame, int numPlayer) {
         gson = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/Message.json";
+        String path = "src/main/java/it/polimi/ingsw/commons/LoginMessage.json";
         gson.put("category", category);
         gson.put("argument", username);
         gson.put("value", age);
@@ -49,7 +49,7 @@ public class Message implements Serializable {
 
     public Message(String singleMessage) {
         gson = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/Message.json";
+        String path = "src/main/java/it/polimi/ingsw/commons/SingleMessage.json";
         gson.put("category", singleMessage);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
@@ -60,9 +60,14 @@ public class Message implements Serializable {
 
     public Message(int posix) {
         gson = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/Message.json";
+        String path = "src/main/java/it/polimi/ingsw/commons/PosixMessage.json";
         gson.put("category", "index");
         gson.put("posix", posix);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -73,17 +78,23 @@ public class Message implements Serializable {
      * @param bookshelf      bookshelf of the player
      * @param board          board of the game
      */
-    public Message(PersonalGoal personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
+    public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
         gson = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/Message.json";
+        String path = "src/main/java/it/polimi/ingsw/commons/GameMessage.json";
+
         gson.put("category", "startGame");
-        HashMap<Coordinates, Color> map = new HashMap<>(personalGoal.getPersonalGoalCard());
-        gson.put("map", map);
+        gson.put("personal_goal", personalGoal);
+
         for (int i = 0; i < commonGoalList.size(); i++) {
-            gson.put("commonGoalLayout" + i, commonGoalList.get(i).getLayout());
+            gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
         }
-        gson.put("bookshelf", bookshelf.getItems());
-        gson.put("board", board.getBoardMatrix());
+//        gson.put("bookshelf", bookshelf.getItems());
+//        gson.put("board", board.getBoardMatrix());
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -116,8 +127,8 @@ public class Message implements Serializable {
     }
 
 
-    public HashMap<Coordinates, Color> getPersonalGoal() {
-        return (HashMap<Coordinates, Color>) gson.get("map");
+    public int getPersonalGoal() {
+        return (int) gson.get("personal_goal");
     }
 
     public String getCommonGoalLayout(int i) {

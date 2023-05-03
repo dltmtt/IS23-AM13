@@ -3,17 +3,22 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
+import it.polimi.ingsw.utils.SettingLoader;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class PersonalGoalView {
     private final HashMap<Coordinates, Color> personalGoalCard;
 
-    public PersonalGoalView(HashMap<Coordinates, Color> personalGoal) {
-        this.personalGoalCard = personalGoal;
+    public PersonalGoalView(int index) throws IOException, ParseException {
+        personalGoalCard = SettingLoader.loadSpecificPersonalGoal(index).getPersonalGoalCard();
+
     }
 
     public void printLayout() {
+        System.out.println("This is your Personal Goal Card");
         StringBuilder cell;
         for (int row = Bookshelf.getRows() - 1; row >= 0; row--) {
             cell = new StringBuilder();

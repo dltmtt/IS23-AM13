@@ -68,6 +68,11 @@ public class Stair extends Layout {
         return true;
     }
 
+    @Override
+    public String getName() {
+        return "stair";
+    }
+
     /**
      * Checks if there's a stair.
      *

@@ -67,8 +67,8 @@ public class ServerController {
         return "ok";
     }
 
-    public PersonalGoal getPersonalGoalCard(int index) {
-        return room.getListOfPlayers().get(index - 1).getPersonalGoal();
+    public int getPersonalGoalCard(int index) {
+        return room.getListOfPlayers().get(index - 1).getPersonalGoal().getIndex();
     }
 
     public List<CommonGoal> getCommonGoals() {

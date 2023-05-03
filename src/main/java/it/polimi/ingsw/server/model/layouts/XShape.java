@@ -33,6 +33,11 @@ public class XShape extends Layout {
         super(3, 3, minDifferent, maxDifferent);
     }
 
+    @Override
+    public String getName() {
+        return "xshape";
+    }
+
     /**
      * Checks if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum.
      *

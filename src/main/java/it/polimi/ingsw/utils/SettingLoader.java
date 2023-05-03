@@ -63,7 +63,7 @@ public class SettingLoader {
             loadedColors.add(Color.valueOf(cell.get("color").toString()));
         }
 
-        return new PersonalGoal(loadedCoordinates, loadedColors);
+        return new PersonalGoal(loadedCoordinates, loadedColors, randomPersonalGoalIndex);
     }
 
     public static List<PersonalGoal> personalGoalLoader() throws IOException, ParseException {
@@ -84,7 +84,7 @@ public class SettingLoader {
                 loadedCoordinates.add(new Coordinates(parseInt(cell.get("x").toString()), parseInt(cell.get("y").toString())));
                 loadedColors.add(Color.valueOf(cell.get("color").toString()));
             }
-            loadedPersonalGoals.add(new PersonalGoal(loadedCoordinates, loadedColors));
+            loadedPersonalGoals.add(new PersonalGoal(loadedCoordinates, loadedColors, 0));
         }
 
         //giving a big 'ol shuffle to the personal goal deck

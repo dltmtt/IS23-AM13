@@ -5,7 +5,9 @@ import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.commons.CommunicationInterface;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.utils.FullRoomException;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -89,7 +91,7 @@ public class ClientRmi extends Client {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
             firstGame = controller.showFirstGamescreen();
-            int nextStep = parser.getPosix(server.sendMessage(parser.sendfirstGame(firstGame)));
+            int nextStep = parser.getPosix(server.sendMessage(parser.sendFirstGame(firstGame)));
             if (nextStep == 1) {
                 int numPlayer = controller.showNumberOfPlayersScreen();
                 String numPlayerResponse = parser.getMessage(server.sendMessage(parser.sendNumPlayer(numPlayer)));
@@ -105,26 +107,24 @@ public class ClientRmi extends Client {
             waitingRoom();
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
-        } catch (FullRoomException e) {
+        } catch (FullRoomException | IOException | ParseException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public void waitingRoom() throws FullRoomException, RemoteException {
+    public void waitingRoom() throws FullRoomException, IOException, ParseException {
         System.out.println("Waiting for other players to join...");
         String response = parser.getMessage(server.sendMessage(parser.sendReady()));
-        String myGame = parser.getMessage(server.sendGame(myPosix));
-        System.out.println("Your game is " + myGame);
         while (response == null) {
             response = parser.getMessage(server.sendMessage(parser.sendReady()));
         }
         startGame();
     }
 
-    public void startGame() throws FullRoomException, RemoteException {
-
-//        controller.showPersonalGoal(parser.getPersonalGoal(myGame));
+    public void startGame() throws FullRoomException, IOException, ParseException {
+        Message myGame = server.sendGame(myPosix);
+        controller.showPersonalGoal(parser.getPersonalGoal(myGame));
 //        System.out.println("Game started!");
 
     }

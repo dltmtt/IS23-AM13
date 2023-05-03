@@ -28,6 +28,11 @@ public class FullLine extends Layout {
         this.horizontal = horizontal;
     }
 
+    @Override
+    public String getName() {
+        return "fullLine";
+    }
+
     /**
      * Checks if the layout is satisfied in the bookshelf
      *

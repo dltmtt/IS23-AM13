@@ -1,1 +1,5 @@
-{"category":"startGame","personal_goal":0,"commonGoalLayout 0":"xshape"}
+{
+  "category": "startGame",
+  "personal_goal": 9,
+  "commonGoalLayout 0": "fullLine"
+}

@@ -2,10 +2,9 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.Coordinates;
+import org.json.simple.parser.ParseException;
 
-import java.util.HashMap;
+import java.io.IOException;
 
 public class GameController {
     private final GameModel gameModel;
@@ -43,7 +42,7 @@ public class GameController {
         return gameView.promptNumberOfPlayers();
     }
 
-    public void showPersonalGoal(HashMap<Coordinates, Color> card) {
+    public void showPersonalGoal(int card) throws IOException, ParseException {
         gameView.showPersonalCard(card);
     }
 }

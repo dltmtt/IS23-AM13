@@ -19,6 +19,11 @@ public class Diagonal extends Layout {
         super(dimension, dimension, minDifferent, maxDifferent);
     }
 
+    @Override
+    public String getName() {
+        return "diagonal";
+    }
+
     /**
      * Checks if there are 5 cards of the same color in a diagonal.
      *
