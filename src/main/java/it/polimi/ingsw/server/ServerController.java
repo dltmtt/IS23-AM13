@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.model.GameModel;
-import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.Room;
+import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.FullRoomException;
 
 import java.util.ArrayList;
@@ -35,14 +33,13 @@ public class ServerController {
         players.get(players.size() - 1).setFirstGame(firstGame);
     }
 
-    public String startRoom() throws FullRoomException {
+    public int startRoom() throws FullRoomException {
         if (room == null) {
             Random random = new Random();
             int idRoom = random.nextInt(1000);
             room = new Room(idRoom);
             players.get(players.size() - 1).setIsFirstPlayer(true);
             room.addPlayer(players.get(players.size() - 1));
-            return "FirstPlayer";
         } else if (!room.full()) {
             players.get(players.size() - 1).setIsFirstPlayer(false);
             room.addPlayer(players.get(players.size() - 1));
@@ -50,7 +47,7 @@ public class ServerController {
             //TODO: gestire l'eccezione
             throw new FullRoomException("Room is full");
         }
-        return "ok";
+        return room.getListOfPlayers().size();
     }
 
     public String checkRoom() {
@@ -70,5 +67,20 @@ public class ServerController {
         return "ok";
     }
 
+    public PersonalGoal getPersonalGoalCard(int index) {
+        return room.getListOfPlayers().get(index - 1).getPersonalGoal();
+    }
+
+    public List<CommonGoal> getCommonGoals() {
+        return Player.getCommonGoals();
+    }
+
+    public Bookshelf getBookshelf(int index) {
+        return room.getListOfPlayers().get(index - 1).getBookshelf();
+    }
+
+    public Board getBoard() {
+        return gameModel.getLivingRoom();
+    }
 
 }

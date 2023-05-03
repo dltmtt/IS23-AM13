@@ -1,6 +1,10 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.GameController;
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
+
+import java.util.HashMap;
 
 public abstract class GameView {
     protected final String insertUsernamePrompt = "Please, insert your username: ";
@@ -28,4 +32,6 @@ public abstract class GameView {
     public abstract boolean promptFirstGame();
 
     public abstract int promptNumberOfPlayers();
+
+    public abstract void showPersonalCard(HashMap<Coordinates, Color> card);
 }

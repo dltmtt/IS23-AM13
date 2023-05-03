@@ -90,7 +90,6 @@ public class Server implements ServerInterface, CommunicationInterface {
     @Override
     public Message sendMessage(Message clientMessage) throws FullRoomException {
         String category = parser.getMessageCategory(clientMessage);
-
         switch (category) {
             case "username" -> {
                 // TODO: parse the JSON, this is just a mock
@@ -115,7 +114,7 @@ public class Server implements ServerInterface, CommunicationInterface {
                 boolean firstGame = parser.getFirstGame(clientMessage);
                 controller.addPlayerFirstGame(firstGame);
 //            System.out.println("First game: " + firstGame);
-                return parser.sendMessage(controller.startRoom()); // if the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
+                return parser.sendPosix(controller.startRoom()); // if the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
             }
             case "numPlayer" -> {
                 int numPlayer = parser.getNumPlayer(clientMessage);
@@ -124,10 +123,19 @@ public class Server implements ServerInterface, CommunicationInterface {
             case "ready" -> {
                 return parser.sendMessage(controller.checkRoom());
             }
+            case "index" -> {
+                int posix = parser.getPosix(clientMessage);
+                return sendGame(posix);
+            }
             default -> {
                 System.out.println(clientMessage + " requested unknown");
                 return parser.sendMessage("Unknown request.");
             }
         }
+    }
+
+    public Message sendGame(int posix) {
+        System.out.println("Sending game to " + posix);
+        return parser.sendStartGame(controller.getPersonalGoalCard(posix), controller.getCommonGoals(), controller.getBookshelf(posix), controller.getBoard());
     }
 }

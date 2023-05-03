@@ -2,6 +2,10 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
+
+import java.util.HashMap;
 
 public class GameController {
     private final GameModel gameModel;
@@ -37,5 +41,9 @@ public class GameController {
 
     public int showNumberOfPlayersScreen() {
         return gameView.promptNumberOfPlayers();
+    }
+
+    public void showPersonalGoal(HashMap<Coordinates, Color> card) {
+        gameView.showPersonalCard(card);
     }
 }

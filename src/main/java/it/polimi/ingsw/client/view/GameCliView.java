@@ -1,10 +1,13 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.utils.CliUtilities;
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class GameCliView extends GameView {
@@ -110,6 +113,12 @@ public class GameCliView extends GameView {
     public int promptNumberOfPlayers() {
         showMessage(insertNumberOfPlayersPrompt);
         return readNumberOfPlayers();
+    }
+
+    @Override
+    public void showPersonalCard(HashMap<Coordinates, Color> card) {
+        PersonalGoalView personalGoalView = new PersonalGoalView(card);
+        personalGoalView.printLayout();
     }
 
     @Override

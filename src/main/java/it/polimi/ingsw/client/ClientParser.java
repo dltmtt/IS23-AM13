@@ -1,8 +1,15 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
+import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
 
-public class ClientParser {
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Optional;
+
+public class ClientParser implements Serializable {
 
     Message sendUsername(String username) {
         return new Message("username", username, 0, false, 0);
@@ -21,11 +28,39 @@ public class ClientParser {
     }
 
     String getMessage(Message message) {
-        return message.getMessage();
+        return message.getCategory();
+    }
+
+    Message sendPosix(int posix) {
+        return new Message(posix);
+    }
+
+    int getPosix(Message message) {
+        return message.getPosix();
     }
 
     public Message sendReady() {
         return new Message("ready", "", 0, false, 0);
+    }
+
+    public Message game() {
+        return new Message("startGame");
+    }
+
+    public HashMap<Coordinates, Color> getPersonalGoal(Message message) {
+        return message.getPersonalGoal();
+    }
+
+    public String getCommonGoalLayout(Message message, int i) {
+        return message.getCommonGoalLayout(i);
+    }
+
+    public Optional<Item>[][] getBookshelf(Message message) {
+        return message.getBookshelf();
+    }
+
+    public Item[][] getBoard(Message message) {
+        return message.getBoard();
     }
 
 

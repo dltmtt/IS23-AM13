@@ -20,6 +20,7 @@ public class ClientRmi extends Client {
     public Thread loginThread;
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
     GameController controller = new GameController(null, gameView, this);
+    int myPosix;
     private Registry registry;
     private CommunicationInterface server;
     private Message message;
@@ -88,8 +89,8 @@ public class ClientRmi extends Client {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
             firstGame = controller.showFirstGamescreen();
-            String nextStep = parser.getMessage(server.sendMessage(parser.sendfirstGame(firstGame)));
-            if (nextStep.startsWith("FirstPlayer")) {
+            int nextStep = parser.getPosix(server.sendMessage(parser.sendfirstGame(firstGame)));
+            if (nextStep == 1) {
                 int numPlayer = controller.showNumberOfPlayersScreen();
                 String numPlayerResponse = parser.getMessage(server.sendMessage(parser.sendNumPlayer(numPlayer)));
                 while (numPlayerResponse.startsWith("retry")) {
@@ -99,6 +100,8 @@ public class ClientRmi extends Client {
                 }
                 //end of login
             }
+            myPosix = nextStep;
+            System.out.println("Your position is " + myPosix);
             waitingRoom();
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
@@ -111,14 +114,19 @@ public class ClientRmi extends Client {
     public void waitingRoom() throws FullRoomException, RemoteException {
         System.out.println("Waiting for other players to join...");
         String response = parser.getMessage(server.sendMessage(parser.sendReady()));
+        String myGame = parser.getMessage(server.sendGame(myPosix));
+        System.out.println("Your game is " + myGame);
         while (response == null) {
             response = parser.getMessage(server.sendMessage(parser.sendReady()));
         }
         startGame();
     }
 
-    public void startGame() {
-        System.out.println("Game started!");
+    public void startGame() throws FullRoomException, RemoteException {
+
+//        controller.showPersonalGoal(parser.getPersonalGoal(myGame));
+//        System.out.println("Game started!");
+
     }
 
     @Override

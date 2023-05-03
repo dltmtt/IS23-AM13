@@ -39,6 +39,11 @@ public class Player {
         Player.board = board;
     }
 
+    //metodo temporaneo
+    public static List<CommonGoal> getCommonGoals() {
+        return commonGoals;
+    }
+
     public void setIsFirstPlayer(boolean isFirstPlayer) {
         this.isFirstPlayer = isFirstPlayer;
     }
@@ -113,11 +118,6 @@ public class Player {
     public void setCommonGoalPoints(CommonGoal commonGoal) {
 //        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
         commonGoalPoints.add(commonGoal.getScoring());
-    }
-
-    //metodo temporaneo
-    public List<CommonGoal> getCommonGoals() {
-        return commonGoals;
     }
 
     /**

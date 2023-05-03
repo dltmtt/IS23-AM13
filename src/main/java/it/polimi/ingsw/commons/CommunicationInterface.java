@@ -14,4 +14,6 @@ public interface CommunicationInterface extends Remote {
     String HOSTNAME = "localhost"; // Shared by RMI and socket
 
     Message sendMessage(Message message) throws RemoteException, FullRoomException;
+
+    Message sendGame(int posix) throws RemoteException;
 }
