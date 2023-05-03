@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static it.polimi.ingsw.commons.CommunicationInterface.PORT_SOCKET;
+
 public class MultiEchoServer implements ServerInterface {
     public List<EchoServerClientHandler> clientHandlers;
 
@@ -28,26 +30,12 @@ public class MultiEchoServer implements ServerInterface {
     public ExecutorService executor;
 
 
-    public MultiEchoServer() {
+    public MultiEchoServer() throws IOException {
         clientHandlers = new ArrayList<>();
         connectedPlayers = new HashMap<>();
         executor = Executors.newCachedThreadPool();
-        ss = null;
-        try {
-            // Create server Socket
-            ss = new ServerSocket(888);
-        } catch (IOException e) {
-            try {
-                ss.close();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            System.out.println("Could not listen on port 888");
-            System.exit(-1);
-        }
-        System.out.println("Listening for a connection");
-
-
+        ss = new ServerSocket(PORT_SOCKET);
+        System.out.println("Socket server configuration completed.");
     }
 
     @Override
