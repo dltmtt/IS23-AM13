@@ -13,7 +13,7 @@ import static it.polimi.ingsw.commons.CommunicationInterface.HOSTNAME;
 import static it.polimi.ingsw.commons.CommunicationInterface.PORT_SOCKET;
 
 public class ClientSocket extends Client {
-    public Socket s = null;
+    public Socket s;
     public DataOutputStream dos;
     public BufferedReader br, kb;
     public Thread listenThread;
@@ -24,7 +24,7 @@ public class ClientSocket extends Client {
      * Constructor to create DataOutputStream and BufferedReader
      */
     public ClientSocket() {
-        // Create client socket
+        // Create the client socket
         try {
             s = new Socket(HOSTNAME, PORT_SOCKET);
         } catch (IOException e) {
@@ -32,7 +32,7 @@ public class ClientSocket extends Client {
             throw new RuntimeException(e);
         }
 
-        // to send data to the server
+        // this is to send data to the server
         try {
             dos = new DataOutputStream(s.getOutputStream());
         } catch (IOException e) {
@@ -40,7 +40,7 @@ public class ClientSocket extends Client {
             throw new RuntimeException(e);
         }
 
-        // to read data coming from the server
+        // this is used to read data coming from the server
         try {
             br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         } catch (IOException e) {
@@ -50,7 +50,7 @@ public class ClientSocket extends Client {
         // to read data from the keyboard
         kb = new BufferedReader(new InputStreamReader(System.in));
 
-        //Listen for messages from the server
+        //Listen for messages coming from the server
         listenThread = new Thread(() ->
                 // receive from the server
         {
@@ -68,7 +68,7 @@ public class ClientSocket extends Client {
         sendThread = new Thread(() ->
                 //sender thread
         {
-            String str;
+            //  String str;
             while (true) {
                 //send keyboard input to the server
                 try {
@@ -97,7 +97,7 @@ public class ClientSocket extends Client {
                 dos.flush();
                 dos.writeBytes(str + "\n");
             } catch (IOException e) {
-                System.err.println("server disconnected, unable to send messages");
+                System.err.println("Server disconnected, unable to send messages");
             }
         } else {
             close();
@@ -107,7 +107,7 @@ public class ClientSocket extends Client {
     public void sendInput() throws IOException {
         String str;
         if (!(str = kb.readLine()).equals("exit")) {
-            // send to the server
+            // send the input to the server
             dos.writeBytes(str + "\n");
         } else {
             close();
@@ -115,7 +115,7 @@ public class ClientSocket extends Client {
     }
 
     public void close() {
-        // close connection.
+        // close connection
         try {
             dos.close();
             br.close();
