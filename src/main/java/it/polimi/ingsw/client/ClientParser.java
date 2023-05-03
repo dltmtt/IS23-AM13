@@ -15,11 +15,11 @@ public class ClientParser implements Serializable {
         return new Message("username", username, 0, false, 0);
     }
 
-    Message senAge(int age) {
+    Message sendAge(int age) {
         return new Message("age", "", age, false, 0);
     }
 
-    Message sendfirstGame(boolean firstGame) {
+    Message sendFirstGame(boolean firstGame) {
         return new Message("firstGame", "", 0, firstGame, 0);
     }
 

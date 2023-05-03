@@ -84,7 +84,7 @@ public class ClientRmi extends Client {
 //                System.out.println("Retry"); // TODO: actually retry
             }
             gameView.showMessage(responseMessage);
-            String ageResponse = parser.getMessage(server.sendMessage(parser.senAge(age)));
+            String ageResponse = parser.getMessage(server.sendMessage(parser.sendAge(age)));
             if (!ageResponse.startsWith("ok")) {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
