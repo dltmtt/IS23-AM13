@@ -3,8 +3,6 @@ package it.polimi.ingsw.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.utils.CliUtilities.GRAY;
@@ -18,7 +16,8 @@ import static it.polimi.ingsw.utils.CliUtilities.RESET;
  * The server can be stopped by typing {@value #SHUTDOWN_COMMAND} in the console.
  * This will stop both the RMI and the socket servers.
  */
-public class Server implements CommunicationInterface {
+public class Server implements CommunicationInterface, ServerInterface {
+
     private static final String SHUTDOWN_COMMAND = "exit";
     private ServerRmi rmiServer;
     private ServerTCP socketServer;
@@ -63,30 +62,18 @@ public class Server implements CommunicationInterface {
         }).start();
     }
 
+    @Override
     public void start() {
-        try {
-            rmiServer.start();
-        } catch (RemoteException | MalformedURLException e) {
-            e.printStackTrace();
-            System.err.println("Unable to start the RMI server.");
-        }
-
+        rmiServer.start();
         socketServer.start();
-
         System.out.println("Server started.");
     }
 
+    @Override
     public void stop() {
-        System.out.println("Shutting down... ");
-        try {
-            rmiServer.stop();
-            socketServer.stop();
-        } catch (RemoteException | NotBoundException e) {
-            System.err.println("Unable to stop the server.");
-            e.printStackTrace();
-            System.exit(1);
-        }
-        System.out.println("Server stopped.");
+        rmiServer.stop();
+        socketServer.stop();
+        System.out.println("Server shut down.");
         System.exit(0);
     }
 }

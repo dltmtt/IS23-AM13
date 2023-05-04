@@ -5,8 +5,6 @@ import it.polimi.ingsw.server.model.Player;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +13,8 @@ import java.util.concurrent.Executors;
 
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_SOCKET;
 
-public class ServerTCP {
+public class ServerTCP implements ServerInterface {
+
     private final ServerSocket serverSocket;
     public List<SocketClientHandler> clientHandlers;
     public HashMap<SocketClientHandler, Player> connectedPlayers;
@@ -31,6 +30,7 @@ public class ServerTCP {
         System.out.println("Server socket started on port " + serverSocket.getLocalPort() + ".");
     }
 
+    @Override
     public void start() {
         new Thread(() -> {
             while (true) {
@@ -42,25 +42,26 @@ public class ServerTCP {
                     clientHandler.sendMessage("Welcome to the server!");
                     sendToAllExcept("A new player has joined the game!", clientHandler);
                     clientHandlers.add(clientHandler);
-//                    clientHandler.run();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    System.err.println("Unable to accept a connection.");
                 }
             }
         }).start();
     }
 
-    public void stop() throws RemoteException, NotBoundException {
-        System.out.println("Stopping socket server...");
+    @Override
+    public void stop() {
         sendToAll("Server is shutting down...");
         try {
             serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Error while closing socket server.");
+            System.err.println("Unable to stop the socket server.");
         }
         closeAllConnections();
         executor.shutdownNow();
+        System.out.println("Socket server stopped.");
     }
 
     public void closeAllConnections() {
