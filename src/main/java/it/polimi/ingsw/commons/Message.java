@@ -13,25 +13,26 @@ import java.util.List;
 import java.util.Optional;
 
 public class Message implements Serializable {
+    private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
     private final JSONObject gson;
 
     /**
      * Constructor for the login type of message
      * when called, only one of the parameters is used, the others are set to default values
      *
-     * @param category  category of the message (what's the message about)
-     * @param username  username of the player
-     * @param age       age of the player
-     * @param firstgame if it's the first game of the player
-     * @param numPlayer number of players in the game
+     * @param category    category of the message (what's the message about)
+     * @param username    username of the player
+     * @param age         age of the player
+     * @param isFirstGame if it's the first game of the player
+     * @param numPlayer   number of players in the game
      */
-    public Message(String category, String username, int age, boolean firstgame, int numPlayer) {
+    public Message(String category, String username, int age, boolean isFirstGame, int numPlayer) {
         gson = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/LoginMessage.json";
+        String path = BASE_PATH + "LoginMessage.json";
         gson.put("category", category);
         gson.put("argument", username);
         gson.put("value", age);
-        gson.put("bool", firstgame);
+        gson.put("bool", isFirstGame);
         gson.put("numPlayer", numPlayer);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
@@ -46,10 +47,9 @@ public class Message implements Serializable {
      *
      * @param singleMessage
      */
-
     public Message(String singleMessage) {
         gson = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/SingleMessage.json";
+        String path = BASE_PATH + "SingleMessage.json";
         gson.put("category", singleMessage);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
@@ -60,7 +60,7 @@ public class Message implements Serializable {
 
     public Message(int posix) {
         gson = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/PosixMessage.json";
+        String path = BASE_PATH + "PosixMessage.json";
         gson.put("category", "index");
         gson.put("posix", posix);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
@@ -80,7 +80,7 @@ public class Message implements Serializable {
      */
     public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
         gson = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/GameMessage.json";
+        String path = BASE_PATH + "GameMessage.json";
 
         gson.put("category", "startGame");
         gson.put("personal_goal", personalGoal);
@@ -125,7 +125,6 @@ public class Message implements Serializable {
     public int getPosix() {
         return (int) gson.get("posix");
     }
-
 
     public int getPersonalGoal() {
         return (int) gson.get("personal_goal");
