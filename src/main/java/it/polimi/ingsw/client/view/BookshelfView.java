@@ -2,12 +2,13 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.PrintsNicer;
 
 import java.util.Optional;
 
 public class BookshelfView {
+
     private final Bookshelf bookshelf;
 
     public BookshelfView(Bookshelf bookshelf) {
@@ -16,7 +17,7 @@ public class BookshelfView {
 
     public void printBookshelf() {
         Optional<Item>[][] items = bookshelf.getItems();
-        PrintsNicer.stringifyBookshelf(items).forEach(System.out::println);
+        CliUtilities.stringifyBookshelf(items).forEach(System.out::println);
     }
 
     public void drawBookshelf() {
@@ -33,13 +34,11 @@ public class BookshelfView {
                 if (items[row][column].isEmpty()) {
                     cell.append(Color.BLACK)
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
+                            .append("⏹").append(Color.RESET_COLOR);
                 } else {
                     cell.append(Color.toANSItext(items[row][column].get().color(), false))
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
+                            .append("⏹").append(Color.RESET_COLOR);
                 }
                 cell.append("]");
             }
