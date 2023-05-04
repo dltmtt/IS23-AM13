@@ -18,6 +18,7 @@ import static it.polimi.ingsw.server.CommunicationInterface.PORT_RMI;
 import static it.polimi.ingsw.utils.CliUtilities.*;
 
 public class ClientRmi extends Client {
+
     private final ClientParser parser = new ClientParser();
     public Thread loginThread;
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
@@ -64,7 +65,6 @@ public class ClientRmi extends Client {
         loginThread = new Thread(() -> {
             controller.showLoginScreen();
         });
-
     }
 
     public void start() {
@@ -81,7 +81,7 @@ public class ClientRmi extends Client {
                 age = controller.showAgeScreen();
             } else {
                 System.out.println("Response message is " + responseMessage + ". Retry");
-//                System.out.println("Retry"); // TODO: actually retry
+                //                System.out.println("Retry"); // TODO: actually retry
             }
             gameView.showMessage(responseMessage);
             String ageResponse = parser.getMessage(server.sendMessage(parser.sendAge(age)));
@@ -122,6 +122,6 @@ public class ClientRmi extends Client {
     public void startGame() throws FullRoomException, IOException, ParseException {
         Message myGame = server.sendGame(myPosix);
         controller.showPersonalGoal(parser.getPersonalGoal(myGame));
-//        System.out.println("Game started!");
+        //        System.out.println("Game started!");
     }
 }

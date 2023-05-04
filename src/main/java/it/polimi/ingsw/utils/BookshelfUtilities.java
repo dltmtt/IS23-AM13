@@ -140,7 +140,7 @@ public final class BookshelfUtilities {
         b.insert(4, items);
         b.insert(0, soloItemEqual);
         b.insert(4, soloItemDiff);
-//        b.cli_print();
+        //        b.cli_print();
     }
 
     // In createLeftDiagonal, (startingRow, startingColumn) refers to the rightmost element of the diagonal
@@ -212,13 +212,12 @@ public final class BookshelfUtilities {
             }
             itemList.add(new Item(diagonalcolor, 0));
             b.insert(startingColumn - i, itemList);
-//            try {
-//                b.insert(startingColumn - i, itemList);
-//            } catch (IllegalArgumentException e) {
-//                bookshelfPrint(b);
-//            }
+            //            try {
+            //                b.insert(startingColumn - i, itemList);
+            //            } catch (IllegalArgumentException e) {
+            //                bookshelfPrint(b);
+            //            }
         }
-
     }
 
     public static void createFakeDiagonal(Bookshelf b) {
@@ -589,7 +588,6 @@ public final class BookshelfUtilities {
                 items.add(new Item(colorList.get(0), 0));
                 //three empty spaces
 
-
                 b.insert(0, items);
 
                 items.clear();
@@ -648,10 +646,8 @@ public final class BookshelfUtilities {
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
 
-
                 b.insert(0, items);
                 b.insert(2, items);
-
 
                 items.clear();
                 //second column
@@ -902,7 +898,6 @@ public final class BookshelfUtilities {
                 return new Group(1, 1, 6, 4);
             }
 
-
             case (10) -> {
                 int groupsize = 4;
                 //correctly identifying a column of 4 items of the same color
@@ -940,7 +935,6 @@ public final class BookshelfUtilities {
                     items.add(new Item(colorList.get(colorList.size() - 1), 0));
                 }
 
-
                 for (int i = groupsize; i < Bookshelf.getColumns(); i++) {
                     b.insert(i, items);
                 }
@@ -960,10 +954,8 @@ public final class BookshelfUtilities {
                 Color randomColor = Color.getRandomColor();
                 int randomNum = numIndex.nextInt(3) + 1;
 
-
                 b.insert(i, new ArrayList<>(Collections.singleton(new Item(randomColor, randomNum))));
             }
         }
     }
-
 }

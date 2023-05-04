@@ -10,6 +10,7 @@ import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_SOCKET;
 
 public class ClientSocket extends Client {
+
     public Socket s;
     public DataOutputStream dos;
     public BufferedReader br, kb;

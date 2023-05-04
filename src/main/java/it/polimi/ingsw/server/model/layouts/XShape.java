@@ -20,6 +20,7 @@ import java.util.List;
  * The width and height of the layout are set to 3 because the number of rows and columns is taken directly from the examined bookshelf.
  */
 public class XShape extends Layout {
+
     /**
      * Creates a new X Shape layout with the given parameters.
      * The width and height of the layout are set to 3 because the number of rows and columns is taken directly from the examined bookshelf.
@@ -46,7 +47,8 @@ public class XShape extends Layout {
      * @throws IllegalArgumentException if the bookshelf is null
      */
     public boolean check(Bookshelf b) throws IllegalArgumentException {
-        if (b == null) throw new IllegalArgumentException("The bookshelf cannot be null");
+        if (b == null)
+            throw new IllegalArgumentException("The bookshelf cannot be null");
 
         boolean check_iteration;
         List<Color> colorList = new ArrayList<>();
@@ -113,7 +115,6 @@ public class XShape extends Layout {
         }
         return false;
     }
-
 
     public String getInfo() {
         return super.getInfo() + "X Shape";

@@ -45,5 +45,4 @@ public class BookshelfView {
             System.out.println(cell);
         }
     }
-
 }

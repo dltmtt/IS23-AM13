@@ -9,12 +9,7 @@ import static java.lang.Integer.parseInt;
  * Each color has a different hex color code.
  */
 public enum Color {
-    GREEN("#8e9d47", "92"),
-    WHITE("#ebe1bf", "97"),
-    YELLOW("#e1a546", "93"),
-    BLUE("#00648d", "94"),
-    LIGHTBLUE("#62b2b1", "96"),
-    PINK("#c64b79", "95");
+    GREEN("#8e9d47", "92"), WHITE("#ebe1bf", "97"), YELLOW("#e1a546", "93"), BLUE("#00648d", "94"), LIGHTBLUE("#62b2b1", "96"), PINK("#c64b79", "95");
 
     public static final String RESET_COLOR = "\u001B[0m";
     public static final String BLACK = "\u001B[30m";

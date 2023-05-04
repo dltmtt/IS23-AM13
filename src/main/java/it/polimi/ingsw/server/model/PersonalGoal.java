@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PersonalGoal {
+
     private final HashMap<Coordinates, Color> personalGoalCard;
+    private final int index;
     private int currentReached;
     private int counter;
-    private final int index;
 
     /**
      * Creates a personal goal card.
@@ -71,7 +72,6 @@ public class PersonalGoal {
                 }
             }
         }
-
     }
 
     public String toString() {
@@ -96,21 +96,17 @@ public class PersonalGoal {
                 if (!personalGoalCard.containsKey(new Coordinates(row, column))) {
                     cell.append(Color.BLACK)
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
+                            .append("⏹").append(Color.RESET_COLOR);
                 } else {
                     cell.append(Color.toANSItext(personalGoalCard.get(new Coordinates(row, column)), false))
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
+                            .append("⏹").append(Color.RESET_COLOR);
                 }
                 cell.append("]");
             }
             System.out.println(cell);
         }
-
     }
-
 
     public HashMap<Coordinates, Color> getPersonalGoalCard() {
         return personalGoalCard;

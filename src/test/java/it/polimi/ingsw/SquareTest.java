@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SquareTest {
+
     @BeforeAll
     static void setupAll() {
         SettingLoader.loadBookshelfSettings();
@@ -55,8 +56,6 @@ public class SquareTest {
         b.cli_print();
 
         assertTrue(square.check(b));
-
-
     }
 
     @Test
@@ -291,7 +290,6 @@ public class SquareTest {
         items.add(new Item(Color.YELLOW, 1));
         b.insert(1, items);
         items.clear();
-
 
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.PINK, 1));

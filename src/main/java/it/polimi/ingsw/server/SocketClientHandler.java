@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 public class SocketClientHandler implements Runnable {
+
     private final Socket socket;
     public PrintStream ps;
     public BufferedReader br, kb;

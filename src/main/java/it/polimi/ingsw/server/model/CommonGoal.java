@@ -14,6 +14,7 @@ import java.util.List;
  * @see Bookshelf
  */
 public class CommonGoal {
+
     private final Layout layout;
     private final List<Integer> scoringList;
 
@@ -32,7 +33,6 @@ public class CommonGoal {
     public CommonGoal(Layout layout, int numOfPlayers) {
         this.layout = layout;
 
-
         scoringList = new ArrayList<>();
 
         for (int i = numOfPlayers; i > 0; i--) {
@@ -43,7 +43,6 @@ public class CommonGoal {
             }
         }
     }
-
 
     public List<Integer> getScoringList() {
         return scoringList;

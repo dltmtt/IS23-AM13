@@ -178,7 +178,6 @@ public final class CliUtilities {
                     default -> {
                         return "\uD83E\uDD48"; //🥈 not found :(
                     }
-
                 }
             }
 
@@ -198,7 +197,6 @@ public final class CliUtilities {
                     }
                 }
             }
-
 
             case PINK -> {
                 switch (variant) {
@@ -238,9 +236,7 @@ public final class CliUtilities {
                 return "⏳";
             }
         }
-
     }
-
 
     public static String cellContent(Optional<Item> cell) {
         return cell.isEmpty() ? emptySpace : Color.toANSItext(cell.get().color(), true) + " " + emoji(cell.get().color(), cell.get().number()) + "  " + Color.RESET_COLOR;

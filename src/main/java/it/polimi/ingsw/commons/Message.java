@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Message implements Serializable {
+
     private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
     private final JSONObject gson;
 
@@ -88,14 +89,13 @@ public class Message implements Serializable {
         for (int i = 0; i < commonGoalList.size(); i++) {
             gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
         }
-//        gson.put("bookshelf", bookshelf.getItems());
-//        gson.put("board", board.getBoardMatrix());
+        //        gson.put("bookshelf", bookshelf.getItems());
+        //        gson.put("board", board.getBoardMatrix());
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public String getCategory() {

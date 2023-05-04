@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ServerController {
+
     private final List<Player> players = new ArrayList<>();
     private GameModel gameModel = null;
     private Room room = null;
@@ -82,5 +83,4 @@ public class ServerController {
     public Board getBoard() {
         return gameModel.getLivingRoom();
     }
-
 }

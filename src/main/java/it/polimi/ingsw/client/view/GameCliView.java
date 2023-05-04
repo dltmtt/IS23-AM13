@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.Objects;
 
 public class GameCliView extends GameView {
+
     /**
      * Reads the username from the command line and prompts the user to confirm it.
      * <p>If the user confirms the input, the method prints a welcome message.
@@ -60,12 +61,10 @@ public class GameCliView extends GameView {
         String username = readUsername();
         try {
             gameController.login(username);
-
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("An error occurred while logging in.");
         }
-
     }
 
     public boolean readFirstGame() {
@@ -105,7 +104,7 @@ public class GameCliView extends GameView {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        return readFirstGame();
+        //        return readFirstGame();
     }
 
     public int promptNumberOfPlayers() {

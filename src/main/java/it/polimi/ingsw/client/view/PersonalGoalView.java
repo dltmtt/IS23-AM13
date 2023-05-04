@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class PersonalGoalView {
+
     private final HashMap<Coordinates, Color> personalGoalCard;
 
     public PersonalGoalView(int index) throws IOException, ParseException {
         personalGoalCard = SettingLoader.loadSpecificPersonalGoal(index).getPersonalGoalCard();
-
     }
 
     public void printLayout() {
@@ -27,13 +27,11 @@ public class PersonalGoalView {
                 if (!personalGoalCard.containsKey(new Coordinates(row, column))) {
                     cell.append(Color.BLACK)
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
+                            .append("⏹").append(Color.RESET_COLOR);
                 } else {
                     cell.append(Color.toANSItext(personalGoalCard.get(new Coordinates(row, column)), false))
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
+                            .append("⏹").append(Color.RESET_COLOR);
                 }
                 cell.append("]");
             }

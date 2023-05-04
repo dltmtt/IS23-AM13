@@ -225,7 +225,6 @@ public class Bookshelf implements AbleToGetPoints {
         return getItemAt(rows - 1, col).isPresent();
     }
 
-
     /**
      * Calculates the points given by adjacent item tiles in this bookshelf.
      * Groups of adjacent item tiles of the same type grant points depending

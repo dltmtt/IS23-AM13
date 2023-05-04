@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 public class GameController {
+
     private final GameModel gameModel;
     private final GameView gameView;
     private final Client client;

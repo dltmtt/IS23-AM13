@@ -6,6 +6,7 @@ import it.polimi.ingsw.utils.Color;
 import java.util.Arrays;
 
 public class ItemsPerColor extends Layout {
+
     public ItemsPerColor(int minDifferent, int maxDifferent) throws IllegalArgumentException {
         super(1, 1, minDifferent, maxDifferent);
     }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.layouts;
 import it.polimi.ingsw.server.model.Bookshelf;
 
 public class Group extends Layout {
+
     private final int occurrences;
     private final int size;
 
@@ -57,7 +58,6 @@ public class Group extends Layout {
         }
         return counter >= occurrences;
     }
-
 
     public int getOccurrences() {
         return occurrences;

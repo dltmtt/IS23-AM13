@@ -21,7 +21,6 @@ public class ServerTCP implements ServerInterface {
     public Socket s = null;
     public ExecutorService executor;
 
-
     public ServerTCP() throws IOException {
         clientHandlers = new ArrayList<>();
         connectedPlayers = new HashMap<>();

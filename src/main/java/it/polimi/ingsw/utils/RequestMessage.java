@@ -3,6 +3,7 @@ package it.polimi.ingsw.utils;
 import java.util.List;
 
 public class RequestMessage {
+
     private final String message;
 
     public RequestMessage(String message) {
@@ -36,5 +37,4 @@ public class RequestMessage {
     public List<Coordinates> getMove() {
         return null;
     }
-
 }

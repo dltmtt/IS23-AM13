@@ -16,6 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class XShapeTest {
+
     private final Layout XShape = new XShape(1, 1, 3);
     private Bookshelf b;
 
@@ -86,9 +87,9 @@ public class XShapeTest {
                         }
                     }
 
-//                    if (!XShape.check(b)) {
-//                        b.print();
-//                    }
+                    //                    if (!XShape.check(b)) {
+                    //                        b.print();
+                    //                    }
                     assertTrue(XShape.check(b));
                 }
             }

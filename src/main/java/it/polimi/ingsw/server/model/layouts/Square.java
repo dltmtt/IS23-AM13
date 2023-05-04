@@ -12,6 +12,7 @@ import java.util.Arrays;
  * The common goal layout with a square of cells of the same type.
  */
 public class Square extends Layout {
+
     // The number of ideal occurrences of the layout
     private final int occurrences;
     private final int size;
@@ -58,7 +59,8 @@ public class Square extends Layout {
                 if (b.getItemAt(i, j).isPresent()) {
                     found += searchSquare(b, b.getItemAt(i, j).get().color(), i, j);
                 }
-                if (found == occurrences) return true;
+                if (found == occurrences)
+                    return true;
             }
         }
         return false;
@@ -130,7 +132,6 @@ public class Square extends Layout {
         return occurrences;
     }
 
-
     // TODO finish this method
     public int getCurrent(@NotNull Bookshelf b) {
         int counter = 0;
@@ -149,7 +150,7 @@ public class Square extends Layout {
                 if (Bookshelf.getRows() - b.getFreeCellsInColumn(col) - row >= getHeight())
                     for (int width = col; width < col + getWidth(); width++) {
                         for (int height = row; height < row + getHeight(); height++) {
-//                            if(b.get)
+                            //                            if(b.get)
                         }
                     }
             }

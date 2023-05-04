@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameTest {
+
     @Test
     public void GoalLoading() throws IOException, ParseException, IllegalAccessException {
         List<Player> players = new ArrayList<>(4);
@@ -31,9 +32,9 @@ public class GameTest {
     public void BoardFilling() {
         GameModel gameModel;
         List<Player> players = new ArrayList<>(4);
-        
+
         gameModel = new GameModel(players);
         gameModel.start();
-//        gameModel.getLivingRoom().cli_print();
+        //        gameModel.getLivingRoom().cli_print();
     }
 }

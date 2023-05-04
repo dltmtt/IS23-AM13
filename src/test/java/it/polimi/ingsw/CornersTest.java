@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CornersTest {
+
     Bookshelf b;
 
     @BeforeAll
@@ -34,7 +35,7 @@ public class CornersTest {
 
     @Test
     void checkFakeCorner() {
-        for(int i=0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
             Layout layout = new Corners(1, 1);
             BookshelfUtilities.createFakeCorner(b, 0);
             assertFalse(layout.check(b));

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ItemsPerColorTest {
+
     Bookshelf b;
 
     @BeforeAll
@@ -43,7 +44,7 @@ public class ItemsPerColorTest {
                 BookshelfUtilities.createRandomElements(b, color, numOfElements);
                 if (goalNum == numOfElements) {
                     if (!L.check(b)) {
-//                        b.cli_print();
+                        //                        b.cli_print();
                         System.out.println(L.getInfo());
                     }
                     assertTrue(L.check(b));

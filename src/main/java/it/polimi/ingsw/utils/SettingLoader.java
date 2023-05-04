@@ -56,7 +56,6 @@ public class SettingLoader {
         JSONObject personalGoalCard = (JSONObject) personalGoalConfigurations.get(randomPersonalGoalIndex);
         JSONArray configuration = (JSONArray) personalGoalCard.get("configuration");
 
-
         List<Coordinates> loadedCoordinates = new ArrayList<>();
         List<Color> loadedColors = new ArrayList<>();
         for (Object o : configuration) {

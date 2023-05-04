@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.GameView;
 // This is abstract (non instantiable) because each client will either
 // be an RMI client or a Socket client
 public abstract class Client {
+
     public GameView gameView;
 
     public void setView(GameView gameView) {
