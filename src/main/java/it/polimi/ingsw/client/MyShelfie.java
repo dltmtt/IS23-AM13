@@ -62,6 +62,6 @@ public class MyShelfie {
         GameController gameController = new GameController(null, gameView, client);
         gameView.setController(gameController);
         client.setView(gameView);
-        client.run();
+        client.start();
     }
 }

@@ -2,8 +2,8 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.GameCliView;
 import it.polimi.ingsw.client.view.GameView;
-import it.polimi.ingsw.commons.CommunicationInterface;
 import it.polimi.ingsw.commons.Message;
+import it.polimi.ingsw.server.CommunicationInterface;
 import it.polimi.ingsw.utils.FullRoomException;
 import org.json.simple.parser.ParseException;
 
@@ -13,8 +13,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import static it.polimi.ingsw.commons.CommunicationInterface.HOSTNAME;
-import static it.polimi.ingsw.commons.CommunicationInterface.PORT_RMI;
+import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
+import static it.polimi.ingsw.server.CommunicationInterface.PORT_RMI;
 import static it.polimi.ingsw.utils.CliUtilities.*;
 
 public class ClientRmi extends Client {
@@ -67,12 +67,10 @@ public class ClientRmi extends Client {
 
     }
 
-    @Override
-    public void run() {
+    public void start() {
         loginThread.start();
     }
 
-    @Override
     public void login(String username) {
         int age = 0;
         boolean firstGame;
@@ -110,7 +108,6 @@ public class ClientRmi extends Client {
         } catch (FullRoomException | IOException | ParseException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void waitingRoom() throws FullRoomException, IOException, ParseException {
@@ -126,11 +123,5 @@ public class ClientRmi extends Client {
         Message myGame = server.sendGame(myPosix);
         controller.showPersonalGoal(parser.getPersonalGoal(myGame));
 //        System.out.println("Game started!");
-
-    }
-
-    @Override
-    public void logout() {
-        // Implementation
     }
 }
