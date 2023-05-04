@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CommonGoalCLITest {
+
     @BeforeEach
     void setUp() {
         SettingLoader.loadBookshelfSettings();
@@ -26,29 +27,29 @@ public class CommonGoalCLITest {
         FullLine fullLine2 = new FullLine(6, 6, 2, false); // 2 colonne tutte diverse e verticali
         FullLine fullLine3 = new FullLine(1, 3, 4, true); // 3 orizzontali con max 3
         FullLine fullLine4 = new FullLine(6, 6, 2, true); // 2 righe tutte diverse
-//        corners.cli_print();
-//        System.out.println("\n");
-////        diagonal.cli_print();
-//        System.out.println("\n");
-////        stair.cli_print();
-//        System.out.println("\n");
-////        itemPerColor.cli_print();
-//        System.out.println("\n");
-//        xShape.cli_print();
-//        System.out.println("\n");
-//        group1.cli_print();
-//        System.out.println("\n");
-//        group2.cli_print();
-//        System.out.println("\n");
-//        square.cli_print();
-//        System.out.println("\n");
-//        fullLine1.cli_print();
-//        System.out.println("\n");
-//        fullLine2.cli_print();
-//        System.out.println("\n");
-//        fullLine3.cli_print();
-//        System.out.println("\n");
-//        fullLine4.cli_print();
-//    }
+        //        corners.cli_print();
+        //        System.out.println("\n");
+        ////        diagonal.cli_print();
+        //        System.out.println("\n");
+        ////        stair.cli_print();
+        //        System.out.println("\n");
+        ////        itemPerColor.cli_print();
+        //        System.out.println("\n");
+        //        xShape.cli_print();
+        //        System.out.println("\n");
+        //        group1.cli_print();
+        //        System.out.println("\n");
+        //        group2.cli_print();
+        //        System.out.println("\n");
+        //        square.cli_print();
+        //        System.out.println("\n");
+        //        fullLine1.cli_print();
+        //        System.out.println("\n");
+        //        fullLine2.cli_print();
+        //        System.out.println("\n");
+        //        fullLine3.cli_print();
+        //        System.out.println("\n");
+        //        fullLine4.cli_print();
+        //    }
     }
 }

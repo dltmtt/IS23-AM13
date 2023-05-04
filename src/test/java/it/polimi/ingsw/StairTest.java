@@ -16,10 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 import static java.lang.Integer.parseInt;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StairTest {
+
     Bookshelf b;
     Layout stair;
 
@@ -31,7 +33,7 @@ public class StairTest {
 
         Properties prop = new Properties();
         // In case the file is not found, the default values will be used
-        try (InputStream input = new FileInputStream("src/main/resources/settings.properties")) {
+        try (InputStream input = new FileInputStream(BASE_PATH + "settings.properties")) {
             // Load a properties file
             prop.load(input);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
@@ -53,7 +55,7 @@ public class StairTest {
         assertTrue(stair.check(b));
         b.clearBookshelf();
         BookshelfUtilities.createRightStair(b);
-//        b.print();
+        //        b.print();
         assertTrue(stair.check(b));
     }
 
@@ -66,7 +68,7 @@ public class StairTest {
             b.insert(i, itemList);
         }
         BookshelfUtilities.createLeftStair(b);
-//        b.cli_print();
+        //        b.cli_print();
         assertTrue(stair.check(b));
         b.clearBookshelf();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {

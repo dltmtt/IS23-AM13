@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-
 import it.polimi.ingsw.utils.Coordinates;
 
 import java.util.ArrayList;
@@ -8,6 +7,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class Player {
+
     // Maybe we don't need this, we assign the common goal points in the CommonGoal class
     private static List<CommonGoal> commonGoals = new ArrayList<>();
     private static Board board;
@@ -116,7 +116,7 @@ public class Player {
     }
 
     public void setCommonGoalPoints(CommonGoal commonGoal) {
-//        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
+        //        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
         commonGoalPoints.add(commonGoal.getScoring());
     }
 

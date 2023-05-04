@@ -9,6 +9,7 @@ import java.util.List;
  * The common goal layout with a row or a column with every cell filled.
  */
 public class FullLine extends Layout {
+
     private final int occurrences; // number of occurrences of the layout
     private final boolean horizontal; // true if the layout is a row, false if it is a column
 

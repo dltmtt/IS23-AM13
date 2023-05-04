@@ -18,7 +18,6 @@ public class CliTest {
     @BeforeEach
     void setUp() {
         SettingLoader.loadBookshelfSettings();
-
     }
 
     @Test
@@ -29,10 +28,9 @@ public class CliTest {
         players.add(new Player("Player3", 20, false, false, false));
         GameModel game = new GameModel(players);
         game.start();
-        PersonalGoal personalGoal =
-                game.getCurrentPlayer().getPersonalGoal();
-//        PersonalGoalView personalGoalview = new PersonalGoalView(personalGoal.getPersonalGoalCard());
-//        personalGoalview.printLayout();
+        PersonalGoal personalGoal = game.getCurrentPlayer().getPersonalGoal();
+        //        PersonalGoalView personalGoalview = new PersonalGoalView(personalGoal.getPersonalGoalCard());
+        //        personalGoalview.printLayout();
     }
 
     @Test
@@ -60,7 +58,6 @@ public class CliTest {
         CommonGoalView.stairPrintLayout();
         System.out.println();
         CommonGoalView.xShapePrintLayout();
-
     }
 
     @Test

@@ -4,8 +4,8 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Color;
 
-
 public class BoardView {
+
     private static Board board;
 
     public BoardView(Board board) {
@@ -24,13 +24,11 @@ public class BoardView {
                 if (boardMatrix[row][column] == null) {
                     cell.append(Color.BLACK)
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
+                            .append("⏹").append(Color.RESET_COLOR);
                 } else {
                     cell.append(Color.toANSItext(boardMatrix[row][column].color(), false))
                             //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹")
-                            .append(Color.RESET_COLOR);
+                            .append("⏹").append(Color.RESET_COLOR);
                 }
                 cell.append("]");
             }

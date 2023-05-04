@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
@@ -13,9 +14,10 @@ import java.rmi.RemoteException;
  * but it might be useful in the future.
  */
 public interface ServerInterface {
+
     // Note: the actual implementation of the methods doesn't have
     // to throw all the exceptions listed here
-    void start() throws RemoteException;
+    void start() throws RemoteException, MalformedURLException;
 
     void stop() throws RemoteException, NotBoundException;
 }

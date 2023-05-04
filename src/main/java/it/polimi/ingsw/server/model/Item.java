@@ -7,6 +7,7 @@ import it.polimi.ingsw.utils.Color;
  */
 
 public record Item(Color color, int number) {
+
     public boolean equals(Item check) {
         return color() == check.color() && number() == check.number();
     }

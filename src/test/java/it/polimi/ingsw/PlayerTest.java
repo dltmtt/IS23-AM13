@@ -1,4 +1,3 @@
 package it.polimi.ingsw;
 
-public class PlayerTest {
-}
+public class PlayerTest {}

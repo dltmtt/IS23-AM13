@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 /**
  * The common goal layout with four tiles of the same type in the four corners of the bookshelf.
  */
 public class Corners extends Layout {
+
     /**
      * Creates a new Corner layout with the given parameters.
      * The width and height of the layout are set to 0 because the number of rows and columns is taken directly from the examined bookshelf.
@@ -22,8 +22,7 @@ public class Corners extends Layout {
     public Corners(int minDifferent, int maxDifferent) {
         // Set width and height to 0 because it takes the number of rows and columns directly from the examined bookshelf
         super(0, 0, minDifferent, maxDifferent);
-        description = "Four tiles of the same type in the four " +
-                "corners of the bookshelf. ";
+        description = "Four tiles of the same type in the four " + "corners of the bookshelf. ";
     }
 
     @Override

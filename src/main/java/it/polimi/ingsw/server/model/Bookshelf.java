@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.PrintsNicer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 
 /**
  * A bookshelf, where the player can collect items.
@@ -18,6 +20,7 @@ import java.util.Optional;
  * @see Item
  */
 public class Bookshelf implements AbleToGetPoints {
+
     private static int rows;
     private static int columns;
     private final Optional<Item>[][] items;
@@ -56,21 +59,6 @@ public class Bookshelf implements AbleToGetPoints {
         clearBookshelf();
         clearBooleanMatrix();
     }
-
-    // NOTE: this method is used only for testing purposes, it will be removed in the final version.
-//    public static void main(String[] args) {
-//        Bookshelf b = new Bookshelf();
-//        List<item> itemList = new ArrayList<>();
-//        for (int i = 0; i < b.getColumns(); i++) {
-//            itemList.clear();
-//            for (int j = 0; j < b.getRows(); j++) {
-//                itemList.add(new item(it.polimi.ingsw.utils.Color.getRandomColor(), 0));
-//            }
-//            b.insert(i, itemList);
-//        }
-//        b.cli_print();
-//        b.print();
-//    }
 
     public Bookshelf() {
         // noinspection unchecked
@@ -237,7 +225,6 @@ public class Bookshelf implements AbleToGetPoints {
         return getItemAt(rows - 1, col).isPresent();
     }
 
-
     /**
      * Calculates the points given by adjacent item tiles in this bookshelf.
      * Groups of adjacent item tiles of the same type grant points depending
@@ -363,62 +350,10 @@ public class Bookshelf implements AbleToGetPoints {
         return content;
     }
 
-// public void print() throws IOException {
-//     int left_offset=11;
-//     int vertical_space=11;
-//     int bottom_offset=11;
-//     int col_width=90;
-//     int col_height=90;
-//
-//
-//
-//     /*
-//     JFrame frame = new JFrame(); //JFrame Creation
-//     frame.setTitle("Bookshelf"); //Add the title to frame
-//     frame.setLayout(null); //Terminates default flow layout
-//     //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Terminate program on close button
-//
-//     Container c = frame.getContentPane(); //Gets the content layer
-//     JLabel bookshelf = new JLabel(); //JLabel Creation
-//     JLabel item;
-//     bookshelf.setIcon(new ImageIcon("resources/OurVariants/back.jpg")); //Sets the image to be displayed as an icon
-//
-//     Dimension bookshelfSize = bookshelf.getPreferredSize(); //Gets the size of the image
-//     Dimension itemSize;
-//     frame.setBounds(100, 200, bookshelfSize.width, bookshelfSize.height); //Sets the position of the frame
-//
-//     bookshelf.setBounds(0, 0, bookshelfSize.width, bookshelfSize.height); //Sets the location of the image
-//
-//     c.add(bookshelf); //Adds objects to the container
-//     List<item> itemList;
-//
-//     for(int col=0; col<getColumns(); col++){
-//         itemList=getColumnContent(col);
-//         for(int i=0; i< itemList.size(); i++){
-//             item=new JLabel();
-//             item.setIcon(new ImageIcon("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png")); //Sets the image to be displayed as an icon
-//             itemSize=item.getPreferredSize();
-//             item.setBounds(left_offset+col_width*col, bookshelfSize.height-bottom_offset-(i+1)*col_height, itemSize.width, itemSize.height); //Sets the location of the image
-//             c.add(item);
-//         }
-//     }
-//
-//     frame.setVisible(true); // Exhibit the frame
-//
-//     // Open a JPEG file, load into a BufferedImage.
-//     BufferedImage img = ImageIO.read(new File("resources/OurVariants/back.jpg"));
-//
-//     // Obtain the Graphics2D context associated with the BufferedImage.
-//     Graphics2D g = img.createGraphics();
-//
-//     //g.
-// }
-
     /**
      * Prints the board on the console.
-     * TODO: move this method to the Client package
+     * TODO: move this method to the view
      */
-
     public void print() {
         // Without JPanel images would be added to JFrame on top of each other.
         // That way only last image would be visible.
@@ -430,11 +365,11 @@ public class Bookshelf implements AbleToGetPoints {
 
         JPanel panel = new JPanel();
 
-        ImageIcon BackgroundImage = new ImageIcon("resources/OurVariants/back.jpg");
+        ImageIcon BackgroundImage = new ImageIcon(BASE_PATH + "graphics/our_variants/back.jpg");
 
         panel.setLayout(null);
         panel.add(new JLabel(BackgroundImage));
-//        panel.setAlignmentX(1);
+        //        panel.setAlignmentX(1);
         Dimension bookshelfSize = new Dimension(BackgroundImage.getIconWidth(), BackgroundImage.getIconHeight());
 
         JFrame frame = new JFrame("Bookshelf Display V1.0");
@@ -445,8 +380,8 @@ public class Bookshelf implements AbleToGetPoints {
         for (int col = 0; col < getColumns(); col++) {
             itemList = getColumnContent(col);
             for (int i = 0; i < itemList.size(); i++) {
-//                System.out.println("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
-                itemImage = new ImageIcon("resources/OurVariants/" + itemList.get(i).color().toString().toLowerCase() + ".png");
+                //                System.out.println(BASE_PATH + "graphics/our_variants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
+                itemImage = new ImageIcon(BASE_PATH + "graphics/our_variants/" + itemList.get(i).color().toString().toLowerCase() + ".png");
                 item = new JLabel(itemImage);
                 item.setLayout(null);
                 item.setLocation(left_offset + col_width * col, bookshelfSize.height - bottom_offset - (i + 1) * col_height);
@@ -458,7 +393,7 @@ public class Bookshelf implements AbleToGetPoints {
         frame.getContentPane().add(panel);
         frame.pack();
         frame.setVisible(true);
-//        frame.setLayout(null);
+        //        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -466,7 +401,8 @@ public class Bookshelf implements AbleToGetPoints {
         return items;
     }
 
+    // TODO: move this to the view
     public void cli_print() {
-        PrintsNicer.stringifyBookshelf(items).forEach(System.out::println);
+        CliUtilities.stringifyBookshelf(items).forEach(System.out::println);
     }
 }

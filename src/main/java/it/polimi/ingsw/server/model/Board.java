@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
+
 public class Board {
+
     private static final int boardSize = 9;
     private static final int numOfColorOccurrences = 22;
     private final Item[][] boardMatrix;
@@ -32,7 +35,7 @@ public class Board {
         itemBag = new ArrayList<>();
         usableCells = new ArrayList<>();
         JSONParser parser = new JSONParser();
-        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/usable_cells.json"));
+        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader(BASE_PATH + "usable_cells.json"));
         JSONArray usableCellsArray = (JSONArray) personalGoalJson.get("usable_cells");
 
         for (int i = 0; i <= numOfPlayers - 2; i++) {

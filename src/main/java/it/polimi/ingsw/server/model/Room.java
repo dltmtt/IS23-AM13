@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Room {
+
     private static int minPlayers;
     private static int maxPlayers;
     private final List<Player> players = new ArrayList<>();
@@ -41,14 +42,13 @@ public class Room {
     }
 
     public void addPlayer(Player newPlayer) throws FullRoomException {
-//        if (players.size() < maxPlayers) {
-//            players.add(newPlayer);
-//        } else {
-//            String errorMessage = "The selected room (" + roomId + ") is full, the following users are connected:  " + players;
-//            throw new FullRoomException(errorMessage);
-//        }
+        //        if (players.size() < maxPlayers) {
+        //            players.add(newPlayer);
+        //        } else {
+        //            String errorMessage = "The selected room (" + roomId + ") is full, the following users are connected:  " + players;
+        //            throw new FullRoomException(errorMessage);
+        //        }
         players.add(newPlayer);
-
     }
 
     public List<Player> getListOfPlayers() {

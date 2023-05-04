@@ -4,7 +4,12 @@ target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea
+# Uncomment the following two lines before the final commit
+# .idea
+# .run
+.idea/shelf/
+.idea/workspace.xml
+.idea/usage.statistics.xml
 *.iws
 *.iml
 *.ipr

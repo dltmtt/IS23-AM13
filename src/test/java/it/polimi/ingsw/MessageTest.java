@@ -4,6 +4,7 @@ import it.polimi.ingsw.commons.Message;
 import org.junit.jupiter.api.Test;
 
 public class MessageTest {
+
     @Test
     void categoryTest() {
         Message message = new Message("username", "Valeria", 0, false, 0);

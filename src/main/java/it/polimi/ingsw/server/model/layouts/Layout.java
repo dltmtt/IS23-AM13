@@ -9,6 +9,7 @@ import java.util.List;
  * The disposition of the items in a common goal whose position has to be matched in the bookshelf.
  */
 public abstract class Layout {
+
     private final int width;
     private final int height;
     // Minimum/maximum number of different colors in a layout

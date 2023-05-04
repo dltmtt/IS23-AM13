@@ -59,6 +59,4 @@ public class ClientParser implements Serializable {
     public Item[][] getBoard(Message message) {
         return message.getBoard();
     }
-
-
 }

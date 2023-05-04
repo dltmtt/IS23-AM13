@@ -20,8 +20,7 @@ public class CommonGoalView {
     }
 
     public static void cornersPrintLayout() {
-        String description = "Four tiles of the same type in the four " +
-                "corners of the bookshelf. ";
+        String description = "Four tiles of the same type in the four " + "corners of the bookshelf. ";
         StringBuilder card = new StringBuilder();
         // Draw an m×n card with fullCells in the corners and emptyCells everywhere else
         int m = 5;
@@ -43,8 +42,7 @@ public class CommonGoalView {
     }
 
     public static void diagonalPrintLayout() {
-        String description = "  Five tiles of the same type forming a " +
-                "diagonal. ";
+        String description = "  Five tiles of the same type forming a " + "diagonal. ";
         StringBuilder cell = new StringBuilder();
 
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
@@ -59,7 +57,6 @@ public class CommonGoalView {
             cell.append("\n");
         }
         System.out.println(cell);
-
     }
 
     public static void fullLinePrintLayout(int occurrences, boolean horizontal) {
@@ -75,7 +72,6 @@ public class CommonGoalView {
                 for (int i = 0; i < Bookshelf.getColumns(); i++) {
                     card.append(CliUtilities.diffCell);
                 }
-
             } else {
                 for (int i = 0; i < Bookshelf.getColumns(); i++) {
                     card.append(CliUtilities.emptyCell);
@@ -86,7 +82,6 @@ public class CommonGoalView {
             card.append(CliUtilities.lowerLeftBox);
             card.append(" ".repeat(12));
             card.append(CliUtilities.lowerRightBox);
-
         } else {
             card.append(" ".repeat(7));
             card.append(CliUtilities.upperRightBox);
@@ -146,10 +141,7 @@ public class CommonGoalView {
         String description = occurrences + " groups each containing at least  2 tiles of the same type (not necessarily in the depicted shape).";
         StringBuilder cell;
         //occurrences can be either 4 or 6
-        cell = new StringBuilder(CliUtilities.upperLeftBox +
-                " ".repeat(5) +
-                CliUtilities.upperRightBox +
-                "\n");
+        cell = new StringBuilder(CliUtilities.upperLeftBox + " ".repeat(5) + CliUtilities.upperRightBox + "\n");
         for (int i = 0; i < size; i++) {
             cell.append(" ".repeat(2));
             cell.append(CliUtilities.filledCell);
@@ -186,30 +178,14 @@ public class CommonGoalView {
     }
 
     public static void squarePrintLayout() {
-        String description = "   Two groups each containing 4 tiles of " +
-                "the same type in a 2x2 square. The two squares are independent. ";
-        String cell = CliUtilities.upperLeftBox +
-                " ".repeat(7) +
-                CliUtilities.upperRightBox +
-                "\n" +
-                "  " +
-                CliUtilities.filledCell.repeat(2) +
-                " ".repeat(7) + description +
-                "\n" +
-                "  " +
-                CliUtilities.filledCell.repeat(2) +
-                "\n" +
-                CliUtilities.lowerLeftBox +
-                " ".repeat(7) +
-                CliUtilities.lowerRightBox +
-                " ".repeat(3) + "x2";
+        String description = "   Two groups each containing 4 tiles of " + "the same type in a 2x2 square. The two squares are independent. ";
+        String cell = CliUtilities.upperLeftBox + " ".repeat(7) + CliUtilities.upperRightBox + "\n" + "  " + CliUtilities.filledCell.repeat(2) + " ".repeat(7) + description + "\n" + "  " + CliUtilities.filledCell.repeat(2) + "\n" + CliUtilities.lowerLeftBox + " ".repeat(7) + CliUtilities.lowerRightBox + " ".repeat(3) + "x2";
 
         System.out.println(cell);
     }
 
     public static void stairPrintLayout() {
-        String description = "\t\tFive columns of increasing or decreasing" +
-                "height. Tiles can be of any type.  ";
+        String description = "\t\tFive columns of increasing or decreasing" + "height. Tiles can be of any type.  ";
         StringBuilder cell = new StringBuilder();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             cell.append(CliUtilities.emptyCell.repeat(i + 1));

@@ -1,6 +1,5 @@
 package it.polimi.ingsw;
 
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,12 +9,14 @@ import org.junit.jupiter.api.Test;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
+
 public class JsonCommonGoalTest {
+
     @Test
     public void ReadingTest() throws IOException, ParseException {
-
         JSONParser parser = new JSONParser();
-        JSONObject a = (JSONObject) parser.parse(new FileReader("src/main/resources/common_goals.json"));
+        JSONObject a = (JSONObject) parser.parse(new FileReader(BASE_PATH + "common_goals.json"));
         JSONArray configurations = (JSONArray) a.get("common_goal_configurations");
         System.out.println(configurations);
         for (Object o : configurations) {

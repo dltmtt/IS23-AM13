@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommonGoalTest {
+
     @Test
     void getScoringListCheck() {
         Layout s = new Diagonal(1, 3, 2);
-
 
         CommonGoal c2 = new CommonGoal(s, 2);
         assertEquals(4, c2.getScoringList().get(1));

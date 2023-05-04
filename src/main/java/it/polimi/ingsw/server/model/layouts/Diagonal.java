@@ -2,11 +2,11 @@ package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
 
-
 /**
  * The common goal layout with five cards of the same type in a diagonal.
  */
 public class Diagonal extends Layout {
+
     /**
      * Creates a diagonal layout.
      *
@@ -33,7 +33,8 @@ public class Diagonal extends Layout {
      */
     public boolean check(Bookshelf b) throws IllegalArgumentException {
         // Check if the bookshelf is null
-        if (b == null) throw new IllegalArgumentException("The bookshelf cannot be null");
+        if (b == null)
+            throw new IllegalArgumentException("The bookshelf cannot be null");
 
         if (checkRight(b, 0, 0) || checkRight(b, 1, 0)) {
             return true;

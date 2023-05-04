@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.Bookshelf;
  * Tiles can be of any type.
  */
 public class Stair extends Layout {
+
     /**
      * Creates a stair layout.
      *

@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class BookshelfTest {
+
     Bookshelf bookshelf;
     List<Item> items;
 
@@ -138,6 +139,6 @@ class BookshelfTest {
                 assertEquals(localCol, bookshelf.getColumnContent(col));
             }
         }
-//        bookshelf.cli_print();
+        //        bookshelf.cli_print();
     }
 }

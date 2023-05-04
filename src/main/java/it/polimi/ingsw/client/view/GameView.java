@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 public abstract class GameView {
+
     protected final String insertUsernamePrompt = "Please, insert your username: ";
     protected final String insertAgePrompt = "Please, insert your age: ";
     protected final String firstGamePrompt = "Is this the first time you play this game? ";
@@ -18,7 +19,6 @@ public abstract class GameView {
     public GameView() {
         SettingLoader.loadBookshelfSettings();
     }
-
 
     public abstract String readUsername();
 

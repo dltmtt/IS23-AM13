@@ -1,6 +1,5 @@
 {
   "usable_cells": [
-
     {
       "numPlayer": 2,
       "current_usable": [
@@ -121,7 +120,6 @@
           "y": 4
         }
       ]
-
     },
     {
       "numPlayer": 3,
@@ -197,6 +195,5 @@
         }
       ]
     }
-
   ]
 }

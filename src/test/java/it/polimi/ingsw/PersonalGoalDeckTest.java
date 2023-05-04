@@ -15,6 +15,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PersonalGoalDeckTest {
+
     PersonalGoal personalGoal;
     Bookshelf b;
 

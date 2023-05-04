@@ -21,6 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetPointsTest {
+
     // player1 is the first to reach both common goals and 5/6 items of the personal goal,
     // so he should get 9 points from the personal goal and 16 points from the common goals
     // plus 3 points for one group of 4 adjacent items, for a total of 28 points.
@@ -30,7 +31,6 @@ public class GetPointsTest {
         players.add(new Player("test1", 20, true, true, false));
         players.add(new Player("test2", 20, true, true, false));
         players.add(new Player("test3", 20, true, true, false));
-
 
         GameModel gameModel = new GameModel(players);
         gameModel.start();
@@ -224,9 +224,8 @@ public class GetPointsTest {
         }
         players.get(0).move(new Coordinates(i, j), new Coordinates(i, j + 1), 2);
 
-//        assertEquals(29, player1.calculateScore());
+        //        assertEquals(29, player1.calculateScore());
         assertEquals(27, players.get(1).calculateScore());
-
     }
 
     @Test
@@ -239,7 +238,6 @@ public class GetPointsTest {
 
         players.get(0).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(9));
         players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
-
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Corners(1, 1), players.size()));
@@ -293,7 +291,7 @@ public class GetPointsTest {
         items.clear();
 
         gameModel.move(new Coordinates(3, 4), new Coordinates(3, 5), 0);
-//        assertEquals(35, player1.calculateScore());
+        //        assertEquals(35, player1.calculateScore());
 
         //player2 set-up
         items.add(new Item(Color.GREEN, 1));
@@ -341,7 +339,7 @@ public class GetPointsTest {
         items.clear();
 
         gameModel.move(new Coordinates(3, 5), new Coordinates(3, 6), 0);
-//        player2.getBookshelf().cli_print();
-//        assertEquals(35, player2.calculateScore());
+        //        player2.getBookshelf().cli_print();
+        //        assertEquals(35, player2.calculateScore());
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 public class GameModel {
+
     // This value is tied to the switch statement in the PersonalGoal class
     private static final int personalGoalDeckSize = 12;
     private final List<Player> players;
@@ -40,7 +41,6 @@ public class GameModel {
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e + ", error in loading the goal decks");
         }
-
     }
 
     public void setPlayers(List<Player> players) {
@@ -82,8 +82,6 @@ public class GameModel {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     // drawPersonalGoal() and drawCommonGoals() are basically the same method,
@@ -139,7 +137,7 @@ public class GameModel {
      * that players have to replicate in their bookshelves to get points.
      */
     public void fillPersonalGoalDeck() throws IOException, ParseException {
-//        personalGoalDeck = SettingLoader.personalGoalLoader();
+        //        personalGoalDeck = SettingLoader.personalGoalLoader();
         for (int i = 0; i < 12; i++) {
             personalGoalDeck.add(SettingLoader.loadSpecificPersonalGoal(i));
         }
@@ -184,7 +182,6 @@ public class GameModel {
             currentPlayer = players.get(nextPlayerIndex);
         }
     }
-
 
     public List<Player> setWinner() {
         List<Player> winners = new ArrayList<>();

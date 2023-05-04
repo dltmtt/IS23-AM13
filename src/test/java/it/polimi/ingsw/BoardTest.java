@@ -13,6 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
+
     // Tests if Cell 00 is null with 3 players
     @Test
     void filWith3playersCell00() throws IllegalAccessException, IOException, ParseException {
@@ -48,7 +49,6 @@ public class BoardTest {
         assertNull(b.getItem(1, 6));
         assertNull(b.getItem(1, 7));
         assertNull(b.getItem(1, 8));
-
     }
 
     // Tests if the expected cells of row 2 are null, with 3 players
@@ -60,7 +60,6 @@ public class BoardTest {
         assertNull(b.getItem(2, 1));
         assertNull(b.getItem(2, 7));
         assertNull(b.getItem(2, 8));
-
     }
 
     // Tests if the expected cells of row 3 are null, with 3 players
