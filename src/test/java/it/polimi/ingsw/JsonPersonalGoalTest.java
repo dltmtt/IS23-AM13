@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
+
 public class JsonPersonalGoalTest {
 
     @Test
@@ -24,7 +26,7 @@ public class JsonPersonalGoalTest {
         HashMap<Coordinates, Color> personalGoalCard = new HashMap<>();
 
         JSONParser parser = new JSONParser();
-        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/personal_goals.json"));
+        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader(BASE_PATH + "personal_goals.json"));
         JSONArray deck = (JSONArray) personalGoalJson.get("personal_goal_configurations");
 
         JSONObject personalGoal = (JSONObject) deck.get(0);

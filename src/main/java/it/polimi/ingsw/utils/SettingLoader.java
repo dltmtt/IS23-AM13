@@ -26,6 +26,8 @@ import static java.lang.Integer.parseInt;
  * It also provides methods to create the decks of the game.
  */
 public class SettingLoader {
+
+    public static final String BASE_PATH = "src/main/resources/it/polimi/ingsw/";
     private static String serverIp;
     private static int serverPort;
 
@@ -49,7 +51,7 @@ public class SettingLoader {
 
         JSONParser parser = new JSONParser();
 
-        JSONObject personalGoalCards = (JSONObject) parser.parse(new FileReader("src/main/resources/personal_goals.json"));
+        JSONObject personalGoalCards = (JSONObject) parser.parse(new FileReader(BASE_PATH + "personal_goals.json"));
         JSONArray personalGoalConfigurations = (JSONArray) personalGoalCards.get("personal_goal_configurations");
         JSONObject personalGoalCard = (JSONObject) personalGoalConfigurations.get(randomPersonalGoalIndex);
         JSONArray configuration = (JSONArray) personalGoalCard.get("configuration");
@@ -70,7 +72,7 @@ public class SettingLoader {
         List<PersonalGoal> loadedPersonalGoals = new ArrayList<>();
         // Parsing JSON file for personal goals configurations
         JSONParser parser = new JSONParser();
-        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader("src/main/resources/personal_goals.json"));
+        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader(BASE_PATH + "personal_goals.json"));
         // accessing the array of personal goals configurations
         JSONArray personalGoalConfigurations = (JSONArray) personalGoalJson.get("personal_goal_configurations");
         for (Object o : personalGoalConfigurations) {
@@ -87,7 +89,7 @@ public class SettingLoader {
             loadedPersonalGoals.add(new PersonalGoal(loadedCoordinates, loadedColors, 0));
         }
 
-        //giving a big 'ol shuffle to the personal goal deck
+        // Giving a big ol' shuffle to the personal goal deck
         for (int j = 0; j < loadedPersonalGoals.size(); j++) {
             Random rand = new Random();
 
@@ -108,14 +110,14 @@ public class SettingLoader {
 
         JSONObject a;
 
-        //retrieving from file
+        // Retrieving from file
         try {
-            a = (JSONObject) parser.parse(new FileReader("src/main/resources/common_goals.json"));
+            a = (JSONObject) parser.parse(new FileReader(BASE_PATH + "common_goals.json"));
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e + " common_goals.json not found in filling the Common Goal Deck");
         }
         JSONArray layouts = (JSONArray) a.get("common_goal_configurations");
-        //setting default values
+        // Setting default values
         int minDifferent = 0;
         int maxDifferent = 0;
         int occurrences = 0;
@@ -123,23 +125,23 @@ public class SettingLoader {
         int dimension = 0;
         boolean horizontal = false;
 
-        //loading configurations
+        // Loading configurations
         for (Object o : layouts) {
             JSONObject configuration = (JSONObject) o;
 
-            //loading parameters object
+            // Loading parameters object
             JSONArray parameters = (JSONArray) configuration.get("parameters");
             JSONObject loadedParameters = (JSONObject) parameters.get(0);
 
-            //loading type
+            // Loading type
             String type = (String) configuration.get("type");
 
-            //loading common parameters
+            // Loading common parameters
             minDifferent = parseInt(loadedParameters.get("minDifferent").toString());
             maxDifferent = parseInt(loadedParameters.get("maxDifferent").toString());
             Layout loadedLayout;
 
-            //layout creation switch
+            // Layout creation switch
             switch (type) {
                 case "group" -> {
                     occurrences = parseInt(loadedParameters.get("occurrences").toString());
@@ -169,11 +171,11 @@ public class SettingLoader {
                 case "stair" -> loadedLayout = new Stair(minDifferent, maxDifferent, Bookshelf.getDimension());
                 default -> throw new RuntimeException("Error in loading common goals");
             }
-            //adding the new common goal to the deck
+            // Adding the new common goal to the deck
             loadedCommonGoals.add(new CommonGoal(loadedLayout, numOfPlayers));
         }
 
-        //giving a big 'ol shuffle to the common goals
+        // Giving a big ol' shuffle to the common goals
         for (int j = 0; j < loadedCommonGoals.size(); j++) {
             Random rand = new Random();
 
@@ -192,7 +194,7 @@ public class SettingLoader {
         int rowsSetting;
         int colsSetting;
 
-        try (InputStream settings = new FileInputStream("src/main/resources/settings.properties")) {
+        try (InputStream settings = new FileInputStream(BASE_PATH + "settings.properties")) {
             prop.load(settings);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
             colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
@@ -211,7 +213,7 @@ public class SettingLoader {
     public static void loadConnectionSettings() {
         Properties prop = new Properties();
 
-        try (InputStream settings = new FileInputStream("src/main/resources/settings.properties")) {
+        try (InputStream settings = new FileInputStream(BASE_PATH + "settings.properties")) {
             prop.load(settings);
             serverIp = prop.getProperty("connection.ip");
             serverPort = parseInt(prop.getProperty("connection.port"));

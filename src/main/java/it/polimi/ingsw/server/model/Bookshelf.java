@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
+
 /**
  * A bookshelf, where the player can collect items.
  * It has <code>rows</code> rows (6 by default) and <code>columns</code> (5 by default) columns.
@@ -364,7 +366,7 @@ public class Bookshelf implements AbleToGetPoints {
 
         JPanel panel = new JPanel();
 
-        ImageIcon BackgroundImage = new ImageIcon("resources/OurVariants/back.jpg");
+        ImageIcon BackgroundImage = new ImageIcon(BASE_PATH + "graphics/our_variants/back.jpg");
 
         panel.setLayout(null);
         panel.add(new JLabel(BackgroundImage));
@@ -379,8 +381,8 @@ public class Bookshelf implements AbleToGetPoints {
         for (int col = 0; col < getColumns(); col++) {
             itemList = getColumnContent(col);
             for (int i = 0; i < itemList.size(); i++) {
-                //                System.out.println("resources/OurVariants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
-                itemImage = new ImageIcon("resources/OurVariants/" + itemList.get(i).color().toString().toLowerCase() + ".png");
+                //                System.out.println(BASE_PATH + "graphics/our_variants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
+                itemImage = new ImageIcon(BASE_PATH + "graphics/our_variants/" + itemList.get(i).color().toString().toLowerCase() + ".png");
                 item = new JLabel(itemImage);
                 item.setLayout(null);
                 item.setLocation(left_offset + col_width * col, bookshelfSize.height - bottom_offset - (i + 1) * col_height);
