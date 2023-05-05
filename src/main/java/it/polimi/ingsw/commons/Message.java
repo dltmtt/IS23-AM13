@@ -4,9 +4,11 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.Item;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class Message implements Serializable {
 
     private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
     private final JSONObject gson;
-    private int commonGoals = 0;
+    private final int commonGoals = 0;
 
     /**
      * Constructor for the login type of message
@@ -38,7 +40,7 @@ public class Message implements Serializable {
         gson.put("bool", isFirstGame);
         gson.put("numPlayer", numPlayer);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(gson.toJSONString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,37 +83,57 @@ public class Message implements Serializable {
      * @param bookshelf      bookshelf of the player
      * @param board          board of the game
      */
+    //    public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
+    //        gson = new JSONObject();
+    //        String path = BASE_PATH + "GameMessage.json";
+    //
+    //        gson.put("category", "startGame");
+    //        gson.put("personal_goal", personalGoal);
+    //
+    //        for (int i = 0; i < commonGoalList.size(); i++) {
+    //            gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
+    //
+    //            if (commonGoalList.get(i).getLayout().getName().equals("fullLine")) {
+    //                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+    //                gson.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
+    //                gson.put("size " + i, 0);
+    //            } else if (commonGoalList.get(i).getLayout().getName().equals("group")) {
+    //                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+    //                gson.put("horizontal " + i, false);
+    //                gson.put("size " + i, commonGoalList.get(i).getLayout().getSize());
+    //            } else {
+    //                gson.put("occurrences " + i, 0);
+    //                gson.put("horizontal " + i, false);
+    //                gson.put("size " + i, 0);
+    //            }
+    //        }
+    //        commonGoals = commonGoalList.size();
+    //        //        gson.put("bookshelf", bookshelf.getItems());
+    //        //        gson.put("board", board.getBoardMatrix());
+    //        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+    //            out.write(gson.toString());
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //        }
+    //    }
     public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
         gson = new JSONObject();
         String path = BASE_PATH + "GameMessage.json";
-
         gson.put("category", "startGame");
         gson.put("personal_goal", personalGoal);
-
-        for (int i = 0; i < commonGoalList.size(); i++) {
-            gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
-
-            if (commonGoalList.get(i).getLayout().getName().equals("fullLine")) {
-                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
-                gson.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
-                gson.put("size " + i, 0);
-            } else if (commonGoalList.get(i).getLayout().getName().equals("group")) {
-                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
-                gson.put("horizontal " + i, false);
-                gson.put("size " + i, commonGoalList.get(i).getLayout().getSize());
-            } else {
-                gson.put("occurrences " + i, 0);
-                gson.put("horizontal " + i, false);
-                gson.put("size " + i, 0);
-            }
-        }
-        commonGoals = commonGoalList.size();
-        //        gson.put("bookshelf", bookshelf.getItems());
-        //        gson.put("board", board.getBoardMatrix());
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
+        JSONArray commonGoalArray = new JSONArray();
+        commonGoalArray.addAll(commonGoalList);
+        gson.put("commonGoal", commonGoalArray);
+        JSONArray bookshelfItemList = new JSONArray();
+        for()
+        gson.put("bookshelf", bookshelfItemList);
+        gson.put("board", board.getBoardMatrix());
+        try {
+            FileWriter file = new FileWriter(path);
+            file.write(gson.toJSONString());
+            file.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -189,5 +211,9 @@ public class Message implements Serializable {
             cardHorizontal.add((boolean) gson.get("horizontal " + i));
         }
         return cardHorizontal;
+    }
+
+    public JSONObject getGson() {
+        return gson;
     }
 }

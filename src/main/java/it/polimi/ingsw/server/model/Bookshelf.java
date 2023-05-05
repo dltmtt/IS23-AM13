@@ -401,6 +401,16 @@ public class Bookshelf implements AbleToGetPoints {
         return items;
     }
 
+    public List<Item> getItemsAsList() {
+        List<Item> itemList = new ArrayList<>();
+        for (int row = 0; row < getRows(); row++) {
+            for (int col = 0; col < getColumns(); col++) {
+                itemList.add(items[row][col].orElse(null));
+            }
+        }
+        return itemList;
+    }
+
     // TODO: move this to the view
     public void cli_print() {
         CliUtilities.stringifyBookshelf(items).forEach(System.out::println);

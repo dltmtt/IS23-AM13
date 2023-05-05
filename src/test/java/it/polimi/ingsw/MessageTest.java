@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.BookshelfUtilities.randomFill;
+
 public class MessageTest {
 
     @Test
@@ -44,6 +46,9 @@ public class MessageTest {
         PersonalGoal personalGoal = SettingLoader.loadSpecificPersonalGoal(1);
         CommonGoal commonGoal1 = new CommonGoal(new Group(1, 1, 3, 4), 3);
         List<CommonGoal> list = List.of(commonGoal1);
-        Message message = new Message(1, list, new Bookshelf(), new Board(3));
+        Bookshelf bookshelf = new Bookshelf();
+        randomFill(bookshelf);
+        Message message = new Message(1, list, bookshelf, new Board(3));
+        System.out.println(message.getGson());
     }
 }

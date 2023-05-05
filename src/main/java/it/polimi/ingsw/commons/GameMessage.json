@@ -1,8 +1,1 @@
-{
-  "occurrences 0": 0,
-  "horizontal 0": false,
-  "category": "startGame",
-  "personal_goal": 9,
-  "commonGoalLayout 0": "square",
-  "size 0": 0
-}
+{"bookshelf":[],"commonGoal":[it.polimi.ingsw.server.model.CommonGoal@157632c9],"category":"startGame","personal_goal":1,"board":[[Lit.polimi.ingsw.server.model.Item;@6ee12bac}
