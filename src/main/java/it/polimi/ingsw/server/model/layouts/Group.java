@@ -34,7 +34,7 @@ public class Group extends Layout {
 
     @Override
     public String getName() {
-        return "Group";
+        return "group";
     }
 
     /**

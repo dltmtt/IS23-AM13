@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client.view;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+
 public class GameGuiView extends GameView {
 
     @Override
@@ -43,5 +47,10 @@ public class GameGuiView extends GameView {
     @Override
     public void showPersonalCard(int card) {
         System.out.println("showPersonalCard() not implemented yet in " + this.getClass().getName());
+    }
+
+    @Override
+    public void showCommonGoal(String card, int occurences, int size, boolean horizontal) throws IOException, ParseException {
+        System.out.println("showCommonGoal() not implemented yet in " + this.getClass().getName());
     }
 }

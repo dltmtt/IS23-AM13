@@ -120,8 +120,9 @@ public class ClientRmi extends Client {
     }
 
     public void startGame() throws FullRoomException, IOException, ParseException {
-        Message myGame = server.sendGame(myPosix);
+        Message myGame = server.sendMessage(parser.sendPosix(myPosix));
         controller.showPersonalGoal(parser.getPersonalGoal(myGame));
+        controller.showCommonGoal(parser.getCardstype(myGame), parser.getCardOccurences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
         //        System.out.println("Game started!");
     }
 }

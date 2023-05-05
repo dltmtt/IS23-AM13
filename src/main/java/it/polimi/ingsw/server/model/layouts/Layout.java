@@ -57,6 +57,18 @@ public abstract class Layout {
         this.maxDifferent = maxDifferent;
     }
 
+    public int getOccurrences() {
+        return 0;
+    }
+
+    public boolean isHorizontal() {
+        return false;
+    }
+
+    public int getSize() {
+        return 0;
+    }
+
     public abstract String getName();
 
     /**

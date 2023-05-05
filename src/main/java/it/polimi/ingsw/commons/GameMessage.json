@@ -1,5 +1,8 @@
 {
+  "occurrences 0": 0,
+  "horizontal 0": false,
   "category": "startGame",
   "personal_goal": 9,
-  "commonGoalLayout 0": "fullLine"
+  "commonGoalLayout 0": "square",
+  "size 0": 0
 }

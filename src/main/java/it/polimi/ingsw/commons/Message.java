@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public class Message implements Serializable {
 
     private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
     private final JSONObject gson;
+    private int commonGoals = 0;
 
     /**
      * Constructor for the login type of message
@@ -88,7 +90,22 @@ public class Message implements Serializable {
 
         for (int i = 0; i < commonGoalList.size(); i++) {
             gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
+
+            if (commonGoalList.get(i).getLayout().getName().equals("fullLine")) {
+                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+                gson.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
+                gson.put("size " + i, 0);
+            } else if (commonGoalList.get(i).getLayout().getName().equals("group")) {
+                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+                gson.put("horizontal " + i, false);
+                gson.put("size " + i, commonGoalList.get(i).getLayout().getSize());
+            } else {
+                gson.put("occurrences " + i, 0);
+                gson.put("horizontal " + i, false);
+                gson.put("size " + i, 0);
+            }
         }
+        commonGoals = commonGoalList.size();
         //        gson.put("bookshelf", bookshelf.getItems());
         //        gson.put("board", board.getBoardMatrix());
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
@@ -140,5 +157,37 @@ public class Message implements Serializable {
 
     public Item[][] getBoard() {
         return (Item[][]) gson.get("board");
+    }
+
+    public List<String> getCardType() {
+        List<String> cardType = new ArrayList<>();
+        for (int i = 0; i < commonGoals; i++) {
+            cardType.add((String) gson.get("commonGoalLayout " + i));
+        }
+        return cardType;
+    }
+
+    public List<Integer> getCardOccurences() {
+        List<Integer> cardOccurences = new ArrayList<>();
+        for (int j = 0; j < commonGoals; j++) {
+            cardOccurences.add((int) gson.get("occurrences " + j));
+        }
+        return cardOccurences;
+    }
+
+    public List<Integer> getCardSize() {
+        List<Integer> cardSize = new ArrayList<>();
+        for (int j = 0; j < commonGoals; j++) {
+            cardSize.add((int) gson.get("size " + j));
+        }
+        return cardSize;
+    }
+
+    public List<Boolean> getCardHorizotal() {
+        List<Boolean> cardHorizontal = new ArrayList<>();
+        for (int i = 0; i < commonGoals; i++) {
+            cardHorizontal.add((boolean) gson.get("horizontal " + i));
+        }
+        return cardHorizontal;
     }
 }

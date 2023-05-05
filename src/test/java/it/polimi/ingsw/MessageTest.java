@@ -1,7 +1,17 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.commons.Message;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.CommonGoal;
+import it.polimi.ingsw.server.model.PersonalGoal;
+import it.polimi.ingsw.server.model.layouts.Group;
+import it.polimi.ingsw.utils.SettingLoader;
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MessageTest {
 
@@ -27,5 +37,13 @@ public class MessageTest {
     void firstGameTest() {
         Message message = new Message("firstGame", "Valeria", 0, true, 0);
         assert message.getFirstGame();
+    }
+
+    @Test
+    void commonGoalMessageTest() throws IOException, ParseException {
+        PersonalGoal personalGoal = SettingLoader.loadSpecificPersonalGoal(1);
+        CommonGoal commonGoal1 = new CommonGoal(new Group(1, 1, 3, 4), 3);
+        List<CommonGoal> list = List.of(commonGoal1);
+        Message message = new Message(1, list, new Bookshelf(), new Board(3));
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Item;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 public class ClientParser implements Serializable {
@@ -58,5 +59,21 @@ public class ClientParser implements Serializable {
 
     public Item[][] getBoard(Message message) {
         return message.getBoard();
+    }
+
+    public List<String> getCardstype(Message message) {
+        return message.getCardType();
+    }
+
+    public List<Integer> getCardOccurences(Message message) {
+        return message.getCardOccurences();
+    }
+
+    public List<Integer> getCardSize(Message message) {
+        return message.getCardSize();
+    }
+
+    public List<Boolean> getCardHorizontal(Message message) {
+        return message.getCardHorizotal();
     }
 }

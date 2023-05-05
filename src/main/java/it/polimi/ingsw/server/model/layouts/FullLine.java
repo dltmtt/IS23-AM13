@@ -30,6 +30,16 @@ public class FullLine extends Layout {
     }
 
     @Override
+    public int getOccurrences() {
+        return occurrences;
+    }
+
+    @Override
+    public boolean isHorizontal() {
+        return horizontal;
+    }
+
+    @Override
     public String getName() {
         return "fullLine";
     }

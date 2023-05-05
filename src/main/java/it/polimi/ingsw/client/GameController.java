@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.GameModel;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GameController {
 
@@ -45,5 +46,15 @@ public class GameController {
 
     public void showPersonalGoal(int card) throws IOException, ParseException {
         gameView.showPersonalCard(card);
+    }
+
+    public void showCommonGoal(List<String> cards, List<Integer> occurences, List<Integer> size, List<Boolean> horizontal) {
+        for (int i = 0; i < cards.size(); i++) {
+            try {
+                gameView.showCommonGoal(cards.get(i), occurences.get(i), size.get(i), horizontal.get(i));
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -39,4 +39,6 @@ public abstract class GameView {
     public abstract int promptNumberOfPlayers();
 
     public abstract void showPersonalCard(int card) throws IOException, ParseException;
+
+    public abstract void showCommonGoal(String card, int occurences, int size, boolean horizontal) throws IOException, ParseException;
 }

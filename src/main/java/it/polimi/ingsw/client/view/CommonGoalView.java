@@ -6,15 +6,16 @@ import it.polimi.ingsw.utils.CliUtilities;
 public class CommonGoalView {
 
     public static void print(String type, int occurrences, int size, boolean horizontal) {
+        System.out.println("This is your Common Goal Card : ");
         switch (type) {
-            case "Corners" -> cornersPrintLayout();
-            case "Diagonal" -> diagonalPrintLayout();
-            case "FullLine" -> fullLinePrintLayout(occurrences, horizontal);
-            case "Group" -> groupPrintLayout(occurrences, size);
-            case "XShape" -> xShapePrintLayout();
-            case "ItemsPerColor" -> itemsPerColorPrintLayout();
-            case "Stair" -> stairPrintLayout();
-            case "Square" -> squarePrintLayout();
+            case "corners" -> cornersPrintLayout();
+            case "diagonal" -> diagonalPrintLayout();
+            case "fullLine" -> fullLinePrintLayout(occurrences, horizontal);
+            case "group" -> groupPrintLayout(occurrences, size);
+            case "xShape" -> xShapePrintLayout();
+            case "itemsPerColor" -> itemsPerColorPrintLayout();
+            case "stair" -> stairPrintLayout();
+            case "square" -> squarePrintLayout();
             default -> System.out.println("Error in CommonGoalView");
         }
     }

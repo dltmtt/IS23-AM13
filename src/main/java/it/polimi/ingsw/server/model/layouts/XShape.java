@@ -36,7 +36,7 @@ public class XShape extends Layout {
 
     @Override
     public String getName() {
-        return "xshape";
+        return "xShape";
     }
 
     /**
