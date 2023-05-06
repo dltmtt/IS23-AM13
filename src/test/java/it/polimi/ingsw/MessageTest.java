@@ -51,4 +51,12 @@ public class MessageTest {
         Message message = new Message(1, list, bookshelf, new Board(3));
         System.out.println(message.getGson());
     }
+
+    @Test
+    void BookeshelfMessageTest() throws IOException, ParseException, IllegalAccessException {
+        Bookshelf bookshelf = new Bookshelf();
+        randomFill(bookshelf);
+        List<CommonGoal> list = List.of(new CommonGoal(new Group(1, 1, 3, 4), 3));
+        Message message = new Message(1, list, bookshelf, new Board(3));
+    }
 }

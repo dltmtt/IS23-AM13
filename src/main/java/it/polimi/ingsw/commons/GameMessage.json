@@ -1,1 +1,567 @@
-{"bookshelf":[],"commonGoal":[it.polimi.ingsw.server.model.CommonGoal@157632c9],"category":"startGame","personal_goal":1,"board":[[Lit.polimi.ingsw.server.model.Item;@6ee12bac}
+{
+  "occurrences 0": 3,
+  "bookshelf": [
+    {
+      "item": null,
+      "column": 0,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 5
+    }
+  ],
+  "horizontal 0": false,
+  "category": "startGame",
+  "personal_goal": 11,
+  "commonGoalLayout 0": "fullLine",
+  "size 0": 0,
+  "board": [
+    {
+      "item": null,
+      "column": 0,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 0
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 1
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 2
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 3
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 4
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 5
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 6
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 7
+    },
+    {
+      "item": null,
+      "column": 0,
+      "row": 8
+    },
+    {
+      "item": null,
+      "column": 1,
+      "row": 8
+    },
+    {
+      "item": null,
+      "column": 2,
+      "row": 8
+    },
+    {
+      "item": null,
+      "column": 3,
+      "row": 8
+    },
+    {
+      "item": null,
+      "column": 4,
+      "row": 8
+    },
+    {
+      "item": null,
+      "column": 5,
+      "row": 8
+    },
+    {
+      "item": null,
+      "column": 6,
+      "row": 8
+    },
+    {
+      "item": null,
+      "column": 7,
+      "row": 8
+    },
+    {
+      "item": null,
+      "column": 8,
+      "row": 8
+    }
+  ]
+}

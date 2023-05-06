@@ -107,10 +107,12 @@ public class ClientRmi extends Client {
             throw new RuntimeException(e); // TODO: handle this exception
         } catch (FullRoomException | IOException | ParseException e) {
             throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void waitingRoom() throws FullRoomException, IOException, ParseException {
+    public void waitingRoom() throws FullRoomException, IOException, ParseException, IllegalAccessException {
         System.out.println("Waiting for other players to join...");
         String response = parser.getMessage(server.sendMessage(parser.sendReady()));
         while (response == null) {
@@ -119,7 +121,7 @@ public class ClientRmi extends Client {
         startGame();
     }
 
-    public void startGame() throws FullRoomException, IOException, ParseException {
+    public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
         Message myGame = server.sendMessage(parser.sendPosix(myPosix));
         controller.showPersonalGoal(parser.getPersonalGoal(myGame));
         controller.showCommonGoal(parser.getCardstype(myGame), parser.getCardOccurences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));

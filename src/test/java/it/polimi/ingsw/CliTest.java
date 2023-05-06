@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.client.view.BoardView;
 import it.polimi.ingsw.client.view.BookshelfView;
 import it.polimi.ingsw.client.view.CommonGoalView;
 import it.polimi.ingsw.server.model.*;
@@ -110,5 +111,13 @@ public class CliTest {
         bookshelfView1.printBookshelf();
         System.out.println("Opponent's bookshelf:");
         bookshelfView2.printOtherBookshelf();
+    }
+
+    @Test
+    void boardTest() throws IOException, ParseException, IllegalAccessException {
+        Board board = new Board(3);
+        board.fill();
+        BoardView boardView = new BoardView(board);
+        boardView.printBoard();
     }
 }

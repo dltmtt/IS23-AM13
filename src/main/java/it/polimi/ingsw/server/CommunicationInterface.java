@@ -17,7 +17,7 @@ public interface CommunicationInterface extends Remote {
     ServerParser parser = new ServerParser();
     ServerController controller = new ServerController();
 
-    default Message sendMessage(Message message) throws RemoteException, FullRoomException {
+    default Message sendMessage(Message message) throws RemoteException, FullRoomException, IllegalAccessException {
         String category = parser.getMessageCategory(message);
         switch (category) {
             case "username" -> {

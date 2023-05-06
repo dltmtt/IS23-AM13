@@ -4,11 +4,11 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class Message implements Serializable {
 
     private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
     private final JSONObject gson;
-    private final int commonGoals = 0;
+    private int commonGoals = 0;
 
     /**
      * Constructor for the login type of message
@@ -83,59 +83,100 @@ public class Message implements Serializable {
      * @param bookshelf      bookshelf of the player
      * @param board          board of the game
      */
-    //    public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
-    //        gson = new JSONObject();
-    //        String path = BASE_PATH + "GameMessage.json";
-    //
-    //        gson.put("category", "startGame");
-    //        gson.put("personal_goal", personalGoal);
-    //
-    //        for (int i = 0; i < commonGoalList.size(); i++) {
-    //            gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
-    //
-    //            if (commonGoalList.get(i).getLayout().getName().equals("fullLine")) {
-    //                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
-    //                gson.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
-    //                gson.put("size " + i, 0);
-    //            } else if (commonGoalList.get(i).getLayout().getName().equals("group")) {
-    //                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
-    //                gson.put("horizontal " + i, false);
-    //                gson.put("size " + i, commonGoalList.get(i).getLayout().getSize());
-    //            } else {
-    //                gson.put("occurrences " + i, 0);
-    //                gson.put("horizontal " + i, false);
-    //                gson.put("size " + i, 0);
-    //            }
-    //        }
-    //        commonGoals = commonGoalList.size();
-    //        //        gson.put("bookshelf", bookshelf.getItems());
-    //        //        gson.put("board", board.getBoardMatrix());
-    //        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-    //            out.write(gson.toString());
-    //        } catch (Exception e) {
-    //            e.printStackTrace();
-    //        }
-    //    }
     public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
         gson = new JSONObject();
         String path = BASE_PATH + "GameMessage.json";
+        SettingLoader.loadBookshelfSettings();
         gson.put("category", "startGame");
         gson.put("personal_goal", personalGoal);
-        JSONArray commonGoalArray = new JSONArray();
-        commonGoalArray.addAll(commonGoalList);
-        gson.put("commonGoal", commonGoalArray);
+
+        for (int i = 0; i < commonGoalList.size(); i++) {
+            gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
+
+            if (commonGoalList.get(i).getLayout().getName().equals("fullLine")) {
+                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+                gson.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
+                gson.put("size " + i, 0);
+            } else if (commonGoalList.get(i).getLayout().getName().equals("group")) {
+                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+                gson.put("horizontal " + i, false);
+                gson.put("size " + i, commonGoalList.get(i).getLayout().getSize());
+            } else {
+                gson.put("occurrences " + i, 0);
+                gson.put("horizontal " + i, false);
+                gson.put("size " + i, 0);
+            }
+        }
+        commonGoals = commonGoalList.size();
+
         JSONArray bookshelfItemList = new JSONArray();
-        for()
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
+            for (int j = 0; j < Bookshelf.getColumns(); j++) {
+                JSONObject bookshelfItem = new JSONObject();
+                bookshelfItem.put("row", i);
+                bookshelfItem.put("column", j);
+                JSONObject item = new JSONObject();
+                if (bookshelf.getItemAt(i, j).isPresent()) {
+                    JSONArray itemThings = new JSONArray();
+                    item.put("color", bookshelf.getItemAt(i, j).get().color().toString());
+                    item.put("value", bookshelf.getItemAt(i, j).get().number());
+                    itemThings.add(item);
+                    bookshelfItem.put("item", itemThings);
+                } else {
+                    bookshelfItem.put("item", null);
+                }
+                bookshelfItemList.add(bookshelfItem);
+            }
+        }
         gson.put("bookshelf", bookshelfItemList);
-        gson.put("board", board.getBoardMatrix());
-        try {
-            FileWriter file = new FileWriter(path);
-            file.write(gson.toJSONString());
-            file.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        JSONArray boardMatrix = new JSONArray();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                JSONObject boardItem = new JSONObject();
+                boardItem.put("row", i);
+                boardItem.put("column", j);
+                JSONObject item = new JSONObject();
+                if (board.getItem(i, j) == null) {
+                    boardItem.put("item", null);
+                } else {
+                    JSONArray itemThings = new JSONArray();
+                    item.put("color", board.getItem(i, j).color().toString());
+                    item.put("value", board.getItem(i, j).number());
+                    itemThings.add(item);
+                    boardItem.put("item", itemThings);
+                }
+                boardMatrix.add(boardItem);
+            }
+        }
+        gson.put("board", boardMatrix);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+    //    public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
+    //        gson = new JSONObject();
+    //        String path = BASE_PATH + "GameMessage.json";
+    //        gson.put("category", "startGame");
+    //        gson.put("personal_goal", personalGoal);
+    //        JSONArray commonGoalArray = new JSONArray();
+    //        commonGoalArray.addAll(commonGoalList);
+    //        gson.put("commonGoal", commonGoalArray);
+    //        JSONArray bookshelfItemList = new JSONArray();
+    //        //        for()
+    //        //        gson.put("bookshelf", bookshelfItemList);
+    //        //        gson.put("board", board.getBoardMatrix());
+    //        try {
+    //            FileWriter file = new FileWriter(path);
+    //            file.write(gson.toJSONString());
+    //            file.close();
+    //        } catch (IOException e) {
+    //            throw new RuntimeException(e);
+    //        }
+    //    }
 
     public String getCategory() {
         return (String) gson.get("category");

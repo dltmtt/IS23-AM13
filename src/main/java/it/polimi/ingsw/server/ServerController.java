@@ -51,7 +51,7 @@ public class ServerController {
         return room.getListOfPlayers().size();
     }
 
-    public String checkRoom() {
+    public String checkRoom() throws IllegalAccessException {
         if (room.full()) {
             gameModel = new GameModel(players);
             gameModel.start();
