@@ -21,6 +21,10 @@ public class ServerParser {
         return new Message(posix);
     }
 
+    public Message sendTurn(boolean turn) {
+        return new Message(turn);
+    }
+
     public String getMessageCategory(Message message) {
         String category = message.getCategory();
         return switch (category) {
@@ -31,8 +35,18 @@ public class ServerParser {
             case "ready" -> "ready";
             case "startGame" -> "startGame";
             case "index" -> "index";
+            case "turn" -> "turn";
+            case "move" -> "move";
             default -> null;
         };
+    }
+
+    public Message sendUpdate(String category, Bookshelf bookshelf, Board livingroom) {
+        return new Message(category, bookshelf, livingroom);
+    }
+
+    public List<Integer> getMove(Message message) {
+        return message.getMove();
     }
 
     public int getPosix(Message message) {

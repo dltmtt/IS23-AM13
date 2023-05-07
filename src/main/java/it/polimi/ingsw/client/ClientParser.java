@@ -25,6 +25,18 @@ public class ClientParser implements Serializable {
         return new Message("numPlayer", "", 0, false, numPlayer);
     }
 
+    Message sendTurn(String category, int posix) {
+        return new Message(category, posix);
+    }
+
+    Message sendMove(int fromRow, int fromCol, int toRow, int toCol, int bookshelfcolumn) {
+        return new Message(fromRow, fromCol, toRow, toCol, bookshelfcolumn);
+    }
+
+    Boolean getTurn(Message message) {
+        return message.getTurn();
+    }
+
     String getMessage(Message message) {
         return message.getCategory();
     }

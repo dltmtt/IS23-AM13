@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
 
 import java.util.ArrayList;
@@ -80,7 +81,27 @@ public class ServerController {
         return room.getListOfPlayers().get(index - 1).getBookshelf();
     }
 
+    public Bookshelf getCurrentePlayerBookshelf() {
+        return gameModel.getCurrentPlayer().getBookshelf();
+    }
+
     public Board getBoard() {
         return gameModel.getLivingRoom();
+    }
+
+    public boolean yourTurn(int index) {
+        return gameModel.getCurrentPlayer().equals(room.getListOfPlayers().get(index - 1));
+    }
+
+    public String move(List<Integer> move) {
+        return checkMove(move);
+    }
+
+    public String checkMove(List<Integer> move) {
+        if (move.get(0) == move.get(2) || move.get(1) == move.get(3) || (move.get(4) >= 0 && move.get(4) <= 4)) {
+            gameModel.move(new Coordinates(move.get(0), move.get(1)), new Coordinates(move.get(2), move.get(3)), move.get(4));
+            return "ok";
+        }
+        return "no";
     }
 }

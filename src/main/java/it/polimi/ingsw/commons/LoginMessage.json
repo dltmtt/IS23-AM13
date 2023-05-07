@@ -1,7 +1,4 @@
 {
-  "argument": "",
-  "bool": false,
-  "category": "ready",
-  "numPlayer": 0,
-  "value": 0
+  "category": "turn",
+  "posix": 1
 }

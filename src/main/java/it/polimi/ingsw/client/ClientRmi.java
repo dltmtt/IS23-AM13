@@ -12,6 +12,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 
 import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_RMI;
@@ -126,5 +127,31 @@ public class ClientRmi extends Client {
         controller.showPersonalGoal(parser.getPersonalGoal(myGame));
         controller.showCommonGoal(parser.getCardstype(myGame), parser.getCardOccurences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
         //        System.out.println("Game started!");
+        //TODO: show bookshelf and board
+        waitForTurn();
+    }
+
+    public void waitForTurn() throws RemoteException, FullRoomException, IllegalAccessException {
+        boolean myTurn = false;
+        while (!myTurn) {
+            myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosix)));
+        }
+        System.out.println("It's your turn!");
+        myTurn();
+    }
+
+    public void myTurn() throws FullRoomException, RemoteException, IllegalAccessException {
+        List<Integer> move = controller.shoeMoveScreen();
+        Message myMove = parser.sendMove(move.get(0), move.get(1), move.get(2), move.get(3), move.get(4));
+        Message isMyMoveOk = server.sendMessage(myMove);
+
+        while (!parser.getMessage(isMyMoveOk).equals("update")) {
+            System.out.println("Move not ok,please retry");
+            move = controller.shoeMoveScreen();
+            myMove = parser.sendMove(move.get(0), move.get(1), move.get(2), move.get(3), move.get(4));
+            isMyMoveOk = server.sendMessage(myMove);
+        }
+        
+        System.out.println("Move ok");
     }
 }

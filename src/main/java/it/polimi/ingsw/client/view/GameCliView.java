@@ -6,6 +6,8 @@ import org.json.simple.parser.ParseException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class GameCliView extends GameView {
@@ -121,6 +123,26 @@ public class GameCliView extends GameView {
     @Override
     public void showCommonGoal(String card, int occurences, int size, boolean horizontal) throws IOException, ParseException {
         CommonGoalView.print(card, occurences, size, horizontal);
+    }
+
+    @Override
+    public List<Integer> showMove() {
+        System.out.println("It's your turn! Do your move!");
+        List<Integer> move = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            int row_column = 0;
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+                row_column = Integer.parseInt(in.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("An error occurred while reading the age.");
+            }
+            move.add(row_column);
+        }
+
+        return move;
     }
 
     @Override

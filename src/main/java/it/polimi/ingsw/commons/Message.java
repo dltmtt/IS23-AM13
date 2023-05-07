@@ -46,6 +46,18 @@ public class Message implements Serializable {
         }
     }
 
+    public Message(String category, int posix) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "LoginMessage.json";
+        gson.put("category", category);
+        gson.put("posix", posix);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Constructor for the single message type of message
      * it is used for response messages from the server
@@ -109,54 +121,70 @@ public class Message implements Serializable {
         }
         commonGoals = commonGoalList.size();
 
-        JSONArray bookshelfItemList = new JSONArray();
-        for (int i = 0; i < Bookshelf.getRows(); i++) {
-            for (int j = 0; j < Bookshelf.getColumns(); j++) {
-                JSONObject bookshelfItem = new JSONObject();
-                bookshelfItem.put("row", i);
-                bookshelfItem.put("column", j);
-                JSONObject item = new JSONObject();
-                if (bookshelf.getItemAt(i, j).isPresent()) {
-                    JSONArray itemThings = new JSONArray();
-                    item.put("color", bookshelf.getItemAt(i, j).get().color().toString());
-                    item.put("value", bookshelf.getItemAt(i, j).get().number());
-                    itemThings.add(item);
-                    bookshelfItem.put("item", itemThings);
-                } else {
-                    bookshelfItem.put("item", null);
-                }
-                bookshelfItemList.add(bookshelfItem);
-            }
-        }
-        gson.put("bookshelf", bookshelfItemList);
+        gson.put("bookshelf", bookshelfJson(bookshelf));
 
-        JSONArray boardMatrix = new JSONArray();
+        gson.put("board", boardJson(board));
 
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                JSONObject boardItem = new JSONObject();
-                boardItem.put("row", i);
-                boardItem.put("column", j);
-                JSONObject item = new JSONObject();
-                if (board.getItem(i, j) == null) {
-                    boardItem.put("item", null);
-                } else {
-                    JSONArray itemThings = new JSONArray();
-                    item.put("color", board.getItem(i, j).color().toString());
-                    item.put("value", board.getItem(i, j).number());
-                    itemThings.add(item);
-                    boardItem.put("item", itemThings);
-                }
-                boardMatrix.add(boardItem);
-            }
-        }
-        gson.put("board", boardMatrix);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public Message(boolean turn) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "TurnMessage.json";
+        gson.put("category", "turn");
+        gson.put("turn", turn);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Message(int startRow, int startColumn, int finalRow, int finalColumn, int bookshelfIndex) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "MoveMessage.json";
+        gson.put("category", "move");
+        gson.put("startRow", startRow);
+        gson.put("startColumn", startColumn);
+        gson.put("finalRow", finalRow);
+        gson.put("finalColumn", finalColumn);
+        gson.put("bookshelfIndex", bookshelfIndex);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Message(String category, Bookshelf bookshelf, Board board) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "UpdateMessage.json";
+        gson.put("category", category);
+        gson.put("bookshelf", bookshelfJson(bookshelf));
+
+        gson.put("board", boardJson(board));
+
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Integer> getMove() {
+        List<Integer> move = new ArrayList<>();
+        move.add((int) gson.get("startRow"));
+        move.add((int) gson.get("startColumn"));
+        move.add((int) gson.get("finalRow"));
+        move.add((int) gson.get("finalColumn"));
+        move.add((int) gson.get("bookshelfIndex"));
+        return move;
+    }
+
     //    public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
     //        gson = new JSONObject();
     //        String path = BASE_PATH + "GameMessage.json";
@@ -177,6 +205,57 @@ public class Message implements Serializable {
     //            throw new RuntimeException(e);
     //        }
     //    }
+
+    public JSONArray bookshelfJson(Bookshelf bookshelf) {
+        JSONArray bookshelfItemList = new JSONArray();
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
+            for (int j = 0; j < Bookshelf.getColumns(); j++) {
+                JSONObject bookshelfItem = new JSONObject();
+                bookshelfItem.put("row", i);
+                bookshelfItem.put("column", j);
+                JSONObject item = new JSONObject();
+                if (bookshelf.getItemAt(i, j).isPresent()) {
+                    JSONArray itemThings = new JSONArray();
+                    item.put("color", bookshelf.getItemAt(i, j).get().color().toString());
+                    item.put("value", bookshelf.getItemAt(i, j).get().number());
+                    itemThings.add(item);
+                    bookshelfItem.put("item", itemThings);
+                } else {
+                    bookshelfItem.put("item", null);
+                }
+                bookshelfItemList.add(bookshelfItem);
+            }
+        }
+        return bookshelfItemList;
+    }
+
+    public JSONArray boardJson(Board board) {
+        JSONArray boardMatrix = new JSONArray();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                JSONObject boardItem = new JSONObject();
+                boardItem.put("row", i);
+                boardItem.put("column", j);
+                JSONObject item = new JSONObject();
+                if (board.getItem(i, j) == null) {
+                    boardItem.put("item", null);
+                } else {
+                    JSONArray itemThings = new JSONArray();
+                    item.put("color", board.getItem(i, j).color().toString());
+                    item.put("value", board.getItem(i, j).number());
+                    itemThings.add(item);
+                    boardItem.put("item", itemThings);
+                }
+                boardMatrix.add(boardItem);
+            }
+        }
+        return boardMatrix;
+    }
+
+    public boolean getTurn() {
+        return (boolean) gson.get("turn");
+    }
 
     public String getCategory() {
         return (String) gson.get("category");

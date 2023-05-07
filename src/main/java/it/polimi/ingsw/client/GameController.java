@@ -57,4 +57,8 @@ public class GameController {
             }
         }
     }
+
+    public List<Integer> shoeMoveScreen() {
+        return gameView.showMove();
+    }
 }

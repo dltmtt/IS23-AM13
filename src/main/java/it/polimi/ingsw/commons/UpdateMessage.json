@@ -1,5 +1,4 @@
 {
-  "occurrences 0": 6,
   "bookshelf": [
     {
       "item": null,
@@ -152,11 +151,7 @@
       "row": 5
     }
   ],
-  "horizontal 0": false,
-  "category": "startGame",
-  "personal_goal": 2,
-  "commonGoalLayout 0": "group",
-  "size 0": 2,
+  "category": "update",
   "board": [
     {
       "item": null,

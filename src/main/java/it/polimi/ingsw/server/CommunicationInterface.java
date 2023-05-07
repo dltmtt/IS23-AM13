@@ -52,6 +52,17 @@ public interface CommunicationInterface extends Remote {
                 int posix = parser.getPosix(message);
                 return sendGame(posix);
             }
+            case "turn" -> {
+                int posix = parser.getPosix(message);
+                return sendTurn(posix);
+            }
+            case "move" -> {
+                if (controller.move(parser.getMove(message)).equals("ok")) {
+                    return parser.sendUpdate("update", controller.getCurrentePlayerBookshelf(), controller.getBoard());
+                } else {
+                    return parser.sendMessage("retry");
+                }
+            }
             default -> {
                 System.out.println(message + " requested unknown");
                 return parser.sendMessage("Unknown request.");
@@ -62,5 +73,9 @@ public interface CommunicationInterface extends Remote {
     default Message sendGame(int posix) throws RemoteException {
         System.out.println("Sending game to " + posix);
         return parser.sendStartGame(controller.getPersonalGoalCard(posix), controller.getCommonGoals(), controller.getBookshelf(posix), controller.getBoard());
+    }
+
+    default Message sendTurn(int posix) throws RemoteException {
+        return parser.sendTurn(controller.yourTurn(posix));
     }
 }
