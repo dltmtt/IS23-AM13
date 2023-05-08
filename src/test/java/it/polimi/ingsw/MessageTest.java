@@ -6,16 +6,24 @@ import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.PersonalGoal;
 import it.polimi.ingsw.server.model.layouts.Group;
+import it.polimi.ingsw.server.model.layouts.XShape;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static it.polimi.ingsw.utils.BookshelfUtilities.randomFill;
 
 public class MessageTest {
+
+    @BeforeAll
+    static void setup() {
+        SettingLoader.loadBookshelfSettings();
+    }
 
     @Test
     void categoryTest() {
@@ -53,10 +61,28 @@ public class MessageTest {
     }
 
     @Test
-    void BookeshelfMessageTest() throws IOException, ParseException, IllegalAccessException {
+    void BookshelfMessageTest() throws IOException, ParseException, IllegalAccessException {
         Bookshelf bookshelf = new Bookshelf();
         randomFill(bookshelf);
         List<CommonGoal> list = List.of(new CommonGoal(new Group(1, 1, 3, 4), 3));
         Message message = new Message(1, list, bookshelf, new Board(3));
+        Bookshelf receivedBookshelf = new Bookshelf(message.getBookshelf());
+
+        assert Arrays.deepEquals(bookshelf.getItems(), receivedBookshelf.getItems());
+        bookshelf.cli_print();
+        receivedBookshelf.cli_print();
+    }
+
+    @Test
+    void emptyBookshelfMessage() throws IOException, ParseException {
+        Bookshelf bookshelf = new Bookshelf();
+        int numberOfPlayers = 3;
+        List<CommonGoal> list = List.of(new CommonGoal(new Group(1, 1, 3, 4), numberOfPlayers), new CommonGoal(new XShape(1, 1, 3), numberOfPlayers));
+        Message message = new Message(1, list, bookshelf, new Board(numberOfPlayers));
+        Bookshelf receivedBookshelf = new Bookshelf(message.getBookshelf());
+
+        assert Arrays.deepEquals(bookshelf.getItems(), receivedBookshelf.getItems());
+        bookshelf.cli_print();
+        receivedBookshelf.cli_print();
     }
 }

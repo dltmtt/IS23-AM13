@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -294,7 +295,25 @@ public class Message implements Serializable {
     }
 
     public Optional<Item>[][] getBookshelf() {
-        return (Optional<Item>[][]) gson.get("bookshelf");
+        //TODO: change JSON Bookshelf to and array of columns (array of arrays)
+
+        Bookshelf bookshelf = new Bookshelf();
+        JSONArray bookshelfJson = (JSONArray) gson.get("bookshelf");
+        for (Object obj : bookshelfJson) {
+            JSONObject bookshelfItem = (JSONObject) obj;
+            int row = (int) bookshelfItem.get("row");
+            int column = (int) bookshelfItem.get("column");
+            JSONArray itemJson = (JSONArray) bookshelfItem.get("item");
+            if (itemJson == null) {
+                bookshelf.setItem(row, column, Optional.empty());
+            } else {
+                JSONObject item = (JSONObject) itemJson.get(0);
+                String color = (String) item.get("color");
+                int value = (int) item.get("value");
+                bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
+            }
+        }
+        return bookshelf.getItems();
     }
 
     public Item[][] getBoard() {

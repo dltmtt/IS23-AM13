@@ -68,6 +68,12 @@ public class Bookshelf implements AbleToGetPoints {
         clearBooleanMatrix();
     }
 
+    public Bookshelf(Optional<Item>[][] items) {
+        this.items = items;
+        booleanMatrix = new boolean[Bookshelf.rows][Bookshelf.columns];
+        clearBooleanMatrix();
+    }
+
     /**
      * @return the number of rows in a bookshelf
      */
@@ -415,5 +421,9 @@ public class Bookshelf implements AbleToGetPoints {
     // TODO: move this to the view
     public void cli_print() {
         CliUtilities.stringifyBookshelf(items).forEach(System.out::println);
+    }
+
+    public void setItem(int row, int col, Optional<Item> item) {
+        items[row][col] = item;
     }
 }
