@@ -17,11 +17,15 @@ public class ServerParser {
         return new Message(message);
     }
 
+    public Message sendMessage1(String category, String type, int n) {
+        return new Message(category, type, n);
+    }
+
     public Message sendPosix(int posix) {
         return new Message(posix);
     }
 
-    public Message sendTurn(boolean turn) {
+    public Message sendTurn(int turn) {
         return new Message(turn);
     }
 

@@ -54,6 +54,16 @@ public class Board {
         }
     }
 
+    public Board() {
+        boardMatrix = new Item[boardSize][boardSize];
+        itemBag = new ArrayList<>();
+        usableCells = new ArrayList<>();
+    }
+
+    public void setItem(int row, int column, Item item) {
+        boardMatrix[row][column] = item;
+    }
+
     public List<Item> getItemBag() {
         return itemBag;
     }

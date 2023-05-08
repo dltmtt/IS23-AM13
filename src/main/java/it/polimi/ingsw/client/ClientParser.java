@@ -1,11 +1,13 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
-import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Bookshelf;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 public class ClientParser implements Serializable {
 
@@ -33,7 +35,11 @@ public class ClientParser implements Serializable {
         return new Message(fromRow, fromCol, toRow, toCol, bookshelfcolumn);
     }
 
-    Boolean getTurn(Message message) {
+    Message sendUpdate() {
+        return new Message("update");
+    }
+
+    int getTurn(Message message) {
         return message.getTurn();
     }
 
@@ -65,11 +71,11 @@ public class ClientParser implements Serializable {
         return message.getCommonGoalLayout(i);
     }
 
-    public Optional<Item>[][] getBookshelf(Message message) {
+    public Bookshelf getBookshelf(Message message) {
         return message.getBookshelf();
     }
 
-    public Item[][] getBoard(Message message) {
+    public Board getBoard(Message message) throws IOException, ParseException {
         return message.getBoard();
     }
 

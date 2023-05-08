@@ -76,6 +76,6 @@ public interface CommunicationInterface extends Remote {
     }
 
     default Message sendTurn(int posix) throws RemoteException {
-        return parser.sendTurn(controller.yourTurn(posix));
+        return parser.sendMessage1("turn", "turn", controller.yourTurn(posix));
     }
 }
