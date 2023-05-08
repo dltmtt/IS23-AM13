@@ -19,6 +19,7 @@ public class GameModel {
     private List<CommonGoal> commonGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
+    private boolean isTheGameEnded;
 
     public GameModel(List<Player> players) {
         SettingLoader.loadBookshelfSettings();
@@ -41,6 +42,7 @@ public class GameModel {
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e + ", error in loading the goal decks");
         }
+        isTheGameEnded = false;
     }
 
     public void setPlayers(List<Player> players) {
@@ -52,9 +54,16 @@ public class GameModel {
         return currentPlayer;
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public Board getLivingRoom() {
         return livingRoom;
     }
+
+    // drawPersonalGoal() and drawCommonGoals() are basically the same method,
+    // we could parametrize them and use a single method for both.
 
     /**
      * Creates the <code>personalGoalDeck</code>, the <code>commonGoalDeck</code> and the <code>livingRoom</code>.
@@ -83,9 +92,6 @@ public class GameModel {
             throw new RuntimeException(e);
         }
     }
-
-    // drawPersonalGoal() and drawCommonGoals() are basically the same method,
-    // we could parametrize them and use a single method for both.
 
     /**
      * Draws a personal goal card from the personalGoalDeck for the player.
@@ -159,7 +165,6 @@ public class GameModel {
                 lastRound = true;
             }
         }
-        changeTurn();
     }
 
     public void addPlayer(Player player) {
@@ -169,60 +174,6 @@ public class GameModel {
     /**
      * Changes the turn to the next player.
      */
-    public void changeTurn() {
-        int currentPlayerIndex = players.indexOf(currentPlayer);
-        int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        if (lastRound) {
-            if (players.get(nextPlayerIndex).isFirstPlayer()) {
-                printWinners(setWinner());
-            } else {
-                currentPlayer = players.get(nextPlayerIndex);
-            }
-        } else {
-            currentPlayer = players.get(nextPlayerIndex);
-        }
-    }
-
-    public List<Player> setWinner() {
-        List<Player> winners = new ArrayList<>();
-        List<Integer> finalScoring = new ArrayList<>();
-        // TODO: add case of tie
-
-        for (Player player : players) {
-            finalScoring.add(player.calculateScore());
-        }
-
-        if (finalScoring.stream().distinct().count() < players.size()) {
-            //there is a tie
-            int max = finalScoring.stream().max(Integer::compare).get();
-            for (Integer score : finalScoring) {
-                if (score == max) {
-                    winners.add(players.get(finalScoring.indexOf(score)));
-                    players.remove(finalScoring.indexOf(score));
-                }
-            }
-        } else {
-            int max = finalScoring.stream().max(Integer::compare).get();
-            winners.add(players.get(finalScoring.indexOf(max)));
-        }
-
-        return winners;
-    }
-
-    public void printWinners(List<Player> winners) {
-
-        if (winners.size() > 1) {
-            for (Player winner : winners) {
-                if (winner.isFirstPlayer()) {
-                    winners.remove(winner);
-                }
-            }
-        }
-
-        for (Player winner : winners) {
-            System.out.println("The winner is " + winner.getNickname());
-        }
-    }
 
     public List<CommonGoal> getCommonGoalDeck() {
         return commonGoalDeck;
@@ -230,5 +181,21 @@ public class GameModel {
 
     public List<PersonalGoal> getPersonalGoalDeck() {
         return personalGoalDeck;
+    }
+
+    public boolean isTheGameEnded() {
+        return isTheGameEnded;
+    }
+
+    public void setTheGameEnded(boolean theGameEnded) {
+        isTheGameEnded = theGameEnded;
+    }
+
+    public boolean isLastRound() {
+        return lastRound;
+    }
+
+    public void setLastRound(boolean lastRound) {
+        this.lastRound = lastRound;
     }
 }

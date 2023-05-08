@@ -128,19 +128,24 @@ public class ClientRmi extends Client {
         controller.showCommonGoal(parser.getCardstype(myGame), parser.getCardOccurences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
         //        System.out.println("Game started!");
         //TODO: show bookshelf and board
+        controller.showBoard(parser.getBoard(myGame));
+        controller.showBookshelf(parser.getBookshelf(myGame));
         waitForTurn();
     }
 
-    public void waitForTurn() throws RemoteException, FullRoomException, IllegalAccessException {
-        boolean myTurn = false;
-        while (!myTurn) {
+    public void waitForTurn() throws IOException, FullRoomException, IllegalAccessException, ParseException {
+        int myTurn = 0;
+        while (myTurn != 1) {
+            if (myTurn == -1) {
+                endGame();
+            }
             myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosix)));
         }
         System.out.println("It's your turn!");
         myTurn();
     }
 
-    public void myTurn() throws FullRoomException, RemoteException, IllegalAccessException {
+    public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
         List<Integer> move = controller.shoeMoveScreen();
         Message myMove = parser.sendMove(move.get(0), move.get(1), move.get(2), move.get(3), move.get(4));
         Message isMyMoveOk = server.sendMessage(myMove);
@@ -151,7 +156,13 @@ public class ClientRmi extends Client {
             myMove = parser.sendMove(move.get(0), move.get(1), move.get(2), move.get(3), move.get(4));
             isMyMoveOk = server.sendMessage(myMove);
         }
-        
         System.out.println("Move ok");
+        controller.showBookshelf(parser.getBookshelf(isMyMoveOk));
+        controller.showBoard(parser.getBoard(isMyMoveOk));
+        waitForTurn();
+    }
+
+    public void endGame() {
+        System.out.println("Game ended");
     }
 }

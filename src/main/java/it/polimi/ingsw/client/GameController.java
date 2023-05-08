@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.GameView;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.GameModel;
 import org.json.simple.parser.ParseException;
 
@@ -60,5 +62,13 @@ public class GameController {
 
     public List<Integer> shoeMoveScreen() {
         return gameView.showMove();
+    }
+
+    public void showBoard(Board board) {
+        gameView.showBoard(board);
+    }
+
+    public void showBookshelf(Bookshelf bookshelf) {
+        gameView.showBookshelf(bookshelf);
     }
 }

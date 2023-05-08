@@ -8,8 +8,10 @@ import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +54,18 @@ public class Message implements Serializable {
         String path = BASE_PATH + "LoginMessage.json";
         gson.put("category", category);
         gson.put("posix", posix);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Message(String category, String type, int n) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "LoginMessage.json";
+        gson.put("category", category);
+        gson.put(type, n);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
@@ -254,8 +268,8 @@ public class Message implements Serializable {
         return boardMatrix;
     }
 
-    public boolean getTurn() {
-        return (boolean) gson.get("turn");
+    public int getTurn() {
+        return (int) gson.get("turn");
     }
 
     public String getCategory() {
@@ -294,7 +308,7 @@ public class Message implements Serializable {
         return (String) gson.get("commonGoalLayout" + i);
     }
 
-    public Optional<Item>[][] getBookshelf() {
+    public Bookshelf getBookshelf() {
         //TODO: change JSON Bookshelf to and array of columns (array of arrays)
 
         Bookshelf bookshelf = new Bookshelf();
@@ -313,11 +327,27 @@ public class Message implements Serializable {
                 bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
             }
         }
-        return bookshelf.getItems();
+        return bookshelf;
     }
 
-    public Item[][] getBoard() {
-        return (Item[][]) gson.get("board");
+    public Board getBoard() throws IOException, ParseException {
+        Board board = new Board();
+        JSONArray boardJson = (JSONArray) gson.get("board");
+        for (Object obj : boardJson) {
+            JSONObject boardItem = (JSONObject) obj;
+            int row = (int) boardItem.get("row");
+            int column = (int) boardItem.get("column");
+            JSONArray itemJson = (JSONArray) boardItem.get("item");
+            if (itemJson == null) {
+                board.setItem(row, column, null);
+            } else {
+                JSONObject item = (JSONObject) itemJson.get(0);
+                String color = (String) item.get("color");
+                int value = (int) item.get("value");
+                board.setItem(row, column, new Item(Color.valueOf(color), value));
+            }
+        }
+        return board;
     }
 
     public List<String> getCardType() {

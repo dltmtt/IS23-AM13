@@ -1,1 +1,4 @@
-{"argument":"Valeria","bool":false,"category":"username","numPlayer":0,"value":0}
+{
+  "category": "turn",
+  "posix": 2
+}

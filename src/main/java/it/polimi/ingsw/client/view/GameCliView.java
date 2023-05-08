@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.CliUtilities;
 import org.json.simple.parser.ParseException;
 
@@ -143,6 +145,20 @@ public class GameCliView extends GameView {
         }
 
         return move;
+    }
+
+    @Override
+    public void showBoard(Board board) {
+        BoardView boardView = new BoardView(board);
+        System.out.println("The board:");
+        boardView.printBoard();
+    }
+
+    @Override
+    public void showBookshelf(Bookshelf bookshelf) {
+        BookshelfView bookshelfView = new BookshelfView(bookshelf);
+        System.out.println("Your Bookshelf:");
+        bookshelfView.printBookshelf();
     }
 
     @Override

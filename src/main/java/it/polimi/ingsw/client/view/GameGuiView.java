@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Bookshelf;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -58,5 +60,15 @@ public class GameGuiView extends GameView {
     @Override
     public List<Integer> showMove() {
         return null;
+    }
+
+    @Override
+    public void showBoard(Board board) {
+
+    }
+
+    @Override
+    public void showBookshelf(Bookshelf bookshelf) {
+
     }
 }
