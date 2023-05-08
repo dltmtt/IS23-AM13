@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
@@ -104,19 +103,27 @@ public class Board {
     //x is row
     //y is column
 
-    public List<Item> pickFromBoard(List<Coordinates> pickedFromTo) throws IllegalAccessException {
+    //    public List<Item> pickFromBoard(List<Coordinates> pickedFromTo) throws IllegalAccessException {
+    //        List<Item> itemsPicked = new ArrayList<>();
+    //            if (Objects.equals(pickedFromTo.get(0).x(), pickedFromTo.get(1).x())) {
+    //                for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
+    //                    itemsPicked.add(boardMatrix[pickedFromTo.get(0).x()][i]);
+    //                    boardMatrix[pickedFromTo.get(0).x()][i] = null;
+    //                }
+    //            } else {
+    //                for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
+    //                    itemsPicked.add(boardMatrix[i][pickedFromTo.get(0).y()]);
+    //                    boardMatrix[i][pickedFromTo.get(0).y()] = null;
+    //                }
+    //            }
+    //        return itemsPicked;
+    //    }
+    public List<Item> pickFromBoard(List<Coordinates> pickedFromB) throws IllegalAccessException {
         List<Item> itemsPicked = new ArrayList<>();
-            if (Objects.equals(pickedFromTo.get(0).x(), pickedFromTo.get(1).x())) {
-                for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
-                    itemsPicked.add(boardMatrix[pickedFromTo.get(0).x()][i]);
-                    boardMatrix[pickedFromTo.get(0).x()][i] = null;
-                }
-            } else {
-                for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
-                    itemsPicked.add(boardMatrix[i][pickedFromTo.get(0).y()]);
-                    boardMatrix[i][pickedFromTo.get(0).y()] = null;
-                }
-            }
+        for (Coordinates coordinates : pickedFromB) {
+            itemsPicked.add(boardMatrix[coordinates.x()][coordinates.y()]);
+            boardMatrix[coordinates.x()][coordinates.y()] = null;
+        }
         return itemsPicked;
     }
 

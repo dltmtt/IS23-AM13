@@ -154,8 +154,8 @@
   ],
   "horizontal 0": false,
   "category": "startGame",
-  "personal_goal": 4,
-  "commonGoalLayout 0": "corners",
+  "personal_goal": 9,
+  "commonGoalLayout 0": "xShape",
   "size 0": 0,
   "board": [
     {
@@ -226,7 +226,7 @@
     {
       "item": [
         {
-          "color": "WHITE",
+          "color": "LIGHTBLUE",
           "value": 2
         }
       ],
@@ -236,8 +236,8 @@
     {
       "item": [
         {
-          "color": "BLUE",
-          "value": 1
+          "color": "LIGHTBLUE",
+          "value": 0
         }
       ],
       "column": 5,
@@ -277,7 +277,7 @@
       "item": [
         {
           "color": "GREEN",
-          "value": 2
+          "value": 0
         }
       ],
       "column": 3,
@@ -286,7 +286,7 @@
     {
       "item": [
         {
-          "color": "PINK",
+          "color": "LIGHTBLUE",
           "value": 1
         }
       ],
@@ -296,8 +296,8 @@
     {
       "item": [
         {
-          "color": "WHITE",
-          "value": 2
+          "color": "BLUE",
+          "value": 1
         }
       ],
       "column": 5,
@@ -326,7 +326,7 @@
     {
       "item": [
         {
-          "color": "LIGHTBLUE",
+          "color": "WHITE",
           "value": 1
         }
       ],
@@ -336,7 +336,7 @@
     {
       "item": [
         {
-          "color": "WHITE",
+          "color": "BLUE",
           "value": 0
         }
       ],
@@ -346,8 +346,8 @@
     {
       "item": [
         {
-          "color": "WHITE",
-          "value": 0
+          "color": "GREEN",
+          "value": 2
         }
       ],
       "column": 3,
@@ -356,8 +356,8 @@
     {
       "item": [
         {
-          "color": "PINK",
-          "value": 1
+          "color": "GREEN",
+          "value": 2
         }
       ],
       "column": 4,
@@ -366,8 +366,8 @@
     {
       "item": [
         {
-          "color": "BLUE",
-          "value": 2
+          "color": "LIGHTBLUE",
+          "value": 0
         }
       ],
       "column": 5,
@@ -401,8 +401,8 @@
     {
       "item": [
         {
-          "color": "BLUE",
-          "value": 0
+          "color": "LIGHTBLUE",
+          "value": 1
         }
       ],
       "column": 1,
@@ -421,8 +421,8 @@
     {
       "item": [
         {
-          "color": "LIGHTBLUE",
-          "value": 0
+          "color": "BLUE",
+          "value": 2
         }
       ],
       "column": 3,
@@ -431,7 +431,7 @@
     {
       "item": [
         {
-          "color": "LIGHTBLUE",
+          "color": "YELLOW",
           "value": 2
         }
       ],
@@ -441,8 +441,8 @@
     {
       "item": [
         {
-          "color": "WHITE",
-          "value": 2
+          "color": "PINK",
+          "value": 1
         }
       ],
       "column": 5,
@@ -451,8 +451,8 @@
     {
       "item": [
         {
-          "color": "BLUE",
-          "value": 1
+          "color": "GREEN",
+          "value": 2
         }
       ],
       "column": 6,
@@ -461,8 +461,8 @@
     {
       "item": [
         {
-          "color": "GREEN",
-          "value": 0
+          "color": "WHITE",
+          "value": 2
         }
       ],
       "column": 7,
@@ -486,38 +486,38 @@
     {
       "item": [
         {
-          "color": "GREEN",
-          "value": 2
+          "color": "WHITE",
+          "value": 0
         }
       ],
       "column": 2,
-      "row": 5
-    },
-    {
-      "item": [
-        {
-          "color": "LIGHTBLUE",
-          "value": 0
-        }
-      ],
-      "column": 3,
-      "row": 5
-    },
-    {
-      "item": [
-        {
-          "color": "BLUE",
-          "value": 0
-        }
-      ],
-      "column": 4,
       "row": 5
     },
     {
       "item": [
         {
           "color": "YELLOW",
-          "value": 1
+          "value": 0
+        }
+      ],
+      "column": 3,
+      "row": 5
+    },
+    {
+      "item": [
+        {
+          "color": "PINK",
+          "value": 2
+        }
+      ],
+      "column": 4,
+      "row": 5
+    },
+    {
+      "item": [
+        {
+          "color": "PINK",
+          "value": 0
         }
       ],
       "column": 5,
@@ -526,8 +526,8 @@
     {
       "item": [
         {
-          "color": "PINK",
-          "value": 1
+          "color": "LIGHTBLUE",
+          "value": 0
         }
       ],
       "column": 6,
@@ -536,8 +536,8 @@
     {
       "item": [
         {
-          "color": "BLUE",
-          "value": 0
+          "color": "WHITE",
+          "value": 1
         }
       ],
       "column": 7,
@@ -566,7 +566,7 @@
     {
       "item": [
         {
-          "color": "PINK",
+          "color": "GREEN",
           "value": 1
         }
       ],
@@ -576,8 +576,8 @@
     {
       "item": [
         {
-          "color": "BLUE",
-          "value": 2
+          "color": "YELLOW",
+          "value": 0
         }
       ],
       "column": 4,
@@ -586,7 +586,7 @@
     {
       "item": [
         {
-          "color": "BLUE",
+          "color": "YELLOW",
           "value": 2
         }
       ],
@@ -626,8 +626,8 @@
     {
       "item": [
         {
-          "color": "GREEN",
-          "value": 2
+          "color": "LIGHTBLUE",
+          "value": 0
         }
       ],
       "column": 3,
@@ -636,7 +636,7 @@
     {
       "item": [
         {
-          "color": "WHITE",
+          "color": "YELLOW",
           "value": 0
         }
       ],
