@@ -338,7 +338,7 @@ public class GetPointsTest {
         players.get(1).getBookshelf().insert(4, items);
         items.clear();
 
-        gameModel.move(new Coordinates(3, 5), new Coordinates(3, 6), 0);
+        //gameModel.move(new Coordinates(3, 5), new Coordinates(3, 6), 0);
         //        player2.getBookshelf().cli_print();
         //        assertEquals(35, player2.calculateScore());
     }

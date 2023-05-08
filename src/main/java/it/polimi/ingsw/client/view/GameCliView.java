@@ -135,7 +135,6 @@ public class GameCliView extends GameView {
             int row_column = 0;
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
                 row_column = Integer.parseInt(in.readLine());
             } catch (IOException e) {
                 e.printStackTrace();

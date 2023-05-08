@@ -25,11 +25,7 @@ public class GameModel {
         SettingLoader.loadBookshelfSettings();
         this.players = new ArrayList<>();
         this.players.addAll(players);
-        try {
-            livingRoom = new Board(players.size());
-        } catch (ParseException | IOException e) {
-            throw new RuntimeException(e + ", error in loading the board");
-        }
+        livingRoom = new Board(players.size());
 
         Player.setBoard(livingRoom);
 
@@ -86,11 +82,7 @@ public class GameModel {
         // Draw two common goal cards
         Player.setCommonGoal(drawCommonGoals(isFirstGame));
 
-        try {
-            livingRoom.fill();
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        livingRoom.fill();
     }
 
     /**
@@ -158,11 +150,13 @@ public class GameModel {
      * @param column the index of the bookshelf's column where the items will be moved
      */
     public void move(Coordinates from, Coordinates to, int column) {
-        currentPlayer.move(from, to, column);
-        if (currentPlayer.getBookshelf().isBookshelfFull()) {
-            if (!lastRound) {
-                currentPlayer.setHasEndGameCard(true);
-                lastRound = true;
+        if (!currentPlayer.getBookshelf().isBookshelfFull()) {
+            currentPlayer.move(from, to, column);
+            if (currentPlayer.getBookshelf().isBookshelfFull()) {
+                if (!lastRound) {
+                    currentPlayer.setHasEndGameCard(true);
+                    lastRound = true;
+                }
             }
         }
     }

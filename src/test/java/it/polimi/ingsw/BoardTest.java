@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.client.view.BoardView;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
@@ -269,5 +270,24 @@ public class BoardTest {
         List<Item> items = b.pickFromBoard(itemPicked);
         assertNull(b.getItem(5, 7));
         assertNull(b.getItem(5, 8));
+    }
+
+    @Test
+    void pickedItemTest() {
+        Board b = new Board(3);
+        b.fill();
+        List<Coordinates> cellCoord = new ArrayList<>();
+        cellCoord.add(new Coordinates(3, 0));
+        cellCoord.add(new Coordinates(3, 6));
+        BoardView boardView = new BoardView(b);
+        boardView.printBoard();
+        System.out.println("\n");
+        try {
+            List<Item> items = b.pickFromBoard(cellCoord);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        BoardView boardView2 = new BoardView(b);
+        boardView2.printBoard();
     }
 }
