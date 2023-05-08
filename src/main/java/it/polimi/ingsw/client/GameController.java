@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -70,5 +71,10 @@ public class GameController {
 
     public void showBookshelf(Bookshelf bookshelf) {
         gameView.showBookshelf(bookshelf);
+    }
+
+    public boolean isValidMove(Board board, List<Coordinates> pickedFromTo) {
+
+        return true;
     }
 }

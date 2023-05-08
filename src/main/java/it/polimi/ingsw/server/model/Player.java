@@ -152,18 +152,22 @@ public class Player {
             }
         }
 
-        try {
-            bookshelf.insert(column, board.pickFromBoard(list));
-            for (int i = 0; i < commonGoals.size(); i++) {
-                if (!commonGoalCompleted.get(i)) {
-                    if (commonGoals.get(i).check(this.bookshelf)) {
-                        setCommonGoalPoints(commonGoals.get(i));
-                        commonGoalCompleted.set(i, true);
+        if (board.isValidMove(list)) {
+            try {
+                bookshelf.insert(column, board.pickFromBoard(list));
+                for (int i = 0; i < commonGoals.size(); i++) {
+                    if (!commonGoalCompleted.get(i)) {
+                        if (commonGoals.get(i).check(this.bookshelf)) {
+                            setCommonGoalPoints(commonGoals.get(i));
+                            commonGoalCompleted.set(i, true);
+                        }
                     }
                 }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } else {
+            System.err.println("Invalid move");
         }
     }
 

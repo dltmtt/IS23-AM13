@@ -10,23 +10,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_SOCKET;
 
 public class ServerTCP implements ServerInterface {
 
     private final ServerSocket serverSocket;
-    public List<SocketClientHandler> clientHandlers;
+    public List<SocketClientHandler> connectedClients;
     public HashMap<SocketClientHandler, Player> connectedPlayers;
     public Socket s = null;
     public ExecutorService executor;
 
     public ServerTCP() throws IOException {
-        clientHandlers = new ArrayList<>();
+
+        connectedClients = new ArrayList<>();
         connectedPlayers = new HashMap<>();
         executor = Executors.newCachedThreadPool();
-        serverSocket = new ServerSocket(PORT_SOCKET);
-        System.out.println("Server socket started on port " + serverSocket.getLocalPort() + ".");
+        try {
+            serverSocket = new ServerSocket(PORT_SOCKET);
+            System.out.println("Server socket started on port " + serverSocket.getLocalPort() + ".");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IOException("Unable to start the server socket.");
+        }
     }
 
     @Override
@@ -35,12 +42,21 @@ public class ServerTCP implements ServerInterface {
             while (true) {
                 try {
                     Socket clientSocket = serverSocket.accept();
-                    System.out.println("Connection established.");
-                    SocketClientHandler clientHandler = new SocketClientHandler(clientSocket);
-                    executor.submit(clientHandler);
-                    clientHandler.sendMessage("Welcome to the server!");
-                    sendToAllExcept("A new player has joined the game!", clientHandler);
-                    clientHandlers.add(clientHandler);
+                    System.out.println("Connection accepted from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ".");
+                    SocketClientHandler clientHandler = null;
+                    try {
+                        clientHandler = new SocketClientHandler(clientSocket);
+                        try {
+                            executor.submit(clientHandler);
+                            clientHandler.sendMessage("Welcome to the server!");
+                            sendToAllExcept("A new player has joined the game!", clientHandler);
+                            connectedClients.add(clientHandler);
+                        } catch (RejectedExecutionException | NullPointerException e) {
+                            System.err.println("Socket " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ": socket client handler cannot be submitted to the executor.");
+                        }
+                    } catch (IOException e) {
+                        System.err.println("Socket " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ": socket client handler cannot be created.");
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.err.println("Unable to accept a connection.");
@@ -64,26 +80,24 @@ public class ServerTCP implements ServerInterface {
     }
 
     public void closeAllConnections() {
-        for (SocketClientHandler clientHandler : clientHandlers) {
+        for (SocketClientHandler clientHandler : connectedClients) {
             clientHandler.close();
         }
     }
 
     public void sendToAll(String message) {
-        for (SocketClientHandler clientHandler : clientHandlers) {
+        for (SocketClientHandler clientHandler : connectedClients) {
             clientHandler.sendMessage(message);
         }
     }
 
-    public void sendToAllExcept(String message, SocketClientHandler clientHandler) {
-        for (SocketClientHandler client : clientHandlers) {
-            if (client != clientHandler) {
-                client.sendMessage(message);
-            }
-        }
+    public void sendToAllExcept(String message, SocketClientHandler excludedPlayer) throws IllegalArgumentException {
+        if (excludedPlayer == null || message == null)
+            throw new IllegalArgumentException("null parameter handler cannot be null.");
+        connectedClients.stream().filter(client -> client != excludedPlayer).forEach(client -> client.sendMessage(message));
     }
 
     public int getConnectedPlayers() {
-        return clientHandlers.size();
+        return connectedClients.size();
     }
 }
