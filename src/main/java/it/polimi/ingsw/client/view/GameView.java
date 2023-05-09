@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.GameController;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 
@@ -45,7 +46,7 @@ public abstract class GameView {
 
     public abstract void showCommonGoal(String card, int occurences, int size, boolean horizontal) throws IOException, ParseException;
 
-    public abstract List<Integer> showMove();
+    public abstract List<Integer> showPick();
 
     public abstract void showBoard(Board board);
 
@@ -54,4 +55,10 @@ public abstract class GameView {
     public abstract void showStartGame();
 
     public abstract void showEndGame(List<String> winners);
+
+    public abstract boolean showRearrange() throws IOException;
+
+    public abstract List<Integer> rearrange(List<Item> items, int size) throws IOException;
+
+    public abstract int showInsert();
 }

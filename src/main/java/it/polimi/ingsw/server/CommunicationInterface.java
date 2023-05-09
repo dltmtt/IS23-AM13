@@ -56,12 +56,23 @@ public interface CommunicationInterface extends Remote {
                 int posix = parser.getPosix(message);
                 return sendTurn(posix);
             }
-            case "move" -> {
-                if (controller.move(parser.getMove(message)).equals("ok")) {
+            case "pick" -> {
+                if (controller.pick(parser.getPick(message)).equals("ok")) {
+                    return parser.sendPicked(controller.getPicked(parser.getPick(message)));
+                } else {
+                    return parser.sendMessage("retry");
+                }
+            }
+            case "insert" -> {
+                if (controller.checkInsert(parser.getInsert(message))) {
                     return parser.sendUpdate("update", controller.getCurrentePlayerBookshelf(), controller.getBoard());
                 } else {
                     return parser.sendMessage("retry");
                 }
+            }
+            case "sort" -> {
+                controller.rearrangePicked(parser.getSort(message));
+                return parser.sendMessage("ok");
             }
             case "board" -> {
                 return parser.sendBoard("board", controller.getBoard());

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.Item;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -31,12 +32,20 @@ public class ClientParser implements Serializable {
         return new Message(category, posix);
     }
 
-    Message sendMove(int fromRow, int fromCol, int toRow, int toCol, int bookshelfcolumn) {
-        return new Message(fromRow, fromCol, toRow, toCol, bookshelfcolumn);
+    Message sendInsert(int column) {
+        return new Message("insert", "insert", column);
+    }
+
+    Message sendPick(int fromRow, int fromCol, int toRow, int toCol) {
+        return new Message(fromRow, fromCol, toRow, toCol);
     }
 
     Message sendUpdate() {
         return new Message("update");
+    }
+
+    List<Item> getPicked(Message message) {
+        return message.getPicked();
     }
 
     int getTurn(Message message) {
@@ -97,5 +106,13 @@ public class ClientParser implements Serializable {
 
     public Message sendMessage(String message) {
         return new Message(message);
+    }
+
+    public int getPickedSize(Message message) {
+        return message.getPickedSize();
+    }
+
+    public Message sendRearrange(List<Integer> sorted) {
+        return new Message("sort", sorted);
     }
 }

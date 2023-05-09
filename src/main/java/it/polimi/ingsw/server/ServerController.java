@@ -13,6 +13,7 @@ public class ServerController {
 
     private final List<Player> players = new ArrayList<>();
     Player currentPlayer;
+    private List<Coordinates> currentPicked = new ArrayList<>();
     private GameModel gameModel = null;
     private Room room = null;
 
@@ -104,14 +105,12 @@ public class ServerController {
         return 0;
     }
 
-    public String move(List<Integer> move) {
-        return checkMove(move);
+    public String pick(List<Integer> move) {
+        return checkPick(move);
     }
 
-    public String checkMove(List<Integer> move) {
-        if (Objects.equals(move.get(0), move.get(2)) || Objects.equals(move.get(1), move.get(3)) || (move.get(4) >= 0 && move.get(4) <= 4)) {
-            gameModel.move(new Coordinates(move.get(0), move.get(1)), new Coordinates(move.get(2), move.get(3)), move.get(4));
-            currentPlayer = gameModel.getCurrentPlayer();
+    public String checkPick(List<Integer> move) {
+        if (Objects.equals(move.get(0), move.get(2)) || Objects.equals(move.get(1), move.get(3))) {
             return "ok";
         }
         return "no";
@@ -171,5 +170,25 @@ public class ServerController {
         for (Player winner : winners) {
             System.out.println("The winner is " + winner.getNickname());
         }
+    }
+
+    public List<Item> getPicked(List<Integer> picked) throws IllegalAccessException {
+        currentPicked.clear();
+        for (int i = 0; i < picked.size(); i += 2) {
+            currentPicked.add(new Coordinates(picked.get(i), picked.get(i + 1)));
+        }
+        return gameModel.getLivingRoom().pickFromBoard(currentPicked);
+    }
+
+    public void rearrangePicked(List<Integer> sort) {
+        currentPicked = gameModel.getCurrentPlayer().rearrangePickedItems(currentPicked, sort);
+    }
+
+    public boolean checkInsert(int column) {
+        if (column >= 0 && column <= 4 && gameModel.getCurrentPlayer().getBookshelf().getFreeCellsInColumn(column) >= currentPicked.size()) {
+            gameModel.move(currentPicked, column);
+            return true;
+        }
+        return false;
     }
 }

@@ -242,6 +242,10 @@ public final class CliUtilities {
         return cell.isEmpty() ? emptySpace : Color.toANSItext(cell.get().color(), true) + " " + emoji(cell.get().color(), cell.get().number()) + "  " + Color.RESET_COLOR;
     }
 
+    public static String itemContent(Item item) {
+        return Color.toANSItext(item.color(), true) + " " + emoji(item.color(), item.number()) + "  " + Color.RESET_COLOR;
+    }
+
     /**
      * Transforms a bookshelf in a pretty list of strings :)
      *

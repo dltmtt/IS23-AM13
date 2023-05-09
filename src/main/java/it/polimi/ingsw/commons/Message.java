@@ -171,15 +171,40 @@ public class Message implements Serializable {
         }
     }
 
-    public Message(int startRow, int startColumn, int finalRow, int finalColumn, int bookshelfIndex) {
+    public Message(int startRow, int startColumn, int finalRow, int finalColumn) {
         gson = new JSONObject();
         String path = BASE_PATH + "MoveMessage.json";
-        gson.put("category", "move");
+        gson.put("category", "pick");
         gson.put("startRow", startRow);
         gson.put("startColumn", startColumn);
         gson.put("finalRow", finalRow);
         gson.put("finalColumn", finalColumn);
-        gson.put("bookshelfIndex", bookshelfIndex);
+        int size = 0;
+        if (startRow == finalRow) {
+            size = finalColumn - startColumn + 1;
+        } else if (startColumn == finalColumn) {
+            size = finalRow - startRow + 1;
+        }
+        gson.put("size", size);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Message(List<Item> picked) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "PickMessage.json";
+        gson.put("category", "picked");
+        JSONArray ItemList = new JSONArray();
+        for (int i = 0; i < picked.size(); i++) {
+            JSONObject Item = new JSONObject();
+            Item.put("color", picked.get(i).color().toString());
+            Item.put("value", picked.get(i).number());
+            ItemList.add(Item);
+        }
+        gson.put("picked", ItemList);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
@@ -202,36 +227,42 @@ public class Message implements Serializable {
         }
     }
 
-    public List<Integer> getMove() {
-        List<Integer> move = new ArrayList<>();
-        move.add((int) gson.get("startRow"));
-        move.add((int) gson.get("startColumn"));
-        move.add((int) gson.get("finalRow"));
-        move.add((int) gson.get("finalColumn"));
-        move.add((int) gson.get("bookshelfIndex"));
-        return move;
+    public Message(String category, List<Integer> sort) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "SortMessage.json";
+        gson.put("category", category);
+        JSONArray array = new JSONArray();
+        JSONObject item = new JSONObject();
+        for (int i : sort) {
+            item.put("value", i);
+            array.add(i);
+            item.clear();
+        }
+        gson.put("sort", array);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    //    public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
-    //        gson = new JSONObject();
-    //        String path = BASE_PATH + "GameMessage.json";
-    //        gson.put("category", "startGame");
-    //        gson.put("personal_goal", personalGoal);
-    //        JSONArray commonGoalArray = new JSONArray();
-    //        commonGoalArray.addAll(commonGoalList);
-    //        gson.put("commonGoal", commonGoalArray);
-    //        JSONArray bookshelfItemList = new JSONArray();
-    //        //        for()
-    //        //        gson.put("bookshelf", bookshelfItemList);
-    //        //        gson.put("board", board.getBoardMatrix());
-    //        try {
-    //            FileWriter file = new FileWriter(path);
-    //            file.write(gson.toJSONString());
-    //            file.close();
-    //        } catch (IOException e) {
-    //            throw new RuntimeException(e);
-    //        }
-    //    }
+    public List<Integer> getPick() {
+        List<Integer> pick = new ArrayList<>();
+        pick.add((int) gson.get("startRow"));
+        pick.add((int) gson.get("startColumn"));
+        pick.add((int) gson.get("finalRow"));
+        pick.add((int) gson.get("finalColumn"));
+        return pick;
+    }
+
+    public List<Integer> getSort() {
+        List<Integer> sort = new ArrayList<>();
+        JSONArray array = (JSONArray) gson.get("sort");
+        for (int i = 0; i < array.size(); i++) {
+            sort.add((int) array.get(i));
+        }
+        return sort;
+    }
 
     public JSONArray bookshelfJson(Bookshelf bookshelf) {
         JSONArray bookshelfItemList = new JSONArray();
@@ -284,6 +315,18 @@ public class Message implements Serializable {
         return (int) gson.get("turn");
     }
 
+    public int getIntMessage(String type) {
+        return (int) gson.get(type);
+    }
+
+    public int getInsert() {
+        return (int) gson.get("insert");
+    }
+
+    public int getPickedSize() {
+        return (int) gson.get("size");
+    }
+
     public String getCategory() {
         return (String) gson.get("category");
     }
@@ -320,9 +363,20 @@ public class Message implements Serializable {
         return (String) gson.get("commonGoalLayout" + i);
     }
 
+    public List<Item> getPicked() {
+        List<Item> picked = new ArrayList<>();
+        JSONArray pickedJson = (JSONArray) gson.get("picked");
+        for (Object obj : pickedJson) {
+            JSONObject item = (JSONObject) obj;
+            String color = (String) item.get("color");
+            int value = (int) item.get("value");
+            picked.add(new Item(Color.valueOf(color), value));
+        }
+        return picked;
+    }
+
     public Bookshelf getBookshelf() {
         //TODO: change JSON Bookshelf to and array of columns (array of arrays)
-
         Bookshelf bookshelf = new Bookshelf();
         JSONArray bookshelfJson = (JSONArray) gson.get("bookshelf");
         for (Object obj : bookshelfJson) {

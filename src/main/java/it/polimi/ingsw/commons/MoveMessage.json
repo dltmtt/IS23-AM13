@@ -1,1 +1,8 @@
-{"finalRow":1,"finalColumn":5,"startRow":1,"startColumn":4,"category":"move","bookshelfIndex":1}
+{
+  "finalRow": 1,
+  "finalColumn": 5,
+  "startRow": 1,
+  "size": 2,
+  "startColumn": 4,
+  "category": "pick"
+}

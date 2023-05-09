@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.CliUtilities;
 import org.json.simple.parser.ParseException;
 
@@ -121,10 +122,10 @@ public class GameCliView extends GameView {
     }
 
     @Override
-    public List<Integer> showMove() {
+    public List<Integer> showPick() {
         System.out.println("It's your turn! Do your move!");
         List<Integer> move = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             int row_column = 0;
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -135,7 +136,6 @@ public class GameCliView extends GameView {
             }
             move.add(row_column);
         }
-
         return move;
     }
 
@@ -161,6 +161,42 @@ public class GameCliView extends GameView {
     @Override
     public void showEndGame(List<String> winners) {
 
+    }
+
+    @Override
+    public boolean showRearrange() throws IOException {
+        return CliUtilities.askYesNoQuestion("Do you want to rearrange your picked items? (y/n)");
+    }
+
+    @Override
+    public List<Integer> rearrange(List<Item> items, int size) throws IOException {
+        ItemView.printItems(items);
+        showMessage("Insert the new order of the picked items : \n");
+        List<Integer> newOrder = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                newOrder.add(Integer.parseInt(in.readLine()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("An error occurred while reading the pick.");
+            }
+        }
+        return newOrder;
+    }
+
+    @Override
+    public int showInsert() {
+        System.out.println("Insert the index of the column where you want to insert the picked items : ");
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+            return Integer.parseInt(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("An error occurred while reading the insert.");
+        }
+        return 0;
     }
 
     @Override

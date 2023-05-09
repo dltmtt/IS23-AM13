@@ -151,19 +151,30 @@ public class ClientRmi extends Client {
     public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
         Message currentBoard = server.sendMessage(parser.sendMessage("board"));
         controller.showBoard(parser.getBoard(currentBoard));
-        List<Integer> move = controller.shoeMoveScreen();
-        Message myMove = parser.sendMove(move.get(0), move.get(1), move.get(2), move.get(3), move.get(4));
-        Message isMyMoveOk = server.sendMessage(myMove);
+        List<Integer> pick = controller.showPickScreen();
+        Message myPick = parser.sendPick(pick.get(0), pick.get(1), pick.get(2), pick.get(3));
+        Message isMyPickOk = server.sendMessage(myPick);
 
-        while (!parser.getMessage(isMyMoveOk).equals("update")) {
-            System.out.println("Move not ok,please retry");
-            move = controller.shoeMoveScreen();
-            myMove = parser.sendMove(move.get(0), move.get(1), move.get(2), move.get(3), move.get(4));
-            isMyMoveOk = server.sendMessage(myMove);
+        while (!parser.getMessage(isMyPickOk).equals("picked")) {
+            System.out.println("Pick not ok,please retry");
+            pick = controller.showPickScreen();
+            myPick = parser.sendPick(pick.get(0), pick.get(1), pick.get(2), pick.get(3));
+            isMyPickOk = server.sendMessage(myPick);
         }
-        System.out.println("Move ok");
-        controller.showBookshelf(parser.getBookshelf(isMyMoveOk));
-        controller.showBoard(parser.getBoard(isMyMoveOk));
+        System.out.println("Pick ok");
+
+        if (controller.showRearrangeScreen()) {
+            server.sendMessage(parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk), parser.getPickedSize(myPick))));
+        }
+
+        Message myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
+        while (!parser.getMessage(myInsert).equals("update")) {
+            System.out.println("Insert not ok,please retry");
+            myInsert = server.sendMessage(parser.sendTurn("insert", controller.showInsertScreen()));
+        }
+
+        controller.showBookshelf(parser.getBookshelf(myInsert));
+        controller.showBoard(parser.getBoard(myInsert));
         waitForTurn();
     }
 

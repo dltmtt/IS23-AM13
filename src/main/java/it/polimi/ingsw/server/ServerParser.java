@@ -4,6 +4,7 @@ import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
+import it.polimi.ingsw.server.model.Item;
 
 import java.util.List;
 
@@ -40,8 +41,11 @@ public class ServerParser {
             case "startGame" -> "startGame";
             case "index" -> "index";
             case "turn" -> "turn";
-            case "move" -> "move";
+            case "pick" -> "pick";
+            case "update" -> "update";
+            case "insert" -> "insert";
             case "board" -> "board";
+            case "sort" -> "sort";
             default -> null;
         };
     }
@@ -54,8 +58,16 @@ public class ServerParser {
         return new Message(category, livingroom);
     }
 
-    public List<Integer> getMove(Message message) {
-        return message.getMove();
+    public Message sendPicked(List<Item> picked) {
+        return new Message(picked);
+    }
+
+    public List<Integer> getSort(Message message) {
+        return message.getSort();
+    }
+
+    public List<Integer> getPick(Message message) {
+        return message.getPick();
     }
 
     public int getPosix(Message message) {
@@ -76,5 +88,9 @@ public class ServerParser {
 
     public int getNumPlayer(Message message) {
         return message.getNumPlayer();
+    }
+
+    public int getInsert(Message message) {
+        return message.getInsert();
     }
 }

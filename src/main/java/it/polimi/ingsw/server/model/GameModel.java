@@ -145,13 +145,12 @@ public class GameModel {
      * Moves column or a row of items from the board to the player's bookshelf. If the bookshelf is full, the player gets the end game card and
      * the last round starts. At the end, the turn is changed.
      *
-     * @param from   the starting board's coordinates of the items to move
-     * @param to     the final board's coordinates of the items to move
+     * @param list   the list of coordinates of the items to be moved
      * @param column the index of the bookshelf's column where the items will be moved
      */
-    public void move(Coordinates from, Coordinates to, int column) {
+    public void move(List<Coordinates> list, int column) {
         if (!currentPlayer.getBookshelf().isBookshelfFull()) {
-            currentPlayer.move(from, to, column);
+            currentPlayer.move(list, column);
             if (currentPlayer.getBookshelf().isBookshelfFull()) {
                 if (!lastRound) {
                     currentPlayer.setHasEndGameCard(true);

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.Item;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public List<Integer> showMove() {
+    public List<Integer> showPick() {
         return null;
     }
 
@@ -81,5 +82,20 @@ public class GameGuiView extends GameView {
     @Override
     public void showEndGame(List<String> winners) {
 
+    }
+
+    @Override
+    public boolean showRearrange() throws IOException {
+        return false;
+    }
+
+    @Override
+    public List<Integer> rearrange(List<Item> items, int size) throws IOException {
+        return null;
+    }
+
+    @Override
+    public int showInsert() {
+        return 0;
     }
 }

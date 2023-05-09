@@ -123,48 +123,21 @@ public class Player {
     /**
      * Moves a straight line of tiles from the board to the bookshelf.
      *
-     * @param from   the starting point of the line
-     * @param to     the ending point of the line
+     * @param list   the list of coordinates of the tiles to move
      * @param column the index of the column of the bookshelf where the tiles will be placed (starting from 0)
      * @throws IllegalArgumentException if the line is not straight or if the selection is empty
      */
-    public void move(Coordinates from, Coordinates to, int column) throws IllegalArgumentException {
-        List<Coordinates> list = new ArrayList<>();
-        int lengthX = Math.abs(from.x() - to.x()) + 1;
-        int lengthY = Math.abs(from.y() - to.y()) + 1;
-        int length = Math.max(lengthX, lengthY);
-
-        if (length < 0) {
-            throw new IllegalArgumentException("You must move at least one tile.");
-        }
-
-        if (lengthX > 1 && lengthY > 1) {
-            throw new IllegalArgumentException("You can only move in a straight line.");
-        }
-
-        if (Math.abs(from.x() - to.x()) > Math.abs(from.y() - to.y())) {
-            for (int i = 0; i < length; i++) {
-                list.add(new Coordinates(from.x() + i, from.y()));
-            }
-        } else {
-            for (int i = 0; i < length; i++) {
-                list.add(new Coordinates(from.x(), from.y() + i));
-            }
-        }
+    public void move(List<Coordinates> list, int column) throws IllegalArgumentException {
 
         if (board.isValidMove(list)) {
-            try {
-                bookshelf.insert(column, board.pickFromBoard(list));
-                for (int i = 0; i < commonGoals.size(); i++) {
-                    if (!commonGoalCompleted.get(i)) {
-                        if (commonGoals.get(i).check(this.bookshelf)) {
-                            setCommonGoalPoints(commonGoals.get(i));
-                            commonGoalCompleted.set(i, true);
-                        }
+            bookshelf.insert(column, board.getExtractedItems());
+            for (int i = 0; i < commonGoals.size(); i++) {
+                if (!commonGoalCompleted.get(i)) {
+                    if (commonGoals.get(i).check(this.bookshelf)) {
+                        setCommonGoalPoints(commonGoals.get(i));
+                        commonGoalCompleted.set(i, true);
                     }
                 }
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
             }
         } else {
             System.err.println("Invalid move");
@@ -182,18 +155,17 @@ public class Player {
      * @throws IllegalArgumentException  if the number of items and the number of positions are not the same or if an item is placed in two different positions
      * @throws IndexOutOfBoundsException if the new position is out of bounds
      */
-    public void rearrangePickedItems(List<Item> items, int[] order) throws IllegalArgumentException, IndexOutOfBoundsException {
-        if (items.size() != order.length) {
+    public List<Coordinates> rearrangePickedItems(List<Coordinates> items, List<Integer> order) throws IllegalArgumentException, IndexOutOfBoundsException {
+        if (items.size() != order.size()) {
             throw new IllegalArgumentException("The number of items and the number of positions are not the same.");
         }
 
-        List<Item> rearrangedItems = new ArrayList<>();
+        List<Coordinates> rearrangedItems = new ArrayList<>();
 
         for (int i : order) {
-            if (i >= items.size()) {
+            if (i > items.size()) {
                 throw new IndexOutOfBoundsException("The new position is out of bounds.");
             }
-
             if (rearrangedItems.contains(items.get(i))) {
                 throw new IllegalArgumentException("You can't place the same item in two different positions.");
             }
@@ -203,6 +175,7 @@ public class Player {
 
         items.clear();
         items.addAll(rearrangedItems);
+        return items;
     }
 
     /**

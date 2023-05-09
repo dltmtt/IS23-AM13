@@ -23,6 +23,7 @@ public class Board {
     private final Item[][] boardMatrix;
     private final List<Item> itemBag;
     private final List<Coordinates> usableCells;
+    private List<Item> extractedItems;
 
     /**
      * Creates a new square board of size <code>boardSize</code>,
@@ -58,12 +59,14 @@ public class Board {
                 itemBag.add(new Item(color, i % 3));
             }
         }
+        extractedItems = new ArrayList<>();
     }
 
     public Board() {
         boardMatrix = new Item[boardSize][boardSize];
         itemBag = new ArrayList<>();
         usableCells = new ArrayList<>();
+        extractedItems = new ArrayList<>();
     }
 
     public void setItem(int row, int column, Item item) {
@@ -125,12 +128,17 @@ public class Board {
                 boardMatrix[i][pickedFromTo.get(0).y()] = null;
             }
         }
+        extractedItems = itemsPicked;
         return itemsPicked;
+    }
+
+    public List<Item> getExtractedItems() {
+        return extractedItems;
     }
 
     public boolean isValidMove(List<Coordinates> list) {
         return true;
-        
+
         //        //same row
         //        if (Objects.equals(list.get(0).x(), list.get(1).x())) {
         //            for (int i = list.get(0).y(); i <= list.get(1).y(); i++) {

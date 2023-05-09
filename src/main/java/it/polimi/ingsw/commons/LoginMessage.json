@@ -1,1 +1,4 @@
-{"category":"turn","posix":1}
+{
+  "turn": 0,
+  "category": "turn"
+}

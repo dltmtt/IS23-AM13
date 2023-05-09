@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.GameModel;
+import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.parser.ParseException;
 
@@ -61,8 +62,16 @@ public class GameController {
         }
     }
 
-    public List<Integer> shoeMoveScreen() {
-        return gameView.showMove();
+    public List<Integer> showPickScreen() {
+        return gameView.showPick();
+    }
+
+    public boolean showRearrangeScreen() throws IOException {
+        return gameView.showRearrange();
+    }
+
+    public List<Integer> rearrangeScreen(List<Item> items, int size) throws IOException {
+        return gameView.rearrange(items, size);
     }
 
     public void showBoard(Board board) {
@@ -76,5 +85,9 @@ public class GameController {
     public boolean isValidMove(Board board, List<Coordinates> pickedFromTo) {
 
         return true;
+    }
+
+    public int showInsertScreen() {
+        return gameView.showInsert();
     }
 }
