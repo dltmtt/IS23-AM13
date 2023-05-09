@@ -42,16 +42,24 @@ public class FullLineTest {
         if (!fullLine.check(b)) {
             //            b.cli_print();
         }
+
         assertTrue(fullLine.check(b));
     }
 
     @Test
     public void fourRowsMax3DiffCol() {
-        Layout fullLine = new FullLine(1, 3, 4, true);
-        BookshelfUtilities.createRow(b, 2, 3);
-        if (!fullLine.check(b)) {
-            //            b.cli_print();
-        }
-        assertTrue(fullLine.check(b));
+        int counter = 0;
+        do {
+            Layout fullLine = new FullLine(1, 3, 4, true);
+            BookshelfUtilities.createRow(b, 2, 4);
+            if (!fullLine.check(b)) {
+                b.cli_print();
+                assertTrue(fullLine.check(b));
+            }
+
+            b.clearBookshelf();
+            b.clearBooleanMatrix();
+            counter++;
+        } while (counter < 10);
     }
 }
