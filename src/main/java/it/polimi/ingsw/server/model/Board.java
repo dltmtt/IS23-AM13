@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -108,6 +107,11 @@ public class Board {
     // TODO trasformare in 2 coord
     public List<Item> pickFromBoard(List<Coordinates> pickedFromTo) throws IllegalAccessException {
         List<Item> itemsPicked = new ArrayList<>();
+        if (pickedFromTo.size() == 1) {
+            itemsPicked.add(boardMatrix[pickedFromTo.get(0).x()][pickedFromTo.get(0).y()]);
+            boardMatrix[pickedFromTo.get(0).x()][pickedFromTo.get(0).y()] = null;
+            return itemsPicked;
+        }
         //same row
         if (Objects.equals(pickedFromTo.get(0).x(), pickedFromTo.get(1).x())) {
             for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
@@ -125,51 +129,48 @@ public class Board {
     }
 
     public boolean isValidMove(List<Coordinates> list) {
-        //same row
-        if (Objects.equals(list.get(0).x(), list.get(1).x())) {
-            for (int i = list.get(0).y(); i <= list.get(1).y(); i++) {
-                if (boardMatrix[list.get(0).x()][i] == null) {
-                    return false;
-                }
-                //sono sulla prima riga
-                if ( i==0 && boardMatrix[list.get(0).x()+1][i] != null && boardMatrix[list.get(0).x()][i+1] != null) {
-                    return false;
-                }
-
-                //sono sull'ultima riga
-                else if(i==Bookshelf.getRows() && boardMatrix[list.get(0).x()-1][i]!=null && boardMatrix[list.get(0).x()][i-1]!=null){
-                        return false;
-                }
-
-                else{   //caso in cui non sono né sulla prima riga né sull'ultima
-                    if(boardMatrix[list.get(0).x()-1][i]!=null && boardMatrix[list.get(0).x()+1][i]!=null && boardMatrix[list.get(0).x()][i-1]!=null && boardMatrix[list.get(0).x()][i+1]!=null)
-                        return false;
-                }
-            }
-            //same column
-        } else {
-            for (int i = list.get(0).x(); i <= list.get(1).x(); i++) {
-                if (boardMatrix[list.get(0).x()][i] == null) {
-                    return false;
-                }
-                if(i==0 && boardMatrix[list.get(0).x()][i+1]!=null && boardMatrix[list.get(0).x()+1][i]!=null){
-                        return false;
-                }
-
-                //sono sull'ultima colonna
-                else if(i==Bookshelf.getColumns() && boardMatrix[list.get(0).x()-1][i]!=null && boardMatrix[list.get(0).x()][i+1]!=null && boardMatrix[list.get(0).x()+1][i]!=null){
-                        return false;
-                }
-                else {  //né sulla prima né sull'ultima colonna
-                    if(boardMatrix[list.get(0).x()-1][i]!=null && boardMatrix[list.get(0).x()+1][i]!=null && boardMatrix[list.get(0).x()][i-1]!=null && boardMatrix[list.get(0).x()][i+1]!=null)
-                        return false;
-                }
-            }
-        }
         return true;
-        }
-
-
+        
+        //        //same row
+        //        if (Objects.equals(list.get(0).x(), list.get(1).x())) {
+        //            for (int i = list.get(0).y(); i <= list.get(1).y(); i++) {
+        //                if (boardMatrix[list.get(0).x()][i] == null) {
+        //                    return false;
+        //                }
+        //                //sono sulla prima riga
+        //                if (i == 0 && boardMatrix[list.get(0).x() + 1][i] != null && boardMatrix[list.get(0).x()][i + 1] != null) {
+        //                    return false;
+        //                }
+        //
+        //                //sono sull'ultima riga
+        //                else if (i == Bookshelf.getRows() && boardMatrix[list.get(0).x() - 1][i] != null && boardMatrix[list.get(0).x()][i - 1] != null) {
+        //                    return false;
+        //                } else {   //caso in cui non sono né sulla prima riga né sull'ultima
+        //                    if (boardMatrix[list.get(0).x() - 1][i] != null && boardMatrix[list.get(0).x() + 1][i] != null && boardMatrix[list.get(0).x()][i - 1] != null && boardMatrix[list.get(0).x()][i + 1] != null)
+        //                        return false;
+        //                }
+        //            }
+        //            //same column
+        //        } else {
+        //            for (int i = list.get(0).x(); i <= list.get(1).x(); i++) {
+        //                if (boardMatrix[list.get(0).x()][i] == null) {
+        //                    return false;
+        //                }
+        //                if (i == 0 && boardMatrix[list.get(0).x()][i + 1] != null && boardMatrix[list.get(0).x() + 1][i] != null) {
+        //                    return false;
+        //                }
+        //
+        //                //sono sull'ultima colonna
+        //                else if (i == Bookshelf.getColumns() && boardMatrix[list.get(0).x() - 1][i] != null && boardMatrix[list.get(0).x()][i + 1] != null && boardMatrix[list.get(0).x() + 1][i] != null) {
+        //                    return false;
+        //                } else {  //né sulla prima né sull'ultima colonna
+        //                    if (boardMatrix[list.get(0).x() - 1][i] != null && boardMatrix[list.get(0).x() + 1][i] != null && boardMatrix[list.get(0).x()][i - 1] != null && boardMatrix[list.get(0).x()][i + 1] != null)
+        //                        return false;
+        //                }
+        //            }
+        //        }
+        //        return true;
+    }
 
     public List<Item> selectFromBoard(List<Coordinates> selectedFromTo) throws IllegalAccessException {
         List<Item> itemsSelected = new ArrayList<>();
