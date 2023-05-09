@@ -287,7 +287,7 @@ public class BoardTest {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        BoardView boardView2 = new BoardView(b);
-        boardView2.printBoard();
+        boardView.updateBoard(b);
+        boardView.printBoard();
     }
 }

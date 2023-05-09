@@ -13,6 +13,10 @@ public class BoardView {
         BoardView.board = board;
     }
 
+    public void updateBoard(Board boardUpdated) {
+        board = boardUpdated;
+    }
+
     public void printBoard() {
         StringBuilder cell;
         Item[][] boardMatrix = board.getBoardMatrix();
