@@ -130,11 +130,11 @@ public class Player {
      */
     public void move(Coordinates from, Coordinates to, int column) throws IllegalArgumentException {
         List<Coordinates> list = new ArrayList<>();
-        int lengthX = Math.abs(from.x() - to.x());
-        int lengthY = Math.abs(from.y() - to.y());
+        int lengthX = Math.abs(from.x() - to.x()) + 1;
+        int lengthY = Math.abs(from.y() - to.y()) + 1;
         int length = Math.max(lengthX, lengthY);
-
-        if (length == 0) {
+        System.out.println("length: " + length);
+        if (length < 0) {
             throw new IllegalArgumentException("You must move at least one tile.");
         }
 

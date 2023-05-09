@@ -131,7 +131,7 @@ public class GameCliView extends GameView {
                 row_column = Integer.parseInt(in.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
-                System.err.println("An error occurred while reading the age.");
+                System.err.println("An error occurred while reading the move.");
             }
             move.add(row_column);
         }

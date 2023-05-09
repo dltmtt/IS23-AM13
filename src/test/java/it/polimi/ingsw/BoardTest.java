@@ -1,9 +1,13 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.view.BoardView;
+import it.polimi.ingsw.client.view.BookshelfView;
 import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.utils.Coordinates;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
@@ -287,6 +291,27 @@ public class BoardTest {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+        boardView.updateBoard(b);
+        boardView.printBoard();
+    }
+
+    @Test
+    void moveItemTest() {
+        SettingLoader.loadBookshelfSettings();
+        Board b = new Board(3);
+        b.fill();
+        BoardView boardView = new BoardView(b);
+        boardView.printBoard();
+        Player p = new Player("test", 1, false, false, false);
+        Player.setBoard(b);
+        Bookshelf bookshelf = new Bookshelf();
+        p.setBookshelf(bookshelf);
+        System.out.println("\n");
+        p.move(new Coordinates(3, 0), new Coordinates(3, 1), 1);
+        //            List<Item> items = b.pickFromBoard(cellCoord);
+
+        BookshelfView bookshelfView = new BookshelfView(bookshelf);
+        bookshelfView.printBookshelf();
         boardView.updateBoard(b);
         boardView.printBoard();
     }
