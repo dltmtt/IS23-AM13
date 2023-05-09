@@ -88,8 +88,7 @@ public class GetPointsTest {
         items.add(new Item(Color.BLUE, 1));
         players.get(0).getBookshelf().insert(4, items);
         items.clear();
-
-        players.get(0).move(new Coordinates(2, 2), new Coordinates(2, 3), 2);
+        players.get(0).move(new Coordinates(2, 2), new Coordinates(2, 2), 2);
 
         int score1 = players.get(0).calculateScore();
 
@@ -157,7 +156,7 @@ public class GetPointsTest {
         items.clear();
 
         //player1 reach common goal full line as first
-        players.get(0).move(new Coordinates(1, 4), new Coordinates(1, 5), 0);
+        players.get(0).move(new Coordinates(1, 4), new Coordinates(1, 4), 0);
 
         //player2 set-up
         items.add(new Item(Color.GREEN, 1));
@@ -205,7 +204,7 @@ public class GetPointsTest {
         items.clear();
 
         //player2 reach common goal x-shape as first
-        players.get(1).move(new Coordinates(2, 1), new Coordinates(2, 2), 0);
+        players.get(1).move(new Coordinates(2, 1), new Coordinates(2, 1), 0);
 
         items.add(new Item(Color.PINK, 1));
         items.add(new Item(Color.PINK, 1));
@@ -222,7 +221,7 @@ public class GetPointsTest {
             i++;
             j++;
         }
-        players.get(0).move(new Coordinates(i, j), new Coordinates(i, j + 1), 2);
+        players.get(0).move(new Coordinates(i, j), new Coordinates(i, j), 2);
 
         //        assertEquals(29, player1.calculateScore());
         assertEquals(27, players.get(1).calculateScore());
@@ -290,7 +289,7 @@ public class GetPointsTest {
         players.get(0).getBookshelf().insert(4, items);
         items.clear();
 
-        gameModel.move(new Coordinates(3, 4), new Coordinates(3, 5), 0);
+        gameModel.move(new Coordinates(3, 4), new Coordinates(3, 4), 0);
         //        assertEquals(35, player1.calculateScore());
 
         //player2 set-up

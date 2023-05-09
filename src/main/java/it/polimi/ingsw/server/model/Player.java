@@ -133,7 +133,7 @@ public class Player {
         int lengthX = Math.abs(from.x() - to.x()) + 1;
         int lengthY = Math.abs(from.y() - to.y()) + 1;
         int length = Math.max(lengthX, lengthY);
-        System.out.println("length: " + length);
+
         if (length < 0) {
             throw new IllegalArgumentException("You must move at least one tile.");
         }
