@@ -29,7 +29,7 @@ public abstract class GameView {
         this.gameController = gameController;
     }
 
-    public abstract void showLogin();
+    public abstract String showLogin();
 
     public abstract void showMessage(String message);
 
@@ -50,4 +50,8 @@ public abstract class GameView {
     public abstract void showBoard(Board board);
 
     public abstract void showBookshelf(Bookshelf bookshelf);
+
+    public abstract void showStartGame();
+
+    public abstract void showEndGame(List<String> winners);
 }

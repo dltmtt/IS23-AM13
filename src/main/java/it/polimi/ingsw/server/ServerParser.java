@@ -41,12 +41,17 @@ public class ServerParser {
             case "index" -> "index";
             case "turn" -> "turn";
             case "move" -> "move";
+            case "board" -> "board";
             default -> null;
         };
     }
 
     public Message sendUpdate(String category, Bookshelf bookshelf, Board livingroom) {
         return new Message(category, bookshelf, livingroom);
+    }
+
+    public Message sendBoard(String category, Board livingroom) {
+        return new Message(category, livingroom);
     }
 
     public List<Integer> getMove(Message message) {

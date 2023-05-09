@@ -63,6 +63,9 @@ public interface CommunicationInterface extends Remote {
                     return parser.sendMessage("retry");
                 }
             }
+            case "board" -> {
+                return parser.sendBoard("board", controller.getBoard());
+            }
             default -> {
                 System.out.println(message + " requested unknown");
                 return parser.sendMessage("Unknown request.");

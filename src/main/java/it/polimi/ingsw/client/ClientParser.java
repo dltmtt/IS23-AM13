@@ -94,4 +94,8 @@ public class ClientParser implements Serializable {
     public List<Boolean> getCardHorizontal(Message message) {
         return message.getCardHorizotal();
     }
+
+    public Message sendMessage(String message) {
+        return new Message(message);
+    }
 }

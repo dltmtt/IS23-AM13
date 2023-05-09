@@ -105,18 +105,19 @@ public class Board {
 
     //    public List<Item> pickFromBoard(List<Coordinates> pickedFromTo) throws IllegalAccessException {
     //        List<Item> itemsPicked = new ArrayList<>();
-    //            if (Objects.equals(pickedFromTo.get(0).x(), pickedFromTo.get(1).x())) {
-    //                for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
-    //                    itemsPicked.add(boardMatrix[pickedFromTo.get(0).x()][i]);
-    //                    boardMatrix[pickedFromTo.get(0).x()][i] = null;
-    //                }
-    //            } else {
-    //                for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
-    //                    itemsPicked.add(boardMatrix[i][pickedFromTo.get(0).y()]);
-    //                    boardMatrix[i][pickedFromTo.get(0).y()] = null;
-    //                }
+    //        if (Objects.equals(pickedFromTo.get(0).x(), pickedFromTo.get(1).x())) {
+    //            for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
+    //                itemsPicked.add(boardMatrix[pickedFromTo.get(0).x()][i]);
+    //                boardMatrix[pickedFromTo.get(0).x()][i] = null;
     //            }
+    //        } else {
+    //            for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
+    //                itemsPicked.add(boardMatrix[i][pickedFromTo.get(0).y()]);
+    //                boardMatrix[i][pickedFromTo.get(0).y()] = null;
+    //            }
+    //        }
     //        return itemsPicked;
+    //    }
     //    }
     public List<Item> pickFromBoard(List<Coordinates> pickedFromB) throws IllegalAccessException {
         List<Item> itemsPicked = new ArrayList<>();

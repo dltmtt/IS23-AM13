@@ -63,27 +63,33 @@ public class ClientRmi extends Client {
             System.exit(1);
         }
 
-        loginThread = new Thread(() -> {
-            controller.showLoginScreen();
-        });
+        loginThread = new Thread(this::login);
     }
 
     public void start() {
         loginThread.start();
     }
 
+    @Override
     public void login(String username) {
+
+    }
+
+    public void login() {
         int age = 0;
         boolean firstGame;
         try {
+            controller.startGame();
+            String username = controller.showLoginScreen();
             String responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username))); // This message will be a JSON
             // TODO: parse the JSON (now it's plain text)
-            if (responseMessage.startsWith("Welcome")) {
-                age = controller.showAgeScreen();
-            } else {
-                System.out.println("Response message is " + responseMessage + ". Retry");
-                //                System.out.println("Retry"); // TODO: actually retry
+            while (responseMessage.equals("retry")) {
+                System.out.println("Username already taken. Retry.");
+                username = controller.showLoginScreen();
+                responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username)));
             }
+            age = controller.showAgeScreen();
+
             gameView.showMessage(responseMessage);
             String ageResponse = parser.getMessage(server.sendMessage(parser.sendAge(age)));
             if (!ageResponse.startsWith("ok")) {
@@ -106,9 +112,7 @@ public class ClientRmi extends Client {
             waitingRoom();
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
-        } catch (FullRoomException | IOException | ParseException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -135,17 +139,19 @@ public class ClientRmi extends Client {
 
     public void waitForTurn() throws IOException, FullRoomException, IllegalAccessException, ParseException {
         int myTurn = 0;
+        Message currentBoard;
         while (myTurn != 1) {
             if (myTurn == -1) {
                 endGame();
             }
             myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosix)));
         }
-        System.out.println("It's your turn!");
         myTurn();
     }
 
     public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
+        Message currentBoard = server.sendMessage(parser.sendMessage("board"));
+        controller.showBoard(parser.getBoard(currentBoard));
         List<Integer> move = controller.shoeMoveScreen();
         Message myMove = parser.sendMove(move.get(0), move.get(1), move.get(2), move.get(3), move.get(4));
         Message isMyMoveOk = server.sendMessage(myMove);

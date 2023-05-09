@@ -16,8 +16,9 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public void showLogin() {
+    public String showLogin() {
         System.out.println("showLogin() not implemented yet in " + this.getClass().getName());
+        return null;
     }
 
     @Override
@@ -69,6 +70,16 @@ public class GameGuiView extends GameView {
 
     @Override
     public void showBookshelf(Bookshelf bookshelf) {
+
+    }
+
+    @Override
+    public void showStartGame() {
+
+    }
+
+    @Override
+    public void showEndGame(List<String> winners) {
 
     }
 }

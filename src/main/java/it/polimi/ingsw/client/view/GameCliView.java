@@ -59,16 +59,9 @@ public class GameCliView extends GameView {
     }
 
     @Override
-    public void showLogin() {
-        showMessage(welcomeMessage);
+    public String showLogin() {
         showMessage(insertUsernamePrompt);
-        String username = readUsername();
-        try {
-            gameController.login(username);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("An error occurred while logging in.");
-        }
+        return readUsername();
     }
 
     public boolean readFirstGame() {
@@ -158,6 +151,16 @@ public class GameCliView extends GameView {
         BookshelfView bookshelfView = new BookshelfView(bookshelf);
         System.out.println("Your Bookshelf:");
         bookshelfView.printBookshelf();
+    }
+
+    @Override
+    public void showStartGame() {
+        showMessage(welcomeMessage);
+    }
+
+    @Override
+    public void showEndGame(List<String> winners) {
+
     }
 
     @Override

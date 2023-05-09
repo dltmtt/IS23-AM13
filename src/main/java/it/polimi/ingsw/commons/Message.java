@@ -147,6 +147,18 @@ public class Message implements Serializable {
         }
     }
 
+    public Message(String category, Board board) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "GameMessage.json";
+        gson.put("category", category);
+        gson.put("board", boardJson(board));
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public Message(boolean turn) {
         gson = new JSONObject();
         String path = BASE_PATH + "TurnMessage.json";

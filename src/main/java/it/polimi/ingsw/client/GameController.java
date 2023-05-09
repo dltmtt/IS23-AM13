@@ -24,15 +24,15 @@ public class GameController {
     }
 
     public void startGame() {
-        gameModel.start();
+        gameView.showStartGame();
     }
 
     public void login(String username) throws Exception {
         client.login(username);
     }
 
-    public void showLoginScreen() {
-        gameView.showLogin();
+    public String showLoginScreen() {
+        return gameView.showLogin();
     }
 
     public int showAgeScreen() {

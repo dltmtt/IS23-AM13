@@ -1,8 +1,8 @@
 {
-  "finalRow": 3,
-  "finalColumn": 4,
-  "startRow": 3,
-  "startColumn": 3,
+  "finalRow": 1,
+  "finalColumn": 6,
+  "startRow": 1,
+  "startColumn": 4,
   "category": "move",
   "bookshelfIndex": 1
 }
