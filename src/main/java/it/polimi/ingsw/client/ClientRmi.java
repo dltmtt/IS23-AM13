@@ -20,7 +20,6 @@ import static it.polimi.ingsw.utils.CliUtilities.*;
 
 public class ClientRmi extends Client {
 
-    private final ClientParser parser = new ClientParser();
     public Thread loginThread;
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
     GameController controller = new GameController(null, gameView, this);
