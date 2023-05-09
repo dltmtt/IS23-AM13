@@ -98,7 +98,7 @@ public class GameCliView extends GameView {
 
     public boolean promptFirstGame() {
         try {
-            return CliUtilities.askYesNoQuestion(firstGamePrompt);
+            return CliUtilities.askYesNoQuestion(firstGameQuestion);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -165,7 +165,7 @@ public class GameCliView extends GameView {
 
     @Override
     public boolean showRearrange() throws IOException {
-        return CliUtilities.askYesNoQuestion("Do you want to rearrange your picked items? (y/n)");
+        return CliUtilities.askYesNoQuestion("Do you want to rearrange your picked items?");
     }
 
     @Override
