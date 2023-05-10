@@ -6,7 +6,6 @@ target/
 *.json
 !**/src/main/resources/
 
-
 ### IntelliJ IDEA ###
 # Uncomment the following two lines before the final commit
 # .idea
