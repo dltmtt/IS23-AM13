@@ -22,8 +22,8 @@ public class ServerParser {
         return new Message(category, type, n);
     }
 
-    public Message sendPosix(int posix) {
-        return new Message(posix);
+    public Message sendPosition(int position) {
+        return new Message(position);
     }
 
     public Message sendTurn(int turn) {
@@ -70,8 +70,8 @@ public class ServerParser {
         return message.getPick();
     }
 
-    public int getPosix(Message message) {
-        return message.getPosix();
+    public int getPosition(Message message) {
+        return message.getPosition();
     }
 
     public String getUsername(Message message) {

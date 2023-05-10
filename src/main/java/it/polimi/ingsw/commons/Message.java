@@ -22,7 +22,7 @@ public class Message implements Serializable {
 
     private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
     private final JSONObject gson;
-    private int commonGoals = 0;
+    private int commonGoals;
 
     /**
      * Constructor for the login message.
@@ -49,11 +49,11 @@ public class Message implements Serializable {
         }
     }
 
-    public Message(String category, int posix) {
+    public Message(String category, int position) {
         gson = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
         gson.put("category", category);
-        gson.put("posix", posix);
+        gson.put("position", position);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
@@ -90,11 +90,11 @@ public class Message implements Serializable {
         }
     }
 
-    public Message(int posix) {
+    public Message(int position) {
         gson = new JSONObject();
-        String path = BASE_PATH + "PosixMessage.json";
+        String path = BASE_PATH + "PositionMessage.json";
         gson.put("category", "index");
-        gson.put("posix", posix);
+        gson.put("position", position);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
@@ -120,11 +120,11 @@ public class Message implements Serializable {
         for (int i = 0; i < commonGoalList.size(); i++) {
             gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
 
-            if (commonGoalList.get(i).getLayout().getName().equals("fullLine")) {
+            if ("fullLine".equals(commonGoalList.get(i).getLayout().getName())) {
                 gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
                 gson.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
                 gson.put("size " + i, 0);
-            } else if (commonGoalList.get(i).getLayout().getName().equals("group")) {
+            } else if ("group".equals(commonGoalList.get(i).getLayout().getName())) {
                 gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
                 gson.put("horizontal " + i, false);
                 gson.put("size " + i, commonGoalList.get(i).getLayout().getSize());
@@ -351,8 +351,8 @@ public class Message implements Serializable {
         return (String) gson.get("message");
     }
 
-    public int getPosix() {
-        return (int) gson.get("posix");
+    public int getPosition() {
+        return (int) gson.get("position");
     }
 
     public int getPersonalGoal() {

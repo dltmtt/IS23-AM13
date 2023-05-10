@@ -23,7 +23,7 @@ public class ClientRmi extends Client {
     public Thread loginThread;
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
     GameController controller = new GameController(null, gameView, this);
-    int myPosix;
+    int myPosition;
     private Registry registry;
     private CommunicationInterface server;
     private Message message;
@@ -82,7 +82,7 @@ public class ClientRmi extends Client {
             String username = controller.showLoginScreen();
             String responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username))); // This message will be a JSON
             // TODO: parse the JSON (now it's plain text)
-            while (responseMessage.equals("retry")) {
+            while ("retry".equals(responseMessage)) {
                 System.out.println("Username already taken. Retry.");
                 username = controller.showLoginScreen();
                 responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username)));
@@ -95,7 +95,7 @@ public class ClientRmi extends Client {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
             firstGame = controller.showFirstGameScreen();
-            int nextStep = parser.getPosix(server.sendMessage(parser.sendFirstGame(firstGame)));
+            int nextStep = parser.getPosition(server.sendMessage(parser.sendFirstGame(firstGame)));
             if (nextStep == 1) {
                 int numPlayer = controller.showNumberOfPlayersScreen();
                 String numPlayerResponse = parser.getMessage(server.sendMessage(parser.sendNumPlayer(numPlayer)));
@@ -106,8 +106,8 @@ public class ClientRmi extends Client {
                 }
                 //end of login
             }
-            myPosix = nextStep;
-            System.out.println("Your position is " + myPosix);
+            myPosition = nextStep;
+            System.out.println("Your position is " + myPosition);
             waitingRoom();
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
@@ -126,7 +126,7 @@ public class ClientRmi extends Client {
     }
 
     public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
-        Message myGame = server.sendMessage(parser.sendPosix(myPosix));
+        Message myGame = server.sendMessage(parser.sendPosition(myPosition));
         controller.showPersonalGoal(parser.getPersonalGoal(myGame));
         controller.showCommonGoal(parser.getCardsType(myGame), parser.getCardOccurrences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
         //        System.out.println("Game started!");
@@ -143,7 +143,7 @@ public class ClientRmi extends Client {
             if (myTurn == -1) {
                 endGame();
             }
-            myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosix)));
+            myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosition)));
         }
         myTurn();
     }
@@ -155,7 +155,7 @@ public class ClientRmi extends Client {
         Message myPick = parser.sendPick(pick.get(0), pick.get(1), pick.get(2), pick.get(3));
         Message isMyPickOk = server.sendMessage(myPick);
 
-        while (!parser.getMessage(isMyPickOk).equals("picked")) {
+        while (!"picked".equals(parser.getMessage(isMyPickOk))) {
             System.out.println("Pick not ok,please retry");
             pick = controller.showPickScreen();
             myPick = parser.sendPick(pick.get(0), pick.get(1), pick.get(2), pick.get(3));
@@ -168,7 +168,7 @@ public class ClientRmi extends Client {
         }
 
         Message myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
-        while (!parser.getMessage(myInsert).equals("update")) {
+        while (!"update".equals(parser.getMessage(myInsert))) {
             System.out.println("Insert not ok,please retry");
             myInsert = server.sendMessage(parser.sendTurn("insert", controller.showInsertScreen()));
         }

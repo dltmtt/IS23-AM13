@@ -28,8 +28,8 @@ public class ClientParser implements Serializable {
         return new Message("numPlayer", "", 0, false, numPlayer);
     }
 
-    Message sendTurn(String category, int posix) {
-        return new Message(category, posix);
+    Message sendTurn(String category, int position) {
+        return new Message(category, position);
     }
 
     Message sendInsert(int column) {
@@ -56,12 +56,12 @@ public class ClientParser implements Serializable {
         return message.getCategory();
     }
 
-    Message sendPosix(int posix) {
-        return new Message(posix);
+    Message sendPosition(int position) {
+        return new Message(position);
     }
 
-    int getPosix(Message message) {
-        return message.getPosix();
+    int getPosition(Message message) {
+        return message.getPosition();
     }
 
     public Message sendReady() {

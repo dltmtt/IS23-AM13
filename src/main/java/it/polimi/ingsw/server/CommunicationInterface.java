@@ -39,7 +39,7 @@ public interface CommunicationInterface extends Remote {
             case "firstGame" -> {
                 boolean firstGame = parser.getFirstGame(message);
                 controller.addPlayerFirstGame(firstGame);
-                return parser.sendPosix(controller.startRoom()); // If the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
+                return parser.sendPosition(controller.startRoom()); // If the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
             }
             case "numPlayer" -> {
                 int numPlayer = parser.getNumPlayer(message);
@@ -49,15 +49,15 @@ public interface CommunicationInterface extends Remote {
                 return parser.sendMessage(controller.checkRoom());
             }
             case "index" -> {
-                int posix = parser.getPosix(message);
-                return sendGame(posix);
+                int position = parser.getPosition(message);
+                return sendGame(position);
             }
             case "turn" -> {
-                int posix = parser.getPosix(message);
-                return sendTurn(posix);
+                int position = parser.getPosition(message);
+                return sendTurn(position);
             }
             case "pick" -> {
-                if (controller.pick(parser.getPick(message)).equals("ok")) {
+                if ("ok".equals(controller.pick(parser.getPick(message)))) {
                     return parser.sendPicked(controller.getPicked(parser.getPick(message)));
                 } else {
                     return parser.sendMessage("retry");
@@ -84,12 +84,12 @@ public interface CommunicationInterface extends Remote {
         }
     }
 
-    default Message sendGame(int posix) throws RemoteException {
-        System.out.println("Sending game to " + posix);
-        return parser.sendStartGame(controller.getPersonalGoalCard(posix), controller.getCommonGoals(), controller.getBookshelf(posix), controller.getBoard());
+    default Message sendGame(int position) throws RemoteException {
+        System.out.println("Sending game to " + position);
+        return parser.sendStartGame(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelf(position), controller.getBoard());
     }
 
-    default Message sendTurn(int posix) throws RemoteException {
-        return parser.sendMessage1("turn", "turn", controller.yourTurn(posix));
+    default Message sendTurn(int position) throws RemoteException {
+        return parser.sendMessage1("turn", "turn", controller.yourTurn(position));
     }
 }
