@@ -40,7 +40,7 @@ public class GameController {
         return gameView.promptAge();
     }
 
-    public boolean showFirstGamescreen() {
+    public boolean showFirstGameScreen() {
         return gameView.promptFirstGame();
     }
 
@@ -52,10 +52,10 @@ public class GameController {
         gameView.showPersonalCard(card);
     }
 
-    public void showCommonGoal(List<String> cards, List<Integer> occurences, List<Integer> size, List<Boolean> horizontal) {
+    public void showCommonGoal(List<String> cards, List<Integer> occurrences, List<Integer> size, List<Boolean> horizontal) {
         for (int i = 0; i < cards.size(); i++) {
             try {
-                gameView.showCommonGoal(cards.get(i), occurences.get(i), size.get(i), horizontal.get(i));
+                gameView.showCommonGoal(cards.get(i), occurrences.get(i), size.get(i), horizontal.get(i));
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
@@ -83,7 +83,6 @@ public class GameController {
     }
 
     public boolean isValidMove(Board board, List<Coordinates> pickedFromTo) {
-
         return true;
     }
 

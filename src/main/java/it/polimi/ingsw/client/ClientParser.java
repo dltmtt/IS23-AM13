@@ -88,12 +88,12 @@ public class ClientParser implements Serializable {
         return message.getBoard();
     }
 
-    public List<String> getCardstype(Message message) {
+    public List<String> getCardsType(Message message) {
         return message.getCardType();
     }
 
-    public List<Integer> getCardOccurences(Message message) {
-        return message.getCardOccurences();
+    public List<Integer> getCardOccurrences(Message message) {
+        return message.getCardOccurrences();
     }
 
     public List<Integer> getCardSize(Message message) {
@@ -101,7 +101,7 @@ public class ClientParser implements Serializable {
     }
 
     public List<Boolean> getCardHorizontal(Message message) {
-        return message.getCardHorizotal();
+        return message.getCardHorizontal();
     }
 
     public Message sendMessage(String message) {

@@ -25,8 +25,8 @@ public class Message implements Serializable {
     private int commonGoals = 0;
 
     /**
-     * Constructor for the login type of message
-     * when called, only one of the parameters is used, the others are set to default values
+     * Constructor for the login message.
+     * When called, only one of the parameters is used, the others are set to default values.
      *
      * @param category    category of the message (what's the message about)
      * @param username    username of the player
@@ -74,8 +74,8 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the single message type of message
-     * it is used for response messages from the server
+     * Constructor for the single message.
+     * It is used for response messages from the server.
      *
      * @param singleMessage
      */
@@ -103,7 +103,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the game type of message (Goals, Bookshelf and Board)
+     * Constructor for the game message type (Goals, Bookshelf, and Board)
      *
      * @param personalGoal   personal goal of the player
      * @param commonGoalList list of common goals
@@ -424,12 +424,12 @@ public class Message implements Serializable {
         return cardType;
     }
 
-    public List<Integer> getCardOccurences() {
-        List<Integer> cardOccurences = new ArrayList<>();
+    public List<Integer> getCardOccurrences() {
+        List<Integer> cardOccurrences = new ArrayList<>();
         for (int j = 0; j < commonGoals; j++) {
-            cardOccurences.add((int) gson.get("occurrences " + j));
+            cardOccurrences.add((int) gson.get("occurrences " + j));
         }
-        return cardOccurences;
+        return cardOccurrences;
     }
 
     public List<Integer> getCardSize() {
@@ -440,7 +440,7 @@ public class Message implements Serializable {
         return cardSize;
     }
 
-    public List<Boolean> getCardHorizotal() {
+    public List<Boolean> getCardHorizontal() {
         List<Boolean> cardHorizontal = new ArrayList<>();
         for (int i = 0; i < commonGoals; i++) {
             cardHorizontal.add((boolean) gson.get("horizontal " + i));

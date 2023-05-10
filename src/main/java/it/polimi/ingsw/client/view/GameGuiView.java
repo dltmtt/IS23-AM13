@@ -55,7 +55,7 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public void showCommonGoal(String card, int occurences, int size, boolean horizontal) throws IOException, ParseException {
+    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException {
         System.out.println("showCommonGoal() not implemented yet in " + this.getClass().getName());
     }
 

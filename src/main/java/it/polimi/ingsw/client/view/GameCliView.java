@@ -117,8 +117,8 @@ public class GameCliView extends GameView {
     }
 
     @Override
-    public void showCommonGoal(String card, int occurences, int size, boolean horizontal) throws IOException, ParseException {
-        CommonGoalView.print(card, occurences, size, horizontal);
+    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException {
+        CommonGoalView.print(card, occurrences, size, horizontal);
     }
 
     @Override

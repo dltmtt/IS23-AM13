@@ -94,7 +94,7 @@ public class ClientRmi extends Client {
             if (!ageResponse.startsWith("ok")) {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
-            firstGame = controller.showFirstGamescreen();
+            firstGame = controller.showFirstGameScreen();
             int nextStep = parser.getPosix(server.sendMessage(parser.sendFirstGame(firstGame)));
             if (nextStep == 1) {
                 int numPlayer = controller.showNumberOfPlayersScreen();
@@ -128,7 +128,7 @@ public class ClientRmi extends Client {
     public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
         Message myGame = server.sendMessage(parser.sendPosix(myPosix));
         controller.showPersonalGoal(parser.getPersonalGoal(myGame));
-        controller.showCommonGoal(parser.getCardstype(myGame), parser.getCardOccurences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
+        controller.showCommonGoal(parser.getCardsType(myGame), parser.getCardOccurrences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
         //        System.out.println("Game started!");
         //TODO: show bookshelf and board
         controller.showBoard(parser.getBoard(myGame));
