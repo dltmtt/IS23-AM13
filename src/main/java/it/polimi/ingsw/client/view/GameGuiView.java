@@ -3,9 +3,7 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
-import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
 import java.util.List;
 
 public class GameGuiView extends GameView {
@@ -28,8 +26,8 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public int readAge() {
-        System.out.println("readAge() not implemented yet in " + this.getClass().getName());
+    public int readNumber() {
+        System.out.println("readNumber() not implemented yet in " + this.getClass().getName());
         return 0;
     }
 
@@ -55,7 +53,7 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException {
+    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) {
         System.out.println("showCommonGoal() not implemented yet in " + this.getClass().getName());
     }
 
@@ -85,12 +83,12 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public boolean showRearrange() throws IOException {
+    public boolean showRearrange() {
         return false;
     }
 
     @Override
-    public List<Integer> rearrange(List<Item> items, int size) throws IOException {
+    public List<Integer> rearrange(List<Item> items, int size) {
         return null;
     }
 

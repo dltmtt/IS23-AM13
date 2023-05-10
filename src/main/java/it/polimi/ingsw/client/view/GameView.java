@@ -34,7 +34,7 @@ public abstract class GameView {
 
     public abstract void showMessage(String message);
 
-    public abstract int readAge();
+    public abstract int readNumber();
 
     public abstract int promptAge();
 

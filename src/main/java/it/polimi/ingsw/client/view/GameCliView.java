@@ -46,7 +46,8 @@ public class GameCliView extends GameView {
         return username;
     }
 
-    public int readAge() {
+    @Override
+    public int readNumber() {
         int age = 0;
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -54,7 +55,7 @@ public class GameCliView extends GameView {
             age = Integer.parseInt(in.readLine());
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("An error occurred while reading the age.");
+            System.err.println("An error occurred while reading the number.");
         }
         return age;
     }
@@ -65,7 +66,7 @@ public class GameCliView extends GameView {
         return readUsername();
     }
 
-    public boolean readFirstGame() {
+    public boolean readYesOrNo() {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
@@ -73,27 +74,14 @@ public class GameCliView extends GameView {
             return Objects.equals(response, "Y");
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("An error occurred while reading the age.");
+            System.err.println("An error occurred while reading the boolean.");
             return false;
         }
     }
 
-    public int readNumberOfPlayers() {
-        int numberOfPlayers = 0;
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
-            numberOfPlayers = Integer.parseInt(in.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("An error occurred while reading the age.");
-        }
-        return numberOfPlayers;
-    }
-
     public int promptAge() {
         showMessage(insertAgePrompt);
-        return readAge();
+        return readNumber();
     }
 
     public boolean promptFirstGame() {
@@ -102,12 +90,12 @@ public class GameCliView extends GameView {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //        return readFirstGame();
+        //        return readYesOrNo();
     }
 
     public int promptNumberOfPlayers() {
         showMessage(insertNumberOfPlayersPrompt);
-        return readNumberOfPlayers();
+        return readNumber();
     }
 
     @Override
@@ -117,7 +105,7 @@ public class GameCliView extends GameView {
     }
 
     @Override
-    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException {
+    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) {
         CommonGoalView.print(card, occurrences, size, horizontal);
     }
 
@@ -169,7 +157,7 @@ public class GameCliView extends GameView {
     }
 
     @Override
-    public List<Integer> rearrange(List<Item> items, int size) throws IOException {
+    public List<Integer> rearrange(List<Item> items, int size) {
         ItemView.printItems(items);
         showMessage("Insert the new order of the picked items : \n");
         List<Integer> newOrder = new ArrayList<>();
