@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GameCliView extends GameView {
 
@@ -48,35 +47,33 @@ public class GameCliView extends GameView {
 
     @Override
     public int readNumber() {
-        int age = 0;
+        int n = 0;
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+            n = Integer.parseInt(in.readLine());
+        } catch (IOException e) {
+            System.err.println("An error occurred while reading the number.");
+        }
+        return n;
+    }
+
+    @Override
+    public boolean readYesOrNo() {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-            age = Integer.parseInt(in.readLine());
+            String response = in.readLine();
+            return response.equalsIgnoreCase("y");
         } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("An error occurred while reading the number.");
+            System.err.println("An error occurred while reading the answer.");
+            return false;
         }
-        return age;
     }
 
     @Override
     public String showLogin() {
         showMessage(insertUsernamePrompt);
         return readUsername();
-    }
-
-    public boolean readYesOrNo() {
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
-            String response = in.readLine();
-            return Objects.equals(response, "Y");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("An error occurred while reading the boolean.");
-            return false;
-        }
     }
 
     public int promptAge() {
@@ -99,7 +96,7 @@ public class GameCliView extends GameView {
     }
 
     @Override
-    public void showPersonalCard(int card) throws IOException, ParseException {
+    public void showPersonalGoal(int card) throws IOException, ParseException {
         PersonalGoalView personalGoalView = new PersonalGoalView(card);
         personalGoalView.printLayout();
     }

@@ -26,15 +26,13 @@ public abstract class GameView {
 
     public abstract String readUsername();
 
-    public void setController(GameController gameController) {
-        this.gameController = gameController;
-    }
+    public abstract int readNumber();
+
+    public abstract boolean readYesOrNo();
 
     public abstract String showLogin();
 
     public abstract void showMessage(String message);
-
-    public abstract int readNumber();
 
     public abstract int promptAge();
 
@@ -42,7 +40,7 @@ public abstract class GameView {
 
     public abstract int promptNumberOfPlayers();
 
-    public abstract void showPersonalCard(int card) throws IOException, ParseException;
+    public abstract void showPersonalGoal(int card) throws IOException, ParseException;
 
     public abstract void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException;
 
@@ -54,11 +52,15 @@ public abstract class GameView {
 
     public abstract void showStartGame();
 
-    public abstract void showEndGame(List<String> winners);
-
     public abstract boolean showRearrange() throws IOException;
+
+    public abstract int showInsert();
+
+    public abstract void showEndGame(List<String> winners);
 
     public abstract List<Integer> rearrange(List<Item> items, int size) throws IOException;
 
-    public abstract int showInsert();
+    public void setController(GameController gameController) {
+        this.gameController = gameController;
+    }
 }

@@ -49,7 +49,7 @@ public class GameController {
     }
 
     public void showPersonalGoal(int card) throws IOException, ParseException {
-        gameView.showPersonalCard(card);
+        gameView.showPersonalGoal(card);
     }
 
     public void showCommonGoal(List<String> cards, List<Integer> occurrences, List<Integer> size, List<Boolean> horizontal) {
