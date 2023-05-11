@@ -108,8 +108,18 @@ public class ServerController {
     }
 
     public String checkPick(List<Integer> move) {
+        if (move.size() != 4) {
+            return "no";
+        }
         if (Objects.equals(move.get(0), move.get(2)) || Objects.equals(move.get(1), move.get(3))) {
-            return "ok";
+            List<Coordinates> coordinatesOfPick = createCoordinateList(move);
+            if (gameModel.getLivingRoom().OrderAndMaxOf3(coordinatesOfPick)) {
+                if (gameModel.getLivingRoom().allNotNull(coordinatesOfPick)) {
+                    if (gameModel.getLivingRoom().AtLeastOneFree(coordinatesOfPick)) {
+                        return "ok";
+                    }
+                }
+            }
         }
         return "no";
     }
@@ -190,5 +200,13 @@ public class ServerController {
             return true;
         }
         return false;
+    }
+
+    public List<Coordinates> createCoordinateList(List<Integer> integers) {
+        List<Coordinates> coordinates = new ArrayList<>();
+        for (int i = 0; i < integers.size(); i += 2) {
+            coordinates.add(new Coordinates(integers.get(i), integers.get(i + 1)));
+        }
+        return coordinates;
     }
 }

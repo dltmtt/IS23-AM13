@@ -132,8 +132,50 @@ public class Board {
         return itemsPicked;
     }
 
-    public List<Item> getExtractedItems() {
-        return extractedItems;
+    /**
+     * checks if all the tiles chosen have at least one free adjacent cell
+     *
+     * @return true if at least one cell is free, false otherwise
+     */
+    public boolean AtLeastOneFree(List<Coordinates> cells) {
+        for (Coordinates cell : cells) {
+            if (cell.x() > 0 && boardMatrix[cell.x() - 1][cell.y()] == null) {
+                return true;
+            }
+            if (cell.x() < boardSize - 1 && boardMatrix[cell.x() + 1][cell.y()] == null) {
+                return true;
+            }
+            if (cell.y() > 0 && boardMatrix[cell.x()][cell.y() - 1] == null) {
+                return true;
+            }
+            if (cell.y() < boardSize - 1 && boardMatrix[cell.x()][cell.y() + 1] == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean allNotNull(List<Coordinates> cells) {
+        for (Coordinates cell : cells) {
+            if (boardMatrix[cell.x()][cell.y()] == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * checks if  the distance between the tiles chosen is at most 3 and if the order is correct(ascending)
+     *
+     * @param cells the list of coordinates of the tiles chosen
+     * @return true if the order is correct and the distance is at most 3, false otherwise
+     */
+
+    public boolean OrderAndMaxOf3(List<Coordinates> cells) {
+        if (Objects.equals(cells.get(0).x(), cells.get(1).x())) {
+            return cells.get(1).y() - cells.get(0).y() <= 2;
+        }
+        return cells.get(1).x() - cells.get(0).x() <= 2;
     }
 
     public boolean isValidMove(List<Coordinates> list) {
