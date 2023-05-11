@@ -77,6 +77,9 @@ public interface CommunicationInterface extends Remote {
             case "board" -> {
                 return parser.sendBoard("board", controller.getBoard());
             }
+            case "endGame" -> {
+                return parser.sendWinners(controller.getWinnersNickname());
+            }
             default -> {
                 System.out.println(message + " requested unknown");
                 return parser.sendMessage("Unknown request.");

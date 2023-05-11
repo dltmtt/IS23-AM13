@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class ServerController {
 
     private final List<Player> players = new ArrayList<>();
+    private List<String> winnersNickname = new ArrayList<>();
     private List<Item> currentPicked = new ArrayList<>();
     private GameModel gameModel = null;
     private Room room = null;
@@ -129,7 +131,7 @@ public class ServerController {
         if (gameModel.isLastRound()) {
             if (players.get(nextPlayerIndex).isFirstPlayer()) {
                 gameModel.setTheGameEnded(true);
-                printWinners(setWinner());
+                winnersNickname = setWinner();
             } else {
                 gameModel.setCurrentPlayer(players.get(nextPlayerIndex));
             }
@@ -138,10 +140,9 @@ public class ServerController {
         }
     }
 
-    public List<Player> setWinner() {
+    public List<String> setWinner() {
         List<Player> winners = new ArrayList<>();
         List<Integer> finalScoring = new ArrayList<>();
-        // TODO: add case of tie
 
         for (Player player : players) {
             finalScoring.add(player.calculateScore());
@@ -161,11 +162,6 @@ public class ServerController {
             winners.add(players.get(finalScoring.indexOf(max)));
         }
 
-        return winners;
-    }
-
-    public void printWinners(List<Player> winners) {
-
         if (winners.size() > 1) {
             for (Player winner : winners) {
                 if (winner.isFirstPlayer()) {
@@ -173,10 +169,7 @@ public class ServerController {
                 }
             }
         }
-
-        for (Player winner : winners) {
-            System.out.println("The winner is " + winner.getNickname());
-        }
+        return winners.stream().map(Player::getNickname).collect(Collectors.toList());
     }
 
     public List<Item> getPicked(List<Integer> picked) throws IllegalAccessException {
@@ -213,5 +206,21 @@ public class ServerController {
         int score = gameModel.getCurrentPlayer().calculateScore();
         changeTurn();
         return score;
+    }
+
+    public List<String> getWinnersNickname() {
+        return winnersNickname;
+    }
+
+    public List<Integer> getWinnersScore() {
+        List<Integer> winnersScore = new ArrayList<>();
+        for (String nickname : winnersNickname) {
+            for (Player player : players) {
+                if (player.getNickname().equals(nickname)) {
+                    winnersScore.add(player.calculateScore());
+                }
+            }
+        }
+        return winnersScore;
     }
 }

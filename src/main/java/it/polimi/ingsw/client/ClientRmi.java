@@ -144,12 +144,14 @@ public class ClientRmi extends Client {
     }
 
     /**
-     * Waits for the turn of the player
+     * Waits for the turn of the player. It depends on the number received by the server:
+     * -1: the game is over
+     * 0: it's not the player's turn
+     * 1: it's the player's turn
      */
 
     public void waitForTurn() throws IOException, FullRoomException, IllegalAccessException, ParseException {
         int myTurn = 0;
-        Message currentBoard;
         while (myTurn != 1) {
             if (myTurn == -1) {
                 endGame();
@@ -201,7 +203,9 @@ public class ClientRmi extends Client {
      * Ends the game
      */
 
-    public void endGame() {
+    public void endGame() throws FullRoomException, RemoteException, IllegalAccessException {
         System.out.println("Game ended");
+        Message winners = server.sendMessage(parser.sendMessage("endGame"));
+        controller.showEndGame(parser.getWinners(winners));
     }
 }

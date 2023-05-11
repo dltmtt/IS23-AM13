@@ -46,12 +46,17 @@ public class ServerParser {
             case "insert" -> "insert";
             case "board" -> "board";
             case "sort" -> "sort";
+            case "endGame" -> "endGame";
             default -> null;
         };
     }
 
     public Message sendUpdate(String category, Bookshelf bookshelf, Board livingroom, int score) {
         return new Message(category, bookshelf, livingroom, score);
+    }
+
+    public Message sendWinners(List<String> winners) {
+        return new Message(winners.size(), winners);
     }
 
     public Message sendBoard(String category, Board livingroom) {

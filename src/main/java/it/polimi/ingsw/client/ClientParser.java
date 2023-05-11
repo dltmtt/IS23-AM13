@@ -119,4 +119,8 @@ public class ClientParser implements Serializable {
     public int getScore(Message message) {
         return message.getIntMessage("score");
     }
+
+    public List<String> getWinners(Message message) {
+        return message.getWinners();
+    }
 }

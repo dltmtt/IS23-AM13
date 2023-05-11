@@ -90,6 +90,21 @@ public class Message implements Serializable {
         }
     }
 
+    public Message(int size, List<String> names) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "WinnersMessage.json";
+        gson.put("category", "winners");
+        gson.put("size", size);
+        for (int i = 0; i < size; i++) {
+            gson.put("name" + i, names.get(i));
+        }
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public Message(int position) {
         gson = new JSONObject();
         String path = BASE_PATH + "PositionMessage.json";
@@ -254,6 +269,15 @@ public class Message implements Serializable {
         pick.add((int) gson.get("finalRow"));
         pick.add((int) gson.get("finalColumn"));
         return pick;
+    }
+
+    public List<String> getWinners() {
+        List<String> winners = new ArrayList<>();
+        int size = (int) gson.get("size");
+        for (int i = 0; i < size; i++) {
+            winners.add((String) gson.get("winner " + i));
+        }
+        return winners;
     }
 
     public List<Integer> getSort() {
@@ -439,6 +463,10 @@ public class Message implements Serializable {
             cardSize.add((int) gson.get("size " + j));
         }
         return cardSize;
+    }
+
+    public int getSize() {
+        return (int) gson.get("size");
     }
 
     public List<Boolean> getCardHorizontal() {

@@ -93,4 +93,8 @@ public class GameController {
     public void showScore(int score) {
         gameView.showCurrentScore(score);
     }
+
+    public void showEndGame(List<String> winners) {
+        gameView.showEndGame(winners);
+    }
 }
