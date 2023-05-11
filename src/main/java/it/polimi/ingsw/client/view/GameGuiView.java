@@ -99,6 +99,11 @@ public class GameGuiView extends GameView {
     }
 
     @Override
+    public void showCurrentScore(int score) {
+
+    }
+
+    @Override
     public int showInsert() {
         return 0;
     }

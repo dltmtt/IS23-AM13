@@ -65,7 +65,7 @@ public interface CommunicationInterface extends Remote {
             }
             case "insert" -> {
                 if (controller.checkInsert(parser.getInsert(message))) {
-                    return parser.sendUpdate("update", controller.getCurrentePlayerBookshelf(), controller.getBoard());
+                    return parser.sendUpdate("update", controller.getCurrentePlayerBookshelf(), controller.getBoard(), controller.getCurrentPlayerScore());
                 } else {
                     return parser.sendMessage("retry");
                 }

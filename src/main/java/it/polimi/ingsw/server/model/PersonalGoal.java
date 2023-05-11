@@ -43,6 +43,8 @@ public class PersonalGoal {
      * @return the number of points gained by the player
      */
     public int getPoints(Bookshelf bookshelf) {
+        currentReached = 0;
+        counter = 0;
         for (Coordinates coordinates : personalGoalCard.keySet()) {
             if (bookshelf.getItemAt(coordinates.x(), coordinates.y()).isPresent()) {
                 if (bookshelf.getItemAt(coordinates.x(), coordinates.y()).get().color() == personalGoalCard.get(coordinates)) {

@@ -85,7 +85,6 @@ public class ServerController {
 
     public Bookshelf getCurrentePlayerBookshelf() {
         Bookshelf bookshelf = gameModel.getCurrentPlayer().getBookshelf();
-        changeTurn();
         return bookshelf;
     }
 
@@ -208,5 +207,11 @@ public class ServerController {
             coordinates.add(new Coordinates(integers.get(i), integers.get(i + 1)));
         }
         return coordinates;
+    }
+
+    public int getCurrentPlayerScore() {
+        int score = gameModel.getCurrentPlayer().calculateScore();
+        changeTurn();
+        return score;
     }
 }

@@ -89,4 +89,8 @@ public class GameController {
     public int showInsertScreen() {
         return gameView.showInsert();
     }
+
+    public void showScore(int score) {
+        gameView.showCurrentScore(score);
+    }
 }

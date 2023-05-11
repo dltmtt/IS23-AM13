@@ -63,4 +63,6 @@ public abstract class GameView {
     public void setController(GameController gameController) {
         this.gameController = gameController;
     }
+
+    public abstract void showCurrentScore(int score);
 }

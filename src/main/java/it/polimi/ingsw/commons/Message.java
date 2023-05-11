@@ -212,13 +212,14 @@ public class Message implements Serializable {
         }
     }
 
-    public Message(String category, Bookshelf bookshelf, Board board) {
+    public Message(String category, Bookshelf bookshelf, Board board, int score) {
         gson = new JSONObject();
         String path = BASE_PATH + "UpdateMessage.json";
         gson.put("category", category);
         gson.put("bookshelf", bookshelfJson(bookshelf));
 
         gson.put("board", boardJson(board));
+        gson.put("score", score);
 
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());

@@ -115,4 +115,8 @@ public class ClientParser implements Serializable {
     public Message sendRearrange(List<Integer> sorted) {
         return new Message("sort", sorted);
     }
+
+    public int getScore(Message message) {
+        return message.getIntMessage("score");
+    }
 }

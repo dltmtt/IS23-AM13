@@ -172,8 +172,14 @@ public class GameCliView extends GameView {
     }
 
     @Override
+    public void showCurrentScore(int score) {
+        System.out.println("Your current score is : " + score);
+    }
+
+    @Override
     public int showInsert() {
         System.out.println("Insert the index of the column where you want to insert the picked items : ");
+
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             return Integer.parseInt(in.readLine());

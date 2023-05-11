@@ -50,8 +50,8 @@ public class ServerParser {
         };
     }
 
-    public Message sendUpdate(String category, Bookshelf bookshelf, Board livingroom) {
-        return new Message(category, bookshelf, livingroom);
+    public Message sendUpdate(String category, Bookshelf bookshelf, Board livingroom, int score) {
+        return new Message(category, bookshelf, livingroom, score);
     }
 
     public Message sendBoard(String category, Board livingroom) {

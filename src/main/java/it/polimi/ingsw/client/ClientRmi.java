@@ -28,6 +28,9 @@ public class ClientRmi extends Client {
     private CommunicationInterface server;
     private Message message;
 
+    /**
+     * Starts the client
+     */
     public ClientRmi() {
         // All these messages should probably be moved to the view
         System.out.print("Connecting to server... ");
@@ -73,6 +76,10 @@ public class ClientRmi extends Client {
     public void login(String username) {
 
     }
+
+    /**
+     * Starts the login procedure, asks the user for username,age and first game sends them to the server.
+     */
 
     public void login() {
         int age = 0;
@@ -136,6 +143,10 @@ public class ClientRmi extends Client {
         waitForTurn();
     }
 
+    /**
+     * Waits for the turn of the player
+     */
+
     public void waitForTurn() throws IOException, FullRoomException, IllegalAccessException, ParseException {
         int myTurn = 0;
         Message currentBoard;
@@ -148,9 +159,15 @@ public class ClientRmi extends Client {
         myTurn();
     }
 
+    /**
+     * Shows the board and asks the user to pick some tiles, then, if the pick is valid, asks the user to rearrange the tiles (if the player want),
+     * then asks the user to choose a column to place the tiles in. at the end of the turn, the player returns to the waiting room.
+     */
     public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
+        //sends message to server to get the board
         Message currentBoard = server.sendMessage(parser.sendMessage("board"));
         controller.showBoard(parser.getBoard(currentBoard));
+        //shows and returns the pick
         List<Integer> pick = controller.showPickScreen();
         Message myPick = parser.sendPick(pick.get(0), pick.get(1), pick.get(2), pick.get(3));
         Message isMyPickOk = server.sendMessage(myPick);
@@ -174,9 +191,15 @@ public class ClientRmi extends Client {
         }
 
         controller.showBookshelf(parser.getBookshelf(myInsert));
-        controller.showBoard(parser.getBoard(myInsert));
+        controller.showScore(parser.getScore(myInsert));
+        //        controller.showBoard(parser.getBoard(myInsert));
+
         waitForTurn();
     }
+
+    /**
+     * Ends the game
+     */
 
     public void endGame() {
         System.out.println("Game ended");
