@@ -155,6 +155,81 @@ public class Board {
         return false;
     }
 
+    //it returns the number of tiles left on the board
+    public int numLeft(Board b){
+        int count=0;
+        for(int i=0;i<boardSize;i++){
+            for(int j=0;j<boardSize;j++){
+                if(b.getItem(i,j)!=null){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    //method to see if the tile has nothing adjacent to it
+    public boolean isAlone(int i, int j){
+        if(i==0 && j==0){
+            if(boardMatrix[i+1][j]==null && boardMatrix[i][j+1]==null)
+                return true;
+        }
+        else if(i==0 && j==boardSize-1){
+            if(boardMatrix[i+1][j]==null && boardMatrix[i][j-1]==null)
+                return true;
+        }
+        else if(i==boardSize-1 && j==0){
+            if(boardMatrix[i-1][j]==null && boardMatrix[i][j+1]==null)
+                return true;
+        }
+        else if(i==boardSize-1 && j==boardSize-1){
+            if(boardMatrix[i-1][j]==null && boardMatrix[i][j-1]==null)
+                return true;
+        }
+        else if(i==0){
+            if(boardMatrix[i+1][j]==null && boardMatrix[i][j+1]==null && boardMatrix[i][j-1]==null)
+                return true;
+        }
+        else if(i==boardSize-1){
+            if(boardMatrix[i-1][j]==null && boardMatrix[i][j+1]==null && boardMatrix[i][j-1]==null)
+                return true;
+        }
+        else if(j==0){
+            if(boardMatrix[i+1][j]==null && boardMatrix[i-1][j]==null && boardMatrix[i][j+1]==null)
+                return true;
+        }
+        else if(j==boardSize-1){
+            if(boardMatrix[i+1][j]==null && boardMatrix[i-1][j]==null && boardMatrix[i][j-1]==null)
+                return true;
+        }
+        else{
+            if(boardMatrix[i+1][j]==null && boardMatrix[i-1][j]==null && boardMatrix[i][j+1]==null && boardMatrix[i][j-1]==null)
+                return true;
+        }
+        return false;
+    }
+
+
+    //method that checks if all the tiles in the board have no tiles adjacent to them
+    //in this case: refill of the board
+    public boolean allIsolated(Board b){
+        int count = numLeft(b);
+        if(count==0){
+            return true;
+        }
+        for(int i=0;i<boardSize;i++){
+            for(int j=0;j<boardSize;j++){
+                if(boardMatrix[i][j]!=null){
+                    if(isAlone(i,j))
+                        count--;
+                }
+            }
+        }
+        return count == 0;
+    }
+
+
+
+
     public boolean allNotNull(List<Coordinates> cells) {
         for (Coordinates cell : cells) {
             if (boardMatrix[cell.x()][cell.y()] == null) {
