@@ -12,8 +12,7 @@ import java.util.Random;
 public class ServerController {
 
     private final List<Player> players = new ArrayList<>();
-    Player currentPlayer;
-    private List<Coordinates> currentPicked = new ArrayList<>();
+    private List<Item> currentPicked = new ArrayList<>();
     private GameModel gameModel = null;
     private Room room = null;
 
@@ -59,14 +58,13 @@ public class ServerController {
         if (room.full()) {
             gameModel = new GameModel(players);
             gameModel.start();
-            currentPlayer = gameModel.getCurrentPlayer();
             return "Game started";
         }
         return null;
     }
 
     public String checkNumPlayer(int numPlayer) {
-        if (numPlayer > 4) {
+        if (numPlayer > 4 || numPlayer < 2) {
             return "retry";
         }
         room.setNumberOfPlayers(numPlayer);
@@ -117,7 +115,7 @@ public class ServerController {
     }
 
     public void changeTurn() {
-        int currentPlayerIndex = players.indexOf(currentPlayer);
+        int currentPlayerIndex = players.indexOf(gameModel.getCurrentPlayer());
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
         if (gameModel.isLastRound()) {
             if (players.get(nextPlayerIndex).isFirstPlayer()) {
@@ -174,10 +172,12 @@ public class ServerController {
 
     public List<Item> getPicked(List<Integer> picked) throws IllegalAccessException {
         currentPicked.clear();
+        List<Coordinates> currentPickedCoord = new ArrayList<>();
         for (int i = 0; i < picked.size(); i += 2) {
-            currentPicked.add(new Coordinates(picked.get(i), picked.get(i + 1)));
+            currentPickedCoord.add(new Coordinates(picked.get(i), picked.get(i + 1)));
         }
-        return gameModel.getLivingRoom().pickFromBoard(currentPicked);
+        currentPicked = gameModel.getLivingRoom().pickFromBoard(currentPickedCoord);
+        return currentPicked;
     }
 
     public void rearrangePicked(List<Integer> sort) {

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.utils.Coordinates;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,24 +121,20 @@ public class Player {
     /**
      * Moves a straight line of tiles from the board to the bookshelf.
      *
-     * @param list   the list of coordinates of the tiles to move
+     * @param items  the list  of the tiles to move
      * @param column the index of the column of the bookshelf where the tiles will be placed (starting from 0)
      * @throws IllegalArgumentException if the line is not straight or if the selection is empty
      */
-    public void move(List<Coordinates> list, int column) throws IllegalArgumentException {
+    public void move(List<Item> items, int column) throws IllegalArgumentException {
 
-        if (board.isValidMove(list)) {
-            bookshelf.insert(column, board.getExtractedItems());
-            for (int i = 0; i < commonGoals.size(); i++) {
-                if (!commonGoalCompleted.get(i)) {
-                    if (commonGoals.get(i).check(this.bookshelf)) {
-                        setCommonGoalPoints(commonGoals.get(i));
-                        commonGoalCompleted.set(i, true);
-                    }
+        bookshelf.insert(column, items);
+        for (int i = 0; i < commonGoals.size(); i++) {
+            if (!commonGoalCompleted.get(i)) {
+                if (commonGoals.get(i).check(this.bookshelf)) {
+                    setCommonGoalPoints(commonGoals.get(i));
+                    commonGoalCompleted.set(i, true);
                 }
             }
-        } else {
-            System.err.println("Invalid move");
         }
     }
 
@@ -155,12 +149,12 @@ public class Player {
      * @throws IllegalArgumentException  if the number of items and the number of positions are not the same or if an item is placed in two different positions
      * @throws IndexOutOfBoundsException if the new position is out of bounds
      */
-    public List<Coordinates> rearrangePickedItems(List<Coordinates> items, List<Integer> order) throws IllegalArgumentException, IndexOutOfBoundsException {
+    public List<Item> rearrangePickedItems(List<Item> items, List<Integer> order) throws IllegalArgumentException, IndexOutOfBoundsException {
         if (items.size() != order.size()) {
             throw new IllegalArgumentException("The number of items and the number of positions are not the same.");
         }
 
-        List<Coordinates> rearrangedItems = new ArrayList<>();
+        List<Item> rearrangedItems = new ArrayList<>();
 
         for (int i : order) {
             if (i > items.size()) {
@@ -175,6 +169,7 @@ public class Player {
 
         items.clear();
         items.addAll(rearrangedItems);
+        System.out.println(items);
         return items;
     }
 
