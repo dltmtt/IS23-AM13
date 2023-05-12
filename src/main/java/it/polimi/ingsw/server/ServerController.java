@@ -89,8 +89,17 @@ public class ServerController {
         Bookshelf bookshelf = gameModel.getCurrentPlayer().getBookshelf();
         return bookshelf;
     }
+    public boolean refill(){
+        //(if there are no more items to pick or if all the items are isolated) and if the item bag is not empty
+        if((gameModel.getLivingRoom().numLeft() == 0 || gameModel.getLivingRoom().allIsolated()) && !gameModel.getLivingRoom().getItemBag().isEmpty()){
+            return true;
+        }
+        return false;
+    }
 
     public Board getBoard() {
+        if(refill())
+            gameModel.getLivingRoom().fill();
         return gameModel.getLivingRoom();
     }
 

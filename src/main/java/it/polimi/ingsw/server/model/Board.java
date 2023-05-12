@@ -97,7 +97,8 @@ public class Board {
                     System.err.println("cannot fll the board, itemBag is empty");
                 } else if (usableCells.contains(new Coordinates(row, column))) {
                     int indexRandom = randNumberGenerator.nextInt(itemBag.size());
-                    boardMatrix[row][column] = itemBag.get(indexRandom);
+                    if(boardMatrix[row][column]==null)
+                        boardMatrix[row][column] = itemBag.get(indexRandom);
                     itemBag.remove(indexRandom);
                 }
             }
@@ -156,11 +157,11 @@ public class Board {
     }
 
     //it returns the number of tiles left on the board
-    public int numLeft(Board b){
+    public int numLeft(){
         int count=0;
         for(int i=0;i<boardSize;i++){
             for(int j=0;j<boardSize;j++){
-                if(b.getItem(i,j)!=null){
+                if(boardMatrix[i][j]!=null){
                     count++;
                 }
             }
@@ -211,8 +212,8 @@ public class Board {
 
     //method that checks if all the tiles in the board have no tiles adjacent to them
     //in this case: refill of the board
-    public boolean allIsolated(Board b){
-        int count = numLeft(b);
+    public boolean allIsolated(){
+        int count = numLeft();
         if(count==0){
             return true;
         }
