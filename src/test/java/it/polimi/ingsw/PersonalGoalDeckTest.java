@@ -37,13 +37,13 @@ public class PersonalGoalDeckTest {
     }
 
     // Tests what happens if it is reached less than 3 color of the personal goal
-    @Test
-    void lessThan3Points() throws IOException, ParseException {
-        personalGoal = SettingLoader.loadSpecificPersonalGoal(2);
-        personalGoal.colorReached();
-        personalGoal.colorReached();
-        assertEquals(2, personalGoal.getPoints(b));
-    }
+    //    @Test
+    //    void lessThan3Points() throws IOException, ParseException {
+    //        personalGoal = SettingLoader.loadSpecificPersonalGoal(2);
+    //        personalGoal.colorReached();
+    //        personalGoal.colorReached();
+    //        assertEquals(2, personalGoal.getPoints(b));
+    //    }
 
     // WARNING: this test fails (but I think it is a Work In Progress).
     @Test

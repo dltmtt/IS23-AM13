@@ -109,18 +109,47 @@ public class GameCliView extends GameView {
     @Override
     public List<Integer> showPick() {
         System.out.println("It's your turn! Do your move!");
+        //        List<Integer> move = new ArrayList<>();
+        //        for (int i = 0; i < 4; i++) {
+        //            int row_column = 0;
+        //            try {
+        //                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        //                row_column = Integer.parseInt(in.readLine());
+        //            } catch (IOException e) {
+        //                e.printStackTrace();
+        //                System.err.println("An error occurred while reading the move.");
+        //            }
+        //            move.add(row_column);
+        //        }
+        //        return move;
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String str = null;
         List<Integer> move = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            int row_column = 0;
-            try {
-                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-                row_column = Integer.parseInt(in.readLine());
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.err.println("An error occurred while reading the move.");
-            }
-            move.add(row_column);
-        }
+        String[] coord = null;
+        String start, end;
+        do {
+            do {
+                try {
+                    str = in.readLine();
+                } catch (IOException e) {
+                    System.err.println("An error occurred while reading the move.");
+                }
+                //1,2-2,3
+                str = str.replace(" ", "");
+                //split start and end coordinate
+                coord = str.split("-");
+            } while (coord.length != 2);
+            start = coord[0];
+            end = coord[1];
+            //split start and end coordinate in row and column
+        } while (start.split(",").length != 2 || end.split(",").length != 2);
+        String[] startCoord = start.split(",");
+        String[] endCoord = end.split(",");
+        //convert string to int
+        move.add(Integer.parseInt(startCoord[0]));
+        move.add(Integer.parseInt(startCoord[1]));
+        move.add(Integer.parseInt(endCoord[0]));
+        move.add(Integer.parseInt(endCoord[1]));
         return move;
     }
 
