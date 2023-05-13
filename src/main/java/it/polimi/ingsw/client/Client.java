@@ -5,7 +5,8 @@ import it.polimi.ingsw.client.view.GameView;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
-import static it.polimi.ingsw.utils.CliUtilities.*;
+import static it.polimi.ingsw.utils.CliUtilities.RESET;
+import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 
 // This is abstract (non instantiable) because each client will either
 // be an RMI client or a Socket client
@@ -41,8 +42,7 @@ public abstract class Client {
         if (connected) {
             System.out.println(SUCCESS_COLOR + "connected" + RESET);
         } else {
-            System.err.println(ERROR_COLOR + "error" + RESET);
-            System.out.println("Unable to connect to the server. Is it running?");
+            System.err.println("Unable to connect to the server. Is it running?");
             System.exit(1);
         }
 
