@@ -60,7 +60,7 @@ public final class CliUtilities {
      * @return the answer given by the user
      * @throws IOException if an I/O error occurs
      */
-    public static String askCloseEndedQuestion(String question, List<String> validAnswers, String defaultAnswer) throws IOException {
+    public static String askCloseEndedQuestion(String question, List<String> validAnswers, String defaultAnswer) {
         // Make a mutable copy of the answers and convert them to lowercase (case is ignored)
         String lowercaseDefaultAnswer = defaultAnswer.toLowerCase();
         List<String> lowercaseValidAnswers = new ArrayList<>(List.copyOf(validAnswers));
@@ -91,18 +91,23 @@ public final class CliUtilities {
         }
         System.out.print("]? ");
 
-        String answer;
+        String answer = null;
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-        answer = in.readLine().toLowerCase();
-        while (!answer.equals("") && !lowercaseValidAnswers.contains(answer)) {
-            System.out.print("Invalid answer. Press enter to select the default answer (the uppercase one in the brackets)\n" + "or enter one of the answers in the brackets (case is ignored): ");
+        try {
             answer = in.readLine().toLowerCase();
-        }
 
-        // If the user pressed enter, use the default answer
-        if (answer.equals("")) {
-            answer = lowercaseDefaultAnswer;
+            while (!answer.equals("") && !lowercaseValidAnswers.contains(answer)) {
+                System.err.print("Invalid answer. Press enter to select the default answer (the uppercase one in the brackets)\n" + "or enter one of the answers in the brackets (case is ignored): ");
+                answer = in.readLine().toLowerCase();
+            }
+
+            // If the user pressed enter, use the default answer
+            if (answer.equals("")) {
+                answer = lowercaseDefaultAnswer;
+            }
+        } catch (IOException e) {
+            System.err.println("Error while reading the answer");
         }
 
         return answer;
@@ -113,16 +118,23 @@ public final class CliUtilities {
      *
      * @param string the input to confirm
      * @return true if the user confirmed the input, false otherwise
-     * @throws IOException if an I/O error occurs
+     * @see #askCloseEndedQuestion(String, List, String)
      */
-    public static boolean confirmInput(String string) throws IOException {
+    public static boolean confirmInput(String string) {
         System.out.print("You entered " + string + ". ");
         String answer = askCloseEndedQuestion("Is that correct?", List.of("y", "n"), "y");
         return answer.equals("y");
     }
 
-    public static boolean askYesNoQuestion(String question) throws IOException {
-        String answer = askCloseEndedQuestion(question, List.of("y", "n"), "y");
+    /**
+     * Asks the user a close-ended question with a yes/no answer and returns the answer.
+     *
+     * @param question
+     * @return true if the user answered yes, false otherwise
+     * @see #askCloseEndedQuestion(String, List, String)
+     */
+    public static boolean askYesNoQuestion(String question, String defaultAnswer) {
+        String answer = askCloseEndedQuestion(question, List.of("y", "n"), defaultAnswer);
         return answer.equals("y");
     }
 

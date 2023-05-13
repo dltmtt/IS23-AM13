@@ -12,12 +12,13 @@ import java.util.List;
 
 public abstract class GameView {
 
+    public final String insertError = "The index must be between 0 and " + (Bookshelf.getColumns() - 1) + ": ";
     protected final String insertUsernamePrompt = "Please, insert your username: ";
     protected final String insertAgePrompt = "Please, insert your age: ";
     protected final String firstGameQuestion = "Is this the first time you play this game?";
     protected final String insertUsernameAgainPrompt = "Please, insert your username again: ";
     protected final String welcomeMessage = "Welcome to My Shelfie!\n";
-    protected final String insertNumberOfPlayersPrompt = "Please, insert the number of players you want to play with: ";
+    protected final String insertNumberOfPlayersPrompt = "Please, insert the total number of players: ";
     GameController gameController;
 
     public GameView() {
@@ -27,8 +28,6 @@ public abstract class GameView {
     public abstract String readUsername();
 
     public abstract int readNumber();
-
-    public abstract boolean readYesOrNo();
 
     public abstract String showLogin();
 
@@ -54,7 +53,7 @@ public abstract class GameView {
 
     public abstract boolean showRearrange() throws IOException;
 
-    public abstract int showInsert();
+    public abstract int promptInsert();
 
     public abstract void showEndGame(List<String> winners);
 

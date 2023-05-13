@@ -26,7 +26,6 @@ public class ClientRmi extends Client {
     int myPosition;
     private Registry registry;
     private CommunicationInterface server;
-    private Message message;
 
     /**
      * Starts the client
@@ -78,11 +77,10 @@ public class ClientRmi extends Client {
     }
 
     /**
-     * Starts the login procedure, asks the user for username,age and first game sends them to the server.
+     * Starts the login procedure, asks the user his info and sends them to the server.
      */
-
     public void login() {
-        int age = 0;
+        int age;
         boolean firstGame;
         try {
             controller.startGame();
@@ -145,11 +143,12 @@ public class ClientRmi extends Client {
 
     /**
      * Waits for the turn of the player. It depends on the number received by the server:
-     * -1: the game is over
-     * 0: it's not the player's turn
-     * 1: it's the player's turn
+     * <ul>
+     *     <li>-1: the game is over</li>
+     *     <li>0: it's not the player's turn</li>
+     *     <li>1: it's the player's turn</li>
+     * </ul>
      */
-
     public void waitForTurn() throws IOException, FullRoomException, IllegalAccessException, ParseException {
         int myTurn = 0;
         while (myTurn != 1) {
@@ -170,7 +169,7 @@ public class ClientRmi extends Client {
      * then asks the user to choose a column to place the tiles in. at the end of the turn, the player returns to the waiting room.
      */
     public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
-        //sends message to server to get the board
+        // Sends the message to server to get the board
         Message currentBoard = server.sendMessage(parser.sendMessage("board"));
         controller.showBoard(parser.getBoard(currentBoard));
         //shows and returns the pick
@@ -192,7 +191,7 @@ public class ClientRmi extends Client {
 
         Message myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
         while (!"update".equals(parser.getMessage(myInsert))) {
-            System.out.println("Insert not ok,please retry");
+            gameView.showMessage(gameView.insertError);
             myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
         }
 

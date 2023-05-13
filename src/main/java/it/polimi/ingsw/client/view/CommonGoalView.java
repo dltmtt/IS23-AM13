@@ -6,7 +6,7 @@ import it.polimi.ingsw.utils.CliUtilities;
 public class CommonGoalView {
 
     public static void print(String type, int occurrences, int size, boolean horizontal) {
-        System.out.println("This is your Common Goal Card : ");
+        System.out.println("This is your common goal card: ");
         switch (type) {
             case "corners" -> cornersPrintLayout();
             case "diagonal" -> diagonalPrintLayout();

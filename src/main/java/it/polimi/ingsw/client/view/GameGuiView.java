@@ -32,12 +32,6 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public boolean readYesOrNo() {
-        System.out.println("readYesOrNo() not implemented yet in " + this.getClass().getName());
-        return false;
-    }
-
-    @Override
     public int promptAge() {
         System.out.println("showAge() not implemented yet in " + this.getClass().getName());
         return 0;
@@ -104,7 +98,7 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public int showInsert() {
+    public int promptInsert() {
         return 0;
     }
 }
