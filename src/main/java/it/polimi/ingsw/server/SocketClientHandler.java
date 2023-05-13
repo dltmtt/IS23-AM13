@@ -139,4 +139,15 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
         // terminate application
         System.exit(0);
     }
+
+    @Override
+    public Message sendGame(int position) throws RemoteException {
+        // TODO: implement
+        return null;
+    }
+
+    @Override
+    public Message sendUpdate(Message message) {
+        return null;
+    }
 }

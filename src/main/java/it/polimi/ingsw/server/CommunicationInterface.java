@@ -66,7 +66,7 @@ public interface CommunicationInterface extends Remote {
             }
             case "insert" -> {
                 if (controller.checkInsert(parser.getInsert(message))) {
-                    return parser.sendUpdate("update", controller.getCurrentePlayerBookshelf(), controller.getBoard(), controller.getCurrentPlayerScore());
+                    return sendUpdate(message);
                 } else {
                     return parser.sendMessage("retry");
                 }
@@ -88,10 +88,9 @@ public interface CommunicationInterface extends Remote {
         }
     }
 
-    default Message sendGame(int position) throws RemoteException {
-        System.out.println("Sending game to " + position);
-        return parser.sendStartGame(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelf(position), controller.getBoard());
-    }
+    Message sendGame(int position) throws RemoteException;
+
+    Message sendUpdate(Message message) throws RemoteException;
 
     default Message sendTurn(int position) throws RemoteException {
         return parser.sendMessage1("turn", "turn", controller.yourTurn(position));

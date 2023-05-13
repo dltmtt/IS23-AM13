@@ -381,7 +381,7 @@ public class Message implements Serializable {
     }
 
     public String getMessage() {
-        return (String) gson.get("message");
+        return (String) gson.get("category");
     }
 
     public int getPosition() {

@@ -21,6 +21,7 @@ public class ServerController {
     public ServerController() {
         players = new ArrayList<>();
         winnersNickname = new ArrayList<>();
+        currentPicked = new ArrayList<>();
     }
 
     public boolean checkUsername(String username) {
@@ -230,5 +231,9 @@ public class ServerController {
             }
         }
         return winnersScore;
+    }
+
+    public int getCurrentPlayerPersonalGoal() {
+        return gameModel.getCurrentPlayer().getPersonalGoal().getIndex();
     }
 }
