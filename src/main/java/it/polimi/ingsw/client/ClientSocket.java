@@ -7,6 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.rmi.NotBoundException;
 
 import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_SOCKET;
@@ -29,24 +30,11 @@ public class ClientSocket extends Client {
 
     /**
      * Constructor to create DataOutputStream and BufferedReader
-     * Creates socket, DataOutputStream, BufferedReader from server and keyboard
+     * Creates socket, DataOutputStream, BufferedReader from the server and keyboard
      */
     public ClientSocket(GameController controller) {
-        // Create the client socket
-        while (true) {
-            try {
-                s = new Socket(HOSTNAME, PORT_SOCKET);
-                System.out.println("Connected to server " + s.getInetAddress().getHostName() + ":" + s.getPort());
-                break;
-            } catch (IOException e) {
-                System.err.println("Client socket cannot be created, trying again in 5 seconds...");
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ex) {
-                    System.err.println("Interrupted while waiting for server to start");
-                }
-            }
-        }
+        super();
+
         // This is to send data to the server
         try {
             dos = new DataOutputStream(s.getOutputStream());
@@ -62,6 +50,7 @@ public class ClientSocket extends Client {
             System.err.println("Unable to create input stream");
             throw new RuntimeException(e);
         }
+        
         // To read data from the keyboard
         kb = new BufferedReader(new InputStreamReader(System.in));
 
@@ -95,11 +84,10 @@ public class ClientSocket extends Client {
     }
 
     /**
-     * Starts the threads to listen from server and send data
+     * Starts the threads to listen from the server and send data
      */
     @Override
     public void start() {
-
         // Start the threads
         listenThread.start();
         //sendThread.start();
@@ -115,6 +103,12 @@ public class ClientSocket extends Client {
         String username = controller.showLoginScreen();
         Message usernameMessage = parser.sendUsername(username);
         sendMessage(usernameMessage.getJSONstring());
+    }
+
+    @Override
+    public void connect() throws IOException, NotBoundException {
+        s = new Socket(HOSTNAME, PORT_SOCKET);
+        System.out.println("Connected to server " + s.getInetAddress().getHostName() + ":" + s.getPort());
     }
 
     /**

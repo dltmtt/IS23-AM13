@@ -16,7 +16,6 @@ import java.util.List;
 
 import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_RMI;
-import static it.polimi.ingsw.utils.CliUtilities.*;
 
 public class ClientRmi extends Client {
 
@@ -31,49 +30,19 @@ public class ClientRmi extends Client {
      * Starts the client
      */
     public ClientRmi() {
-        // All these messages should probably be moved to the view
-        System.out.print("Connecting to server... ");
-
-        // TODO: create a connect method in the Client class and maybe
-        // use something else for the timer
-        boolean connected = false;
-        long now = System.currentTimeMillis();
-        long timeout = now + 10 * 1000; // 10 seconds
-
-        // This is done in order to be able to start the client and
-        // the server in parallel from the IDE (otherwise the client
-        // could start before the server and fail to connect)
-        while (System.currentTimeMillis() < timeout) {
-            try {
-                registry = LocateRegistry.getRegistry(HOSTNAME, PORT_RMI);
-                server = (CommunicationInterface) registry.lookup("CommunicationInterface");
-
-                // If we get here, no exception was thrown and we are connected
-                connected = true;
-                break;
-            } catch (RemoteException | NotBoundException e) {
-                // Unable to connect to server, retrying...
-            }
-        }
-
-        if (connected) {
-            System.out.println(SUCCESS_COLOR + "connected" + RESET);
-        } else {
-            System.err.println(ERROR_COLOR + "error" + RESET);
-            System.out.println("Unable to connect to the server. Is it running?");
-            System.exit(1);
-        }
-
-        loginThread = new Thread(this::login);
+        super();
     }
 
-    public void start() {
-        loginThread.start();
+    @Override
+    public void connect() throws RemoteException, NotBoundException {
+        registry = LocateRegistry.getRegistry(HOSTNAME, PORT_RMI);
+        server = (CommunicationInterface) registry.lookup("CommunicationInterface");
     }
 
     /**
      * Starts the login procedure, asks the user his info and sends them to the server.
      */
+    @Override
     public void login() {
         int age;
         boolean firstGame;
