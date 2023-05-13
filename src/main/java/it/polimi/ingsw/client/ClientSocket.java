@@ -114,11 +114,7 @@ public class ClientSocket extends Client {
         controller.startGame();
         String username = controller.showLoginScreen();
         Message usernameMessage = parser.sendUsername(username);
-        //sendMessage("prova1");
         sendMessage(usernameMessage.getJSONstring());
-        //sendMessage("prova2");
-        //String responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username))); // This message will be a JSON
-
     }
 
     /**

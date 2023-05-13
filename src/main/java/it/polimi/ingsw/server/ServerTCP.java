@@ -92,14 +92,14 @@ public class ServerTCP implements ServerInterface {
 
     public void sendToAll(String message) {
         for (SocketClientHandler clientHandler : connectedClients) {
-            clientHandler.sendMessage(message);
+            clientHandler.sendString(message);
         }
     }
 
     public void sendToAllExcept(String message, SocketClientHandler excludedPlayer) throws IllegalArgumentException {
         if (excludedPlayer == null || message == null)
             throw new IllegalArgumentException("null parameter handler cannot be null.");
-        connectedClients.stream().filter(client -> client != excludedPlayer).forEach(client -> client.sendMessage(message));
+        connectedClients.stream().filter(client -> client != excludedPlayer).forEach(client -> client.sendString(message));
     }
 
     public int getConnectedPlayers() {
