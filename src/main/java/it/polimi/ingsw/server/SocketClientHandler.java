@@ -53,20 +53,21 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
             while (true) {
                 try {
                     str = br.readLine();
+                    try {
+                        JSONParser parser = new JSONParser();
+                        JSONObject messageFromClient = (JSONObject) parser.parse(str);
+                        Message message = new Message(messageFromClient);
+                        String response = sendMessage(message).getJSONstring();
+                        sendString(response);
+                        //messageSwitch(message);
+                    } catch (NullPointerException | FullRoomException | IllegalAccessException | RemoteException e) {
+                        System.out.println("Client disconnected or message error.");
+                        break;
+                    } catch (ParseException e) {
+                        System.out.println(str);
+                    }
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    JSONParser parser = new JSONParser();
-                    JSONObject messageFromClient = (JSONObject) parser.parse(str);
-                    Message message = new Message(messageFromClient);
-                    sendString(sendMessage(message).getJSONstring());
-                    //messageSwitch(message);
-                } catch (NullPointerException | FullRoomException | IllegalAccessException | RemoteException e) {
-                    System.out.println("Client disconnected or message error.");
-                    break;
-                } catch (ParseException e) {
-                    System.out.println(str);
+                    System.out.println(socket.getInetAddress() + " disconnected, unable to read");
                 }
             }
         });
