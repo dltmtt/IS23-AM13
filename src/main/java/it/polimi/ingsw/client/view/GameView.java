@@ -17,7 +17,7 @@ public abstract class GameView {
     protected final String insertAgePrompt = "Please, insert your age: ";
     protected final String firstGameQuestion = "Is this the first time you play this game?";
     protected final String insertUsernameAgainPrompt = "Please, insert your username again: ";
-    protected final String welcomeMessage = "Welcome to My Shelfie!\n";
+    protected final String welcomeMessage = "Welcome to...\n";
     protected final String insertNumberOfPlayersPrompt = "Please, insert the total number of players: ";
     GameController gameController;
 
