@@ -1,14 +1,16 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.commons.Message;
+import it.polimi.ingsw.utils.FullRoomException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
-public class SocketClientHandler implements Runnable {
+public class SocketClientHandler implements Runnable, CommunicationInterface {
 
     private final Socket socket;
     public PrintStream ps;
@@ -58,8 +60,10 @@ public class SocketClientHandler implements Runnable {
                     JSONParser parser = new JSONParser();
                     JSONObject messageFromClient = (JSONObject) parser.parse(str);
                     Message message = new Message(messageFromClient);
-                } catch (NullPointerException e) {
-                    System.out.println("Client disconnected.");
+                    sendString(sendMessage(message).getJSONstring());
+                    //messageSwitch(message);
+                } catch (NullPointerException | FullRoomException | IllegalAccessException | RemoteException e) {
+                    System.out.println("Client disconnected or message error.");
                     break;
                 } catch (ParseException e) {
                     System.out.println(str);
@@ -114,12 +118,12 @@ public class SocketClientHandler implements Runnable {
         }
     }
 
-    public void sendMessage(String message) {
+    public void sendString(String message) {
         ps.println(message);
     }
 
     public void close() {
-        sendMessage("Connection closed.");
+        sendString("Connection closed.");
         listenThread.interrupt();
         sendThread.interrupt();
         ps.close();
