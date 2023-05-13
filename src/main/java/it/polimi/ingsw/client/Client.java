@@ -13,8 +13,8 @@ import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 public abstract class Client {
 
     protected final ClientParser parser = new ClientParser();
-    public Thread loginThread;
     public GameView gameView;
+    protected Thread loginThread;
 
     public Client() {
         // All these messages should probably be moved to the view
@@ -53,9 +53,7 @@ public abstract class Client {
         this.gameView = gameView;
     }
 
-    public void start() {
-        loginThread.start();
-    }
+    public abstract void start();
 
     public abstract void login();
 

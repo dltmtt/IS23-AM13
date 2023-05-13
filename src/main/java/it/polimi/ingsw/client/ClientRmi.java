@@ -20,7 +20,6 @@ import static it.polimi.ingsw.server.CommunicationInterface.PORT_RMI;
 
 public class ClientRmi extends Client {
 
-    public Thread loginThread;
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
     GameController controller = new GameController(null, gameView);
     int myPosition;
@@ -84,6 +83,11 @@ public class ClientRmi extends Client {
         } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void start() {
+        loginThread.start();
     }
 
     public void waitingRoom() throws FullRoomException, IOException, ParseException, IllegalAccessException {
