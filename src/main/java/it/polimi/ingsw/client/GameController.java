@@ -15,21 +15,15 @@ public class GameController {
 
     private final GameModel gameModel;
     private final GameView gameView;
-    private final Client client;
 
-    public GameController(GameModel gameModel, GameView gameView, Client client) {
+    public GameController(GameModel gameModel, GameView gameView) {
         this.gameModel = gameModel;
         this.gameView = gameView;
-        this.client = client;
         gameView.setController(this);
     }
 
     public void startGame() {
         gameView.showStartGame();
-    }
-
-    public void login(String username) throws Exception {
-        client.login(username);
     }
 
     public String showLoginScreen() {

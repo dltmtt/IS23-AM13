@@ -11,6 +11,8 @@ import org.apache.commons.cli.*;
  */
 public class MyShelfie {
 
+    public static GameController controller;
+
     public static void main(String[] args) {
         Option protocol = new Option("p", "protocol", true, "select network protocol to use (default: RMI)");
         Option view = new Option("m", "view", true, "launch CLI or GUI (default: CLI)");
@@ -49,10 +51,12 @@ public class MyShelfie {
         }
 
         String protocolType = line.getOptionValue("protocol", "rmi");
+        GameController gameController = new GameController(null, gameView);
+
         Client client = null;
         switch (protocolType) {
             case "rmi" -> client = new ClientRmi();
-            case "socket" -> client = new ClientSocket();
+            case "socket" -> client = new ClientSocket(gameController);
             default -> {
                 System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'socket'.");
                 System.exit(1);
@@ -60,7 +64,6 @@ public class MyShelfie {
         }
 
         // TODO: check if this part makes sense
-        GameController gameController = new GameController(null, gameView, client);
         gameView.setController(gameController);
         client.setView(gameView);
         client.start();

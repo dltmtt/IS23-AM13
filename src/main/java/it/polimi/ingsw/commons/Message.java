@@ -24,6 +24,10 @@ public class Message implements Serializable {
     private final JSONObject gson;
     private int commonGoals;
 
+    public Message(JSONObject json) {
+        gson = json;
+    }
+
     /**
      * Constructor for the login message.
      * When called, only one of the parameters is used, the others are set to default values.
@@ -34,6 +38,7 @@ public class Message implements Serializable {
      * @param isFirstGame if it's the first game of the player
      * @param numPlayer   number of players in the game
      */
+
     public Message(String category, String username, int age, boolean isFirstGame, int numPlayer) {
         gson = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
@@ -482,5 +487,9 @@ public class Message implements Serializable {
 
     public JSONObject getGson() {
         return gson;
+    }
+
+    public String getJSONstring() {
+        return gson.toJSONString();
     }
 }

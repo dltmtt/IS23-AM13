@@ -22,7 +22,7 @@ public class ClientRmi extends Client {
 
     public Thread loginThread;
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
-    GameController controller = new GameController(null, gameView, this);
+    GameController controller = new GameController(null, gameView);
     int myPosition;
     private Registry registry;
     private CommunicationInterface server;
@@ -69,11 +69,6 @@ public class ClientRmi extends Client {
 
     public void start() {
         loginThread.start();
-    }
-
-    @Override
-    public void login(String username) {
-
     }
 
     /**
@@ -149,7 +144,7 @@ public class ClientRmi extends Client {
      *     <li>1: it's the player's turn</li>
      * </ul>
      */
-    public void waitForTurn() throws IOException, FullRoomException, IllegalAccessException, ParseException {
+    public void waitForTurn() throws IOException, IllegalAccessException, ParseException, FullRoomException {
         int myTurn = 0;
         while (myTurn != 1) {
             if (myTurn == -1) {
@@ -205,7 +200,6 @@ public class ClientRmi extends Client {
     /**
      * Ends the game
      */
-
     public void endGame() throws FullRoomException, RemoteException, IllegalAccessException {
         Message winners = server.sendMessage(parser.sendMessage("endGame"));
         controller.showEndGame(parser.getWinners(winners));

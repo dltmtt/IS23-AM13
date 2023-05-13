@@ -11,6 +11,7 @@ import java.util.List;
 public class ServerParser {
 
     public Message sendStartGame(int personalGoalCard, List<CommonGoal> commonGoalcard, Bookshelf bookshelf, Board livingroom) {
+
         return new Message(personalGoalCard, commonGoalcard, bookshelf, livingroom);
     }
 

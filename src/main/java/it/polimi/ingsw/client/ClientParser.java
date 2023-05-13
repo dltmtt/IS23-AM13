@@ -4,6 +4,7 @@ import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -122,5 +123,13 @@ public class ClientParser implements Serializable {
 
     public List<String> getWinners(Message message) {
         return message.getWinners();
+    }
+
+    public String getJSONString(Message message) {
+        return message.getGson().toJSONString();
+    }
+
+    public JSONObject getJSON(Message message) {
+        return message.getGson();
     }
 }
