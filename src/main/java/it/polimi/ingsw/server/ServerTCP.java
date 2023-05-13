@@ -22,6 +22,8 @@ public class ServerTCP implements ServerInterface {
     public Socket s = null;
     public ExecutorService executor;
 
+    public Thread acceptConnectionsThread;
+
     public ServerTCP() throws IOException {
 
         connectedClients = new ArrayList<>();
@@ -34,11 +36,8 @@ public class ServerTCP implements ServerInterface {
             e.printStackTrace();
             throw new IOException("Unable to start the server socket.");
         }
-    }
 
-    @Override
-    public void start() {
-        new Thread(() -> {
+        acceptConnectionsThread = new Thread(() -> {
             while (true) {
                 try {
                     Socket clientSocket = serverSocket.accept();
@@ -48,8 +47,8 @@ public class ServerTCP implements ServerInterface {
                         clientHandler = new SocketClientHandler(clientSocket);
                         try {
                             executor.submit(clientHandler);
-                            clientHandler.sendMessage("Welcome to the server!");
-                            sendToAllExcept("A new player has joined the game!", clientHandler);
+                            //clientHandler.sendMessage("Welcome to the server!");
+                            //sendToAllExcept("A new player has joined the game!", clientHandler);
                             connectedClients.add(clientHandler);
                         } catch (RejectedExecutionException | NullPointerException e) {
                             System.err.println("Socket " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ": socket client handler cannot be submitted to the executor.");
@@ -62,7 +61,12 @@ public class ServerTCP implements ServerInterface {
                     System.err.println("Unable to accept a connection.");
                 }
             }
-        }).start();
+        });
+    }
+
+    @Override
+    public void start() {
+        acceptConnectionsThread.start();
     }
 
     @Override
@@ -77,6 +81,7 @@ public class ServerTCP implements ServerInterface {
         closeAllConnections();
         executor.shutdownNow();
         System.out.println("Socket server stopped.");
+        acceptConnectionsThread.interrupt();
     }
 
     public void closeAllConnections() {

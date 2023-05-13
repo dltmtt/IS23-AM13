@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import it.polimi.ingsw.commons.Message;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.*;
 import java.net.Socket;
 
 public class SocketClientHandler implements Runnable {
@@ -11,6 +13,10 @@ public class SocketClientHandler implements Runnable {
     private final Socket socket;
     public PrintStream ps;
     public BufferedReader br, kb;
+
+    public DataOutputStream dos;
+
+    public Thread listenThread, sendThread;
 
     public SocketClientHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -31,32 +37,64 @@ public class SocketClientHandler implements Runnable {
 
         // To read data from the keyboard
         kb = new BufferedReader(new InputStreamReader(System.in));
-    }
 
-    public void run() {
-        new Thread(() -> {
+        // This is to send data to the server
+        try {
+            dos = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            System.err.println("Unable to create output stream");
+            throw new RuntimeException(e);
+        }
+
+        listenThread = new Thread(() -> {
             String str;
             while (true) {
                 try {
                     str = br.readLine();
-                    System.out.println("From " + socket.getInetAddress().getHostName() + " :" + str);
-                } catch (IOException | NullPointerException e) {
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    JSONParser parser = new JSONParser();
+                    JSONObject messageFromClient = (JSONObject) parser.parse(str);
+                    Message message = new Message(messageFromClient);
+                } catch (NullPointerException e) {
                     System.out.println("Client disconnected.");
                     break;
+                } catch (ParseException e) {
+                    System.out.println(str);
                 }
             }
-        }).start();
+        });
 
-        new Thread(() -> {
-            String str;
+        sendThread = new Thread(() -> {
             while (true) {
                 sendInput();
             }
-        }).start();
+        });
     }
 
+    public void run() {
+        listenThread.start();
+        //sendThread.start();
+    }
+
+    /*
+        public void receiveMessage() {
+            String str = null;
+            try {
+                str = br.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    */
+    // problema secondario
+    //boh raga manda un messaggio su due da tastiera
     public void sendInput() {
         String str1;
+        // read from keyboard
         try {
             str1 = kb.readLine();
         } catch (IOException e) {
@@ -66,12 +104,24 @@ public class SocketClientHandler implements Runnable {
         ps.println(str1);
     }
 
+    public void sendInput_old() {
+        String str = null;
+        try {
+            // str =
+            dos.writeBytes(kb.readLine() + "\n");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void sendMessage(String message) {
         ps.println(message);
     }
 
     public void close() {
         sendMessage("Connection closed.");
+        listenThread.interrupt();
+        sendThread.interrupt();
         ps.close();
         try {
             br.close();

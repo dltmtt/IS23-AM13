@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.commons.Message;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -23,19 +25,28 @@ public class ClientSocket extends Client {
     public Thread listenThread;
     public Thread sendThread;
 
+    public GameController controller;
+
     /**
      * Constructor to create DataOutputStream and BufferedReader
      * Creates socket, DataOutputStream, BufferedReader from server and keyboard
      */
-    public ClientSocket() {
+    public ClientSocket(GameController controller) {
         // Create the client socket
-        try {
-            s = new Socket(HOSTNAME, PORT_SOCKET);
-        } catch (IOException e) {
-            System.err.println("Client socket cannot be created");
-            throw new RuntimeException(e);
+        while (true) {
+            try {
+                s = new Socket(HOSTNAME, PORT_SOCKET);
+                System.out.println("Connected to server " + s.getInetAddress().getHostName() + ":" + s.getPort());
+                break;
+            } catch (IOException e) {
+                System.err.println("Client socket cannot be created, trying again in 5 seconds...");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    System.err.println("Interrupted while waiting for server to start");
+                }
+            }
         }
-
         // This is to send data to the server
         try {
             dos = new DataOutputStream(s.getOutputStream());
@@ -80,6 +91,7 @@ public class ClientSocket extends Client {
                 }
             }
         });
+        this.controller = controller;
     }
 
     /**
@@ -87,20 +99,26 @@ public class ClientSocket extends Client {
      */
     @Override
     public void start() {
+
         // Start the threads
         listenThread.start();
-        sendThread.start();
+        //sendThread.start();
+        login();
     }
 
     /**
      * Sends the login message to the server
-     *
-     * @param username the username of the player
      */
     @Override
-    public void login(String username) {
+    public void login() {
+        controller.startGame();
+        String username = controller.showLoginScreen();
+        Message usernameMessage = parser.sendUsername(username);
+        //sendMessage("prova1");
+        sendMessage(usernameMessage.getJSONstring());
+        //sendMessage("prova2");
+        //String responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username))); // This message will be a JSON
 
-        sendMessage("login " + username);
     }
 
     /**
