@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -50,7 +53,7 @@ public class ClientSocket extends Client {
             System.err.println("Unable to create input stream");
             throw new RuntimeException(e);
         }
-        
+
         // To read data from the keyboard
         kb = new BufferedReader(new InputStreamReader(System.in));
 
@@ -58,6 +61,7 @@ public class ClientSocket extends Client {
         listenThread = new Thread(() -> {
             while (true) {
                 try {
+                    String str = br.readLine();
                     System.out.println("From " + s.getInetAddress() + ": " + br.readLine());
                 } catch (IOException e) {
                     System.out.println("Server disconnected, unable to read.");
@@ -83,15 +87,38 @@ public class ClientSocket extends Client {
         this.controller = controller;
     }
 
+    public Message receiveMessage() {
+        String str;
+        do {
+            //System.out.println("cevef");
+            try {
+                // read a string
+                str = br.readLine();
+                try {
+                    JSONParser parser = new JSONParser();
+                    JSONObject messageFromClient = (JSONObject) parser.parse(str);
+                    Message message = new Message(messageFromClient);
+                    return message;
+                } catch (ParseException e) {
+                    System.out.println(str);
+                    return new Message(str);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } while (str == null);
+    }
+
     /**
      * Starts the threads to listen from the server and send data
      */
     @Override
     public void start() {
         // Start the threads
-        listenThread.start();
+        //listenThread.start();
         //sendThread.start();
         login();
+        System.out.println("Login successful.");
     }
 
     /**
@@ -99,10 +126,23 @@ public class ClientSocket extends Client {
      */
     @Override
     public void login() {
+        Message responseMessage;
         controller.startGame();
-        String username = controller.showLoginScreen();
-        Message usernameMessage = parser.sendUsername(username);
-        sendMessage(usernameMessage.getJSONstring());
+        do {
+            String username = controller.showLoginScreen();
+            Message usernameMessage = parser.sendUsername(username);
+            sendMessage(usernameMessage.getJSONstring());
+
+            responseMessage = receiveMessage();
+
+            //System.out.println(responseMessage.getCategory());
+            //System.out.println(responseMessage.getMessage());
+
+            if (responseMessage.getCategory().equals("retry")) {
+                System.out.println("Username already taken. Retry.");
+            }
+        } while ("retry".equals(responseMessage.getCategory()));
+        System.out.println(responseMessage.getMessage());
     }
 
     @Override
