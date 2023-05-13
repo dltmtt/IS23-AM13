@@ -155,10 +155,14 @@ public class ClientRmi extends Client {
         while (myTurn != 1) {
             if (myTurn == -1) {
                 endGame();
+                break;
+            } else {
+                myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosition)));
             }
-            myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosition)));
         }
-        myTurn();
+        if (myTurn == 1) {
+            myTurn();
+        }
     }
 
     /**
@@ -189,7 +193,7 @@ public class ClientRmi extends Client {
         Message myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
         while (!"update".equals(parser.getMessage(myInsert))) {
             System.out.println("Insert not ok,please retry");
-            myInsert = server.sendMessage(parser.sendTurn("insert", controller.showInsertScreen()));
+            myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
         }
 
         controller.showBookshelf(parser.getBookshelf(myInsert));
@@ -204,7 +208,6 @@ public class ClientRmi extends Client {
      */
 
     public void endGame() throws FullRoomException, RemoteException, IllegalAccessException {
-        System.out.println("Game ended");
         Message winners = server.sendMessage(parser.sendMessage("endGame"));
         controller.showEndGame(parser.getWinners(winners));
     }

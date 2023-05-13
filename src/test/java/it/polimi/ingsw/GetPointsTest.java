@@ -26,74 +26,78 @@
 //    // so he should get 9 points from the personal goal and 16 points from the common goals
 //    // plus 3 points for one group of 4 adjacent items, for a total of 28 points.
 //    @Test
-////    void generalTest() throws IllegalAccessException, IOException, ParseException {
-////        List<Player> players = new ArrayList<>();
-////        players.add(new Player("test1", 20, true, true, false));
-////        players.add(new Player("test2", 20, true, true, false));
-////        players.add(new Player("test3", 20, true, true, false));
-////
-////        GameModel gameModel = new GameModel(players);
-////        gameModel.start();
-////
-////        List<CommonGoal> commonGoals = new ArrayList<>();
-////        commonGoals.add(new CommonGoal(new Corners(1, 1), players.size()));
-////        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), players.size()));
-////        Player.setCommonGoal(commonGoals);
-////
-////        players.get(0).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(1));
-////        players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(2));
-////        players.get(2).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(3));
-////
-////        List<Item> items = new ArrayList<>();
-////        items.add(new Item(Color.BLUE, 1));
-////        items.add(new Item(Color.PINK, 1));
-////        items.add(new Item(Color.LIGHTBLUE, 1));
-////        items.add(new Item(Color.WHITE, 1));
-////        items.add(new Item(Color.YELLOW, 1));
-////        items.add(new Item(Color.BLUE, 1));
-////        players.get(0).getBookshelf().insert(0, items);
-////        items.clear();
-////
-////        items.add(new Item(Color.PINK, 1));
-////        items.add(new Item(Color.BLUE, 1));
-////        items.add(new Item(Color.WHITE, 1));
-////        items.add(new Item(Color.LIGHTBLUE, 1));
-////        items.add(new Item(Color.YELLOW, 1));
-////        items.add(new Item(Color.GREEN, 1));
-////        players.get(0).getBookshelf().insert(1, items);
-////        items.clear();
-////
-////        items.add(new Item(Color.PINK, 1));
-////        items.add(new Item(Color.WHITE, 1));
-////        items.add(new Item(Color.BLUE, 1));
-////        items.add(new Item(Color.PINK, 1));
-////        items.add(new Item(Color.BLUE, 1));
-////        players.get(0).getBookshelf().insert(2, items);
-////        items.clear();
-////
-////        items.add(new Item(Color.PINK, 1));
-////        items.add(new Item(Color.PINK, 1));
-////        items.add(new Item(Color.GREEN, 1));
-////        items.add(new Item(Color.BLUE, 1));
-////        items.add(new Item(Color.GREEN, 1));
-////        items.add(new Item(Color.WHITE, 1));
-////        players.get(0).getBookshelf().insert(3, items);
-////        items.clear();
-////
-////        items.add(new Item(Color.BLUE, 1));
-////        items.add(new Item(Color.BLUE, 1));
-////        items.add(new Item(Color.LIGHTBLUE, 1));
-////        items.add(new Item(Color.PINK, 1));
-////        items.add(new Item(Color.BLUE, 1));
-////        items.add(new Item(Color.BLUE, 1));
-////        players.get(0).getBookshelf().insert(4, items);
-////        items.clear();
-////        players.get(0).move(new Coordinates(2, 2), new Coordinates(2, 2), 2);
-////
-////        int score1 = players.get(0).calculateScore();
-////
-////        assertEquals(28, score1);
-////    }
+//    void generalTest() throws IllegalAccessException, IOException, ParseException {
+//        List<Player> players = new ArrayList<>();
+//        players.add(new Player("test1", 20, true, true, false));
+//        players.add(new Player("test2", 20, true, true, false));
+//        players.add(new Player("test3", 20, true, true, false));
+//
+//        GameModel gameModel = new GameModel(players);
+//        gameModel.start();
+//
+//        List<CommonGoal> commonGoals = new ArrayList<>();
+//        commonGoals.add(new CommonGoal(new Corners(1, 1), players.size()));
+//        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), players.size()));
+//        Player.setCommonGoal(commonGoals);
+//
+//        players.get(0).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(1));
+//        players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(2));
+//        players.get(2).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(3));
+//
+//        List<Item> items = new ArrayList<>();
+//        items.add(new Item(Color.BLUE, 1));
+//        items.add(new Item(Color.PINK, 1));
+//        items.add(new Item(Color.LIGHTBLUE, 1));
+//        items.add(new Item(Color.WHITE, 1));
+//        items.add(new Item(Color.YELLOW, 1));
+//        items.add(new Item(Color.BLUE, 1));
+//        players.get(0).getBookshelf().insert(0, items);
+//        items.clear();
+//
+//        items.add(new Item(Color.PINK, 1));
+//        items.add(new Item(Color.BLUE, 1));
+//        items.add(new Item(Color.WHITE, 1));
+//        items.add(new Item(Color.LIGHTBLUE, 1));
+//        items.add(new Item(Color.YELLOW, 1));
+//        items.add(new Item(Color.GREEN, 1));
+//        players.get(0).getBookshelf().insert(1, items);
+//        items.clear();
+//
+//        items.add(new Item(Color.PINK, 1));
+//        items.add(new Item(Color.WHITE, 1));
+//        items.add(new Item(Color.BLUE, 1));
+//        items.add(new Item(Color.PINK, 1));
+//        items.add(new Item(Color.BLUE, 1));
+//        players.get(0).getBookshelf().insert(2, items);
+//        items.clear();
+//
+//        items.add(new Item(Color.PINK, 1));
+//        items.add(new Item(Color.PINK, 1));
+//        items.add(new Item(Color.GREEN, 1));
+//        items.add(new Item(Color.BLUE, 1));
+//        items.add(new Item(Color.GREEN, 1));
+//        items.add(new Item(Color.WHITE, 1));
+//        players.get(0).getBookshelf().insert(3, items);
+//        items.clear();
+//
+//        items.add(new Item(Color.BLUE, 1));
+//        items.add(new Item(Color.BLUE, 1));
+//        items.add(new Item(Color.LIGHTBLUE, 1));
+//        items.add(new Item(Color.PINK, 1));
+//        items.add(new Item(Color.BLUE, 1));
+//        items.add(new Item(Color.BLUE, 1));
+//        players.get(0).getBookshelf().insert(4, items);
+//        items.clear();
+//        List<Coordinates> coordinates = new ArrayList<>();
+//        coordinates.add(new Coordinates(2, 2));
+//        coordinates.add(new Coordinates(2, 2));
+//
+//        players.get(0).move(new Coordinates(2, 2), new Coordinates(2, 2), 2);
+//
+//        int score1 = players.get(0).calculateScore();
+//
+//        assertEquals(28, score1);
+//    }
 //
 //    //player1: reaches 4/6 cells of personal goal(4 points), full line common goal as first(8 points), x-shape common goal as second (4 points)  and 13 points from adjacent items.
 //    //Total score: 29 points.

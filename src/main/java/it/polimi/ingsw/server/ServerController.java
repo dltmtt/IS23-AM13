@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ServerController {
 
     private final List<Player> players = new ArrayList<>();
-    private List<String> winnersNickname = new ArrayList<>();
+    private final List<String> winnersNickname = new ArrayList<>();
     private List<Item> currentPicked = new ArrayList<>();
     private GameModel gameModel = null;
     private Room room = null;
@@ -89,17 +89,16 @@ public class ServerController {
         Bookshelf bookshelf = gameModel.getCurrentPlayer().getBookshelf();
         return bookshelf;
     }
-    public boolean refill(){
+
+    public boolean refill() {
         //(if there are no more items to pick or if all the items are isolated) and if the item bag is not empty
-        if((gameModel.getLivingRoom().numLeft() == 0 || gameModel.getLivingRoom().allIsolated()) && !gameModel.getLivingRoom().getItemBag().isEmpty()){
-            return true;
-        }
-        return false;
+        return (gameModel.getLivingRoom().numLeft() == 0 || gameModel.getLivingRoom().allIsolated()) && !gameModel.getLivingRoom().getItemBag().isEmpty();
     }
 
     public Board getBoard() {
-        if(refill())
+        if (refill()) {
             gameModel.getLivingRoom().fill();
+        }
         return gameModel.getLivingRoom();
     }
 
@@ -140,7 +139,6 @@ public class ServerController {
         if (gameModel.isLastRound()) {
             if (players.get(nextPlayerIndex).isFirstPlayer()) {
                 gameModel.setTheGameEnded(true);
-                winnersNickname = setWinner();
             } else {
                 gameModel.setCurrentPlayer(players.get(nextPlayerIndex));
             }
@@ -172,11 +170,7 @@ public class ServerController {
         }
 
         if (winners.size() > 1) {
-            for (Player winner : winners) {
-                if (winner.isFirstPlayer()) {
-                    winners.remove(winner);
-                }
-            }
+            winners.removeIf(Player::isFirstPlayer);
         }
         return winners.stream().map(Player::getNickname).collect(Collectors.toList());
     }
@@ -218,7 +212,7 @@ public class ServerController {
     }
 
     public List<String> getWinnersNickname() {
-        return winnersNickname;
+        return setWinner();
     }
 
     public List<Integer> getWinnersScore() {

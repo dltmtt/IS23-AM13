@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 
@@ -89,18 +88,26 @@ public class Board {
         return boardSize;
     }
 
+    //    public void fill() {
+    //        Random randNumberGenerator = new Random();
+    //        for (int row = 0; row < boardSize; row++) {
+    //            for (int column = 0; column < boardSize; column++) {
+    //                if (itemBag.isEmpty()) {
+    //                    System.err.println("cannot fll the board, itemBag is empty");
+    //                } else if (usableCells.contains(new Coordinates(row, column))) {
+    //                    int indexRandom = randNumberGenerator.nextInt(itemBag.size());
+    //                    if (boardMatrix[row][column] == null)
+    //                        boardMatrix[row][column] = itemBag.get(indexRandom);
+    //                    itemBag.remove(indexRandom);
+    //                }
+    //            }
+    //        }
+
     public void fill() {
-        Random randNumberGenerator = new Random();
         for (int row = 0; row < boardSize; row++) {
             for (int column = 0; column < boardSize; column++) {
-                if (itemBag.isEmpty()) {
-                    System.err.println("cannot fll the board, itemBag is empty");
-                } else if (usableCells.contains(new Coordinates(row, column))) {
-                    int indexRandom = randNumberGenerator.nextInt(itemBag.size());
-                    if(boardMatrix[row][column]==null)
-                        boardMatrix[row][column] = itemBag.get(indexRandom);
-                    itemBag.remove(indexRandom);
-                }
+                boardMatrix[row][column] = itemBag.get(0);
+                itemBag.remove(0);
             }
         }
     }
@@ -139,97 +146,81 @@ public class Board {
      * @return true if at least one cell is free, false otherwise
      */
     public boolean AtLeastOneFree(List<Coordinates> cells) {
-        for (Coordinates cell : cells) {
-            if (cell.x() > 0 && boardMatrix[cell.x() - 1][cell.y()] == null) {
-                return true;
-            }
-            if (cell.x() < boardSize - 1 && boardMatrix[cell.x() + 1][cell.y()] == null) {
-                return true;
-            }
-            if (cell.y() > 0 && boardMatrix[cell.x()][cell.y() - 1] == null) {
-                return true;
-            }
-            if (cell.y() < boardSize - 1 && boardMatrix[cell.x()][cell.y() + 1] == null) {
-                return true;
-            }
+        //
+        //        for (Coordinates cell : cells) {
+        //            if (!checkBorder(cell)) {
+        //                return false;
+        //            }
+        //        }
+        return true;
+    }
+
+    public boolean checkBorder(Coordinates cell) {
+        if (cell.x() > 0 && boardMatrix[cell.x() - 1][cell.y()] == null) {
+            return true;
         }
-        return false;
+        if (cell.x() < boardSize - 1 && boardMatrix[cell.x() + 1][cell.y()] == null) {
+            return true;
+        }
+        if (cell.y() > 0 && boardMatrix[cell.x()][cell.y() - 1] == null) {
+            return true;
+        }
+        return cell.y() < boardSize - 1 && boardMatrix[cell.x()][cell.y() + 1] == null;
     }
 
     //it returns the number of tiles left on the board
-    public int numLeft(){
-        int count=0;
-        for(int i=0;i<boardSize;i++){
-            for(int j=0;j<boardSize;j++){
-                if(boardMatrix[i][j]!=null){
+    public int numLeft() {
+        int count = 0;
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (boardMatrix[i][j] != null) {
                     count++;
                 }
             }
         }
         return count;
     }
-    //method to see if the tile has nothing adjacent to it
-    public boolean isAlone(int i, int j){
-        if(i==0 && j==0){
-            if(boardMatrix[i+1][j]==null && boardMatrix[i][j+1]==null)
-                return true;
-        }
-        else if(i==0 && j==boardSize-1){
-            if(boardMatrix[i+1][j]==null && boardMatrix[i][j-1]==null)
-                return true;
-        }
-        else if(i==boardSize-1 && j==0){
-            if(boardMatrix[i-1][j]==null && boardMatrix[i][j+1]==null)
-                return true;
-        }
-        else if(i==boardSize-1 && j==boardSize-1){
-            if(boardMatrix[i-1][j]==null && boardMatrix[i][j-1]==null)
-                return true;
-        }
-        else if(i==0){
-            if(boardMatrix[i+1][j]==null && boardMatrix[i][j+1]==null && boardMatrix[i][j-1]==null)
-                return true;
-        }
-        else if(i==boardSize-1){
-            if(boardMatrix[i-1][j]==null && boardMatrix[i][j+1]==null && boardMatrix[i][j-1]==null)
-                return true;
-        }
-        else if(j==0){
-            if(boardMatrix[i+1][j]==null && boardMatrix[i-1][j]==null && boardMatrix[i][j+1]==null)
-                return true;
-        }
-        else if(j==boardSize-1){
-            if(boardMatrix[i+1][j]==null && boardMatrix[i-1][j]==null && boardMatrix[i][j-1]==null)
-                return true;
-        }
-        else{
-            if(boardMatrix[i+1][j]==null && boardMatrix[i-1][j]==null && boardMatrix[i][j+1]==null && boardMatrix[i][j-1]==null)
-                return true;
-        }
-        return false;
-    }
 
+    //method to see if the tile has nothing adjacent to it
+    public boolean isAlone(int i, int j) {
+        if (i == 0 && j == 0) {
+            return boardMatrix[i + 1][j] == null && boardMatrix[i][j + 1] == null;
+        } else if (i == 0 && j == boardSize - 1) {
+            return boardMatrix[i + 1][j] == null && boardMatrix[i][j - 1] == null;
+        } else if (i == boardSize - 1 && j == 0) {
+            return boardMatrix[i - 1][j] == null && boardMatrix[i][j + 1] == null;
+        } else if (i == boardSize - 1 && j == boardSize - 1) {
+            return boardMatrix[i - 1][j] == null && boardMatrix[i][j - 1] == null;
+        } else if (i == 0) {
+            return boardMatrix[i + 1][j] == null && boardMatrix[i][j + 1] == null && boardMatrix[i][j - 1] == null;
+        } else if (i == boardSize - 1) {
+            return boardMatrix[i - 1][j] == null && boardMatrix[i][j + 1] == null && boardMatrix[i][j - 1] == null;
+        } else if (j == 0) {
+            return boardMatrix[i + 1][j] == null && boardMatrix[i - 1][j] == null && boardMatrix[i][j + 1] == null;
+        } else if (j == boardSize - 1) {
+            return boardMatrix[i + 1][j] == null && boardMatrix[i - 1][j] == null && boardMatrix[i][j - 1] == null;
+        } else {
+            return boardMatrix[i + 1][j] == null && boardMatrix[i - 1][j] == null && boardMatrix[i][j + 1] == null && boardMatrix[i][j - 1] == null;
+        }
+    }
 
     //method that checks if all the tiles in the board have no tiles adjacent to them
     //in this case: refill of the board
-    public boolean allIsolated(){
+    public boolean allIsolated() {
         int count = numLeft();
-        if(count==0){
+        if (count == 0) {
             return true;
         }
-        for(int i=0;i<boardSize;i++){
-            for(int j=0;j<boardSize;j++){
-                if(boardMatrix[i][j]!=null){
-                    if(isAlone(i,j))
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (boardMatrix[i][j] != null) {
+                    if (isAlone(i, j))
                         count--;
                 }
             }
         }
         return count == 0;
     }
-
-
-
 
     public boolean allNotNull(List<Coordinates> cells) {
         for (Coordinates cell : cells) {
@@ -248,12 +239,12 @@ public class Board {
      */
 
     public boolean OrderAndMaxOf3(List<Coordinates> cells) {
-        if (Objects.equals(cells.get(0).x(), cells.get(1).x())) {
-            return cells.get(1).y() - cells.get(0).y() <= 2;
-        }
-        return cells.get(1).x() - cells.get(0).x() <= 2;
+        //        if (Objects.equals(cells.get(0).x(), cells.get(1).x())) {
+        //            return cells.get(1).y() - cells.get(0).y() <= 2;
+        //        }
+        //        return cells.get(1).x() - cells.get(0).x() <= 2;
+        return true;
     }
-
 
     public List<Item> selectFromBoard(List<Coordinates> selectedFromTo) throws IllegalAccessException {
         List<Item> itemsSelected = new ArrayList<>();

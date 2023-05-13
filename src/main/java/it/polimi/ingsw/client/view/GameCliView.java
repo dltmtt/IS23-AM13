@@ -109,19 +109,6 @@ public class GameCliView extends GameView {
     @Override
     public List<Integer> showPick() {
         System.out.println("It's your turn! Do your move!");
-        //        List<Integer> move = new ArrayList<>();
-        //        for (int i = 0; i < 4; i++) {
-        //            int row_column = 0;
-        //            try {
-        //                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        //                row_column = Integer.parseInt(in.readLine());
-        //            } catch (IOException e) {
-        //                e.printStackTrace();
-        //                System.err.println("An error occurred while reading the move.");
-        //            }
-        //            move.add(row_column);
-        //        }
-        //        return move;
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String str = null;
         List<Integer> move = new ArrayList<>();
@@ -170,6 +157,22 @@ public class GameCliView extends GameView {
     @Override
     public void showStartGame() {
         showMessage(welcomeMessage);
+        //        String title = """
+        //                ^?555J^                                                             \s
+        //                         .7777~     !77?7.                       .?B#JJ5B#!                        ....   .^77!:                       \s
+        //                         .YB#&Y.    Y&&&Y.                       7G&?.5##&5  :Y5P5^                :PG! .7GP?!75Y.                     \s
+        //                           YB#?     ?&&P.                        ?G&7 ^?5J^   ~G#J.                 PB^ Y&J.?GY!&J                     \s
+        //                           JB##~   ###5      .:^!   ~!!~:      ^5&#J:       :P#?                 .PB^~GB: YBBG5^                     \s
+        //                           JBPPG: :GGP#5     75B##!  .Y&B7:       :Y#&#Y~     :P#J:~~~:            .PB^~PB:  :::~!^                    \s
+        //                           JGP^G5.5B~5#5      .~P#5.:Y&G^           ~YB&#P7   ^P#BBBBBGJ.   .^~~:  .5G^ 7BJ    .Y#5.   .^~^.           \s
+        //                           ?GG.^GGB!:5#5        :JBBG#5:              .7G##5. :P#BJ^:7#B~ .75?!!J5^ 5G^^JG#5YY::7J7. ^JY7!7YJ.         \s
+        //                           ?GG: J#5 :5BY   .:::  :JBBJ.         :7J?!.  :GBB? :5BY   :GG^.JBP?777GY.YG^.^:5B!..^PBY.^5BY77!JG!         \s
+        //                           ?PB^.?JJ:^5BY  75GGB? ~PG7          .PGBBP5: .PBPJ :5B?   ~GY :5B!^^~??^.YP^   !BY  .5B? 7P5^^^!J7:         \s
+        //                          .?PB7     7PB5 :YGP5PYJGP~           .5BG555!!5GPJ~ :5G?   ?GY .YB?. 7GGY.JP^   7G5. .5G? PG .YBB!         \s
+        //                          7Y555!   !Y555?.~JPPPPPY^             .!J555PP5J7:  ?55Y^ !555! .?55Y55J^:Y5!  ^Y5Y^ ^Y5?. ^J5YY55?:         \s
+        //                          ......    .....   :^^:.                  ...::..    .....  ....    ....   ...   ....  ...    ....
+        //                """;
+        //        System.out.println(title);
     }
 
     @Override
@@ -191,16 +194,17 @@ public class GameCliView extends GameView {
         ItemView.printItems(items);
         showMessage("Insert the new order of the picked items : \n");
         List<Integer> newOrder = new ArrayList<>();
-
-        for (int i = 0; i < size; i++) {
-            try {
-                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-                newOrder.add(Integer.parseInt(in.readLine()));
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.err.println("An error occurred while reading the pick.");
-            }
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String str = null;
+        try {
+            str = in.readLine();
+        } catch (IOException e) {
+            System.err.println("An error occurred while reading the move.");
         }
+        str = str.replace(" ", "");
+        String[] numb = str.split(",");
+        newOrder.add(Integer.parseInt(numb[0]));
+        newOrder.add(Integer.parseInt(numb[1]));
         return newOrder;
     }
 
