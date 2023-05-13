@@ -12,11 +12,16 @@ import java.util.stream.Collectors;
 
 public class ServerController {
 
-    private final List<Player> players = new ArrayList<>();
-    private final List<String> winnersNickname = new ArrayList<>();
-    private List<Item> currentPicked = new ArrayList<>();
-    private GameModel gameModel = null;
+    private final List<Player> players;
+    private final List<String> winnersNickname;
+    private List<Item> currentPicked;
+    private GameModel gameModel;
     private Room room = null;
+
+    public ServerController() {
+        players = new ArrayList<>();
+        winnersNickname = new ArrayList<>();
+    }
 
     public boolean checkUsername(String username) {
         for (Player player : players) {
