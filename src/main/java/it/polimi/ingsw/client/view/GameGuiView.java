@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.Coordinates;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public List<Integer> showPick() {
+    public List<Coordinates> showPick() {
         return null;
     }
 

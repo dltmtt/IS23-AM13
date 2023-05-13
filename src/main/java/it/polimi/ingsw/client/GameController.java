@@ -55,8 +55,8 @@ public class GameController {
             }
         }
     }
-
-    public List<Integer> showPickScreen() {
+    
+    public List<Coordinates> showPickScreen() {
         return gameView.showPick();
     }
 

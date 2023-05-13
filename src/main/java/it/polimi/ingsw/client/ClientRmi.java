@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.GameCliView;
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.CommunicationInterface;
+import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
 import org.json.simple.parser.ParseException;
 
@@ -136,15 +137,15 @@ public class ClientRmi extends Client {
         // Sends the message to server to get the board
         Message currentBoard = server.sendMessage(parser.sendMessage("board"));
         controller.showBoard(parser.getBoard(currentBoard));
-        //shows and returns the pick
-        List<Integer> pick = controller.showPickScreen();
-        Message myPick = parser.sendPick(pick.get(0), pick.get(1), pick.get(2), pick.get(3));
+        // Shows and returns the pick
+        List<Coordinates> pick = controller.showPickScreen();
+        Message myPick = parser.sendPick(pick);
         Message isMyPickOk = server.sendMessage(myPick);
 
         while (!"picked".equals(parser.getMessage(isMyPickOk))) {
             System.out.println("Pick not ok,please retry");
             pick = controller.showPickScreen();
-            myPick = parser.sendPick(pick.get(0), pick.get(1), pick.get(2), pick.get(3));
+            myPick = parser.sendPick(pick);
             isMyPickOk = server.sendMessage(myPick);
         }
         System.out.println("Pick ok");

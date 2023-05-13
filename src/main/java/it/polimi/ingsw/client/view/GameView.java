@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.GameController;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 
@@ -43,7 +44,7 @@ public abstract class GameView {
 
     public abstract void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException;
 
-    public abstract List<Integer> showPick();
+    public abstract List<Coordinates> showPick();
 
     public abstract void showBoard(Board board);
 

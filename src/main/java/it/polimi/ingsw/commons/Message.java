@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -193,9 +194,15 @@ public class Message implements Serializable {
         }
     }
 
-    public Message(int startRow, int startColumn, int finalRow, int finalColumn) {
+    public Message(Coordinates from, Coordinates to) {
         gson = new JSONObject();
         String path = BASE_PATH + "MoveMessage.json";
+
+        int startRow = from.x();
+        int startColumn = from.y();
+        int finalRow = to.x();
+        int finalColumn = to.y();
+
         gson.put("category", "pick");
         gson.put("startRow", startRow);
         gson.put("startColumn", startColumn);

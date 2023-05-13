@@ -4,6 +4,7 @@ import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -37,8 +38,8 @@ public class ClientParser implements Serializable {
         return new Message("insert", "insert", column);
     }
 
-    Message sendPick(int fromRow, int fromCol, int toRow, int toCol) {
-        return new Message(fromRow, fromCol, toRow, toCol);
+    Message sendPick(List<Coordinates> coordinates) {
+        return new Message(coordinates.get(0), coordinates.get(1));
     }
 
     Message sendUpdate() {

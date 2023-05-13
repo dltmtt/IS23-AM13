@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.CliUtilities;
+import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
@@ -120,38 +121,38 @@ public class GameCliView extends GameView {
         CommonGoalView.print(card, occurrences, size, horizontal);
     }
 
+    /**
+     * @return a list of coordinates representing the first and last cell of the pick
+     */
     @Override
-    public List<Integer> showPick() {
-        System.out.println("It's your turn! Do your move!");
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String input;
-        List<Integer> move = new ArrayList<>();
-        String[] coordinates;
-        String start, end;
-        try {
-            do {
-                do {
-                    input = in.readLine(); // Input example: 1,2-2,3
-                    input = input.replace(" ", ""); // Ignore spaces
-                    coordinates = input.split("-"); // Split start and end coordinate
-                } while (coordinates.length != 2);
-                start = coordinates[0];
-                end = coordinates[1];
-                //split start and end coordinate in row and column
-            } while (start.split(",").length != 2 || end.split(",").length != 2);
+    public List<Coordinates> showPick() {
+        List<Coordinates> coordinates = new ArrayList<>();
+        boolean valid = false;
+        showMessage("Insert the coordinates of the first and last cell you want to to pick, e.g. (1, 2) - (2, 3): ");
+        while (!valid) {
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                String input = in.readLine();
 
-            String[] startCoordinate = start.split(",");
-            String[] endCoordinate = end.split(",");
+                input = input.replaceAll("\\s", ""); // Ignore whitespaces
+                input = input.replaceAll("\\(", ""); // Ignore parentheses
+                input = input.replaceAll("\\)", ""); // Ignore parentheses
+                
+                String[] split = input.split("-"); // Split the input into two coordinates
+                String[] from = split[0].split(","); // Split the first coordinate into x and y
+                String[] to = split[1].split(","); // Split the second coordinate into x and y
 
-            // Convert string to int
-            move.add(Integer.parseInt(startCoordinate[0]));
-            move.add(Integer.parseInt(startCoordinate[1]));
-            move.add(Integer.parseInt(endCoordinate[0]));
-            move.add(Integer.parseInt(endCoordinate[1]));
-        } catch (IOException e) {
-            System.err.println("An error occurred while reading the move.");
+                // Convert the coordinates from String to int
+                coordinates.add(new Coordinates(Integer.parseInt(from[0]), Integer.parseInt(from[1])));
+                coordinates.add(new Coordinates(Integer.parseInt(to[0]), Integer.parseInt(to[1])));
+                valid = true;
+            } catch (NumberFormatException e) {
+                System.err.print("The input is not valid. Please insert the coordinates again: ");
+            } catch (IOException e) {
+                System.err.println("An error occurred while reading the coordinates.");
+            }
         }
-        return move;
+        return coordinates;
     }
 
     @Override
