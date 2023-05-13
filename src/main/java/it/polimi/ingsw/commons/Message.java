@@ -95,9 +95,11 @@ public class Message implements Serializable {
         String path = BASE_PATH + "WinnersMessage.json";
         gson.put("category", "winners");
         gson.put("size", size);
+
         for (int i = 0; i < size; i++) {
             gson.put("name" + i, names.get(i));
         }
+
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
@@ -275,7 +277,8 @@ public class Message implements Serializable {
         List<String> winners = new ArrayList<>();
         int size = (int) gson.get("size");
         for (int i = 0; i < size; i++) {
-            winners.add((String) gson.get("winner " + i));
+            String name = (String) gson.get("name" + i);
+            winners.add(name);
         }
         return winners;
     }

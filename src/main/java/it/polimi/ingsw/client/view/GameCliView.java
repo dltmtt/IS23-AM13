@@ -178,7 +178,7 @@ public class GameCliView extends GameView {
     @Override
     public void showEndGame(List<String> winners) {
         System.out.println("The game is over!");
-        System.out.println("The winners are : ");
+        System.out.println("The winner/s : ");
         for (String winner : winners) {
             System.out.println(winner);
         }
