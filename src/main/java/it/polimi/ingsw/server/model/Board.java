@@ -18,7 +18,7 @@ import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 
 public class Board {
 
-    private static final int boardSize = 9;
+    public static final int boardSize = 9;
     private static final int numOfColorOccurrences = 22;
     private final Item[][] boardMatrix;
     private final List<Item> itemBag;
