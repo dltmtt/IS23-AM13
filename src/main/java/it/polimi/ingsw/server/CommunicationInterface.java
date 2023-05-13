@@ -13,7 +13,8 @@ public interface CommunicationInterface extends Remote {
 
     int PORT_RMI = 1099;
     int PORT_SOCKET = 888;
-    String HOSTNAME = "192.168.236.121"; // Shared by RMI and socket
+    //    String HOSTNAME = "192.168.236.121"; // Shared by RMI and socket
+    String HOSTNAME = "localhost"; // Shared by RMI and socket
     ServerParser parser = new ServerParser();
     ServerController controller = new ServerController();
 

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 
@@ -88,34 +89,22 @@ public class Board {
         return boardSize;
     }
 
-    //    public void fill() {
-    //        Random randNumberGenerator = new Random();
-    //        for (int row = 0; row < boardSize; row++) {
-    //            for (int column = 0; column < boardSize; column++) {
-    //                if (itemBag.isEmpty()) {
-    //                    System.err.println("cannot fll the board, itemBag is empty");
-    //                } else if (usableCells.contains(new Coordinates(row, column))) {
-    //                    int indexRandom = randNumberGenerator.nextInt(itemBag.size());
-    //                    if (boardMatrix[row][column] == null)
-    //                        boardMatrix[row][column] = itemBag.get(indexRandom);
-    //                    itemBag.remove(indexRandom);
-    //                }
-    //            }
-    //        }
-
     public void fill() {
+        Random randNumberGenerator = new Random();
         for (int row = 0; row < boardSize; row++) {
             for (int column = 0; column < boardSize; column++) {
-                boardMatrix[row][column] = itemBag.get(0);
-                itemBag.remove(0);
+                if (itemBag.isEmpty()) {
+                    System.err.println("cannot fll the board, itemBag is empty");
+                } else if (usableCells.contains(new Coordinates(row, column))) {
+                    int indexRandom = randNumberGenerator.nextInt(itemBag.size());
+                    if (boardMatrix[row][column] == null)
+                        boardMatrix[row][column] = itemBag.get(indexRandom);
+                    itemBag.remove(indexRandom);
+                }
             }
         }
     }
 
-    //x is row
-    //y is column
-
-    // TODO trasformare in 2 coord
     public List<Item> pickFromBoard(List<Coordinates> pickedFromTo) throws IllegalAccessException {
         List<Item> itemsPicked = new ArrayList<>();
         if (pickedFromTo.size() == 1) {
@@ -146,12 +135,11 @@ public class Board {
      * @return true if at least one cell is free, false otherwise
      */
     public boolean AtLeastOneFree(List<Coordinates> cells) {
-        //
-        //        for (Coordinates cell : cells) {
-        //            if (!checkBorder(cell)) {
-        //                return false;
-        //            }
-        //        }
+        for (Coordinates cell : cells) {
+            if (!checkBorder(cell)) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -232,18 +220,16 @@ public class Board {
     }
 
     /**
-     * checks if  the distance between the tiles chosen is at most 3 and if the order is correct(ascending)
+     * checks if the distance between the tiles chosen is at most 3 and if the order is correct (ascending)
      *
      * @param cells the list of coordinates of the tiles chosen
      * @return true if the order is correct and the distance is at most 3, false otherwise
      */
-
     public boolean OrderAndMaxOf3(List<Coordinates> cells) {
-        //        if (Objects.equals(cells.get(0).x(), cells.get(1).x())) {
-        //            return cells.get(1).y() - cells.get(0).y() <= 2;
-        //        }
-        //        return cells.get(1).x() - cells.get(0).x() <= 2;
-        return true;
+        if (Objects.equals(cells.get(0).x(), cells.get(1).x())) {
+            return cells.get(1).y() - cells.get(0).y() <= 2;
+        }
+        return cells.get(1).x() - cells.get(0).x() <= 2;
     }
 
     public List<Item> selectFromBoard(List<Coordinates> selectedFromTo) throws IllegalAccessException {
