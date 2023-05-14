@@ -376,7 +376,8 @@ public class Message implements Serializable {
     }
 
     public int getAge() {
-        return (int) gson.get("value");
+        long age = (long) gson.get("value");
+        return (int) age;
     }
 
     public boolean getFirstGame() {
@@ -384,7 +385,8 @@ public class Message implements Serializable {
     }
 
     public int getNumPlayer() {
-        return (int) gson.get("numPlayer");
+        long numPlayer = (long) gson.get("numPlayer");
+        return (int) numPlayer;
     }
 
     public String getMessage() {
@@ -392,7 +394,8 @@ public class Message implements Serializable {
     }
 
     public int getPosition() {
-        return (int) gson.get("position");
+        long position = (long) gson.get("position");
+        return (int) position;
     }
 
     public int getPersonalGoal() {

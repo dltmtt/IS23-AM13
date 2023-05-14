@@ -57,10 +57,13 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
                         JSONParser parser = new JSONParser();
                         JSONObject messageFromClient = (JSONObject) parser.parse(str);
                         Message message = new Message(messageFromClient);
-                        String response = sendMessage(message).getJSONstring();
-                        sendString(response);
-                        //messageSwitch(message);
+                        Message responseMessage = sendMessage(message);
+                        if (responseMessage != null) {
+                            sendString(responseMessage.getJSONstring());
+                        }
+                        // messageSwitch(message);
                     } catch (NullPointerException | FullRoomException | IllegalAccessException | RemoteException e) {
+                        e.printStackTrace();
                         System.out.println("Client disconnected or message error.");
                         break;
                     } catch (ParseException e) {
@@ -68,6 +71,7 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
                     }
                 } catch (IOException e) {
                     System.out.println(socket.getInetAddress() + " disconnected, unable to read");
+                    break;
                 }
             }
         });
@@ -81,7 +85,7 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
 
     public void run() {
         listenThread.start();
-        //sendThread.start();
+        // sendThread.start();
     }
 
     /*
@@ -96,7 +100,7 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
         }
     */
     // problema secondario
-    //boh raga manda un messaggio su due da tastiera
+    // boh raga manda un messaggio su due da tastiera
     public void sendInput() {
         String str1;
         // read from keyboard

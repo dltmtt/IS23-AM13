@@ -55,7 +55,7 @@ public class GameController {
             }
         }
     }
-    
+
     public List<Coordinates> showPickScreen() {
         return gameView.showPick();
     }
@@ -69,6 +69,7 @@ public class GameController {
     }
 
     public void showBoard(Board board) {
+        GameView.cleanScreen();
         gameView.showBoard(board);
     }
 
