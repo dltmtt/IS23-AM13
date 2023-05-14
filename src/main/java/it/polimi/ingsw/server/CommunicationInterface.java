@@ -13,7 +13,6 @@ public interface CommunicationInterface extends Remote {
 
     int PORT_RMI = 1099;
     int PORT_SOCKET = 888;
-    //    String HOSTNAME = "192.168.236.121"; // Shared by RMI and socket
     String HOSTNAME = "localhost"; // Shared by RMI and socket
     ServerParser parser = new ServerParser();
     ServerController controller = new ServerController();
@@ -27,17 +26,19 @@ public interface CommunicationInterface extends Remote {
             }
             case "username" -> {
                 String username = parser.getUsername(message);
-                int checking = controller.checkUsername(username);
-                if (checking == 1) {
-                    // username avaible and new player added
+                int checkStatus = controller.checkUsername(username);
+                if (checkStatus == 1) {
+                    // The username is available, a new player is added
                     controller.addPlayerByUsername(username);
-                    System.out.println(username + " requested login.");
-                    return parser.sendMessage("Welcome, " + username + "!\n"); // This should be a JSON that the view will parse and display
-                } else if (checking == 0) {
-                    // username not avaible
+                    System.out.println(username + " logged in.");
+                    return parser.sendMessage("Welcome, " + username + "!\n"); // TODO: This should be a JSON that the view will parse and display
+                } else if (checkStatus == 0) {
+                    // The username has already been taken, retry
+                    System.out.println(username + " requested login, but the username is already taken.");
                     return parser.sendMessage("retry");
                 } else {
-                    // username already in the room, connection
+                    // The username is already taken, but the player was disconnected and is trying to reconnect
+                    System.out.println(username + " reconnected.");
                     return parser.sendPosition(controller.getPositionByUsername(username));
                 }
             }
