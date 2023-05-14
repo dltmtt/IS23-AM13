@@ -141,7 +141,7 @@ public class CommonGoalView {
     public static void groupPrintLayout(int occurrences, int size) {
         String description = occurrences + " groups each containing at least  2 tiles of the same type (not necessarily in the depicted shape).";
         StringBuilder cell;
-        //occurrences can be either 4 or 6
+        // occurrences can be either 4 or 6
         cell = new StringBuilder(CliUtilities.upperLeftBox + " ".repeat(5) + CliUtilities.upperRightBox + "\n");
         for (int i = 0; i < size; i++) {
             cell.append(" ".repeat(2));
@@ -186,7 +186,7 @@ public class CommonGoalView {
     }
 
     public static void stairPrintLayout() {
-        String description = "\t\tFive columns of increasing or decreasing" + "height. Tiles can be of any type.  ";
+        String description = "\t\tFive columns of increasing or decreasing 0height. Tiles can be of any type.  ";
         StringBuilder cell = new StringBuilder();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             cell.append(CliUtilities.emptyCell.repeat(i + 1));
