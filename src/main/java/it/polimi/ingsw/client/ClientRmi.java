@@ -53,7 +53,7 @@ public class ClientRmi extends Client {
             Thread pingThread = new Thread(() -> {
                 while (true) {
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(5000);
                         server.sendMessage(parser.sendPing(finalUsername));
                     } catch (InterruptedException | IOException | FullRoomException | IllegalAccessException e) {
                         e.printStackTrace();

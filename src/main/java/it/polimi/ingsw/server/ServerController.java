@@ -26,28 +26,33 @@ public class ServerController {
     }
 
     public void pingReceived(String username) {
-        pings.add(username);
+        if (!pings.contains(username)) {
+            pings.add(username);
+        }
     }
 
     public void checkPings() {
+
         if (!new HashSet<>(pings).containsAll(players.stream().map(Player::getNickname).toList())) {
             missingOnes();
             for (String missing : disconnected) {
                 System.out.println(missing + " disconnected");
             }
         } else {
+            for (String ping : pings) {
+                disconnected.remove(ping);
+            }
             System.out.println("All connected");
         }
         pings.clear();
     }
 
-    public List<String> missingOnes() {
+    public void missingOnes() {
         for (Player player : players) {
-            if (!pings.contains(player.getNickname())) {
+            if (!pings.contains(player.getNickname()) && !disconnected.contains(player.getNickname())) {
                 disconnected.add(player.getNickname());
             }
         }
-        return disconnected;
     }
 
     /**
@@ -65,7 +70,6 @@ public class ServerController {
                 if (disconnected.contains(username)) {
                     // si è riconnesso
                     System.out.println(username + " Reconnected");
-                    disconnected.remove(username);
                     return -1;
                 } else {
                     return 0;
@@ -92,7 +96,7 @@ public class ServerController {
         players.get(players.size() - 1).setAge(age);
     }
 
-    public void addPlayerFirstGame(boolean firstGame) throws FullRoomException {
+    public void addPlayerFirstGame(boolean firstGame) {
         players.get(players.size() - 1).setFirstGame(firstGame);
     }
 
@@ -113,7 +117,7 @@ public class ServerController {
         Thread pongThread = new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(20000);
+                    Thread.sleep(30000);
                     checkPings();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -171,6 +175,11 @@ public class ServerController {
     }
 
     public int yourTurn(int index) {
+        if (disconnected.contains(gameModel.getCurrentPlayer().getNickname())) {
+            System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
+            changeTurn();
+            return 0;
+        }
         if (gameModel.isTheGameEnded()) {
             return -1;
         }
