@@ -49,12 +49,30 @@ public class ClientRmi extends Client {
         try {
             controller.startGame();
             String username = controller.showLoginScreen();
-            String responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username))); // This message will be a JSON
+            String finalUsername = username;
+            Thread pingThread = new Thread(() -> {
+                while (true) {
+                    try {
+                        Thread.sleep(10000);
+                        server.sendMessage(parser.sendPing(finalUsername));
+                    } catch (InterruptedException | IOException | FullRoomException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            pingThread.start();
+            Message response = server.sendMessage(parser.sendUsername(username));
+            String responseMessage = parser.getMessage(response); // This message will be a JSON
             // TODO: parse the JSON (now it's plain text)
             while ("retry".equals(responseMessage)) {
                 System.out.println("Username already taken. Retry.");
                 username = controller.showLoginScreen();
                 responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username)));
+            }
+            if ("index".equals(responseMessage)) {
+                myPosition = parser.getPosition(response);
+                startGame();
+                return;
             }
             age = controller.showAgeScreen();
 
@@ -73,7 +91,7 @@ public class ClientRmi extends Client {
                     numPlayer = controller.showNumberOfPlayersScreen();
                     numPlayerResponse = parser.getMessage(server.sendMessage(parser.sendNumPlayer(numPlayer)));
                 }
-                //end of login
+                // end of login
             }
             myPosition = nextStep;
             System.out.println("Your position is " + myPosition);
@@ -101,12 +119,12 @@ public class ClientRmi extends Client {
 
     public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
         Message myGame = server.sendMessage(parser.sendPosition(myPosition));
+
         controller.showPersonalGoal(parser.getPersonalGoal(myGame));
         controller.showCommonGoal(parser.getCardsType(myGame), parser.getCardOccurrences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
-        //        System.out.println("Game started!");
-        //TODO: show bookshelf and board
         controller.showBoard(parser.getBoard(myGame));
         controller.showBookshelf(parser.getBookshelf(myGame));
+
         waitForTurn();
     }
 

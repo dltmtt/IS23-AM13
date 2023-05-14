@@ -220,8 +220,9 @@ public class GameCliView extends GameView {
             str = in.readLine();
             str = str.replace(" ", "");
             String[] numb = str.split(",");
-            newOrder.add(Integer.parseInt(numb[0]));
-            newOrder.add(Integer.parseInt(numb[1]));
+            for (String s : numb) {
+                newOrder.add(Integer.parseInt(s));
+            }
         } catch (IOException e) {
             System.err.println("An error occurred while reading the move.");
         }

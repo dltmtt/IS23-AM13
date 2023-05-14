@@ -133,4 +133,8 @@ public class ClientParser implements Serializable {
     public JSONObject getJSON(Message message) {
         return message.getGson();
     }
+
+    public Message sendPing(String finalUsername) {
+        return new Message("ping", finalUsername);
+    }
 }

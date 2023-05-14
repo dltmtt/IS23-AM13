@@ -48,6 +48,7 @@ public class ServerParser {
             case "board" -> "board";
             case "sort" -> "sort";
             case "endGame" -> "endGame";
+            case "ping" -> "ping";
             default -> null;
         };
     }

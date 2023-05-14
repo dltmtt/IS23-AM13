@@ -21,15 +21,24 @@ public interface CommunicationInterface extends Remote {
     default Message sendMessage(Message message) throws RemoteException, FullRoomException, IllegalAccessException {
         String category = parser.getMessageCategory(message);
         switch (category) {
+            case "ping" -> {
+                controller.pingReceived(message.getUsername());
+                return null;
+            }
             case "username" -> {
                 String username = parser.getUsername(message);
-                boolean checking = controller.checkUsername(username);
-                if (checking) {
+                int checking = controller.checkUsername(username);
+                if (checking == 1) {
+                    // username avaible and new player added
                     controller.addPlayerByUsername(username);
                     System.out.println(username + " requested login.");
                     return parser.sendMessage("Welcome, " + username + "!\n"); // This should be a JSON that the view will parse and display
-                } else {
+                } else if (checking == 0) {
+                    // username not avaible
                     return parser.sendMessage("retry");
+                } else {
+                    // username already in the room, connection
+                    return parser.sendPosition(controller.getPositionByUsername(username));
                 }
             }
             case "age" -> {

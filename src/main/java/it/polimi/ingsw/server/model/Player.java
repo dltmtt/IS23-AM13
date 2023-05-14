@@ -153,15 +153,15 @@ public class Player {
         if (items.size() != order.size()) {
             throw new IllegalArgumentException("The number of items and the number of positions are not the same.");
         }
+        if (order.stream().distinct().count() != order.size()) {
+            throw new IllegalArgumentException("An item is placed in two different positions.");
+        }
 
         List<Item> rearrangedItems = new ArrayList<>();
 
         for (int i : order) {
             if (i > items.size()) {
                 throw new IndexOutOfBoundsException("The new position is out of bounds.");
-            }
-            if (rearrangedItems.contains(items.get(i))) {
-                throw new IllegalArgumentException("You can't place the same item in two different positions.");
             }
 
             rearrangedItems.add(items.get(i));

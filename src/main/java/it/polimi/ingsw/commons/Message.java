@@ -55,6 +55,18 @@ public class Message implements Serializable {
         }
     }
 
+    public Message(String type, String argument) {
+        gson = new JSONObject();
+        String path = BASE_PATH + "PingMessage.json";
+        gson.put("category", type);
+        gson.put("argument", argument);
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(gson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public Message(String category, int position) {
         gson = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
@@ -419,7 +431,7 @@ public class Message implements Serializable {
     }
 
     public Bookshelf getBookshelf() {
-        //TODO: change JSON Bookshelf to and array of columns (array of arrays)
+        // TODO: change JSON Bookshelf to and array of columns (array of arrays)
         Bookshelf bookshelf = new Bookshelf();
         JSONArray bookshelfJson = (JSONArray) gson.get("bookshelf");
         for (Object obj : bookshelfJson) {

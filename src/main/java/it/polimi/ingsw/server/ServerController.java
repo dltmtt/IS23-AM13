@@ -4,16 +4,15 @@ import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ServerController {
 
     private final List<Player> players;
     private final List<String> winnersNickname;
+    private final List<String> pings;
+    private final List<String> disconnected;
     private List<Item> currentPicked;
     private GameModel gameModel;
     private Room room = null;
@@ -22,15 +21,67 @@ public class ServerController {
         players = new ArrayList<>();
         winnersNickname = new ArrayList<>();
         currentPicked = new ArrayList<>();
+        pings = new ArrayList<>();
+        disconnected = new ArrayList<>();
     }
 
-    public boolean checkUsername(String username) {
+    public void pingReceived(String username) {
+        pings.add(username);
+    }
+
+    public void checkPings() {
+        if (!new HashSet<>(pings).containsAll(players.stream().map(Player::getNickname).toList())) {
+            missingOnes();
+            for (String missing : disconnected) {
+                System.out.println(missing + " disconnected");
+            }
+        } else {
+            System.out.println("All connected");
+        }
+        pings.clear();
+    }
+
+    public List<String> missingOnes() {
         for (Player player : players) {
-            if (player.getNickname().equals(username)) {
-                return false;
+            if (!pings.contains(player.getNickname())) {
+                disconnected.add(player.getNickname());
             }
         }
-        return true;
+        return disconnected;
+    }
+
+    /**
+     * @param username chose by the palyer
+     * @return 1, 0 or -1:
+     * <ul>
+     *     <li>1: username is available</li>
+     *     <li>0: username is not available</li>
+     *     <li>-1: username is not available but the player is reconnecting</li>
+     */
+
+    public int checkUsername(String username) {
+        for (Player player : players) {
+            if (player.getNickname().equals(username)) {
+                if (disconnected.contains(username)) {
+                    // si è riconnesso
+                    System.out.println(username + " Reconnected");
+                    disconnected.remove(username);
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        return 1;
+    }
+
+    public int getPositionByUsername(String username) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getNickname().equals(username)) {
+                return i + 1;
+            }
+        }
+        return -1;
     }
 
     public void addPlayerByUsername(String username) {
@@ -56,9 +107,20 @@ public class ServerController {
             players.get(players.size() - 1).setIsFirstPlayer(false);
             room.addPlayer(players.get(players.size() - 1));
         } else {
-            //TODO: gestire l'eccezione
+            // TODO: gestire l'eccezione
             throw new FullRoomException("Room is full");
         }
+        Thread pongThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(20000);
+                    checkPings();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        pongThread.start();
         return room.getListOfPlayers().size();
     }
 
@@ -162,7 +224,7 @@ public class ServerController {
         }
 
         if (finalScoring.stream().distinct().count() < players.size()) {
-            //there is a tie
+            // there is a tie
             int max = finalScoring.stream().max(Integer::compare).get();
             for (Integer score : finalScoring) {
                 if (score == max) {
