@@ -112,15 +112,21 @@ public class Board {
             boardMatrix[pickedFromTo.get(0).x()][pickedFromTo.get(0).y()] = null;
             return itemsPicked;
         }
-        //same row
+        // same row
         if (Objects.equals(pickedFromTo.get(0).x(), pickedFromTo.get(1).x())) {
-            for (int i = pickedFromTo.get(0).y(); i <= pickedFromTo.get(1).y(); i++) {
+            int minCoord = Math.min(pickedFromTo.get(0).y(), pickedFromTo.get(1).y());
+            int maxCoord = Math.max(pickedFromTo.get(0).y(), pickedFromTo.get(1).y());
+
+            for (int i = minCoord; i <= maxCoord; i++) {
                 itemsPicked.add(boardMatrix[pickedFromTo.get(0).x()][i]);
                 boardMatrix[pickedFromTo.get(0).x()][i] = null;
             }
-            //same column
+            // same column
         } else {
-            for (int i = pickedFromTo.get(0).x(); i <= pickedFromTo.get(1).x(); i++) {
+            int minCoord = Math.min(pickedFromTo.get(0).x(), pickedFromTo.get(1).x());
+            int maxCoord = Math.max(pickedFromTo.get(0).x(), pickedFromTo.get(1).x());
+
+            for (int i = minCoord; i <= maxCoord; i++) {
                 itemsPicked.add(boardMatrix[i][pickedFromTo.get(0).y()]);
                 boardMatrix[i][pickedFromTo.get(0).y()] = null;
             }
@@ -156,7 +162,7 @@ public class Board {
         return cell.y() < boardSize - 1 && boardMatrix[cell.x()][cell.y() + 1] == null;
     }
 
-    //it returns the number of tiles left on the board
+    // it returns the number of tiles left on the board
     public int numLeft() {
         int count = 0;
         for (int i = 0; i < boardSize; i++) {
@@ -169,7 +175,7 @@ public class Board {
         return count;
     }
 
-    //method to see if the tile has nothing adjacent to it
+    // method to see if the tile has nothing adjacent to it
     public boolean isAlone(int i, int j) {
         if (i == 0 && j == 0) {
             return boardMatrix[i + 1][j] == null && boardMatrix[i][j + 1] == null;
@@ -192,8 +198,8 @@ public class Board {
         }
     }
 
-    //method that checks if all the tiles in the board have no tiles adjacent to them
-    //in this case: refill of the board
+    // method that checks if all the tiles in the board have no tiles adjacent to them
+    // in this case: refill of the board
     public boolean allIsolated() {
         int count = numLeft();
         if (count == 0) {
