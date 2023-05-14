@@ -127,8 +127,8 @@ public class GameCliView extends GameView {
     @Override
     public List<Coordinates> showPick() {
         List<Coordinates> coordinates = new ArrayList<>();
+        showMessage("Insert the coordinates of the first and the last cell you want to to pick, e.g. (1, 2) - (2, 3): ");
         boolean valid = false;
-        showMessage("Insert the coordinates of the first and last cell you want to to pick, e.g. (1, 2) - (2, 3): ");
         while (!valid) {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -137,17 +137,27 @@ public class GameCliView extends GameView {
                 input = input.replaceAll("\\s", ""); // Ignore whitespaces
                 input = input.replaceAll("\\(", ""); // Ignore parentheses
                 input = input.replaceAll("\\)", ""); // Ignore parentheses
-                
-                String[] split = input.split("-"); // Split the input into two coordinates
-                String[] from = split[0].split(","); // Split the first coordinate into x and y
-                String[] to = split[1].split(","); // Split the second coordinate into x and y
 
-                // Convert the coordinates from String to int
-                coordinates.add(new Coordinates(Integer.parseInt(from[0]), Integer.parseInt(from[1])));
-                coordinates.add(new Coordinates(Integer.parseInt(to[0]), Integer.parseInt(to[1])));
+                String[] halves = input.split("-"); // Split the input into two coordinates
+                if (halves.length != 2)
+                    throw new NumberFormatException(); // If there are not two coordinates separated by a dash
+
+                for (int i = 0; i < halves.length; i++) {
+                    // These conversions and splits throw NumberFormatException if the input is not a number and ArrayIndexOutOfBoundsException if the input is not in the correct format
+                    int x = Integer.parseInt(halves[i].split(",")[0]);
+                    int y = Integer.parseInt(halves[i].split(",")[1]);
+
+                    // Check if the coordinates are within the board
+                    if (x < 0 || y < 0 || x > Bookshelf.getColumns() - 1 || y > Bookshelf.getRows() - 1) {
+                        throw new NumberFormatException();
+                    }
+
+                    coordinates.add(new Coordinates(x, y));
+                }
                 valid = true;
-            } catch (NumberFormatException e) {
-                System.err.print("The input is not valid. Please insert the coordinates again: ");
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                System.err.print("The input is not valid. Please insert the coordinates in the correct format: ");
+                coordinates.clear(); // Without this, a coordinate could be added to the list even if the input in its entirety is not valid
             } catch (IOException e) {
                 System.err.println("An error occurred while reading the coordinates.");
             }
