@@ -43,11 +43,13 @@ public class Message implements Serializable {
     public Message(String category, String username, int age, boolean isFirstGame, int numPlayer) {
         gson = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
+        String ageString = Integer.toString(age);
+        String numString = Integer.toString(numPlayer);
         gson.put("category", category);
         gson.put("argument", username);
-        gson.put("value", age);
+        gson.put("value", ageString);
         gson.put("bool", isFirstGame);
-        gson.put("numPlayer", numPlayer);
+        gson.put("numPlayer", numString);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toJSONString());
         } catch (Exception e) {
@@ -70,8 +72,9 @@ public class Message implements Serializable {
     public Message(String category, int position) {
         gson = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
+        String posString = Integer.toString(position);
         gson.put("category", category);
-        gson.put("position", position);
+        gson.put("position", posString);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
@@ -128,8 +131,9 @@ public class Message implements Serializable {
     public Message(int position) {
         gson = new JSONObject();
         String path = BASE_PATH + "PositionMessage.json";
+        String posixString = Integer.toString(position);
         gson.put("category", "index");
-        gson.put("position", position);
+        gson.put("position", posixString);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
             out.write(gson.toString());
         } catch (Exception e) {
@@ -388,8 +392,8 @@ public class Message implements Serializable {
     }
 
     public int getAge() {
-        long age = (long) gson.get("value");
-        return (int) age;
+        String ageString = (String) gson.get("value");
+        return Integer.parseInt(ageString);
     }
 
     public boolean getFirstGame() {
@@ -397,8 +401,8 @@ public class Message implements Serializable {
     }
 
     public int getNumPlayer() {
-        long numPlayer = (long) gson.get("numPlayer");
-        return (int) numPlayer;
+        String numPlayer = (String) gson.get("numPlayer");
+        return Integer.parseInt(numPlayer);
     }
 
     public String getMessage() {
@@ -406,8 +410,8 @@ public class Message implements Serializable {
     }
 
     public int getPosition() {
-        long position = (long) gson.get("position");
-        return (int) position;
+        String position = (String) gson.get("position");
+        return Integer.parseInt(position);
     }
 
     public int getPersonalGoal() {
