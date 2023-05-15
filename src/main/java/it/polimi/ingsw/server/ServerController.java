@@ -56,20 +56,18 @@ public class ServerController {
     }
 
     /**
-     * @param username chose by the palyer
-     * @return 1, 0 or -1:
+     * @param username the username chosen by the player
+     * @return a number representing the availability of the username
      * <ul>
-     *     <li>1: username is available</li>
-     *     <li>0: username is not available</li>
-     *     <li>-1: username is not available but the player is reconnecting</li>
+     *   <li>1: the username is available</li>
+     *   <li>0: the username is already taken</li>
+     *   <li>-1: the username was disconnected</li>
+     * </ul>
      */
-
     public int checkUsername(String username) {
         for (Player player : players) {
             if (player.getNickname().equals(username)) {
                 if (disconnected.contains(username)) {
-                    // si è riconnesso
-                    System.out.println(username + " Reconnected");
                     return -1;
                 } else {
                     return 0;
@@ -128,7 +126,7 @@ public class ServerController {
         return room.getListOfPlayers().size();
     }
 
-    public String checkRoom() throws IllegalAccessException {
+    public String checkRoom() {
         if (room.full()) {
             gameModel = new GameModel(players);
             gameModel.start();
@@ -158,8 +156,7 @@ public class ServerController {
     }
 
     public Bookshelf getCurrentePlayerBookshelf() {
-        Bookshelf bookshelf = gameModel.getCurrentPlayer().getBookshelf();
-        return bookshelf;
+        return gameModel.getCurrentPlayer().getBookshelf();
     }
 
     public boolean refill() {
@@ -268,11 +265,11 @@ public class ServerController {
 
     public List<Item> getPicked(List<Integer> picked) throws IllegalAccessException {
         currentPicked.clear();
-        List<Coordinates> currentPickedCoord = new ArrayList<>();
+        List<Coordinates> currentPickedCoordinates = new ArrayList<>();
         for (int i = 0; i < picked.size(); i += 2) {
-            currentPickedCoord.add(new Coordinates(picked.get(i), picked.get(i + 1)));
+            currentPickedCoordinates.add(new Coordinates(picked.get(i), picked.get(i + 1)));
         }
-        currentPicked = gameModel.getLivingRoom().pickFromBoard(currentPickedCoord);
+        currentPicked = gameModel.getLivingRoom().pickFromBoard(currentPickedCoordinates);
         return currentPicked;
     }
 

@@ -146,7 +146,6 @@ public class GameCliView extends GameView {
                     // These conversions and splits throw NumberFormatException if the input is not a number and ArrayIndexOutOfBoundsException if the input is not in the correct format
                     int x = Integer.parseInt(halves[i].split(",")[0]);
                     int y = Integer.parseInt(halves[i].split(",")[1]);
-                    System.out.println("x: " + x + ", y: " + y);
 
                     // Check if the coordinates are within the board
                     if (x < 0 || y < 0 || x > Board.boardSize - 1 || y > Board.boardSize - 1) {
