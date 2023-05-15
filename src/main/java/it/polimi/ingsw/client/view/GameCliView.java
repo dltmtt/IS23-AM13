@@ -142,10 +142,10 @@ public class GameCliView extends GameView {
                 if (halves.length != 2)
                     throw new NumberFormatException(); // If there are not two coordinates separated by a dash
 
-                for (int i = 0; i < halves.length; i++) {
+                for (String half : halves) {
                     // These conversions and splits throw NumberFormatException if the input is not a number and ArrayIndexOutOfBoundsException if the input is not in the correct format
-                    int x = Integer.parseInt(halves[i].split(",")[0]);
-                    int y = Integer.parseInt(halves[i].split(",")[1]);
+                    int x = Integer.parseInt(half.split(",")[0]);
+                    int y = Integer.parseInt(half.split(",")[1]);
 
                     // Check if the coordinates are within the board
                     if (x < 0 || y < 0 || x > Board.boardSize - 1 || y > Board.boardSize - 1) {
@@ -204,26 +204,51 @@ public class GameCliView extends GameView {
     }
 
     @Override
-    public boolean showRearrange() {
-        return CliUtilities.askYesNoQuestion("Do you want to rearrange your picked items?", "n");
+    public boolean showRearrange(List<Item> items) {
+        ItemView.printItems(items);
+        return CliUtilities.askYesNoQuestion("Do you want to rearrange the items you've picked?", "n");
     }
 
     @Override
-    public List<Integer> rearrange(List<Item> items, int size) {
-        ItemView.printItems(items);
-        showMessage("Insert the new order (starting from 0, the syntax is a,b,...,n): \n");
+    public List<Integer> rearrange(List<Item> items) {
+        String infoMessage = """
+                Reorder the items you've picked (starting from 0). Separate the new order by commas.
+                For example, if you picked three items you could enter 2, 0, 1:
+                the first item will be moved to the third position, the second to the first, and the third to the second.
+                """;
+        showMessage(infoMessage);
+        showMessage("Enter your new order: ");
         List<Integer> newOrder = new ArrayList<>();
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String str;
-        try {
-            str = in.readLine();
-            str = str.replace(" ", "");
-            String[] numb = str.split(",");
-            for (String s : numb) {
-                newOrder.add(Integer.parseInt(s));
+        boolean valid = false;
+        while (!valid) {
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                String input = in.readLine();
+
+                input = input.replaceAll("\\s", ""); // Ignore whitespaces
+
+                String[] order = input.split(","); // Split the input into the new order
+                if (order.length != items.size())
+                    throw new NumberFormatException(); // If the new order doesn't contain all the items
+
+                for (String index : order) {
+                    // This conversion throws NumberFormatException if the input is not a number
+                    int i = Integer.parseInt(index);
+
+                    // Check if the index is within the items list
+                    if (i < 0 || i > items.size() - 1) {
+                        throw new NumberFormatException();
+                    }
+
+                    newOrder.add(i);
+                }
+                valid = true;
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                System.err.print("The input is not valid. Please insert the new order in the correct format: ");
+                newOrder.clear(); // Without this, an index could be added to the list even if the input in its entirety is not valid
+            } catch (IOException e) {
+                System.err.println("An error occurred while reading the new order.");
             }
-        } catch (IOException e) {
-            System.err.println("An error occurred while reading the move.");
         }
         return newOrder;
     }

@@ -60,12 +60,12 @@ public class GameController {
         return gameView.showPick();
     }
 
-    public boolean showRearrangeScreen() throws IOException {
-        return gameView.showRearrange();
+    public boolean showRearrangeScreen(List<Item> items) throws IOException {
+        return gameView.showRearrange(items);
     }
 
-    public List<Integer> rearrangeScreen(List<Item> items, int size) throws IOException {
-        return gameView.rearrange(items, size);
+    public List<Integer> rearrangeScreen(List<Item> items) throws IOException {
+        return gameView.rearrange(items);
     }
 
     public void showBoard(Board board) {

@@ -84,12 +84,12 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public boolean showRearrange() {
+    public boolean showRearrange(List<Item> items) {
         return false;
     }
 
     @Override
-    public List<Integer> rearrange(List<Item> items, int size) {
+    public List<Integer> rearrange(List<Item> items) {
         return null;
     }
 

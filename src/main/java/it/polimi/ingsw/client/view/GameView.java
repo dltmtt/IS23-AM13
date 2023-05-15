@@ -57,13 +57,13 @@ public abstract class GameView {
 
     public abstract void showStartGame();
 
-    public abstract boolean showRearrange() throws IOException;
+    public abstract boolean showRearrange(List<Item> items) throws IOException;
 
     public abstract int promptInsert();
 
     public abstract void showEndGame(List<String> winners);
 
-    public abstract List<Integer> rearrange(List<Item> items, int size) throws IOException;
+    public abstract List<Integer> rearrange(List<Item> items) throws IOException;
 
     public void setController(GameController gameController) {
         this.gameController = gameController;

@@ -179,8 +179,8 @@ public class ClientRmi extends Client {
         }
         System.out.println("Pick ok");
 
-        if (controller.showRearrangeScreen()) {
-            server.sendMessage(parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk), parser.getPickedSize(myPick))));
+        if (controller.showRearrangeScreen(parser.getPicked(isMyPickOk))) {
+            server.sendMessage(parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk))));
         }
 
         Message myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
