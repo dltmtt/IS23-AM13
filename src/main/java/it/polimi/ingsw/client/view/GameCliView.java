@@ -235,6 +235,11 @@ public class GameCliView extends GameView {
     }
 
     @Override
+    public void showDisconnection() {
+        showMessage("All other players have disconnected. Please wait...\n");
+    }
+
+    @Override
     public void showMessage(String message) {
         System.out.print(message);
     }

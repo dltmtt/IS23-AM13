@@ -99,6 +99,11 @@ public class GameGuiView extends GameView {
     }
 
     @Override
+    public void showDisconnection() {
+
+    }
+
+    @Override
     public int promptInsert() {
         return 0;
     }

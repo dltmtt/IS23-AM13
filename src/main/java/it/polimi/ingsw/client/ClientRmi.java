@@ -138,10 +138,17 @@ public class ClientRmi extends Client {
      */
     public void waitForTurn() throws IOException, IllegalAccessException, ParseException, FullRoomException {
         int myTurn = 0;
+        boolean disconnected = false;
         while (myTurn != 1) {
             if (myTurn == -1) {
                 endGame();
                 break;
+            } else if (myTurn == 2) {
+                if (!disconnected) {
+                    controller.showDisconnection();
+                    disconnected = true;
+                }
+                myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosition)));
             } else {
                 myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosition)));
             }

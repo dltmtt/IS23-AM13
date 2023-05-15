@@ -92,4 +92,8 @@ public class GameController {
     public void showEndGame(List<String> winners) {
         gameView.showEndGame(winners);
     }
+
+    public void showDisconnection() {
+        gameView.showDisconnection();
+    }
 }

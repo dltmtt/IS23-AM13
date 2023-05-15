@@ -70,4 +70,6 @@ public abstract class GameView {
     }
 
     public abstract void showCurrentScore(int score);
+
+    public abstract void showDisconnection();
 }

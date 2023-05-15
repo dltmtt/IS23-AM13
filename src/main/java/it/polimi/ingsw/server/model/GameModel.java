@@ -124,7 +124,7 @@ public class GameModel {
      * Creates a deck with all the possible layouts for the common goals.
      */
     private void fillCommonGoalDeck(int numOfPlayers) throws IOException, ParseException {
-        //int dimension = Math.min(Bookshelf.getColumns(), Bookshelf.getRows());
+        // int dimension = Math.min(Bookshelf.getColumns(), Bookshelf.getRows());
         commonGoalDeck = SettingLoader.commonGoalLoader(numOfPlayers);
     }
 

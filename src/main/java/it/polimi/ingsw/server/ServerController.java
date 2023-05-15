@@ -174,7 +174,21 @@ public class ServerController {
         return gameModel.getLivingRoom();
     }
 
+    /**
+     * @param index is the position of the player in the list of players
+     * @return 1, 0, -1 or 2:
+     * <ul>
+     *     <li>1: it's the player's turn</li>
+     *     <li>0: it's not the player's turn</li>
+     *     <li>-1: the game is ended</li>
+     *     <li>2: all other players are disconnected and there is only one connected</li>
+     */
+
     public int yourTurn(int index) {
+        if (disconnected.size() == players.size() - 1) {
+            // tutti gli altri sono disconnessi, ne è rimasto solo uno
+            return 2;
+        }
         if (disconnected.contains(gameModel.getCurrentPlayer().getNickname())) {
             System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
             changeTurn();
