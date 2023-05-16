@@ -56,7 +56,7 @@ public class MessageTest {
         Bookshelf bookshelf = new Bookshelf();
         randomFill(bookshelf);
         Message message = new Message(1, list, bookshelf, new Board(3));
-        System.out.println(message.getGson());
+        System.out.println(message.getJson());
     }
 
     @Test

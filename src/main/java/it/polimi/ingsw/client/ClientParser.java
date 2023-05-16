@@ -5,10 +5,7 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -40,10 +37,6 @@ public class ClientParser implements Serializable {
 
     Message sendPick(List<Coordinates> coordinates) {
         return new Message(coordinates.get(0), coordinates.get(1));
-    }
-
-    Message sendUpdate() {
-        return new Message("update");
     }
 
     List<Item> getPicked(Message message) {
@@ -78,15 +71,11 @@ public class ClientParser implements Serializable {
         return message.getPersonalGoal();
     }
 
-    public String getCommonGoalLayout(Message message, int i) {
-        return message.getCommonGoalLayout(i);
-    }
-
     public Bookshelf getBookshelf(Message message) {
         return message.getBookshelf();
     }
 
-    public Board getBoard(Message message) throws IOException, ParseException {
+    public Board getBoard(Message message) {
         return message.getBoard();
     }
 
@@ -110,10 +99,6 @@ public class ClientParser implements Serializable {
         return new Message(message);
     }
 
-    public int getPickedSize(Message message) {
-        return message.getPickedSize();
-    }
-
     public Message sendRearrange(List<Integer> sorted) {
         return new Message("sort", sorted);
     }
@@ -124,14 +109,6 @@ public class ClientParser implements Serializable {
 
     public List<String> getWinners(Message message) {
         return message.getWinners();
-    }
-
-    public String getJSONString(Message message) {
-        return message.getGson().toJSONString();
-    }
-
-    public JSONObject getJSON(Message message) {
-        return message.getGson();
     }
 
     public Message sendPing(String finalUsername) {

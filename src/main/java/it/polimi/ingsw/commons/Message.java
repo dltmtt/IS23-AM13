@@ -17,14 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unchecked")
 public class Message implements Serializable {
 
     private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
-    private final JSONObject gson;
+    private final JSONObject json;
     private int commonGoals;
 
     public Message(JSONObject json) {
-        gson = json;
+        this.json = json;
     }
 
     /**
@@ -38,54 +39,54 @@ public class Message implements Serializable {
      * @param numPlayer   number of players in the game
      */
     public Message(String category, String username, int age, boolean isFirstGame, int numPlayer) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
         String ageString = Integer.toString(age);
         String numString = Integer.toString(numPlayer);
-        gson.put("category", category);
-        gson.put("argument", username);
-        gson.put("value", ageString);
-        gson.put("bool", isFirstGame);
-        gson.put("numPlayer", numString);
+        json.put("category", category);
+        json.put("argument", username);
+        json.put("value", ageString);
+        json.put("bool", isFirstGame);
+        json.put("numPlayer", numString);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toJSONString());
+            out.write(json.toJSONString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(String type, String argument) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "PingMessage.json";
-        gson.put("category", type);
-        gson.put("argument", argument);
+        json.put("category", type);
+        json.put("argument", argument);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(String category, int position) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
         String posString = Integer.toString(position);
-        gson.put("category", category);
-        gson.put("position", posString);
+        json.put("category", category);
+        json.put("position", posString);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(String category, String type, int n) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
-        gson.put("category", category);
-        gson.put(type, n);
+        json.put("category", category);
+        json.put(type, n);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,44 +96,44 @@ public class Message implements Serializable {
      * Constructor for the single message.
      * It is used for response messages from the server.
      *
-     * @param singleMessage
+     * @param singleMessage message to be sent
      */
     public Message(String singleMessage) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "SingleMessage.json";
-        gson.put("category", singleMessage);
+        json.put("category", singleMessage);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(int size, List<String> names) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "WinnersMessage.json";
-        gson.put("category", "winners");
-        gson.put("size", size);
+        json.put("category", "winners");
+        json.put("size", size);
 
         for (int i = 0; i < size; i++) {
-            gson.put("name" + i, names.get(i));
+            json.put("name" + i, names.get(i));
         }
 
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(int position) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "PositionMessage.json";
         String posixString = Integer.toString(position);
-        gson.put("category", "index");
-        gson.put("position", posixString);
+        json.put("category", "index");
+        json.put("position", posixString);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -147,68 +148,68 @@ public class Message implements Serializable {
      * @param board          board of the game
      */
     public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "GameMessage.json";
         SettingLoader.loadBookshelfSettings();
-        gson.put("category", "startGame");
-        gson.put("personal_goal", personalGoal);
+        json.put("category", "startGame");
+        json.put("personal_goal", personalGoal);
 
         for (int i = 0; i < commonGoalList.size(); i++) {
-            gson.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
+            json.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
 
             if ("fullLine".equals(commonGoalList.get(i).getLayout().getName())) {
-                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
-                gson.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
-                gson.put("size " + i, 0);
+                json.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+                json.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
+                json.put("size " + i, 0);
             } else if ("group".equals(commonGoalList.get(i).getLayout().getName())) {
-                gson.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
-                gson.put("horizontal " + i, false);
-                gson.put("size " + i, commonGoalList.get(i).getLayout().getSize());
+                json.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+                json.put("horizontal " + i, false);
+                json.put("size " + i, commonGoalList.get(i).getLayout().getSize());
             } else {
-                gson.put("occurrences " + i, 0);
-                gson.put("horizontal " + i, false);
-                gson.put("size " + i, 0);
+                json.put("occurrences " + i, 0);
+                json.put("horizontal " + i, false);
+                json.put("size " + i, 0);
             }
         }
         commonGoals = commonGoalList.size();
 
-        gson.put("bookshelf", bookshelfJson(bookshelf));
+        json.put("bookshelf", bookshelfJson(bookshelf));
 
-        gson.put("board", boardJson(board));
+        json.put("board", boardJson(board));
 
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(String category, Board board) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "GameMessage.json";
-        gson.put("category", category);
-        gson.put("board", boardJson(board));
+        json.put("category", category);
+        json.put("board", boardJson(board));
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(boolean turn) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "TurnMessage.json";
-        gson.put("category", "turn");
-        gson.put("turn", turn);
+        json.put("category", "turn");
+        json.put("turn", turn);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(Coordinates from, Coordinates to) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "MoveMessage.json";
 
         int startRow = from.x();
@@ -216,74 +217,69 @@ public class Message implements Serializable {
         int finalRow = to.x();
         int finalColumn = to.y();
 
-        gson.put("category", "pick");
-        gson.put("startRow", startRow);
-        gson.put("startColumn", startColumn);
-        gson.put("finalRow", finalRow);
-        gson.put("finalColumn", finalColumn);
+        json.put("category", "pick");
+        json.put("startRow", startRow);
+        json.put("startColumn", startColumn);
+        json.put("finalRow", finalRow);
+        json.put("finalColumn", finalColumn);
         int size = 0;
         if (startRow == finalRow) {
             size = finalColumn - startColumn + 1;
         } else if (startColumn == finalColumn) {
             size = finalRow - startRow + 1;
         }
-        gson.put("size", size);
+        json.put("size", size);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(List<Item> picked) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "PickMessage.json";
-        gson.put("category", "picked");
+        json.put("category", "picked");
         JSONArray ItemList = new JSONArray();
-        for (int i = 0; i < picked.size(); i++) {
+        for (Item item : picked) {
             JSONObject Item = new JSONObject();
-            Item.put("color", picked.get(i).color().toString());
-            Item.put("value", picked.get(i).number());
+            Item.put("color", item.color().toString());
+            Item.put("value", item.number());
             ItemList.add(Item);
         }
-        gson.put("picked", ItemList);
+        json.put("picked", ItemList);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(String category, Bookshelf bookshelf, Board board, int score) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "UpdateMessage.json";
-        gson.put("category", category);
-        gson.put("bookshelf", bookshelfJson(bookshelf));
+        json.put("category", category);
+        json.put("bookshelf", bookshelfJson(bookshelf));
 
-        gson.put("board", boardJson(board));
-        gson.put("score", score);
+        json.put("board", boardJson(board));
+        json.put("score", score);
 
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Message(String category, List<Integer> sort) {
-        gson = new JSONObject();
+        json = new JSONObject();
         String path = BASE_PATH + "SortMessage.json";
-        gson.put("category", category);
+        json.put("category", category);
         JSONArray array = new JSONArray();
-        JSONObject item = new JSONObject();
-        for (int i : sort) {
-            item.put("value", i);
-            array.add(i);
-            item.clear();
-        }
-        gson.put("sort", array);
+        array.addAll(sort);
+        json.put("sort", array);
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(gson.toString());
+            out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -291,18 +287,18 @@ public class Message implements Serializable {
 
     public List<Integer> getPick() {
         List<Integer> pick = new ArrayList<>();
-        pick.add((int) gson.get("startRow"));
-        pick.add((int) gson.get("startColumn"));
-        pick.add((int) gson.get("finalRow"));
-        pick.add((int) gson.get("finalColumn"));
+        pick.add((int) json.get("startRow"));
+        pick.add((int) json.get("startColumn"));
+        pick.add((int) json.get("finalRow"));
+        pick.add((int) json.get("finalColumn"));
         return pick;
     }
 
     public List<String> getWinners() {
         List<String> winners = new ArrayList<>();
-        int size = (int) gson.get("size");
+        int size = (int) json.get("size");
         for (int i = 0; i < size; i++) {
-            String name = (String) gson.get("name" + i);
+            String name = (String) json.get("name" + i);
             winners.add(name);
         }
         return winners;
@@ -310,9 +306,9 @@ public class Message implements Serializable {
 
     public List<Integer> getSort() {
         List<Integer> sort = new ArrayList<>();
-        JSONArray array = (JSONArray) gson.get("sort");
-        for (int i = 0; i < array.size(); i++) {
-            sort.add((int) array.get(i));
+        JSONArray array = (JSONArray) json.get("sort");
+        for (Object o : array) {
+            sort.add((int) o);
         }
         return sort;
     }
@@ -365,63 +361,55 @@ public class Message implements Serializable {
     }
 
     public int getTurn() {
-        return (int) gson.get("turn");
+        return (int) json.get("turn");
     }
 
     public int getIntMessage(String type) {
-        return (int) gson.get(type);
+        return (int) json.get(type);
     }
 
     public int getInsert() {
-        return (int) gson.get("insert");
-    }
-
-    public int getPickedSize() {
-        return (int) gson.get("size");
+        return (int) json.get("insert");
     }
 
     public String getCategory() {
-        return (String) gson.get("category");
+        return (String) json.get("category");
     }
 
     public String getUsername() {
-        return (String) gson.get("argument");
+        return (String) json.get("argument");
     }
 
     public int getAge() {
-        String ageString = (String) gson.get("value");
+        String ageString = (String) json.get("value");
         return Integer.parseInt(ageString);
     }
 
     public boolean getFirstGame() {
-        return (boolean) gson.get("bool");
+        return (boolean) json.get("bool");
     }
 
     public int getNumPlayer() {
-        String numPlayer = (String) gson.get("numPlayer");
+        String numPlayer = (String) json.get("numPlayer");
         return Integer.parseInt(numPlayer);
     }
 
     public String getMessage() {
-        return (String) gson.get("category");
+        return (String) json.get("category");
     }
 
     public int getPosition() {
-        String position = (String) gson.get("position");
+        String position = (String) json.get("position");
         return Integer.parseInt(position);
     }
 
     public int getPersonalGoal() {
-        return (int) gson.get("personal_goal");
-    }
-
-    public String getCommonGoalLayout(int i) {
-        return (String) gson.get("commonGoalLayout" + i);
+        return (int) json.get("personal_goal");
     }
 
     public List<Item> getPicked() {
         List<Item> picked = new ArrayList<>();
-        JSONArray pickedJson = (JSONArray) gson.get("picked");
+        JSONArray pickedJson = (JSONArray) json.get("picked");
         for (Object obj : pickedJson) {
             JSONObject item = (JSONObject) obj;
             String color = (String) item.get("color");
@@ -434,7 +422,7 @@ public class Message implements Serializable {
     public Bookshelf getBookshelf() {
         // TODO: change JSON Bookshelf to and array of columns (array of arrays)
         Bookshelf bookshelf = new Bookshelf();
-        JSONArray bookshelfJson = (JSONArray) gson.get("bookshelf");
+        JSONArray bookshelfJson = (JSONArray) json.get("bookshelf");
         for (Object obj : bookshelfJson) {
             JSONObject bookshelfItem = (JSONObject) obj;
             int row = (int) bookshelfItem.get("row");
@@ -454,7 +442,7 @@ public class Message implements Serializable {
 
     public Board getBoard() {
         Board board = new Board();
-        JSONArray boardJson = (JSONArray) gson.get("board");
+        JSONArray boardJson = (JSONArray) json.get("board");
         for (Object obj : boardJson) {
             JSONObject boardItem = (JSONObject) obj;
             int row = (int) boardItem.get("row");
@@ -475,7 +463,7 @@ public class Message implements Serializable {
     public List<String> getCardType() {
         List<String> cardType = new ArrayList<>();
         for (int i = 0; i < commonGoals; i++) {
-            cardType.add((String) gson.get("commonGoalLayout " + i));
+            cardType.add((String) json.get("commonGoalLayout " + i));
         }
         return cardType;
     }
@@ -483,7 +471,7 @@ public class Message implements Serializable {
     public List<Integer> getCardOccurrences() {
         List<Integer> cardOccurrences = new ArrayList<>();
         for (int j = 0; j < commonGoals; j++) {
-            cardOccurrences.add((int) gson.get("occurrences " + j));
+            cardOccurrences.add((int) json.get("occurrences " + j));
         }
         return cardOccurrences;
     }
@@ -491,28 +479,24 @@ public class Message implements Serializable {
     public List<Integer> getCardSize() {
         List<Integer> cardSize = new ArrayList<>();
         for (int j = 0; j < commonGoals; j++) {
-            cardSize.add((int) gson.get("size " + j));
+            cardSize.add((int) json.get("size " + j));
         }
         return cardSize;
-    }
-
-    public int getSize() {
-        return (int) gson.get("size");
     }
 
     public List<Boolean> getCardHorizontal() {
         List<Boolean> cardHorizontal = new ArrayList<>();
         for (int i = 0; i < commonGoals; i++) {
-            cardHorizontal.add((boolean) gson.get("horizontal " + i));
+            cardHorizontal.add((boolean) json.get("horizontal " + i));
         }
         return cardHorizontal;
     }
 
-    public JSONObject getGson() {
-        return gson;
+    public JSONObject getJson() {
+        return json;
     }
 
     public String getJSONstring() {
-        return gson.toJSONString();
+        return json.toJSONString();
     }
 }
