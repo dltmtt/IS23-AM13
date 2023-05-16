@@ -11,8 +11,6 @@ import org.apache.commons.cli.*;
  */
 public class MyShelfie {
 
-    public static GameController controller;
-
     public static void main(String[] args) {
         Option protocol = new Option("p", "protocol", true, "select network protocol to use (default: RMI)");
         Option view = new Option("m", "view", true, "launch CLI or GUI (default: CLI)");
@@ -63,7 +61,6 @@ public class MyShelfie {
             }
         }
 
-        // TODO: check if this part makes sense
         gameView.setController(gameController);
         client.setView(gameView);
         client.start();

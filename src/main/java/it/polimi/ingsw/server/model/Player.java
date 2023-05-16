@@ -37,7 +37,7 @@ public class Player {
         Player.board = board;
     }
 
-    //metodo temporaneo
+    // metodo temporaneo
     public static List<CommonGoal> getCommonGoals() {
         return commonGoals;
     }

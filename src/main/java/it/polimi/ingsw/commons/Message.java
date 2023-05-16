@@ -9,10 +9,8 @@ import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +37,6 @@ public class Message implements Serializable {
      * @param isFirstGame if it's the first game of the player
      * @param numPlayer   number of players in the game
      */
-
     public Message(String category, String username, int age, boolean isFirstGame, int numPlayer) {
         gson = new JSONObject();
         String path = BASE_PATH + "LoginMessage.json";
@@ -455,7 +452,7 @@ public class Message implements Serializable {
         return bookshelf;
     }
 
-    public Board getBoard() throws IOException, ParseException {
+    public Board getBoard() {
         Board board = new Board();
         JSONArray boardJson = (JSONArray) gson.get("board");
         for (Object obj : boardJson) {

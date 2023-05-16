@@ -99,7 +99,7 @@ public final class BookshelfUtilities {
         List<Item> items = new ArrayList<>();
 
         List<Color> colorlist = new ArrayList<>(Arrays.stream(Color.values()).toList());
-        //random index of colors
+        // random index of colors
         int randomColor = new Random().nextInt(colorlist.size());
         soloItemDiff.add(new Item(colorlist.get(randomColor), 4));
 
@@ -123,7 +123,7 @@ public final class BookshelfUtilities {
         List<Item> soloItemDiff = new ArrayList<>();
         List<Item> items = new ArrayList<>();
         List<Color> colorlist = new ArrayList<>(Arrays.stream(Color.values()).toList());
-        //random index of colors
+        // random index of colors
         int randomColor = new Random().nextInt(colorlist.size());
         soloItemDiff.add(new Item(colorlist.get(randomColor), 4));
 
@@ -344,8 +344,8 @@ public final class BookshelfUtilities {
      * @return the correct layout goal to be checked
      */
     public static Layout createProblematicLayouts(Bookshelf b, int variant) {
-        //creates different problematics layout in the bookshelf depending on the variant chosen
-        //it is implemented with a switch statement
+        // creates different problematics layout in the bookshelf depending on the variant chosen
+        // it is implemented with a switch statement
         List<Color> colorList = List.of(Color.values());
         List<Item> items = new ArrayList<>();
         b.clearBooleanMatrix();
@@ -364,7 +364,7 @@ public final class BookshelfUtilities {
                 b.insert(0, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -375,7 +375,7 @@ public final class BookshelfUtilities {
                 b.insert(1, items);
 
                 items.clear();
-                //third column
+                // third column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(3), 0));
                 items.add(new Item(colorList.get(3), 0));
@@ -386,7 +386,7 @@ public final class BookshelfUtilities {
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -398,7 +398,7 @@ public final class BookshelfUtilities {
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
@@ -422,7 +422,7 @@ public final class BookshelfUtilities {
                 b.insert(0, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(3), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -433,7 +433,7 @@ public final class BookshelfUtilities {
                 b.insert(1, items);
 
                 items.clear();
-                //third column
+                // third column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -444,7 +444,7 @@ public final class BookshelfUtilities {
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(3), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(0), 0));
@@ -456,7 +456,7 @@ public final class BookshelfUtilities {
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(4), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(0), 0));
@@ -480,7 +480,7 @@ public final class BookshelfUtilities {
                 b.insert(0, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(0), 0));
@@ -491,7 +491,7 @@ public final class BookshelfUtilities {
                 b.insert(1, items);
 
                 items.clear();
-                //third column
+                // third column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
@@ -502,7 +502,7 @@ public final class BookshelfUtilities {
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -514,7 +514,7 @@ public final class BookshelfUtilities {
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
@@ -533,43 +533,43 @@ public final class BookshelfUtilities {
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
-                //one empty space
+                // one empty space
 
                 b.insert(0, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(0), 0));
-                //two empty spaces
+                // two empty spaces
 
                 b.insert(1, items);
 
                 items.clear();
-                //third column
+                // third column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
-                //two empty spaces
+                // two empty spaces
 
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
-                //two empty spaces
+                // two empty spaces
 
                 b.insert(3, items);
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(3), 0));
@@ -586,12 +586,12 @@ public final class BookshelfUtilities {
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
-                //three empty spaces
+                // three empty spaces
 
                 b.insert(0, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(3), 0));
                 items.add(new Item(colorList.get(3), 0));
@@ -602,7 +602,7 @@ public final class BookshelfUtilities {
                 b.insert(1, items);
 
                 items.clear();
-                //third column
+                // third column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
@@ -613,25 +613,25 @@ public final class BookshelfUtilities {
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(3), 0));
                 items.add(new Item(colorList.get(0), 0));
-                //one empty space
+                // one empty space
 
                 b.insert(3, items);
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(0), 0));
-                //one empty space
+                // one empty space
 
                 b.insert(4, items);
                 return new Group(1, 1, 5, 4);
@@ -650,7 +650,7 @@ public final class BookshelfUtilities {
                 b.insert(2, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(0), 0));
@@ -662,7 +662,7 @@ public final class BookshelfUtilities {
                 b.insert(3, items);
 
                 items.clear();
-                //last column
+                // last column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(1), 0));
@@ -687,7 +687,7 @@ public final class BookshelfUtilities {
                 b.insert(0, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(1), 0));
@@ -698,7 +698,7 @@ public final class BookshelfUtilities {
                 b.insert(1, items);
 
                 items.clear();
-                //third column
+                // third column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -709,7 +709,7 @@ public final class BookshelfUtilities {
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(3), 0));
@@ -721,7 +721,7 @@ public final class BookshelfUtilities {
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(3), 0));
                 items.add(new Item(colorList.get(3), 0));
                 items.add(new Item(colorList.get(3), 0));
@@ -745,7 +745,7 @@ public final class BookshelfUtilities {
                 b.insert(0, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -756,7 +756,7 @@ public final class BookshelfUtilities {
                 b.insert(1, items);
 
                 items.clear();
-                //third column
+                // third column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
@@ -767,7 +767,7 @@ public final class BookshelfUtilities {
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
@@ -779,7 +779,7 @@ public final class BookshelfUtilities {
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -803,7 +803,7 @@ public final class BookshelfUtilities {
                 b.insert(0, items);
 
                 items.clear();
-                //second column
+                // second column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
@@ -814,7 +814,7 @@ public final class BookshelfUtilities {
                 b.insert(1, items);
 
                 items.clear();
-                //third column
+                // third column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -825,7 +825,7 @@ public final class BookshelfUtilities {
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(2), 0));
@@ -837,7 +837,7 @@ public final class BookshelfUtilities {
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(1), 0));
@@ -863,30 +863,30 @@ public final class BookshelfUtilities {
 
                 items.clear();
 
-                //third column
+                // third column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(0), 0));
-                //one empty space
+                // one empty space
 
                 b.insert(2, items);
 
                 items.clear();
-                //fourth column
+                // fourth column
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(1), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(2), 0));
                 items.add(new Item(colorList.get(2), 0));
-                //one empty space
+                // one empty space
 
                 b.insert(3, items);
 
                 items.clear();
 
-                //fifth column
+                // fifth column
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
                 items.add(new Item(colorList.get(0), 0));
@@ -899,34 +899,34 @@ public final class BookshelfUtilities {
             }
 
             case (10) -> {
-                int groupsize = 4;
-                //correctly identifying a column of 4 items of the same color
+                int groupSize = 4;
+                // correctly identifying a column of 4 items of the same color
                 for (int i = 0; i < Bookshelf.getColumns(); i++) {
                     items.clear();
-                    for (int index = 0; index < groupsize; index++) {
+                    for (int index = 0; index < groupSize; index++) {
                         items.add(new Item(colorList.get(i % (colorList.size() - 1)), 0));
                     }
 
-                    int numrem = Bookshelf.getRows() - items.size();
-                    for (int remaining = 0; remaining < numrem; remaining++) {
+                    int numRemaining = Bookshelf.getRows() - items.size();
+                    for (int remaining = 0; remaining < numRemaining; remaining++) {
                         items.add(new Item(colorList.get(colorList.size() - 1), 0));
                     }
                     b.insert(i, items);
                 }
-                return new Group(1, 1, Bookshelf.getColumns(), groupsize);
+                return new Group(1, 1, Bookshelf.getColumns(), groupSize);
             }
 
             case (11) -> {
-                //correctly identifying a row of 4 items of the same color
-                int groupsize = 4;
+                // correctly identifying a row of 4 items of the same color
+                int groupSize = 4;
 
-                for (int i = 0; i < groupsize; i++) {
+                for (int i = 0; i < groupSize; i++) {
                     items.add(new Item(colorList.get(i % (colorList.size() - 1)), 0));
                 }
                 for (int i = 0; i < Bookshelf.getRows() - items.size(); i++) {
                     items.add(new Item(colorList.get(colorList.size() - 1), 0));
                 }
-                for (int i = 0; i < groupsize; i++) {
+                for (int i = 0; i < groupSize; i++) {
                     b.insert(i, items);
                 }
 
@@ -935,10 +935,10 @@ public final class BookshelfUtilities {
                     items.add(new Item(colorList.get(colorList.size() - 1), 0));
                 }
 
-                for (int i = groupsize; i < Bookshelf.getColumns(); i++) {
+                for (int i = groupSize; i < Bookshelf.getColumns(); i++) {
                     b.insert(i, items);
                 }
-                return new Group(1, 1, Bookshelf.getColumns(), groupsize);
+                return new Group(1, 1, Bookshelf.getColumns(), groupSize);
             }
 
             default -> throw new IllegalStateException("Unexpected value: " + variant);
@@ -946,7 +946,6 @@ public final class BookshelfUtilities {
     }
 
     public static void randomFill(Bookshelf b) {
-        Random colorIndex = new Random();
         Random numIndex = new Random();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             for (int j = 0; j < Bookshelf.getRows(); j++) {

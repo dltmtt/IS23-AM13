@@ -97,7 +97,7 @@ public class ClientSocket extends Client {
             while (true) {
                 try {
                     Thread.sleep(1000);
-                    //sendMessage(new Message("keepAlive"));
+                    // sendMessage(new Message("keepAlive"));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -109,7 +109,6 @@ public class ClientSocket extends Client {
     public Message receiveMessage() {
         String str = null;
         do {
-            //System.out.println("cevef");
             try {
                 // read a string
                 str = br.readLine();
@@ -134,8 +133,8 @@ public class ClientSocket extends Client {
     @Override
     public void start() {
         // Start the threads
-        //listenThread.start();
-        //sendThread.start();
+        // listenThread.start();
+        // sendThread.start();
         keepAliveThread.start();
         login();
         System.out.println("Login successful.");
@@ -150,15 +149,15 @@ public class ClientSocket extends Client {
         controller.startGame();
         do {
             String username = controller.showLoginScreen();
-            //nothing is sent, just created
+            // nothing is sent, just created
             Message usernameMessage = parser.sendUsername(username);
             sendMessage(usernameMessage.getJSONstring());
 
-            //it waits an answer from the server
+            // it waits an answer from the server
             responseMessage = receiveMessage();
 
-            //System.out.println(responseMessage.getCategory());
-            //System.out.println(responseMessage.getMessage());
+            // System.out.println(responseMessage.getCategory());
+            // System.out.println(responseMessage.getMessage());
 
             if (responseMessage.getCategory().equals("retry")) {
                 System.out.println("Username already taken. Retry.");
@@ -168,7 +167,7 @@ public class ClientSocket extends Client {
 
         int age = controller.showAgeScreen();
 
-        //gameView.showMessage(responseMessage);
+        // gameView.showMessage(responseMessage);
         Message ageMessage = parser.sendAge(age);
         sendMessage(ageMessage.getJSONstring());
         responseMessage = receiveMessage();
@@ -182,7 +181,7 @@ public class ClientSocket extends Client {
         sendMessage(firstGameMessage.getJSONstring());
         int nextStep = parser.getPosition(receiveMessage());
 
-        //int nextStep = parser.getPosition(server.sendMessage(parser.sendFirstGame(firstGame)));
+        // int nextStep = parser.getPosition(server.sendMessage(parser.sendFirstGame(firstGame)));
         if (nextStep == 1) {
             int numPlayer = controller.showNumberOfPlayersScreen();
             Message numPlayerMessage = parser.sendNumPlayer(numPlayer);
@@ -224,7 +223,7 @@ public class ClientSocket extends Client {
 
         controller.showCommonGoal(parser.getCardsType(myGame), parser.getCardOccurrences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
 
-        //TODO: show bookshelf and board
+        // TODO: show bookshelf and board
         controller.showBoard(parser.getBoard(myGame));
         controller.showBookshelf(parser.getBookshelf(myGame));
         waitForTurn();
@@ -285,16 +284,8 @@ public class ClientSocket extends Client {
 
         System.out.println("Pick ok");
 
-        /*
-        if (controller.showRearrangeScreen()) {
-            Message myRearrange = parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk), parser.getPickedSize(myPick)));
-            sendMessage(myRearrange.getJSONstring());
-        }
-
-         */
-
         if (controller.showRearrangeScreen(parser.getPicked(isMyPickOk))) {
-            Message myRearrange=parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk)));
+            Message myRearrange = parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk)));
             sendMessage(myRearrange.getJSONstring());
         }
 

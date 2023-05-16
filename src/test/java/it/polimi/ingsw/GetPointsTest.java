@@ -1,26 +1,26 @@
-//package it.polimi.ingsw;
+// package it.polimi.ingsw;
 //
-//import it.polimi.ingsw.server.model.CommonGoal;
-//import it.polimi.ingsw.server.model.GameModel;
-//import it.polimi.ingsw.server.model.Item;
-//import it.polimi.ingsw.server.model.Player;
-//import it.polimi.ingsw.server.model.layouts.Corners;
-//import it.polimi.ingsw.server.model.layouts.Diagonal;
-//import it.polimi.ingsw.server.model.layouts.FullLine;
-//import it.polimi.ingsw.server.model.layouts.XShape;
-//import it.polimi.ingsw.utils.Color;
-//import it.polimi.ingsw.utils.Coordinates;
-//import it.polimi.ingsw.utils.SettingLoader;
-//import org.json.simple.parser.ParseException;
-//import org.junit.jupiter.api.Test;
+// import it.polimi.ingsw.server.model.CommonGoal;
+// import it.polimi.ingsw.server.model.GameModel;
+// import it.polimi.ingsw.server.model.Item;
+// import it.polimi.ingsw.server.model.Player;
+// import it.polimi.ingsw.server.model.layouts.Corners;
+// import it.polimi.ingsw.server.model.layouts.Diagonal;
+// import it.polimi.ingsw.server.model.layouts.FullLine;
+// import it.polimi.ingsw.server.model.layouts.XShape;
+// import it.polimi.ingsw.utils.Color;
+// import it.polimi.ingsw.utils.Coordinates;
+// import it.polimi.ingsw.utils.SettingLoader;
+// import org.json.simple.parser.ParseException;
+// import org.junit.jupiter.api.Test;
 //
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.List;
+// import java.io.IOException;
+// import java.util.ArrayList;
+// import java.util.List;
 //
-//import static org.junit.jupiter.api.Assertions.assertEquals;
+// import static org.junit.jupiter.api.Assertions.assertEquals;
 //
-//public class GetPointsTest {
+// public class GetPointsTest {
 //
 //    // player1 is the first to reach both common goals and 5/6 items of the personal goal,
 //    // so he should get 9 points from the personal goal and 16 points from the common goals
@@ -117,7 +117,7 @@
 //        players.get(1).setPersonalGoal(SettingLoader.loadSpecificPersonalGoal(8));
 //
 //        List<CommonGoal> commonGoals = new ArrayList<>();
-//        commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false), players.size())); //vertical fullline
+//        commonGoals.add(new CommonGoal(new FullLine(1, 3, 3, false), players.size())); //vertical full line
 //        commonGoals.add(new CommonGoal(new XShape(1, 1, 3), players.size()));
 //        Player.setCommonGoal(commonGoals);
 //

@@ -47,8 +47,8 @@ public class ServerTCP implements ServerInterface {
                         clientHandler = new SocketClientHandler(clientSocket);
                         try {
                             executor.submit(clientHandler);
-                            //clientHandler.sendMessage("Welcome to the server!");
-                            //sendToAllExcept("A new player has joined the game!", clientHandler);
+                            // clientHandler.sendMessage("Welcome to the server!");
+                            // sendToAllExcept("A new player has joined the game!", clientHandler);
                             connectedClients.add(clientHandler);
                         } catch (RejectedExecutionException | NullPointerException e) {
                             System.err.println("Socket " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ": socket client handler cannot be submitted to the executor.");

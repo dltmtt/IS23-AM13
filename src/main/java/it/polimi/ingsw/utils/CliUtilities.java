@@ -139,7 +139,7 @@ public final class CliUtilities {
     }
 
     public static String emoji(Color color, int variant) {
-        //switch for the emoji type
+        // switch for the emoji type
         switch (Objects.requireNonNull(color)) {
             case GREEN -> {
                 switch (variant) {
@@ -270,13 +270,13 @@ public final class CliUtilities {
         if (Bookshelf.getRows() == 1) {
 
             if (Bookshelf.getColumns() == 1) {
-                //Single row, single column case
+                // Single row, single column case
                 //╓─────╖ top row
                 //║     ║ middle row
                 //╙─────╜ bottom row
                 return List.of(smallTop, bookshelfBorder + emptySpace + bookshelfBorder, smallBottom);
             } else {
-                //Single row, multiple columns case
+                // Single row, multiple columns case
                 //╓─────      ╥─────      ╥─────╖ top row
                 //║      [...]║      [...]║     ║ middle row
                 //╙─────      ╨─────      ╨─────╜ bottom row
@@ -286,17 +286,17 @@ public final class CliUtilities {
 
                 for (int col = Bookshelf.getColumns() - 1; col >= 0; col--) {
                     if (col == Bookshelf.getColumns() - 1) {
-                        //first column
+                        // first column
                         topRow.append(topLeftBookshelfBorder);
                         middleRow.append(bookshelfBorder + cellContent(items[0][col]));
                         bottomRow.append(bottomLeftBookshelfBorder);
                     } else if (col == 0) {
-                        //last column
+                        // last column
                         topRow.append(topRightBookshelfBorder);
                         middleRow.append(bookshelfBorder + cellContent(items[0][col]) + bookshelfBorder);
                         bottomRow.append(bottomRightBookshelfBorder);
                     } else {
-                        //middle columns
+                        // middle columns
                         topRow.append(topCenterBookshelfBorder);
                         middleRow.append(bookshelfBorder + cellContent(items[0][col]));
                         bottomRow.append(bottomCenterBookshelfBorder);
@@ -306,7 +306,7 @@ public final class CliUtilities {
             }
         } else {
             if (Bookshelf.getColumns() == 1) {
-                //Multiple row, single column case
+                // Multiple row, single column case
                 //╓─────╖ top row
                 //║     ║ middle row
                 //╟─────╢ bottom row
@@ -335,7 +335,7 @@ public final class CliUtilities {
                 return column;
             } else {
 
-                //Multiple row, multiple columns case
+                // Multiple row, multiple columns case
                 //╓─────      ╥─────      ╥─────╖ top row
                 //║      [...]║      [...]║     ║ middle row
                 //╟─────      ╫─────      ╫─────╢ bottom row
@@ -358,17 +358,17 @@ public final class CliUtilities {
 
                         for (int col = 0; col < Bookshelf.getColumns(); col++) {
                             if (col == 0) {
-                                //first column
+                                // first column
                                 topRow.append(topLeftBookshelfBorder);
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(middleLeftBookshelfBorder);
                             } else if (col == Bookshelf.getColumns() - 1) {
-                                //last column
+                                // last column
                                 topRow.append(topRightBookshelfBorder);
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]) + bookshelfBorder);
                                 bottomRow.append(middleRightBookshelfBorder);
                             } else {
-                                //middle columns
+                                // middle columns
                                 topRow.append(topCenterBookshelfBorder);
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(middleCenterBookshelfBorder);
@@ -385,15 +385,15 @@ public final class CliUtilities {
 
                         for (int col = 0; col < Bookshelf.getColumns(); col++) {
                             if (col == 0) {
-                                //first column
+                                // first column
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(bottomLeftBookshelfBorder);
                             } else if (col == Bookshelf.getColumns() - 1) {
-                                //last column
+                                // last column
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]) + bookshelfBorder);
                                 bottomRow.append(bottomRightBookshelfBorder);
                             } else {
-                                //middle columns
+                                // middle columns
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(bottomCenterBookshelfBorder);
                             }
@@ -401,7 +401,7 @@ public final class CliUtilities {
                         printedBookshelf.add(middleRow.toString());
                         printedBookshelf.add(bottomRow.toString());
                     } else {
-                        //central row
+                        // central row
                         //║      [...]║      [...]║     ║ middle row
                         //╟─────      ╫─────      ╫─────╢ top row
                         StringBuilder middleRow = new StringBuilder();
@@ -409,15 +409,15 @@ public final class CliUtilities {
 
                         for (int col = 0; col < Bookshelf.getColumns(); col++) {
                             if (col == 0) {
-                                //first column
+                                // first column
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(middleLeftBookshelfBorder);
                             } else if (col == Bookshelf.getColumns() - 1) {
-                                //last column
+                                // last column
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]) + bookshelfBorder);
                                 bottomRow.append(middleRightBookshelfBorder);
                             } else {
-                                //middle columns
+                                // middle columns
                                 middleRow.append(bookshelfBorder + cellContent(items[row][col]));
                                 bottomRow.append(middleCenterBookshelfBorder);
                             }

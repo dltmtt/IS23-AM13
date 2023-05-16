@@ -77,10 +77,6 @@ public class GameController {
         gameView.showBookshelf(bookshelf);
     }
 
-    public boolean isValidMove(Board board, List<Coordinates> pickedFromTo) {
-        return true;
-    }
-
     public int showInsertScreen() {
         return gameView.promptInsert();
     }

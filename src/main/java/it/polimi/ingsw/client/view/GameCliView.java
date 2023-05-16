@@ -213,8 +213,8 @@ public class GameCliView extends GameView {
     public List<Integer> rearrange(List<Item> items) {
         String infoMessage = """
                 Reorder the items you've picked (starting from 0). Separate the new order by commas.
-                For example, if you picked three items you could enter 2, 0, 1:
-                the first item will be moved to the third position, the second to the first, and the third to the second.
+                For example, if you picked three items you could enter 2, 0, 1: the first item will
+                be moved to the third position, the second to the first, and the third to the second.
                 """;
         showMessage(infoMessage);
         showMessage("Enter your new order: ");
