@@ -49,19 +49,17 @@ public class MyShelfie {
         }
 
         String protocolType = line.getOptionValue("protocol", "rmi");
-        GameController gameController = new GameController(null, gameView);
 
         Client client = null;
         switch (protocolType) {
             case "rmi" -> client = new ClientRmi();
-            case "socket" -> client = new ClientSocket(gameController);
+            case "socket" -> client = new ClientSocket();
             default -> {
                 System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'socket'.");
                 System.exit(1);
             }
         }
 
-        gameView.setController(gameController);
         client.setView(gameView);
         client.start();
     }

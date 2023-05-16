@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.GameCliView;
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.utils.Coordinates;
@@ -14,8 +13,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.List;
 
 import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
@@ -29,15 +26,9 @@ public class ClientSocket extends Client {
     // buffered reader and keyboard
     public BufferedReader br, kb;
 
-    // threads to listen and send
     public Thread listenThread;
     public Thread sendThread;
-
     public Thread pingThread;
-
-    public GameController controller;
-
-    public GameView gameView = new GameCliView();
 
     int myPosition;
 
@@ -45,7 +36,7 @@ public class ClientSocket extends Client {
      * Constructor to create DataOutputStream and BufferedReader
      * Creates socket, DataOutputStream, BufferedReader from the server and keyboard
      */
-    public ClientSocket(GameController controller) {
+    public ClientSocket() {
         super();
 
         // This is to send data to the server
@@ -94,7 +85,6 @@ public class ClientSocket extends Client {
                 }
             }
         });
-        this.controller = controller;
     }
 
     public Message receiveMessage() {
@@ -137,15 +127,15 @@ public class ClientSocket extends Client {
     @Override
     public void login() {
         Message responseMessage;
-        controller.startGame();
+        gameView.showStartGame();
         String username;
         do {
-            username = controller.showLoginScreen();
+            username = gameView.showLogin();
             // nothing is sent, just created
             Message usernameMessage = parser.sendUsername(username);
             sendMessage(usernameMessage.getJSONstring());
 
-            // it waits an answer from the server
+            // it waits for an answer from the server
             responseMessage = receiveMessage();
 
             // System.out.println(responseMessage.getCategory());
@@ -170,7 +160,7 @@ public class ClientSocket extends Client {
         pingThread.start();
         System.out.println(responseMessage.getMessage());
 
-        int age = controller.showAgeScreen();
+        int age = gameView.promptAge();
 
         gameView.showMessage(responseMessage.getMessage());
         Message ageMessage = parser.sendAge(age);
@@ -180,7 +170,7 @@ public class ClientSocket extends Client {
             System.out.println("Remember that you need to be supervised by an adult to play this game.");
         }
 
-        boolean firstGame = controller.showFirstGameScreen();
+        boolean firstGame = gameView.promptFirstGame();
 
         Message firstGameMessage = parser.sendFirstGame(firstGame);
         sendMessage(firstGameMessage.getJSONstring());
@@ -188,13 +178,13 @@ public class ClientSocket extends Client {
 
         // int nextStep = parser.getPosition(server.sendMessage(parser.sendFirstGame(firstGame)));
         if (nextStep == 1) {
-            int numPlayer = controller.showNumberOfPlayersScreen();
+            int numPlayer = gameView.promptNumberOfPlayers();
             Message numPlayerMessage = parser.sendNumPlayer(numPlayer);
             sendMessage(numPlayerMessage.getJSONstring());
             responseMessage = receiveMessage();
             while (responseMessage.getCategory().equals("retry")) {
                 System.out.println("Illegal number of players. Retry.");
-                numPlayer = controller.showNumberOfPlayersScreen();
+                numPlayer = gameView.promptNumberOfPlayers();
                 numPlayerMessage = parser.sendNumPlayer(numPlayer);
                 sendMessage(numPlayerMessage.getJSONstring());
                 responseMessage = receiveMessage();
@@ -225,13 +215,19 @@ public class ClientSocket extends Client {
         sendMessage(myGame.getJSONstring());
         Message responseMessage = receiveMessage();
 
-        controller.showPersonalGoal(parser.getPersonalGoal(responseMessage));
+        gameView.showPersonalGoal(parser.getPersonalGoal(responseMessage));
 
-        controller.showCommonGoal(parser.getCardsType(myGame), parser.getCardOccurrences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
+        List<String> cards = parser.getCardsType(myGame);
+        List<Integer> occurrences = parser.getCardOccurrences(myGame);
+        List<Integer> size = parser.getCardSize(myGame);
+        List<Boolean> horizontal = parser.getCardHorizontal(myGame);
+        for (int i = 0; i < cards.size(); i++) {
+            gameView.showCommonGoal(cards.get(i), occurrences.get(i), size.get(i), horizontal.get(i));
+        }
 
-        // TODO: show bookshelf and board
-        controller.showBoard(parser.getBoard(myGame));
-        controller.showBookshelf(parser.getBookshelf(myGame));
+        GameView.cleanScreen();
+        gameView.showBoard(parser.getBoard(myGame));
+        gameView.showBookshelf(parser.getBookshelf(myGame));
         waitForTurn();
     }
 
@@ -273,13 +269,14 @@ public class ClientSocket extends Client {
         sendMessage(requestBoard.getJSONstring());
         Message currentBoard = receiveMessage();
 
-        controller.showBoard(parser.getBoard(currentBoard));
+        GameView.cleanScreen();
+        gameView.showBoard(parser.getBoard(currentBoard));
 
         // Shows and returns the pick
         Message isMyPickOk;
         Message myPick;
         do {
-            List<Coordinates> pick = controller.showPickScreen();
+            List<Coordinates> pick = gameView.showPick();
             myPick = parser.sendPick(pick);
             sendMessage(myPick.getJSONstring());
             isMyPickOk = receiveMessage();
@@ -290,15 +287,15 @@ public class ClientSocket extends Client {
 
         System.out.println("Pick ok");
 
-        if (controller.showRearrangeScreen(parser.getPicked(isMyPickOk))) {
-            Message myRearrange = parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk)));
+        if (gameView.showRearrange(parser.getPicked(isMyPickOk))) {
+            Message myRearrange = parser.sendRearrange(gameView.rearrange(parser.getPicked(isMyPickOk)));
             sendMessage(myRearrange.getJSONstring());
         }
 
         Message myInsert;
         Message responseMessage;
         do {
-            myInsert = parser.sendInsert(controller.showInsertScreen());
+            myInsert = parser.sendInsert(gameView.promptInsert());
             sendMessage(myInsert.getJSONstring());
             responseMessage = receiveMessage();
             if (!"update".equals(parser.getMessage(responseMessage))) {
@@ -306,8 +303,8 @@ public class ClientSocket extends Client {
             }
         } while (!"update".equals(parser.getMessage(responseMessage)));
 
-        controller.showBookshelf(parser.getBookshelf(myInsert));
-        controller.showScore(parser.getScore(myInsert));
+        gameView.showBookshelf(parser.getBookshelf(myInsert));
+        gameView.showCurrentScore(parser.getScore(myInsert));
         //        controller.showBoard(parser.getBoard(myInsert));
 
         waitForTurn();
@@ -316,15 +313,15 @@ public class ClientSocket extends Client {
     /**
      * Ends the game
      */
-    public void endGame() throws FullRoomException, RemoteException, IllegalAccessException {
+    public void endGame() {
         Message winners = parser.sendMessage("endGame");
         sendMessage(winners.getJSONstring());
         Message responseMessage = receiveMessage();
-        controller.showEndGame(parser.getWinners(responseMessage));
+        gameView.showEndGame(parser.getWinners(responseMessage));
     }
 
     @Override
-    public void connect() throws IOException, NotBoundException {
+    public void connect() throws IOException {
         s = new Socket(HOSTNAME, PORT_SOCKET);
         System.out.println("Connected to server " + s.getInetAddress().getHostName() + ":" + s.getPort());
     }

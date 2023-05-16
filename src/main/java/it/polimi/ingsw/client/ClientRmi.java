@@ -21,7 +21,6 @@ import static it.polimi.ingsw.server.CommunicationInterface.PORT_RMI;
 public class ClientRmi extends Client {
 
     GameView gameView = new GameCliView(); // TODO: this should be injected by the controller (cli or gui depending on user)
-    GameController controller = new GameController(null, gameView);
     int myPosition;
     private Registry registry;
     private CommunicationInterface server;
@@ -47,8 +46,8 @@ public class ClientRmi extends Client {
         int age;
         boolean firstGame;
         try {
-            controller.startGame();
-            String username = controller.showLoginScreen();
+            gameView.showStartGame();
+            String username = gameView.showLogin();
             String finalUsername = username;
             Thread pingThread = new Thread(() -> {
                 while (true) {
@@ -66,7 +65,7 @@ public class ClientRmi extends Client {
             // TODO: parse the JSON (now it's plain text)
             while ("retry".equals(responseMessage)) {
                 System.out.println("Username already taken. Retry.");
-                username = controller.showLoginScreen();
+                username = gameView.showLogin();
                 responseMessage = parser.getMessage(server.sendMessage(parser.sendUsername(username)));
             }
             if ("index".equals(responseMessage)) {
@@ -74,22 +73,22 @@ public class ClientRmi extends Client {
                 startGame();
                 return;
             }
-            age = controller.showAgeScreen();
+            age = gameView.promptAge();
 
             gameView.showMessage(responseMessage);
             String ageResponse = parser.getMessage(server.sendMessage(parser.sendAge(age)));
             if (!ageResponse.startsWith("ok")) {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
-            firstGame = controller.showFirstGameScreen();
+            firstGame = gameView.promptFirstGame();
 
             int nextStep = parser.getPosition(server.sendMessage(parser.sendFirstGame(firstGame)));
             if (nextStep == 1) {
-                int numPlayer = controller.showNumberOfPlayersScreen();
+                int numPlayer = gameView.promptNumberOfPlayers();
                 String numPlayerResponse = parser.getMessage(server.sendMessage(parser.sendNumPlayer(numPlayer)));
                 while (numPlayerResponse.startsWith("retry")) {
                     System.out.println("Illegal number of players. Retry.");
-                    numPlayer = controller.showNumberOfPlayersScreen();
+                    numPlayer = gameView.promptNumberOfPlayers();
                     numPlayerResponse = parser.getMessage(server.sendMessage(parser.sendNumPlayer(numPlayer)));
                 }
                 // end of login
@@ -121,10 +120,19 @@ public class ClientRmi extends Client {
     public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
         Message myGame = server.sendMessage(parser.sendPosition(myPosition));
 
-        controller.showPersonalGoal(parser.getPersonalGoal(myGame));
-        controller.showCommonGoal(parser.getCardsType(myGame), parser.getCardOccurrences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
-        controller.showBoard(parser.getBoard(myGame));
-        controller.showBookshelf(parser.getBookshelf(myGame));
+        gameView.showPersonalGoal(parser.getPersonalGoal(myGame));
+
+        List<String> cards = parser.getCardsType(myGame);
+        List<Integer> occurrences = parser.getCardOccurrences(myGame);
+        List<Integer> size = parser.getCardSize(myGame);
+        List<Boolean> horizontal = parser.getCardHorizontal(myGame);
+        for (int i = 0; i < cards.size(); i++) {
+            gameView.showCommonGoal(cards.get(i), occurrences.get(i), size.get(i), horizontal.get(i));
+        }
+
+        GameView.cleanScreen();
+        gameView.showBoard(parser.getBoard(myGame));
+        gameView.showBookshelf(parser.getBookshelf(myGame));
 
         waitForTurn();
     }
@@ -146,7 +154,7 @@ public class ClientRmi extends Client {
                 break;
             } else if (myTurn == 2) {
                 if (!disconnected) {
-                    controller.showDisconnection();
+                    gameView.showDisconnection();
                     disconnected = true;
                 }
                 myTurn = parser.getTurn(server.sendMessage(parser.sendTurn("turn", myPosition)));
@@ -166,33 +174,34 @@ public class ClientRmi extends Client {
     public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
         // Sends the message to server to get the board
         Message currentBoard = server.sendMessage(parser.sendMessage("board"));
-        controller.showBoard(parser.getBoard(currentBoard));
+        GameView.cleanScreen();
+        gameView.showBoard(parser.getBoard(currentBoard));
         // Shows and returns the pick
-        List<Coordinates> pick = controller.showPickScreen();
+        List<Coordinates> pick = gameView.showPick();
         Message myPick = parser.sendPick(pick);
         Message isMyPickOk = server.sendMessage(myPick);
 
         while (!"picked".equals(parser.getMessage(isMyPickOk))) {
             System.out.println("Pick not ok,please retry");
-            pick = controller.showPickScreen();
+            pick = gameView.showPick();
             myPick = parser.sendPick(pick);
             isMyPickOk = server.sendMessage(myPick);
         }
         System.out.println("Pick ok");
 
-        if (controller.showRearrangeScreen(parser.getPicked(isMyPickOk))) {
-            server.sendMessage(parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk))));
+        if (gameView.showRearrange(parser.getPicked(isMyPickOk))) {
+            server.sendMessage(parser.sendRearrange(gameView.rearrange(parser.getPicked(isMyPickOk))));
         }
 
-        Message myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
+        Message myInsert = server.sendMessage(parser.sendInsert(gameView.promptInsert()));
         while (!"update".equals(parser.getMessage(myInsert))) {
             gameView.showMessage(gameView.insertError);
-            myInsert = server.sendMessage(parser.sendInsert(controller.showInsertScreen()));
+            myInsert = server.sendMessage(parser.sendInsert(gameView.promptInsert()));
         }
 
-        controller.showBookshelf(parser.getBookshelf(myInsert));
-        controller.showScore(parser.getScore(myInsert));
-        //        controller.showBoard(parser.getBoard(myInsert));
+        gameView.showBookshelf(parser.getBookshelf(myInsert));
+        gameView.showCurrentScore(parser.getScore(myInsert));
+        // gameView.showBoard(parser.getBoard(myInsert));
 
         waitForTurn();
     }
@@ -202,6 +211,6 @@ public class ClientRmi extends Client {
      */
     public void endGame() throws FullRoomException, RemoteException, IllegalAccessException {
         Message winners = server.sendMessage(parser.sendMessage("endGame"));
-        controller.showEndGame(parser.getWinners(winners));
+        gameView.showEndGame(parser.getWinners(winners));
     }
 }
