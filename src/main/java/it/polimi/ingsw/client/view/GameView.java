@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.GameController;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
@@ -20,7 +19,6 @@ public abstract class GameView {
     protected final String insertUsernameAgainPrompt = "Please, insert your username again: ";
     protected final String welcomeMessage = "Welcome to...\n";
     protected final String insertNumberOfPlayersPrompt = "Please, insert the total number of players: ";
-    GameController gameController;
 
     public GameView() {
         SettingLoader.loadBookshelfSettings();
@@ -64,10 +62,6 @@ public abstract class GameView {
     public abstract void showEndGame(List<String> winners);
 
     public abstract List<Integer> rearrange(List<Item> items) throws IOException;
-
-    public void setController(GameController gameController) {
-        this.gameController = gameController;
-    }
 
     public abstract void showCurrentScore(int score);
 
