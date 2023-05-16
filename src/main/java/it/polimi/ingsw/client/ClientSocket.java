@@ -150,9 +150,11 @@ public class ClientSocket extends Client {
         controller.startGame();
         do {
             String username = controller.showLoginScreen();
+            //nothing is sent, just created
             Message usernameMessage = parser.sendUsername(username);
             sendMessage(usernameMessage.getJSONstring());
 
+            //it waits an answer from the server
             responseMessage = receiveMessage();
 
             //System.out.println(responseMessage.getCategory());
@@ -283,8 +285,16 @@ public class ClientSocket extends Client {
 
         System.out.println("Pick ok");
 
+        /*
         if (controller.showRearrangeScreen()) {
             Message myRearrange = parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk), parser.getPickedSize(myPick)));
+            sendMessage(myRearrange.getJSONstring());
+        }
+
+         */
+
+        if (controller.showRearrangeScreen(parser.getPicked(isMyPickOk))) {
+            Message myRearrange=parser.sendRearrange(controller.rearrangeScreen(parser.getPicked(isMyPickOk)));
             sendMessage(myRearrange.getJSONstring());
         }
 
