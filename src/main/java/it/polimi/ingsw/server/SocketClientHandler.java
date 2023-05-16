@@ -12,9 +12,10 @@ import java.rmi.RemoteException;
 
 public class SocketClientHandler implements Runnable, CommunicationInterface {
 
+    public final BufferedReader br;
     private final Socket socket;
     public PrintStream ps;
-    public BufferedReader br, kb;
+    public BufferedReader kb;
 
     public DataOutputStream dos;
 
@@ -49,26 +50,32 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
         }
 
         listenThread = new Thread(() -> {
-            String str;
+            String str = "null";
             while (true) {
                 try {
-                    str = br.readLine();
-                    try {
-                        JSONParser parser = new JSONParser();
-                        JSONObject messageFromClient = (JSONObject) parser.parse(str);
-                        Message message = new Message(messageFromClient);
-                        Message responseMessage = sendMessage(message);
-                        if (responseMessage != null) {
-                            sendString(responseMessage.getJSONstring());
+                    // synchronized (br) {
+                    synchronized (str) {
+                        str = br.readLine();
+                        try {
+                            JSONParser parser = new JSONParser();
+                            JSONObject messageFromClient = (JSONObject) parser.parse(str);
+                            Message message = new Message(messageFromClient);
+                            Message responseMessage = sendMessage(message);
+                            if (responseMessage != null) {
+                                sendString(responseMessage.getJSONstring());
+                            }
+                            // messageSwitch(message);
+                        } catch (NullPointerException | FullRoomException | IllegalAccessException |
+                                 RemoteException e) {
+                            e.printStackTrace();
+                            System.out.println("Client disconnected or message error.");
+                            break;
+                        } catch (ParseException e) {
+                            System.out.println("not a json message");
+                            System.out.println(str);
                         }
-                        // messageSwitch(message);
-                    } catch (NullPointerException | FullRoomException | IllegalAccessException | RemoteException e) {
-                        e.printStackTrace();
-                        System.out.println("Client disconnected or message error.");
-                        break;
-                    } catch (ParseException e) {
-                        System.out.println(str);
                     }
+                    //}
                 } catch (IOException e) {
                     System.out.println(socket.getInetAddress() + " disconnected, unable to read");
                     break;

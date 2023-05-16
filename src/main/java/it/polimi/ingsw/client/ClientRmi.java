@@ -82,6 +82,7 @@ public class ClientRmi extends Client {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
             firstGame = controller.showFirstGameScreen();
+
             int nextStep = parser.getPosition(server.sendMessage(parser.sendFirstGame(firstGame)));
             if (nextStep == 1) {
                 int numPlayer = controller.showNumberOfPlayersScreen();

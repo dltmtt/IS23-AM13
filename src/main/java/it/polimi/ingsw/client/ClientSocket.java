@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.GameCliView;
+import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
@@ -21,11 +23,9 @@ import static it.polimi.ingsw.server.CommunicationInterface.PORT_SOCKET;
 
 public class ClientSocket extends Client {
 
-    public Socket s;
-
     // data output
-    public DataOutputStream dos;
-
+    public final DataOutputStream dos;
+    public Socket s;
     // buffered reader and keyboard
     public BufferedReader br, kb;
 
@@ -33,9 +33,11 @@ public class ClientSocket extends Client {
     public Thread listenThread;
     public Thread sendThread;
 
-    public Thread keepAliveThread;
+    public Thread pingThread;
 
     public GameController controller;
+
+    public GameView gameView = new GameCliView();
 
     int myPosition;
 
@@ -92,17 +94,6 @@ public class ClientSocket extends Client {
                 }
             }
         });
-
-        keepAliveThread = new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                    // sendMessage(new Message("keepAlive"));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
         this.controller = controller;
     }
 
@@ -135,7 +126,7 @@ public class ClientSocket extends Client {
         // Start the threads
         // listenThread.start();
         // sendThread.start();
-        keepAliveThread.start();
+        // pingThread.start();
         login();
         System.out.println("Login successful.");
     }
@@ -147,8 +138,9 @@ public class ClientSocket extends Client {
     public void login() {
         Message responseMessage;
         controller.startGame();
+        String username;
         do {
-            String username = controller.showLoginScreen();
+            username = controller.showLoginScreen();
             // nothing is sent, just created
             Message usernameMessage = parser.sendUsername(username);
             sendMessage(usernameMessage.getJSONstring());
@@ -163,11 +155,24 @@ public class ClientSocket extends Client {
                 System.out.println("Username already taken. Retry.");
             }
         } while ("retry".equals(responseMessage.getCategory()));
+        String finalUsername = username;
+        pingThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(5000);
+                    Message ping = parser.sendPing(finalUsername);
+                    sendMessage(ping.getJSONstring());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        pingThread.start();
         System.out.println(responseMessage.getMessage());
 
         int age = controller.showAgeScreen();
 
-        // gameView.showMessage(responseMessage);
+        gameView.showMessage(responseMessage.getMessage());
         Message ageMessage = parser.sendAge(age);
         sendMessage(ageMessage.getJSONstring());
         responseMessage = receiveMessage();
@@ -219,6 +224,7 @@ public class ClientSocket extends Client {
         Message myGame = parser.sendPosition(myPosition);
         sendMessage(myGame.getJSONstring());
         Message responseMessage = receiveMessage();
+
         controller.showPersonalGoal(parser.getPersonalGoal(responseMessage));
 
         controller.showCommonGoal(parser.getCardsType(myGame), parser.getCardOccurrences(myGame), parser.getCardSize(myGame), parser.getCardHorizontal(myGame));
@@ -329,9 +335,12 @@ public class ClientSocket extends Client {
      * @param str the message to send
      */
     public void sendMessage(String str) {
+
         try {
-            dos.flush();
-            dos.writeBytes(str + "\n");
+            synchronized (dos) {
+                dos.flush();
+                dos.writeBytes(str + "\n");
+            }
         } catch (IOException e) {
             System.err.println("unable to send message, output not available...");
         }

@@ -42,7 +42,10 @@ public class ServerController {
             for (String ping : pings) {
                 disconnected.remove(ping);
             }
-            System.out.println("All connected");
+            // print every element in pings
+
+            System.out.println("All connected:");
+            pings.stream().forEach(System.out::println);
         }
         pings.clear();
     }
