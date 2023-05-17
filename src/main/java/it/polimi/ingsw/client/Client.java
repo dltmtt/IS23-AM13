@@ -137,11 +137,38 @@ public abstract class Client {
     }
 
     public void waitingRoom() throws FullRoomException, IOException, ParseException, IllegalAccessException {
-        System.out.println("Waiting for other players to join...");
+        Thread animatedDots = new Thread(() -> {
+            System.out.print("Waiting for other players to join");
+            int dotCounter = 0;
+            while (true) {
+                try {
+                    // noinspection BusyWait
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    // Always print 3 dots before closing the thread
+                    System.out.println(".".repeat(3 - dotCounter));
+                    return; // Close the thread
+                }
+
+                if (dotCounter == 3) {
+                    System.out.print("\b\b\b"); // Remove the 3 dots
+                    dotCounter = 0;
+                } else {
+                    System.out.print(".");
+                    ++dotCounter;
+                }
+            }
+        });
+
+        animatedDots.start();
+
         String response = sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
         while (response == null) {
             response = sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
         }
+
+        animatedDots.interrupt();
+
         startGame();
     }
 
