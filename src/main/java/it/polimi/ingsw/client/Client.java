@@ -19,7 +19,6 @@ import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 // be an RMI client or a Socket client
 public abstract class Client {
 
-    protected final ClientParser parser = new ClientParser();
     public GameView gameView = new GameCliView();
     protected Thread loginThread;
     protected Thread pingThread;
@@ -139,22 +138,22 @@ public abstract class Client {
 
     public void waitingRoom() throws FullRoomException, IOException, ParseException, IllegalAccessException {
         System.out.println("Waiting for other players to join...");
-        String response = parser.getMessage(sendMessage(parser.sendReady()));
+        String response = sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
         while (response == null) {
-            response = parser.getMessage(sendMessage(parser.sendReady()));
+            response = sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
         }
         startGame();
     }
 
     public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
-        Message myGame = sendMessage(parser.sendPosition(myPosition));
+        Message myGame = sendMessage(new Message(myPosition));
 
-        gameView.showPersonalGoal(parser.getPersonalGoal(myGame));
+        gameView.showPersonalGoal(myGame.getPersonalGoal());
 
-        List<String> cards = parser.getCardsType(myGame);
-        List<Integer> occurrences = parser.getCardOccurrences(myGame);
-        List<Integer> size = parser.getCardSize(myGame);
-        List<Boolean> horizontal = parser.getCardHorizontal(myGame);
+        List<String> cards = myGame.getCardType();
+        List<Integer> occurrences = myGame.getCardOccurrences();
+        List<Integer> size = myGame.getCardSize();
+        List<Boolean> horizontal = myGame.getCardHorizontal();
         for (int i = 0; i < cards.size(); i++) {
             gameView.showCommonGoal(cards.get(i), occurrences.get(i), size.get(i), horizontal.get(i));
         }
@@ -182,9 +181,9 @@ public abstract class Client {
                     gameView.showDisconnection();
                     disconnected = true;
                 }
-                myTurn = parser.getTurn(sendMessage(parser.sendTurn("turn", myPosition)));
+                myTurn = sendMessage(new Message("turn", myPosition)).getTurn();
             } else {
-                myTurn = parser.getTurn(sendMessage(parser.sendTurn("turn", myPosition)));
+                myTurn = sendMessage(new Message("turn", myPosition)).getTurn();
             }
         }
         if (myTurn == 1) {
@@ -198,41 +197,41 @@ public abstract class Client {
      */
     public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
         // Sends the message to server to get the board
-        Message currentBoard = sendMessage(parser.sendMessage("board"));
+        Message currentBoard = sendMessage(new Message("board"));
         GameView.cleanScreen();
-        gameView.showBoard(parser.getBoard(currentBoard));
+        gameView.showBoard(currentBoard.getBoard());
         // Shows and returns the pick
         List<Coordinates> pick = gameView.showPick();
-        Message myPick = parser.sendPick(pick);
+        Message myPick = new Message(pick.get(0), pick.get(1));
         Message isMyPickOk = sendMessage(myPick);
 
-        while (!"picked".equals(parser.getMessage(isMyPickOk))) {
+        while (!"picked".equals(isMyPickOk.getCategory())) {
             System.out.println("Pick not ok,please retry");
             pick = gameView.showPick();
-            myPick = parser.sendPick(pick);
+            myPick = new Message(pick.get(0), pick.get(1));
             isMyPickOk = sendMessage(myPick);
         }
         System.out.println("Pick ok");
 
-        if (gameView.showRearrange(parser.getPicked(isMyPickOk))) {
-            sendMessage(parser.sendRearrange(gameView.rearrange(parser.getPicked(isMyPickOk))));
+        if (gameView.showRearrange(isMyPickOk.getPicked())) {
+            sendMessage(new Message("sort", gameView.rearrange(isMyPickOk.getPicked())));
         }
 
-        Message myInsert = sendMessage(parser.sendInsert(gameView.promptInsert()));
-        while (!"update".equals(parser.getMessage(myInsert))) {
+        Message myInsert = sendMessage(new Message("insert", "insert", gameView.promptInsert()));
+        while (!"update".equals(myInsert.getCategory())) {
             gameView.showMessage(gameView.insertError);
-            myInsert = sendMessage(parser.sendInsert(gameView.promptInsert()));
+            myInsert = sendMessage(new Message("insert", "insert", gameView.promptInsert()));
         }
 
-        gameView.showBookshelf(parser.getBookshelf(myInsert));
-        gameView.showCurrentScore(parser.getScore(myInsert));
+        gameView.showBookshelf(myInsert.getBookshelf());
+        gameView.showCurrentScore(myInsert.getIntMessage("score"));
         // gameView.showBoard(parser.getBoard(myInsert));
 
         waitForTurn();
     }
 
     public void endGame() {
-        Message winners = sendMessage(parser.sendMessage("endGame"));
-        gameView.showEndGame(parser.getWinners(winners));
+        Message winners = sendMessage(new Message("endGame"));
+        gameView.showEndGame(winners.getWinners());
     }
 }
