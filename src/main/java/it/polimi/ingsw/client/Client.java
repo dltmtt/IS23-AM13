@@ -137,29 +137,11 @@ public abstract class Client {
     }
 
     public void waitingRoom() throws FullRoomException, IOException, ParseException, IllegalAccessException {
-        System.out.print("Waiting for other players to join");
-
-        // Show moving dots while waiting for other players
-        int dotCounter = 0;
-        while (sendMessage(new Message("ready", "", 0, false, 0)).getCategory() == null) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                // Oh no, dots may not be moving anymore :'(
-            }
-
-            if (dotCounter == 3) {
-                System.out.print("\b\b\b");
-                dotCounter = 0;
-            } else {
-                System.out.print(".");
-                ++dotCounter;
-            }
+        System.out.println("Waiting for other players to join...");
+        String response = sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+        while (response == null) {
+            response = sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
         }
-
-        // Always print three dots before the game starts
-        System.out.println("\b".repeat(dotCounter) + "...");
-
         startGame();
     }
 
@@ -243,6 +225,7 @@ public abstract class Client {
 
         gameView.showBookshelf(myInsert.getBookshelf());
         gameView.showCurrentScore(myInsert.getIntMessage("score"));
+        // gameView.showBoard(parser.getBoard(myInsert));
 
         waitForTurn();
     }
