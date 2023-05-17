@@ -19,6 +19,7 @@ public interface CommunicationInterface extends Remote {
 
     default Message sendMessage(Message message) throws RemoteException, FullRoomException, IllegalAccessException {
         String category = parser.getMessageCategory(message);
+        
         switch (category) {
             case "ping" -> {
                 controller.pingReceived(message.getUsername());
@@ -98,9 +99,19 @@ public interface CommunicationInterface extends Remote {
         }
     }
 
-    Message sendGame(int position) throws RemoteException;
+    default Message sendGame(int position) throws RemoteException {
+        System.out.println("Sending game to " + position);
+        return parser.sendStartGame(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelf(position), controller.getBoard());
+    }
 
-    Message sendUpdate(Message message) throws RemoteException;
+    default void setNewStatus() throws RemoteException {
+        // gameStatus = parser.sendStartGame(controller.getCurrentPlayerPersonalGoal(), controller.getCommonGoals(), controller.getCurrentePlayerBookshelf(), controller.getBoard());
+    }
+
+    default Message sendUpdate(Message message) throws RemoteException {
+        setNewStatus();
+        return parser.sendUpdate("update", controller.getCurrentePlayerBookshelf(), controller.getBoard(), controller.getCurrentPlayerScore());
+    }
 
     default Message sendTurn(int position) throws RemoteException {
         return parser.sendMessage1("turn", "turn", controller.yourTurn(position));

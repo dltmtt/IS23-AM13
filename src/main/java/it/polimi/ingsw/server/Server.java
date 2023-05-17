@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.commons.Message;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -77,15 +75,5 @@ public class Server implements CommunicationInterface, ServerInterface {
         socketServer.stop();
         System.out.println("Server shut down.");
         System.exit(0);
-    }
-
-    @Override
-    public Message sendGame(int position) throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public Message sendUpdate(Message message) {
-        return null;
     }
 }

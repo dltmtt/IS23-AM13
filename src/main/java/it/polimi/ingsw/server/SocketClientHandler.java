@@ -53,8 +53,7 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
             String str = "null";
             while (true) {
                 try {
-                    // synchronized (br) {
-                    synchronized (str) {
+                    synchronized (br) {
                         str = br.readLine();
                         try {
                             JSONParser parser = new JSONParser();
@@ -64,7 +63,6 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
                             if (responseMessage != null) {
                                 sendString(responseMessage.getJSONstring());
                             }
-                            // messageSwitch(message);
                         } catch (NullPointerException | FullRoomException | IllegalAccessException |
                                  RemoteException e) {
                             e.printStackTrace();
@@ -75,7 +73,6 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
                             System.out.println(str);
                         }
                     }
-                    //}
                 } catch (IOException e) {
                     System.out.println(socket.getInetAddress() + " disconnected, unable to read");
                     break;
@@ -90,24 +87,11 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
         });
     }
 
+    @Override
     public void run() {
         listenThread.start();
-        // sendThread.start();
     }
 
-    /*
-        public void receiveMessage() {
-            String str = null;
-            try {
-                str = br.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-    */
-    // problema secondario
-    // boh raga manda un messaggio su due da tastiera
     public void sendInput() {
         String str1;
         // read from keyboard
@@ -118,16 +102,6 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
         }
         // send to client
         ps.println(str1);
-    }
-
-    public void sendInput_old() {
-        String str = null;
-        try {
-            // str =
-            dos.writeBytes(kb.readLine() + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void sendString(String message) {
@@ -150,16 +124,5 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
 
         // terminate application
         System.exit(0);
-    }
-
-    @Override
-    public Message sendGame(int position) throws RemoteException {
-        // TODO: implement
-        return null;
-    }
-
-    @Override
-    public Message sendUpdate(Message message) {
-        return null;
     }
 }

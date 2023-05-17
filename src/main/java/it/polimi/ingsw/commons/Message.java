@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.SettingLoader;
@@ -22,7 +23,7 @@ public class Message implements Serializable {
 
     private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
     private final JSONObject json;
-    private int commonGoals;
+    private int commonGoalsNumber;
 
     public Message(JSONObject json) {
         this.json = json;
@@ -150,28 +151,30 @@ public class Message implements Serializable {
     public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
         json = new JSONObject();
         String path = BASE_PATH + "GameMessage.json";
+        String personalGoalString = Integer.toString(personalGoal);
         SettingLoader.loadBookshelfSettings();
         json.put("category", "startGame");
-        json.put("personal_goal", personalGoal);
+        json.put("personal_goal", personalGoalString);
 
         for (int i = 0; i < commonGoalList.size(); i++) {
-            json.put("commonGoalLayout " + i, commonGoalList.get(i).getLayout().getName());
+            Layout layout = commonGoalList.get(i).getLayout();
+            json.put("commonGoalLayout " + i, layout.getName());
 
             if ("fullLine".equals(commonGoalList.get(i).getLayout().getName())) {
-                json.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
-                json.put("horizontal " + i, commonGoalList.get(i).getLayout().isHorizontal());
+                json.put("occurrences " + i, layout.getOccurrences());
+                json.put("horizontal " + i, layout.isHorizontal());
                 json.put("size " + i, 0);
-            } else if ("group".equals(commonGoalList.get(i).getLayout().getName())) {
-                json.put("occurrences " + i, commonGoalList.get(i).getLayout().getOccurrences());
+            } else if ("group".equals(layout.getName())) {
+                json.put("occurrences " + i, layout.getOccurrences());
                 json.put("horizontal " + i, false);
-                json.put("size " + i, commonGoalList.get(i).getLayout().getSize());
+                json.put("size " + i, layout.getSize());
             } else {
                 json.put("occurrences " + i, 0);
                 json.put("horizontal " + i, false);
                 json.put("size " + i, 0);
             }
         }
-        commonGoals = commonGoalList.size();
+        commonGoalsNumber = commonGoalList.size();
 
         json.put("bookshelf", bookshelfJson(bookshelf));
 
@@ -244,7 +247,8 @@ public class Message implements Serializable {
         for (Item item : picked) {
             JSONObject Item = new JSONObject();
             Item.put("color", item.color().toString());
-            Item.put("value", item.number());
+            String valueString = Integer.toString(item.number());
+            Item.put("value", valueString);
             ItemList.add(Item);
         }
         json.put("picked", ItemList);
@@ -284,7 +288,7 @@ public class Message implements Serializable {
             e.printStackTrace();
         }
     }
-
+    
     public List<Integer> getPick() {
         List<Integer> pick = new ArrayList<>();
         pick.add((int) json.get("startRow"));
@@ -318,13 +322,16 @@ public class Message implements Serializable {
         for (int i = 0; i < Bookshelf.getRows(); i++) {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 JSONObject bookshelfItem = new JSONObject();
-                bookshelfItem.put("row", i);
-                bookshelfItem.put("column", j);
+                String rowString = String.valueOf(i);
+                String columnString = String.valueOf(j);
+                bookshelfItem.put("row", rowString);
+                bookshelfItem.put("column", columnString);
                 JSONObject item = new JSONObject();
                 if (bookshelf.getItemAt(i, j).isPresent()) {
                     JSONArray itemThings = new JSONArray();
                     item.put("color", bookshelf.getItemAt(i, j).get().color().toString());
-                    item.put("value", bookshelf.getItemAt(i, j).get().number());
+                    String valueString = Integer.toString(bookshelf.getItemAt(i, j).get().number());
+                    item.put("value", valueString);
                     itemThings.add(item);
                     bookshelfItem.put("item", itemThings);
                 } else {
@@ -342,15 +349,18 @@ public class Message implements Serializable {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 JSONObject boardItem = new JSONObject();
-                boardItem.put("row", i);
-                boardItem.put("column", j);
+                String rowString = String.valueOf(i);
+                String columnString = String.valueOf(j);
+                boardItem.put("row", rowString);
+                boardItem.put("column", columnString);
                 JSONObject item = new JSONObject();
                 if (board.getItem(i, j) == null) {
                     boardItem.put("item", null);
                 } else {
                     JSONArray itemThings = new JSONArray();
                     item.put("color", board.getItem(i, j).color().toString());
-                    item.put("value", board.getItem(i, j).number());
+                    String valueString = Integer.toString(board.getItem(i, j).number());
+                    item.put("value", valueString);
                     itemThings.add(item);
                     boardItem.put("item", itemThings);
                 }
@@ -361,15 +371,18 @@ public class Message implements Serializable {
     }
 
     public int getTurn() {
-        return (int) json.get("turn");
+        String turnString = json.get("turn").toString();
+        return Integer.parseInt(turnString);
     }
 
     public int getIntMessage(String type) {
-        return (int) json.get(type);
+        String typeString = json.get(type).toString();
+        return Integer.parseInt(typeString);
     }
 
     public int getInsert() {
-        return (int) json.get("insert");
+        String insertString = json.get("insert").toString();
+        return Integer.parseInt(insertString);
     }
 
     public String getCategory() {
@@ -404,7 +417,8 @@ public class Message implements Serializable {
     }
 
     public int getPersonalGoal() {
-        return (int) json.get("personal_goal");
+        String personalGoal = (String) json.get("personal_goal");
+        return Integer.parseInt(personalGoal);
     }
 
     public List<Item> getPicked() {
@@ -413,7 +427,8 @@ public class Message implements Serializable {
         for (Object obj : pickedJson) {
             JSONObject item = (JSONObject) obj;
             String color = (String) item.get("color");
-            int value = (int) item.get("value");
+            String valueString = (String) item.get("value");
+            int value = Integer.parseInt(valueString);
             picked.add(new Item(Color.valueOf(color), value));
         }
         return picked;
@@ -425,15 +440,18 @@ public class Message implements Serializable {
         JSONArray bookshelfJson = (JSONArray) json.get("bookshelf");
         for (Object obj : bookshelfJson) {
             JSONObject bookshelfItem = (JSONObject) obj;
-            int row = (int) bookshelfItem.get("row");
-            int column = (int) bookshelfItem.get("column");
+            String rowString = (String) bookshelfItem.get("row");
+            String columnString = (String) bookshelfItem.get("column");
+            int row = Integer.parseInt(rowString);
+            int column = Integer.parseInt(columnString);
             JSONArray itemJson = (JSONArray) bookshelfItem.get("item");
             if (itemJson == null) {
                 bookshelf.setItem(row, column, Optional.empty());
             } else {
                 JSONObject item = (JSONObject) itemJson.get(0);
                 String color = (String) item.get("color");
-                int value = (int) item.get("value");
+                String valueString = (String) item.get("value");
+                int value = Integer.parseInt(valueString);
                 bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
             }
         }
@@ -445,15 +463,18 @@ public class Message implements Serializable {
         JSONArray boardJson = (JSONArray) json.get("board");
         for (Object obj : boardJson) {
             JSONObject boardItem = (JSONObject) obj;
-            int row = (int) boardItem.get("row");
-            int column = (int) boardItem.get("column");
+            String rowString = (String) boardItem.get("row");
+            String columnString = (String) boardItem.get("column");
+            int row = Integer.parseInt(rowString);
+            int column = Integer.parseInt(columnString);
             JSONArray itemJson = (JSONArray) boardItem.get("item");
             if (itemJson == null) {
                 board.setItem(row, column, null);
             } else {
                 JSONObject item = (JSONObject) itemJson.get(0);
                 String color = (String) item.get("color");
-                int value = (int) item.get("value");
+                String valueString = (String) item.get("value");
+                int value = Integer.parseInt(valueString);
                 board.setItem(row, column, new Item(Color.valueOf(color), value));
             }
         }
@@ -462,7 +483,7 @@ public class Message implements Serializable {
 
     public List<String> getCardType() {
         List<String> cardType = new ArrayList<>();
-        for (int i = 0; i < commonGoals; i++) {
+        for (int i = 0; i < commonGoalsNumber; i++) {
             cardType.add((String) json.get("commonGoalLayout " + i));
         }
         return cardType;
@@ -470,23 +491,23 @@ public class Message implements Serializable {
 
     public List<Integer> getCardOccurrences() {
         List<Integer> cardOccurrences = new ArrayList<>();
-        for (int j = 0; j < commonGoals; j++) {
-            cardOccurrences.add((int) json.get("occurrences " + j));
+        for (int j = 0; j < commonGoalsNumber; j++) {
+            cardOccurrences.add(Integer.parseInt(json.get("occurrences " + j).toString()));
         }
         return cardOccurrences;
     }
 
     public List<Integer> getCardSize() {
         List<Integer> cardSize = new ArrayList<>();
-        for (int j = 0; j < commonGoals; j++) {
-            cardSize.add((int) json.get("size " + j));
+        for (int j = 0; j < commonGoalsNumber; j++) {
+            cardSize.add(Integer.parseInt(json.get("size " + j).toString()));
         }
         return cardSize;
     }
 
     public List<Boolean> getCardHorizontal() {
         List<Boolean> cardHorizontal = new ArrayList<>();
-        for (int i = 0; i < commonGoals; i++) {
+        for (int i = 0; i < commonGoalsNumber; i++) {
             cardHorizontal.add((boolean) json.get("horizontal " + i));
         }
         return cardHorizontal;

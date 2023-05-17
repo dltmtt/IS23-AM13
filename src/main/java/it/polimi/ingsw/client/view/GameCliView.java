@@ -168,7 +168,7 @@ public class GameCliView extends GameView {
     @Override
     public void showBoard(Board board) {
         BoardView boardView = new BoardView(board);
-        System.out.println("Here's your board:");
+        showMessage("Here's the board:\n");
         boardView.printBoard();
     }
 

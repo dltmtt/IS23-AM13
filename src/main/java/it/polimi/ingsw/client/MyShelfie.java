@@ -53,7 +53,7 @@ public class MyShelfie {
         Client client = null;
         switch (protocolType) {
             case "rmi" -> client = new ClientRmi();
-            case "socket" -> client = new ClientSocket();
+            case "socket" -> client = new ClientTcp();
             default -> {
                 System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'socket'.");
                 System.exit(1);

@@ -10,9 +10,8 @@ import java.util.List;
 
 public class ServerParser {
 
-    public Message sendStartGame(int personalGoalCard, List<CommonGoal> commonGoalcard, Bookshelf bookshelf, Board livingroom) {
-
-        return new Message(personalGoalCard, commonGoalcard, bookshelf, livingroom);
+    public Message sendStartGame(int personalGoalCard, List<CommonGoal> commonGoalCard, Bookshelf bookshelf, Board livingRoom) {
+        return new Message(personalGoalCard, commonGoalCard, bookshelf, livingRoom);
     }
 
     public Message sendMessage(String message) {
