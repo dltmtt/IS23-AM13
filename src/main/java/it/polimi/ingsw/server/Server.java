@@ -22,7 +22,7 @@ public class Server implements CommunicationInterface, ServerInterface {
 
     private static final String SHUTDOWN_COMMAND = "exit";
     private ServerRmi rmiServer;
-    private ServerTCP socketServer;
+    private ServerTcp socketServer;
 
     public Server() {
         try {
@@ -33,7 +33,7 @@ public class Server implements CommunicationInterface, ServerInterface {
         }
 
         try {
-            this.socketServer = new ServerTCP();
+            this.socketServer = new ServerTcp();
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Unable to create socket server.");

@@ -14,7 +14,7 @@ import java.util.concurrent.RejectedExecutionException;
 
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_SOCKET;
 
-public class ServerTCP implements ServerInterface {
+public class ServerTcp implements ServerInterface {
 
     private final ServerSocket serverSocket;
     public List<SocketClientHandler> connectedClients;
@@ -24,7 +24,7 @@ public class ServerTCP implements ServerInterface {
 
     public Thread acceptConnectionsThread;
 
-    public ServerTCP() throws IOException {
+    public ServerTcp() throws IOException {
 
         connectedClients = new ArrayList<>();
         connectedPlayers = new HashMap<>();
