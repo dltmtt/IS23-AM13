@@ -11,8 +11,6 @@ import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,6 @@ import java.util.Optional;
 @SuppressWarnings("unchecked")
 public class Message implements Serializable {
 
-    private static final String BASE_PATH = "src/main/java/it/polimi/ingsw/commons/";
     private final JSONObject json;
     private int commonGoalsNumber;
 
@@ -41,7 +38,6 @@ public class Message implements Serializable {
      */
     public Message(String category, String username, int age, boolean isFirstGame, int numPlayer) {
         json = new JSONObject();
-        String path = BASE_PATH + "LoginMessage.json";
         String ageString = Integer.toString(age);
         String numString = Integer.toString(numPlayer);
         json.put("category", category);
@@ -49,48 +45,25 @@ public class Message implements Serializable {
         json.put("value", ageString);
         json.put("bool", isFirstGame);
         json.put("numPlayer", numString);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toJSONString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(String type, String argument) {
         json = new JSONObject();
-        String path = BASE_PATH + "PingMessage.json";
         json.put("category", type);
         json.put("argument", argument);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(String category, int position) {
         json = new JSONObject();
-        String path = BASE_PATH + "LoginMessage.json";
         String posString = Integer.toString(position);
         json.put("category", category);
         json.put("position", posString);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(String category, String type, int n) {
         json = new JSONObject();
-        String path = BASE_PATH + "LoginMessage.json";
         json.put("category", category);
         json.put(type, n);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -101,43 +74,24 @@ public class Message implements Serializable {
      */
     public Message(String singleMessage) {
         json = new JSONObject();
-        String path = BASE_PATH + "SingleMessage.json";
         json.put("category", singleMessage);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(int size, List<String> names) {
         json = new JSONObject();
-        String path = BASE_PATH + "WinnersMessage.json";
         json.put("category", "winners");
         json.put("size", size);
 
         for (int i = 0; i < size; i++) {
             json.put("name" + i, names.get(i));
         }
-
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(int position) {
         json = new JSONObject();
-        String path = BASE_PATH + "PositionMessage.json";
         String posixString = Integer.toString(position);
         json.put("category", "index");
         json.put("position", posixString);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -150,7 +104,6 @@ public class Message implements Serializable {
      */
     public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
         json = new JSONObject();
-        String path = BASE_PATH + "GameMessage.json";
         String personalGoalString = Integer.toString(personalGoal);
         SettingLoader.loadBookshelfSettings();
         json.put("category", "startGame");
@@ -179,41 +132,16 @@ public class Message implements Serializable {
         json.put("bookshelf", bookshelfJson(bookshelf));
 
         json.put("board", boardJson(board));
-
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(String category, Board board) {
         json = new JSONObject();
-        String path = BASE_PATH + "GameMessage.json";
         json.put("category", category);
         json.put("board", boardJson(board));
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Message(boolean turn) {
-        json = new JSONObject();
-        String path = BASE_PATH + "TurnMessage.json";
-        json.put("category", "turn");
-        json.put("turn", turn);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(Coordinates from, Coordinates to) {
         json = new JSONObject();
-        String path = BASE_PATH + "MoveMessage.json";
 
         int startRow = from.x();
         int startColumn = from.y();
@@ -232,16 +160,10 @@ public class Message implements Serializable {
             size = finalRow - startRow + 1;
         }
         json.put("size", size);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(List<Item> picked) {
         json = new JSONObject();
-        String path = BASE_PATH + "PickMessage.json";
         json.put("category", "picked");
         JSONArray ItemList = new JSONArray();
         for (Item item : picked) {
@@ -252,43 +174,25 @@ public class Message implements Serializable {
             ItemList.add(Item);
         }
         json.put("picked", ItemList);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(String category, Bookshelf bookshelf, Board board, int score) {
         json = new JSONObject();
-        String path = BASE_PATH + "UpdateMessage.json";
         json.put("category", category);
         json.put("bookshelf", bookshelfJson(bookshelf));
 
         json.put("board", boardJson(board));
         json.put("score", score);
-
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Message(String category, List<Integer> sort) {
         json = new JSONObject();
-        String path = BASE_PATH + "SortMessage.json";
         json.put("category", category);
         JSONArray array = new JSONArray();
         array.addAll(sort);
         json.put("sort", array);
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
-    
+
     public List<Integer> getPick() {
         List<Integer> pick = new ArrayList<>();
         pick.add((int) json.get("startRow"));
