@@ -45,6 +45,6 @@ public class JsonPersonalGoalTest {
 
         g.fillPersonalGoalDeck();
         PersonalGoal p = g.drawPersonalGoal();
-        p.cli_print();
+        System.out.println(p.getPersonalGoalCard());
     }
 }

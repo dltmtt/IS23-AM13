@@ -53,7 +53,6 @@ public class SquareTest {
         b.insert(3, items);
 
         System.out.println("FirstTest");
-        b.cli_print();
 
         assertTrue(square.check(b));
     }
@@ -89,7 +88,6 @@ public class SquareTest {
         b.insert(3, items);
 
         System.out.println("FalseTest");
-        b.cli_print();
 
         assertFalse(square.check(b));
     }
@@ -125,7 +123,6 @@ public class SquareTest {
         b.insert(3, items);
 
         System.out.println("FalseTest2");
-        b.cli_print();
 
         assertFalse(square.check(b));
     }
@@ -165,7 +162,6 @@ public class SquareTest {
         b.insert(3, items);
 
         System.out.println("TrueTest");
-        b.cli_print();
 
         assertTrue(square.check(b));
     }
@@ -215,7 +211,7 @@ public class SquareTest {
         b.insert(4, items);
 
         System.out.println("TrueTest2");
-        b.cli_print();
+
         assertTrue(square.check(b));
     }
 
@@ -260,7 +256,6 @@ public class SquareTest {
         b.insert(4, items);
 
         System.out.println("TrueTest3");
-        b.cli_print();
 
         assertTrue(square.check(b));
     }
@@ -312,7 +307,6 @@ public class SquareTest {
         b.insert(4, items);
 
         System.out.println("TrueTest4");
-        b.cli_print();
 
         assertTrue(square.check(b));
         assertTrue(fullLine.check(b));

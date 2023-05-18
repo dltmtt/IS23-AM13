@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Color;
 
 import java.util.ArrayList;
@@ -20,8 +19,10 @@ public class Bookshelf implements AbleToGetPoints {
     private static int rows;
     private static int columns;
     private final Optional<Item>[][] items;
-    // This matrix is used to check if a cell can be visited (and it has not been visited yet).
-    // booleanMatrix[i][j] = true means that the cell (i, j) can be visited.
+    /**
+     * This matrix is used to check if a cell can be visited (and it has not been visited yet).
+     * <code>booleanMatrix[i][j] = true</code> means that the cell (i, j) can be visited.
+     */
     private final boolean[][] booleanMatrix;
 
     /**
@@ -252,8 +253,6 @@ public class Bookshelf implements AbleToGetPoints {
         return points;
     }
 
-    // TODO: clear the matrix after the method is called
-
     /**
      * Counts the size of the group of adjacent items of the same colors, starting from the <code>(row, column)</code> cell.
      *
@@ -353,67 +352,8 @@ public class Bookshelf implements AbleToGetPoints {
         return content;
     }
 
-    /*
-    public void print() {
-        // Without JPanel images would be added to JFrame on top of each other.
-        // That way only last image would be visible.
-        int left_offset = 11;
-        int vertical_space = 11;
-        int bottom_offset = 11;
-        int col_width = 90;
-        int col_height = 90;
-
-        JPanel panel = new JPanel();
-
-        ImageIcon BackgroundImage = new ImageIcon(BASE_PATH + "graphics/our_variants/back.jpg");
-
-        panel.setLayout(null);
-        panel.add(new JLabel(BackgroundImage));
-        //        panel.setAlignmentX(1);
-        Dimension bookshelfSize = new Dimension(BackgroundImage.getIconWidth(), BackgroundImage.getIconHeight());
-
-        JFrame frame = new JFrame("Bookshelf Display V1.0");
-        List<Item> itemList;
-        JLabel item;
-        ImageIcon itemImage;
-
-        for (int col = 0; col < getColumns(); col++) {
-            itemList = getColumnContent(col);
-            for (int i = 0; i < itemList.size(); i++) {
-                //                System.out.println(BASE_PATH + "graphics/our_variants/"+itemList.get(i).getColor().toString().toLowerCase()+".png");
-                itemImage = new ImageIcon(BASE_PATH + "graphics/our_variants/" + itemList.get(i).color().toString().toLowerCase() + ".png");
-                item = new JLabel(itemImage);
-                item.setLayout(null);
-                item.setLocation(left_offset + col_width * col, bookshelfSize.height - bottom_offset - (i + 1) * col_height);
-                item.setVisible(true);
-                item.getWidth();
-                panel.add(item);
-            }
-        }
-        frame.getContentPane().add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        //        frame.setLayout(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-*/
     public Optional<Item>[][] getItems() {
         return items;
-    }
-
-    public List<Item> getItemsAsList() {
-        List<Item> itemList = new ArrayList<>();
-        for (int row = 0; row < getRows(); row++) {
-            for (int col = 0; col < getColumns(); col++) {
-                itemList.add(items[row][col].orElse(null));
-            }
-        }
-        return itemList;
-    }
-
-    // TODO: move this to the view
-    public void cli_print() {
-        CliUtilities.stringifyBookshelf(items).forEach(System.out::println);
     }
 
     public void setItem(int row, int col, Optional<Item> item) {

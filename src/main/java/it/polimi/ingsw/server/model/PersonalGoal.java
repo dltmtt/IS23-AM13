@@ -55,8 +55,6 @@ public class PersonalGoal {
         return currentReached < 3 ? currentReached : currentReached + counter;
     }
 
-    // TODO: ask if you mean the number of matches?
-
     /**
      * Returns the number of colors reached.
      */
@@ -83,43 +81,8 @@ public class PersonalGoal {
         return null;
     }
 
-    /**
-     * Prints the personal goal card.
-     * TODO: move this method to the Client package
-     */
-
-    public void cli_print() {
-
-        StringBuilder cell;
-        for (int row = Bookshelf.getRows() - 1; row >= 0; row--) {
-            cell = new StringBuilder();
-            for (int column = 0; column < Bookshelf.getColumns(); column++) {
-                cell.append("[");
-                if (!personalGoalCard.containsKey(new Coordinates(row, column))) {
-                    cell.append(Color.BLACK)
-                            //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹").append(Color.RESET_COLOR);
-                } else {
-                    cell.append(Color.toANSItext(personalGoalCard.get(new Coordinates(row, column)), false))
-                            //.append(boardMatrix[row][column].color().toString().charAt(0))
-                            .append("⏹").append(Color.RESET_COLOR);
-                }
-                cell.append("]");
-            }
-            System.out.println(cell);
-        }
-    }
-
     public HashMap<Coordinates, Color> getPersonalGoalCard() {
         return personalGoalCard;
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public int getCurrentReached() {
-        return currentReached;
     }
 
     public PersonalGoal getPersonalGoal() {

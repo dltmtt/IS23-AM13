@@ -68,7 +68,6 @@ public class StairTest {
             b.insert(i, itemList);
         }
         BookshelfUtilities.createLeftStair(b);
-        //        b.cli_print();
         assertTrue(stair.check(b));
         b.clearBookshelf();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {

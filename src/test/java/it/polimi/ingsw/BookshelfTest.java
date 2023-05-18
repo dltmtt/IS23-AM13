@@ -139,6 +139,5 @@ class BookshelfTest {
                 assertEquals(localCol, bookshelf.getColumnContent(col));
             }
         }
-        //        bookshelf.cli_print();
     }
 }

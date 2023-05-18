@@ -29,9 +29,6 @@ public class FullLineTest {
     public void threeColumMax3DiffCol() {
         Layout fullLine = new FullLine(1, 3, 3, false);
         BookshelfUtilities.createColumn(b, 2, 3);
-        if (!fullLine.check(b)) {
-            //            b.cli_print();
-        }
         assertTrue(fullLine.check(b));
     }
 
@@ -39,10 +36,6 @@ public class FullLineTest {
     public void twoColumn6Diff() {
         Layout fullLine = new FullLine(6, 6, 2, false);
         BookshelfUtilities.createColumn(b, 6, 2);
-        if (!fullLine.check(b)) {
-            //            b.cli_print();
-        }
-
         assertTrue(fullLine.check(b));
     }
 
@@ -53,7 +46,6 @@ public class FullLineTest {
             Layout fullLine = new FullLine(1, 3, 4, true);
             BookshelfUtilities.createRow(b, 2, 4);
             if (!fullLine.check(b)) {
-                b.cli_print();
                 assertTrue(fullLine.check(b));
             }
 
