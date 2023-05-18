@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.view;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class HelloController {
+public class GuiController {
 
     @FXML
     private TextField username;

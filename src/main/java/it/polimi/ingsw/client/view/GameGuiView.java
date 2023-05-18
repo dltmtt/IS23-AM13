@@ -4,43 +4,72 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
-public class GameGuiView extends GameView {
+public class GameGuiView extends Application implements GameView {
+
+    public static void main(String[] args) {
+        launch();
+    }
+
+    @Override
+    public void start(Stage stage) throws IOException {
+       /*
+        Parent demo=FXMLLoader.load(getClass().getResource("demo.fxml"));
+       // scene.getStylesheets().add(String.valueOf(this.getClass().getResource("sample.css")));
+        stage.setTitle("prova");
+        stage.setScene(new Scene(demo));
+
+        stage.show();
+
+        */
+        GuiController controller = new GuiController();
+        URL url = this.getClass().getResource("demo.fxml");
+        FXMLLoader loader = new FXMLLoader(url);
+        loader.setController(controller);
+        // loader.setRoot(controller);
+        loader.load();
+        stage.setTitle("prova");
+        stage.setScene(new Scene(loader.getRoot()));
+        stage.show();
+    }
 
     @Override
     public String readUsername() {
-        System.out.println("readUsername() not implemented yet in " + this.getClass().getName());
         return null;
     }
 
     @Override
+    public int readNumber() {
+        return 0;
+    }
+
+    @Override
     public String showLogin() {
-        System.out.println("showLogin() not implemented yet in " + this.getClass().getName());
         return null;
     }
 
     @Override
     public void showMessage(String message) {
-        System.out.println("showMessage() not implemented yet in " + this.getClass().getName());
-    }
 
-    @Override
-    public int readNumber() {
-        System.out.println("readNumber() not implemented yet in " + this.getClass().getName());
-        return 0;
     }
 
     @Override
     public int promptAge() {
-        System.out.println("showAge() not implemented yet in " + this.getClass().getName());
         return 0;
     }
 
     @Override
     public boolean promptFirstGame() {
-        return true;
+        return false;
     }
 
     @Override
@@ -49,13 +78,13 @@ public class GameGuiView extends GameView {
     }
 
     @Override
-    public void showPersonalGoal(int card) {
-        System.out.println("showPersonalGoal() not implemented yet in " + this.getClass().getName());
+    public void showPersonalGoal(int card) throws IOException, ParseException {
+
     }
 
     @Override
-    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) {
-        System.out.println("showCommonGoal() not implemented yet in " + this.getClass().getName());
+    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException {
+
     }
 
     @Override
@@ -79,17 +108,22 @@ public class GameGuiView extends GameView {
     }
 
     @Override
+    public boolean showRearrange(List<Item> items) throws IOException {
+        return false;
+    }
+
+    @Override
+    public int promptInsert() {
+        return 0;
+    }
+
+    @Override
     public void showEndGame(List<String> winners) {
 
     }
 
     @Override
-    public boolean showRearrange(List<Item> items) {
-        return false;
-    }
-
-    @Override
-    public List<Integer> rearrange(List<Item> items) {
+    public List<Integer> rearrange(List<Item> items) throws IOException {
         return null;
     }
 
@@ -101,10 +135,5 @@ public class GameGuiView extends GameView {
     @Override
     public void showDisconnection() {
 
-    }
-
-    @Override
-    public int promptInsert() {
-        return 0;
     }
 }

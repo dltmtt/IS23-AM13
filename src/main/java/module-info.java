@@ -10,4 +10,6 @@ module it.polimi.ingsw.client.view {
 
     opens it.polimi.ingsw.client.view to javafx.fxml;
     exports it.polimi.ingsw.client.view;
+
+    exports it.polimi.ingsw.server to java.rmi;
 }

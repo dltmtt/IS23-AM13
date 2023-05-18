@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.view.GameCliView;
 import it.polimi.ingsw.client.view.GameGuiView;
 import it.polimi.ingsw.client.view.GameView;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.apache.commons.cli.*;
 
 /**
@@ -12,6 +13,7 @@ import org.apache.commons.cli.*;
 public class MyShelfie {
 
     public static void main(String[] args) {
+        SettingLoader.loadBookshelfSettings();
         Option protocol = new Option("p", "protocol", true, "select network protocol to use (default: RMI)");
         Option view = new Option("m", "view", true, "launch CLI or GUI (default: CLI)");
         Option help = new Option("h", "help", false, "show this help message");

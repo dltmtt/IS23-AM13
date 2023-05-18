@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameCliView extends GameView {
+public class GameCliView implements GameView {
 
     /**
      * Reads the username from the command line and prompts the user to confirm it.
