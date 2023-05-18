@@ -16,6 +16,7 @@ public class ServerController {
     private List<Item> currentPicked;
     private GameModel gameModel;
     private Room room = null;
+    private boolean printed = false;
 
     public ServerController() {
         players = new ArrayList<>();
@@ -37,17 +38,18 @@ public class ServerController {
             missingOnes();
             for (String missing : disconnected) {
                 System.out.println(missing + " disconnected");
+                printed = false;
+                pings.remove(missing);
             }
         } else {
             for (String ping : pings) {
                 disconnected.remove(ping);
             }
-            // print every element in pings
-
-            System.out.println("All connected:");
-            pings.stream().forEach(System.out::println);
+            if (!printed) {
+                System.out.println("All connected");
+                printed = true;
+            }
         }
-        pings.clear();
     }
 
     public void missingOnes() {
@@ -185,6 +187,7 @@ public class ServerController {
      */
 
     public int yourTurn(int index) {
+        System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
         if (disconnected.size() == players.size() - 1) {
             // tutti gli altri sono disconnessi, ne è rimasto solo uno
             return 2;

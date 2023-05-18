@@ -184,6 +184,8 @@ public abstract class Client {
         for (int i = 0; i < cards.size(); i++) {
             gameView.showCommonGoal(cards.get(i), occurrences.get(i), size.get(i), horizontal.get(i));
         }
+        gameView.showBookshelf(myGame.getBookshelf());
+        gameView.showBoard(myGame.getBoard());
 
         waitForTurn();
     }
