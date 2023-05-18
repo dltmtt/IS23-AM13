@@ -51,19 +51,9 @@ public class Diagonal extends Layout {
      * @return true if there are 5 cards of the same color in a diagonal from the top right to the bottom left, false otherwise
      */
     public boolean checkRight(Bookshelf b, int row, int column) throws IllegalArgumentException {
-        if (b == null) {
-            throw new IllegalArgumentException("The bookshelf cannot be null");
-        }
-
-        // Check if the row and the column are valid
-        if (row < 0 || row >= Bookshelf.getRows() || column < 0 || column >= Bookshelf.getColumns()) {
-            String message = "";
-            if (row < 0 || row >= Bookshelf.getRows())
-                message += "The row must be valid (0-" + (Bookshelf.getRows() - 1) + "), received " + row + " ";
-            if (column < 0 || column >= Bookshelf.getColumns())
-                message += "The column must be valid (0-" + (Bookshelf.getColumns() - 1) + "), received " + column + " ";
-            throw new IllegalArgumentException(message);
-        }
+        assert b != null;
+        assert row >= 0 && row < Bookshelf.getRows();
+        assert column >= 0 && column < Bookshelf.getColumns();
 
         int counter = 1;
         // Check if there are 5 items of the same color in a diagonal from the top right to the bottom left
@@ -92,19 +82,10 @@ public class Diagonal extends Layout {
      * @return true if there are 5 cards of the same color in a diagonal from the top left to the bottom right, false otherwise
      */
     public boolean checkLeft(Bookshelf b, int row, int column) throws IllegalArgumentException {
-        if (b == null) {
-            throw new IllegalArgumentException("The bookshelf cannot be null");
-        }
+        assert b != null;
+        assert row >= 0 && row < Bookshelf.getRows();
+        assert column >= 0 && column < Bookshelf.getColumns();
 
-        // Check if the row and the column are valid
-        if (row < 0 || row >= Bookshelf.getRows() || column < 0 || column >= Bookshelf.getColumns()) {
-            String message = "";
-            if (row < 0 || row >= Bookshelf.getRows())
-                message += "The row must be valid (0-" + (Bookshelf.getRows() - 1) + "), received " + row + " ";
-            if (column < 0 || column >= Bookshelf.getColumns())
-                message += "The column must be valid (0-" + (Bookshelf.getColumns() - 1) + "), received " + column + " ";
-            throw new IllegalArgumentException(message);
-        }
         int counter = 1;
         while (row < Bookshelf.getRows() - 1 && column > 0) {
             if (b.getItemAt(row, column).isPresent() && b.getItemAt(row + 1, column - 1).isPresent()) {
