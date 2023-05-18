@@ -53,6 +53,9 @@ public class Message implements Serializable {
         json.put("argument", argument);
     }
 
+
+
+// è un turno
     public Message(String category, int position) {
         json = new JSONObject();
         String posString = Integer.toString(position);
@@ -60,6 +63,7 @@ public class Message implements Serializable {
         json.put("position", posString);
     }
 
+    //è una insert
     public Message(String category, String type, int n) {
         json = new JSONObject();
         json.put("category", category);

@@ -3,14 +3,10 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Color;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 
 /**
  * A bookshelf, where the player can collect items.
@@ -357,10 +353,7 @@ public class Bookshelf implements AbleToGetPoints {
         return content;
     }
 
-    /**
-     * Prints the board on the console.
-     * TODO: move this method to the view
-     */
+    /*
     public void print() {
         // Without JPanel images would be added to JFrame on top of each other.
         // That way only last image would be visible.
@@ -403,7 +396,7 @@ public class Bookshelf implements AbleToGetPoints {
         //        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
+*/
     public Optional<Item>[][] getItems() {
         return items;
     }
