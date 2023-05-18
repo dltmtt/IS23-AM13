@@ -238,7 +238,7 @@ public class Board {
         return cells.get(1).x() - cells.get(0).x() <= 2;
     }
 
-    public List<Item> selectFromBoard(List<Coordinates> selectedFromTo) throws IllegalAccessException {
+    public List<Item> selectFromBoard(List<Coordinates> selectedFromTo) {
         List<Item> itemsSelected = new ArrayList<>();
         for (Coordinates coordinates : selectedFromTo) {
             itemsSelected.add(boardMatrix[coordinates.x()][coordinates.y()]);

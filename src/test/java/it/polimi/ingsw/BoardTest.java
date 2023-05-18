@@ -4,10 +4,8 @@ import it.polimi.ingsw.client.view.BoardView;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,7 @@ public class BoardTest {
 
     // Tests if Cell 00 is null with 3 players
     @Test
-    void filWith3playersCell00() throws IllegalAccessException, IOException, ParseException {
+    void filWith3playersCell00() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(0, 0));
@@ -25,7 +23,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 0 are null, with 3 players
     @Test
-    void fillWith3playersAllCells0x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells0x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(0, 0));
@@ -40,7 +38,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 1 are null, with 3 players
     @Test
-    void fillWith3playersAllCells1x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells1x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(1, 0));
@@ -54,7 +52,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 2 are null, with 3 players
     @Test
-    void fillWith3playersAllCells2x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells2x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(2, 0));
@@ -65,7 +63,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 3 are null, with 3 players
     @Test
-    void fillWith3playersAllCells3x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells3x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(3, 7));
@@ -74,7 +72,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 4 are null, with 3 players
     @Test
-    void fillWith3playersAllCells4x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells4x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(4, 0));
@@ -83,7 +81,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 5 are null, with 3 players
     @Test
-    void fillWith3playersAllCells5x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells5x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(5, 0));
@@ -92,7 +90,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 6 are null, with 3 players
     @Test
-    void fillWith3playersAllCells6x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells6x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(6, 0));
@@ -103,7 +101,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 7 are null, with 3 players
     @Test
-    void fillWith3playersAllCells7x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells7x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(7, 0));
@@ -117,7 +115,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 8 are null, with 3 players
     @Test
-    void fillWith3playersAllCells8x() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells8x() {
         Board b = new Board(3);
         b.fill();
         assertNull(b.getItem(8, 0));
@@ -132,7 +130,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 0 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells0xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells0xNotNull() {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(0, 5));
@@ -140,7 +138,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 1 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells1xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells1xNotNull() {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(1, 4));
@@ -149,7 +147,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 2 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells2xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells2xNotNull() {
         Board b = new Board(3);
         b.fill();
 
@@ -162,7 +160,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 3 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells3xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells3xNotNull() {
         Board b = new Board(3);
         b.fill();
 
@@ -177,7 +175,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 4 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells4xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells4xNotNull() {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(4, 1));
@@ -191,7 +189,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 5 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells5xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells5xNotNull() {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(5, 2));
@@ -205,7 +203,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 6 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells6xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells6xNotNull() {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(6, 2));
@@ -217,7 +215,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 7 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells7xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells7xNotNull() {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(7, 3));
@@ -226,7 +224,7 @@ public class BoardTest {
 
     // Tests if the expected cells of row 8 are NOT null, with 3 players
     @Test
-    void fillWith3playersAllCells8xNotNull() throws IllegalAccessException, IOException, ParseException {
+    void fillWith3playersAllCells8xNotNull() {
         Board b = new Board(3);
         b.fill();
         assertNotNull(b.getItem(8, 3));
@@ -234,7 +232,7 @@ public class BoardTest {
 
     // This test controls the right cells filled with 4 players
     @Test
-    void fillWith4players() throws IllegalAccessException, IOException, ParseException {
+    void fillWith4players() {
         Board b = new Board(4);
         b.fill();
         assertNotNull(b.getItem(0, 4));
@@ -249,7 +247,7 @@ public class BoardTest {
 
     // This test controls that the item of bag is filled with 132 item with all possible number of players
     @Test
-    void itemBagInitialized() throws IOException, ParseException {
+    void itemBagInitialized() {
         Board b2 = new Board(2);
         Board b3 = new Board(3);
         Board b4 = new Board(4);
@@ -260,7 +258,7 @@ public class BoardTest {
 
     // Test pickFormBoard.
     @Test
-    void pickFormTest() throws IllegalAccessException, IOException, ParseException {
+    void pickFormTest() throws IllegalAccessException {
         Board b = new Board(3);
         b.fill();
         assertEquals(b.getItemBag().size(), 95);

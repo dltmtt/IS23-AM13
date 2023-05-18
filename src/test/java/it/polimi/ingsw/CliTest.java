@@ -7,11 +7,9 @@ import it.polimi.ingsw.client.view.ItemView;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.SettingLoader;
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class CliTest {
     }
 
     @Test
-    void PersonalGoal() throws IOException, ParseException {
+    void PersonalGoal() {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Player1", 20, true, true, false));
         players.add(new Player("Player2", 20, false, false, false));
@@ -115,7 +113,7 @@ public class CliTest {
     }
 
     @Test
-    void boardTest() throws IOException, ParseException, IllegalAccessException {
+    void boardTest() {
         Board board = new Board(3);
         board.fill();
         BoardView boardView = new BoardView(board);

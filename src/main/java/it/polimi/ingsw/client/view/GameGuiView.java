@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -78,12 +77,12 @@ public class GameGuiView extends Application implements GameView {
     }
 
     @Override
-    public void showPersonalGoal(int card) throws IOException, ParseException {
+    public void showPersonalGoal(int card) {
 
     }
 
     @Override
-    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException {
+    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) {
 
     }
 
@@ -108,7 +107,7 @@ public class GameGuiView extends Application implements GameView {
     }
 
     @Override
-    public boolean showRearrange(List<Item> items) throws IOException {
+    public boolean showRearrange(List<Item> items) {
         return false;
     }
 
@@ -123,7 +122,7 @@ public class GameGuiView extends Application implements GameView {
     }
 
     @Override
-    public List<Integer> rearrange(List<Item> items) throws IOException {
+    public List<Integer> rearrange(List<Item> items) {
         return null;
     }
 

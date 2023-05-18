@@ -58,7 +58,6 @@ public final class CliUtilities {
      * @param validAnswers  a list of valid answers (case is ignored)
      * @param defaultAnswer the default answer (case is ignored)
      * @return the answer given by the user
-     * @throws IOException if an I/O error occurs
      */
     public static String askCloseEndedQuestion(String question, List<String> validAnswers, String defaultAnswer) {
         // Make a mutable copy of the answers and convert them to lowercase (case is ignored)

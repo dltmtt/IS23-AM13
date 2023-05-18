@@ -28,7 +28,7 @@ import static java.lang.Integer.parseInt;
 public class SettingLoader {
 
     public static final String BASE_PATH = "src/main/resources/it/polimi/ingsw/";
-    //public static final String BASE_PATH = "";
+    // public static final String BASE_PATH = "";
 
     private static String serverIp;
     private static int serverPort;
@@ -104,7 +104,7 @@ public class SettingLoader {
         return loadedPersonalGoals;
     }
 
-    public static @NotNull List<CommonGoal> commonGoalLoader(int numOfPlayers) throws IOException, ParseException {
+    public static @NotNull List<CommonGoal> commonGoalLoader(int numOfPlayers) {
         List<CommonGoal> loadedCommonGoals = new ArrayList<>();
         // Parsing JSON file for common goals configurations
         JSONParser parser = new JSONParser();

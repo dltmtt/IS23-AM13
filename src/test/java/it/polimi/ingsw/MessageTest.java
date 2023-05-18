@@ -60,17 +60,17 @@ public class MessageTest {
     }
 
     @Test
-    void BookshelfMessageTest() throws IOException, ParseException, IllegalAccessException {
+    void BookshelfMessageTest() {
         Bookshelf bookshelf = new Bookshelf();
         randomFill(bookshelf);
         List<CommonGoal> list = List.of(new CommonGoal(new Group(1, 1, 3, 4), 3));
         Message message = new Message(1, list, bookshelf, new Board(3));
-        //        Bookshelf receivedBookshelf = new Bookshelf(message.getBookshelf());
-        //        assert Arrays.deepEquals(bookshelf.getItems(), receivedBookshelf.getItems());
+        // Bookshelf receivedBookshelf = new Bookshelf(message.getBookshelf());
+        // assert Arrays.deepEquals(bookshelf.getItems(), receivedBookshelf.getItems());
     }
 
     @Test
-    void emptyBookshelfMessage() throws IOException, ParseException {
+    void emptyBookshelfMessage() {
         Bookshelf bookshelf = new Bookshelf();
         int numberOfPlayers = 3;
         List<CommonGoal> list = List.of(new CommonGoal(new Group(1, 1, 3, 4), numberOfPlayers), new CommonGoal(new XShape(1, 1, 3), numberOfPlayers));
