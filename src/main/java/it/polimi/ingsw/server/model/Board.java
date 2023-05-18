@@ -114,19 +114,19 @@ public class Board {
         }
         // same row
         if (Objects.equals(pickedFromTo.get(0).x(), pickedFromTo.get(1).x())) {
-            int minCoord = Math.min(pickedFromTo.get(0).y(), pickedFromTo.get(1).y());
-            int maxCoord = Math.max(pickedFromTo.get(0).y(), pickedFromTo.get(1).y());
+            int minCoordinate = Math.min(pickedFromTo.get(0).y(), pickedFromTo.get(1).y());
+            int maxCoordinate = Math.max(pickedFromTo.get(0).y(), pickedFromTo.get(1).y());
 
-            for (int i = minCoord; i <= maxCoord; i++) {
+            for (int i = minCoordinate; i <= maxCoordinate; i++) {
                 itemsPicked.add(boardMatrix[pickedFromTo.get(0).x()][i]);
                 boardMatrix[pickedFromTo.get(0).x()][i] = null;
             }
             // same column
         } else {
-            int minCoord = Math.min(pickedFromTo.get(0).x(), pickedFromTo.get(1).x());
-            int maxCoord = Math.max(pickedFromTo.get(0).x(), pickedFromTo.get(1).x());
+            int minCoordinate = Math.min(pickedFromTo.get(0).x(), pickedFromTo.get(1).x());
+            int maxCoordinate = Math.max(pickedFromTo.get(0).x(), pickedFromTo.get(1).x());
 
-            for (int i = minCoord; i <= maxCoord; i++) {
+            for (int i = minCoordinate; i <= maxCoordinate; i++) {
                 itemsPicked.add(boardMatrix[i][pickedFromTo.get(0).y()]);
                 boardMatrix[i][pickedFromTo.get(0).y()] = null;
             }
@@ -236,13 +236,5 @@ public class Board {
             return cells.get(1).y() - cells.get(0).y() <= 2;
         }
         return cells.get(1).x() - cells.get(0).x() <= 2;
-    }
-
-    public List<Item> selectFromBoard(List<Coordinates> selectedFromTo) {
-        List<Item> itemsSelected = new ArrayList<>();
-        for (Coordinates coordinates : selectedFromTo) {
-            itemsSelected.add(boardMatrix[coordinates.x()][coordinates.y()]);
-        }
-        return itemsSelected;
     }
 }

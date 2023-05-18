@@ -73,9 +73,8 @@ public class Square extends Layout {
      * @param color  the color of the square
      * @param row    the row of the first cell of the square
      * @param column the column of the first cell of the square
-     * @return 1-> if the square is found, 0-> otherwise
+     * @return 1 if the square is found, 0 otherwise
      */
-
     public int searchSquare(Bookshelf b, Color color, int row, int column) {
         int current = 1;
         if (row >= Bookshelf.getRows() - 1 || column >= Bookshelf.getColumns() - 1) {
@@ -111,26 +110,11 @@ public class Square extends Layout {
     }
 
     /**
-     * Prints the boolean matrix. This method is used only for debugging.
-     */
-
-    public void printBool() {
-        for (int i = 0; i < Bookshelf.getRows(); i++) {
-            for (int j = 0; j < Bookshelf.getColumns(); j++) {
-                System.out.print(booleanMatrix[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    /**
      * Returns the goal of occurrences of the layout.
      *
      * @return the number of occurrences of the layout
      */
-
-    // TODO finish this method
-    public int getCurrent(@NotNull Bookshelf b) {
+    public int getCurrent(@NotNull Bookshelf b) { // TODO: finish this method (or remove it if not needed)
         int counter = 0;
         int validCells = 0;
 
@@ -147,7 +131,6 @@ public class Square extends Layout {
                 if (Bookshelf.getRows() - b.getFreeCellsInColumn(col) - row >= getHeight())
                     for (int width = col; width < col + getWidth(); width++) {
                         for (int height = row; height < row + getHeight(); height++) {
-                            //                            if(b.get)
                         }
                     }
             }

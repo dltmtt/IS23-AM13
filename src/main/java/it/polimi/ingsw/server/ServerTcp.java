@@ -42,7 +42,7 @@ public class ServerTcp implements ServerInterface {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     System.out.println("Connection accepted from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ".");
-                    SocketClientHandler clientHandler = null;
+                    SocketClientHandler clientHandler;
                     try {
                         clientHandler = new SocketClientHandler(clientSocket);
                         try {

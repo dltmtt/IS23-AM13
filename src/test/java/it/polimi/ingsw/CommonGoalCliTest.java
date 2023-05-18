@@ -6,7 +6,7 @@ import static it.polimi.ingsw.client.view.CommonGoalView.print;
 import static it.polimi.ingsw.utils.CliUtilities.GRAY;
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 
-public class CommonGoalCLITest {
+public class CommonGoalCliTest {
 
     @Test
     void printTest() {

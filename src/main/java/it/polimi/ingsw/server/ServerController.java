@@ -158,7 +158,7 @@ public class ServerController {
         return room.getListOfPlayers().get(index - 1).getBookshelf();
     }
 
-    public Bookshelf getCurrentePlayerBookshelf() {
+    public Bookshelf getCurrentPlayerBookshelf() {
         return gameModel.getCurrentPlayer().getBookshelf();
     }
 

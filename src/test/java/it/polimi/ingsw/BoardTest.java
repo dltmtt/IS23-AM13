@@ -274,14 +274,14 @@ public class BoardTest {
     void pickedItemTest() {
         Board b = new Board(3);
         b.fill();
-        List<Coordinates> cellCoord = new ArrayList<>();
-        cellCoord.add(new Coordinates(3, 0));
-        cellCoord.add(new Coordinates(3, 6));
+        List<Coordinates> cellCoordinates = new ArrayList<>();
+        cellCoordinates.add(new Coordinates(3, 0));
+        cellCoordinates.add(new Coordinates(3, 6));
         BoardView boardView = new BoardView(b);
         boardView.printBoard();
         System.out.println("\n");
         try {
-            List<Item> items = b.pickFromBoard(cellCoord);
+            List<Item> items = b.pickFromBoard(cellCoordinates);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -301,7 +301,7 @@ public class BoardTest {
     //        p.setBookshelf(bookshelf);
     //        System.out.println("\n");
     //        p.move(new Coordinates(3, 0), new Coordinates(3, 1), 1);
-    //        //            List<Item> items = b.pickFromBoard(cellCoord);
+    //        //            List<Item> items = b.pickFromBoard(cellCoordinates);
     //
     //        BookshelfView bookshelfView = new BookshelfView(bookshelf);
     //        bookshelfView.printBookshelf();

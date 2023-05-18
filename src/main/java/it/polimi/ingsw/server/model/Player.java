@@ -121,7 +121,7 @@ public class Player {
     /**
      * Moves a straight line of tiles from the board to the bookshelf.
      *
-     * @param items  the list  of the tiles to move
+     * @param items  the list of the tiles to move
      * @param column the index of the column of the bookshelf where the tiles will be placed (starting from 0)
      * @throws IllegalArgumentException if the line is not straight or if the selection is empty
      */

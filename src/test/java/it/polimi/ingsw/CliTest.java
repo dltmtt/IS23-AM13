@@ -29,8 +29,8 @@ public class CliTest {
         GameModel game = new GameModel(players);
         game.start();
         PersonalGoal personalGoal = game.getCurrentPlayer().getPersonalGoal();
-        //        PersonalGoalView personalGoalview = new PersonalGoalView(personalGoal.getPersonalGoalCard());
-        //        personalGoalview.printLayout();
+        //        PersonalGoalView personalGoalView = new PersonalGoalView(personalGoal.getPersonalGoalCard());
+        //        personalGoalView.printLayout();
     }
 
     @Test
@@ -76,7 +76,7 @@ public class CliTest {
     }
 
     @Test
-    void bookshelfsTest() {
+    void bookshelvesTest() {
         Bookshelf b1 = new Bookshelf();
         Bookshelf b2 = new Bookshelf();
         Bookshelf b3 = new Bookshelf();

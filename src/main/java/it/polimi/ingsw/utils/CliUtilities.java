@@ -250,7 +250,7 @@ public final class CliUtilities {
     }
 
     public static String cellContent(Optional<Item> cell) {
-        return cell.isEmpty() ? emptySpace : Color.toANSItext(cell.get().color(), true) + " " + emoji(cell.get().color(), cell.get().number()) + "  " + Color.RESET_COLOR;
+        return cell.map(item -> Color.toANSItext(item.color(), true) + " " + emoji(item.color(), item.number()) + "  " + Color.RESET_COLOR).orElse(emptySpace);
     }
 
     public static String itemContent(Item item) {
@@ -287,17 +287,17 @@ public final class CliUtilities {
                     if (col == Bookshelf.getColumns() - 1) {
                         // first column
                         topRow.append(topLeftBookshelfBorder);
-                        middleRow.append(bookshelfBorder + cellContent(items[0][col]));
+                        middleRow.append(bookshelfBorder).append(cellContent(items[0][col]));
                         bottomRow.append(bottomLeftBookshelfBorder);
                     } else if (col == 0) {
                         // last column
                         topRow.append(topRightBookshelfBorder);
-                        middleRow.append(bookshelfBorder + cellContent(items[0][col]) + bookshelfBorder);
+                        middleRow.append(bookshelfBorder).append(cellContent(items[0][col])).append(bookshelfBorder);
                         bottomRow.append(bottomRightBookshelfBorder);
                     } else {
                         // middle columns
                         topRow.append(topCenterBookshelfBorder);
-                        middleRow.append(bookshelfBorder + cellContent(items[0][col]));
+                        middleRow.append(bookshelfBorder).append(cellContent(items[0][col]));
                         bottomRow.append(bottomCenterBookshelfBorder);
                     }
                 }
@@ -359,17 +359,17 @@ public final class CliUtilities {
                             if (col == 0) {
                                 // first column
                                 topRow.append(topLeftBookshelfBorder);
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col]));
                                 bottomRow.append(middleLeftBookshelfBorder);
                             } else if (col == Bookshelf.getColumns() - 1) {
                                 // last column
                                 topRow.append(topRightBookshelfBorder);
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]) + bookshelfBorder);
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col])).append(bookshelfBorder);
                                 bottomRow.append(middleRightBookshelfBorder);
                             } else {
                                 // middle columns
                                 topRow.append(topCenterBookshelfBorder);
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col]));
                                 bottomRow.append(middleCenterBookshelfBorder);
                             }
                         }
@@ -385,15 +385,15 @@ public final class CliUtilities {
                         for (int col = 0; col < Bookshelf.getColumns(); col++) {
                             if (col == 0) {
                                 // first column
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col]));
                                 bottomRow.append(bottomLeftBookshelfBorder);
                             } else if (col == Bookshelf.getColumns() - 1) {
                                 // last column
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]) + bookshelfBorder);
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col])).append(bookshelfBorder);
                                 bottomRow.append(bottomRightBookshelfBorder);
                             } else {
                                 // middle columns
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col]));
                                 bottomRow.append(bottomCenterBookshelfBorder);
                             }
                         }
@@ -409,15 +409,15 @@ public final class CliUtilities {
                         for (int col = 0; col < Bookshelf.getColumns(); col++) {
                             if (col == 0) {
                                 // first column
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col]));
                                 bottomRow.append(middleLeftBookshelfBorder);
                             } else if (col == Bookshelf.getColumns() - 1) {
                                 // last column
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]) + bookshelfBorder);
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col])).append(bookshelfBorder);
                                 bottomRow.append(middleRightBookshelfBorder);
                             } else {
                                 // middle columns
-                                middleRow.append(bookshelfBorder + cellContent(items[row][col]));
+                                middleRow.append(bookshelfBorder).append(cellContent(items[row][col]));
                                 bottomRow.append(middleCenterBookshelfBorder);
                             }
                         }

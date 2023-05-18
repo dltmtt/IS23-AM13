@@ -104,12 +104,12 @@ public interface CommunicationInterface extends Remote {
     }
 
     default void setNewStatus() throws RemoteException {
-        // gameStatus = parser.sendStartGame(controller.getCurrentPlayerPersonalGoal(), controller.getCommonGoals(), controller.getCurrentePlayerBookshelf(), controller.getBoard());
+        // gameStatus = parser.sendStartGame(controller.getCurrentPlayerPersonalGoal(), controller.getCommonGoals(), controller.getCurrentPlayerBookshelf(), controller.getBoard());
     }
 
     default Message sendUpdate(Message message) throws RemoteException {
         setNewStatus();
-        return new Message("update", controller.getCurrentePlayerBookshelf(), controller.getBoard(), controller.getCurrentPlayerScore());
+        return new Message("update", controller.getCurrentPlayerBookshelf(), controller.getBoard(), controller.getCurrentPlayerScore());
     }
 
     default Message sendTurn(int position) throws RemoteException {

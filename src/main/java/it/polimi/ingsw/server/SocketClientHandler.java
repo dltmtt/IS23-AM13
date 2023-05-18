@@ -50,7 +50,7 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
         }
 
         listenThread = new Thread(() -> {
-            String str = "null";
+            String str;
             while (true) {
                 try {
                     synchronized (br) {

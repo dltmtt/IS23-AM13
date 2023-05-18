@@ -13,14 +13,14 @@ public class PlayerTest {
     @Test
     void rearrange() {
         Player player = new Player("test", 0, true, true, true);
-        List<Item> coord = new ArrayList<>();
-        coord.add(new Item(Color.BLUE, 1));
-        coord.add(new Item(Color.BLUE, 2));
-        System.out.println(coord);
+        List<Item> coordinates = new ArrayList<>();
+        coordinates.add(new Item(Color.BLUE, 1));
+        coordinates.add(new Item(Color.BLUE, 2));
+        System.out.println(coordinates);
         List<Integer> sort = new ArrayList<>();
         sort.add(1);
         sort.add(0);
-        player.rearrangePickedItems(coord, sort);
-        System.out.println(coord);
+        player.rearrangePickedItems(coordinates, sort);
+        System.out.println(coordinates);
     }
 }
