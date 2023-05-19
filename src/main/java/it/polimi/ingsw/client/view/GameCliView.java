@@ -386,6 +386,7 @@ public class GameCliView implements GameView {
         List<Integer> occurrences = myGame.getCardOccurrences();
         List<Integer> size = myGame.getCardSize();
         List<Boolean> horizontal = myGame.getCardHorizontal();
+
         for (int i = 0; i < cards.size(); i++) {
             showCommonGoal(cards.get(i), occurrences.get(i), size.get(i), horizontal.get(i));
         }

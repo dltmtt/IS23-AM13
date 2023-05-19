@@ -20,7 +20,6 @@ import java.util.Optional;
 public class Message implements Serializable {
 
     private final JSONObject json;
-    private int commonGoalsNumber;
 
     public Message(JSONObject json) {
         this.json = json;
@@ -53,9 +52,7 @@ public class Message implements Serializable {
         json.put("argument", argument);
     }
 
-
-
-// è un turno
+    // è un turno
     public Message(String category, int position) {
         json = new JSONObject();
         String posString = Integer.toString(position);
@@ -63,7 +60,7 @@ public class Message implements Serializable {
         json.put("position", posString);
     }
 
-    //è una insert
+    // è una insert
     public Message(String category, String type, int n) {
         json = new JSONObject();
         json.put("category", category);
@@ -112,7 +109,6 @@ public class Message implements Serializable {
         SettingLoader.loadBookshelfSettings();
         json.put("category", "startGame");
         json.put("personal_goal", personalGoalString);
-
         for (int i = 0; i < commonGoalList.size(); i++) {
             Layout layout = commonGoalList.get(i).getLayout();
             json.put("commonGoalLayout " + i, layout.getName());
@@ -131,7 +127,6 @@ public class Message implements Serializable {
                 json.put("size " + i, 0);
             }
         }
-        commonGoalsNumber = commonGoalList.size();
 
         json.put("bookshelf", bookshelfJson(bookshelf));
 
@@ -398,32 +393,40 @@ public class Message implements Serializable {
 
     public List<String> getCardType() {
         List<String> cardType = new ArrayList<>();
-        for (int i = 0; i < commonGoalsNumber; i++) {
+        int i = 0;
+        while (json.get("commonGoalLayout " + i) != null) {
             cardType.add((String) json.get("commonGoalLayout " + i));
+            i++;
         }
         return cardType;
     }
 
     public List<Integer> getCardOccurrences() {
         List<Integer> cardOccurrences = new ArrayList<>();
-        for (int j = 0; j < commonGoalsNumber; j++) {
+        int j = 0;
+        while (json.get("occurrences " + j) != null) {
             cardOccurrences.add(Integer.parseInt(json.get("occurrences " + j).toString()));
+            j++;
         }
         return cardOccurrences;
     }
 
     public List<Integer> getCardSize() {
         List<Integer> cardSize = new ArrayList<>();
-        for (int j = 0; j < commonGoalsNumber; j++) {
+        int j = 0;
+        while (json.get("size " + j) != null) {
             cardSize.add(Integer.parseInt(json.get("size " + j).toString()));
+            j++;
         }
         return cardSize;
     }
 
     public List<Boolean> getCardHorizontal() {
         List<Boolean> cardHorizontal = new ArrayList<>();
-        for (int i = 0; i < commonGoalsNumber; i++) {
+        int i = 0;
+        while (json.get("horizontal " + i) != null) {
             cardHorizontal.add((boolean) json.get("horizontal " + i));
+            i++;
         }
         return cardHorizontal;
     }

@@ -128,7 +128,7 @@ public class ServerController {
                 }
             }
         });
-        pongThread.start();
+        // pongThread.start();
         return room.getListOfPlayers().size();
     }
 
