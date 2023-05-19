@@ -151,19 +151,24 @@ public class Message implements Serializable {
         int startColumn = from.y();
         int finalRow = to.x();
         int finalColumn = to.y();
+        String startRowString = Integer.toString(startRow);
+        String startColumnString = Integer.toString(startColumn);
+        String finalRowString = Integer.toString(finalRow);
+        String finalColumnString = Integer.toString(finalColumn);
 
         json.put("category", "pick");
-        json.put("startRow", startRow);
-        json.put("startColumn", startColumn);
-        json.put("finalRow", finalRow);
-        json.put("finalColumn", finalColumn);
+        json.put("startRow", startRowString);
+        json.put("startColumn", startColumnString);
+        json.put("finalRow", finalRowString);
+        json.put("finalColumn", finalColumnString);
+
         int size = 0;
         if (startRow == finalRow) {
             size = finalColumn - startColumn + 1;
         } else if (startColumn == finalColumn) {
             size = finalRow - startRow + 1;
         }
-        json.put("size", size);
+        json.put("size", String.valueOf(size));
     }
 
     public Message(List<Item> picked) {
@@ -199,16 +204,17 @@ public class Message implements Serializable {
 
     public List<Integer> getPick() {
         List<Integer> pick = new ArrayList<>();
-        pick.add((int) json.get("startRow"));
-        pick.add((int) json.get("startColumn"));
-        pick.add((int) json.get("finalRow"));
-        pick.add((int) json.get("finalColumn"));
+        pick.add(Integer.parseInt((String) json.get("startRow")));
+        pick.add(Integer.parseInt((String) json.get("startColumn")));
+        pick.add(Integer.parseInt((String) json.get("finalRow")));
+        pick.add(Integer.parseInt((String) json.get("finalColumn")));
         return pick;
     }
 
     public List<String> getWinners() {
         List<String> winners = new ArrayList<>();
-        int size = (int) json.get("size");
+        String sizeString = (String) json.get("size");
+        int size = Integer.parseInt(sizeString);
         for (int i = 0; i < size; i++) {
             String name = (String) json.get("name" + i);
             winners.add(name);
@@ -219,8 +225,9 @@ public class Message implements Serializable {
     public List<Integer> getSort() {
         List<Integer> sort = new ArrayList<>();
         JSONArray array = (JSONArray) json.get("sort");
-        for (Object o : array) {
-            sort.add((int) o);
+        for (Object object : array) {
+            String objectString = object.toString();
+            sort.add(Integer.parseInt(objectString));
         }
         return sort;
     }
