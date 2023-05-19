@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -19,7 +20,7 @@ public class GameGuiView extends Application implements GameView {
     public Client client;
     public GuiController controller;
 
-    public Stage mainStage;
+    public Stage stage;
 
     public GameGuiView(Client client) {
         this.client = client;
@@ -27,17 +28,11 @@ public class GameGuiView extends Application implements GameView {
 
     @Override
     public void loginProcedure() {
-        URL loginURL = this.getClass().getResource("demo.fxml");
-        FXMLLoader loginLoader = new FXMLLoader(loginURL);
-        loginLoader.setController(controller);
         try {
-            loginLoader.load();
+            start(this.stage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        mainStage.setTitle("prova");
-        mainStage.setScene(new Scene(loginLoader.getRoot()));
-        mainStage.show();
     }
 
     // public static void main(String[] args) {
@@ -58,21 +53,31 @@ public class GameGuiView extends Application implements GameView {
         stage.show();
 
         */
-        mainStage = stage;
-        this.controller = new GuiController();
-        URL loginURL = this.getClass().getResource("demo.fxml");
-        FXMLLoader loginLoader = new FXMLLoader(loginURL);
-        loginLoader.setController(controller);
-        try {
-            loginLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        mainStage.setTitle("prova");
-        mainStage.setScene(new Scene(loginLoader.getRoot()));
-        mainStage.show();
-    }
 
+        this.controller = new GuiController();
+        //URL loginURL = this.getClass().getClassLoader().getResource("client/view/demo.fxml");
+       // FXMLLoader loginLoader = new FXMLLoader(loginURL);
+        FXMLLoader loginLoader = new FXMLLoader();
+        loginLoader.setLocation(this.getClass().getResource("demo.fxml"));
+        Parent root = null;
+        try{
+             root = loginLoader.load();
+        }catch(IOException e){
+            System.exit(-1);
+        } loginLoader.setController(controller);
+
+      //  try {
+      //      loginLoader.load();
+       // } catch (IOException e) {
+        //    throw new RuntimeException(e);
+      //  }
+
+        Scene scene= new Scene(root);
+        this.stage.setScene(scene);
+        this.stage.setTitle("prova");
+        this.stage.setScene(new Scene(loginLoader.getRoot()));
+        this.stage.show();
+    }
     @Override
     public String readUsername() {
         return null;
