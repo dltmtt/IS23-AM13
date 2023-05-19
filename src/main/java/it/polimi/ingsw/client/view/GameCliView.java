@@ -31,7 +31,7 @@ public class GameCliView implements GameView {
             showStartGame();
             String username = showLogin();
             String finalUsername = username;
-            client.startPingThread(finalUsername);
+            // client.startPingThread(finalUsername);
             Message response = client.sendMessage(new Message("username", username, 0, false, 0));
             String responseMessage = response.getCategory();
             while ("retry".equals(responseMessage)) {
@@ -68,6 +68,7 @@ public class GameCliView implements GameView {
             }
 
             myPosition = nextStep;
+            client.setMyPosition(myPosition);
             System.out.println("Your position is " + myPosition);
             client.waitingRoom();
         } catch (RemoteException e) {

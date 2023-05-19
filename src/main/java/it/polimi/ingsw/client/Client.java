@@ -55,20 +55,6 @@ public abstract class Client {
         // loginThread = new Thread(this::login);
     }
 
-    public void startPingThread(String finalUsername) {
-        pingThread = new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(5000);
-                    sendMessage(new Message("ping", finalUsername));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        pingThread.start();
-    }
-
     /**
      * Sends a message to the server and returns the response.
      *
@@ -76,6 +62,20 @@ public abstract class Client {
      * @return the response from the server
      */
     public abstract Message sendMessage(Message message);
+
+    // public void startPingThread(String finalUsername) {
+    //     pingThread = new Thread(() -> {
+    //         while (true) {
+    //             try {
+    //                 Thread.sleep(5000);
+    //                 sendMessage(new Message("ping", finalUsername));
+    //             } catch (InterruptedException e) {
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     });
+    //     pingThread.start();
+    // }
 
     public void start() {
         login();
@@ -126,5 +126,10 @@ public abstract class Client {
 
     public int getMyPosition() {
         return myPosition;
+    }
+
+    public void setMyPosition(int position) {
+
+        this.myPosition = position;
     }
 }

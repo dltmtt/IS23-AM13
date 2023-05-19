@@ -13,6 +13,7 @@ public class ServerController {
     private final List<String> winnersNickname;
     private final List<String> pings;
     private final List<String> disconnected;
+    private boolean printedTurn = false;
     private List<Item> currentPicked;
     private GameModel gameModel;
     private Room room = null;
@@ -149,7 +150,7 @@ public class ServerController {
     }
 
     public int getPersonalGoalCard(int index) {
-        return room.getListOfPlayers().get(index).getPersonalGoal().getIndex();
+        return room.getListOfPlayers().get(index - 1).getPersonalGoal().getIndex();
     }
 
     public List<CommonGoal> getCommonGoals() {
@@ -157,7 +158,7 @@ public class ServerController {
     }
 
     public Bookshelf getBookshelf(int index) {
-        return room.getListOfPlayers().get(index).getBookshelf();
+        return room.getListOfPlayers().get(index - 1).getBookshelf();
     }
 
     public Bookshelf getCurrentPlayerBookshelf() {
@@ -187,7 +188,10 @@ public class ServerController {
      */
 
     public int yourTurn(int index) {
-        System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
+        if (!printedTurn) {
+            System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
+            printedTurn = true;
+        }
         if (disconnected.size() == players.size() - 1) {
             // tutti gli altri sono disconnessi, ne è rimasto solo uno
             return 2;
@@ -200,7 +204,7 @@ public class ServerController {
         if (gameModel.isTheGameEnded()) {
             return -1;
         }
-        if (gameModel.getCurrentPlayer().equals(room.getListOfPlayers().get(index))) {
+        if (gameModel.getCurrentPlayer().equals(room.getListOfPlayers().get(index - 1))) {
             return 1;
         }
         return 0;
@@ -239,6 +243,7 @@ public class ServerController {
         } else {
             gameModel.setCurrentPlayer(players.get(nextPlayerIndex));
         }
+        printedTurn = false;
     }
 
     public List<String> setWinner() {
