@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
@@ -15,7 +16,34 @@ import java.util.List;
 
 public class GameGuiView extends Application implements GameView {
 
-    public static void main(String[] args) {
+    public Client client;
+    public GuiController controller;
+
+    public Stage mainStage;
+
+    public GameGuiView(Client client) {
+        this.client = client;
+    }
+
+    @Override
+    public void loginProcedure() {
+        URL loginURL = this.getClass().getResource("demo.fxml");
+        FXMLLoader loginLoader = new FXMLLoader(loginURL);
+        loginLoader.setController(controller);
+        try {
+            loginLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        mainStage.setTitle("prova");
+        mainStage.setScene(new Scene(loginLoader.getRoot()));
+        mainStage.show();
+    }
+
+    // public static void main(String[] args) {
+    // launch();
+    // }
+    public void run() {
         launch();
     }
 
@@ -30,15 +58,19 @@ public class GameGuiView extends Application implements GameView {
         stage.show();
 
         */
-        GuiController controller = new GuiController();
-        URL url = this.getClass().getResource("demo.fxml");
-        FXMLLoader loader = new FXMLLoader(url);
-        loader.setController(controller);
-        // loader.setRoot(controller);
-        loader.load();
-        stage.setTitle("prova");
-        stage.setScene(new Scene(loader.getRoot()));
-        stage.show();
+        mainStage = stage;
+        this.controller = new GuiController();
+        URL loginURL = this.getClass().getResource("demo.fxml");
+        FXMLLoader loginLoader = new FXMLLoader(loginURL);
+        loginLoader.setController(controller);
+        try {
+            loginLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        mainStage.setTitle("prova");
+        mainStage.setScene(new Scene(loginLoader.getRoot()));
+        mainStage.show();
     }
 
     @Override
@@ -133,6 +165,31 @@ public class GameGuiView extends Application implements GameView {
 
     @Override
     public void showDisconnection() {
+
+    }
+
+    @Override
+    public void waitingRoom() {
+
+    }
+
+    @Override
+    public void startGame() {
+
+    }
+
+    @Override
+    public void waitForTurn() {
+
+    }
+
+    @Override
+    public void myTurn() {
+
+    }
+
+    @Override
+    public void endGame() {
 
     }
 }

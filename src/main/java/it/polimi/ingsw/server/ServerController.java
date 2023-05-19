@@ -149,7 +149,7 @@ public class ServerController {
     }
 
     public int getPersonalGoalCard(int index) {
-        return room.getListOfPlayers().get(index - 1).getPersonalGoal().getIndex();
+        return room.getListOfPlayers().get(index).getPersonalGoal().getIndex();
     }
 
     public List<CommonGoal> getCommonGoals() {
@@ -157,7 +157,7 @@ public class ServerController {
     }
 
     public Bookshelf getBookshelf(int index) {
-        return room.getListOfPlayers().get(index - 1).getBookshelf();
+        return room.getListOfPlayers().get(index).getBookshelf();
     }
 
     public Bookshelf getCurrentPlayerBookshelf() {
@@ -200,7 +200,7 @@ public class ServerController {
         if (gameModel.isTheGameEnded()) {
             return -1;
         }
-        if (gameModel.getCurrentPlayer().equals(room.getListOfPlayers().get(index - 1))) {
+        if (gameModel.getCurrentPlayer().equals(room.getListOfPlayers().get(index))) {
             return 1;
         }
         return 0;

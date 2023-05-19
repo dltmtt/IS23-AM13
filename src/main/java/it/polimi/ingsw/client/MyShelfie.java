@@ -39,17 +39,6 @@ public class MyShelfie {
             System.exit(0);
         }
 
-        String modeType = line.getOptionValue("view", "cli");
-        GameView gameView = null;
-        switch (modeType) {
-            case "cli" -> gameView = new GameCliView();
-            case "gui" -> gameView = new GameGuiView();
-            default -> {
-                System.err.println("Invalid view: " + modeType + ". Use 'cli' or 'gui'.");
-                System.exit(1);
-            }
-        }
-
         String protocolType = line.getOptionValue("protocol", "rmi");
 
         Client client = null;
@@ -62,7 +51,19 @@ public class MyShelfie {
             }
         }
 
+        String modeType = line.getOptionValue("view", "cli");
+        GameView gameView = null;
+        switch (modeType) {
+            case "cli" -> gameView = new GameCliView(client);
+            case "gui" -> gameView = new GameGuiView(client);
+            default -> {
+                System.err.println("Invalid view: " + modeType + ". Use 'cli' or 'gui'.");
+                System.exit(1);
+            }
+        }
+
         client.setView(gameView);
         client.start();
+        gameView.run();
     }
 }

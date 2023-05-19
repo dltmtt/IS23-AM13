@@ -24,6 +24,10 @@ public interface GameView {
         System.out.flush();
     }
 
+    void loginProcedure();
+
+    void run();
+
     String readUsername();
 
     int readNumber();
@@ -61,4 +65,14 @@ public interface GameView {
     void showCurrentScore(int score);
 
     void showDisconnection();
+
+    void waitingRoom();
+
+    void startGame();
+
+    void waitForTurn();
+
+    void myTurn();
+
+    void endGame();
 }

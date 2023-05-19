@@ -26,7 +26,7 @@ public class ClientRmi extends Client {
     }
 
     @Override
-    protected Message sendMessage(Message message) {
+    public Message sendMessage(Message message) {
         Message response;
         try {
             response = server.sendMessage(message);

@@ -81,7 +81,7 @@ public class ClientTcp extends Client {
     }
 
     @Override
-    protected Message sendMessage(Message message) {
+    public Message sendMessage(Message message) {
         String stringMessage = message.getJSONstring();
         try {
             synchronized (dos) {
