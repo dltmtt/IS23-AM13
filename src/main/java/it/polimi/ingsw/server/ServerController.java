@@ -86,7 +86,7 @@ public class ServerController {
     public int getPositionByUsername(String username) {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getNickname().equals(username)) {
-                return i + 1;
+                return i;
             }
         }
         return -1;
@@ -150,7 +150,10 @@ public class ServerController {
     }
 
     public int getPersonalGoalCard(int index) {
-        return room.getListOfPlayers().get(index - 1).getPersonalGoal().getIndex();
+        List<Player> list = room.getListOfPlayers();
+        Player player = list.get(index);
+        PersonalGoal pg = player.getPersonalGoal();
+        return pg.getIndex();
     }
 
     public List<CommonGoal> getCommonGoals() {
@@ -158,7 +161,7 @@ public class ServerController {
     }
 
     public Bookshelf getBookshelf(int index) {
-        return room.getListOfPlayers().get(index - 1).getBookshelf();
+        return room.getListOfPlayers().get(index).getBookshelf();
     }
 
     public Bookshelf getCurrentPlayerBookshelf() {
@@ -183,10 +186,9 @@ public class ServerController {
      * <ul>
      *     <li>1: it's the player's turn</li>
      *     <li>0: it's not the player's turn</li>
-     *     <li>-1: the game is ended</li>
+     *     <li>-1: the game has ended</li>
      *     <li>2: all other players are disconnected and there is only one connected</li>
      */
-
     public int yourTurn(int index) {
         if (!printedTurn) {
             System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
@@ -204,7 +206,7 @@ public class ServerController {
         if (gameModel.isTheGameEnded()) {
             return -1;
         }
-        if (gameModel.getCurrentPlayer().equals(room.getListOfPlayers().get(index - 1))) {
+        if (gameModel.getCurrentPlayer().equals(room.getListOfPlayers().get(index))) {
             return 1;
         }
         return 0;

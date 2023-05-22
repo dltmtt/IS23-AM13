@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface GameView {
 
-    String insertError = "The index must be between 0 and " + (Bookshelf.getColumns() - 1) + ": ";
+    String insertError = "The index must be between 0 and " + (Bookshelf.getColumns() - 1) + ": "; // TODO: make sure to load settings before this
     String insertUsernamePrompt = "Please, insert your username: ";
     String insertAgePrompt = "Please, insert your age: ";
     String firstGameQuestion = "Is this the first time you play this game?";
@@ -26,7 +27,7 @@ public interface GameView {
 
     void loginProcedure();
 
-    void run();
+    void startView();
 
     String readUsername();
 
@@ -75,4 +76,6 @@ public interface GameView {
     void myTurn();
 
     void endGame();
+
+    void setClient(Client client);
 }

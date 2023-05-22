@@ -54,8 +54,8 @@ public class MyShelfie {
         String modeType = line.getOptionValue("view", "cli");
         GameView gameView = null;
         switch (modeType) {
-            case "cli" -> gameView = new GameCliView(client);
-            case "gui" -> gameView = new GameGuiView(client);
+            case "cli" -> gameView = new GameCliView();
+            case "gui" -> gameView = new GameGuiView();
             default -> {
                 System.err.println("Invalid view: " + modeType + ". Use 'cli' or 'gui'.");
                 System.exit(1);
@@ -63,7 +63,7 @@ public class MyShelfie {
         }
 
         client.setView(gameView);
+        gameView.setClient(client);
         client.start();
-        gameView.run();
     }
 }

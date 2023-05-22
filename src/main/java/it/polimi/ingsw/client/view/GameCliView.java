@@ -21,10 +21,6 @@ public class GameCliView implements GameView {
 
     public Client client;
 
-    public GameCliView(Client client) {
-        this.client = client;
-    }
-
     @Override
     public void loginProcedure() {
         try {
@@ -67,8 +63,13 @@ public class GameCliView implements GameView {
                 }
             }
 
-            myPosition = nextStep;
+            // TODO: figure out why next step starts from 1 and not from 0, as it should be. Otherwise it throws an exception when trying to read the personalGoalCard, cause it's out of bounds, trying to read the 2nd index of the array, which has 2 elements which indexes are 0 and 1
+            // TODO: this is a temporary fix, but it's not the best solution
+            myPosition = nextStep - 1;
+
+            // TODO: the following instructions should not be here, as this is a VIEW, not a CONTROLLER
             client.setMyPosition(myPosition);
+
             System.out.println("Your position is " + myPosition);
             client.waitingRoom();
         } catch (RemoteException e) {
@@ -79,7 +80,7 @@ public class GameCliView implements GameView {
     }
 
     @Override
-    public void run() {
+    public void startView() {
         // nothing to do, just for the GUI interface
     }
 
@@ -471,6 +472,11 @@ public class GameCliView implements GameView {
     public void endGame() {
         Message winners = client.sendMessage(new Message("endGame"));
         showEndGame(winners.getWinners());
+    }
+
+    @Override
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @Override

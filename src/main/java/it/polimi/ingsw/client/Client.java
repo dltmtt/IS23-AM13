@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.GameCliView;
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.utils.FullRoomException;
@@ -16,7 +15,7 @@ import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 // be an RMI client or a Socket client
 public abstract class Client {
 
-    public GameView gameView = new GameCliView(this);
+    public GameView gameView;
     protected Thread loginThread;
     protected Thread pingThread;
     private int myPosition;
@@ -50,9 +49,6 @@ public abstract class Client {
             System.err.println("Unable to connect to the server. Is it running?");
             System.exit(1);
         }
-
-        // login();
-        // loginThread = new Thread(this::login);
     }
 
     /**
@@ -78,8 +74,8 @@ public abstract class Client {
     // }
 
     public void start() {
+        gameView.startView();
         login();
-        // loginThread.start();
     }
 
     public void setView(GameView gameView) {
@@ -129,7 +125,6 @@ public abstract class Client {
     }
 
     public void setMyPosition(int position) {
-
         this.myPosition = position;
     }
 }
