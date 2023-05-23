@@ -59,19 +59,19 @@ public abstract class Client {
      */
     public abstract Message sendMessage(Message message);
 
-    // public void startPingThread(String finalUsername) {
-    //     pingThread = new Thread(() -> {
-    //         while (true) {
-    //             try {
-    //                 Thread.sleep(5000);
-    //                 sendMessage(new Message("ping", finalUsername));
-    //             } catch (InterruptedException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     });
-    //     pingThread.start();
-    // }
+    public void startPingThread(String finalUsername) {
+        pingThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(5000);
+                    sendMessage(new Message("ping", finalUsername));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        pingThread.start();
+    }
 
     /**
      * Starts the <code>gameView</code> and starts the login procedure.
@@ -133,6 +133,7 @@ public abstract class Client {
     }
 
     public void setMyPosition(int position) {
+
         this.myPosition = position;
     }
 }
