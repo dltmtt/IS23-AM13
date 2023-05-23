@@ -7,6 +7,8 @@ import it.polimi.ingsw.utils.FullRoomException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.utils.SettingLoader.SERVER_TIMEOUT;
+
 public class ServerController {
 
     private final List<Player> players;
@@ -131,7 +133,7 @@ public class ServerController {
             boolean allConnected;
             while (true) {
                 try {
-                    Thread.sleep(30000);
+                    Thread.sleep(SERVER_TIMEOUT);
                     allConnected = checkPings();
                     while (!allConnected) {
                         allConnected = checkPings();

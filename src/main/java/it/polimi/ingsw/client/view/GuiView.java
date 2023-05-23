@@ -17,6 +17,8 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.SettingLoader.SERVER_TIMEOUT;
+
 public class GuiView extends Application implements GameView {
 
     public static Client client;
@@ -46,7 +48,7 @@ public class GuiView extends Application implements GameView {
         String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
         while (response == null) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(SERVER_TIMEOUT / 5);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

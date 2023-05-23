@@ -28,7 +28,7 @@ import static java.lang.Integer.parseInt;
 public class SettingLoader {
 
     public static final String BASE_PATH = "src/main/resources/it/polimi/ingsw/";
-    // public static final String BASE_PATH = "";
+    public static final int SERVER_TIMEOUT = 30000;
 
     private static String serverIp;
     private static int serverPort;
