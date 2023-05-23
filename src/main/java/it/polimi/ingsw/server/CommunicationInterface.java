@@ -34,8 +34,19 @@ public interface CommunicationInterface extends Remote {
                     return new Message("Welcome, " + username + "!\n"); // TODO: This should be a JSON that the view will parse and display
                 } else if (checkStatus == 0) {
                     // The username has already been taken, retry
-                    System.out.println(username + " requested login, but the username is already taken.");
-                    return new Message("retry");
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    checkStatus = controller.checkUsername(username);
+                    if (checkStatus == 0) {
+                        System.out.println(username + " requested login, but the username is already taken.");
+                        return new Message("retry");
+                    } else {
+                        System.out.println(username + " reconnected.");
+                        return new Message(controller.getPositionByUsername(username));
+                    }
                 } else {
                     // The username is already taken, but the player was disconnected and is trying to reconnect
                     System.out.println(username + " reconnected.");
