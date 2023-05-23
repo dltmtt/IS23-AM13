@@ -12,6 +12,8 @@ import org.apache.commons.cli.*;
  */
 public class MyShelfie {
 
+    public static Client client;
+
     public static void main(String[] args) {
         SettingLoader.loadBookshelfSettings();
         Option protocol = new Option("p", "protocol", true, "select network protocol to use (default: RMI)");
@@ -41,7 +43,7 @@ public class MyShelfie {
 
         String protocolType = line.getOptionValue("protocol", "rmi");
 
-        Client client = null;
+        client = null;
         switch (protocolType) {
             case "rmi" -> client = new ClientRmi();
             case "socket" -> client = new ClientTcp();
@@ -69,5 +71,9 @@ public class MyShelfie {
         gameView.setClient(client);
         System.out.println("client set");
         client.login();
+    }
+
+    public void setClient(Client client) {
+        MyShelfie.client = client;
     }
 }

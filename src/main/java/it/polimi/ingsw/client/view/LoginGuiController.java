@@ -12,6 +12,7 @@ import java.io.IOException;
 public class LoginGuiController {
 
     private final Client client;
+    private final GuiView view;
     @FXML
     private TextField username;
     @FXML
@@ -23,8 +24,9 @@ public class LoginGuiController {
     @FXML
     private Button startButton;
 
-    public LoginGuiController(Client client) {
+    public LoginGuiController(Client client, GuiView view) {
         this.client = client;
+        this.view = view;
     }
 
     @FXML
@@ -80,7 +82,10 @@ public class LoginGuiController {
                 client.setMyPosition(myPosition);
 
                 // System.out.println("Your position is " + myPosition);
-                userMessage.setText("username: " + username.getText() + " age: " + ageSlider.getValue() + " players: " + playerSlider.getValue() + " first game: " + firstGame.isSelected());
+                // userMessage.setText("username: " + username.getText() + " age: " + ageSlider.getValue() + " players: " + playerSlider.getValue() + " first game: " + firstGame.isSelected());
+
+                // Successful Login
+                view.waitingRoom();
             }
         }
     }

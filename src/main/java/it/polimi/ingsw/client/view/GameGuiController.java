@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import javafx.fxml.FXML;
@@ -16,12 +17,16 @@ public class GameGuiController {
     private static final int ITEM_SIZE = 50; // Adjust the size of each item image
     private static final int ROW_SPACING = 10; // Adjust the spacing between rows
     private static final int COLUMN_SPACING = 10; // Adjust the spacing between columns
+    public Client client;
     @FXML
     private ImageView bookshelf, bookshelf_g1, bookshelf_g2, bookshelf_g3;
     @FXML
     private ImageView board;
     @FXML
     private Canvas boardCanvas, bookshelfCanvas;
+    public GameGuiController(Client client) {
+        this.client = client;
+    }
 
     public static void drawBookshelf(Canvas bookshelfCanvas, Bookshelf bookshelf) {
         int rows = Bookshelf.getRows();
