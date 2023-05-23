@@ -28,10 +28,8 @@ public interface CommunicationInterface extends Remote {
                 String username = message.getUsername();
                 int checkStatus = controller.checkUsername(username);
                 if (checkStatus == 1) {
-                    // The username is available, a new player is added
-                    controller.addPlayerByUsername(username);
-                    System.out.println(username + " logged in.");
-                    return new Message("Welcome, " + username + "!\n"); // TODO: This should be a JSON that the view will parse and display
+                    // The username is available, a new player can be added
+                    return new Message("");
                 } else if (checkStatus == 0) {
                     // The username has already been taken, retry
                     System.out.println(username + " requested login, but the username is already taken.");
@@ -44,13 +42,7 @@ public interface CommunicationInterface extends Remote {
             }
             case "age" -> {
                 int age = message.getAge();
-                controller.addPlayerAge(age);
                 return new Message(age >= 8 ? "ok" : "no");
-            }
-            case "firstGame" -> {
-                boolean firstGame = message.getFirstGame();
-                controller.addPlayerFirstGame(firstGame);
-                return new Message(controller.startRoom()); // If the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
             }
             case "numPlayer" -> {
                 int numPlayer = message.getNumPlayer();
@@ -90,6 +82,11 @@ public interface CommunicationInterface extends Remote {
             }
             case "endGame" -> {
                 return new Message(controller.getWinnersNickname().size(), controller.getWinnersNickname());
+            }
+            case "completeLogin" -> {
+                controller.addPlayer(message.getUsername(), message.getAge(), message.getFirstGame());
+                System.out.println(message.getUsername() + " logged in.");
+                return new Message(controller.startRoom()); // If the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
             }
             default -> {
                 System.out.println(message + " requested unknown");

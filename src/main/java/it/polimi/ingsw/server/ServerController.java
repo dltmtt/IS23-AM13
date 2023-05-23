@@ -97,6 +97,10 @@ public class ServerController {
         return -1;
     }
 
+    public void addPlayer(String username, int age, boolean firstGame) {
+        players.add(new Player(username, age, firstGame, false, false));
+    }
+
     public void addPlayerByUsername(String username) {
         players.add(new Player(username, 0, false, false, false));
     }

@@ -53,7 +53,7 @@ public class GameCliView implements GameView {
             }
             boolean firstGame = promptFirstGame();
 
-            int nextStep = client.sendMessage(new Message("firstGame", "", 0, firstGame, 0)).getPosition();
+            int nextStep = client.sendMessage(new Message("completeLogin", username, age, firstGame, 0)).getPosition();
             if (nextStep == 1) {
                 int numPlayer = promptNumberOfPlayers();
                 String numPlayerResponse = client.sendMessage(new Message("numPlayer", "", 0, false, numPlayer)).getCategory();
