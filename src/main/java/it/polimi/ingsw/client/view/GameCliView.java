@@ -27,8 +27,8 @@ public class GameCliView implements GameView {
             showStartGame();
             String username = showLogin();
             String finalUsername = username;
-            // client.startPingThread(finalUsername);
             Message response = client.sendMessage(new Message("username", username, 0, false, 0));
+            client.startPingThread(finalUsername);
             String responseMessage = response.getCategory();
             while ("retry".equals(responseMessage)) {
                 // This happens when the username is already taken and the player needs to choose another one
@@ -40,6 +40,7 @@ public class GameCliView implements GameView {
             if ("index".equals(responseMessage)) {
                 // This happens when the game is already started and the player is reconnecting
                 myPosition = response.getPosition();
+                client.setMyPosition(myPosition);
                 client.startGame();
                 return;
             }
@@ -391,6 +392,7 @@ public class GameCliView implements GameView {
         for (int i = 0; i < cards.size(); i++) {
             showCommonGoal(cards.get(i), occurrences.get(i), size.get(i), horizontal.get(i));
         }
+
         showBookshelf(myGame.getBookshelf());
         showBoard(myGame.getBoard());
 
@@ -405,25 +407,27 @@ public class GameCliView implements GameView {
     public void waitForTurn() {
         int myTurn = 0;
         boolean disconnected = false;
-        while (myTurn != 1) {
-            if (myTurn == -1) {
-                endGame();
-                break;
-            } else if (myTurn == 2) {
-                if (!disconnected) {
-                    showDisconnection();
-                    disconnected = true;
+        synchronized (client) {
+            while (myTurn != 1) {
+                if (myTurn == -1) {
+                    endGame();
+                    break;
+                } else if (myTurn == 2) {
+                    if (!disconnected) {
+                        showDisconnection();
+                        disconnected = true;
+                    }
+                    myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
+                } else {
+                    myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
                 }
-                myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
-            } else {
-                myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
             }
-        }
-        if (myTurn == 1) {
-            try {
-                client.myTurn();
-            } catch (FullRoomException | IOException | IllegalAccessException | ParseException e) {
-                throw new RuntimeException(e);
+            if (myTurn == 1) {
+                try {
+                    client.myTurn();
+                } catch (FullRoomException | IOException | IllegalAccessException | ParseException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

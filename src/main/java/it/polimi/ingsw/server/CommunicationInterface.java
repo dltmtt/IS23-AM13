@@ -22,7 +22,7 @@ public interface CommunicationInterface extends Remote {
         switch (category) {
             case "ping" -> {
                 controller.pingReceived(message.getUsername());
-                return null;
+                return sendPong();
             }
             case "username" -> {
                 String username = message.getUsername();
@@ -114,5 +114,9 @@ public interface CommunicationInterface extends Remote {
 
     default Message sendTurn(int position) throws RemoteException {
         return new Message("turn", "turn", controller.yourTurn(position));
+    }
+
+    default Message sendPong() throws RemoteException {
+        return new Message("pong");
     }
 }

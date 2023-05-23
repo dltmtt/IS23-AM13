@@ -17,7 +17,8 @@ public class ServerController {
     private List<Item> currentPicked;
     private GameModel gameModel;
     private Room room = null;
-    private boolean printed = false;
+    private boolean printedConn = false;
+    private boolean printedDisco = false;
 
     public ServerController() {
         players = new ArrayList<>();
@@ -33,24 +34,27 @@ public class ServerController {
         }
     }
 
-    public void checkPings() {
+    public boolean checkPings() {
 
         if (!new HashSet<>(pings).containsAll(players.stream().map(Player::getNickname).toList())) {
             missingOnes();
-            for (String missing : disconnected) {
-                System.out.println(missing + " disconnected");
-                printed = false;
-                pings.remove(missing);
+            if (!printedDisco) {
+                for (String missing : disconnected) {
+                    System.out.println(missing + " disconnected");
+                    printedConn = false;
+                }
+                printedDisco = true;
             }
+            return false;
         } else {
-            for (String ping : pings) {
-                disconnected.remove(ping);
-            }
-            if (!printed) {
+            printedDisco = false;
+            if (!printedConn) {
                 System.out.println("All connected");
-                printed = true;
+                printedConn = true;
             }
         }
+        pings.clear();
+        return true;
     }
 
     public void missingOnes() {
@@ -74,6 +78,7 @@ public class ServerController {
         for (Player player : players) {
             if (player.getNickname().equals(username)) {
                 if (disconnected.contains(username)) {
+                    disconnected.remove(username);
                     return -1;
                 } else {
                     return 0;
@@ -119,16 +124,21 @@ public class ServerController {
             throw new FullRoomException("Room is full");
         }
         Thread pongThread = new Thread(() -> {
+            boolean allConnected;
             while (true) {
                 try {
                     Thread.sleep(30000);
-                    checkPings();
+                    allConnected = checkPings();
+                    while (!allConnected) {
+                        allConnected = checkPings();
+                    }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
-        // pongThread.start();
+        pongThread.start();
+
         return room.getListOfPlayers().size();
     }
 
@@ -190,6 +200,7 @@ public class ServerController {
      *     <li>2: all other players are disconnected and there is only one connected</li>
      */
     public int yourTurn(int index) {
+
         if (!printedTurn) {
             System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
             printedTurn = true;

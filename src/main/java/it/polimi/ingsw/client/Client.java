@@ -59,23 +59,24 @@ public abstract class Client {
      */
     public abstract Message sendMessage(Message message);
 
-    // public void startPingThread(String finalUsername) {
-    //     pingThread = new Thread(() -> {
-    //         while (true) {
-    //             try {
-    //                 Thread.sleep(5000);
-    //                 sendMessage(new Message("ping", finalUsername));
-    //             } catch (InterruptedException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     });
-    //     pingThread.start();
-    // }
+    public void startPingThread(String finalUsername) {
+        pingThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(5000);
+                    sendMessage(new Message("ping", finalUsername));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        pingThread.start();
+    }
 
     public void start() {
         gameView.startView();
         login();
+        // loginThread.start();
     }
 
     public void setView(GameView gameView) {
@@ -125,6 +126,7 @@ public abstract class Client {
     }
 
     public void setMyPosition(int position) {
+
         this.myPosition = position;
     }
 }
