@@ -6,8 +6,6 @@ import it.polimi.ingsw.utils.FullRoomException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import static it.polimi.ingsw.utils.SettingLoader.SERVER_TIMEOUT;
-
 /**
  * Here go the methods that the client can call on the server.
  */
@@ -35,7 +33,7 @@ public interface CommunicationInterface extends Remote {
                 } else if (checkStatus == 0) {
                     // The username has already been taken, retry
                     try {
-                        Thread.sleep(SERVER_TIMEOUT);
+                        Thread.sleep(30000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
