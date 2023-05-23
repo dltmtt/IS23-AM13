@@ -51,7 +51,7 @@ public class MyShelfie {
             }
         }
 
-        String modeType = line.getOptionValue("view", "cli");
+        String modeType = line.getOptionValue("view", "cli"); //setSocketOption
         GameView gameView = null;
         switch (modeType) {
             case "cli" -> gameView = new GameCliView();
