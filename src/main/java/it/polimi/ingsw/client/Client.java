@@ -73,10 +73,12 @@ public abstract class Client {
         pingThread.start();
     }
 
+    /**
+     * Starts the <code>gameView</code> and starts the login procedure.
+     */
     public void start() {
-        gameView.startView();
-        login();
-        // loginThread.start();
+        // gameView.setClient(this);
+        gameView.startView(this);
     }
 
     public void setView(GameView gameView) {
@@ -85,11 +87,16 @@ public abstract class Client {
 
     public abstract void connect() throws IOException, NotBoundException;
 
+    /**
+     * Starts the login procedure, in which are asked the username,age, number of players, first game experience.
+     */
     public void login() {
+        // gameView.setClient(this);
         gameView.loginProcedure();
+        waitingRoom();
     }
 
-    public void waitingRoom() throws FullRoomException, IOException, ParseException, IllegalAccessException {
+    public void waitingRoom() {
         gameView.waitingRoom();
     }
 

@@ -72,7 +72,6 @@ public class GameCliView implements GameView {
             client.setMyPosition(myPosition);
 
             System.out.println("Your position is " + myPosition);
-            client.waitingRoom();
         } catch (RemoteException e) {
             throw new RuntimeException(e); // TODO: handle this exception
         } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
@@ -81,8 +80,9 @@ public class GameCliView implements GameView {
     }
 
     @Override
-    public void startView() {
-        // nothing to do, just for the GUI interface
+    public void startView(Client client) {
+        // this.client = client;
+        client.login();
     }
 
     /**
@@ -375,7 +375,9 @@ public class GameCliView implements GameView {
         try {
             client.startGame();
         } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            System.err.println("An error occurred while starting the game.");
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
