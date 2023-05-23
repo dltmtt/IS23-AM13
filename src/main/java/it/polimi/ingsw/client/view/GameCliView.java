@@ -362,6 +362,11 @@ public class GameCliView implements GameView {
 
         String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
         while (response == null) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.err.println("An error occurred while waiting for other players to join.");
+            }
             response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
         }
 
@@ -409,6 +414,11 @@ public class GameCliView implements GameView {
         boolean disconnected = false;
         synchronized (client) {
             while (myTurn != 1) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.err.println("An error occurred while waiting for the turn.");
+                }
                 if (myTurn == -1) {
                     endGame();
                     break;
