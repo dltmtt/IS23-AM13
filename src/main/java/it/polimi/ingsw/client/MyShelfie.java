@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.GameCliView;
-import it.polimi.ingsw.client.view.GameGuiView;
 import it.polimi.ingsw.client.view.GameView;
+import it.polimi.ingsw.client.view.GuiView;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.apache.commons.cli.*;
 
@@ -55,7 +55,7 @@ public class MyShelfie {
         GameView gameView = null;
         switch (modeType) {
             case "cli" -> gameView = new GameCliView();
-            case "gui" -> gameView = new GameGuiView();
+            case "gui" -> gameView = new GuiView();
             default -> {
                 System.err.println("Invalid view: " + modeType + ". Use 'cli' or 'gui'.");
                 System.exit(1);
@@ -65,5 +65,9 @@ public class MyShelfie {
         client.setView(gameView);
         gameView.setClient(client);
         client.start();
+        System.out.println("started");
+        gameView.setClient(client);
+        System.out.println("client set");
+        client.login();
     }
 }

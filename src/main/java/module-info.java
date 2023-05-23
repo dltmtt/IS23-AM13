@@ -1,3 +1,5 @@
+// Configuration file for GUI
+
 module it.polimi.ingsw.client.view {
     requires javafx.controls;
     requires javafx.fxml;
@@ -12,4 +14,6 @@ module it.polimi.ingsw.client.view {
     exports it.polimi.ingsw.client.view;
 
     exports it.polimi.ingsw.server to java.rmi;
+    exports it.polimi.ingsw.server.model to javafx.fxml;
+    exports it.polimi.ingsw.client to javafx.fxml;
 }

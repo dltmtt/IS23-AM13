@@ -27,7 +27,8 @@ public interface GameView {
 
     void loginProcedure();
 
-    void startView();
+    // Parameter is useless in CLI but needed in GUI
+    void startView(Client client);
 
     String readUsername();
 
