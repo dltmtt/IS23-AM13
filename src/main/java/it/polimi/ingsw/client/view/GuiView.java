@@ -79,7 +79,7 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void startView(Client client) {
-        GuiView.client = client;
+        // GuiView.client = client;
         launch();
     }
 

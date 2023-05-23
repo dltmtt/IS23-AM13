@@ -53,7 +53,7 @@ public class MyShelfie {
             }
         }
 
-        String modeType = line.getOptionValue("view", "cli"); //setSocketOption
+        String modeType = line.getOptionValue("view", "cli"); // setSocketOption
         GameView gameView = null;
         switch (modeType) {
             case "cli" -> gameView = new GameCliView();
@@ -65,10 +65,10 @@ public class MyShelfie {
         }
 
         client.setView(gameView);
-        gameView.setClient(client);
+        // gameView.setClient(client);
         client.start();
         System.out.println("started");
-        gameView.setClient(client);
+        // gameView.setClient(client);
         System.out.println("client set");
         client.login();
     }
