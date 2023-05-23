@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.utils.FullRoomException;
 
@@ -128,5 +129,9 @@ public interface CommunicationInterface extends Remote {
 
     default Message sendPong() throws RemoteException {
         return new Message("pong");
+    }
+
+    default void sendClient(Client c) {
+        controller.addClient(c.getUsername(), c);
     }
 }

@@ -36,6 +36,14 @@ public class ClientRmi extends Client {
         return response;
     }
 
+    public void sendMe() {
+        server.sendClient(this);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
     @Override
     public void connect() throws RemoteException, NotBoundException {
         registry = LocateRegistry.getRegistry(HOSTNAME, PORT_RMI);

@@ -17,8 +17,7 @@ import static it.polimi.ingsw.utils.SettingLoader.SERVER_TIMEOUT;
 public abstract class Client {
 
     public GameView gameView;
-    protected Thread loginThread;
-    protected Thread pingThread;
+    String username;
     private int myPosition;
 
     public Client() {
@@ -61,7 +60,7 @@ public abstract class Client {
     public abstract Message sendMessage(Message message);
 
     public void startPingThread(String finalUsername) {
-        pingThread = new Thread(() -> {
+        Thread pingThread = new Thread(() -> {
             while (true) {
                 try {
                     Thread.sleep(SERVER_TIMEOUT / 5);
@@ -103,6 +102,7 @@ public abstract class Client {
 
     public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
         gameView.startGame();
+        gameView.waitForTurn();
     }
 
     /**
@@ -136,5 +136,13 @@ public abstract class Client {
     public void setMyPosition(int position) {
 
         this.myPosition = position;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

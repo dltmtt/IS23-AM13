@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
@@ -15,6 +16,7 @@ public class ServerController {
     private final List<String> winnersNickname;
     private final List<String> pings;
     private final List<String> disconnected;
+    HashMap<String, Client> clients = new HashMap<>();
     private boolean printedTurn = false;
     private List<Item> currentPicked;
     private GameModel gameModel;
@@ -65,6 +67,10 @@ public class ServerController {
                 disconnected.add(player.getNickname());
             }
         }
+    }
+
+    public void addClient(String username, Client client) {
+        clients.put(username, client);
     }
 
     /**
@@ -130,14 +136,10 @@ public class ServerController {
             throw new FullRoomException("Room is full");
         }
         Thread pongThread = new Thread(() -> {
-            boolean allConnected;
             while (true) {
                 try {
                     Thread.sleep(SERVER_TIMEOUT);
-                    allConnected = checkPings();
-                    while (!allConnected) {
-                        allConnected = checkPings();
-                    }
+                    checkPings();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -206,9 +208,8 @@ public class ServerController {
      *     <li>2: all other players are disconnected and there is only one connected</li>
      */
     public int yourTurn(int index) {
-
         if (!printedTurn) {
-            System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
+            System.out.println("It's " + gameModel.getCurrentPlayer().getNickname() + "'s turn");
             printedTurn = true;
         }
         if (disconnected.size() == players.size() - 1) {
@@ -216,7 +217,7 @@ public class ServerController {
             return 2;
         }
         if (disconnected.contains(gameModel.getCurrentPlayer().getNickname())) {
-            System.out.println(gameModel.getCurrentPlayer().getNickname() + " ' turn");
+            System.out.println("It's " + gameModel.getCurrentPlayer().getNickname() + "'s turn");
             changeTurn();
             return 0;
         }

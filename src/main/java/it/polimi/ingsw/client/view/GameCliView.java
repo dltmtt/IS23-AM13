@@ -27,15 +27,16 @@ public class GameCliView implements GameView {
             showStartGame();
             String username = showLogin();
             String finalUsername = username;
-            Message response = client.sendMessage(new Message("username", username, 0, false, 0));
+            Message response = client.sendMessage(new Message("username", null, username, 0, false, 0));
             client.startPingThread(finalUsername);
             String responseMessage = response.getCategory();
             while ("retry".equals(responseMessage)) {
                 // This happens when the username is already taken and the player needs to choose another one
                 System.out.println("Username already taken. Retry.");
                 username = showLogin();
-                responseMessage = client.sendMessage(new Message("username", username, 0, false, 0)).getCategory();
+                responseMessage = client.sendMessage(new Message("username", null, username, 0, false, 0)).getCategory();
             }
+            client.setUsername(username);
             int myPosition;
             if ("index".equals(responseMessage)) {
                 // This happens when the game is already started and the player is reconnecting
@@ -47,20 +48,20 @@ public class GameCliView implements GameView {
             int age = promptAge();
 
             showMessage(responseMessage);
-            String ageResponse = client.sendMessage(new Message("age", "", age, false, 0)).getCategory();
+            String ageResponse = client.sendMessage(new Message("age", null, "", age, false, 0)).getCategory();
             if (!ageResponse.startsWith("ok")) {
                 System.out.println("Remember that you need to be supervised by an adult to play this game.");
             }
             boolean firstGame = promptFirstGame();
 
-            int nextStep = client.sendMessage(new Message("completeLogin", username, age, firstGame, 0)).getPosition();
+            int nextStep = client.sendMessage(new Message("completeLogin", client, username, age, firstGame, 0)).getPosition();
             if (nextStep == 1) {
                 int numPlayer = promptNumberOfPlayers();
-                String numPlayerResponse = client.sendMessage(new Message("numPlayer", "", 0, false, numPlayer)).getCategory();
+                String numPlayerResponse = client.sendMessage(new Message("numPlayer", null, "", 0, false, numPlayer)).getCategory();
                 while (numPlayerResponse.startsWith("retry")) {
                     System.out.println("Illegal number of players. Retry.");
                     numPlayer = promptNumberOfPlayers();
-                    numPlayerResponse = client.sendMessage(new Message("numPlayer", "", 0, false, numPlayer)).getCategory();
+                    numPlayerResponse = client.sendMessage(new Message("numPlayer", null, "", 0, false, numPlayer)).getCategory();
                 }
             }
 
@@ -360,14 +361,14 @@ public class GameCliView implements GameView {
 
         animatedDots.start();
 
-        String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+        String response = client.sendMessage(new Message("ready", null, "", 0, false, 0)).getCategory();
         while (response == null) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 System.err.println("An error occurred while waiting for other players to join.");
             }
-            response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+            response = client.sendMessage(new Message("ready", null, "", 0, false, 0)).getCategory();
         }
 
         animatedDots.interrupt();
@@ -402,44 +403,37 @@ public class GameCliView implements GameView {
 
         showBookshelf(myGame.getBookshelf());
         showBoard(myGame.getBoard());
-
-        try {
-            client.waitForTurn();
-        } catch (IOException | IllegalAccessException | ParseException | FullRoomException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
     public void waitForTurn() {
         int myTurn = 0;
         boolean disconnected = false;
-        synchronized (client) {
-            while (myTurn != 1) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    System.err.println("An error occurred while waiting for the turn.");
+        // System.out.println("Waiting for your turn...");
+        while (myTurn != 1) {
+            if (myTurn == -1) {
+                endGame();
+                break;
+            } else if (myTurn == 2) {
+                if (!disconnected) {
+                    showDisconnection();
+                    disconnected = true;
                 }
-                if (myTurn == -1) {
-                    endGame();
-                    break;
-                } else if (myTurn == 2) {
-                    if (!disconnected) {
-                        showDisconnection();
-                        disconnected = true;
-                    }
-                    myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
-                } else {
-                    myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
-                }
+                myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
+            } else {
+                myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
             }
-            if (myTurn == 1) {
-                try {
-                    client.myTurn();
-                } catch (FullRoomException | IOException | IllegalAccessException | ParseException e) {
-                    throw new RuntimeException(e);
-                }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.err.println("An error occurred while waiting for the turn.");
+            }
+        }
+        if (myTurn == 1) {
+            try {
+                client.myTurn();
+            } catch (FullRoomException | IOException | IllegalAccessException | ParseException e) {
+                throw new RuntimeException(e);
             }
         }
     }
