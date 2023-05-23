@@ -10,7 +10,6 @@ import java.rmi.NotBoundException;
 
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
-import static it.polimi.ingsw.utils.SettingLoader.SERVER_TIMEOUT;
 
 // This is abstract (non instantiable) because each client will either
 // be an RMI client or a Socket client
@@ -63,7 +62,7 @@ public abstract class Client {
         Thread pingThread = new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(SERVER_TIMEOUT / 5);
+                    Thread.sleep(5000);
                     sendMessage(new Message("ping", finalUsername));
                 } catch (InterruptedException e) {
                     e.printStackTrace();

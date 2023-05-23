@@ -72,7 +72,7 @@ public class LoginGuiController {
                     ageError.setText("Remember that you need to be supervised by an adult to play this game.");
                 }
 
-                int nextStep = client.sendMessage(new Message("firstGame", "", 0, firstGame.isSelected(), 0)).getPosition();
+                int nextStep = client.sendMessage(new Message("completeLogin", username.getText(), (int) ageSlider.getValue(), firstGame.isSelected(), 0)).getPosition();
 
                 // TODO: figure out why next step starts from 1 and not from 0, as it should be. Otherwise it throws an exception when trying to read the personalGoalCard, cause it's out of bounds, trying to read the 2nd index of the array, which has 2 elements which indexes are 0 and 1
                 // TODO: this is a temporary fix, but it's not the best solution

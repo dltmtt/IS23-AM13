@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
@@ -136,6 +135,7 @@ public class ServerController {
             throw new FullRoomException("Room is full");
         }
         Thread pongThread = new Thread(() -> {
+            boolean allConnected;
             while (true) {
                 try {
                     Thread.sleep(SERVER_TIMEOUT);
@@ -208,6 +208,7 @@ public class ServerController {
      *     <li>2: all other players are disconnected and there is only one connected</li>
      */
     public int yourTurn(int index) {
+
         if (!printedTurn) {
             System.out.println("It's " + gameModel.getCurrentPlayer().getNickname() + "'s turn");
             printedTurn = true;
