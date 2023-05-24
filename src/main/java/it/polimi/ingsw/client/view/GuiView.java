@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class GuiView extends Application implements GameView {
@@ -208,22 +209,36 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void endGame() {
-            Scene endGame = null;
-            endGameScene = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
-            endGameScene.setController(new EndGameController(clients, this));
+        Scene endGame = null;
+        endGameScene = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
+        endGameScene.setController(new EndGameController(clients, this));
 
-            try {
-                endGame = new Scene(endGameScene.load());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            stage.setScene(endGame);
-            stage.show();
-
+        try {
+            endGame = new Scene(endGameScene.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setScene(endGame);
+        stage.show();
     }
 
     @Override
     public void setClient(Client client) {
         GuiView.client = client;
+    }
+
+    @Override
+    public void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves) {
+
+    }
+
+    @Override
+    public void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves) {
+
+    }
+
+    @Override
+    public void showOtherBookshelf(Bookshelf bookshelf, String name) {
+
     }
 }

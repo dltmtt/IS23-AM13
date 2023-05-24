@@ -115,6 +115,7 @@ public interface CommunicationInterface extends Remote {
                 if (checkStatus == 1) {
                     // The username is available, a new player can be added
                     // return new Message("");
+                    client.callBackSendMessage(new Message("username", username));
                     controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
                     System.out.println(message.getUsername() + " logged in.");
                     controller.addClient(message.getUsername(), client);
@@ -150,7 +151,7 @@ public interface CommunicationInterface extends Remote {
                     // The username is already taken, but the player was disconnected and is trying to reconnect
                     System.out.println(username + " reconnected.");
                     // return new Message(controller.getPositionByUsername(username));
-                    client.callBackSendMessage((new Message("update", controller.getCurrentPlayerBookshelf(), controller.getBoard(), controller.getCurrentPlayerScore())));
+                    client.callBackSendMessage((new Message("update", controller.getBookshelves(), controller.getBoard(), controller.getCurrentPlayerScore())));
                 }
             }
             default -> {
@@ -167,7 +168,7 @@ public interface CommunicationInterface extends Remote {
             try {
                 int position = controller.getPositionByUsername(username);
                 System.out.println("Sending game to " + username + " at position " + position);
-                Message mygame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelf(position), controller.getBoard());
+                Message mygame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
                 clients.get(username).callBackSendMessage(mygame);
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -188,10 +189,10 @@ public interface CommunicationInterface extends Remote {
         return null;
     }
 
-    default Message sendGame(int position) throws RemoteException {
-        System.out.println("Sending game to " + position);
-        return new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelf(position), controller.getBoard());
-    }
+    // default Message sendGame(int position) throws RemoteException {
+    //     System.out.println("Sending game to " + position);
+    //     return new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelf(position), controller.getBoard());
+    // }
 
     default void setNewStatus() throws RemoteException {
         // gameStatus = parser.sendStartGame(controller.getCurrentPlayerPersonalGoal(), controller.getCommonGoals(), controller.getCurrentPlayerBookshelf(), controller.getBoard());
@@ -204,7 +205,7 @@ public interface CommunicationInterface extends Remote {
         for (String username : clients.keySet()) {
             try {
                 int position = controller.getPositionByUsername(username);
-                Message mygame = new Message("update", controller.getBookshelf(position), controller.getBoard(), controller.getScore(position));
+                Message mygame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.getScore(position));
                 clients.get(username).callBackSendMessage(mygame);
             } catch (RemoteException e) {
                 e.printStackTrace();

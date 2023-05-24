@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameCliView implements GameView {
@@ -442,6 +443,35 @@ public class GameCliView implements GameView {
     // @Override
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    @Override
+    public void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves) {
+        String name = client.getUsername();
+        for (Bookshelf bookshelf : bookshelves.keySet()) {
+            if (bookshelves.get(bookshelf).equals(name)) {
+                showBookshelf(bookshelf);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves) {
+        String name = client.getUsername();
+        for (Bookshelf bookshelf : bookshelves.keySet()) {
+            if (!bookshelves.get(bookshelf).equals(name)) {
+                showOtherBookshelf(bookshelf, bookshelves.get(bookshelf));
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void showOtherBookshelf(Bookshelf bookshelf, String name) {
+        showMessage(name + "'s bookshelf:\n");
+        BookshelfView bookshelfView = new BookshelfView(bookshelf);
+        bookshelfView.printOtherBookshelf();
     }
 
     @Override

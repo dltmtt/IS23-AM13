@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.CommunicationInterface;
+import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
 import org.json.simple.parser.ParseException;
@@ -11,6 +12,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.HashMap;
 import java.util.List;
 
 import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
@@ -41,15 +43,14 @@ public class ClientRmi extends Client implements RmiClientIf {
     @Override
     public void receivedMessage(Message message) {
         String category = message.getCategory();
+        String username = getUsername();
         switch (category) {
             case "username":
                 setUsername(message.getUsername());
-                boolean firstGame = gameView.promptFirstGame();
-                sendMessage(new Message("completeLogin", getUsername(), 0, firstGame, 0));
                 break;
             case "UsernameRetry":
                 System.out.println("Username already taken. Retry.");
-                String username = gameView.showLogin();
+                username = gameView.showLogin();
                 boolean firstGame1 = gameView.promptFirstGame();
                 sendMessage(new Message("completeLogin", username, 0, firstGame1, 0));
             case "UsernameRetryCompleteLogin":
@@ -66,9 +67,11 @@ public class ClientRmi extends Client implements RmiClientIf {
                 sendMessage(new Message("numOfPlayers", numPlayer));
                 break;
             case "update":
-                gameView.showBookshelf(message.getBookshelf());
+                HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
+                gameView.pickOtherBookshelf(bookshelves);
                 gameView.showCurrentScore(message.getIntMessage("score"));
                 gameView.showBoard(message.getBoard());
+
                 break;
             case "startGame":
                 try {
@@ -81,7 +84,10 @@ public class ClientRmi extends Client implements RmiClientIf {
                     for (int i = 0; i < cards.size(); i++) {
                         gameView.showCommonGoal(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
                     }
-                    gameView.showBookshelf(message.getBookshelf());
+                    bookshelves = message.getAllBookshelves();
+                    gameView.pickMyBookshelf(bookshelves);
+                    gameView.showCurrentScore(message.getIntMessage("score"));
+                    gameView.pickOtherBookshelf(bookshelves);
                     gameView.showBoard(message.getBoard());
                 } catch (IOException | ParseException e) {
                     throw new RuntimeException(e);

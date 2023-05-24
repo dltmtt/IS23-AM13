@@ -165,6 +165,11 @@ public class ServerController {
         return gameModel.getPlayers().get(position).calculateScore();
     }
 
+    public HashMap<Bookshelf, String> getBookshelves() {
+        HashMap<Bookshelf, String> map = gameModel.getPlayers().stream().collect(Collectors.toMap(Player::getBookshelf, Player::getNickname, (a, b) -> b, HashMap::new));
+        return map;
+    }
+
     public String checkNumPlayer(int numPlayer) {
         if (numPlayer > 4 || numPlayer < 2) {
             return "retry";

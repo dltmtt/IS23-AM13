@@ -9,6 +9,7 @@ import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public interface GameView {
@@ -76,4 +77,10 @@ public interface GameView {
     void endGame();
 
     void setClient(Client client);
+
+    void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves);
+
+    void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves);
+
+    void showOtherBookshelf(Bookshelf bookshelf, String name);
 }

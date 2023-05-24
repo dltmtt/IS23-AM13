@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,10 +101,10 @@ public class Message implements Serializable {
      *
      * @param personalGoal   personal goal of the player
      * @param commonGoalList list of common goals
-     * @param bookshelf      bookshelf of the player
+     * @param bookshelves    bookshelf of the players
      * @param board          board of the game
      */
-    public Message(int personalGoal, List<CommonGoal> commonGoalList, Bookshelf bookshelf, Board board) {
+    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board) {
         json = new JSONObject();
         String personalGoalString = Integer.toString(personalGoal);
         SettingLoader.loadBookshelfSettings();
@@ -127,8 +128,14 @@ public class Message implements Serializable {
                 json.put("size " + i, 0);
             }
         }
-
-        json.put("bookshelf", bookshelfJson(bookshelf));
+        JSONArray bookshelfArray = new JSONArray();
+        for (Bookshelf bookshelf : bookshelves.keySet()) {
+            JSONObject bookshelfJson = new JSONObject();
+            bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
+            bookshelfJson.put("username", bookshelves.get(bookshelf));
+            bookshelfArray.add(bookshelfJson);
+        }
+        json.put("bookshelves", bookshelfArray);
 
         json.put("board", boardJson(board));
     }
@@ -180,10 +187,17 @@ public class Message implements Serializable {
         json.put("picked", ItemList);
     }
 
-    public Message(String category, Bookshelf bookshelf, Board board, int score) {
+    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, int score) {
         json = new JSONObject();
         json.put("category", category);
-        json.put("bookshelf", bookshelfJson(bookshelf));
+        JSONArray bookshelfArray = new JSONArray();
+        for (Bookshelf bookshelf : bookshelves.keySet()) {
+            JSONObject bookshelfJson = new JSONObject();
+            bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
+            bookshelfJson.put("username", bookshelves.get(bookshelf));
+            bookshelfArray.add(bookshelfJson);
+        }
+        json.put("bookshelves", bookshelfArray);
 
         json.put("board", boardJson(board));
         json.put("score", score);
@@ -370,6 +384,37 @@ public class Message implements Serializable {
             }
         }
         return bookshelf;
+    }
+
+    public HashMap<Bookshelf, String> getAllBookshelves() {
+        HashMap<Bookshelf, String> bookshelves = new HashMap<>();
+        JSONArray bookshelfJson = (JSONArray) json.get("bookshelves");
+
+        for (Object obj : bookshelfJson) {
+            JSONObject bookshelfItem = (JSONObject) obj;
+            String username = (String) bookshelfItem.get("username");
+            Bookshelf bookshelf = new Bookshelf();
+            JSONArray bookshelfArray = (JSONArray) bookshelfItem.get("bookshelf");
+            for (Object obj2 : bookshelfArray) {
+                JSONObject bookshelfItem2 = (JSONObject) obj2;
+                String rowString = (String) bookshelfItem2.get("row");
+                String columnString = (String) bookshelfItem2.get("column");
+                int row = Integer.parseInt(rowString);
+                int column = Integer.parseInt(columnString);
+                JSONArray itemJson = (JSONArray) bookshelfItem2.get("item");
+                if (itemJson == null) {
+                    bookshelf.setItem(row, column, Optional.empty());
+                } else {
+                    JSONObject item = (JSONObject) itemJson.get(0);
+                    String color = (String) item.get("color");
+                    String valueString = (String) item.get("value");
+                    int value = Integer.parseInt(valueString);
+                    bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
+                }
+            }
+            bookshelves.put(bookshelf, username);
+        }
+        return bookshelves;
     }
 
     public Board getBoard() {
