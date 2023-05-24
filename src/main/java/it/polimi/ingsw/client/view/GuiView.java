@@ -63,14 +63,10 @@ public class GuiView extends Application implements GameView {
     }
 
     @Override
-    public void startGame(Message myGame) {
-
-    }
-
-    public void startGame() {
+    public void startGame(Message message) {
         Scene gameS = null;
         gameScene = new FXMLLoader(GuiView.class.getResource("game.fxml"));
-        gameScene.setController(new GameGuiController(client));
+        gameScene.setController(new GameGuiController(client, this));
 
         try {
             gameS = new Scene(gameScene.load());
@@ -93,6 +89,7 @@ public class GuiView extends Application implements GameView {
         GuiView.stage = stage;
         setClient(MyShelfie.client);
 
+        // startGame(new Message(0));
         loginProcedure();
         // client.login();
     }

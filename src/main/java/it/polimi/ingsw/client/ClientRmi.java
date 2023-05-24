@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.CommunicationInterface;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -74,24 +73,9 @@ public class ClientRmi extends Client implements RmiClientIf {
 
                 break;
             case "startGame":
-                try {
-                    System.out.println("Game started.");
-                    gameView.showPersonalGoal(message.getPersonalGoal());
-                    List<String> cards = message.getCardType();
-                    List<Integer> occurrences = message.getCardOccurrences();
-                    List<Integer> sizes = message.getCardSize();
-                    List<Boolean> horizontal = message.getCardHorizontal();
-                    for (int i = 0; i < cards.size(); i++) {
-                        gameView.showCommonGoal(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
-                    }
-                    bookshelves = message.getAllBookshelves();
-                    gameView.pickMyBookshelf(bookshelves);
-                    gameView.showCurrentScore(message.getIntMessage("score"));
-                    gameView.pickOtherBookshelf(bookshelves);
-                    gameView.showBoard(message.getBoard());
-                } catch (IOException | ParseException e) {
-                    throw new RuntimeException(e);
-                }
+                System.out.println("Game started.");
+                gameView.startGame(message);
+
                 break;
             case "turn":
                 myTurn();

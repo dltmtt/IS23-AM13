@@ -335,25 +335,24 @@ public class GameCliView implements GameView {
     }
 
     @Override
-    public void startGame(Message myGame) {
-
+    public void startGame(Message message) {
         try {
-            showPersonalGoal(myGame.getPersonalGoal());
+            showPersonalGoal(message.getPersonalGoal());
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
-
-        List<String> cards = myGame.getCardType();
-        List<Integer> occurrences = myGame.getCardOccurrences();
-        List<Integer> size = myGame.getCardSize();
-        List<Boolean> horizontal = myGame.getCardHorizontal();
-
+        List<String> cards = message.getCardType();
+        List<Integer> occurrences = message.getCardOccurrences();
+        List<Integer> sizes = message.getCardSize();
+        List<Boolean> horizontal = message.getCardHorizontal();
         for (int i = 0; i < cards.size(); i++) {
-            showCommonGoal(cards.get(i), occurrences.get(i), size.get(i), horizontal.get(i));
+            showCommonGoal(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
         }
-
-        showBookshelf(myGame.getBookshelf());
-        showBoard(myGame.getBoard());
+        HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
+        pickMyBookshelf(bookshelves);
+        showCurrentScore(message.getIntMessage("score"));
+        pickOtherBookshelf(bookshelves);
+        showBoard(message.getBoard());
     }
 
     @Override

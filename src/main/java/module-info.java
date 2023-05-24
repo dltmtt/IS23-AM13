@@ -11,10 +11,9 @@ module it.polimi.ingsw.client.view {
     requires commons.cli;
     requires com.google.gson;
 
-    opens it.polimi.ingsw.client.view to javafx.fxml;
+    opens it.polimi.ingsw.client.view to javafx.fxml, javafx.graphics;
     exports it.polimi.ingsw.client to java.rmi, javafx.fxml;
 
     exports it.polimi.ingsw.server to java.rmi;
     exports it.polimi.ingsw.server.model to javafx.fxml;
-    // exports it.polimi.ingsw.client.view to java.rmi;
 }
