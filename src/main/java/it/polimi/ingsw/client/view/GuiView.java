@@ -18,6 +18,7 @@ import java.util.List;
 public class GuiView extends Application implements GameView {
 
     public static Client client;
+    public static List<Client> clients;
     // public GameGuiController controller;
     public static Stage stage;
     private static FXMLLoader waitingRoomScene;
@@ -207,6 +208,17 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void endGame() {
+            Scene endGame = null;
+            endGameScene = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
+            endGameScene.setController(new EndGameController(clients, this));
+
+            try {
+                endGame = new Scene(endGameScene.load());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            stage.setScene(endGame);
+            stage.show();
 
     }
 

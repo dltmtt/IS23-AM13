@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="609.0" fitWidth="807.0" pickOnBounds="true">
@@ -45,7 +44,7 @@
       </StackPane>
       <StackPane prefHeight="150.0" prefWidth="200.0">
          <children>
-            <Label prefHeight="123.0" prefWidth="251.0" text="Your're in the waiting room..." translateY="80.0" wrapText="true" StackPane.alignment="TOP_CENTER">
+            <Label fx:id="text" prefHeight="123.0" prefWidth="251.0" text="text" translateY="80.0" wrapText="true" StackPane.alignment="TOP_CENTER">
                <StackPane.margin>
                   <Insets left="120.0" />
                </StackPane.margin>
