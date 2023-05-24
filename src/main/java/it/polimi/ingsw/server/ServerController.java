@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.RmiClientIf;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
@@ -7,15 +8,14 @@ import it.polimi.ingsw.utils.FullRoomException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.utils.SettingLoader.SERVER_TIMEOUT;
-
 public class ServerController {
 
     private final List<Player> players;
     private final List<String> winnersNickname;
     private final List<String> pings;
     private final List<String> disconnected;
-    HashMap<String, Client> clients = new HashMap<>();
+    private final HashMap<String, RmiClientIf> rmiClients;
+    // HashMap<String, Client> clients = new HashMap<>();
     private boolean printedTurn = false;
     private List<Item> currentPicked;
     private GameModel gameModel;
@@ -29,6 +29,15 @@ public class ServerController {
         currentPicked = new ArrayList<>();
         pings = new ArrayList<>();
         disconnected = new ArrayList<>();
+        rmiClients = new HashMap<>();
+    }
+
+    public void addClient(String username, RmiClientIf client) {
+        rmiClients.put(username, client);
+    }
+
+    public HashMap<String, RmiClientIf> getClients() {
+        return rmiClients;
     }
 
     public void pingReceived(String username) {
@@ -68,10 +77,6 @@ public class ServerController {
         }
     }
 
-    public void addClient(String username, Client client) {
-        clients.put(username, client);
-    }
-
     /**
      * @param username the username chosen by the player
      * @return a number representing the availability of the username
@@ -108,19 +113,11 @@ public class ServerController {
         players.add(new Player(username, age, firstGame, false, false));
     }
 
-    public void addPlayerByUsername(String username) {
-        players.add(new Player(username, 0, false, false, false));
+    public boolean checkAge(int age) {
+        return age >= 8 && age <= 120;
     }
 
-    public void addPlayerAge(int age) {
-        players.get(players.size() - 1).setAge(age);
-    }
-
-    public void addPlayerFirstGame(boolean firstGame) {
-        players.get(players.size() - 1).setFirstGame(firstGame);
-    }
-
-    public int startRoom() throws FullRoomException {
+    public void startRoom() throws FullRoomException {
         if (room == null) {
             Random random = new Random();
             int idRoom = random.nextInt(1000);
@@ -135,10 +132,9 @@ public class ServerController {
             throw new FullRoomException("Room is full");
         }
         Thread pongThread = new Thread(() -> {
-            boolean allConnected;
             while (true) {
                 try {
-                    Thread.sleep(SERVER_TIMEOUT);
+                    Thread.sleep(30000);
                     checkPings();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -146,23 +142,22 @@ public class ServerController {
             }
         });
         pongThread.start();
-
-        return room.getListOfPlayers().size();
     }
 
-    public String checkRoom() {
+    public boolean checkRoom() {
         if (room.full()) {
             gameModel = new GameModel(players);
             gameModel.start();
-            return "Game started";
+            return true;
         }
-        return null;
+        return false;
     }
 
     public String checkNumPlayer(int numPlayer) {
         if (numPlayer > 4 || numPlayer < 2) {
             return "retry";
         }
+
         room.setNumberOfPlayers(numPlayer);
         return "ok";
     }
@@ -345,6 +340,10 @@ public class ServerController {
             }
         }
         return winnersScore;
+    }
+
+    public boolean isFirst() {
+        return rmiClients.size() == 1;
     }
 
     public int getCurrentPlayerPersonalGoal() {

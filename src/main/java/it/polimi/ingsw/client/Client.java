@@ -6,20 +6,24 @@ import it.polimi.ingsw.utils.FullRoomException;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 
 // This is abstract (non instantiable) because each client will either
 // be an RMI client or a Socket client
-public abstract class Client {
+public abstract class Client extends UnicastRemoteObject implements Serializable {
 
     public GameView gameView;
     String username;
     private int myPosition;
 
-    public Client() {
+    public Client() throws RemoteException {
+        super();
         // All these messages should probably be moved to the view
         System.out.print("Connecting to server... ");
 
@@ -56,7 +60,11 @@ public abstract class Client {
      * @param message the message to send
      * @return the response from the server
      */
-    public abstract Message sendMessage(Message message);
+    public abstract void sendMessage(Message message);
+
+    public abstract void receivedMessage(Message message);
+
+    public abstract Message numOfPlayers();
 
     public void startPingThread(String finalUsername) {
         Thread pingThread = new Thread(() -> {
@@ -92,7 +100,7 @@ public abstract class Client {
     public void login() {
         // gameView.setClient(this);
         gameView.loginProcedure();
-        waitingRoom();
+        // waitingRoom();
     }
 
     public void waitingRoom() {
@@ -100,7 +108,7 @@ public abstract class Client {
     }
 
     public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
-        gameView.startGame();
+        // gameView.startGame();
         gameView.waitForTurn();
     }
 
@@ -144,4 +152,8 @@ public abstract class Client {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public abstract void sendMe() throws RemoteException, NotBoundException;
+
+    public abstract void startGame(Message message);
 }

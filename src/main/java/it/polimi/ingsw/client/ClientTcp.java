@@ -10,6 +10,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_SOCKET;
@@ -29,7 +30,7 @@ public class ClientTcp extends Client {
      * Constructor to create DataOutputStream and BufferedReader
      * Creates socket, DataOutputStream, BufferedReader from the server and keyboard
      */
-    public ClientTcp() {
+    public ClientTcp() throws RemoteException {
         super();
 
         // This is to send data to the server
@@ -81,7 +82,7 @@ public class ClientTcp extends Client {
     }
 
     @Override
-    public Message sendMessage(Message message) {
+    public void sendMessage(Message message) {
         String stringMessage = message.getJSONstring();
         try {
             synchronized (dos) {
@@ -91,7 +92,18 @@ public class ClientTcp extends Client {
         } catch (IOException e) {
             System.err.println("Unable to send message to server. Is it still running?");
         }
-        return receiveMessage();
+        receivedMessage(message);
+        // return receiveMessage();
+    }
+
+    @Override
+    public void receivedMessage(Message message) {
+
+    }
+
+    @Override
+    public Message numOfPlayers() {
+        return null;
     }
 
     public Message receiveMessage() {
@@ -116,6 +128,16 @@ public class ClientTcp extends Client {
     @Override
     public void connect() throws IOException {
         s = new Socket(HOSTNAME, PORT_SOCKET);
+    }
+
+    @Override
+    public void sendMe() {
+
+    }
+
+    @Override
+    public void startGame(Message message) {
+
     }
 
     /**

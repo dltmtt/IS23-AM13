@@ -7,13 +7,11 @@ import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Coordinates;
-import it.polimi.ingsw.utils.FullRoomException;
 import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,67 +21,19 @@ public class GameCliView implements GameView {
 
     @Override
     public void loginProcedure() {
-        try {
-            showStartGame();
-            String username = showLogin();
-            String finalUsername = username;
-            Message response = client.sendMessage(new Message("username", null, username, 0, false, 0));
-            client.startPingThread(finalUsername);
-            String responseMessage = response.getCategory();
-            while ("retry".equals(responseMessage)) {
-                // This happens when the username is already taken and the player needs to choose another one
-                System.out.println("Username already taken. Retry.");
-                username = showLogin();
-                responseMessage = client.sendMessage(new Message("username", null, username, 0, false, 0)).getCategory();
-            }
-            client.setUsername(username);
-            int myPosition;
-            if ("index".equals(responseMessage)) {
-                // This happens when the game is already started and the player is reconnecting
-                myPosition = response.getPosition();
-                client.setMyPosition(myPosition);
-                client.startGame();
-                return;
-            }
-            int age = promptAge();
-
-            showMessage(responseMessage);
-            String ageResponse = client.sendMessage(new Message("age", null, "", age, false, 0)).getCategory();
-            if (!ageResponse.startsWith("ok")) {
-                System.out.println("Remember that you need to be supervised by an adult to play this game.");
-            }
-            boolean firstGame = promptFirstGame();
-
-            int nextStep = client.sendMessage(new Message("completeLogin", client, username, age, firstGame, 0)).getPosition();
-            if (nextStep == 1) {
-                int numPlayer = promptNumberOfPlayers();
-                String numPlayerResponse = client.sendMessage(new Message("numPlayer", null, "", 0, false, numPlayer)).getCategory();
-                while (numPlayerResponse.startsWith("retry")) {
-                    System.out.println("Illegal number of players. Retry.");
-                    numPlayer = promptNumberOfPlayers();
-                    numPlayerResponse = client.sendMessage(new Message("numPlayer", null, "", 0, false, numPlayer)).getCategory();
-                }
-            }
-
-            // TODO: figure out why next step starts from 1 and not from 0, as it should be. Otherwise it throws an exception when trying to read the personalGoalCard, cause it's out of bounds, trying to read the 2nd index of the array, which has 2 elements which indexes are 0 and 1
-            // TODO: this is a temporary fix, but it's not the best solution
-            myPosition = nextStep - 1;
-
-            // TODO: the following instructions should not be here, as this is a VIEW, not a CONTROLLER
-            client.setMyPosition(myPosition);
-
-            System.out.println("Your position is " + myPosition);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e); // TODO: handle this exception
-        } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        showStartGame();
+        String username = showLogin();
+        String finalUsername = username;
+        client.sendMessage(new Message("username", username, 0, false, 0));
+        client.startPingThread(finalUsername);
+        // String responseMessage = response.getCategory();
+        //
     }
 
     @Override
     public void startView(Client client) {
         // this.client = client;
-        client.login();
+        // client.login();
     }
 
     /**
@@ -336,55 +286,54 @@ public class GameCliView implements GameView {
 
     @Override
     public void waitingRoom() {
-        Thread animatedDots = new Thread(() -> {
-            System.out.print("Waiting for other players to join");
-            int dotCounter = 0;
-            while (true) {
-                try {
-                    // noinspection BusyWait
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    // Always print 3 dots before closing the thread
-                    System.out.println(".".repeat(3 - dotCounter));
-                    return; // Close the thread
-                }
+        System.out.print("Waiting for other players to join...");
+        //     int dotCounter = 0;
+        //     while (true) {
+        //         try {
+        //             // noinspection BusyWait
+        //             Thread.sleep(500);
+        //         } catch (InterruptedException e) {
+        //             // Always print 3 dots before closing the thread
+        //             System.out.println(".".repeat(3 - dotCounter));
+        //             return; // Close the thread
+        //         }
+        //
+        //         if (dotCounter == 3) {
+        //             System.out.print("\b\b\b"); // Remove the 3 dots
+        //             dotCounter = 0;
+        //         } else {
+        //             System.out.print(".");
+        //             ++dotCounter;
+        //         }
+        //     }
+        // });
+        //
+        // animatedDots.start();
 
-                if (dotCounter == 3) {
-                    System.out.print("\b\b\b"); // Remove the 3 dots
-                    dotCounter = 0;
-                } else {
-                    System.out.print(".");
-                    ++dotCounter;
-                }
-            }
-        });
+        // String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+        // while (response == null) {
+        //     try {
+        //         Thread.sleep(1000);
+        //     } catch (InterruptedException e) {
+        //         System.err.println("An error occurred while waiting for other players to join.");
+        //     }
+        //     response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+        // }
+        //
+        // animatedDots.interrupt();
+        //
+        // try {
+        //     client.startGame();
+        // } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
+        //     System.err.println("An error occurred while starting the game.");
+        //     e.printStackTrace();
+        //     System.exit(1);
+        // }
 
-        animatedDots.start();
-
-        String response = client.sendMessage(new Message("ready", null, "", 0, false, 0)).getCategory();
-        while (response == null) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.err.println("An error occurred while waiting for other players to join.");
-            }
-            response = client.sendMessage(new Message("ready", null, "", 0, false, 0)).getCategory();
-        }
-
-        animatedDots.interrupt();
-
-        try {
-            client.startGame();
-        } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
-            System.err.println("An error occurred while starting the game.");
-            e.printStackTrace();
-            System.exit(1);
-        }
     }
 
     @Override
-    public void startGame() {
-        Message myGame = client.sendMessage(new Message(client.getMyPosition()));
+    public void startGame(Message myGame) {
 
         try {
             showPersonalGoal(myGame.getPersonalGoal());
@@ -407,84 +356,99 @@ public class GameCliView implements GameView {
 
     @Override
     public void waitForTurn() {
-        int myTurn = 0;
-        boolean disconnected = false;
-        // System.out.println("Waiting for your turn...");
-        while (myTurn != 1) {
-            if (myTurn == -1) {
-                endGame();
-                break;
-            } else if (myTurn == 2) {
-                if (!disconnected) {
-                    showDisconnection();
-                    disconnected = true;
-                }
-                myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
-            } else {
-                myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.err.println("An error occurred while waiting for the turn.");
-            }
-        }
-        if (myTurn == 1) {
-            try {
-                client.myTurn();
-            } catch (FullRoomException | IOException | IllegalAccessException | ParseException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
     }
 
     @Override
     public void myTurn() {
-        // Sends the message to server to get the board
-        Message currentBoard = client.sendMessage(new Message("board"));
-        GameView.cleanScreen();
-        showBoard(currentBoard.getBoard());
-        // Shows and returns the pick
-        List<Coordinates> pick = showPick();
-        Message myPick = new Message(pick.get(0), pick.get(1));
-        Message isMyPickOk = client.sendMessage(myPick);
 
-        while (!"picked".equals(isMyPickOk.getCategory())) {
-            System.out.println("Pick not ok,please retry");
-            pick = showPick();
-            myPick = new Message(pick.get(0), pick.get(1));
-            isMyPickOk = client.sendMessage(myPick);
-        }
-        System.out.println("Pick ok");
-
-        if (showRearrange(isMyPickOk.getPicked())) {
-            client.sendMessage(new Message("sort", rearrange(isMyPickOk.getPicked())));
-        }
-
-        Message myInsert = client.sendMessage(new Message("insert", "insert", promptInsert()));
-        while (!"update".equals(myInsert.getCategory())) {
-            showMessage(insertError);
-            myInsert = client.sendMessage(new Message("insert", "insert", promptInsert()));
-        }
-
-        showBookshelf(myInsert.getBookshelf());
-        showCurrentScore(myInsert.getIntMessage("score"));
-        // gameView.showBoard(parser.getBoard(myInsert));
-
-        try {
-            client.waitForTurn();
-        } catch (IOException | IllegalAccessException | ParseException | FullRoomException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
     public void endGame() {
-        Message winners = client.sendMessage(new Message("endGame"));
-        showEndGame(winners.getWinners());
+
     }
 
+    // @Override
+    // public void waitForTurn() {
+    //     int myTurn = 0;
+    //     boolean disconnected = false;
+    //     // System.out.println("Waiting for your turn...");
+    //     while (myTurn != 1) {
+    //         if (myTurn == -1) {
+    //             endGame();
+    //             break;
+    //         } else if (myTurn == 2) {
+    //             if (!disconnected) {
+    //                 showDisconnection();
+    //                 disconnected = true;
+    //             }
+    //             myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
+    //         } else {
+    //             myTurn = client.sendMessage(new Message("turn", client.getMyPosition())).getTurn();
+    //         }
+    //         try {
+    //             Thread.sleep(1000);
+    //         } catch (InterruptedException e) {
+    //             System.err.println("An error occurred while waiting for the turn.");
+    //         }
+    //     }
+    //     if (myTurn == 1) {
+    //         try {
+    //             client.myTurn();
+    //         } catch (FullRoomException | IOException | IllegalAccessException | ParseException e) {
+    //             throw new RuntimeException(e);
+    //         }
+    //     }
+    // }
+
     @Override
+    // public void myTurn() {
+    //     // Sends the message to server to get the board
+    //     Message currentBoard = client.sendMessage(new Message("board"));
+    //     GameView.cleanScreen();
+    //     showBoard(currentBoard.getBoard());
+    //     // Shows and returns the pick
+    //     List<Coordinates> pick = showPick();
+    //     Message myPick = new Message(pick.get(0), pick.get(1));
+    //     Message isMyPickOk = client.sendMessage(myPick);
+    //
+    //     while (!"picked".equals(isMyPickOk.getCategory())) {
+    //         System.out.println("Pick not ok,please retry");
+    //         pick = showPick();
+    //         myPick = new Message(pick.get(0), pick.get(1));
+    //         isMyPickOk = client.sendMessage(myPick);
+    //     }
+    //     System.out.println("Pick ok");
+    //
+    //     if (showRearrange(isMyPickOk.getPicked())) {
+    //         client.sendMessage(new Message("sort", rearrange(isMyPickOk.getPicked())));
+    //     }
+    //
+    //     Message myInsert = client.sendMessage(new Message("insert", "insert", promptInsert()));
+    //     while (!"update".equals(myInsert.getCategory())) {
+    //         showMessage(insertError);
+    //         myInsert = client.sendMessage(new Message("insert", "insert", promptInsert()));
+    //     }
+    //
+    //     showBookshelf(myInsert.getBookshelf());
+    //     showCurrentScore(myInsert.getIntMessage("score"));
+    //     // gameView.showBoard(parser.getBoard(myInsert));
+    //
+    //     try {
+    //         client.waitForTurn();
+    //     } catch (IOException | IllegalAccessException | ParseException | FullRoomException e) {
+    //         throw new RuntimeException(e);
+    //     }
+    // }
+    //
+    // @Override
+    // public void endGame() {
+    //     Message winners = client.sendMessage(new Message("endGame"));
+    //     showEndGame(winners.getWinners());
+    // }
+
+    // @Override
     public void setClient(Client client) {
         this.client = client;
     }

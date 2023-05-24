@@ -12,9 +12,9 @@ module it.polimi.ingsw.client.view {
     requires com.google.gson;
 
     opens it.polimi.ingsw.client.view to javafx.fxml;
-    exports it.polimi.ingsw.client.view;
+    exports it.polimi.ingsw.client to java.rmi, javafx.fxml;
 
     exports it.polimi.ingsw.server to java.rmi;
     exports it.polimi.ingsw.server.model to javafx.fxml;
-    exports it.polimi.ingsw.client to javafx.fxml;
+    // exports it.polimi.ingsw.client.view to java.rmi;
 }

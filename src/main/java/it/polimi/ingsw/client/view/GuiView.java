@@ -7,12 +7,10 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
-import it.polimi.ingsw.utils.FullRoomException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,38 +29,42 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void waitingRoom() {
-        Scene waitingRoom = null;
-        waitingRoomScene = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
-        // waitingRoomScene.setController(new waitingRoomController(client));
-
-        try {
-            waitingRoom = new Scene(waitingRoomScene.load());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setScene(waitingRoom);
-        stage.show();
-
-        String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
-        while (response == null) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
-        }
-
-        try {
-            client.startGame();
-        } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
-            System.err.println("An error occurred while starting the game.");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        // Scene waitingRoom = null;
+        // waitingRoomScene = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
+        // // waitingRoomScene.setController(new waitingRoomController(client));
+        //
+        // try {
+        //     waitingRoom = new Scene(waitingRoomScene.load());
+        // } catch (IOException e) {
+        //     throw new RuntimeException(e);
+        // }
+        // stage.setScene(waitingRoom);
+        // stage.show();
+        //
+        // String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+        // while (response == null) {
+        //     try {
+        //         Thread.sleep(5000);
+        //     } catch (InterruptedException e) {
+        //         throw new RuntimeException(e);
+        //     }
+        //     response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+        // }
+        //
+        // try {
+        //     client.startGame();
+        // } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
+        //     System.err.println("An error occurred while starting the game.");
+        //     e.printStackTrace();
+        //     System.exit(1);
+        // }
     }
 
     @Override
+    public void startGame(Message myGame) {
+
+    }
+
     public void startGame() {
         Scene gameS = null;
         gameScene = new FXMLLoader(GuiView.class.getResource("game.fxml"));

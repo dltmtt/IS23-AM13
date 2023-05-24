@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.Client;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -10,7 +12,6 @@ public class ServerRmi implements CommunicationInterface, ServerInterface {
 
     private Registry registry;
     private CommunicationInterface server;
-    private CommunicationInterface stub;
 
     public ServerRmi() throws RemoteException {
         super();
@@ -20,7 +21,7 @@ public class ServerRmi implements CommunicationInterface, ServerInterface {
     public void start() {
         try {
             server = new ServerRmi();
-            stub = (CommunicationInterface) UnicastRemoteObject.exportObject(server, 0);
+            CommunicationInterface stub = (CommunicationInterface) UnicastRemoteObject.exportObject(server, 0);
 
             registry = LocateRegistry.createRegistry(PORT_RMI);
             registry.rebind("CommunicationInterface", stub);
@@ -42,5 +43,11 @@ public class ServerRmi implements CommunicationInterface, ServerInterface {
             System.err.println("Unable to stop the RMI server.");
         }
         System.out.println("RMI server stopped.");
+    }
+
+    @Override
+    public void sendClient() throws RemoteException, NotBoundException {
+        registry = LocateRegistry.getRegistry(HOSTNAME, PORT_RMI);
+        Client client = (Client) registry.lookup("Client");
     }
 }

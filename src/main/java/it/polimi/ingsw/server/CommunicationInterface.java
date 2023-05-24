@@ -1,11 +1,14 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.RmiClientIf;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.utils.FullRoomException;
 
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 /**
  * Here go the methods that the client can call on the server.
@@ -17,20 +20,21 @@ public interface CommunicationInterface extends Remote {
     String HOSTNAME = "localhost"; // Shared by RMI and socket
     ServerController controller = new ServerController();
 
-    default Message sendMessage(Message message) throws RemoteException, FullRoomException, IllegalAccessException {
+    default void callBackSendMessage(Message message, RmiClientIf client) throws Exception, FullRoomException {
         String category = message.getCategory();
 
         switch (category) {
             case "ping" -> {
                 controller.pingReceived(message.getUsername());
-                return sendPong();
+                // return sendPong();
             }
             case "username" -> {
                 String username = message.getUsername();
                 int checkStatus = controller.checkUsername(username);
                 if (checkStatus == 1) {
                     // The username is available, a new player can be added
-                    return new Message("");
+                    // return new Message("");
+                    client.callBackSendMessage(new Message("username", username));
                 } else if (checkStatus == 0) {
                     // The username has already been taken, retry
                     try {
@@ -41,70 +45,104 @@ public interface CommunicationInterface extends Remote {
                     checkStatus = controller.checkUsername(username);
                     if (checkStatus == 0) {
                         System.out.println(username + " requested login, but the username is already taken.");
-                        return new Message("retry");
+                        // return new Message("retry");
+                        client.callBackSendMessage(new Message("UsernameRetry"));
                     } else {
                         System.out.println(username + " reconnected.");
-                        return new Message(controller.getPositionByUsername(username));
+                        // return new Message(controller.getPositionByUsername(username));
                     }
                 } else {
                     // The username is already taken, but the player was disconnected and is trying to reconnect
                     System.out.println(username + " reconnected.");
-                    return new Message(controller.getPositionByUsername(username));
+                    // return new Message(controller.getPositionByUsername(username));
+                    client.callBackSendMessage((new Message("update", controller.getCurrentPlayerBookshelf(), controller.getBoard(), controller.getCurrentPlayerScore())));
                 }
             }
-            case "age" -> {
-                int age = message.getAge();
-                return new Message(age >= 8 ? "ok" : "no");
-            }
-            case "numPlayer" -> {
+            case "numOfPlayers" -> {
                 int numPlayer = message.getNumPlayer();
-                return new Message(controller.checkNumPlayer(numPlayer));
+                String isOk = controller.checkNumPlayer(numPlayer);
+                if (!isOk.equals("ok")) {
+                    client.callBackSendMessage(new Message("numOfPlayersNotOK"));
+                } else {
+                    System.out.println("Number of players: " + numPlayer);
+                    client.callBackSendMessage(new Message("waitingRoom"));
+                }
+                // return new Message(controller.checkNumPlayer(numPlayer));
             }
             case "ready" -> {
-                return new Message(controller.checkRoom());
+                // return new Message(controller.checkRoom());
             }
             case "index" -> {
                 int position = message.getPosition();
-                return sendGame(position);
+                // return sendGame(position);
             }
             case "turn" -> {
                 int position = message.getPosition();
-                return sendTurn(position);
+                // return sendTurn(position);
             }
             case "pick" -> {
                 if ("ok".equals(controller.pick(message.getPick()))) {
-                    return new Message(controller.getPicked(message.getPick()));
+                    // return new Message(controller.getPicked(message.getPick()));
                 } else {
-                    return new Message("retry");
+                    // return new Message("retry");
                 }
             }
             case "insert" -> {
                 if (controller.checkInsert(message.getInsert())) {
-                    return sendUpdate(message);
+                    // return sendUpdate(message);
                 } else {
-                    return new Message("retry");
+                    // return new Message("retry");
                 }
             }
             case "sort" -> {
                 controller.rearrangePicked(message.getSort());
-                return new Message("ok");
+                // return new Message("ok");
             }
             case "board" -> {
-                return new Message("board", controller.getBoard());
+                // return new Message("board", controller.getBoard());
             }
             case "endGame" -> {
-                return new Message(controller.getWinnersNickname().size(), controller.getWinnersNickname());
+                // return new Message(controller.getWinnersNickname().size(), controller.getWinnersNickname());
             }
             case "completeLogin" -> {
-                controller.addPlayer(message.getUsername(), message.getAge(), message.getFirstGame());
+                controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
                 System.out.println(message.getUsername() + " logged in.");
-                return new Message(controller.startRoom()); // If the current client is the first one to join, we need to show the chooseNumOfPlayerScreen()
+                controller.addClient(message.getUsername(), client);
+                controller.startRoom();
+                if (controller.isFirst()) {
+                    client.callBackSendMessage(new Message("chooseNumOfPlayer"));
+                } else {
+                    if (controller.checkRoom()) {
+                        client.callBackSendMessage(new Message("waitingRoom"));
+                        startGame();
+                    } else {
+                        client.callBackSendMessage(new Message("waitingRoom"));
+                    }
+                }
             }
             default -> {
                 System.out.println(message + " requested unknown");
-                return new Message("Unknown request.");
+                // return new Message("Unknown request.");
             }
         }
+    }
+
+    default void startGame() throws RemoteException {
+        HashMap<String, RmiClientIf> clients = controller.getClients();
+        System.out.println(clients);
+        for (String username : clients.keySet()) {
+            try {
+                int position = controller.getPositionByUsername(username);
+                System.out.println("Sending game to " + username + " at position " + position);
+                clients.get(username).callBackSendMessage(new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelf(position), controller.getBoard()));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    default Message sendMessage(Message message) throws RemoteException, FullRoomException, IllegalAccessException {
+        return null;
     }
 
     default Message sendGame(int position) throws RemoteException {
@@ -129,7 +167,14 @@ public interface CommunicationInterface extends Remote {
         return new Message("pong");
     }
 
-    default void sendClient(Client c) {
-        controller.addClient(c.getUsername(), c);
+    void sendClient() throws RemoteException, NotBoundException;
+
+    default void sendAll(Message message) throws RemoteException {
+
+    }
+
+    default Message setNumPlayers(Client c) throws RemoteException {
+        int numOfPlayer = c.numOfPlayers().getNumPlayer();
+        return new Message(controller.checkNumPlayer(numOfPlayer));
     }
 }

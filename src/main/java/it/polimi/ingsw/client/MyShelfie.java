@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.view.GuiView;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.apache.commons.cli.*;
 
+import java.rmi.RemoteException;
+
 /**
  * This is the entry point of the client. It parses the command line arguments
  * and starts the client in the selected mode.
@@ -44,13 +46,16 @@ public class MyShelfie {
         String protocolType = line.getOptionValue("protocol", "rmi");
 
         client = null;
-        switch (protocolType) {
-            case "rmi" -> client = new ClientRmi();
-            case "socket" -> client = new ClientTcp();
-            default -> {
-                System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'socket'.");
-                System.exit(1);
+        if (protocolType.equals("rmi")) {
+            try {
+                client = new ClientRmi();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
+            // case "socket" -> client = new ClientTcp();
+        } else {
+            System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'socket'.");
+            System.exit(1);
         }
 
         String modeType = line.getOptionValue("view", "cli"); // setSocketOption
@@ -65,7 +70,7 @@ public class MyShelfie {
         }
 
         client.setView(gameView);
-        // gameView.setClient(client);
+        gameView.setClient(client);
         client.start();
         System.out.println("started");
         // gameView.setClient(client);

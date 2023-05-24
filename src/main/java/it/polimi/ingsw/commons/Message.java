@@ -1,7 +1,5 @@
 package it.polimi.ingsw.commons;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
@@ -37,14 +35,11 @@ public class Message implements Serializable {
      * @param isFirstGame if it's the first game of the player
      * @param numPlayer   number of players in the game
      */
-    public Message(String category, Client c, String username, int age, boolean isFirstGame, int numPlayer) {
+    public Message(String category, String username, int age, boolean isFirstGame, int numPlayer) {
         json = new JSONObject();
         String ageString = Integer.toString(age);
         String numString = Integer.toString(numPlayer);
         json.put("category", category);
-        Gson gson = new Gson();
-        String clientJson = gson.toJson(c);
-        json.put("client", clientJson);
         json.put("argument", username);
         json.put("value", ageString);
         json.put("bool", isFirstGame);
@@ -309,7 +304,7 @@ public class Message implements Serializable {
     }
 
     public int getAge() {
-        String ageString = (String) json.get("value");
+        String ageString = (String) json.get("age");
         return Integer.parseInt(ageString);
     }
 

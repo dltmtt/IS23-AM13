@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
@@ -70,7 +71,7 @@ public interface GameView {
 
     void waitingRoom();
 
-    void startGame();
+    void startGame(Message myGame);
 
     void waitForTurn();
 

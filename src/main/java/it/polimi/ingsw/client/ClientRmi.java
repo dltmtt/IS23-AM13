@@ -3,17 +3,19 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.CommunicationInterface;
 import it.polimi.ingsw.utils.FullRoomException;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 
 import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
 import static it.polimi.ingsw.server.CommunicationInterface.PORT_RMI;
 
-public class ClientRmi extends Client {
+public class ClientRmi extends Client implements RmiClientIf {
 
     private Registry registry;
     private CommunicationInterface server;
@@ -21,32 +23,100 @@ public class ClientRmi extends Client {
     /**
      * Starts the client
      */
-    public ClientRmi() {
+    public ClientRmi() throws RemoteException {
         super();
     }
 
     @Override
-    public Message sendMessage(Message message) {
-        Message response;
+    public void sendMessage(Message message) {
+
         try {
-            response = server.sendMessage(message);
-        } catch (IOException | FullRoomException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            server.callBackSendMessage(message, this);
+        } catch (FullRoomException | Exception e) {
+            // throw new RuntimeException(e);
         }
-        return response;
     }
 
-    public void sendMe() {
-        server.sendClient(this);
+    @Override
+    public void receivedMessage(Message message) {
+        String category = message.getCategory();
+        switch (category) {
+            case "username":
+                setUsername(message.getUsername());
+                boolean firstGame = gameView.promptFirstGame();
+                sendMessage(new Message("completeLogin", getUsername(), 0, firstGame, 0));
+                break;
+            case "UsernameRetry":
+                System.out.println("Username already taken. Retry.");
+                String username = gameView.showLogin();
+                sendMessage(new Message("username", username));
+            case "chooseNumOfPlayer":
+                int numOfPlayers = gameView.promptNumberOfPlayers();
+                sendMessage(new Message("numOfPlayers", "", 0, false, numOfPlayers));
+                break;
+            case "numOfPlayersNotOK":
+                System.out.println("Illegal number of players. Retry.");
+                int numPlayer = gameView.promptNumberOfPlayers();
+                sendMessage(new Message("numOfPlayers", numPlayer));
+                break;
+            case "update":
+                gameView.showBookshelf(message.getBookshelf());
+                gameView.showCurrentScore(message.getIntMessage("score"));
+                gameView.showBoard(message.getBoard());
+                break;
+            case "startGame":
+                try {
+                    gameView.showPersonalGoal(message.getPersonalGoal());
+                    List<String> cards = message.getCardType();
+                    List<Integer> occurrences = message.getCardOccurrences();
+                    List<Integer> sizes = message.getCardSize();
+                    List<Boolean> horizontal = message.getCardHorizontal();
+                    for (int i = 0; i < cards.size(); i++) {
+                        gameView.showCommonGoal(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
+                    }
+                    gameView.showBookshelf(message.getBookshelf());
+                    gameView.showBoard(message.getBoard());
+                } catch (IOException | ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+            case "endGame":
+                gameView.showEndGame(message.getWinners());
+                break;
+            case "disconnection":
+                gameView.showDisconnection();
+                break;
+            case "waitingRoom":
+                waitingRoom();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid message category: " + category);
+        }
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public Message numOfPlayers() {
+        int numPlayer = gameView.promptNumberOfPlayers();
+        return new Message("numPlayer", "", 0, false, numPlayer);
+    }
+
+    public void sendMe() throws RemoteException, NotBoundException {
+        server.sendClient();
+    }
+
+    @Override
+    public void startGame(Message message) {
+        gameView.startGame(message);
     }
 
     @Override
     public void connect() throws RemoteException, NotBoundException {
         registry = LocateRegistry.getRegistry(HOSTNAME, PORT_RMI);
         server = (CommunicationInterface) registry.lookup("CommunicationInterface");
+    }
+
+    @Override
+    public void callBackSendMessage(Message message) throws RemoteException {
+        receivedMessage(message);
     }
 }

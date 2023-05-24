@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class SocketClientHandler implements Runnable, CommunicationInterface {
@@ -124,5 +125,10 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
 
         // terminate application
         System.exit(0);
+    }
+
+    @Override
+    public void sendClient() throws RemoteException, NotBoundException {
+
     }
 }
