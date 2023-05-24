@@ -12,9 +12,9 @@ public class GameModel {
 
     // This value is tied to the switch statement in the PersonalGoal class
     private static final int personalGoalDeckSize = 12;
-    private final List<Player> players;
     private final Board livingRoom;
     private final List<PersonalGoal> personalGoalDeck;
+    private List<Player> players = null;
     private List<CommonGoal> commonGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
@@ -38,6 +38,10 @@ public class GameModel {
             throw new RuntimeException(e + ", error in loading the goal decks");
         }
         isTheGameEnded = false;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public void setPlayers(List<Player> players) {

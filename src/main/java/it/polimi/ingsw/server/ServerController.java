@@ -153,6 +153,18 @@ public class ServerController {
         return false;
     }
 
+    public String getCurrentPlayer() {
+        return gameModel.getCurrentPlayer().getNickname();
+    }
+
+    public RmiClientIf getCurrentClient() {
+        return rmiClients.get(gameModel.getCurrentPlayer().getNickname());
+    }
+
+    public int getScore(int position) {
+        return gameModel.getPlayers().get(position).calculateScore();
+    }
+
     public String checkNumPlayer(int numPlayer) {
         if (numPlayer > 4 || numPlayer < 2) {
             return "retry";

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.CommunicationInterface;
+import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
 import org.json.simple.parser.ParseException;
 
@@ -49,7 +50,12 @@ public class ClientRmi extends Client implements RmiClientIf {
             case "UsernameRetry":
                 System.out.println("Username already taken. Retry.");
                 String username = gameView.showLogin();
-                sendMessage(new Message("username", username));
+                boolean firstGame1 = gameView.promptFirstGame();
+                sendMessage(new Message("completeLogin", username, 0, firstGame1, 0));
+            case "UsernameRetryCompleteLogin":
+                System.out.println("Username already taken. Retry.");
+                sendMessage(new Message("completeLogin", getUsername(), 0, false, 0));
+                break;
             case "chooseNumOfPlayer":
                 int numOfPlayers = gameView.promptNumberOfPlayers();
                 sendMessage(new Message("numOfPlayers", "", 0, false, numOfPlayers));
@@ -66,6 +72,7 @@ public class ClientRmi extends Client implements RmiClientIf {
                 break;
             case "startGame":
                 try {
+                    System.out.println("Game started.");
                     gameView.showPersonalGoal(message.getPersonalGoal());
                     List<String> cards = message.getCardType();
                     List<Integer> occurrences = message.getCardOccurrences();
@@ -79,7 +86,30 @@ public class ClientRmi extends Client implements RmiClientIf {
                 } catch (IOException | ParseException e) {
                     throw new RuntimeException(e);
                 }
-
+                break;
+            case "turn":
+                myTurn();
+                break;
+            case "otherTurn":
+                gameView.showMessage("It's " + message.getArgument() + "'s turn.");
+                break;
+            case "picked":
+                try {
+                    if (gameView.showRearrange(message.getPicked())) {
+                        sendMessage(new Message("sort", gameView.rearrange(message.getPicked())));
+                    }
+                    int column = gameView.promptInsert();
+                    sendMessage(new Message("insert", "insert", column));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case "PickRetry":
+                gameView.showMessage("Invalid pick. Retry.");
+                List<Coordinates> pick = gameView.showPick();
+                Message myPick = new Message(pick.get(0), pick.get(1));
+                sendMessage(myPick);
+                break;
             case "endGame":
                 gameView.showEndGame(message.getWinners());
                 break;
@@ -92,6 +122,14 @@ public class ClientRmi extends Client implements RmiClientIf {
             default:
                 throw new IllegalArgumentException("Invalid message category: " + category);
         }
+    }
+
+    @Override
+    public void myTurn() {
+        gameView.showMessage("It's your turn!");
+        List<Coordinates> pick = gameView.showPick();
+        Message myPick = new Message(pick.get(0), pick.get(1));
+        sendMessage(myPick);
     }
 
     @Override

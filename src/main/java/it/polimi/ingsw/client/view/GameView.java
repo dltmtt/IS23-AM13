@@ -73,10 +73,6 @@ public interface GameView {
 
     void startGame(Message myGame);
 
-    void waitForTurn();
-
-    void myTurn();
-
     void endGame();
 
     void setClient(Client client);

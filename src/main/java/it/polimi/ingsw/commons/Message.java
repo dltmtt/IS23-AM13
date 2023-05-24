@@ -206,6 +206,10 @@ public class Message implements Serializable {
         return pick;
     }
 
+    public String getArgument() {
+        return (String) json.get("argument");
+    }
+
     public List<String> getWinners() {
         List<String> winners = new ArrayList<>();
         String sizeString = (String) json.get("size");

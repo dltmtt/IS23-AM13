@@ -206,16 +206,6 @@ public class GuiView extends Application implements GameView {
     }
 
     @Override
-    public void waitForTurn() {
-
-    }
-
-    @Override
-    public void myTurn() {
-
-    }
-
-    @Override
     public void endGame() {
 
     }

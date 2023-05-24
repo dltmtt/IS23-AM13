@@ -24,7 +24,8 @@ public class GameCliView implements GameView {
         showStartGame();
         String username = showLogin();
         String finalUsername = username;
-        client.sendMessage(new Message("username", username, 0, false, 0));
+        boolean firstGame = promptFirstGame();
+        client.sendMessage(new Message("completeLogin", username, 0, firstGame, 0));
         client.startPingThread(finalUsername);
         // String responseMessage = response.getCategory();
         //
@@ -352,16 +353,6 @@ public class GameCliView implements GameView {
 
         showBookshelf(myGame.getBookshelf());
         showBoard(myGame.getBoard());
-    }
-
-    @Override
-    public void waitForTurn() {
-
-    }
-
-    @Override
-    public void myTurn() {
-
     }
 
     @Override

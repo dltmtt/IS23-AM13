@@ -107,10 +107,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         gameView.waitingRoom();
     }
 
-    public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
-        // gameView.startGame();
-        gameView.waitForTurn();
-    }
+    // public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
+    //     // gameView.startGame();
+    //     waitForTurn();
+    // }
 
     /**
      * Waits for the turn of the player. It depends on the number received by the server:
@@ -120,16 +120,16 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      *     <li>1: it's the player's turn</li>
      * </ul>
      */
-    public void waitForTurn() throws IOException, IllegalAccessException, ParseException, FullRoomException {
-        gameView.waitForTurn();
-    }
+    // public void waitForTurn() throws IOException, IllegalAccessException, ParseException, FullRoomException {
+    //     gameView.waitForTurn();
+    // }
 
     /**
      * Shows the board and asks the user to pick some tiles, then, if the pick is valid, asks the user to rearrange the tiles (if the player want),
      * then asks the user to choose a column to place the tiles in. at the end of the turn, the player returns to the waiting room.
      */
     public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
-        gameView.myTurn();
+        myTurn();
     }
 
     public void endGame() {
