@@ -14,6 +14,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * A board is a matrix of items, which is used to represent the game board.
+ * There's a list of usable cells that determines which cells
+ * can be used to place the items.
+ *
+ * @see Item
+ * @see Coordinates
+ */
+
 import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 
 public class Board {
@@ -30,7 +39,7 @@ public class Board {
      * fills the bag of items with every possible item and defines
      * the usable cells in this board based on the number of players.
      *
-     * @param numOfPlayers the number of players in the game
+     * @param numOfPlayers the number of players in the game.
      */
     public Board(int numOfPlayers) {
         boardMatrix = new Item[boardSize][boardSize];
@@ -62,6 +71,10 @@ public class Board {
         extractedItems = new ArrayList<>();
     }
 
+    /**
+     * Creates a new square board of size <code>boardSize</code>.
+     * It initializes the bag of items, the list of usable cells and the list of extractedItems.
+     */
     public Board() {
         boardMatrix = new Item[boardSize][boardSize];
         itemBag = new ArrayList<>();
@@ -69,26 +82,60 @@ public class Board {
         extractedItems = new ArrayList<>();
     }
 
+    /**
+     * This method sets the Item.
+     *
+     * @param row   the row of the board
+     * @param column the column of the board
+     * @param item the item to be set
+     */
     public void setItem(int row, int column, Item item) {
         boardMatrix[row][column] = item;
     }
 
+    /**
+     * This method returns the list of Items contained in the bag.
+     *
+     * @return the list of Items contained in the bag
+     */
     public List<Item> getItemBag() {
         return itemBag;
     }
 
+    /**
+     * This method enables to get an Item from the board.
+     *
+     * @param row the row of the board
+     * @param column the column of the board
+     * @return the Item in the specified position
+     */
     public Item getItem(int row, int column) {
         return boardMatrix[row][column];
     }
 
+    /**
+     * This method returns the matrix.
+     *
+     * @return the board as a matrix of Items.
+     */
     public Item[][] getBoardMatrix() {
         return boardMatrix;
     }
+
+    /**
+     * This method returns the size of the board.
+     *
+     * @return the size of the board
+     */
 
     public int getBoardSize() {
         return boardSize;
     }
 
+    /**
+     * This method is used to put all the Items in the usable cells of the board.
+     * It is used at the beginning of the game and when the board needs to be refilled.
+     */
     public void fill() {
         Random randNumberGenerator = new Random();
         for (int row = 0; row < boardSize; row++) {
@@ -105,6 +152,13 @@ public class Board {
         }
     }
 
+    /**
+     * This method is used to extract a list of Items from the board.
+     *
+     * @param pickedFromTo the list of Coordinates of the Items to be extracted
+     * @return the list of Items extracted
+     * @throws IllegalAccessException if the list of Coordinates is null or empty
+     */
     public List<Item> pickFromBoard(List<Coordinates> pickedFromTo) throws IllegalAccessException {
         List<Item> itemsPicked = new ArrayList<>();
         if (pickedFromTo.size() == 1) {
@@ -136,7 +190,7 @@ public class Board {
     }
 
     /**
-     * checks if all the tiles chosen have at least one free adjacent cell
+     * This method checks if all the tiles chosen have at least one free adjacent cell
      *
      * @return true if at least one cell is free, false otherwise
      */

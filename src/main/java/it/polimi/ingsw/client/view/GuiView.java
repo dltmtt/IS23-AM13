@@ -75,6 +75,7 @@ public class GuiView extends Application implements GameView {
         }
         stage.setScene(gameS);
         stage.show();
+
     }
 
     @Override
@@ -208,7 +209,7 @@ public class GuiView extends Application implements GameView {
     public void endGame() {
         Scene endGame = null;
         endGameScene = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
-        endGameScene.setController(new EndGameController(clients, this));
+        endGameScene.setController(new EndGameGuiController(clients, this));
 
         try {
             endGame = new Scene(endGameScene.load());

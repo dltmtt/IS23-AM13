@@ -23,6 +23,11 @@ public class ServerController {
     private boolean printedConn = false;
     private boolean printedDisco = false;
 
+    /**
+     * Constructor for the ServerController class
+     * It initializes the lists of players, winners, pings and disconnected players
+     * It also initializes the HashMap of RMI clients
+     */
     public ServerController() {
         players = new ArrayList<>();
         winnersNickname = new ArrayList<>();
@@ -32,14 +37,28 @@ public class ServerController {
         rmiClients = new HashMap<>();
     }
 
+    /**
+     * Method to add a player to the game
+     * @param username is the nickname of the player
+     * @param client is the client associated to the player
+     */
     public void addClient(String username, RmiClientIf client) {
         rmiClients.put(username, client);
     }
 
+    /**
+     *
+     * @return Hashmap of RMI clients
+     */
     public HashMap<String, RmiClientIf> getClients() {
         return rmiClients;
     }
 
+    /**
+     * Method to check if the ping of a player has been received
+     * If it has not been received, the username is added to the list of pings
+     * @param username Username of the player
+     */
     public void pingReceived(String username) {
         if (!pings.contains(username)) {
             pings.add(username);
@@ -69,6 +88,10 @@ public class ServerController {
         return true;
     }
 
+    /**
+     * This method is called when a ping is not received
+     * If the player is not in the list of pings and not in the list of disconnected players, it is added to the list of disconnected players
+     */
     public void missingOnes() {
         for (Player player : players) {
             if (!pings.contains(player.getNickname()) && !disconnected.contains(player.getNickname())) {

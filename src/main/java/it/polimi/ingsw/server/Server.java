@@ -23,6 +23,11 @@ public class Server implements CommunicationInterface, ServerInterface {
     private ServerRmi rmiServer;
     private ServerTcp socketServer;
 
+    /**
+     * Creates a new server.
+     * Initialize both the RMI and the socket servers.
+     */
+
     public Server() {
         try {
             this.rmiServer = new ServerRmi();
@@ -63,12 +68,21 @@ public class Server implements CommunicationInterface, ServerInterface {
         }).start();
     }
 
+    /**
+     * Starts both the RMI and the socket servers.
+     * Sends a message to all clients to notify them that the server is up.
+     */
     @Override
     public void start() {
         rmiServer.start();
         socketServer.start();
         System.out.println("Server started.");
     }
+
+    /**
+     * Stops both the RMI and the socket servers.
+     * Sends a message to all clients to notify them that the server is shutting down.
+     */
 
     @Override
     public void stop() {

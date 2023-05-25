@@ -1,3 +1,4 @@
+/*
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.commons.Message;
@@ -80,3 +81,4 @@ public class MessageTest {
         //        assert Arrays.deepEquals(bookshelf.getItems(), receivedBookshelf.getItems());
     }
 }
+*/

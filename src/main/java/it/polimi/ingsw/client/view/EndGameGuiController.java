@@ -2,13 +2,11 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 import java.util.List;
 
-public class EndGameController {
+public class EndGameGuiController {
     private final List<Client> clients;
   //  private final GuiView view;
     @FXML
@@ -28,7 +26,7 @@ public class EndGameController {
     @FXML
     private Label score4;
 
-    public EndGameController(List<Client> clients, GuiView view) {
+    public EndGameGuiController(List<Client> clients, GuiView view) {
         this.clients = clients;
        // this.view = view;
     }
