@@ -101,7 +101,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         // gameView.setClient(this);
 
         // maybe its problematic
-        gameView.loginProcedure();
+        // gameView.loginProcedure();
         // waitingRoom();
     }
 

@@ -32,19 +32,19 @@ public interface GameView {
     // Parameter is useless in CLI but needed in GUI
     void startView(Client client);
 
-    String readUsername();
+    // String readUsername();
 
-    int readNumber();
+    // int readNumber();
 
-    String showLogin();
+    // String showLogin();
 
     void showMessage(String message);
 
-    int promptAge();
+    // int promptAge();
 
-    boolean promptFirstGame();
+    // boolean promptFirstGame();
 
-    int promptNumberOfPlayers();
+    // int promptNumberOfPlayers();
 
     void showPersonalGoal(int card) throws IOException, ParseException;
 
@@ -83,4 +83,12 @@ public interface GameView {
     void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves);
 
     void showOtherBookshelf(Bookshelf bookshelf, String name);
+
+    void usernameError();
+
+    void completeLoginError();
+
+    void playerNumberError();
+
+    void playerChoice();
 }

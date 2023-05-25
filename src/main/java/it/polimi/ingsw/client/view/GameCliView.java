@@ -35,7 +35,8 @@ public class GameCliView implements GameView {
     @Override
     public void startView(Client client) {
         // this.client = client;
-        // client.login();
+        // client.login()
+        loginProcedure();
     }
 
     /**
@@ -46,7 +47,7 @@ public class GameCliView implements GameView {
      *
      * @return the username inserted by the user
      */
-    @Override
+    //@Override
     public String readUsername() {
         String username = null;
 
@@ -74,7 +75,7 @@ public class GameCliView implements GameView {
      *
      * @return the number inserted by the user
      */
-    @Override
+    //@Override
     public int readNumber() {
         int n = 0;
         boolean valid = false;
@@ -92,7 +93,7 @@ public class GameCliView implements GameView {
         return n;
     }
 
-    @Override
+    //@Override
     public String showLogin() {
         showMessage(insertUsernamePrompt);
         return readUsername();
@@ -393,7 +394,7 @@ public class GameCliView implements GameView {
     //     }
     // }
 
-    @Override
+    //@Override
     // public void myTurn() {
     //     // Sends the message to server to get the board
     //     Message currentBoard = client.sendMessage(new Message("board"));
@@ -471,6 +472,38 @@ public class GameCliView implements GameView {
         showMessage(name + "'s bookshelf:\n");
         BookshelfView bookshelfView = new BookshelfView(bookshelf);
         bookshelfView.printOtherBookshelf();
+    }
+
+    @Override
+    public void usernameError() {
+        System.out.println("Username already taken. Retry.");
+        String username = showLogin();
+        boolean firstGame1 = promptFirstGame();
+        client.sendMessage(new Message("completeLogin", username, 0, firstGame1, 0));
+    }
+
+    @Override
+    public void completeLoginError() {
+        /*
+        System.out.println("Username already taken. Retry.");
+        sendMessage(new Message("completeLogin", getUsername(), 0, false, 0));
+        break;
+         */
+        usernameError();
+    }
+
+    @Override
+    public void playerNumberError() {
+
+        System.out.println("Illegal number of players. Retry.");
+        int numPlayer = promptNumberOfPlayers();
+        client.sendMessage(new Message("numOfPlayers", numPlayer));
+    }
+
+    @Override
+    public void playerChoice() {
+        int numOfPlayers = promptNumberOfPlayers();
+        client.sendMessage(new Message("numOfPlayers", "", 0, false, numOfPlayers));
     }
 
     @Override

@@ -18,19 +18,27 @@ import java.util.List;
 
 public class GuiView extends Application implements GameView {
 
+    // Static reference to the client, in order to use the sendMessage() function
     public static Client client;
     public static List<Client> clients;
     // public GameGuiController controller;
+
+    // main stage
     public static Stage stage;
-    private static FXMLLoader waitingRoomScene;
-    private FXMLLoader loginScene;
-    private FXMLLoader gameScene;
-    private FXMLLoader endGameScene;
+
+    // loaded scenes
+    public Scene loginScene, waitingRoomScene, gameScene, endGameScene;
+
+    // scene loader
+    private FXMLLoader loginSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
 
     private LoginGuiController loginController;
 
     @Override
     public void waitingRoom() {
+
+        // scenes already loaded
+
         // Scene waitingRoom = null;
         // waitingRoomScene = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
         // // waitingRoomScene.setController(new waitingRoomController(client));
@@ -62,67 +70,91 @@ public class GuiView extends Application implements GameView {
         // }
     }
 
+    /**
+     * sets the main stage to the gameScene
+     *
+     * @param message
+     */
     @Override
     public void startGame(Message message) {
-        Scene gameS = null;
-        gameScene = new FXMLLoader(GuiView.class.getResource("game.fxml"));
-        gameScene.setController(new GameGuiController(client, this));
-
-        try {
-            gameS = new Scene(gameScene.load());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setScene(gameS);
+        stage.setScene(gameScene);
         stage.show();
-
     }
 
+    /**
+     * launch GUI
+     * CAUTION: if any attributes need to be set do it in the <code>startView</code> method, because startView has the <code>launch()</code> command, which creates another instance of GuiView
+     *
+     * @param client
+     */
     @Override
     public void startView(Client client) {
         // GuiView.client = client;
         launch();
     }
 
+    /**
+     * Starting method for GUI, loads all scene loader and loads all the scenes.
+     * calls method <code>loginProcedure()</code>
+     *
+     * @param stage internal parameter, set by <code>launch()</code>
+     */
+
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         stage.setTitle("My Shelfie");
         GuiView.stage = stage;
         setClient(MyShelfie.client);
+
+        loginSceneLoader = new FXMLLoader(GuiView.class.getResource("login.fxml"));
+        loginSceneLoader.setController(new LoginGuiController(client, this));
+        try {
+            loginScene = new Scene(loginSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load login.fxml");
+            throw new RuntimeException(e);
+        }
+
+        waitingRoomSceneLoader = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
+        waitingRoomSceneLoader.setController(new WaitingRoomController());
+        try {
+            waitingRoomScene = new Scene(waitingRoomSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load waitingRoom.fxml");
+            throw new RuntimeException(e);
+        }
+
+        gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"));
+        gameSceneLoader.setController(new GameGuiController(MyShelfie.client, this));
+        try {
+            gameScene = new Scene(gameSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load game.fxml");
+            throw new RuntimeException(e);
+        }
+
+        endGameSceneLoader = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
+        endGameSceneLoader.setController(new EndGameGuiController(clients, this));
+
+        try {
+            endGameScene = new Scene(endGameSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load endGame.fxml");
+            throw new RuntimeException(e);
+        }
 
         // startGame(new Message(0));
         loginProcedure();
         // client.login();
     }
 
+    /**
+     * Sets the login scene
+     */
     @Override
     public void loginProcedure() {
-        Scene login = null;
-        loginScene = new FXMLLoader(GuiView.class.getResource("login.fxml"));
-        loginScene.setController(new LoginGuiController(client, this));
-
-        try {
-            login = new Scene(loginScene.load());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setScene(login);
+        stage.setScene(loginScene);
         stage.show();
-    }
-
-    @Override
-    public String readUsername() {
-        return null;
-    }
-
-    @Override
-    public int readNumber() {
-        return 0;
-    }
-
-    @Override
-    public String showLogin() {
-        return null;
     }
 
     @Override
@@ -130,21 +162,17 @@ public class GuiView extends Application implements GameView {
 
     }
 
-    @Override
-    public int promptAge() {
-        return 0;
-    }
+    /*
+        @Override
+        public boolean promptFirstGame() {
+            return false;
+        }
 
-    @Override
-    public boolean promptFirstGame() {
-        return false;
-    }
-
-    @Override
-    public int promptNumberOfPlayers() {
-        return 0;
-    }
-
+        @Override
+        public int promptNumberOfPlayers() {
+            return 0;
+        }
+    */
     @Override
     public void showPersonalGoal(int card) {
 
@@ -207,16 +235,7 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void endGame() {
-        Scene endGame = null;
-        endGameScene = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
-        endGameScene.setController(new EndGameGuiController(clients, this));
-
-        try {
-            endGame = new Scene(endGameScene.load());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setScene(endGame);
+        stage.setScene(endGameScene);
         stage.show();
     }
 
@@ -237,6 +256,28 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showOtherBookshelf(Bookshelf bookshelf, String name) {
+
+    }
+
+    @Override
+    public void usernameError() {
+        loginController.usernameAlreadyTaken();
+    }
+
+    @Override
+    public void completeLoginError() {
+        // GUI-wise there's no difference
+
+        usernameError();
+    }
+
+    @Override
+    public void playerNumberError() {
+        // since the number of players is set by a slider, which minimum and maximum are valid, there is no prob
+    }
+
+    @Override
+    public void playerChoice() {
 
     }
 }

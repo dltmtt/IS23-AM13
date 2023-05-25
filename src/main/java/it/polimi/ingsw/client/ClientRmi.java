@@ -48,22 +48,23 @@ public class ClientRmi extends Client implements RmiClientIf {
                 setUsername(message.getUsername());
                 break;
             case "UsernameRetry":
-                System.out.println("Username already taken. Retry.");
-                username = gameView.showLogin();
-                boolean firstGame1 = gameView.promptFirstGame();
-                sendMessage(new Message("completeLogin", username, 0, firstGame1, 0));
-            case "UsernameRetryCompleteLogin":
-                System.out.println("Username already taken. Retry.");
-                sendMessage(new Message("completeLogin", getUsername(), 0, false, 0));
+
+                gameView.usernameError();
                 break;
+
+            case "UsernameRetryCompleteLogin":
+
+                gameView.completeLoginError();
+                break;
+
             case "chooseNumOfPlayer":
-                int numOfPlayers = gameView.promptNumberOfPlayers();
-                sendMessage(new Message("numOfPlayers", "", 0, false, numOfPlayers));
+
+                gameView.playerChoice();
+
                 break;
             case "numOfPlayersNotOK":
-                System.out.println("Illegal number of players. Retry.");
-                int numPlayer = gameView.promptNumberOfPlayers();
-                sendMessage(new Message("numOfPlayers", numPlayer));
+
+                gameView.playerNumberError();
                 break;
             case "update":
                 HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
@@ -125,8 +126,11 @@ public class ClientRmi extends Client implements RmiClientIf {
 
     @Override
     public Message numOfPlayers() {
-        int numPlayer = gameView.promptNumberOfPlayers();
-        return new Message("numPlayer", "", 0, false, numPlayer);
+        // isn't used, what is promptNumberofPlayers()?
+
+        // int numPlayer = gameView.promptNumberOfPlayers();
+        // return new Message("numPlayer", "", 0, false, numPlayer);
+        return new Message("numPlayer", "", 0, false, 0);
     }
 
     public void sendMe() throws RemoteException, NotBoundException {

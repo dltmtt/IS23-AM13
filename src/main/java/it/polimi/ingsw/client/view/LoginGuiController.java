@@ -38,7 +38,10 @@ public class LoginGuiController {
     @FXML
     public void onStartButtonClicked() {
         client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), (int) playerSlider.getValue()));
-
         client.startPingThread(username.getText());
+    }
+
+    public void usernameAlreadyTaken() {
+        usernameError.setText("Username already taken (" + username.getText() + ", retry");
     }
 }
