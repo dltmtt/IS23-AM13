@@ -37,7 +37,7 @@ public class LoginGuiController {
 
     @FXML
     public void onStartButtonClicked() {
-        client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), (int) playerSlider.getValue()));
+        client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), 0));
         client.startPingThread(username.getText());
     }
 

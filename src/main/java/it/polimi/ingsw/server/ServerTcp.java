@@ -57,8 +57,9 @@ public class ServerTcp implements ServerInterface {
                         System.err.println("Socket " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ": socket client handler cannot be created.");
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
-                    System.err.println("Unable to accept a connection.");
+                    // e.printStackTrace();
+                    System.err.println("Server is closed, unable to accept a connection.");
+                    System.exit(0);
                 }
             }
         });

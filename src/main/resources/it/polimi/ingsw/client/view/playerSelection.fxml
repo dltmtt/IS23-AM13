@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+           minWidth="-Infinity"
+           prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19">
+    <children>
+        <ImageView fitHeight="403.0" fitWidth="608.0" pickOnBounds="true">
+            <image>
+                <Image url="@../../graphics/misc/sfondo_parquet.jpg"/>
+            </image>
+        </ImageView>
+        <VBox alignment="CENTER" fillWidth="false" prefHeight="315.0" prefWidth="493.0" spacing="20.0"
+              StackPane.alignment="CENTER">
+            <children>
+                <Label text="You are the first player connected">
+                    <font>
+                        <Font name="System Bold" size="29.0"/>
+                    </font>
+                </Label>
+                <Label text="Please select the number of opponents"/>
+                <Slider blockIncrement="1.0" majorTickUnit="1.0" max="4.0" min="2.0" minorTickCount="0"
+                        showTickLabels="true" showTickMarks="true" snapToTicks="true" value="2.0"/>
+                <Button mnemonicParsing="false" text="Create Waiting Room"/>
+            </children>
+        </VBox>
+    </children>
+</StackPane>

@@ -58,7 +58,6 @@ public class ClientRmi extends Client implements RmiClientIf {
                 break;
 
             case "chooseNumOfPlayer":
-
                 gameView.playerChoice();
 
                 break;

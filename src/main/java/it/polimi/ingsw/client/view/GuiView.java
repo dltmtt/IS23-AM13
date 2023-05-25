@@ -24,13 +24,13 @@ public class GuiView extends Application implements GameView {
     // public GameGuiController controller;
 
     // main stage
-    public static Stage stage;
+    public Stage stage;
 
     // loaded scenes
-    public Scene loginScene, waitingRoomScene, gameScene, endGameScene;
+    public Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene;
 
     // scene loader
-    private FXMLLoader loginSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
+    private FXMLLoader loginSceneLoader, playerNumberSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
 
     private LoginGuiController loginController;
 
@@ -103,7 +103,8 @@ public class GuiView extends Application implements GameView {
     @Override
     public void start(Stage stage) {
         stage.setTitle("My Shelfie");
-        GuiView.stage = stage;
+        // stage.getIcons().add(new Image("icon.png"));
+        this.stage = stage;
         setClient(MyShelfie.client);
 
         loginSceneLoader = new FXMLLoader(GuiView.class.getResource("login.fxml"));
@@ -112,6 +113,15 @@ public class GuiView extends Application implements GameView {
             loginScene = new Scene(loginSceneLoader.load());
         } catch (IOException e) {
             System.err.println("Failed to load login.fxml");
+            throw new RuntimeException(e);
+        }
+
+        playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"));
+        playerNumberSceneLoader.setController(new PlayerSelectionGuiController(client, this));
+        try {
+            playerNumberScene = new Scene(playerNumberSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load playerSelection.fxml");
             throw new RuntimeException(e);
         }
 
@@ -278,6 +288,7 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void playerChoice() {
-
+        stage.setScene(playerNumberScene);
+        // stage.show();
     }
 }
