@@ -350,7 +350,7 @@ public class GameCliView implements GameView {
         }
         HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
         pickMyBookshelf(bookshelves);
-        showCurrentScore(message.getIntMessage("score"));
+        // showCurrentScore(message.getIntMessage("score"));
         pickOtherBookshelf(bookshelves);
         showBoard(message.getBoard());
     }

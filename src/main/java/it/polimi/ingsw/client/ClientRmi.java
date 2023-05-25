@@ -67,8 +67,9 @@ public class ClientRmi extends Client implements RmiClientIf {
                 break;
             case "update":
                 HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
+                gameView.pickMyBookshelf(bookshelves);
                 gameView.pickOtherBookshelf(bookshelves);
-                gameView.showCurrentScore(message.getIntMessage("score"));
+                // gameView.showCurrentScore(message.getIntMessage("score"));
                 gameView.showBoard(message.getBoard());
 
                 break;
