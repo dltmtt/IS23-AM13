@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,15 +24,13 @@ public class GuiView extends Application implements GameView {
     public static List<Client> clients;
     // public GameGuiController controller;
 
-    // main stage
-    public Stage stage;
-
+    public static GuiView gui;
     // loaded scenes
-    public Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene;
-
+    public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene;
+    // main stage
+    public static Stage stage;
     // scene loader
-    private FXMLLoader loginSceneLoader, playerNumberSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
-
+    private static FXMLLoader loginSceneLoader, playerNumberSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
     private LoginGuiController loginController;
 
     @Override
@@ -90,6 +89,7 @@ public class GuiView extends Application implements GameView {
     @Override
     public void startView(Client client) {
         // GuiView.client = client;
+        GuiView.gui = this;
         launch();
     }
 
@@ -104,7 +104,9 @@ public class GuiView extends Application implements GameView {
     public void start(Stage stage) {
         stage.setTitle("My Shelfie");
         // stage.getIcons().add(new Image("icon.png"));
-        this.stage = stage;
+        GuiView.gui = this;
+
+        GuiView.stage = stage;
         setClient(MyShelfie.client);
 
         loginSceneLoader = new FXMLLoader(GuiView.class.getResource("login.fxml"));
@@ -288,7 +290,9 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void playerChoice() {
-        stage.setScene(playerNumberScene);
-        // stage.show();
+        Platform.runLater(() -> {
+            stage.setScene(playerNumberScene);
+            stage.show();
+        });
     }
 }
