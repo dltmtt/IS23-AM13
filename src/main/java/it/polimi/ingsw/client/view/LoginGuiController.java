@@ -41,6 +41,7 @@ public class LoginGuiController {
         client.startPingThread(username.getText());
     }
 
+    @FXML
     public void usernameAlreadyTaken() {
         usernameError.setText("Username already taken (" + username.getText() + ", retry");
     }

@@ -22,7 +22,6 @@ public class GuiView extends Application implements GameView {
     // Static reference to the client, in order to use the sendMessage() function
     public static Client client;
     public static List<Client> clients;
-    // public GameGuiController controller;
 
     public static GuiView gui;
     // loaded scenes
@@ -35,39 +34,43 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void waitingRoom() {
-
-        // scenes already loaded
-
-        // Scene waitingRoom = null;
-        // waitingRoomScene = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
-        // // waitingRoomScene.setController(new waitingRoomController(client));
-        //
-        // try {
-        //     waitingRoom = new Scene(waitingRoomScene.load());
-        // } catch (IOException e) {
-        //     throw new RuntimeException(e);
-        // }
-        // stage.setScene(waitingRoom);
-        // stage.show();
-        //
-        // String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
-        // while (response == null) {
-        //     try {
-        //         Thread.sleep(5000);
-        //     } catch (InterruptedException e) {
-        //         throw new RuntimeException(e);
-        //     }
-        //     response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
-        // }
-        //
-        // try {
-        //     client.startGame();
-        // } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
-        //     System.err.println("An error occurred while starting the game.");
-        //     e.printStackTrace();
-        //     System.exit(1);
-        // }
+        Platform.runLater(() -> {
+            stage.setScene(waitingRoomScene);
+            stage.show();
+        });
     }
+
+    // scenes already loaded
+
+    // Scene waitingRoom = null;
+    // waitingRoomScene = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
+    // // waitingRoomScene.setController(new waitingRoomController(client));
+    //
+    // try {
+    //     waitingRoom = new Scene(waitingRoomScene.load());
+    // } catch (IOException e) {
+    //     throw new RuntimeException(e);
+    // }
+    // stage.setScene(waitingRoom);
+    // stage.show();
+    //
+    // String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+    // while (response == null) {
+    //     try {
+    //         Thread.sleep(5000);
+    //     } catch (InterruptedException e) {
+    //         throw new RuntimeException(e);
+    //     }
+    //     response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
+    // }
+    //
+    // try {
+    //     client.startGame();
+    // } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
+    //     System.err.println("An error occurred while starting the game.");
+    //     e.printStackTrace();
+    //     System.exit(1);
+    // }
 
     /**
      * sets the main stage to the gameScene
@@ -76,8 +79,10 @@ public class GuiView extends Application implements GameView {
      */
     @Override
     public void startGame(Message message) {
-        stage.setScene(gameScene);
-        stage.show();
+        Platform.runLater(() -> {
+            stage.setScene(gameScene);
+            stage.show();
+        });
     }
 
     /**
@@ -119,7 +124,7 @@ public class GuiView extends Application implements GameView {
         }
 
         playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"));
-        playerNumberSceneLoader.setController(new PlayerSelectionGuiController(client, this));
+        // playerNumberSceneLoader.setController(new PlayerSelectionGuiController());
         try {
             playerNumberScene = new Scene(playerNumberSceneLoader.load());
         } catch (IOException e) {
@@ -155,9 +160,7 @@ public class GuiView extends Application implements GameView {
             throw new RuntimeException(e);
         }
 
-        // startGame(new Message(0));
         loginProcedure();
-        // client.login();
     }
 
     /**
@@ -174,17 +177,6 @@ public class GuiView extends Application implements GameView {
 
     }
 
-    /*
-        @Override
-        public boolean promptFirstGame() {
-            return false;
-        }
-
-        @Override
-        public int promptNumberOfPlayers() {
-            return 0;
-        }
-    */
     @Override
     public void showPersonalGoal(int card) {
 
@@ -279,7 +271,6 @@ public class GuiView extends Application implements GameView {
     @Override
     public void completeLoginError() {
         // GUI-wise there's no difference
-
         usernameError();
     }
 

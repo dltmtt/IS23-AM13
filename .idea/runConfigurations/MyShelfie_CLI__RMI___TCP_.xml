@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="MyShelfie CLI (RMI + TCP)" type="CompoundRunConfigurationType">
+    <toRun name="Client CLI (RMI)" type="Application" />
+    <toRun name="Client CLI (TCP)" type="Application" />
+    <toRun name="Server" type="Application" />
+    <method v="2" />
+  </configuration>
+</component>

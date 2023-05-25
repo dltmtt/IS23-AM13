@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Client CLI (TCP)" type="Application" factoryName="Application"
+                   singleton="false">
+        <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.client.MyShelfie"/>
+        <module name="AM13"/>
+        <option name="PROGRAM_PARAMETERS" value="--protocol=socket"/>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>

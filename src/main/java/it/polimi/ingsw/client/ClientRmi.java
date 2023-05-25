@@ -125,10 +125,6 @@ public class ClientRmi extends Client implements RmiClientIf {
 
     @Override
     public Message numOfPlayers() {
-        // isn't used, what is promptNumberofPlayers()?
-
-        // int numPlayer = gameView.promptNumberOfPlayers();
-        // return new Message("numPlayer", "", 0, false, numPlayer);
         return new Message("numPlayer", "", 0, false, 0);
     }
 

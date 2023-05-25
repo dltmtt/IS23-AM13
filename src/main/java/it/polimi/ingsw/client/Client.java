@@ -58,7 +58,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      * Sends a message to the server and returns the response.
      *
      * @param message the message to send
-     * @return the response from the server
      */
     public abstract void sendMessage(Message message);
 
@@ -108,23 +107,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void waitingRoom() {
         gameView.waitingRoom();
     }
-
-    // public void startGame() throws FullRoomException, IOException, ParseException, IllegalAccessException {
-    //     // gameView.startGame();
-    //     waitForTurn();
-    // }
-
-    /**
-     * Waits for the turn of the player. It depends on the number received by the server:
-     * <ul>
-     *     <li>-1: the game is over</li>
-     *     <li>0: it's not the player's turn</li>
-     *     <li>1: it's the player's turn</li>
-     * </ul>
-     */
-    // public void waitForTurn() throws IOException, IllegalAccessException, ParseException, FullRoomException {
-    //     gameView.waitForTurn();
-    // }
 
     /**
      * Shows the board and asks the user to pick some tiles, then, if the pick is valid, asks the user to rearrange the tiles (if the player want),
