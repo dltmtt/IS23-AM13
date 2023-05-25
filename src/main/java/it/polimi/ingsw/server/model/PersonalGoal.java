@@ -6,6 +6,10 @@ import it.polimi.ingsw.utils.Coordinates;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A personal goal card, which contains the disposition of the items to be matched
+ * by the player in the bookshelf to increase its score.
+ */
 public class PersonalGoal {
 
     private final HashMap<Coordinates, Color> personalGoalCard;
@@ -81,9 +85,16 @@ public class PersonalGoal {
         return null;
     }
 
+    /**
+     * @return the HashMap representing the personal goal card of the player
+     */
     public HashMap<Coordinates, Color> getPersonalGoalCard() {
         return personalGoalCard;
     }
+
+    /**
+     * @return the PersonalGoal of the player
+     */
 
     public PersonalGoal getPersonalGoal() {
         return this;

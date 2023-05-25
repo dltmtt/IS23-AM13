@@ -14,17 +14,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-/**
- * A board is a matrix of items, which is used to represent the game board.
- * There's a list of usable cells that determines which cells
- * can be used to place the items.
- *
- * @see Item
- * @see Coordinates
- */
 
 import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 
+/**
+ * This class represents the board of the game as a matrix of items. It also contains:
+ * <ul>
+ *     <li>itemBag: the bag of items</li>
+ *     <li>usableCells: the list of coordinates of the cells that can be used</li>
+ *     <li>extractedItems: the list of items extracted from the bag</li>
+ * </ul>
+ */
 public class Board {
 
     public static final int boardSize = 9;
@@ -157,9 +157,8 @@ public class Board {
      *
      * @param pickedFromTo the list of Coordinates of the Items to be extracted
      * @return the list of Items extracted
-     * @throws IllegalAccessException if the list of Coordinates is null or empty
      */
-    public List<Item> pickFromBoard(List<Coordinates> pickedFromTo) throws IllegalAccessException {
+    public List<Item> pickFromBoard(List<Coordinates> pickedFromTo) {
         List<Item> itemsPicked = new ArrayList<>();
         if (pickedFromTo.size() == 1) {
             itemsPicked.add(boardMatrix[pickedFromTo.get(0).x()][pickedFromTo.get(0).y()]);
@@ -203,6 +202,12 @@ public class Board {
         return true;
     }
 
+    /**
+     * This method checks if the cell has a free side.
+     *
+     * @param cell contains the coordinates of the cell to be checked
+     * @return true if the cell has at least one side free, false otherwise
+     */
     public boolean checkBorder(Coordinates cell) {
         if (cell.x() > 0 && boardMatrix[cell.x() - 1][cell.y()] == null) {
             return true;
@@ -216,6 +221,11 @@ public class Board {
         return cell.y() < boardSize - 1 && boardMatrix[cell.x()][cell.y() + 1] == null;
     }
 
+    /**
+     * This method calculates the number of tiles left on the board.
+     *
+     * @return the number of tiles left on the board
+     */
     // it returns the number of tiles left on the board
     public int numLeft() {
         int count = 0;
@@ -229,7 +239,13 @@ public class Board {
         return count;
     }
 
-    // method to see if the tile has nothing adjacent to it
+    /**
+     * This method checks if the tile is not surrounded by other tiles.
+     *
+     * @param i corresponds to the row of the tile
+     * @param j corresponds to the column of the tile
+     * @return true if the tile is not surrounded by other tiles, false otherwise
+     */
     public boolean isAlone(int i, int j) {
         if (i == 0 && j == 0) {
             return boardMatrix[i + 1][j] == null && boardMatrix[i][j + 1] == null;
@@ -252,8 +268,12 @@ public class Board {
         }
     }
 
-    // method that checks if all the tiles in the board have no tiles adjacent to them
-    // in this case: refill of the board
+    /**
+     * This method checks if all the tiles left in the board have no tiles adjacent to them.
+     * It is used to see if the board needs to be refilled.
+     *
+     * @return true if all the tiles left in the board have no tiles adjacent to them, false otherwise
+     */
     public boolean allIsolated() {
         int count = numLeft();
         if (count == 0) {
@@ -270,6 +290,12 @@ public class Board {
         return count == 0;
     }
 
+    /**
+     * This method checks if all the tiles chosen are not null.
+     *
+     * @param cells the list of coordinates of the tiles chosen
+     * @return true if all the tiles chosen are not null, false otherwise
+     */
     public boolean allNotNull(List<Coordinates> cells) {
         for (Coordinates cell : cells) {
             if (boardMatrix[cell.x()][cell.y()] == null) {
@@ -280,7 +306,7 @@ public class Board {
     }
 
     /**
-     * checks if the distance between the tiles chosen is at most 3 and if the order is correct (ascending)
+     * This method checks if the distance between the tiles chosen is at most 3 and if the order is correct (ascending)
      *
      * @param cells the list of coordinates of the tiles chosen
      * @return true if the order is correct and the distance is at most 3, false otherwise

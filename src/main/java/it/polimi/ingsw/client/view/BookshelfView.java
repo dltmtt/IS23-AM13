@@ -15,6 +15,9 @@ public class BookshelfView {
         this.bookshelf = bookshelf;
     }
 
+    /**
+     * This method prints the bookshelf in the console.
+     */
     public void printBookshelf() {
         Optional<Item>[][] items = bookshelf.getItems();
         CliUtilities.stringifyBookshelf(items).forEach(System.out::println);

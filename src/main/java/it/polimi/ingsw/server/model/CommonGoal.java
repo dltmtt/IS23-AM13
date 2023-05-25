@@ -44,10 +44,16 @@ public class CommonGoal {
         }
     }
 
+    /**
+     * @return the list of scores
+     */
     public List<Integer> getScoringList() {
         return scoringList;
     }
 
+    /**
+     * @return the layout of the common goal
+     */
     public Layout getLayout() {
         return layout;
     }

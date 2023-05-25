@@ -31,16 +31,10 @@ public class Server implements CommunicationInterface, ServerInterface {
     public Server() {
         try {
             this.rmiServer = new ServerRmi();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            System.err.println("Unable to create RMI server.");
-        }
-
-        try {
             this.socketServer = new ServerTcp();
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Unable to create socket server.");
+            System.err.println("The server is not ready.\nThe game cannot start");
         }
     }
 

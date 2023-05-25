@@ -135,6 +135,9 @@ public class Bookshelf implements AbleToGetPoints {
         return usedCells;
     }
 
+    /**
+     * This method is used to clear the boolean matrix
+     */
     // Clears the boolean matrix
     public void clearBooleanMatrix() {
         for (boolean[] row : booleanMatrix) {
@@ -352,6 +355,11 @@ public class Bookshelf implements AbleToGetPoints {
         return content;
     }
 
+    /**
+     * This method is used to get all the items in the bookshelf.
+     *
+     * @return the items in the bookshelf
+     */
     public Optional<Item>[][] getItems() {
         return items;
     }

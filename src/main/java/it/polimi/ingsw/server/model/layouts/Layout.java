@@ -61,6 +61,10 @@ public abstract class Layout {
         return 0;
     }
 
+    /**
+     *
+     * @return true if the layout is horizontal, false otherwise
+     */
     public boolean isHorizontal() {
         return false;
     }
@@ -124,6 +128,12 @@ public abstract class Layout {
         return maxDifferent;
     }
 
+    /**
+     *
+     * @param itemList the list of items to check
+     * @return the number of different colors in the list of items
+     * @throws IllegalArgumentException if the list is null
+     */
     public int getDifferentColors(List<Item> itemList) throws IllegalArgumentException {
         if (itemList == null) {
             throw new IllegalArgumentException("itemList is null");
