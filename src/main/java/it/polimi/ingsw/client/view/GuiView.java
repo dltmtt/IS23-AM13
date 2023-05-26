@@ -81,6 +81,7 @@ public class GuiView extends Application implements GameView {
     public void startGame(Message message) {
         Platform.runLater(() -> {
             stage.setScene(gameScene);
+            // GameGuiController.showGame(message);
             stage.show();
         });
     }
@@ -94,7 +95,7 @@ public class GuiView extends Application implements GameView {
     @Override
     public void startView(Client client) {
         // GuiView.client = client;
-        GuiView.gui = this;
+        // GuiView.gui = this;
         launch();
     }
 
@@ -142,7 +143,7 @@ public class GuiView extends Application implements GameView {
         }
 
         gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"));
-        gameSceneLoader.setController(new GameGuiController(MyShelfie.client, this));
+        // gameSceneLoader.setController(new GameGuiController(MyShelfie.client, this));
         try {
             gameScene = new Scene(gameSceneLoader.load());
         } catch (IOException e) {

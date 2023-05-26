@@ -44,47 +44,25 @@ public class ClientRmi extends Client implements RmiClientIf {
         String category = message.getCategory();
         String username = getUsername();
         switch (category) {
-            case "username":
-                setUsername(message.getUsername());
-                break;
-            case "UsernameRetry":
-
-                gameView.usernameError();
-                break;
-
-            case "UsernameRetryCompleteLogin":
-
-                gameView.completeLoginError();
-                break;
-
-            case "chooseNumOfPlayer":
-                gameView.playerChoice();
-
-                break;
-            case "numOfPlayersNotOK":
-
-                gameView.playerNumberError();
-                break;
-            case "update":
+            case "username" -> setUsername(message.getUsername());
+            case "UsernameRetry" -> gameView.usernameError();
+            case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
+            case "chooseNumOfPlayer" -> gameView.playerChoice();
+            case "numOfPlayersNotOK" -> gameView.playerNumberError();
+            case "update" -> {
                 HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
                 gameView.pickMyBookshelf(bookshelves);
                 gameView.pickOtherBookshelf(bookshelves);
                 // gameView.showCurrentScore(message.getIntMessage("score"));
                 gameView.showBoard(message.getBoard());
-
-                break;
-            case "startGame":
+            }
+            case "startGame" -> {
                 System.out.println("Game started.");
                 gameView.startGame(message);
-
-                break;
-            case "turn":
-                myTurn();
-                break;
-            case "otherTurn":
-                gameView.showMessage("It's " + message.getArgument() + "'s turn.");
-                break;
-            case "picked":
+            }
+            case "turn" -> myTurn();
+            case "otherTurn" -> gameView.showMessage("It's " + message.getArgument() + "'s turn.");
+            case "picked" -> {
                 try {
                     if (gameView.showRearrange(message.getPicked())) {
                         sendMessage(new Message("sort", gameView.rearrange(message.getPicked())));
@@ -94,24 +72,17 @@ public class ClientRmi extends Client implements RmiClientIf {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                break;
-            case "PickRetry":
+            }
+            case "PickRetry" -> {
                 gameView.showMessage("Invalid pick. Retry.");
                 List<Coordinates> pick = gameView.showPick();
                 Message myPick = new Message(pick.get(0), pick.get(1));
                 sendMessage(myPick);
-                break;
-            case "endGame":
-                gameView.showEndGame(message.getWinners());
-                break;
-            case "disconnection":
-                gameView.showDisconnection();
-                break;
-            case "waitingRoom":
-                waitingRoom();
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid message category: " + category);
+            }
+            case "endGame" -> gameView.showEndGame(message.getWinners());
+            case "disconnection" -> gameView.showDisconnection();
+            case "waitingRoom" -> gameView.waitingRoom();
+            default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
     }
 
