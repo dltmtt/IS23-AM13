@@ -4,6 +4,10 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Color;
 
+/**
+ * This class is used to print the board in the cli
+ * @see GameCliView
+ */
 public class BoardView {
 
     private static Board board;
@@ -16,6 +20,10 @@ public class BoardView {
         board = boardUpdated;
     }
 
+    /**
+     * This method prints the board in the cli
+     * @see GameCliView
+     */
     public void printBoard() {
         StringBuilder rowBuilder;
         Item[][] boardMatrix = board.getBoardMatrix();
@@ -43,9 +51,5 @@ public class BoardView {
             System.out.print(i + "  "); // Column number (x-axis)
         }
         System.out.println();
-    }
-
-    public void drawBoard() {
-        // Work in progress...
     }
 }
