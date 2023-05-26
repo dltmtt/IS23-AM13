@@ -9,8 +9,17 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
+/**
+ * This class contains some methods to create a bookshelf.
+ */
 public final class BookshelfUtilities {
 
+    /**
+     *
+     * @param b is the bookshelf to fill
+     * @param different is the number of different colors to use
+     * @param numberOfCol is the number of columns to fill
+     */
     public static void createColumn(Bookshelf b, int different, int numberOfCol) {
         Color[] colors = Color.values();
         List<Item> itemList = new ArrayList<>();
@@ -38,6 +47,13 @@ public final class BookshelfUtilities {
         }
     }
 
+    /**
+     * This method creates a row with a specific number of different colors
+     *
+     * @param b is the bookshelf to fill
+     * @param different is the number of different colors to use
+     * @param numberOfRow is the number of the row
+     */
     public static void createRow(Bookshelf b, int different, int numberOfRow) {
         Color[] colors = Color.values();
         List<Item> itemList = new ArrayList<>();
@@ -65,7 +81,11 @@ public final class BookshelfUtilities {
             b.insert(col, itemList);
         }
     }
-
+    /**
+     * This method creates a bookshelf with the four corners filled
+     *
+     * @param b is the bookshelf to fill
+     */
     // CORNER FUNCTIONS
     public static void createCorner(Bookshelf b) {
         List<Item> soloItem = new ArrayList<>();
@@ -283,6 +303,7 @@ public final class BookshelfUtilities {
         b.insert(2, items);
     }
 
+
     public static void dimension4Right(Bookshelf b, List<Item> items) {
         b.insert(0, items);
         List<Item> casual = new ArrayList<>();
@@ -297,6 +318,10 @@ public final class BookshelfUtilities {
         b.insert(3, items);
     }
 
+    /**
+     * This method creates a left stair in the bookshelf
+     * @param b the bookshelf
+     */
     public static void createLeftStair(Bookshelf b) {
         List<Item> itemList = new ArrayList<>();
 
@@ -316,6 +341,10 @@ public final class BookshelfUtilities {
         itemList.remove(0);
     }
 
+    /**
+     * This method creates a right stair in the bookshelf
+     * @param b the bookshelf
+     */
     public static void createRightStair(Bookshelf b) {
         List<Item> itemList = new ArrayList<>();
 
@@ -336,7 +365,7 @@ public final class BookshelfUtilities {
     }
 
     /**
-     * Creates problematic layouts in the bookshelf
+     * This method creates problematic layouts in the bookshelf
      * Please refer to the documentation for more information about the specific layouts
      *
      * @param b       the bookshelf
@@ -945,14 +974,16 @@ public final class BookshelfUtilities {
         }
     }
 
+    /**
+     * This method fills the bookshelf with random colors and random numbers of items
+     * @param b the bookshelf to fill
+     */
     public static void randomFill(Bookshelf b) {
         Random numIndex = new Random();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             for (int j = 0; j < Bookshelf.getRows(); j++) {
-
                 Color randomColor = Color.getRandomColor();
                 int randomNum = numIndex.nextInt(3) + 1;
-
                 b.insert(i, new ArrayList<>(Collections.singleton(new Item(randomColor, randomNum))));
             }
         }
