@@ -59,6 +59,8 @@ public interface CommunicationInterface extends Remote {
                 // }
             }
             case "numOfPlayers" -> {
+                System.out.println("Received numOfPlayers");
+                System.out.println("Number of players: " + message.getNumPlayer());
                 int numPlayer = message.getNumPlayer();
                 String isOk = controller.checkNumPlayer(numPlayer);
                 if (!isOk.equals("ok")) {

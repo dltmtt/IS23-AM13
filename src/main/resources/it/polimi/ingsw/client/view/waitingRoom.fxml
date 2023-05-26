@@ -1,78 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-           minWidth="-Infinity"
-           prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19">
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <ImageView fitHeight="609.0" fitWidth="807.0" pickOnBounds="true">
             <image>
-                <Image url="@../../graphics/misc/sfondo_parquet.jpg"/>
+                <Image url="@../../graphics/misc/sfondo_parquet.jpg" />
             </image>
         </ImageView>
-        <StackPane prefHeight="150.0" prefWidth="200.0"/>
+        <StackPane prefHeight="150.0" prefWidth="200.0" />
         <StackPane prefHeight="150.0" prefWidth="200.0">
             <children>
                 <ImageView fitHeight="240.0" fitWidth="811.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../graphics/publisher_material/banner_1386x400px.png"/>
+                        <Image url="@../../graphics/publisher_material/banner_1386x400px.png" />
                     </image>
                 </ImageView>
             </children>
         </StackPane>
         <StackPane prefHeight="150.0" prefWidth="200.0">
             <children>
-                <ImageView fitHeight="100.0" fitWidth="808.0" opacity="0.6" pickOnBounds="true"
-                           StackPane.alignment="TOP_CENTER">
+                <ImageView fitHeight="100.0" fitWidth="808.0" opacity="0.6" pickOnBounds="true" StackPane.alignment="TOP_CENTER">
                     <image>
-                        <Image url="@../../graphics/misc/base_pagina2.jpg"/>
+                        <Image url="@../../graphics/misc/base_pagina2.jpg" />
                     </image>
                 </ImageView>
             </children>
         </StackPane>
         <StackPane prefHeight="150.0" prefWidth="200.0">
             <children>
-                <ImageView fitHeight="108.0" fitWidth="813.0" opacity="0.6" pickOnBounds="true"
-                           StackPane.alignment="BOTTOM_CENTER">
+                <ImageView fitHeight="108.0" fitWidth="813.0" opacity="0.6" pickOnBounds="true" StackPane.alignment="BOTTOM_CENTER">
                     <image>
-                        <Image url="@../../graphics/misc/base_pagina2.jpg"/>
+                        <Image url="@../../graphics/misc/base_pagina2.jpg" />
                     </image>
                 </ImageView>
             </children>
         </StackPane>
         <StackPane prefHeight="150.0" prefWidth="200.0">
-            <children>
-                <Label fx:id="text" prefHeight="123.0" prefWidth="251.0" text="text" translateY="80.0" wrapText="true"
-                       StackPane.alignment="TOP_CENTER">
-                    <StackPane.margin>
-                        <Insets left="120.0"/>
-                    </StackPane.margin>
-                    <font>
-                        <Font name="System Bold" size="13.0"/>
-                    </font>
-                </Label>
-            </children>
+         <children>
+            <Label text="You're in the waiting room..." translateX="10.0" translateY="120.0" StackPane.alignment="TOP_CENTER" />
+            <Label text="Please, wait for other players to join the game." translateX="10.0" translateY="150.0" StackPane.alignment="TOP_CENTER" />
+         </children>
         </StackPane>
         <StackPane prefHeight="150.0" prefWidth="200.0">
             <children>
-                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" translateX="9.0"
-                           translateY="15.0" StackPane.alignment="TOP_CENTER">
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" translateX="9.0" translateY="15.0" StackPane.alignment="TOP_CENTER">
                     <image>
-                        <Image url="@../../graphics/publisher_material/title_2000x618px.png"/>
+                        <Image url="@../../graphics/publisher_material/title_2000x618px.png" />
                     </image>
                 </ImageView>
             </children>
         </StackPane>
-        <ImageView fitHeight="94.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true" translateY="-7.0"
-                   StackPane.alignment="BOTTOM_RIGHT">
+        <ImageView fitHeight="94.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true" translateY="-7.0" StackPane.alignment="BOTTOM_RIGHT">
             <image>
-                <Image url="@../../graphics/publisher_material/publisher.png"/>
+                <Image url="@../../graphics/publisher_material/publisher.png" />
             </image>
         </ImageView>
-        <StackPane prefHeight="150.0" prefWidth="200.0"/>
+        <StackPane prefHeight="150.0" prefWidth="200.0" />
     </children>
 </StackPane>

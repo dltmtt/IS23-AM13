@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import javafx.fxml.FXML;
@@ -32,9 +33,9 @@ public class GameGuiController {
     @FXML
     private Canvas boardCanvas, bookshelfCanvas;
 
-    public GameGuiController(Client client, GuiView view) {
-        this.client = client;
-        this.view = view;
+    public GameGuiController() {
+        this.client = GuiView.client;
+        this.view = GuiView.gui;
     }
 
     public static void drawBookshelf(Canvas bookshelfCanvas, Bookshelf bookshelf) {
@@ -99,5 +100,9 @@ public class GameGuiController {
         boardGridPane.setHgap(COLUMN_SPACING);
         boardGridPane.setVgap(ROW_SPACING);
         boardGridPane.setPadding(new Insets(10));
+    }
+
+    public void showGame(Message message) {
+        int personalGoalIndex = message.getPersonalGoal();
     }
 }

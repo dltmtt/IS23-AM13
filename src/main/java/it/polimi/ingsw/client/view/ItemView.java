@@ -5,7 +5,17 @@ import it.polimi.ingsw.utils.CliUtilities;
 
 import java.util.List;
 
+/**
+ * This class is used to print the items in the cli
+ * @see GameCliView
+ * @see CliUtilities
+ */
 public class ItemView {
+
+    /**
+     * This method is used to print the items
+     * @param items the list of items to print
+     */
 
     public static void printItems(List<Item> items) {
         for (int i = 0; i < items.size(); i++) {

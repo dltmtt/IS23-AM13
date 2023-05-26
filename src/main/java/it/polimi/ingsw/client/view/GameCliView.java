@@ -496,8 +496,8 @@ public class GameCliView implements GameView {
     public void playerNumberError() {
 
         System.out.println("Illegal number of players. Retry.");
-        int numPlayer = promptNumberOfPlayers();
-        client.sendMessage(new Message("numOfPlayers", numPlayer));
+        int numOfPlayers = promptNumberOfPlayers();
+        client.sendMessage(new Message("numOfPlayers", "", 0, false, numOfPlayers));
     }
 
     @Override

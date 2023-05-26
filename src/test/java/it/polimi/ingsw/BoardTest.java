@@ -280,11 +280,7 @@ public class BoardTest {
         BoardView boardView = new BoardView(b);
         boardView.printBoard();
         System.out.println("\n");
-        try {
-            List<Item> items = b.pickFromBoard(cellCoordinates);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        List<Item> items = b.pickFromBoard(cellCoordinates);
         boardView.updateBoard(b);
         boardView.printBoard();
     }

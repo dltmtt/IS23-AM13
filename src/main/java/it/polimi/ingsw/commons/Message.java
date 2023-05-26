@@ -22,6 +22,13 @@ public class Message implements Serializable {
 
     private final JSONObject json;
 
+    ///////////////////////////////////////////////////////CONSTRUCTORS////////////////////////////////////////////////////////
+
+    /**
+     * Constructor for a normal json message.
+     *
+     * @param json the json object
+     */
     public Message(JSONObject json) {
         this.json = json;
     }
@@ -47,25 +54,102 @@ public class Message implements Serializable {
         json.put("numPlayer", numString);
     }
 
-    public Message(String type, String argument) {
+    /**
+     * Constructor for the startGame message.
+     *
+     * @param personalGoal   personal goal of the player
+     * @param commonGoalList list of common goals (1 or 2)
+     * @param bookshelves    hashmap of bookshelves (bookshelf, username of the player who owns it)
+     * @param board          board of the game
+     * @param topScoringList list of top scoring of common goals
+     */
+
+    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> topScoringList) {
         json = new JSONObject();
-        json.put("category", type);
-        json.put("argument", argument);
+        String personalGoalString = Integer.toString(personalGoal);
+        SettingLoader.loadBookshelfSettings();
+        json.put("category", "startGame");
+        json.put("personal_goal", personalGoalString);
+        for (int i = 0; i < commonGoalList.size(); i++) {
+            Layout layout = commonGoalList.get(i).getLayout();
+            json.put("commonGoalLayout " + i, layout.getName());
+
+            if ("fullLine".equals(commonGoalList.get(i).getLayout().getName())) {
+                json.put("occurrences " + i, layout.getOccurrences());
+                json.put("horizontal " + i, layout.isHorizontal());
+                json.put("size " + i, 0);
+            } else if ("group".equals(layout.getName())) {
+                json.put("occurrences " + i, layout.getOccurrences());
+                json.put("horizontal " + i, false);
+                json.put("size " + i, layout.getSize());
+            } else {
+                json.put("occurrences " + i, 0);
+                json.put("horizontal " + i, false);
+                json.put("size " + i, 0);
+            }
+        }
+        JSONArray bookshelfArray = new JSONArray();
+        for (Bookshelf bookshelf : bookshelves.keySet()) {
+            JSONObject bookshelfJson = new JSONObject();
+            bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
+            bookshelfJson.put("username", bookshelves.get(bookshelf));
+            bookshelfArray.add(bookshelfJson);
+        }
+        json.put("bookshelves", bookshelfArray);
+
+        json.put("board", boardJson(board));
+
+        JSONArray scoringList = new JSONArray();
+        for (Integer integer : topScoringList) {
+            JSONObject scoringJson = new JSONObject();
+            scoringJson.put("score", integer);
+            scoringList.add(scoringJson);
+        }
+        json.put("topScoringList", scoringList);
     }
 
-    // è un turno
-    public Message(String category, int position) {
+    /**
+     * Constructor for the update message.
+     *
+     * @param category    category of the message (what's the message about)
+     * @param bookshelves hashmap of bookshelves (bookshelf, username of the player who owns it)
+     * @param board       board of the game
+     * @param score       list of current scoring of the player. Each element is a different type of scoring
+     */
+
+    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> score) {
         json = new JSONObject();
-        String posString = Integer.toString(position);
         json.put("category", category);
-        json.put("position", posString);
+        JSONArray bookshelfArray = new JSONArray();
+        for (Bookshelf bookshelf : bookshelves.keySet()) {
+            JSONObject bookshelfJson = new JSONObject();
+            bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
+            bookshelfJson.put("username", bookshelves.get(bookshelf));
+            bookshelfArray.add(bookshelfJson);
+        }
+        json.put("bookshelves", bookshelfArray);
+
+        json.put("board", boardJson(board));
+        JSONArray points = new JSONArray();
+        for (Integer integer : score) {
+            JSONObject scoreJson = new JSONObject();
+            scoreJson.put("score", integer);
+            points.add(scoreJson);
+        }
+        json.put("currentPointsList", points);
     }
 
-    // è una insert
-    public Message(String category, String type, int n) {
+    /**
+     * Constructor for an int content message.
+     *
+     * @param category category of the message (what's the message about)
+     * @param name     name of the content
+     * @param number   content of the message
+     */
+    public Message(String category, String name, int number) {
         json = new JSONObject();
         json.put("category", category);
-        json.put(type, n);
+        json.put(name, number);
     }
 
     /**
@@ -79,6 +163,12 @@ public class Message implements Serializable {
         json.put("category", singleMessage);
     }
 
+    /**
+     * Constructor for the winners message.
+     *
+     * @param size  size of the list of winners
+     * @param names usernames of the winners
+     */
     public Message(int size, List<String> names) {
         json = new JSONObject();
         json.put("category", "winners");
@@ -89,12 +179,108 @@ public class Message implements Serializable {
         }
     }
 
+    /**
+     * Constructor for the pick message . (Coordinates of items picked from the board)
+     *
+     * @param from coordinates of the first item picked
+     * @param to   coordinates of the last item picked
+     */
+
+    public Message(Coordinates from, Coordinates to) {
+        json = new JSONObject();
+
+        int startRow = from.x();
+        int startColumn = from.y();
+        int finalRow = to.x();
+        int finalColumn = to.y();
+        String startRowString = Integer.toString(startRow);
+        String startColumnString = Integer.toString(startColumn);
+        String finalRowString = Integer.toString(finalRow);
+        String finalColumnString = Integer.toString(finalColumn);
+
+        json.put("category", "pick");
+        json.put("startRow", startRowString);
+        json.put("startColumn", startColumnString);
+        json.put("finalRow", finalRowString);
+        json.put("finalColumn", finalColumnString);
+
+        int size = 0;
+        if (startRow == finalRow) {
+            size = finalColumn - startColumn + 1;
+        } else if (startColumn == finalColumn) {
+            size = finalRow - startRow + 1;
+        }
+        json.put("size", String.valueOf(size));
+    }
+
+    /**
+     * Constructor for the items picked message. (Items picked from the board)
+     *
+     * @param picked list of items picked
+     */
+    public Message(List<Item> picked) {
+        json = new JSONObject();
+        json.put("category", "picked");
+        JSONArray ItemList = new JSONArray();
+        for (Item item : picked) {
+            JSONObject Item = new JSONObject();
+            Item.put("color", item.color().toString());
+            String valueString = Integer.toString(item.number());
+            Item.put("value", valueString);
+            ItemList.add(Item);
+        }
+        json.put("picked", ItemList);
+    }
+
+    /**
+     * Constructor for the sort message. (the new order of the items picked)
+     *
+     * @param category category of the message (sort)
+     * @param sort     list of the new order of the items picked
+     */
+    public Message(String category, List<Integer> sort) {
+        json = new JSONObject();
+        json.put("category", category);
+        JSONArray array = new JSONArray();
+        array.addAll(sort);
+        json.put("sort", array);
+    }
+
+    ///////////////////////////////////////////////////////DA SISTEMARE////////////////////////////////////////////////////////
+
+    // la uso?
+    public Message(String type, String argument) {
+        json = new JSONObject();
+        json.put("category", type);
+        json.put("argument", argument);
+    }
+
+    // si può mettere in int message
+    // è un turno
+    public Message(String category, int position) {
+        json = new JSONObject();
+        String posString = Integer.toString(position);
+        json.put("category", category);
+        json.put("position", posString);
+    }
+
+    // è una insert
+    // public Message(String category, String type, int n) {
+    //     json = new JSONObject();
+    //     json.put("category", category);
+    //     json.put(type, n);
+    // }
+
+    // si può mettere in int message
+
     public Message(int position) {
         json = new JSONObject();
         String posixString = Integer.toString(position);
         json.put("category", "index");
         json.put("position", posixString);
     }
+
+    // da sostituire con l'altro
 
     /**
      * Constructor for the game message type (Goals, Bookshelf, and Board)
@@ -140,52 +326,21 @@ public class Message implements Serializable {
         json.put("board", boardJson(board));
     }
 
+    // la uso??
+
+    /**
+     * Constructor for the board message type.
+     *
+     * @param category category of the message (Board)
+     * @param board    board of the game
+     */
     public Message(String category, Board board) {
         json = new JSONObject();
         json.put("category", category);
         json.put("board", boardJson(board));
     }
 
-    public Message(Coordinates from, Coordinates to) {
-        json = new JSONObject();
-
-        int startRow = from.x();
-        int startColumn = from.y();
-        int finalRow = to.x();
-        int finalColumn = to.y();
-        String startRowString = Integer.toString(startRow);
-        String startColumnString = Integer.toString(startColumn);
-        String finalRowString = Integer.toString(finalRow);
-        String finalColumnString = Integer.toString(finalColumn);
-
-        json.put("category", "pick");
-        json.put("startRow", startRowString);
-        json.put("startColumn", startColumnString);
-        json.put("finalRow", finalRowString);
-        json.put("finalColumn", finalColumnString);
-
-        int size = 0;
-        if (startRow == finalRow) {
-            size = finalColumn - startColumn + 1;
-        } else if (startColumn == finalColumn) {
-            size = finalRow - startRow + 1;
-        }
-        json.put("size", String.valueOf(size));
-    }
-
-    public Message(List<Item> picked) {
-        json = new JSONObject();
-        json.put("category", "picked");
-        JSONArray ItemList = new JSONArray();
-        for (Item item : picked) {
-            JSONObject Item = new JSONObject();
-            Item.put("color", item.color().toString());
-            String valueString = Integer.toString(item.number());
-            Item.put("value", valueString);
-            ItemList.add(Item);
-        }
-        json.put("picked", ItemList);
-    }
+    // da sostituire con l'altro
 
     public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, int score) {
         json = new JSONObject();
@@ -203,13 +358,7 @@ public class Message implements Serializable {
         json.put("score", score);
     }
 
-    public Message(String category, List<Integer> sort) {
-        json = new JSONObject();
-        json.put("category", category);
-        JSONArray array = new JSONArray();
-        array.addAll(sort);
-        json.put("sort", array);
-    }
+    ///////////////////////////////////////////////////////GETTERS////////////////////////////////////////////////////////
 
     public List<Integer> getPick() {
         List<Integer> pick = new ArrayList<>();
@@ -478,6 +627,30 @@ public class Message implements Serializable {
             i++;
         }
         return cardHorizontal;
+    }
+
+    public List<Integer> getTopScoring() {
+        List<Integer> topScoring = new ArrayList<>();
+        JSONArray topScoringJson = (JSONArray) json.get("topScoringList");
+        for (Object obj : topScoringJson) {
+            JSONObject topScoringItem = (JSONObject) obj;
+            String scoreString = (String) topScoringItem.get("score");
+            int score = Integer.parseInt(scoreString);
+            topScoring.add(score);
+        }
+        return topScoring;
+    }
+
+    public List<Integer> getCurrentPoints() {
+        List<Integer> currentPoints = new ArrayList<>();
+        JSONArray currentPointsJson = (JSONArray) json.get("currentPointsList");
+        for (Object obj : currentPointsJson) {
+            JSONObject currentPointsItem = (JSONObject) obj;
+            String scoreString = (String) currentPointsItem.get("score");
+            int score = Integer.parseInt(scoreString);
+            currentPoints.add(score);
+        }
+        return currentPoints;
     }
 
     public JSONObject getJson() {

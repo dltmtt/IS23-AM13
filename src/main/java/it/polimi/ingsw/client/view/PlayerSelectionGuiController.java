@@ -15,11 +15,10 @@ public class PlayerSelectionGuiController {
     public Slider playerSlider;
 
     public PlayerSelectionGuiController() {
-
     }
 
     @FXML
     public void startWaitingRoom() {
-        MyShelfie.client.sendMessage(new Message("numOfPlayers", (int) playerSlider.getValue()));
+        MyShelfie.client.sendMessage(new Message("numOfPlayers", "", 0, false, (int) playerSlider.getValue()));
     }
 }

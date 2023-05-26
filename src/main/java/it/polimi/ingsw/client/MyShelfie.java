@@ -72,9 +72,9 @@ public class MyShelfie {
         client.setView(gameView);
         gameView.setClient(client);
         client.start();
-        System.out.println("started");
+        // System.out.println("started");
         // gameView.setClient(client);
-        System.out.println("client set");
+        // System.out.println("client set");
 
         // Client login procedure is called in client.start()
         // client.login();

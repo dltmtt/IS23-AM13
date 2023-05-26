@@ -113,11 +113,6 @@ public class Player {
         this.hasEndGameCard = hasEndGameCard;
     }
 
-    public void setCommonGoalPoints(CommonGoal commonGoal) {
-        //        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
-        commonGoalPoints.add(commonGoal.getScoring());
-    }
-
     /**
      * Moves a straight line of tiles from the board to the bookshelf.
      *
@@ -196,5 +191,26 @@ public class Player {
         score += bookshelf.getPoints();
         System.out.println(this.getNickname() + " " + score);
         return score;
+    }
+
+    public int getAdjacentPoints() {
+        return bookshelf.getPoints();
+    }
+
+    public int getPersonalGoalPoints() {
+        return personalGoal.getPoints(bookshelf);
+    }
+
+    public int getCommonGoalPoints() {
+        int score = 0;
+        for (int scoring : commonGoalPoints) {
+            score += scoring;
+        }
+        return score;
+    }
+
+    public void setCommonGoalPoints(CommonGoal commonGoal) {
+        //        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
+        commonGoalPoints.add(commonGoal.getScoring());
     }
 }
