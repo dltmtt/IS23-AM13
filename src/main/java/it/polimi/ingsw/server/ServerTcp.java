@@ -33,7 +33,7 @@ public class ServerTcp implements ServerInterface {
             serverSocket = new ServerSocket(PORT_SOCKET);
             System.out.println("Server socket started on port " + serverSocket.getLocalPort() + ".");
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             throw new IOException("Unable to start the server socket.");
         }
 

@@ -33,14 +33,18 @@ public class Server implements CommunicationInterface, ServerInterface {
             this.rmiServer = new ServerRmi();
             this.socketServer = new ServerTcp();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             System.err.println("The server is not ready.\nThe game cannot start");
         }
     }
 
     public static void main(String[] args) {
         Server server = new Server();
-        server.start();
+        try {
+            server.start();
+        } catch (Exception e) {
+            System.err.println("Unable to start the server.");
+        }
 
         // Handle server shutdown
         new Thread(() -> {
