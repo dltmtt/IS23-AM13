@@ -49,6 +49,41 @@ public class GameModel {
         this.players.addAll(players);
     }
 
+    /**
+     * @return the top of the scoring list of each common goal card
+     * @authot Valeria
+     */
+
+    public List<Integer> getTopScoringPoints() {
+        List<Integer> topScoringPoints = new ArrayList<>();
+        for (CommonGoal cg : commonGoalDeck) {
+            topScoringPoints.add(cg.getScoringList().get(0));
+        }
+        return topScoringPoints;
+    }
+
+    /**
+     * @param player
+     * @return a list of all the points that the player has earned
+     * <ul>
+     *     <li>first element(index 0):the points of the personal goal</li>
+     *     <li>second element(index 1):the points of the common goal/s</li>
+     *     <li>third element(index 2):the points of the bookshelf</li>
+     *     <li>fourth element(index 3):the total of all points</li>
+     * @authot Valeria
+     */
+
+    public List<Integer> getAllPoints(Player player) {
+        List<Integer> allPoints = new ArrayList<>();
+
+        allPoints.add(player.getPersonalGoalPoints());
+        allPoints.add(player.getCommonGoalPoints());
+        allPoints.add(player.getBookshelf().getPoints());
+        allPoints.add(player.calculateScore());
+
+        return allPoints;
+    }
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
