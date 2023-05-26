@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.RmiClientIf;
+import it.polimi.ingsw.client.ClientCommunicationInterface;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
@@ -14,8 +14,8 @@ public class ServerController {
     private final List<String> winnersNickname;
     private final List<String> pings;
     private final List<String> disconnected;
-    private final HashMap<String, RmiClientIf> rmiClients;
-    // HashMap<String, Client> clients = new HashMap<>();
+    private final HashMap<String, ClientCommunicationInterface> rmiClients;
+    private final HashMap<String, SocketClientHandler> tcpClients;
     private boolean printedTurn = false;
     private List<Item> currentPicked;
     private GameModel gameModel;
@@ -35,28 +35,47 @@ public class ServerController {
         pings = new ArrayList<>();
         disconnected = new ArrayList<>();
         rmiClients = new HashMap<>();
+        tcpClients = new HashMap<>();
     }
 
     /**
      * Method to add a player to the game
+     *
      * @param username is the nickname of the player
-     * @param client is the client associated to the player
+     * @param client   is the client associated to the player
      */
-    public void addClient(String username, RmiClientIf client) {
+    public void addClient(String username, ClientCommunicationInterface client) {
         rmiClients.put(username, client);
     }
 
     /**
+     * Method to add a player to the game
      *
-     * @return Hashmap of RMI clients
+     * @param username is the nickname of the player
+     * @param client   is the client associated to the player
      */
-    public HashMap<String, RmiClientIf> getClients() {
+    public void addClient(String username, SocketClientHandler client) {
+        tcpClients.put(username, client);
+    }
+
+    /**
+     * @return hashmap of RMI clients
+     */
+    public HashMap<String, ClientCommunicationInterface> getRmiClients() {
         return rmiClients;
+    }
+
+    /**
+     * @return hashmap of TCP clients
+     */
+    public HashMap<String, SocketClientHandler> getTcpClients() {
+        return tcpClients;
     }
 
     /**
      * Method to check if the ping of a player has been received
      * If it has not been received, the username is added to the list of pings
+     *
      * @param username Username of the player
      */
     public void pingReceived(String username) {
@@ -66,7 +85,6 @@ public class ServerController {
     }
 
     public boolean checkPings() {
-
         if (!new HashSet<>(pings).containsAll(players.stream().map(Player::getNickname).toList())) {
             missingOnes();
             if (!printedDisco) {
@@ -180,8 +198,12 @@ public class ServerController {
         return gameModel.getCurrentPlayer().getNickname();
     }
 
-    public RmiClientIf getCurrentClient() {
-        return rmiClients.get(gameModel.getCurrentPlayer().getNickname());
+    // public ClientCommunicationInterface getCurrentClient() {
+    //     return rmiClients.get(gameModel.getCurrentPlayer().getNickname());
+    // }
+
+    public SocketClientHandler getCurrentClient() {
+        return tcpClients.get(gameModel.getCurrentPlayer().getNickname());
     }
 
     public int getScore(int position) {
@@ -189,8 +211,7 @@ public class ServerController {
     }
 
     public HashMap<Bookshelf, String> getBookshelves() {
-        HashMap<Bookshelf, String> map = gameModel.getPlayers().stream().collect(Collectors.toMap(Player::getBookshelf, Player::getNickname, (a, b) -> b, HashMap::new));
-        return map;
+        return gameModel.getPlayers().stream().collect(Collectors.toMap(Player::getBookshelf, Player::getNickname, (a, b) -> b, HashMap::new));
     }
 
     public String checkNumPlayer(int numPlayer) {
@@ -383,7 +404,7 @@ public class ServerController {
     }
 
     public boolean isFirst() {
-        return rmiClients.size() == 1;
+        return tcpClients.size() + rmiClients.size() == 1;
     }
 
     public int getCurrentPlayerPersonalGoal() {

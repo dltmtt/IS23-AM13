@@ -1,15 +1,15 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.commons.Message;
+import it.polimi.ingsw.utils.FullRoomException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.utils.CliUtilities.GRAY;
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
-
-// TODO: add model
 
 /**
  * Complete server class, which starts both RMI and socket servers.
@@ -17,7 +17,7 @@ import static it.polimi.ingsw.utils.CliUtilities.RESET;
  * The server can be stopped by typing {@value #SHUTDOWN_COMMAND} in the console.
  * This will stop both the RMI and the socket servers.
  */
-public class Server implements CommunicationInterface, ServerInterface {
+public class Server implements ServerCommunicationInterface, ServerInterface {
 
     private static final String SHUTDOWN_COMMAND = "exit";
     private ServerRmi rmiServer;
@@ -27,13 +27,12 @@ public class Server implements CommunicationInterface, ServerInterface {
      * Creates a new server.
      * Initialize both the RMI and the socket servers.
      */
-
     public Server() {
         try {
             this.rmiServer = new ServerRmi();
             this.socketServer = new ServerTcp();
         } catch (IOException e) {
-            //e.printStackTrace();
+            // e.printStackTrace();
             System.err.println("The server is not ready.\nThe game cannot start");
         }
     }
@@ -81,7 +80,6 @@ public class Server implements CommunicationInterface, ServerInterface {
      * Stops both the RMI and the socket servers.
      * Sends a message to all clients to notify them that the server is shutting down.
      */
-
     @Override
     public void stop() {
         rmiServer.stop();
@@ -91,7 +89,7 @@ public class Server implements CommunicationInterface, ServerInterface {
     }
 
     @Override
-    public void sendClient() throws RemoteException, NotBoundException {
-
+    public void receiveMessageTcp(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
+        // Not used
     }
 }

@@ -2,21 +2,23 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.commons.Message;
-import it.polimi.ingsw.utils.FullRoomException;
-import org.json.simple.parser.ParseException;
+import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.utils.Coordinates;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.List;
 
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 
 // This is abstract (non instantiable) because each client will either
 // be an RMI client or a Socket client
-public abstract class Client extends UnicastRemoteObject implements Serializable {
+public abstract class Client extends UnicastRemoteObject implements Serializable, ClientCommunicationInterface {
 
     public GameView gameView;
     String username = null;
@@ -61,16 +63,62 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public abstract void sendMessage(Message message);
 
-    public abstract void receivedMessage(Message message);
+    public void parseReceivedMessage(Message message) {
+        String category = message.getCategory();
+        switch (category) {
+            case "username" -> setUsername(message.getUsername());
+            case "UsernameRetry" -> gameView.usernameError();
+            case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
+            case "chooseNumOfPlayer" -> gameView.playerChoice();
+            case "numOfPlayersNotOK" -> gameView.playerNumberError();
+            case "update" -> {
+                HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
+                gameView.pickMyBookshelf(bookshelves);
+                gameView.pickOtherBookshelf(bookshelves);
+                // gameView.showCurrentScore(message.getIntMessage("score"));
+                gameView.showBoard(message.getBoard());
+            }
+            case "startGame" -> {
+                System.out.println("Game started.");
+                gameView.startGame(message);
+            }
+            case "turn" -> myTurn();
+            case "otherTurn" -> gameView.showMessage("It's " + message.getArgument() + "'s turn.\n");
+            case "picked" -> {
+                try {
+                    if (gameView.showRearrange(message.getPicked())) {
+                        sendMessage(new Message("sort", gameView.rearrange(message.getPicked())));
+                    }
+                    int column = gameView.promptInsert();
+                    sendMessage(new Message("insert", "insert", column));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case "PickRetry" -> {
+                gameView.showMessage("Invalid pick. Retry.");
+                List<Coordinates> pick = gameView.showPick();
+                Message myPick = new Message(pick.get(0), pick.get(1));
+                sendMessage(myPick);
+            }
+            case "endGame" -> gameView.showEndGame(message.getWinners());
+            case "disconnection" -> gameView.showDisconnection();
+            case "waitingRoom" -> waitingRoom();
+            default -> throw new IllegalArgumentException("Invalid message category: " + category);
+        }
+    }
 
-    public abstract Message numOfPlayers();
+    public Message numOfPlayers() {
+        return new Message("numPlayer", "", 0, false, 0);
+    }
 
-    public void startPingThread(String finalUsername) {
+    public void startPingThread(String username) {
         Thread pingThread = new Thread(() -> {
             while (true) {
                 try {
+                    // noinspection BusyWait
                     Thread.sleep(5000);
-                    sendMessage(new Message("ping", finalUsername));
+                    sendMessage(new Message("ping", username));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -94,7 +142,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public abstract void connect() throws IOException, NotBoundException;
 
     /**
-     * Starts the login procedure, in which are asked the username,age, number of players, first game experience.
+     * Starts the login procedure, in which are asked the username, age, number of players, first game experience.
      */
     public void login() {
         // gameView.setClient(this);
@@ -109,11 +157,16 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Shows the board and asks the user to pick some tiles, then, if the pick is valid, asks the user to rearrange the tiles (if the player want),
-     * then asks the user to choose a column to place the tiles in. at the end of the turn, the player returns to the waiting room.
+     * Shows the board and asks the user to pick some tiles.
+     * If the pick is valid, asks the user to rearrange the tiles (if he wants to),
+     * then asks the user to choose a column to place the tiles in.
+     * At the end of the turn, the player returns to the waiting room. // TODO: does he?
      */
-    public void myTurn() throws FullRoomException, IOException, IllegalAccessException, ParseException {
-        myTurn();
+    public void myTurn() {
+        gameView.showMessage("It's your turn!\n");
+        List<Coordinates> pick = gameView.showPick();
+        Message myPickMessage = new Message(pick.get(0), pick.get(1));
+        sendMessage(myPickMessage);
     }
 
     public void endGame() {
@@ -125,7 +178,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     public void setMyPosition(int position) {
-
         this.myPosition = position;
     }
 
@@ -137,7 +189,12 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         this.username = username;
     }
 
-    public abstract void sendMe() throws RemoteException, NotBoundException;
+    public void startGame(Message message) {
+        gameView.startGame(message);
+    }
 
-    public abstract void startGame(Message message);
+    @Override
+    public void callBackSendMessage(Message message) {
+        parseReceivedMessage(message);
+    }
 }

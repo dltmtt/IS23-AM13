@@ -46,16 +46,25 @@ public class MyShelfie {
         String protocolType = line.getOptionValue("protocol", "rmi");
 
         client = null;
-        if (protocolType.equals("rmi")) {
-            try {
-                client = new ClientRmi();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+        switch (protocolType) {
+            case "rmi" -> {
+                try {
+                    client = new ClientRmi();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            // case "socket" -> client = new ClientTcp();
-        } else {
-            System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'socket'.");
-            System.exit(1);
+            case "tcp" -> {
+                try {
+                    client = new ClientTcp();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            default -> {
+                System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'tcp'.");
+                System.exit(1);
+            }
         }
 
         String modeType = line.getOptionValue("view", "cli"); // setSocketOption
@@ -72,9 +81,6 @@ public class MyShelfie {
         client.setView(gameView);
         gameView.setClient(client);
         client.start();
-        // System.out.println("started");
-        // gameView.setClient(client);
-        // System.out.println("client set");
 
         // Client login procedure is called in client.start()
         // client.login();

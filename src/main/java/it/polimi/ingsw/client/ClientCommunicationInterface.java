@@ -5,7 +5,7 @@ import it.polimi.ingsw.commons.Message;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RmiClientIf extends Remote {
+public interface ClientCommunicationInterface extends Remote {
 
     void callBackSendMessage(Message message) throws RemoteException;
 }

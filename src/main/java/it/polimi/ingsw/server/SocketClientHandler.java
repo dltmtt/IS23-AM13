@@ -8,82 +8,68 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class SocketClientHandler implements Runnable, CommunicationInterface {
+public class SocketClientHandler implements Runnable, ServerCommunicationInterface {
 
-    public final BufferedReader br;
+    public final BufferedReader clientBufferedReader;
     private final Socket socket;
-    public PrintStream ps;
-    public BufferedReader kb;
-
-    public DataOutputStream dos;
-
-    public Thread listenThread, sendThread;
+    public PrintStream clientPrintStream;
+    public DataOutputStream dataOutputStream;
+    public Thread listenThread;
 
     public SocketClientHandler(Socket socket) throws IOException {
         this.socket = socket;
 
-        // Send data to the client
+        // To send data to the client
         try {
-            ps = new PrintStream(socket.getOutputStream());
+            clientPrintStream = new PrintStream(socket.getOutputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         // To read data coming from the client
         try {
-            br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            clientBufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        // To read data from the keyboard
-        kb = new BufferedReader(new InputStreamReader(System.in));
-
         // This is to send data to the server
         try {
-            dos = new DataOutputStream(socket.getOutputStream());
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             System.err.println("Unable to create output stream");
             throw new RuntimeException(e);
         }
 
+        // Listen for messages coming from the client
         listenThread = new Thread(() -> {
-            String str;
+            String clientString;
             while (true) {
                 try {
-                    synchronized (br) {
-                        str = br.readLine();
+                    synchronized (clientBufferedReader) {
+                        clientString = clientBufferedReader.readLine();
+                        JSONParser parser = new JSONParser();
+                        JSONObject messageFromClient = null;
                         try {
-                            JSONParser parser = new JSONParser();
-                            JSONObject messageFromClient = (JSONObject) parser.parse(str);
-                            Message message = new Message(messageFromClient);
-                            Message responseMessage = sendMessage(message);
-                            if (responseMessage != null) {
-                                sendString(responseMessage.getJSONstring());
-                            }
-                        } catch (NullPointerException | FullRoomException | IllegalAccessException |
-                                 RemoteException e) {
-                            e.printStackTrace();
-                            System.out.println("Client disconnected or message error.");
-                            break;
+                            messageFromClient = (JSONObject) parser.parse(clientString);
                         } catch (ParseException e) {
-                            System.out.println("not a json message");
-                            System.out.println(str);
+                            System.err.println("Unable to parse message from client");
+                        }
+
+                        Message message = new Message(messageFromClient);
+
+                        try {
+                            receiveMessageTcp(message, this);
+                        } catch (IllegalAccessException | FullRoomException e) {
+                            throw new RuntimeException(e);
                         }
                     }
                 } catch (IOException e) {
                     System.out.println(socket.getInetAddress() + " disconnected, unable to read");
                     break;
                 }
-            }
-        });
-
-        sendThread = new Thread(() -> {
-            while (true) {
-                sendInput();
             }
         });
     }
@@ -93,30 +79,16 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
         listenThread.start();
     }
 
-    public void sendInput() {
-        String str1;
-        // read from keyboard
-        try {
-            str1 = kb.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        // send to client
-        ps.println(str1);
-    }
-
     public void sendString(String message) {
-        ps.println(message);
+        clientPrintStream.println(message);
     }
 
     public void close() {
         sendString("Connection closed.");
         listenThread.interrupt();
-        sendThread.interrupt();
-        ps.close();
+        clientPrintStream.close();
         try {
-            br.close();
-            kb.close();
+            clientBufferedReader.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,7 +100,81 @@ public class SocketClientHandler implements Runnable, CommunicationInterface {
     }
 
     @Override
-    public void sendClient() throws RemoteException, NotBoundException {
+    public void receiveMessageTcp(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
+        String category = message.getCategory();
 
+        switch (category) {
+            case "ping" -> controller.pingReceived(message.getUsername());
+            case "numOfPlayers" -> {
+                int numPlayer = message.getNumPlayer();
+                String isOk = controller.checkNumPlayer(numPlayer);
+                if (!isOk.equals("ok")) {
+                    sendMessageToClient(new Message("numOfPlayersNotOK"));
+                } else {
+                    System.out.println("Number of players: " + numPlayer);
+                    sendMessageToClient(new Message("waitingRoom"));
+                }
+            }
+            case "pick" -> {
+                if ("ok".equals(controller.pick(message.getPick()))) {
+                    sendMessageToClient(new Message(controller.getPicked(message.getPick())));
+                } else {
+                    sendMessageToClient(new Message("pickRetry"));
+                }
+            }
+            case "insert" -> {
+                if (controller.checkInsert(message.getInsert())) {
+                    sendUpdate(message);
+                    controller.changeTurn();
+                    turn();
+                }
+                // TODO: return an error message if the insert is not valid, otherwise the game will freeze
+            }
+            case "sort" -> controller.rearrangePicked(message.getSort());
+            case "completeLogin" -> {
+                String username = message.getUsername();
+                int checkStatus = controller.checkUsername(username);
+                if (checkStatus == 1) {
+                    // The username is available, a new player can be added
+                    sendMessageToClient(new Message("username", username));
+                    controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
+                    System.out.println(message.getUsername() + " logged in.");
+                    controller.addClient(message.getUsername(), client);
+                    controller.startRoom();
+                    if (controller.isFirst()) {
+                        sendMessageToClient(new Message("chooseNumOfPlayer"));
+                    } else {
+                        sendMessageToClient(new Message("waitingRoom"));
+                        if (controller.checkRoom()) {
+                            startGame();
+                            System.out.println("Game started.");
+                        }
+                    }
+                } else if (checkStatus == 0) {
+                    // The username has already been taken, retry
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    checkStatus = controller.checkUsername(username);
+                    if (checkStatus == 0) {
+                        System.out.println(username + " requested login, but the username is already taken.");
+                        sendMessageToClient(new Message("usernameRetry"));
+                    } else {
+                        System.out.println(username + " reconnected.");
+                    }
+                } else {
+                    // The username is already taken, but the player was disconnected and is trying to reconnect
+                    System.out.println(username + " reconnected.");
+                    sendMessageToClient(new Message("update", controller.getBookshelves(), controller.getBoard(), controller.getCurrentPlayerScore()));
+                }
+            }
+            default -> System.out.println(message + " requested unknown");
+        }
+    }
+
+    public void sendMessageToClient(Message message) {
+        clientPrintStream.println(message.getJSONstring());
     }
 }

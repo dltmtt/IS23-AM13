@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.commons.Message;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -8,10 +8,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class ServerRmi implements CommunicationInterface, ServerInterface {
+public class ServerRmi implements ServerCommunicationInterface, ServerInterface {
 
     private Registry registry;
-    private CommunicationInterface server;
+    private ServerCommunicationInterface server;
 
     public ServerRmi() throws RemoteException {
         super();
@@ -21,12 +21,12 @@ public class ServerRmi implements CommunicationInterface, ServerInterface {
     public void start() {
         try {
             server = new ServerRmi();
-            CommunicationInterface stub = (CommunicationInterface) UnicastRemoteObject.exportObject(server, 0);
+            ServerCommunicationInterface stub = (ServerCommunicationInterface) UnicastRemoteObject.exportObject(server, 0);
 
             registry = LocateRegistry.createRegistry(PORT_RMI);
-            registry.rebind("CommunicationInterface", stub);
+            registry.rebind("ServerCommunicationInterface", stub);
         } catch (RemoteException e) {
-            //e.printStackTrace();
+            // e.printStackTrace();
             System.err.println("Unable to start the RMI server.");
         }
 
@@ -36,7 +36,7 @@ public class ServerRmi implements CommunicationInterface, ServerInterface {
     @Override
     public void stop() {
         try {
-            registry.unbind("CommunicationInterface");
+            registry.unbind("ServerCommunicationInterface");
             UnicastRemoteObject.unexportObject(server, true);
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
@@ -46,8 +46,7 @@ public class ServerRmi implements CommunicationInterface, ServerInterface {
     }
 
     @Override
-    public void sendClient() throws RemoteException, NotBoundException {
-        registry = LocateRegistry.getRegistry(HOSTNAME, PORT_RMI);
-        Client client = (Client) registry.lookup("Client");
+    public void receiveMessageTcp(Message message, SocketClientHandler client) {
+        // Not used
     }
 }

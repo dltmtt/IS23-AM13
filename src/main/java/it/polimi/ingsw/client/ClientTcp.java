@@ -12,19 +12,15 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
-import static it.polimi.ingsw.server.CommunicationInterface.HOSTNAME;
-import static it.polimi.ingsw.server.CommunicationInterface.PORT_SOCKET;
+import static it.polimi.ingsw.server.ServerCommunicationInterface.HOSTNAME;
+import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_SOCKET;
 
-public class ClientTcp extends Client {
+public class ClientTcp extends Client implements ClientCommunicationInterface {
 
-    public final DataOutputStream dos;
-    public Socket s;
-    // buffered reader and keyboard
-    public BufferedReader br, kb;
-
+    public final DataOutputStream dataOutputStream;
+    public Socket socket;
+    public BufferedReader serverBufferedReader;
     public Thread listenThread;
-    public Thread sendThread;
-    public Thread pingThread;
 
     /**
      * Constructor to create DataOutputStream and BufferedReader
@@ -35,7 +31,7 @@ public class ClientTcp extends Client {
 
         // This is to send data to the server
         try {
-            dos = new DataOutputStream(s.getOutputStream());
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             System.err.println("Unable to create output stream");
             throw new RuntimeException(e);
@@ -43,81 +39,47 @@ public class ClientTcp extends Client {
 
         // This is used to read data coming from the server
         try {
-            br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            serverBufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             System.err.println("Unable to create input stream");
             throw new RuntimeException(e);
         }
 
-        // To read data from the keyboard
-        kb = new BufferedReader(new InputStreamReader(System.in));
-
         // Listen for messages coming from the server
         listenThread = new Thread(() -> {
             while (true) {
-                try {
-                    String str = br.readLine();
-                    System.out.println("From " + s.getInetAddress() + ": " + br.readLine());
-                } catch (IOException e) {
-                    System.out.println("Server disconnected, unable to read.");
-                    close();
-                    break;
-                }
+                Message receivedMessage = receiveMessage();
+                parseReceivedMessage(receivedMessage);
             }
         });
-
-        // Send messages to the server
-        sendThread = new Thread(() -> {
-            while (true) {
-                // Send keyboard input to the server
-                try {
-                    sendInput();
-                } catch (IOException e) {
-                    System.out.println("Server disconnected, unable to send.");
-                    close();
-                    break;
-                }
-            }
-        });
+        listenThread.start();
     }
 
     @Override
     public void sendMessage(Message message) {
         String stringMessage = message.getJSONstring();
+
         try {
-            synchronized (dos) {
-                dos.flush();
-                dos.writeBytes(stringMessage + "\n");
+            synchronized (dataOutputStream) {
+                dataOutputStream.flush();
+                dataOutputStream.writeBytes(stringMessage + "\n"); // Send the message to the server (with newline)
             }
         } catch (IOException e) {
             System.err.println("Unable to send message to server. Is it still running?");
         }
-        receivedMessage(message);
-        // return receiveMessage();
-    }
-
-    @Override
-    public void receivedMessage(Message message) {
-
-    }
-
-    @Override
-    public Message numOfPlayers() {
-        return null;
     }
 
     public Message receiveMessage() {
-        String str;
+        String serverMessageString;
         try {
-            // read a string
-            str = br.readLine();
+            serverMessageString = serverBufferedReader.readLine(); // Read the message from the server
             try {
                 JSONParser parser = new JSONParser();
-                JSONObject messageFromClient = (JSONObject) parser.parse(str);
+                JSONObject messageFromClient = (JSONObject) parser.parse(serverMessageString);
                 return new Message(messageFromClient);
             } catch (ParseException e) {
-                System.out.println(str);
-                return new Message(str);
+                System.out.println(serverMessageString);
+                return new Message(serverMessageString);
             }
         } catch (IOException e) {
             System.err.println("Lost connection to server.");
@@ -127,42 +89,7 @@ public class ClientTcp extends Client {
 
     @Override
     public void connect() throws IOException {
-        s = new Socket(HOSTNAME, PORT_SOCKET);
-    }
-
-    @Override
-    public void sendMe() {
-
-    }
-
-    @Override
-    public void startGame(Message message) {
-
-    }
-
-    /**
-     * Sends a string message to the server
-     *
-     * @param str the message to send
-     */
-    public void sendMessage(String str) {
-
-        try {
-            synchronized (dos) {
-                dos.flush();
-                dos.writeBytes(str + "\n");
-            }
-        } catch (IOException e) {
-            System.err.println("unable to send message, output not available...");
-        }
-    }
-
-    /**
-     * Sends the input from the keyboard to the server
-     */
-    public void sendInput() throws IOException {
-        String str = kb.readLine();
-        dos.writeBytes(str + "\n");
+        socket = new Socket(HOSTNAME, PORT_SOCKET);
     }
 
     /**
@@ -170,15 +97,13 @@ public class ClientTcp extends Client {
      */
     public void close() {
         try {
-            dos.close();
-            br.close();
-            kb.close();
-            s.close();
+            dataOutputStream.close();
+            serverBufferedReader.close();
+            socket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         listenThread.interrupt();
-        sendThread.interrupt();
         System.exit(0);
     }
 }
