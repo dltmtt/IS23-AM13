@@ -33,9 +33,9 @@ public class GameGuiController {
     @FXML
     private Canvas boardCanvas, bookshelfCanvas;
 
-    public GameGuiController(Client client, GuiView view) {
-        this.client = client;
-        this.view = view;
+    public GameGuiController() {
+        this.client = GuiView.client;
+        this.view = GuiView.gui;
     }
 
     public static void drawBookshelf(Canvas bookshelfCanvas, Bookshelf bookshelf) {
