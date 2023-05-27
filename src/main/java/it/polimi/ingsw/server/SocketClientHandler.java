@@ -105,14 +105,21 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
 
         switch (category) {
             case "ping" -> controller.pingReceived(message.getUsername());
-            case "numOfPlayers" -> {
+            case "numOfPlayersMessage" -> {
                 int numPlayer = message.getNumPlayer();
                 String isOk = controller.checkNumPlayer(numPlayer);
                 if (!isOk.equals("ok")) {
                     sendMessageToClient(new Message("numOfPlayersNotOK"));
                 } else {
-                    System.out.println("Number of players: " + numPlayer);
-                    sendMessageToClient(new Message("waitingRoom"));
+                    controller.setNumPlayer(numPlayer);
+                    if (controller.checkRoom() == 1) {
+                        startGame();
+                    } else if (controller.checkRoom() == -1) {
+                        removePlayers();
+                        startGame();
+                    } else {
+                        sendMessageToClient(new Message("waitingRoom"));
+                    }
                 }
             }
             case "pick" -> {
@@ -122,11 +129,10 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                     sendMessageToClient(new Message("pickRetry"));
                 }
             }
-            case "insert" -> {
+            case "insertMessage" -> {
                 if (controller.checkInsert(message.getInsert())) {
-                    sendUpdate(message);
-                    controller.changeTurn();
-                    turn();
+                    sendUpdate();
+                    nextTurn();
                 }
                 // TODO: return an error message if the insert is not valid, otherwise the game will freeze
             }
@@ -136,18 +142,26 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 int checkStatus = controller.checkUsername(username);
                 if (checkStatus == 1) {
                     // The username is available, a new player can be added
-                    sendMessageToClient(new Message("username", username));
-                    controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
-                    System.out.println(message.getUsername() + " logged in.");
-                    controller.addClient(message.getUsername(), client);
-                    controller.startRoom();
-                    if (controller.isFirst()) {
-                        sendMessageToClient(new Message("chooseNumOfPlayer"));
+                    if (controller.isGameStarted()) {
+                        sendMessageToClient(new Message("gameAlreadyStarted"));
                     } else {
-                        sendMessageToClient(new Message("waitingRoom"));
-                        if (controller.checkRoom()) {
-                            startGame();
-                            System.out.println("Game started.");
+                        sendMessageToClient(new Message("username", username));
+                        controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
+                        System.out.println(message.getUsername() + " logged in.");
+                        controller.addClient(message.getUsername(), client);
+                        controller.startRoom();
+                        if (controller.isFirst()) {
+                            sendMessageToClient(new Message("chooseNumOfPlayer"));
+                        } else {
+                            sendMessageToClient(new Message("waitingRoom"));
+                            if (controller.checkRoom() == 1) {
+                                System.out.println(controller.checkRoom());
+                                startGame();
+                                System.out.println("Game started.");
+                            } else if (controller.checkRoom() == -1) {
+                                System.out.println(controller.checkRoom());
+                                removePlayers();
+                            }
                         }
                     }
                 } else if (checkStatus == 0) {

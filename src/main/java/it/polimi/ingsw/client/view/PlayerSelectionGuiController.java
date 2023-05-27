@@ -19,6 +19,6 @@ public class PlayerSelectionGuiController {
 
     @FXML
     public void startWaitingRoom() {
-        MyShelfie.client.sendMessage(new Message("numOfPlayers", "", 0, false, (int) playerSlider.getValue()));
+        MyShelfie.client.sendMessage(new Message("numOfPlayersMessage", "numOfPlayers", (int) playerSlider.getValue()));
     }
 }

@@ -287,4 +287,19 @@ public class GuiView extends Application implements GameView {
             stage.show();
         });
     }
+
+    @Override
+    public void showLastRound() {
+        // TODO: implement
+    }
+
+    @Override
+    public void showGameAlreadyStarted() {
+
+    }
+
+    @Override
+    public void showRemovePlayer() {
+        
+    }
 }

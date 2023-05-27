@@ -16,6 +16,8 @@ public class ServerController {
     private final List<String> disconnected;
     private final HashMap<String, ClientCommunicationInterface> rmiClients;
     private final HashMap<String, SocketClientHandler> tcpClients;
+    private int numPlayer = 0;
+    private boolean gameIsStarted = false;
     private boolean printedTurn = false;
     private List<Item> currentPicked;
     private GameModel gameModel;
@@ -36,6 +38,35 @@ public class ServerController {
         disconnected = new ArrayList<>();
         rmiClients = new HashMap<>();
         tcpClients = new HashMap<>();
+    }
+
+    public void setNumPlayer(int numPlayer) {
+        this.numPlayer = numPlayer;
+        room.setNumberOfPlayers(numPlayer);
+    }
+
+    public List<String> getExtraPlayers() {
+        List<String> ExtraPlayers = new ArrayList<>();
+        for (int i = numPlayer; i < players.size(); i++) {
+            ExtraPlayers.add(players.get(i).getNickname());
+        }
+        removePlayers(ExtraPlayers);
+        System.out.println("Extra players: " + ExtraPlayers);
+        return ExtraPlayers;
+    }
+
+    public void removePlayers(List<String> playersToRemove) {
+        for (String player : playersToRemove) {
+            remove(player);
+        }
+    }
+
+    public void remove(String player) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getNickname().equals(player)) {
+                players.remove(i);
+            }
+        }
     }
 
     /**
@@ -185,13 +216,24 @@ public class ServerController {
         pongThread.start();
     }
 
-    public boolean checkRoom() {
-        if (room.full()) {
+    public int checkRoom() {
+        if (room.isNumSetted() && room.full()) {
             gameModel = new GameModel(players);
             gameModel.start();
-            return true;
+            gameIsStarted = true;
+            return 1;
         }
-        return false;
+        if (room.isNumSetted() && room.tooMuchPlayers()) {
+            gameModel = new GameModel(players);
+            gameModel.start();
+            gameIsStarted = true;
+            return -1;
+        }
+        return 0;
+    }
+
+    public boolean isGameStarted() {
+        return gameIsStarted;
     }
 
     public String getCurrentPlayer() {
@@ -218,8 +260,6 @@ public class ServerController {
         if (numPlayer > 4 || numPlayer < 2) {
             return "retry";
         }
-
-        room.setNumberOfPlayers(numPlayer);
         return "ok";
     }
 
@@ -285,6 +325,25 @@ public class ServerController {
             return 1;
         }
         return 0;
+    }
+
+    /**
+     * this method checks if the game is ended or not or if it's the last round
+     *
+     * @return -1,0 or 1:
+     * <ul>
+     *     <li>-1: the game has ended</li>
+     *      <li>0: it's the last round</li>
+     *      <li>1: the game is not ended and it's not the last round</li>
+     */
+    public int checkGameStatus() {
+        if (gameModel.isTheGameEnded()) {
+            return -1;
+        } else if (gameModel.isLastRound()) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     public String pick(List<Integer> move) {
@@ -393,6 +452,7 @@ public class ServerController {
 
     public List<Integer> getWinnersScore() {
         List<Integer> winnersScore = new ArrayList<>();
+
         for (String nickname : winnersNickname) {
             for (Player player : players) {
                 if (player.getNickname().equals(nickname)) {

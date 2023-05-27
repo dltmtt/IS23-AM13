@@ -8,6 +8,7 @@ import it.polimi.ingsw.utils.FullRoomException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Here go the methods that the client can call on the server.
@@ -29,7 +30,7 @@ public interface ServerCommunicationInterface extends Remote {
 
         switch (category) {
             case "ping" -> controller.pingReceived(message.getUsername());
-            case "numOfPlayers" -> {
+            case "numOfPlayersMessage" -> {
                 System.out.println("Received numOfPlayers");
                 System.out.println("Number of players: " + message.getNumPlayer());
                 int numPlayer = message.getNumPlayer();
@@ -37,8 +38,15 @@ public interface ServerCommunicationInterface extends Remote {
                 if (!isOk.equals("ok")) {
                     client.callBackSendMessage(new Message("numOfPlayersNotOK"));
                 } else {
-                    System.out.println("Number of players: " + numPlayer);
-                    client.callBackSendMessage(new Message("waitingRoom"));
+                    controller.setNumPlayer(numPlayer);
+                    if (controller.checkRoom() == 1) {
+                        startGame();
+                    } else if (controller.checkRoom() == -1) {
+                        removePlayers();
+                        startGame();
+                    } else {
+                        client.callBackSendMessage(new Message("waitingRoom"));
+                    }
                 }
             }
             case "pick" -> {
@@ -48,32 +56,38 @@ public interface ServerCommunicationInterface extends Remote {
                     client.callBackSendMessage(new Message("PickRetry"));
                 }
             }
-            case "insert" -> {
+            case "insertMessage" -> {
                 if (controller.checkInsert(message.getInsert())) {
-                    sendUpdate(message);
-                    controller.changeTurn();
-                    turn();
+                    sendUpdate();
+                    nextTurn();
                 }
                 // TODO: return an error message if the insert is not valid, otherwise the game will freeze
             }
             case "sort" -> controller.rearrangePicked(message.getSort());
             case "completeLogin" -> {
+
                 String username = message.getUsername();
                 int checkStatus = controller.checkUsername(username);
                 if (checkStatus == 1) {
                     // The username is available, a new player can be added
-                    client.callBackSendMessage(new Message("username", username));
-                    controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
-                    System.out.println(message.getUsername() + " logged in.");
-                    controller.addClient(message.getUsername(), client);
-                    controller.startRoom();
-                    if (controller.isFirst()) {
-                        client.callBackSendMessage(new Message("chooseNumOfPlayer"));
+                    if (controller.isGameStarted()) {
+                        client.callBackSendMessage(new Message("gameAlreadyStarted"));
                     } else {
-                        client.callBackSendMessage(new Message("waitingRoom"));
-                        if (controller.checkRoom()) {
-                            startGame();
-                            System.out.println("Game started.");
+                        client.callBackSendMessage(new Message("username", username));
+                        controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
+                        System.out.println(message.getUsername() + " logged in.");
+                        controller.addClient(message.getUsername(), client);
+                        controller.startRoom();
+                        if (controller.isFirst()) {
+                            client.callBackSendMessage(new Message("chooseNumOfPlayer"));
+                        } else {
+                            client.callBackSendMessage(new Message("waitingRoom"));
+                            if (controller.checkRoom() == 1) {
+                                startGame();
+                                System.out.println("Game started.");
+                            } else if (controller.checkRoom() == -1) {
+                                removePlayers();
+                            }
                         }
                     }
                 } else if (checkStatus == 0) {
@@ -97,6 +111,37 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
             default -> System.out.println(message + " requested unknown");
+        }
+    }
+
+    default void removePlayers() throws RemoteException {
+        HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
+        HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
+        List<String> toRemove = controller.getExtraPlayers();
+        for (String username : toRemove) {
+            if (rmiClients.containsKey(username)) {
+                rmiClients.get(username).callBackSendMessage(new Message("removePlayer"));
+                rmiClients.remove(username);
+            } else {
+                tcpClients.get(username).sendMessageToClient(new Message("removePlayer"));
+                tcpClients.remove(username);
+            }
+        }
+    }
+
+    default void nextTurn() throws RemoteException {
+        controller.changeTurn();
+        if (controller.checkGameStatus() == -1) {
+            // the game has ended
+            List<String> winnersNickname = controller.getWinnersNickname();
+            sendAll(new Message(winnersNickname.size(), winnersNickname, controller.getWinnersScore()));
+        } else if (controller.checkGameStatus() == 0) {
+            // it's the last round
+            sendAll(new Message("lastRound"));
+            turn();
+        } else {
+            // the game is still going
+            turn();
         }
     }
 
@@ -124,11 +169,11 @@ public interface ServerCommunicationInterface extends Remote {
         String currentPlayer = controller.getCurrentPlayer();
         Message otherTurn = new Message("otherTurn", currentPlayer);
         Message turn = new Message("turn");
+        sendAllExceptCurrentPlayer(otherTurn);
         if (controller.getRmiClients().containsKey(currentPlayer))
             controller.getRmiClients().get(currentPlayer).callBackSendMessage(turn);
         if (controller.getTcpClients().containsKey(currentPlayer))
             controller.getTcpClients().get(currentPlayer).sendMessageToClient(turn);
-        sendAll(otherTurn);
     }
 
     // default Message sendGame(int position) throws RemoteException {
@@ -136,7 +181,7 @@ public interface ServerCommunicationInterface extends Remote {
     //     return new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelf(position), controller.getBoard());
     // }
 
-    default void sendUpdate(Message message) throws RemoteException {
+    default void sendUpdate() throws RemoteException {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
         System.out.println(tcpClients.keySet());
@@ -161,6 +206,17 @@ public interface ServerCommunicationInterface extends Remote {
     }
 
     default void sendAll(Message message) throws RemoteException {
+        HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
+        HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
+        for (String username : tcpClients.keySet()) {
+            tcpClients.get(username).sendMessageToClient(message);
+        }
+        for (String username : rmiClients.keySet()) {
+            rmiClients.get(username).callBackSendMessage(message);
+        }
+    }
+
+    default void sendAllExceptCurrentPlayer(Message message) throws RemoteException {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
         for (String username : tcpClients.keySet()) {

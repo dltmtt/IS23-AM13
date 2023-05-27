@@ -21,6 +21,7 @@ public class Room {
 
     /**
      * Creates a new room with the given id.
+     *
      * @param roomId the id of the room
      */
     public Room(int roomId) {
@@ -29,7 +30,8 @@ public class Room {
 
     /**
      * Creates a new room with the given id and players.
-     * @param roomId the id of the room
+     *
+     * @param roomId  the id of the room
      * @param players the list of players
      */
     public Room(int roomId, List<Player> players) {
@@ -38,7 +40,6 @@ public class Room {
     }
 
     /**
-     *
      * @return the number of players
      */
     public int getNumberOfPlayers() {
@@ -47,6 +48,7 @@ public class Room {
 
     /**
      * Sets the minimum and maximum number of players.
+     *
      * @param maxPlayers the maximum number of players
      */
     public void setNumberOfPlayers(int maxPlayers) {
@@ -61,8 +63,16 @@ public class Room {
         return players.size() == maxPlayers;
     }
 
+    public boolean isNumSetted() {
+        return maxPlayers != 0;
+    }
+
+    public boolean tooMuchPlayers() {
+        System.out.println(players.size() + " " + maxPlayers);
+        return players.size() > maxPlayers;
+    }
+
     /**
-     *
      * @return the id of the room
      */
     public int getRoomId() {
@@ -71,6 +81,7 @@ public class Room {
 
     /**
      * This method adds a player to the room.
+     *
      * @param newPlayer the player to be added
      * @throws FullRoomException if the room is full
      */
@@ -93,6 +104,7 @@ public class Room {
 
     /**
      * This method starts a new game.
+     *
      * @return the game model
      */
     public GameModel startGame() {

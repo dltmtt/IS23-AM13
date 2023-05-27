@@ -91,4 +91,10 @@ public interface GameView {
     void playerNumberError();
 
     void playerChoice();
+
+    void showLastRound();
+
+    void showGameAlreadyStarted();
+
+    void showRemovePlayer();
 }

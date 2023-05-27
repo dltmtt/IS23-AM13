@@ -497,13 +497,28 @@ public class GameCliView implements GameView {
 
         System.out.println("Illegal number of players. Retry.");
         int numOfPlayers = promptNumberOfPlayers();
-        client.sendMessage(new Message("numOfPlayers", "", 0, false, numOfPlayers));
+        client.sendMessage(new Message("numOfPlayersMessage", "numOfPlayers", numOfPlayers));
     }
 
     @Override
     public void playerChoice() {
         int numOfPlayers = promptNumberOfPlayers();
-        client.sendMessage(new Message("numOfPlayers", "", 0, false, numOfPlayers));
+        client.sendMessage(new Message("numOfPlayersMessage", "numOfPlayers", numOfPlayers));
+    }
+
+    @Override
+    public void showLastRound() {
+        showMessage("Last round!\n");
+    }
+
+    @Override
+    public void showGameAlreadyStarted() {
+        showMessage("Game already started! You have to wait for the next one :(\n");
+    }
+
+    @Override
+    public void showRemovePlayer() {
+        showMessage("Sorry, there are enough players fot this match. :(\n");
     }
 
     @Override

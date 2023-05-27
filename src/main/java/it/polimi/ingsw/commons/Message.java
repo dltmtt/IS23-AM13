@@ -148,8 +148,9 @@ public class Message implements Serializable {
      */
     public Message(String category, String name, int number) {
         json = new JSONObject();
+        String numString = Integer.toString(number);
         json.put("category", category);
-        json.put(name, number);
+        json.put(name, numString);
     }
 
     /**
@@ -169,14 +170,17 @@ public class Message implements Serializable {
      * @param size  size of the list of winners
      * @param names usernames of the winners
      */
-    public Message(int size, List<String> names) {
+    public Message(int size, List<String> names, List<Integer> scores) {
         json = new JSONObject();
         json.put("category", "winners");
         json.put("size", size);
-
+        JSONArray winnersArray = new JSONArray();
         for (int i = 0; i < size; i++) {
-            json.put("name" + i, names.get(i));
+            JSONObject winnerJson = new JSONObject();
+            winnerJson.put("name", names.get(i));
+            winnerJson.put("score", scores.get(i));
         }
+        json.put("winners", winnersArray);
     }
 
     /**
@@ -480,7 +484,7 @@ public class Message implements Serializable {
     }
 
     public int getNumPlayer() {
-        String numPlayer = (String) json.get("numPlayer");
+        String numPlayer = (String) json.get("numOfPlayers");
         return Integer.parseInt(numPlayer);
     }
 

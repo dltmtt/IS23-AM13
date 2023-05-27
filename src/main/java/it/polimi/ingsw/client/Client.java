@@ -90,7 +90,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                         sendMessage(new Message("sort", gameView.rearrange(message.getPicked())));
                     }
                     int column = gameView.promptInsert();
-                    sendMessage(new Message("insert", "insert", column));
+                    sendMessage(new Message("insertMessage", "insert", column));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -104,8 +104,21 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "endGame" -> gameView.showEndGame(message.getWinners());
             case "disconnection" -> gameView.showDisconnection();
             case "waitingRoom" -> waitingRoom();
+            case "lastRound" -> gameView.showLastRound();
+            case "gameAlreadyStarted" -> {
+                gameView.showGameAlreadyStarted();
+                stop();
+            }
+            case "removePlayer" -> {
+                gameView.showRemovePlayer();
+                stop();
+            }
             default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
+    }
+
+    public void stop() {
+        System.exit(0);
     }
 
     public Message numOfPlayers() {
