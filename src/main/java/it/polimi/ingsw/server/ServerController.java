@@ -115,7 +115,7 @@ public class ServerController {
         }
     }
 
-    public boolean checkPings() {
+    public void checkPings() {
         if (!new HashSet<>(pings).containsAll(players.stream().map(Player::getNickname).toList())) {
             missingOnes();
             if (!printedDisco) {
@@ -125,7 +125,6 @@ public class ServerController {
                 }
                 printedDisco = true;
             }
-            return false;
         } else {
             printedDisco = false;
             if (!printedConn) {
@@ -134,7 +133,6 @@ public class ServerController {
             }
         }
         pings.clear();
-        return true;
     }
 
     /**

@@ -104,7 +104,10 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         String category = message.getCategory();
 
         switch (category) {
-            case "ping" -> controller.pingReceived(message.getUsername());
+            case "ping" -> {
+                controller.pingReceived(message.getUsername());
+                sendPong(client);
+            }
             case "numOfPlayersMessage" -> {
                 int numPlayer = message.getNumPlayer();
                 String isOk = controller.checkNumPlayer(numPlayer);

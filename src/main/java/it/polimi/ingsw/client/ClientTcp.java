@@ -69,6 +69,16 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         }
     }
 
+    public void checkServerConnection() {
+        synchronized (this) {
+            if (!serverConnected) {
+                System.err.println("\nServer disconnected.");
+                System.exit(0);
+            }
+            serverConnected = false;
+        }
+    }
+
     public Message receiveMessage() {
         String serverMessageString;
         try {

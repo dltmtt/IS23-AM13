@@ -33,6 +33,14 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
         }
     }
 
+    public void checkServerConnection() {
+        if (!serverConnected) {
+            System.err.println("\nServer disconnected.");
+            System.exit(0);
+        }
+        serverConnected = false;
+    }
+
     @Override
     public void connect() throws RemoteException, NotBoundException {
         registry = LocateRegistry.getRegistry(HOSTNAME, PORT_RMI);

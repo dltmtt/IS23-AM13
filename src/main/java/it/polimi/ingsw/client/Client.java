@@ -22,6 +22,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     public GameView gameView;
     String username = null;
+    boolean serverConnected = true;
     private int myPosition;
 
     public Client() throws RemoteException {
@@ -66,6 +67,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void parseReceivedMessage(Message message) {
         String category = message.getCategory();
         switch (category) {
+            case "pong" -> {
+                // System.out.println("Pong received.");
+                serverConnected = true;
+            }
             case "username" -> setUsername(message.getUsername());
             case "UsernameRetry" -> gameView.usernameError();
             case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
@@ -132,13 +137,33 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                     // noinspection BusyWait
                     Thread.sleep(5000);
                     sendMessage(new Message("ping", username));
+                    Thread.sleep(3000);
+                    checkServerConnection();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
         pingThread.start();
+        // Thread checkPongThread = new Thread(() -> {
+        //     while (true) {
+        //         try {
+        //             // noinspection BusyWait
+        //             Thread.sleep(6000);
+        //             if (!serverConnected) {
+        //                 System.err.println("\nServer disconnected.");
+        //                 System.exit(0);
+        //             }
+        //             serverConnected = false;
+        //         } catch (InterruptedException e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
+        // checkPongThread.start();
     }
+
+    public abstract void checkServerConnection();
 
     /**
      * Starts the <code>gameView</code> and starts the login procedure.

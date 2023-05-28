@@ -29,9 +29,12 @@ public interface ServerCommunicationInterface extends Remote {
         String category = message.getCategory();
 
         switch (category) {
-            case "ping" -> controller.pingReceived(message.getUsername());
+            case "ping" -> {
+                controller.pingReceived(message.getUsername());
+                sendPong(client);
+            }
             case "numOfPlayersMessage" -> {
-                System.out.println("Received numOfPlayers");
+
                 System.out.println("Number of players: " + message.getNumPlayer());
                 int numPlayer = message.getNumPlayer();
                 String isOk = controller.checkNumPlayer(numPlayer);
@@ -201,8 +204,14 @@ public interface ServerCommunicationInterface extends Remote {
         return new Message("turn", "turn", controller.yourTurn(position));
     }
 
-    default Message sendPong() throws RemoteException {
-        return new Message("pong");
+    default void sendPong(ClientCommunicationInterface client) throws RemoteException {
+        Message pong = new Message("pong");
+        client.callBackSendMessage(pong);
+    }
+
+    default void sendPong(SocketClientHandler client) throws RemoteException {
+        Message pong = new Message("pong");
+        client.sendMessageToClient(pong);
     }
 
     default void sendAll(Message message) throws RemoteException {
