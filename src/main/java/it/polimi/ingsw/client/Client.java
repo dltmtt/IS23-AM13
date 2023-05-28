@@ -118,6 +118,16 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 gameView.showRemovePlayer();
                 stop();
             }
+            case "insertRetry" -> {
+                String argument = message.getArgument();
+                if (argument.equals("notValidNumber")) {
+                    gameView.showMessage("Invalid column. Retry.");
+                } else {
+                    gameView.showMessage("There are not enough free cells in the column. Retry.");
+                }
+                int column = gameView.promptInsert();
+                sendMessage(new Message("insertMessage", "insert", column));
+            }
             default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
     }

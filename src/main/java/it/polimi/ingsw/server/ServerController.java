@@ -422,12 +422,26 @@ public class ServerController {
         currentPicked = gameModel.getCurrentPlayer().rearrangePickedItems(currentPicked, sort);
     }
 
-    public boolean checkInsert(int column) {
-        if (column >= 0 && column <= 4 && gameModel.getCurrentPlayer().getBookshelf().getFreeCellsInColumn(column) >= currentPicked.size()) {
-            gameModel.move(currentPicked, column);
-            return true;
+    /**
+     * this method checks if the player can insert the picked items in the bookshelf
+     *
+     * @param column the column where the player wants to insert the picked items
+     * @return -1,0 or 1:
+     * <ul>
+     *     <li>-1: the player can't insert the picked items in the bookshelf because there are not enough free cells</li>
+     *     <li>0: the player can't insert the picked items in the bookshelf because the column is not valid</li>
+     *     <li>1: the player can insert the picked items in the bookshelf</li>
+     */
+
+    public int checkInsert(int column) {
+        if (gameModel.getCurrentPlayer().getBookshelf().getFreeCellsInColumn(column) < currentPicked.size()) {
+            return -1;
         }
-        return false;
+        if (column < 0 || column > 4) {
+            return 0;
+        }
+        gameModel.move(currentPicked, column);
+        return 1;
     }
 
     public List<Coordinates> createCoordinateList(List<Integer> integers) {

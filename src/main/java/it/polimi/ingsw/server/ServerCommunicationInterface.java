@@ -60,9 +60,13 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
             case "insertMessage" -> {
-                if (controller.checkInsert(message.getInsert())) {
+                if (controller.checkInsert(message.getInsert()) == 1) {
                     sendUpdate();
                     nextTurn();
+                } else if (controller.checkInsert(message.getInsert()) == 0) {
+                    client.callBackSendMessage(new Message("insertRetry", "notValidNumber"));
+                } else if (controller.checkInsert(message.getInsert()) == -1) {
+                    client.callBackSendMessage(new Message("insertRetry", "notEnoughFreeCells"));
                 }
                 // TODO: return an error message if the insert is not valid, otherwise the game will freeze
             }

@@ -133,9 +133,13 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 }
             }
             case "insertMessage" -> {
-                if (controller.checkInsert(message.getInsert())) {
+                if (controller.checkInsert(message.getInsert()) == 1) {
                     sendUpdate();
                     nextTurn();
+                } else if (controller.checkInsert(message.getInsert()) == 0) {
+                    client.sendMessageToClient(new Message("insertRetry", "notValidNumber"));
+                } else if (controller.checkInsert(message.getInsert()) == -1) {
+                    client.sendMessageToClient(new Message("insertRetry", "notEnoughFreeCells"));
                 }
                 // TODO: return an error message if the insert is not valid, otherwise the game will freeze
             }
