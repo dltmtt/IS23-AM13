@@ -12,7 +12,7 @@
             <children>
                 <ImageView fitHeight="416.0" fitWidth="695.0" pickOnBounds="true" StackPane.alignment="CENTER">
                     <image>
-                        <Image url="@../../graphics/misc/sfondo_parquet.jpg"/>
+                        <Image url="@graphics/misc/sfondo_parquet.jpg"/>
                     </image>
                 </ImageView>
                 <GridPane alignment="CENTER" style="-fx-background-image: url('sfondo_parquet.jpg');">
@@ -28,12 +28,12 @@
                     <children>
                         <ImageView fitHeight="175.0" fitWidth="198.0" preserveRatio="true" GridPane.columnIndex="1">
                             <image>
-                                <Image url="@../../graphics/publisher_material/title_2000x2000px.png"/>
+                                <Image url="@graphics/publisher_material/title_2000x2000px.png"/>
                             </image>
                         </ImageView>
                         <ImageView fitHeight="101.0" fitWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <image>
-                                <Image url="@../../graphics/publisher_material/publisher.png"/>
+                                <Image url="@graphics/publisher_material/publisher.png"/>
                             </image>
                             <GridPane.margin>
                                 <Insets bottom="10.0" right="10.0"/>
@@ -290,7 +290,7 @@
                                                                                    pickOnBounds="true"
                                                                                    preserveRatio="true">
                                                                             <image>
-                                                                                <Image url="@../../graphics/us/simocorbo.jpg"/>
+                                                                                <Image url="@graphics/us/simocorbo.jpg"/>
                                                                             </image>
                                                                         </ImageView>
                                                                         <Label text="Simone Corbo"/>
@@ -303,7 +303,7 @@
                                                                                    pickOnBounds="true"
                                                                                    preserveRatio="true">
                                                                             <image>
-                                                                                <Image url="@../../graphics/us/simocorbo.jpg"/>
+                                                                                <Image url="@graphics/us/simocorbo.jpg"/>
                                                                             </image>
                                                                         </ImageView>
                                                                         <Label text="Valeria De Gennaro"/>
@@ -316,7 +316,7 @@
                                                                                    pickOnBounds="true"
                                                                                    preserveRatio="true">
                                                                             <image>
-                                                                                <Image url="@../../graphics/us/simocorbo.jpg"/>
+                                                                                <Image url="@graphics/us/simocorbo.jpg"/>
                                                                             </image>
                                                                         </ImageView>
                                                                         <Label text="Beatrice di Raimondo Metallo"/>
@@ -329,7 +329,7 @@
                                                                                    pickOnBounds="true"
                                                                                    preserveRatio="true">
                                                                             <image>
-                                                                                <Image url="@../../graphics/us/simocorbo.jpg"/>
+                                                                                <Image url="@graphics/us/simocorbo.jpg"/>
                                                                             </image>
                                                                         </ImageView>
                                                                         <Label text="Matteo Delton"/>

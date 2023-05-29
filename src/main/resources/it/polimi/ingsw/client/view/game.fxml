@@ -8,14 +8,13 @@
 <?import javafx.scene.text.Font?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308"
       maxWidth="1.7976931348623157E308"
-      prefHeight="500.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19"
-      fx:controller="it.polimi.ingsw.client.view.GameGuiController">
+      prefHeight="500.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19">
     <children>
         <StackPane VBox.vgrow="ALWAYS">
             <children>
                 <ImageView fitHeight="600.0" fitWidth="1024.0" pickOnBounds="true" StackPane.alignment="CENTER">
                     <image>
-                        <Image url="@../../graphics/misc/sfondo_parquet.jpg"/>
+                        <Image url="@graphics/misc/sfondo_parquet.jpg"/>
                     </image>
                     <viewport>
                         <Rectangle2D/>
@@ -51,7 +50,7 @@
                                 <ImageView fx:id="board" fitHeight="396.0" fitWidth="419.0" pickOnBounds="true"
                                            preserveRatio="true">
                                     <image>
-                                        <Image url="@../../graphics/boards/livingroom.png"/>
+                                        <Image url="@graphics/boards/livingroom.png"/>
                                     </image>
                                 </ImageView>
                                 <GridPane fx:id="boardGridPane" prefHeight="367.0" prefWidth="338.0">
@@ -120,21 +119,21 @@
                                            GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
                                            GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                     <image>
-                                        <Image url="@../../graphics/our_variants/back.jpg"/>
+                                        <Image url="@graphics/our_variants/back.jpg"/>
                                     </image>
                                 </ImageView>
                                 <ImageView fitHeight="97.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true"
                                            GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
                                            GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                     <image>
-                                        <Image url="@../../graphics/our_variants/back.jpg"/>
+                                        <Image url="@graphics/our_variants/back.jpg"/>
                                     </image>
                                 </ImageView>
                                 <ImageView fitHeight="97.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true"
                                            GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
                                            GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                     <image>
-                                        <Image url="@../../graphics/our_variants/back.jpg"/>
+                                        <Image url="@graphics/our_variants/back.jpg"/>
                                     </image>
                                 </ImageView>
                                 <Label fx:id="player1" text="Label" textAlignment="CENTER" textFill="#faffb8"
@@ -174,7 +173,7 @@
                                         <ImageView fx:id="bookshelf" fitHeight="270.0" fitWidth="235.0"
                                                    pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../graphics/our_variants/back.jpg"/>
+                                                <Image url="@graphics/our_variants/back.jpg"/>
                                             </image>
                                         </ImageView>
                                         <GridPane fx:id="bookshelfGrid" alignment="CENTER" hgap="3.0"
@@ -363,19 +362,19 @@
                                 <ImageView fx:id="pg" fitHeight="197.0" fitWidth="120.0" pickOnBounds="true"
                                            preserveRatio="true">
                                     <image>
-                                        <Image url="@../../graphics/personal_goal_cards/front_empty.jpg"/>
+                                        <Image url="@graphics/personal_goal_cards/front_empty.jpg"/>
                                     </image>
                                 </ImageView>
                                 <ImageView fx:id="cg1" fitHeight="80.0" fitWidth="120.0" pickOnBounds="true"
                                            preserveRatio="true">
                                     <image>
-                                        <Image url="@../../graphics/common_goal_cards/1.jpg"/>
+                                        <Image url="@graphics/common_goal_cards/1.jpg"/>
                                     </image>
                                 </ImageView>
                                 <ImageView fx:id="cg2" fitHeight="78.0" fitWidth="120.0" pickOnBounds="true"
                                            preserveRatio="true">
                                     <image>
-                                        <Image url="@../../graphics/common_goal_cards/2.jpg"/>
+                                        <Image url="@graphics/common_goal_cards/2.jpg"/>
                                     </image>
                                 </ImageView>
                             </children>

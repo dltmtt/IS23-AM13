@@ -2,18 +2,17 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.commons.Message;
-import it.polimi.ingsw.server.model.Bookshelf;
-import it.polimi.ingsw.server.model.Item;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-import java.util.Optional;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class GameGuiController {
 
@@ -24,85 +23,69 @@ public class GameGuiController {
 
     public Client client;
     public GuiView view;
+
     @FXML
-    private GridPane boardGridPane;
+    private ResourceBundle resources;
+
     @FXML
-    private ImageView bookshelf, bookshelf_g1, bookshelf_g2, bookshelf_g3;
+    private URL location;
+
     @FXML
     private ImageView board;
+
     @FXML
-    private Canvas boardCanvas, bookshelfCanvas;
+    private GridPane boardGridPane;
+
+    @FXML
+    private ImageView bookshelf;
+
+    @FXML
+    private GridPane bookshelfGrid;
+
+    @FXML
+    private Canvas canvasPlayer1;
+
+    @FXML
+    private Canvas canvasPlayer2;
+
+    @FXML
+    private Canvas canvasPlayer3;
+
+    @FXML
+    private ImageView cg1;
+
+    @FXML
+    private ImageView cg2;
+
+    @FXML
+    private ImageView pg;
+
+    @FXML
+    private Label player1;
+
+    @FXML
+    private Label player2;
+
+    @FXML
+    private Label player3;
 
     public GameGuiController() {
         this.client = GuiView.client;
         this.view = GuiView.gui;
     }
 
-    public static void drawBookshelf(Canvas bookshelfCanvas, Bookshelf bookshelf) {
-        int rows = Bookshelf.getRows();
-        int columns = Bookshelf.getColumns();
-
-        // Calculate the total width and height of the bookshelf
-        double width = columns * (ITEM_SIZE + COLUMN_SPACING) - COLUMN_SPACING;
-        double height = rows * (ITEM_SIZE + ROW_SPACING) - ROW_SPACING;
-
-        // Create a new GraphicsContext to draw on the canvas
-        GraphicsContext graphics = bookshelfCanvas.getGraphicsContext2D();
-
-        // Clear the canvas to make it transparent
-        graphics.clearRect(0, 0, bookshelfCanvas.getWidth(), bookshelfCanvas.getHeight());
-
-        // Draw each item on the bookshelf
-        Optional<Item>[][] items = bookshelf.getItems();
-        for (int row = 0; row < rows; row++) {
-            for (int column = 0; column < columns; column++) {
-                Optional<Item> item = items[row][column];
-                if (item.isPresent()) {
-                    // Calculate the position of the item on the canvas
-                    double x = column * (ITEM_SIZE + COLUMN_SPACING);
-                    double y = row * (ITEM_SIZE + ROW_SPACING);
-
-                    // Load the item image
-                    String imagePath = BASE_PATH + item.get().color().toString().charAt(0) + item.get().number() + ".png";
-                    Image image = new Image(imagePath, ITEM_SIZE, ITEM_SIZE, true, true);
-
-                    // Draw the item on the canvas
-                    graphics.drawImage(image, x, y);
-                }
-            }
-        }
-    }
-
-    public void drawItems(Item[][] items) {
-        boardGridPane.getChildren().clear();
-
-        for (int row = 0; row < items.length; row++) {
-            for (int column = 0; column < items[row].length; column++) {
-                Item item = items[row][column];
-                Button button = new Button();
-                button.setPrefSize(ITEM_SIZE, ITEM_SIZE);
-                button.setBackground(null); // Remove default button background
-                String imagePath;
-                if (item != null) {
-                    imagePath = BASE_PATH + item.color().toString().toLowerCase().charAt(0) + item.number() + ".png";
-                } else {
-                    imagePath = BASE_PATH + "null.png";
-                }
-                Image image = new Image(getClass().getResourceAsStream(imagePath));
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(ITEM_SIZE);
-                imageView.setFitHeight(ITEM_SIZE);
-                button.setGraphic(imageView);
-                boardGridPane.add(button, column, row);
-            }
-        }
-
-        boardGridPane.setHgap(COLUMN_SPACING);
-        boardGridPane.setVgap(ROW_SPACING);
-        boardGridPane.setPadding(new Insets(10));
-    }
-
     public void showGame(Message message) {
         int personalGoalIndex = message.getPersonalGoal();
+        String imagePath = "graphics/personal_goal_cards/pg_" + personalGoalIndex + ".png";
+        Image image = new javafx.scene.image.Image(getClass().getResource(imagePath).toExternalForm());
+        pg.setImage(image);
+
+        List<String> commonGoalFiles = new ArrayList<>();
+        for (int i = 0; i < message.getCardOccurrences().size(); i++) {
+            String fileName = message.getCardType().get(i) + "-" + message.getCardSize().get(i).toString() + "-" + message.getCardOccurrences().get(i).toString() + "-" + message.getCardHorizontal().get(i).toString();
+            commonGoalFiles.add(fileName);
+        }
+        cg1.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(0) + ".jpg").toExternalForm()));
+        cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(1) + ".jpg").toExternalForm()));
     }
 }

@@ -28,9 +28,10 @@ public class GuiView extends Application implements GameView {
     public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene;
     // main stage
     public static Stage stage;
+    public static GameGuiController gameController;
     // scene loader
     private static FXMLLoader loginSceneLoader, playerNumberSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
-    private LoginGuiController loginController;
+    private static LoginGuiController loginController;
 
     @Override
     public void waitingRoom() {
@@ -81,7 +82,7 @@ public class GuiView extends Application implements GameView {
     public void startGame(Message message) {
         Platform.runLater(() -> {
             stage.setScene(gameScene);
-            // GameGuiController.showGame(message);
+            gameController.showGame(message);
             stage.show();
         });
     }
@@ -143,7 +144,8 @@ public class GuiView extends Application implements GameView {
         }
 
         gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"));
-        // gameSceneLoader.setController(new GameGuiController(MyShelfie.client, this));
+        gameController = new GameGuiController();
+        gameSceneLoader.setController(gameController);
         try {
             gameScene = new Scene(gameSceneLoader.load());
         } catch (IOException e) {

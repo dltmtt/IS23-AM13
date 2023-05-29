@@ -62,8 +62,7 @@ public abstract class Layout {
     }
 
     /**
-     *
-     * @return true if the layout is horizontal, false otherwise
+     * @return true if the layout is horizontal, false is the default value
      */
     public boolean isHorizontal() {
         return false;
@@ -129,7 +128,6 @@ public abstract class Layout {
     }
 
     /**
-     *
      * @param itemList the list of items to check
      * @return the number of different colors in the list of items
      * @throws IllegalArgumentException if the list is null
