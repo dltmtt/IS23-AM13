@@ -18,9 +18,9 @@ public class PersonalGoal {
     private int counter;
 
     /**
-     * Creates a personal goal card.
+     * This method creates a personal goal card.
      * It is a representation of the spaces that a player
-     * has to fill with his bookshelf's items.
+     * has to fill with his bookshelf's items, to increase his final score.
      *
      * @param loadedCoordinates the coordinates of the spaces to fill, read from a file
      * @param loadedColors      the colors of the spaces to fill, read from a file
@@ -33,16 +33,25 @@ public class PersonalGoal {
         this.index = index;
     }
 
+    /**
+     *
+     * @return the index of the personal goal card
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     *
+     * @param key the coordinates of the space to check
+     * @return the color of the item to be matched
+     */
     public Color getColor(Coordinates key) {
         return personalGoalCard.get(key);
     }
 
     /**
-     * Gets the number of points gained by the player according to how many spaces are matched.
+     * This method gets the number of points gained by the player according to how many spaces are matched.
      *
      * @return the number of points gained by the player
      */
@@ -60,7 +69,7 @@ public class PersonalGoal {
     }
 
     /**
-     * Returns the number of colors reached.
+     * This method returns the number of colors reached.
      */
     public void colorReached() {
         currentReached++;
@@ -86,6 +95,7 @@ public class PersonalGoal {
     }
 
     /**
+     *
      * @return the HashMap representing the personal goal card of the player
      */
     public HashMap<Coordinates, Color> getPersonalGoalCard() {
@@ -93,6 +103,7 @@ public class PersonalGoal {
     }
 
     /**
+     *
      * @return the PersonalGoal of the player
      */
 

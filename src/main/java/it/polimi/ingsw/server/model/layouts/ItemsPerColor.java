@@ -11,18 +11,26 @@ public class ItemsPerColor extends Layout {
         super(1, 1, minDifferent, maxDifferent);
     }
 
+    /**
+     *
+     * @return the name of the layout
+     */
     @Override
     public String getInfo() {
         return super.getInfo() + " -type=ItemsPerColor";
     }
 
+    /**
+     *
+     * @return the name of the layout
+     */
     @Override
     public String getName() {
         return "itemsPerColor";
     }
 
     /**
-     * Checks if there are at least the minimum number of items of any color in the bookshelf.
+     * This method checks if there are at least the minimum number of items of any color in the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is valid for the bookshelf, false otherwise

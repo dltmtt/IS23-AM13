@@ -72,6 +72,10 @@ public abstract class Layout {
         return 0;
     }
 
+    /**
+     *
+     * @return the name of the layout
+     */
     public abstract String getName();
 
     /**
@@ -92,7 +96,7 @@ public abstract class Layout {
     }
 
     /**
-     * Returns the width of the layout.
+     * This method returns the width of the layout.
      *
      * @return the width of the layout
      */
@@ -101,7 +105,7 @@ public abstract class Layout {
     }
 
     /**
-     * Returns the height of the layout.
+     * This method returns the height of the layout.
      *
      * @return the height of the layout
      */
@@ -110,7 +114,7 @@ public abstract class Layout {
     }
 
     /**
-     * Returns the minimum number of different colors in a layout.
+     * This method returns the minimum number of different colors in a layout.
      *
      * @return the minimum number of different colors in a layout
      */
@@ -119,7 +123,7 @@ public abstract class Layout {
     }
 
     /**
-     * Returns the maximum number of different colors in a layout.
+     * This method returns the maximum number of different colors in a layout.
      *
      * @return the maximum number of different colors in a layout
      */

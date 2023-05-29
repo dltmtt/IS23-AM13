@@ -35,9 +35,12 @@ public class Board {
     private List<Item> extractedItems;
 
     /**
-     * Creates a new square board of size <code>boardSize</code>,
-     * fills the bag of items with every possible item and defines
-     * the usable cells in this board based on the number of players.
+     * This method:
+     * <ul>
+     *     <li>creates a new square board of size <code>boardSize</code>;</li>
+     *     <li>fills the bag of items with every possible item;</li>
+     *     <li>defines the usable cells in this board based on the number of players.</li>
+     * </ul>
      *
      * @param numOfPlayers the number of players in the game.
      */
@@ -72,8 +75,12 @@ public class Board {
     }
 
     /**
-     * Creates a new square board of size <code>boardSize</code>.
-     * It initializes the bag of items, the list of usable cells and the list of extractedItems.
+     * This method creates a new square board of size <code>boardSize</code> and initializes:
+     *     <li>the bag of items;</li>
+     *     <li>the list of usable cells;</li>
+     *     <li>the list of extractedItems.</li>
+     *
+     * </ul>
      */
     public Board() {
         boardMatrix = new Item[boardSize][boardSize];
@@ -85,7 +92,7 @@ public class Board {
     /**
      * This method sets the Item.
      *
-     * @param row   the row of the board
+     * @param row the row of the board
      * @param column the column of the board
      * @param item the item to be set
      */
@@ -123,7 +130,6 @@ public class Board {
     }
 
     /**
-     * This method returns the size of the board.
      *
      * @return the size of the board
      */
@@ -133,7 +139,7 @@ public class Board {
     }
 
     /**
-     * This method is used to put all the Items in the usable cells of the board.
+     * This method puts all the Items in the usable cells of the board.
      * It is used at the beginning of the game and when the board needs to be refilled.
      */
     public void fill() {
@@ -306,7 +312,7 @@ public class Board {
     }
 
     /**
-     * This method checks if the distance between the tiles chosen is at most 3 and if the order is correct (ascending)
+     * This method checks if the distance between the tiles chosen is at most 3 and if the order is correct (ascending).
      *
      * @param cells the list of coordinates of the tiles chosen
      * @return true if the order is correct and the distance is at most 3, false otherwise

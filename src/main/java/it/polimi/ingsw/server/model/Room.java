@@ -20,7 +20,7 @@ public class Room {
     private final int roomId;
 
     /**
-     * Creates a new room with the given id.
+     * This method creates a new room with the given id.
      *
      * @param roomId the id of the room
      */
@@ -29,7 +29,7 @@ public class Room {
     }
 
     /**
-     * Creates a new room with the given id and players.
+     * This ,ethod creates a new room with the given id and players.
      *
      * @param roomId  the id of the room
      * @param players the list of players
@@ -40,6 +40,7 @@ public class Room {
     }
 
     /**
+     *
      * @return the number of players
      */
     public int getNumberOfPlayers() {
@@ -47,7 +48,7 @@ public class Room {
     }
 
     /**
-     * Sets the minimum and maximum number of players.
+     * This method sets the minimum and maximum number of players.
      *
      * @param maxPlayers the maximum number of players
      */
@@ -57,22 +58,29 @@ public class Room {
     }
 
     /**
+     *
      * @return true if the room is full, false otherwise
      */
     public boolean full() {
         return players.size() == maxPlayers;
     }
 
+
     public boolean isNumSetted() {
         return maxPlayers != 0;
     }
 
-    public boolean tooMuchPlayers() {
+    /**
+     *
+     * @return true if the room has too many players, false otherwise
+     */
+    public boolean tooManyPlayers() {
         System.out.println(players.size() + " " + maxPlayers);
         return players.size() > maxPlayers;
     }
 
     /**
+     *
      * @return the id of the room
      */
     public int getRoomId() {
@@ -96,6 +104,7 @@ public class Room {
     }
 
     /**
+     *
      * @return the list of players
      */
     public List<Player> getListOfPlayers() {

@@ -7,10 +7,19 @@ import it.polimi.ingsw.utils.Color;
 
 import java.util.Optional;
 
+/**
+ * This class is used to print the bookshelf in the cli
+ * @see GameCliView
+ * @see CliUtilities
+ */
 public class BookshelfView {
 
     private final Bookshelf bookshelf;
 
+    /**
+     * This constructor initializes the bookshelf
+     * @param bookshelf
+     */
     public BookshelfView(Bookshelf bookshelf) {
         this.bookshelf = bookshelf;
     }
@@ -27,6 +36,9 @@ public class BookshelfView {
 
     }
 
+    /**
+     * This method prints the other bookshelves in the console.
+     */
     public void printOtherBookshelf() {
         StringBuilder cell;
         Optional<Item>[][] items = bookshelf.getItems();

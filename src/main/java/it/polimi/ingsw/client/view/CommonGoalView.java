@@ -3,8 +3,18 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.CliUtilities;
 
+/**
+ * This class is used to print the common goal in the cli
+ */
 public class CommonGoalView {
 
+    /**
+     * This method is used to print the common goal
+     * @param type the type of the common goal
+     * @param occurrences
+     * @param size
+     * @param horizontal
+     */
     public static void print(String type, int occurrences, int size, boolean horizontal) {
         System.out.println("This is your common goal card: ");
         switch (type) {
@@ -42,6 +52,9 @@ public class CommonGoalView {
         System.out.println(card);
     }
 
+    /**
+     * This method is used to print the diagonal common goal
+     */
     public static void diagonalPrintLayout() {
         String description = "  Five tiles of the same type forming a diagonal. ";
         StringBuilder cell = new StringBuilder();
@@ -181,6 +194,9 @@ public class CommonGoalView {
         System.out.println(cell);
     }
 
+    /**
+     * This method prints the layout of the stair pattern.
+     */
     public static void stairPrintLayout() {
         String description = "\t\tFive columns of increasing or decreasing height. Tiles can be of any type.";
         StringBuilder cell = new StringBuilder();
@@ -194,6 +210,9 @@ public class CommonGoalView {
         System.out.println(cell);
     }
 
+    /**
+     * This method prints the layout of the X pattern.
+     */
     public static void xShapePrintLayout() {
         String description = "     Five tiles of the same type forming an X.";
         StringBuilder card = new StringBuilder();
