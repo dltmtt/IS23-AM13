@@ -3,6 +3,9 @@ package it.polimi.ingsw.server.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a player of the game and contains all his information.
+ */
 @SuppressWarnings("unused")
 public class Player {
 
@@ -19,6 +22,12 @@ public class Player {
     private boolean hasEndGameCard;
     private PersonalGoal personalGoal;
 
+    /**
+     * This method creates a player.
+     *
+     * @param nickname the player's nickname
+     * @param age      the player's age
+     */
     public Player(String nickname, int age, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard) {
         this.nickname = nickname;
         this.age = age;
@@ -29,15 +38,28 @@ public class Player {
         commonGoalCompleted.add(false);
     }
 
+    /**
+     *
+     * @param commonGoals the common goals to set
+     */
     public static void setCommonGoal(List<CommonGoal> commonGoals) {
         Player.commonGoals = commonGoals;
     }
 
+    /**
+     *
+     * @param board the board to set
+     */
     public static void setBoard(Board board) {
         Player.board = board;
     }
 
     // metodo temporaneo
+
+    /**
+     *
+     * @return the list of common goals
+     */
     public static List<CommonGoal> getCommonGoals() {
         return commonGoals;
     }
@@ -46,36 +68,64 @@ public class Player {
         this.isFirstPlayer = isFirstPlayer;
     }
 
+    /**
+     *
+     * @return the nickname of the player
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     *
+     * @return the age of the player
+     */
     public int getAge() {
         return age;
     }
 
+    /**
+     *
+     * @param age the age to set
+     */
     public void setAge(int age) {
         this.age = age;
     }
 
+    /**
+     *
+     * @return the bookshelf of the player
+     */
     public Bookshelf getBookshelf() {
         return bookshelf;
     }
 
+    /**
+     *
+     * @param bookshelf the bookshelf to set
+     */
     public void setBookshelf(Bookshelf bookshelf) {
         this.bookshelf = bookshelf;
     }
 
+    /**
+     *
+     * @return the personal goal of the player
+     */
     public PersonalGoal getPersonalGoal() {
         return personalGoal;
     }
 
+    /**
+     *
+     * @param personalGoal the personal goal to set
+     */
     public void setPersonalGoal(PersonalGoal personalGoal) {
         this.personalGoal = personalGoal;
     }
 
     /**
-     * Tells whether it is the player's first game or not.
+     * This method tells whether it is the player's first game or not.
      * If it is, the game will be played with only one common goal instead of two.
      *
      * @return true if it is the player's first game, false otherwise
@@ -84,12 +134,16 @@ public class Player {
         return isFirstGame;
     }
 
+    /**
+     * This method sets whether it is the player's first game or not.
+     * @param isFirstGame true if it is the player's first game, false otherwise
+     */
     public void setFirstGame(boolean isFirstGame) {
         this.isFirstGame = isFirstGame;
     }
 
     /**
-     * Tells whether the player is the first to play or not.
+     * This method tells whether the player is the first to play or not.
      * If it is, the player will hold the 1st player seat.
      *
      * @return true if the player is the first to play, false otherwise
@@ -109,12 +163,17 @@ public class Player {
         return hasEndGameCard;
     }
 
+    /**
+     *
+     * This method sets whether the player has the end game card or not.
+     * @param hasEndGameCard true if the player has the end game card, false otherwise
+     */
     public void setHasEndGameCard(boolean hasEndGameCard) {
         this.hasEndGameCard = hasEndGameCard;
     }
 
     /**
-     * Moves a straight line of tiles from the board to the bookshelf.
+     * This method moves a straight line of tiles from the board to the bookshelf.
      *
      * @param items  the list of the tiles to move
      * @param column the index of the column of the bookshelf where the tiles will be placed (starting from 0)
@@ -134,7 +193,7 @@ public class Player {
     }
 
     /**
-     * Rearranges the picked items in the given order.
+     * This method rearranges the picked items in the given order.
      * The order is an array of integers, where the i-th element is the new position of the i-th item (starting from 0).
      * For example, if the order is (2, 0, 1), the first item will be placed in the third position,
      * the second item will be placed in the first position and the third item will be placed in the second position.
@@ -169,10 +228,13 @@ public class Player {
     }
 
     /**
-     * Calculates the score of the player.
-     * It is made of the points given by adjacent items in the bookshelf,
-     * the points given by personal and common goals,
-     * and the points given by the end game card (if the player has it).
+     * This method calculates the score of the player.
+     * It is made up of:
+     * <ul>
+     *     <li>the points given by adjacent items in the bookshelf</li>
+     *     <li>the points given by personal and common goals</li>
+     *     <li>the points given by the end game card (if the player has it)</li>
+     *  </ul>
      *
      * @return the score of the player
      */
@@ -193,14 +255,26 @@ public class Player {
         return score;
     }
 
+    /**
+     *
+     * @return the points given by adjacent items in the bookshelf
+     */
     public int getAdjacentPoints() {
         return bookshelf.getPoints();
     }
 
+    /**
+     *
+     * @return the points given by personal goals
+     */
     public int getPersonalGoalPoints() {
         return personalGoal.getPoints(bookshelf);
     }
 
+    /**
+     *
+     * @return the points given by common goals
+     */
     public int getCommonGoalPoints() {
         int score = 0;
         for (int scoring : commonGoalPoints) {
@@ -209,6 +283,10 @@ public class Player {
         return score;
     }
 
+    /**
+     *
+     * @param commonGoal the points of the common goal to be set
+     */
     public void setCommonGoalPoints(CommonGoal commonGoal) {
         //        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
         commonGoalPoints.add(commonGoal.getScoring());

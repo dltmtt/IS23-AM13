@@ -32,13 +32,17 @@ public class Group extends Layout {
         this.size = size;
     }
 
+    /**
+     *
+     * @return the name of the layout
+     */
     @Override
     public String getName() {
         return "group";
     }
 
     /**
-     * Checks if the layout is valid for the bookshelf.
+     * This method checks if the layout is valid for the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is valid for the bookshelf, false otherwise
@@ -59,6 +63,10 @@ public class Group extends Layout {
         return counter >= occurrences;
     }
 
+    /**
+     *
+     * @return the number of occurrences of the layout within the bookshelf of the player
+     */
     public int getOccurrences() {
         return occurrences;
     }
@@ -67,6 +75,10 @@ public class Group extends Layout {
         return size;
     }
 
+    /**
+     *
+     * @return the info of the layout
+     */
     @Override
     public String getInfo() {
         return super.getInfo() + " -type=Group -occurrences=" + occurrences + " -size=" + size;

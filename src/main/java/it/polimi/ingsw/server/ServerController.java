@@ -247,7 +247,7 @@ public class ServerController {
             gameIsStarted = true;
             return 1;
         }
-        if (room.isNumSetted() && room.tooMuchPlayers()) {
+        if (room.isNumSetted() && room.tooManyPlayers()) {
             gameModel = new GameModel(players);
             gameModel.start();
             gameIsStarted = true;

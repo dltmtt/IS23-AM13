@@ -40,7 +40,7 @@ public class XShape extends Layout {
     }
 
     /**
-     * Checks if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum.
+     * This method checks if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum.
      *
      * @param b the bookshelf to be checked
      * @return true if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum, false otherwise
@@ -116,6 +116,10 @@ public class XShape extends Layout {
         return false;
     }
 
+    /**
+     *
+     * @return a string representation of the layout
+     */
     public String getInfo() {
         return super.getInfo() + "X Shape";
     }

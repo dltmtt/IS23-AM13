@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A bookshelf, where the player can collect items.
- * It has <code>rows</code> rows (6 by default) and <code>columns</code> (5 by default) columns.
+ * This method represents a bookshelf, where the player can collect items.
+ * It has <code>rows</code> (6 by default) and <code>columns</code> (5 by default) columns.
  * Each cell can contain an item.
  *
  * @see Item
@@ -26,7 +26,7 @@ public class Bookshelf implements AbleToGetPoints {
     private final boolean[][] booleanMatrix;
 
     /**
-     * Creates a new bookshelf where all cells are empty.
+     * This method creates a new bookshelf.
      * <p>
      * <code>booleanMatrix</code> is used to check if a cell can be visited (and it has not been visited yet).
      * It is initialized to <code>true</code>.
@@ -72,6 +72,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     *
      * @return the number of rows in a bookshelf
      */
     public static int getRows() {
@@ -83,6 +84,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     *
      * @return the number of columns in a bookshelf
      */
     public static int getColumns() {
@@ -94,6 +96,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     *
      * @return the number of cells in a bookshelf
      */
     public static int getSize() {
@@ -101,6 +104,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     *
      * @return the number of rows or columns, whichever is smaller
      */
     public static int getDimension() {
@@ -108,6 +112,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     *
      * @param column the column index
      * @return the number of free cells in the column with index <code>column</code>
      */
@@ -122,6 +127,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     *
      * @param column the column index
      * @return the number of used cells in the column with index <code>column</code>
      */
@@ -154,6 +160,10 @@ public class Bookshelf implements AbleToGetPoints {
         clearBooleanMatrix();
     }
 
+    /**
+     *
+     * @return true if the bookshelf is full, false otherwise
+     */
     public boolean isBookshelfFull() {
         for (int i = 0; i < columns; i++) {
             if (!isColumnFull(i)) {
@@ -164,7 +174,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * Inserts a list of items in a column.
+     * This method inserts a list of items in a column.
      *
      * @param column the column index
      * @param items  the list of items to insert

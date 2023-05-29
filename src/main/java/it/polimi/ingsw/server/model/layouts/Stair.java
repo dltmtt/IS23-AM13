@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.model.Bookshelf;
 public class Stair extends Layout {
 
     /**
-     * Creates a stair layout.
+     * This method creates a stair layout.
      *
      * @param dimension    the dimension of the stair (number of columns)
      * @param minDifferent the minimum number of different colors
@@ -24,7 +24,7 @@ public class Stair extends Layout {
     }
 
     /**
-     * Checks if there's a stair towards left.
+     * This method checks if there's a stair towards left.
      *
      * @param b bookshelf to check
      * @return true if there's a stair towards left
@@ -47,7 +47,7 @@ public class Stair extends Layout {
     }
 
     /**
-     * Checks if there's a stair towards right.
+     * This method checks if there's a stair towards right.
      *
      * @param b bookshelf to check
      * @return true if there's a stair towards right
@@ -69,6 +69,10 @@ public class Stair extends Layout {
         return true;
     }
 
+    /**
+     *
+     * @return the name of the layout
+     */
     @Override
     public String getName() {
         return "stair";
@@ -89,6 +93,10 @@ public class Stair extends Layout {
         return check_right(b) || check_left(b);
     }
 
+    /**
+     *
+     * @return the info of the layout
+     */
     public String getInfo() {
         return super.getInfo() + " -type: stair";
     }

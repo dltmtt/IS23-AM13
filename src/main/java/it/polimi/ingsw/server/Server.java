@@ -25,8 +25,8 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     private Thread pongThread;
 
     /**
-     * Creates a new server.
-     * Initialize both the RMI and the socket servers.
+     * This method creates a new server.
+     * It initializes both the RMI and the socket servers.
      */
     public Server() {
         try {
@@ -67,8 +67,8 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     }
 
     /**
-     * Starts both the RMI and the socket servers.
-     * Sends a message to all clients to notify them that the server is up.
+     * This method starts both the RMI and the socket servers.
+     * It also sends a message to all clients to notify them that the server is up.
      */
     @Override
     public void start() {
@@ -78,8 +78,8 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     }
 
     /**
-     * Stops both the RMI and the socket servers.
-     * Sends a message to all clients to notify them that the server is shutting down.
+     * This method stops both the RMI and the socket servers.
+     * It also sends a message to all clients to notify them that the server is shutting down.
      */
     @Override
     public void stop() {

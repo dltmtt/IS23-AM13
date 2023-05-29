@@ -41,13 +41,17 @@ public class Square extends Layout {
         }
     }
 
+    /**
+     * This method returns the name of the layout.
+     * @return
+     */
     @Override
     public String getName() {
         return "square";
     }
 
     /**
-     * Checks if the Square layout is valid in the bookshelf.
+     * This method checks if the Square layout is valid in the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is valid, false otherwise
@@ -67,7 +71,7 @@ public class Square extends Layout {
     }
 
     /**
-     * Searches for a square of the same color in the bookshelf.
+     * This method searches for a square of the same color in the bookshelf.
      *
      * @param b      the bookshelf to check
      * @param color  the color of the square
@@ -110,7 +114,6 @@ public class Square extends Layout {
     }
 
     /**
-     * Returns the goal of occurrences of the layout.
      *
      * @return the number of occurrences of the layout
      */
@@ -138,6 +141,10 @@ public class Square extends Layout {
         return 1;
     }
 
+    /**
+     *
+     * @return the info of the layout
+     */
     public String getInfo() {
         return super.getInfo() + "-occurrences=" + occurrences + "-size= " + size + " -type=square";
     }

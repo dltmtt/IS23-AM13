@@ -23,6 +23,7 @@ public enum Color {
     }
 
     /**
+     *
      * @return a random color
      */
     public static Color getRandomColor() {
@@ -32,6 +33,7 @@ public enum Color {
     }
 
     /**
+     *
      * @return the hex color code of a random color
      */
     public static String getRandomHexColor() {
@@ -45,7 +47,6 @@ public enum Color {
      * @return the ANSI code of the color
      * @throws IllegalArgumentException if the color is null
      */
-
     public static String toANSItext(Color color, boolean isBackground) throws IllegalArgumentException {
         if (color == null) {
             throw new IllegalArgumentException("Color cannot be null");
@@ -77,7 +78,7 @@ public enum Color {
     // TODO not working at the moment, come back later :)
 
     /**
-     * Converts a hex color code to an ANSI color code
+     * This method converts a hex color code to an ANSI color code
      * @param hexCode the hex color code to convert
      * @param isBackground if true, the color is used as background, otherwise as foreground
      * @return the ANSI color code
