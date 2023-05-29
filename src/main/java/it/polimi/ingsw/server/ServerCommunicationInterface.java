@@ -109,12 +109,13 @@ public interface ServerCommunicationInterface extends Remote {
                         System.out.println(username + " requested login, but the username is already taken.");
                         client.callBackSendMessage(new Message("UsernameRetry"));
                     } else {
+                        sendGame(client);
                         System.out.println(username + " reconnected.");
                     }
                 } else {
                     // The username is already taken, but the player was disconnected and is trying to reconnect
                     System.out.println(username + " reconnected.");
-                    client.callBackSendMessage((new Message("update", controller.getBookshelves(), controller.getBoard(), controller.getCurrentPlayerScore())));
+                    sendGame(client);
                 }
             }
             default -> System.out.println(message + " requested unknown");
@@ -134,6 +135,16 @@ public interface ServerCommunicationInterface extends Remote {
                 tcpClients.remove(username);
             }
         }
+    }
+
+    default void sendGame(ClientCommunicationInterface client) throws RemoteException {
+        int position = controller.getPositionByUsername(client.getUsername());
+        try {
+            client.callBackSendMessage(new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard()));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        // sendAll(new Message("reconnected", client.getUsername()));
     }
 
     default void nextTurn() throws RemoteException {

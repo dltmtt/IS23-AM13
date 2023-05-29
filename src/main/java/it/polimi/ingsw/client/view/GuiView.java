@@ -300,6 +300,11 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showRemovePlayer() {
-        
+
+    }
+
+    @Override
+    public void showDisconnection(List<String> disconnectedPlayers) {
+
     }
 }

@@ -8,4 +8,6 @@ import java.rmi.RemoteException;
 public interface ClientCommunicationInterface extends Remote {
 
     void callBackSendMessage(Message message) throws RemoteException;
+
+    String getUsername() throws RemoteException;
 }

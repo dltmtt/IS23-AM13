@@ -27,7 +27,6 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
     @Override
     public void sendMessage(Message message) {
         try {
-            checkServerConnection();
             server.receiveMessage(message, this);
         } catch (FullRoomException | Exception e) {
             // throw new RuntimeException(e);

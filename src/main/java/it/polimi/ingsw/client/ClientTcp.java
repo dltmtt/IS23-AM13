@@ -71,14 +71,9 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         }
     }
 
+    @Override
     public void checkServerConnection() {
-        synchronized (this) {
-            if (!serverConnected) {
-                System.err.println("\nServer disconnected.");
-                close();
-            }
-            serverConnected = false;
-        }
+        // not used
     }
 
     public Message receiveMessage() {

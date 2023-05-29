@@ -84,7 +84,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 gameView.showBoard(message.getBoard());
             }
             case "startGame" -> {
-                System.out.println("Game started.");
+                // System.out.println("Game started.");
                 gameView.startGame(message);
             }
             case "turn" -> myTurn();
@@ -128,6 +128,11 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 int column = gameView.promptInsert();
                 sendMessage(new Message("insertMessage", "insert", column));
             }
+            case "disconnected" -> {
+                List<String> disconnected = message.getDisconnected();
+                gameView.showDisconnection(disconnected);
+                stop();
+            }
             default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
     }
@@ -145,7 +150,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             while (true) {
                 try {
                     // noinspection BusyWait
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                     sendMessage(new Message("ping", username));
                     Thread.sleep(3000);
                     checkServerConnection();
@@ -155,22 +160,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             }
         });
         pingThread.start();
-        // Thread checkPongThread = new Thread(() -> {
-        //     while (true) {
-        //         try {
-        //             // noinspection BusyWait
-        //             Thread.sleep(6000);
-        //             if (!serverConnected) {
-        //                 System.err.println("\nServer disconnected.");
-        //                 System.exit(0);
-        //             }
-        //             serverConnected = false;
-        //         } catch (InterruptedException e) {
-        //             e.printStackTrace();
-        //         }
-        //     }
-        // });
-        // checkPongThread.start();
     }
 
     public abstract void checkServerConnection();

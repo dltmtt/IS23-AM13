@@ -97,4 +97,6 @@ public interface GameView {
     void showGameAlreadyStarted();
 
     void showRemovePlayer();
+
+    void showDisconnection(List<String> disconnectedPlayers);
 }

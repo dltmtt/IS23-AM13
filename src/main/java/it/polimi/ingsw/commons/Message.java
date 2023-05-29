@@ -250,6 +250,20 @@ public class Message implements Serializable {
         json.put("sort", array);
     }
 
+    /**
+     * Constructor for the disconnection message. (the username/s of the player/s who disconnected)
+     *
+     * @param category     category of the message (disconnection)
+     * @param disconnected list of the username/s of the player/s who disconnected
+     */
+    public Message(String category, String type, List<String> disconnected) {
+        json = new JSONObject();
+        json.put("category", category);
+        JSONArray array = new JSONArray();
+        array.addAll(disconnected);
+        json.put("disconnected", array);
+    }
+
     ///////////////////////////////////////////////////////DA SISTEMARE////////////////////////////////////////////////////////
 
     // la uso?
@@ -363,6 +377,16 @@ public class Message implements Serializable {
     }
 
     ///////////////////////////////////////////////////////GETTERS////////////////////////////////////////////////////////
+
+    public List<String> getDisconnected() {
+        List<String> disconnected = new ArrayList<>();
+        JSONArray array = (JSONArray) json.get("disconnected");
+        for (int i = 0; i < array.size(); i++) {
+            String name = (String) json.get(i);
+            disconnected.add(name);
+        }
+        return disconnected;
+    }
 
     public List<Integer> getPick() {
         List<Integer> pick = new ArrayList<>();

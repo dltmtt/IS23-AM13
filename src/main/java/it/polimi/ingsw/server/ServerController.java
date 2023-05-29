@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.ClientCommunicationInterface;
+import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
@@ -16,6 +17,8 @@ public class ServerController {
     private final List<String> disconnected;
     private final HashMap<String, ClientCommunicationInterface> rmiClients;
     private final HashMap<String, SocketClientHandler> tcpClients;
+    private HashMap<ClientCommunicationInterface, PersonalGoal> personalGoalRMI;
+    private HashMap<SocketClientHandler, PersonalGoal> personalGoalTCP;
     private int numPlayer = 0;
     private boolean gameIsStarted = false;
     private boolean printedTurn = false;
@@ -39,6 +42,14 @@ public class ServerController {
         rmiClients = new HashMap<>();
         tcpClients = new HashMap<>();
     }
+
+    // public int getPostion(SocketClientHandler client) {
+    //     for(int i = 0; i < tcpClients.size(); i++) {
+    //         if(tcpClients.get(i).equals(client)) {
+    //             return tcpClients.
+    //         }
+    //     }
+    // }
 
     public void setNumPlayer(int numPlayer) {
         this.numPlayer = numPlayer;
@@ -112,6 +123,7 @@ public class ServerController {
     public void pingReceived(String username) {
         if (!pings.contains(username)) {
             pings.add(username);
+            System.out.println("Ping received from " + username);
         }
     }
 
@@ -124,6 +136,20 @@ public class ServerController {
                     printedConn = false;
                 }
                 printedDisco = true;
+                for (String username : tcpClients.keySet()) {
+                    if (!disconnected.contains(username)) {
+                        tcpClients.get(username).sendMessageToClient(new Message("disconnected", null, disconnected));
+                    }
+                }
+                // for (String username : rmiClients.keySet()) {
+                //     if (!disconnected.contains(username)) {
+                //         try {
+                //             rmiClients.get(username).callBackSendMessage(new Message("disconnected", null, disconnected));
+                //         } catch (RemoteException e) {
+                //             throw new RuntimeException(e);
+                //         }
+                //     }
+                // }
             }
         } else {
             printedDisco = false;

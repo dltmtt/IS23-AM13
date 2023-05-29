@@ -22,6 +22,7 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     private static final String SHUTDOWN_COMMAND = "exit";
     private ServerRmi rmiServer;
     private ServerTcp socketServer;
+    private Thread pongThread;
 
     /**
      * Creates a new server.

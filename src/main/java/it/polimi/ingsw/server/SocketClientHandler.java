@@ -17,6 +17,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
     public PrintStream clientPrintStream;
     public DataOutputStream dataOutputStream;
     public Thread listenThread;
+    private String username;
 
     public SocketClientHandler(Socket socket) throws IOException {
         this.socket = socket;
@@ -72,6 +73,14 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 }
             }
         });
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -146,6 +155,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
             case "sort" -> controller.rearrangePicked(message.getSort());
             case "completeLogin" -> {
                 String username = message.getUsername();
+                setUsername(username);
                 int checkStatus = controller.checkUsername(username);
                 if (checkStatus == 1) {
                     // The username is available, a new player can be added
@@ -184,15 +194,22 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                         sendMessageToClient(new Message("usernameRetry"));
                     } else {
                         System.out.println(username + " reconnected.");
+                        sendGame(client);
                     }
                 } else {
                     // The username is already taken, but the player was disconnected and is trying to reconnect
                     System.out.println(username + " reconnected.");
-                    sendMessageToClient(new Message("update", controller.getBookshelves(), controller.getBoard(), controller.getCurrentPlayerScore()));
+                    sendGame(client);
                 }
             }
             default -> System.out.println(message + " requested unknown");
         }
+    }
+
+    public void sendGame(SocketClientHandler client) throws RemoteException {
+        int position = controller.getPositionByUsername(client.getUsername());
+        Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
+        client.sendMessageToClient(myGame);
     }
 
     public void sendMessageToClient(Message message) {

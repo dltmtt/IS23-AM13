@@ -527,4 +527,12 @@ public class GameCliView implements GameView {
     public void showMessage(String message) {
         System.out.print(message);
     }
+
+    public void showDisconnection(List<String> disconnected) {
+        showMessage("The following players disconnected: ");
+        for (String player : disconnected) {
+            showMessage(player + " ");
+        }
+        showMessage("\n");
+    }
 }
