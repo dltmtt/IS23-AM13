@@ -65,7 +65,9 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
                 dataOutputStream.writeBytes(stringMessage + "\n"); // Send the message to the server (with newline)
             }
         } catch (IOException e) {
-            System.err.println("Unable to send message to server. Is it still running?");
+            // System.err.println("Unable to send message to server. Is it still running?");
+            System.err.println("Unable to send message to server.");
+            close();
         }
     }
 
@@ -73,7 +75,7 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         synchronized (this) {
             if (!serverConnected) {
                 System.err.println("\nServer disconnected.");
-                System.exit(0);
+                close();
             }
             serverConnected = false;
         }
@@ -92,7 +94,8 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
                 return new Message(serverMessageString);
             }
         } catch (IOException e) {
-            System.err.println("Lost connection to server.");
+            System.err.println("\nLost connection to server.");
+            close();
         }
         return null;
     }

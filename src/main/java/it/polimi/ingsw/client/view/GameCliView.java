@@ -27,7 +27,7 @@ public class GameCliView implements GameView {
         String finalUsername = username;
         boolean firstGame = promptFirstGame();
         client.startPingThread(finalUsername);
-        System.out.println("thread started");
+        // System.out.println("thread started");
         client.sendMessage(new Message("completeLogin", username, 0, firstGame, 0));
 
         // String responseMessage = response.getCategory();

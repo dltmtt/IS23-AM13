@@ -27,6 +27,7 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
     @Override
     public void sendMessage(Message message) {
         try {
+            checkServerConnection();
             server.receiveMessage(message, this);
         } catch (FullRoomException | Exception e) {
             // throw new RuntimeException(e);
@@ -35,7 +36,7 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
 
     public void checkServerConnection() {
         if (!serverConnected) {
-            System.err.println("\nServer disconnected.");
+            System.err.println("\nLost connection to server.");
             System.exit(0);
         }
         serverConnected = false;
