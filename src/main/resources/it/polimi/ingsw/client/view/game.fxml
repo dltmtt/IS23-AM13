@@ -55,46 +55,48 @@
                                 </ImageView>
                                 <GridPane fx:id="boardGridPane" prefHeight="367.0" prefWidth="338.0">
                                     <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.8000144958496"
-                                                           minWidth="10.0" prefWidth="388.0000061035156"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.8000144958496"
-                                                           minWidth="10.0" prefWidth="388.0000061035156"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.8000144958496"
-                                                           minWidth="10.0" prefWidth="388.0000061035156"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.8000144958496"
-                                                           minWidth="10.0" prefWidth="388.0000061035156"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.8000144958496"
-                                                           minWidth="10.0" prefWidth="388.0000061035156"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.8000144958496"
-                                                           minWidth="10.0" prefWidth="388.0000061035156"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.8000144958496"
-                                                           minWidth="10.0" prefWidth="388.0000061035156"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="389.8000144958496"
-                                                           minWidth="10.0" prefWidth="388.0000061035156"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                           prefWidth="39.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                           prefWidth="39.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                           prefWidth="39.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                           prefWidth="39.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                           prefWidth="39.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                           prefWidth="39.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                           prefWidth="39.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                           prefWidth="39.0"/>
                                         <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS"
-                                                           maxWidth="389.8000144958496" minWidth="10.0"
-                                                           prefWidth="388.0000061035156"/>
+                                                           maxWidth="39.0" minWidth="39.0" prefWidth="39.0"/>
                                     </columnConstraints>
                                     <rowConstraints>
-                                        <RowConstraints maxHeight="42.800024414062506" minHeight="10.0"
-                                                        prefHeight="42.800024414062506" vgrow="SOMETIMES"/>
-                                        <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="37.99997558593749"
-                                                        vgrow="SOMETIMES"/>
-                                        <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="42.0"
-                                                        vgrow="SOMETIMES"/>
-                                        <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="42.0"
-                                                        vgrow="SOMETIMES"/>
-                                        <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="42.0"
-                                                        vgrow="SOMETIMES"/>
-                                        <RowConstraints maxHeight="39.200048828125006" minHeight="10.0"
-                                                        prefHeight="39.200048828125006" vgrow="SOMETIMES"/>
-                                        <RowConstraints maxHeight="116.79994812011716" minHeight="10.0"
-                                                        prefHeight="39.20002441406248" vgrow="SOMETIMES"/>
-                                        <RowConstraints maxHeight="192.79998168945312" minHeight="10.0"
-                                                        prefHeight="64.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints maxHeight="116.79994812011716" minHeight="10.0"
-                                                        prefHeight="72.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
+                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                        valignment="CENTER" vgrow="ALWAYS"/>
                                     </rowConstraints>
+                                    <StackPane.margin>
+                                        <Insets bottom="35.0" left="27.0" right="27.0" top="30.0"/>
+                                    </StackPane.margin>
                                 </GridPane>
                             </children>
                         </StackPane>
@@ -368,13 +370,13 @@
                                 <ImageView fx:id="cg1" fitHeight="80.0" fitWidth="120.0" pickOnBounds="true"
                                            preserveRatio="true">
                                     <image>
-                                        <Image url="@graphics/common_goal_cards/1.jpg"/>
+                                        <Image url="@graphics/common_goal_cards/back.jpg"/>
                                     </image>
                                 </ImageView>
                                 <ImageView fx:id="cg2" fitHeight="78.0" fitWidth="120.0" pickOnBounds="true"
                                            preserveRatio="true">
                                     <image>
-                                        <Image url="@graphics/common_goal_cards/2.jpg"/>
+                                        <Image url="@graphics/common_goal_cards/back.jpg"/>
                                     </image>
                                 </ImageView>
                             </children>

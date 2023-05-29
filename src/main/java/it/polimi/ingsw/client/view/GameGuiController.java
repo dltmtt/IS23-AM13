@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.commons.Message;
+import it.polimi.ingsw.server.model.Board;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
@@ -75,17 +76,27 @@ public class GameGuiController {
     }
 
     public void showGame(Message message) {
+
+        // Personal Goal image loading
         int personalGoalIndex = message.getPersonalGoal();
         String imagePath = "graphics/personal_goal_cards/pg_" + personalGoalIndex + ".png";
         Image image = new javafx.scene.image.Image(getClass().getResource(imagePath).toExternalForm());
         pg.setImage(image);
 
+        // Common Goal image loading
         List<String> commonGoalFiles = new ArrayList<>();
         for (int i = 0; i < message.getCardOccurrences().size(); i++) {
             String fileName = message.getCardType().get(i) + "-" + message.getCardSize().get(i).toString() + "-" + message.getCardOccurrences().get(i).toString() + "-" + message.getCardHorizontal().get(i).toString();
             commonGoalFiles.add(fileName);
         }
         cg1.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(0) + ".jpg").toExternalForm()));
-        cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(1) + ".jpg").toExternalForm()));
+        if (message.getCardType().size() == 1) {
+            cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/back.jpg").toExternalForm()));
+        } else {
+            cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(1) + ".jpg").toExternalForm()));
+        }
+
+        // Board items loading
+        Board board = message.getBoard();
     }
 }
