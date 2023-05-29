@@ -17,8 +17,8 @@ import java.util.ResourceBundle;
 
 public class GameGuiController {
 
-    private static final String BASE_PATH = "/graphics/item_tiles/";
-    private static final int ITEM_SIZE = 50; // Adjust the size of each item image
+    private static final String BASE_PATH = "graphics/item_tiles/";
+    private static final int ITEM_SIZE = 40; // Adjust the size of each item image
     private static final int ROW_SPACING = 10; // Adjust the spacing between rows
     private static final int COLUMN_SPACING = 10; // Adjust the spacing between columns
 
@@ -98,5 +98,21 @@ public class GameGuiController {
 
         // Board items loading
         Board board = message.getBoard();
+        for (int i = 0; i < board.getBoardSize(); i++) {
+            for (int j = 0; j < board.getBoardSize(); j++) {
+                if (board.getItem(i, j) != null) {
+                    String fileName = board.getItem(i, j).color().toString().toLowerCase().charAt(0) + String.valueOf(board.getItem(i, j).number());
+                    try {
+                        Image itemImage = new Image(getClass().getResource(BASE_PATH + fileName + ".png").toExternalForm());
+                        ImageView itemImageView = new ImageView(itemImage);
+                        itemImageView.setFitHeight(ITEM_SIZE);
+                        itemImageView.setFitWidth(ITEM_SIZE);
+                        boardGridPane.add(itemImageView, j, board.getBoardSize() - i - 1);
+                    } catch (NullPointerException e) {
+                        System.out.println("Error loading item image: " + fileName);
+                    }
+                }
+            }
+        }
     }
 }

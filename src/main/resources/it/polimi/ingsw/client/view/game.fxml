@@ -97,14 +97,6 @@
                                     <StackPane.margin>
                                         <Insets bottom="35.0" left="27.0" right="27.0" top="30.0"/>
                                     </StackPane.margin>
-                                    <children>
-                                        <ImageView fitHeight="39.0" fitWidth="39.0" pickOnBounds="true"
-                                                   preserveRatio="true" GridPane.columnIndex="3">
-                                            <image>
-                                                <Image url="@graphics/item_tiles/b1.png"/>
-                                            </image>
-                                        </ImageView>
-                                    </children>
                                 </GridPane>
                             </children>
                         </StackPane>
