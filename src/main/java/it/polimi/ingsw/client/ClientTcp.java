@@ -71,10 +71,6 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         }
     }
 
-    @Override
-    public void checkServerConnection() {
-        // not used
-    }
 
     public Message receiveMessage() {
         String serverMessageString;

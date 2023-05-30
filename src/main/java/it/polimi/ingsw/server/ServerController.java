@@ -13,7 +13,7 @@ public class ServerController {
 
     private final List<Player> players;
     private final List<String> winnersNickname;
-    private final List<String> pings;
+    private final List<String> pongs;
     private final List<String> disconnected;
     private final HashMap<String, ClientCommunicationInterface> rmiClients;
     private final HashMap<String, SocketClientHandler> tcpClients;
@@ -37,7 +37,7 @@ public class ServerController {
         players = new ArrayList<>();
         winnersNickname = new ArrayList<>();
         currentPicked = new ArrayList<>();
-        pings = new ArrayList<>();
+        pongs = new ArrayList<>();
         disconnected = new ArrayList<>();
         rmiClients = new HashMap<>();
         tcpClients = new HashMap<>();
@@ -50,7 +50,9 @@ public class ServerController {
     //         }
     //     }
     // }
-
+public void addDisconnection(String username) {
+        disconnected.add(username);
+    }
     public void setNumPlayer(int numPlayer) {
         this.numPlayer = numPlayer;
         room.setNumberOfPlayers(numPlayer);
@@ -120,58 +122,67 @@ public class ServerController {
      *
      * @param username Username of the player
      */
-    public void pingReceived(String username) {
-        if (!pings.contains(username)) {
-            pings.add(username);
-            System.out.println("Ping received from " + username);
+    public void pongReceived(String username) {
+        if (!pongs.contains(username)) {
+            pongs.add(username);
+            // System.out.println("Ping received from " + username);
         }
     }
 
-    public void checkPings() {
-        if (!new HashSet<>(pings).containsAll(players.stream().map(Player::getNickname).toList())) {
-            missingOnes();
-            if (!printedDisco) {
-                for (String missing : disconnected) {
-                    System.out.println(missing + " disconnected");
-                    printedConn = false;
-                }
-                printedDisco = true;
-                for (String username : tcpClients.keySet()) {
-                    if (!disconnected.contains(username)) {
-                        tcpClients.get(username).sendMessageToClient(new Message("disconnected", null, disconnected));
-                    }
-                }
-                // for (String username : rmiClients.keySet()) {
-                //     if (!disconnected.contains(username)) {
-                //         try {
-                //             rmiClients.get(username).callBackSendMessage(new Message("disconnected", null, disconnected));
-                //         } catch (RemoteException e) {
-                //             throw new RuntimeException(e);
-                //         }
-                //     }
-                // }
-            }
-        } else {
-            printedDisco = false;
-            if (!printedConn) {
-                System.out.println("All connected");
-                printedConn = true;
-            }
+    public boolean isAlive(String username) {
+        if(pongs.contains(username)){
+            System.out.println(username+" IS ALIVE");
+            pongs.remove(username);
+            return true;
         }
-        pings.clear();
+        return false;
     }
+
+    // public void checkPings() {
+    //     if (!new HashSet<>(pings).containsAll(players.stream().map(Player::getNickname).toList())) {
+    //         missingOnes();
+    //         if (!printedDisco) {
+    //             for (String missing : disconnected) {
+    //                 System.out.println(missing + " disconnected");
+    //                 printedConn = false;
+    //             }
+    //             printedDisco = true;
+    //             for (String username : tcpClients.keySet()) {
+    //                 if (!disconnected.contains(username)) {
+    //                     tcpClients.get(username).sendMessageToClient(new Message("disconnected", null, disconnected));
+    //                 }
+    //             }
+    //             // for (String username : rmiClients.keySet()) {
+    //             //     if (!disconnected.contains(username)) {
+    //             //         try {
+    //             //             rmiClients.get(username).callBackSendMessage(new Message("disconnected", null, disconnected));
+    //             //         } catch (RemoteException e) {
+    //             //             throw new RuntimeException(e);
+    //             //         }
+    //             //     }
+    //             // }
+    //         }
+    //     } else {
+    //         printedDisco = false;
+    //         if (!printedConn) {
+    //             System.out.println("All connected");
+    //             printedConn = true;
+    //         }
+    //     }
+    //     pings.clear();
+    // }
 
     /**
      * This method is called when a ping is not received
      * If the player is not in the list of pings and not in the list of disconnected players, it is added to the list of disconnected players
      */
-    public void missingOnes() {
-        for (Player player : players) {
-            if (!pings.contains(player.getNickname()) && !disconnected.contains(player.getNickname())) {
-                disconnected.add(player.getNickname());
-            }
-        }
-    }
+    // public void missingOnes() {
+    //     for (Player player : players) {
+    //         if (!pings.contains(player.getNickname()) && !disconnected.contains(player.getNickname())) {
+    //             disconnected.add(player.getNickname());
+    //         }
+    //     }
+    // }
 
     /**
      * @param username the username chosen by the player
@@ -227,17 +238,17 @@ public class ServerController {
             // TODO: gestire l'eccezione
             throw new FullRoomException("Room is full");
         }
-        Thread pongThread = new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(30000);
-                    checkPings();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        pongThread.start();
+        // Thread pongThread = new Thread(() -> {
+        //     while (true) {
+        //         try {
+        //             Thread.sleep(30000);
+        //             checkPings();
+        //         } catch (InterruptedException e) {
+        //             throw new RuntimeException(e);
+        //         }
+        //     }
+        // });
+        // pongThread.start();
     }
 
     public int checkRoom() {

@@ -29,9 +29,9 @@ public interface ServerCommunicationInterface extends Remote {
         String category = message.getCategory();
 
         switch (category) {
-            case "ping" -> {
-                controller.pingReceived(message.getUsername());
-                sendPong(client);
+            case "pong"->{
+                // System.out.println("Pong received from " + client.getUsername());
+                controller.pongReceived(client.getUsername());
             }
             case "numOfPlayersMessage" -> {
 
@@ -84,6 +84,7 @@ public interface ServerCommunicationInterface extends Remote {
                         controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
                         System.out.println(message.getUsername() + " logged in.");
                         controller.addClient(message.getUsername(), client);
+                        startThread(client);
                         controller.startRoom();
                         if (controller.isFirst()) {
                             client.callBackSendMessage(new Message("chooseNumOfPlayer"));
@@ -122,6 +123,32 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
+    default void startThread(ClientCommunicationInterface client) throws RemoteException {
+        // System.out.println("Starting thread for " + client.getUsername());
+        Thread thread = new Thread(() -> {
+            String username = null;
+            try {
+                username = client.getUsername();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                while (true) {
+                    client.callBackSendMessage(new Message("ping"));
+                    Thread.sleep(3000);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (RemoteException e) {
+                // We fall in this branch when the client disconnects
+                System.err.println(username+ " disconnected.");
+                controller.addDisconnection(username);
+                // System.err.println("Error while sending ping to " + username);
+            }
+        });
+        thread.start();
+    }
+
     default void removePlayers() throws RemoteException {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
@@ -137,6 +164,12 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
+    /**
+     * this method is called when a client reconnects to the game
+     * @param client the client that has reconnected
+     * @throws RemoteException if the connection fails
+     */
+
     default void sendGame(ClientCommunicationInterface client) throws RemoteException {
         int position = controller.getPositionByUsername(client.getUsername());
         try {
@@ -144,6 +177,7 @@ public interface ServerCommunicationInterface extends Remote {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        startThread(client);
         // sendAll(new Message("reconnected", client.getUsername()));
     }
 
@@ -164,26 +198,30 @@ public interface ServerCommunicationInterface extends Remote {
     }
 
     default void startGame() throws RemoteException {
+        // System.out.println("startGame");
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
-        System.out.println(tcpClients.keySet());
-        System.out.println(rmiClients.keySet());
+        // System.out.println(tcpClients.keySet());
+        // System.out.println(rmiClients.keySet());
+
         for (String username : tcpClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            System.out.println("Sending game to " + username + " at position " + position);
+            // System.out.println("Sending game to " + username + " at position " + position);
             Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
             tcpClients.get(username).sendMessageToClient(myGame);
         }
         for (String username : rmiClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            System.out.println("Sending game to " + username + " at position " + position);
+            // System.out.println("Sending game to " + username + " at position " + position);
             Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
             rmiClients.get(username).callBackSendMessage(myGame);
         }
+        // System.out.println("turn");
         turn();
     }
 
     default void turn() throws RemoteException {
+        System.out.println("im in turn");
         String currentPlayer = controller.getCurrentPlayer();
         Message otherTurn = new Message("otherTurn", currentPlayer);
         Message turn = new Message("turn");
@@ -202,7 +240,7 @@ public interface ServerCommunicationInterface extends Remote {
     default void sendUpdate() throws RemoteException {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
-        System.out.println(tcpClients.keySet());
+        // System.out.println(tcpClients.keySet());
         for (String username : tcpClients.keySet()) {
             int position = controller.getPositionByUsername(username);
             Message myGame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.getScore(position));
@@ -253,10 +291,5 @@ public interface ServerCommunicationInterface extends Remote {
                 rmiClients.get(username).callBackSendMessage(message);
             }
         }
-    }
-
-    default Message setNumPlayers(Client c) throws RemoteException {
-        int numOfPlayer = c.numOfPlayers().getNumPlayer();
-        return new Message(controller.checkNumPlayer(numOfPlayer));
     }
 }

@@ -33,13 +33,7 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
         }
     }
 
-    public void checkServerConnection() {
-        if (!serverConnected) {
-            System.err.println("\nLost connection to server.");
-            System.exit(0);
-        }
-        serverConnected = false;
-    }
+
 
     @Override
     public void connect() throws RemoteException, NotBoundException {

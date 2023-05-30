@@ -22,7 +22,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     public GameView gameView;
     String username = null;
-    boolean serverConnected = true;
+    int serverConnected = 0;
     private int myPosition;
 
     public Client() throws RemoteException {
@@ -67,10 +67,15 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void parseReceivedMessage(Message message) {
         String category = message.getCategory();
         switch (category) {
-            case "pong" -> {
-                // System.out.println("Pong received.");
-                serverConnected = true;
+            case "ping" -> {
+                // System.out.println("Ping received."+username);
+                serverConnected++;
+                sendMessage(new Message("pong"));
             }
+            // case "pong" -> {
+            //     // System.out.println("Pong received.");
+            //     serverConnected = true;
+            // }
             case "username" -> setUsername(message.getUsername());
             case "UsernameRetry" -> gameView.usernameError();
             case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
@@ -149,10 +154,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         Thread pingThread = new Thread(() -> {
             while (true) {
                 try {
-                    // noinspection BusyWait
-                    Thread.sleep(3000);
-                    sendMessage(new Message("ping", username));
-                    Thread.sleep(3000);
+                    Thread.sleep(15000);
                     checkServerConnection();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -162,7 +164,13 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         pingThread.start();
     }
 
-    public abstract void checkServerConnection();
+    public void checkServerConnection() {
+        if (serverConnected<2) {
+            System.err.println("\nLost connection to server.");
+            System.exit(0);
+        }
+        serverConnected = 0;
+    }
 
     /**
      * Starts the <code>gameView</code> and starts the login procedure.
