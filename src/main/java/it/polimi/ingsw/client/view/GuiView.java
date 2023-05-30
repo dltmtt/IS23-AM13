@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class GuiView extends Application implements GameView {
     private static FXMLLoader loginSceneLoader, playerNumberSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
     private static LoginGuiController loginController;
 
+    public final Object pickLock = new Object();
+
     @Override
     public void waitingRoom() {
         Platform.runLater(() -> {
@@ -40,38 +43,6 @@ public class GuiView extends Application implements GameView {
             stage.show();
         });
     }
-
-    // scenes already loaded
-
-    // Scene waitingRoom = null;
-    // waitingRoomScene = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
-    // // waitingRoomScene.setController(new waitingRoomController(client));
-    //
-    // try {
-    //     waitingRoom = new Scene(waitingRoomScene.load());
-    // } catch (IOException e) {
-    //     throw new RuntimeException(e);
-    // }
-    // stage.setScene(waitingRoom);
-    // stage.show();
-    //
-    // String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
-    // while (response == null) {
-    //     try {
-    //         Thread.sleep(5000);
-    //     } catch (InterruptedException e) {
-    //         throw new RuntimeException(e);
-    //     }
-    //     response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
-    // }
-    //
-    // try {
-    //     client.startGame();
-    // } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
-    //     System.err.println("An error occurred while starting the game.");
-    //     e.printStackTrace();
-    //     System.exit(1);
-    // }
 
     /**
      * sets the main stage to the gameScene
@@ -95,9 +66,9 @@ public class GuiView extends Application implements GameView {
      */
     @Override
     public void startView(Client client) {
-        // GuiView.client = client;
-        // GuiView.gui = this;
+        System.out.println("prova");
         launch();
+        // Instruction executed after closing GUI window
     }
 
     /**
@@ -110,7 +81,11 @@ public class GuiView extends Application implements GameView {
     @Override
     public void start(Stage stage) {
         stage.setTitle("My Shelfie");
-        // stage.getIcons().add(new Image("icon.png"));
+        try {
+            stage.getIcons().add(new Image(GuiView.class.getResource("graphics/publisher_material/icon.png").openStream()));
+        } catch (IOException e) {
+            System.err.println("Icon not found");
+        }
         GuiView.gui = this;
 
         GuiView.stage = stage;
@@ -192,7 +167,17 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public List<Coordinates> showPick() {
-        return null;
+        Platform.runLater(() -> {
+            gameController.enableAllItems();
+            synchronized (pickLock) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    System.out.println("Selected Items:" + GameGuiController.pickedItems.toString());
+                }
+            }
+        });
+        return GameGuiController.pickedItems;
     }
 
     @Override

@@ -3,12 +3,17 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.utils.Coordinates;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,28 +26,21 @@ public class GameGuiController {
     private static final int ITEM_SIZE = 40; // Adjust the size of each item image
     private static final int ROW_SPACING = 10; // Adjust the spacing between rows
     private static final int COLUMN_SPACING = 10; // Adjust the spacing between columns
-
-    public Client client;
-    public GuiView view;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
-    private ImageView board;
-
+    public static List<Coordinates> pickedItems;
+    public static Client client;
+    public static GuiView view;
     @FXML
     private GridPane boardGridPane;
-
-    @FXML
-    private ImageView bookshelf;
-
     @FXML
     private GridPane bookshelfGrid;
-
+    @FXML
+    private ResourceBundle resources;
+    @FXML
+    private URL location;
+    @FXML
+    private ImageView board;
+    @FXML
+    private ImageView bookshelf;
     @FXML
     private Canvas canvasPlayer1;
 
@@ -71,8 +69,62 @@ public class GameGuiController {
     private Label player3;
 
     public GameGuiController() {
-        this.client = GuiView.client;
-        this.view = GuiView.gui;
+        client = GuiView.client;
+        view = GuiView.gui;
+    }
+
+    /**
+     * set as enabled every ImageView in boardGridPane that is on the same row or same column of the given parameters
+     *
+     * @param row
+     * @param col
+     */
+    private void highlightPickableItems(int row, int col) {
+        Node selectedNode;
+        for (int i = 0; i < boardGridPane.getColumnCount(); i++) {
+            selectedNode = getNodeByRowColumnIndex(row, i);
+            selectedNode.setDisable(false);
+            selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+        }
+        for (int j = 0; j < boardGridPane.getRowCount(); j++) {
+            selectedNode = getNodeByRowColumnIndex(j, col);
+            selectedNode.setDisable(false);
+            selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+        }
+    }
+
+    public Node getNodeByRowColumnIndex(final int row, final int column) {
+        Node result = null;
+        ObservableList<Node> children = boardGridPane.getChildren();
+
+        for (Node node : children) {
+            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public void enableAllItems() {
+        ObservableList<Node> children = this.boardGridPane.getChildren();
+        for (Node node : children) {
+            node.setDisable(false);
+            node.setEffect(new DropShadow(20, Color.ORANGE));
+        }
+    }
+
+    public void selectItem(int row, int col) {
+        synchronized (view.pickLock) {
+            pickedItems.add(new Coordinates(row, col));
+            if (pickedItems.size() == 1) {
+                highlightPickableItems(row, col);
+            } else {
+                if (pickedItems.size() == 2) {
+                    view.pickLock.notify();
+                }
+            }
+        }
     }
 
     public void showGame(Message message) {
@@ -89,14 +141,26 @@ public class GameGuiController {
             String fileName = message.getCardType().get(i) + "-" + message.getCardSize().get(i).toString() + "-" + message.getCardOccurrences().get(i).toString() + "-" + message.getCardHorizontal().get(i).toString();
             commonGoalFiles.add(fileName);
         }
-        cg1.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(0) + ".jpg").toExternalForm()));
-        if (message.getCardType().size() == 1) {
-            cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/back.jpg").toExternalForm()));
-        } else {
-            cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(1) + ".jpg").toExternalForm()));
+        try {
+            cg1.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(0) + ".jpg").toExternalForm()));
+        } catch (NullPointerException e) {
+            System.out.println("Error loading commonGoal: " + commonGoalFiles.get(0));
+        }
+        try {
+            if (message.getCardType().size() == 1) {
+                cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/back.jpg").toExternalForm()));
+            } else {
+                cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(1) + ".jpg").toExternalForm()));
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Error loading commonGoal2:" + commonGoalFiles.get(1));
         }
 
         // Board items loading
+
+        // i=row (board)
+        // j=column (board)
+
         Board board = message.getBoard();
         for (int i = 0; i < board.getBoardSize(); i++) {
             for (int j = 0; j < board.getBoardSize(); j++) {
@@ -107,12 +171,21 @@ public class GameGuiController {
                         ImageView itemImageView = new ImageView(itemImage);
                         itemImageView.setFitHeight(ITEM_SIZE);
                         itemImageView.setFitWidth(ITEM_SIZE);
+
+                        // set the onClicked action as itemSelected() on itemImageView
+                        int finalI = i;
+                        int finalJ = j;
+                        itemImageView.setOnMouseClicked(mouseEvent -> selectItem(finalI, finalJ));
+
                         boardGridPane.add(itemImageView, j, board.getBoardSize() - i - 1);
+                        // initially every item is not enabled
+                        itemImageView.setDisable(true);
                     } catch (NullPointerException e) {
                         System.out.println("Error loading item image: " + fileName);
                     }
                 }
             }
         }
+        System.out.println("game loaded");
     }
 }
