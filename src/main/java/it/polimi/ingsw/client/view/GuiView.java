@@ -170,14 +170,18 @@ public class GuiView extends Application implements GameView {
         Platform.runLater(() -> {
             gameController.enableAllItems();
             synchronized (pickLock) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    System.out.println("Selected Items:" + GameGuiController.pickedItems.toString());
+                while (GameGuiController.pickedItems.size() != 2) {
+                    try {
+                        pickLock.wait();
+                    } catch (InterruptedException e) {
+                        System.out.println("Selected Items:" + GameGuiController.pickedItems.toString());
+                    }
                 }
             }
         });
-        return GameGuiController.pickedItems;
+        List<Coordinates> returnablePickedItems = GameGuiController.pickedItems;
+        GameGuiController.pickedItems = null;
+        return returnablePickedItems;
     }
 
     @Override
