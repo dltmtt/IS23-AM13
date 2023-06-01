@@ -18,7 +18,9 @@ import java.util.List;
 
 public class GameCliView implements GameView {
 
+    private static final String illegalNumberOfPlayersError = "The number of players must be between 2 and 4 (inclusive): ";
     public Client client;
+    Thread animatedDots; // Used to animate dots in the waiting screen
 
     @Override
     public void loginProcedure() {
@@ -27,11 +29,7 @@ public class GameCliView implements GameView {
         String finalUsername = username;
         boolean firstGame = promptFirstGame();
         client.startPingThread(finalUsername);
-        // System.out.println("thread started");
         client.sendMessage(new Message("completeLogin", username, 0, firstGame, 0));
-
-        // String responseMessage = response.getCategory();
-        //
     }
 
     @Override
@@ -49,7 +47,6 @@ public class GameCliView implements GameView {
      *
      * @return the username inserted by the user
      */
-    //@Override
     public String readUsername() {
         String username = null;
 
@@ -60,7 +57,7 @@ public class GameCliView implements GameView {
             boolean answerConfirmed = CliUtilities.confirmInput(username);
 
             while (!answerConfirmed) {
-                System.out.print(insertUsernameAgainPrompt);
+                showMessage(insertUsernameAgainPrompt);
                 username = in.readLine();
                 answerConfirmed = CliUtilities.confirmInput(username);
             }
@@ -77,7 +74,6 @@ public class GameCliView implements GameView {
      *
      * @return the number inserted by the user
      */
-    //@Override
     public int readNumber() {
         int n = 0;
         boolean valid = false;
@@ -95,7 +91,6 @@ public class GameCliView implements GameView {
         return n;
     }
 
-    //@Override
     public String showLogin() {
         showMessage(insertUsernamePrompt);
         return readUsername();
@@ -118,8 +113,8 @@ public class GameCliView implements GameView {
     public int promptNumberOfPlayers() {
         showMessage(insertNumberOfPlayersPrompt);
         int n = readNumber();
-        while (n < 2 || n > 4) {
-            System.err.print("The number of players must be between 2 and 4 (inclusive): ");
+        while (n < 2 || n > 4) { // Client-size check
+            System.err.print(illegalNumberOfPlayersError);
             n = readNumber();
         }
         return n;
@@ -201,7 +196,7 @@ public class GameCliView implements GameView {
     @Override
     public void showBookshelf(Bookshelf bookshelf) {
         BookshelfView bookshelfView = new BookshelfView(bookshelf);
-        System.out.println("Here's your bookshelf:");
+        showMessage("Here's your bookshelf:\n");
         bookshelfView.printBookshelf();
     }
 
@@ -222,10 +217,10 @@ public class GameCliView implements GameView {
 
     @Override
     public void showEndGame(List<String> winners) {
-        System.out.println("The game is over!");
-        System.out.println("The winners are: ");
+        showMessage("The game is over!'n");
+        showMessage("The winners are:\n");
         for (String winner : winners) {
-            System.out.println(winner);
+            showMessage(winner + "\n");
         }
     }
 
@@ -281,7 +276,7 @@ public class GameCliView implements GameView {
 
     @Override
     public void showCurrentScore(int score) {
-        System.out.println("Your current score is " + score);
+        showMessage("Your current score is " + score + "\n");
     }
 
     @Override
@@ -291,59 +286,45 @@ public class GameCliView implements GameView {
 
     @Override
     public void waitingRoom() {
-        System.out.print("Waiting for other players to join...");
-        //     int dotCounter = 0;
-        //     while (true) {
-        //         try {
-        //             // noinspection BusyWait
-        //             Thread.sleep(500);
-        //         } catch (InterruptedException e) {
-        //             // Always print 3 dots before closing the thread
-        //             System.out.println(".".repeat(3 - dotCounter));
-        //             return; // Close the thread
-        //         }
-        //
-        //         if (dotCounter == 3) {
-        //             System.out.print("\b\b\b"); // Remove the 3 dots
-        //             dotCounter = 0;
-        //         } else {
-        //             System.out.print(".");
-        //             ++dotCounter;
-        //         }
-        //     }
-        // });
-        //
-        // animatedDots.start();
+        showMessage("Waiting for other players to join");
 
-        // String response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
-        // while (response == null) {
-        //     try {
-        //         Thread.sleep(1000);
-        //     } catch (InterruptedException e) {
-        //         System.err.println("An error occurred while waiting for other players to join.");
-        //     }
-        //     response = client.sendMessage(new Message("ready", "", 0, false, 0)).getCategory();
-        // }
-        //
-        // animatedDots.interrupt();
-        //
-        // try {
-        //     client.startGame();
-        // } catch (FullRoomException | IOException | ParseException | IllegalAccessException e) {
-        //     System.err.println("An error occurred while starting the game.");
-        //     e.printStackTrace();
-        //     System.exit(1);
-        // }
+        animatedDots = new Thread(() -> {
+            int dotCounter = 0;
+            while (true) {
+                try {
+                    // noinspection BusyWait
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    // Always print 3 dots before closing the thread
+                    System.out.println(".".repeat(3 - dotCounter));
+                    return; // Close the thread
+                }
 
+                if (dotCounter == 3) {
+                    System.out.print("\b\b\b"); // Remove the 3 dots
+                    dotCounter = 0;
+                } else {
+                    System.out.print(".");
+                    ++dotCounter;
+                }
+            }
+        });
+
+        animatedDots.start();
     }
 
     @Override
     public void startGame(Message message) {
+        animatedDots.interrupt();
+
+        // Personal goal
         try {
             showPersonalGoal(message.getPersonalGoal());
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
+
+        // Common goal(s)
         List<String> cards = message.getCardType();
         List<Integer> occurrences = message.getCardOccurrences();
         List<Integer> sizes = message.getCardSize();
@@ -351,10 +332,14 @@ public class GameCliView implements GameView {
         for (int i = 0; i < cards.size(); i++) {
             showCommonGoal(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
         }
+
+        // Bookshelves
         HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
         pickMyBookshelf(bookshelves);
         // showCurrentScore(message.getIntMessage("score"));
         pickOtherBookshelf(bookshelves);
+
+        // Board
         showBoard(message.getBoard());
     }
 
@@ -442,7 +427,6 @@ public class GameCliView implements GameView {
     //     showEndGame(winners.getWinners());
     // }
 
-    // @Override
     public void setClient(Client client) {
         this.client = client;
     }
@@ -476,9 +460,10 @@ public class GameCliView implements GameView {
         bookshelfView.printOtherBookshelf();
     }
 
+    // TODO: check if this works
     @Override
     public void usernameError() {
-        System.out.println("Username already taken. Retry.");
+        System.err.println("Username already taken. Retry.");
         String username = showLogin();
         boolean firstGame1 = promptFirstGame();
         client.sendMessage(new Message("completeLogin", username, 0, firstGame1, 0));
@@ -486,20 +471,13 @@ public class GameCliView implements GameView {
 
     @Override
     public void completeLoginError() {
-        /*
-        System.out.println("Username already taken. Retry.");
-        sendMessage(new Message("completeLogin", getUsername(), 0, false, 0));
-        break;
-         */
         usernameError();
     }
 
     @Override
     public void playerNumberError() {
-
-        System.out.println("Illegal number of players. Retry.");
-        int numOfPlayers = promptNumberOfPlayers();
-        client.sendMessage(new Message("numOfPlayersMessage", "numOfPlayers", numOfPlayers));
+        System.err.println(illegalNumberOfPlayersError);
+        playerChoice();
     }
 
     @Override
@@ -520,7 +498,8 @@ public class GameCliView implements GameView {
 
     @Override
     public void showRemovePlayer() {
-        showMessage("Sorry, there are enough players fot this match. :(\n");
+        showMessage("Sorry, there are already enough players for this match 😞😭💔😔.\n");
+        showMessage("Try again later.\n");
     }
 
     @Override
