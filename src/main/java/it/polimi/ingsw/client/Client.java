@@ -146,10 +146,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         System.exit(0);
     }
 
-    public Message numOfPlayers() {
-        return new Message("numPlayer", "", 0, false, 0);
-    }
-
     public void startPingThread(String username) {
         Thread pingThread = new Thread(() -> {
             while (true) {
@@ -189,13 +185,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     /**
      * Starts the login procedure, in which are asked the username, age, number of players, first game experience.
      */
-    public void login() {
-        // gameView.setClient(this);
-
-        // maybe its problematic
-        // gameView.loginProcedure();
-        // waitingRoom();
-    }
 
     public void waitingRoom() {
         gameView.waitingRoom();

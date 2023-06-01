@@ -22,7 +22,8 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     private static final String SHUTDOWN_COMMAND = "exit";
     private ServerRmi rmiServer;
     private ServerTcp socketServer;
-    private Thread pongThread;
+
+
 
     /**
      * This method creates a new server.
@@ -40,6 +41,7 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
 
     public static void main(String[] args) {
         Server server = new Server();
+
         try {
             server.start();
         } catch (Exception e) {
@@ -75,6 +77,25 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
         rmiServer.start();
         socketServer.start();
         System.out.println("Server started.");
+        if (controller.isGameSaved()) {
+            System.out.println("A saved game has been found. Do you want to load it? (y/n)");
+            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+            String line;
+            try {
+                line = in.readLine();
+                if (line.equals("y")) {
+                    controller.loadLastGame();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+                // }
+                // try {
+                //     controller.loadLastGame();
+                // } catch (IOException e) {
+                //     throw new RuntimeException(e);
+                // }
+            }
+        }
     }
 
     /**

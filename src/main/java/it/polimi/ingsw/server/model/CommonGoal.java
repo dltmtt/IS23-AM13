@@ -44,6 +44,11 @@ public class CommonGoal {
         }
     }
 
+    public void setScoringList(List<Integer> scoringList) {
+        this.scoringList.clear();
+        this.scoringList.addAll(scoringList);
+    }
+
     /**
      *
      * @return the list of scores

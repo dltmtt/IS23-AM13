@@ -12,9 +12,9 @@ public class Player {
     // Maybe we don't need this, we assign the common goal points in the CommonGoal class
     private static List<CommonGoal> commonGoals = new ArrayList<>();
     private static Board board;
-    private final List<Boolean> commonGoalCompleted = new ArrayList<>(2);
+    private List<Boolean> commonGoalCompleted = new ArrayList<>(2);
     private final String nickname;
-    private final List<Integer> commonGoalPoints = new ArrayList<>(2);
+    private List<Integer> commonGoalPoints = new ArrayList<>(2);
     private boolean isFirstPlayer;
     private boolean isFirstGame;
     private int age;
@@ -281,6 +281,22 @@ public class Player {
             score += scoring;
         }
         return score;
+    }
+
+    public List<Boolean> getCommonGoalCompleted(){
+        return commonGoalCompleted;
+    }
+    public void setCommonGoalCompleted(List<Boolean> commonGoalCompleted) {
+        this.commonGoalCompleted = commonGoalCompleted;
+    }
+    public void setCommonGoalPoints(int commonGoalPoints) {
+        this.commonGoalPoints.add(commonGoalPoints);
+    }
+    public List<Integer> getCommonGoalScoreList() {
+        return commonGoalPoints;
+    }
+    public void setCommonGoalPoints(List<Integer> commonGoalPoints) {
+        this.commonGoalPoints = commonGoalPoints;
     }
 
     /**

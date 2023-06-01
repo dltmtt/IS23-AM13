@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.SettingLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
