@@ -3,9 +3,18 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.ClientCommunicationInterface;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,6 +50,24 @@ public class ServerController {
         disconnected = new ArrayList<>();
         rmiClients = new HashMap<>();
         tcpClients = new HashMap<>();
+    }
+
+    public boolean isGameSaved() {
+        File jsonGame= new File("src/main/java/it/polimi/ingsw/commons/backUp.json");
+        return jsonGame.exists();
+    }
+
+    public void loadLastGame() throws IOException {
+        File jsonGame= new File("src/main/java/it/polimi/ingsw/commons/backUp.json");
+        Message lastGame= new Message(jsonGame);
+        players.addAll(lastGame.getPlayers());
+        System.out.println("Loading last game...");
+        gameModel= new GameModel(players);
+        gameModel.setGame(lastGame.getBoard(),lastGame.getCommonGoals(players.size()));
+        gameModel.setCurrentPlayer(lastGame.getCurrentPlayer());
+        disconnected.addAll(players.stream().map(Player::getNickname).toList());
+        changeTurn();
+        System.out.println("Last game loaded");
     }
 
     // public int getPostion(SocketClientHandler client) {
@@ -191,17 +218,20 @@ public void addDisconnection(String username) {
      *   <li>1: the username is available</li>
      *   <li>0: the username is already taken</li>
      *   <li>-1: the username was disconnected</li>
+     *   <li>-2: the username has reconnected after the server went down</li>
      * </ul>
      */
     public int checkUsername(String username) {
+        // if(isPresentInJson(username)){
+        //     return -2;
+        // }
         for (Player player : players) {
             if (player.getNickname().equals(username)) {
                 if (disconnected.contains(username)) {
                     disconnected.remove(username);
                     return -1;
-                } else {
-                    return 0;
                 }
+
             }
         }
         return 1;
@@ -299,7 +329,7 @@ public void addDisconnection(String username) {
     }
 
     public int getPersonalGoalCard(int index) {
-        List<Player> list = room.getListOfPlayers();
+        List<Player> list = players;
         Player player = list.get(index);
         PersonalGoal pg = player.getPersonalGoal();
         return pg.getIndex();
@@ -478,9 +508,54 @@ public void addDisconnection(String username) {
             return 0;
         }
         gameModel.move(currentPicked, column);
+        saveGame();
         return 1;
     }
+    public void saveGame(){
+       new Message(players,getCommonGoals(),getBoard(),gameModel.getTopScoringPoints(),gameModel.getCurrentPlayer().getNickname());
+    }
 
+    // public boolean isPresentInJson(String username){
+    //     JSONParser parser = new JSONParser();
+    //     System.out.println("sono nel metodo isPresentInJson");
+    //     try {
+    //         Object obj = parser.parse(new FileReader("src/main/java/it/polimi/ingsw/commons/backUp.json"));
+    //         JSONObject jsonObject = (JSONObject) obj;
+    //         JSONArray jsonArray = (JSONArray) jsonObject.get("players");
+    //         System.out.println("sono nel metodo isPresentInJson e ho letto il file");
+    //         for (Object o : jsonArray) {
+    //             JSONObject jsonplayer = (JSONObject) o;
+    //             if (jsonplayer.get("username").equals(username)) {
+    //                 System.out.println("sono nel metodo isPresentInJson e ho trovato l'utente");
+    //
+    //                 return true;
+    //             }
+    //         }
+    //     } catch (IOException | ParseException e) {
+    //         e.printStackTrace();
+    //     }
+    //     System.out.println("sono nel metodo isPresentInJson e non ho trovato l'utente");
+    //     return false;
+    // }
+
+    // public void reconnectPlayer(JSONObject jsonPlayer) {
+    //     String username = (String) jsonPlayer.get("username");
+    //     boolean firstPlayer = (boolean) jsonPlayer.get("firstPlayer");
+    //     int personalGoal = (int) jsonPlayer.get("personalGoal");
+    //     Bookshelf bookshelf = getBookshelf(jsonPlayer);
+    //     Player player = new Player(username,0,false,firstPlayer,false);
+    //     player.setBookshelf(bookshelf);
+    //     //
+    //     players.add(player);
+    //     // isGameOn(player);
+    // }
+
+    // public void isGameOn(Player player){
+    //     if(room==null){
+    //         room = new Room(1234);
+    //         room.addPlayer(player);
+    //     }
+    // }
     public List<Coordinates> createCoordinateList(List<Integer> integers) {
         List<Coordinates> coordinates = new ArrayList<>();
         for (int i = 0; i < integers.size(); i += 2) {
@@ -519,4 +594,27 @@ public void addDisconnection(String username) {
     public int getCurrentPlayerPersonalGoal() {
         return gameModel.getCurrentPlayer().getPersonalGoal().getIndex();
     }
+    public Bookshelf getBookshelf(JSONObject json) {
+        Bookshelf bookshelf = new Bookshelf();
+        JSONArray bookshelfJson = (JSONArray) json.get("bookshelf");
+        for (Object obj : bookshelfJson) {
+            JSONObject bookshelfItem = (JSONObject) obj;
+            String rowString = (String) bookshelfItem.get("row");
+            String columnString = (String) bookshelfItem.get("column");
+            int row = Integer.parseInt(rowString);
+            int column = Integer.parseInt(columnString);
+            JSONArray itemJson = (JSONArray) bookshelfItem.get("item");
+            if (itemJson == null) {
+                bookshelf.setItem(row, column, Optional.empty());
+            } else {
+                JSONObject item = (JSONObject) itemJson.get(0);
+                String color = (String) item.get("color");
+                String valueString = (String) item.get("value");
+                int value = Integer.parseInt(valueString);
+                bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
+            }
+        }
+        return bookshelf;
+    }
+
 }

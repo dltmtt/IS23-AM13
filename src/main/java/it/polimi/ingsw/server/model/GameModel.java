@@ -12,13 +12,14 @@ public class GameModel {
 
     // This value is tied to the switch statement in the PersonalGoal class
     private static final int personalGoalDeckSize = 12;
-    private final Board livingRoom;
+    private Board livingRoom;
     private final List<PersonalGoal> personalGoalDeck;
     private List<Player> players = null;
     private List<CommonGoal> commonGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
     private boolean isTheGameEnded;
+    private List<Integer> topScoringPoints;
 
     public GameModel(List<Player> players) {
         SettingLoader.loadBookshelfSettings();
@@ -38,6 +39,7 @@ public class GameModel {
             throw new RuntimeException(e + ", error in loading the goal decks");
         }
         isTheGameEnded = false;
+        topScoringPoints = new ArrayList<>();
     }
 
     public List<Player> getPlayers() {
@@ -48,6 +50,16 @@ public class GameModel {
         this.players.clear();
         this.players.addAll(players);
     }
+    public void setGame(Board board,List<CommonGoal> commonGoals) {
+        Player.setBoard(board);
+        Player.setCommonGoal(commonGoals);
+        this.livingRoom=board;
+    }
+
+    public void setTopScoringPoints(List<Integer> topScoringPoints) {
+        this.topScoringPoints.clear();
+        this.topScoringPoints.addAll(topScoringPoints);
+    }
 
     /**
      * @return the top of the scoring list of each common goal card
@@ -55,8 +67,8 @@ public class GameModel {
      */
 
     public List<Integer> getTopScoringPoints() {
-        List<Integer> topScoringPoints = new ArrayList<>();
-        for (CommonGoal cg : commonGoalDeck) {
+
+        for (CommonGoal cg : Player.getCommonGoals()) {
             topScoringPoints.add(cg.getScoringList().get(0));
         }
         return topScoringPoints;

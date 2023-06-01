@@ -160,55 +160,8 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
             case "sort" -> controller.rearrangePicked(message.getSort());
             case "completeLogin" -> {
                 String username = message.getUsername();
-                setUsername(username);
                 int checkStatus = controller.checkUsername(username);
-                if (checkStatus == 1) {
-                    // The username is available, a new player can be added
-                    if (controller.isGameStarted()) {
-                        sendMessageToClient(new Message("gameAlreadyStarted"));
-                    } else {
-                        sendMessageToClient(new Message("username", username));
-                        controller.addPlayer(message.getUsername(), 0, message.getFirstGame());
-                        System.out.println(message.getUsername() + " logged in.");
-                        controller.addClient(message.getUsername(), client);
-                        startThread(client);
-                        controller.startRoom();
-                        if (controller.isFirst()) {
-                            sendMessageToClient(new Message("chooseNumOfPlayer"));
-                        } else {
-                            sendMessageToClient(new Message("waitingRoom"));
-                            if (controller.checkRoom() == 1) {
-                                System.out.println(controller.checkRoom());
-
-                                startGame();
-
-                                System.out.println("Game started.");
-                            } else if (controller.checkRoom() == -1) {
-                                System.out.println(controller.checkRoom());
-                                removePlayers();
-                            }
-                        }
-                    }
-                } else if (checkStatus == 0) {
-                    // The username has already been taken, retry
-                    try {
-                        Thread.sleep(30000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    checkStatus = controller.checkUsername(username);
-                    if (checkStatus == 0) {
-                        System.out.println(username + " requested login, but the username is already taken.");
-                        sendMessageToClient(new Message("usernameRetry"));
-                    } else {
-                        System.out.println(username + " reconnected.");
-                        sendGame(client);
-                    }
-                } else {
-                    // The username is already taken, but the player was disconnected and is trying to reconnect
-                    System.out.println(username + " reconnected.");
-                    sendGame(client);
-                }
+                checkUsername(client, message.getUsername(),message.getFirstGame(),checkStatus);
             }
             default -> System.out.println(message + " requested unknown");
         }
@@ -233,13 +186,77 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
     }
 
     public void sendGame(SocketClientHandler client) throws RemoteException {
-        int position = controller.getPositionByUsername(client.getUsername());
+        int position = controller.getPositionByUsername(getUsername());
         Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
         client.sendMessageToClient(myGame);
+        controller.addClient(getUsername(), client);
         startThread(client);
+        sendTurn(client);
+    }
+
+    public void sendTurn(SocketClientHandler client) {
+        String currentPlayer = controller.getCurrentPlayer();
+        if (currentPlayer.equals(getUsername())) {
+            client.sendMessageToClient(new Message("turn"));
+        }
+        else{
+            client.sendMessageToClient(new Message("otherTurn",currentPlayer));
+        }
+
     }
 
     public void sendMessageToClient(Message message) {
         clientPrintStream.println(message.getJSONstring());
+    }
+    public void checkUsername(SocketClientHandler client, String username, boolean firstGame, int checkStatus) throws RemoteException, FullRoomException {
+        switch (checkStatus) {
+            case 1:
+                if (controller.isGameStarted()) {
+                    client.sendMessageToClient(new Message("gameAlreadyStarted"));
+                } else {
+                    client.sendMessageToClient(new Message("username", username));
+                    controller.addPlayer(username, 0, firstGame);
+                    System.out.println(username + " logged in.");
+                    setUsername(username);
+                    controller.addClient(username, client);
+                    startThread(client);
+                    controller.startRoom();
+                    if (controller.isFirst()) {
+                        client.sendMessageToClient(new Message("chooseNumOfPlayer"));
+                    } else {
+                        client.sendMessageToClient(new Message("waitingRoom"));
+                        if (controller.checkRoom() == 1) {
+                            startGame();
+                            System.out.println("Game started.");
+                        } else if (controller.checkRoom() == -1) {
+                            removePlayers();
+                        }
+                    }
+                }
+                break;
+            case 0:
+                // The username has already been taken, retry
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                checkStatus = controller.checkUsername(username);
+                if (checkStatus == 0) {
+                    System.out.println(username + " requested login, but the username is already taken.");
+                    client.sendMessageToClient(new Message("UsernameRetry"));
+                } else {
+                    setUsername(username);
+                    sendGame(client);
+                    System.out.println(username + " reconnected.");
+                }
+                break;
+            case -1:
+                // The username is already taken, but the player was disconnected and is trying to reconnect
+                System.out.println(username + " reconnected.");
+                setUsername(username);
+                sendGame(client);
+                break;
+        }
     }
 }
