@@ -9,7 +9,6 @@ module it.polimi.ingsw.client.view {
     requires java.rmi;
     requires org.jetbrains.annotations;
     requires commons.cli;
-    requires com.google.gson;
 
     opens it.polimi.ingsw.client.view to javafx.fxml, javafx.graphics;
     exports it.polimi.ingsw.client to java.rmi, javafx.fxml;
