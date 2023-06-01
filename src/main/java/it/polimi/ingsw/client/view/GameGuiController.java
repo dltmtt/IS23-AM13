@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.utils.Coordinates;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
@@ -83,13 +84,17 @@ public class GameGuiController {
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getColumnCount(); i++) {
             selectedNode = getNodeByRowColumnIndex(row, i);
-            selectedNode.setDisable(false);
-            selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+            if (selectedNode != null) {
+                selectedNode.setDisable(false);
+                selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+            }
         }
         for (int j = 0; j < boardGridPane.getRowCount(); j++) {
             selectedNode = getNodeByRowColumnIndex(j, col);
-            selectedNode.setDisable(false);
-            selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+            if (selectedNode != null) {
+                selectedNode.setDisable(false);
+                selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+            }
         }
     }
 
@@ -107,14 +112,21 @@ public class GameGuiController {
     }
 
     public void enableAllItems() {
+        pickedItems = new ArrayList<>();
         ObservableList<Node> children = this.boardGridPane.getChildren();
         for (Node node : children) {
             node.setDisable(false);
             node.setEffect(new DropShadow(20, Color.ORANGE));
+            // set node cursor as a hand
+            node.setCursor(Cursor.HAND);
         }
     }
 
     public void selectItem(int row, int col) {
+        System.out.println("selected " + row + ", col" + col);
+        if (pickedItems == null) {
+            pickedItems = new ArrayList<>();
+        }
         synchronized (view.pickLock) {
             pickedItems.add(new Coordinates(row, col));
             if (pickedItems.size() == 1) {
