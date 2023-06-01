@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientCommunicationInterface;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.utils.FullRoomException;
@@ -34,7 +33,6 @@ public interface ServerCommunicationInterface extends Remote {
                 controller.pongReceived(client.getUsername());
             }
             case "numOfPlayersMessage" -> {
-
                 System.out.println("Number of players: " + message.getNumPlayer());
                 int numPlayer = message.getNumPlayer();
                 String isOk = controller.checkNumPlayer(numPlayer);
@@ -74,7 +72,7 @@ public interface ServerCommunicationInterface extends Remote {
             case "completeLogin" -> {
                 String username = message.getUsername();
                 int checkStatus = controller.checkUsername(username);
-                checkUsername(client, message.getUsername(),message.getFirstGame(),checkStatus);
+                checkUsername(client, message.getUsername(), message.getFirstGame(), checkStatus);
             }
             default -> System.out.println(message + " requested unknown");
         }
@@ -141,15 +139,14 @@ public interface ServerCommunicationInterface extends Remote {
         // sendAll(new Message("reconnected", client.getUsername()));
         sendTurn(client);
     }
+
     default void sendTurn(ClientCommunicationInterface client) throws RemoteException {
         String currentPlayer = controller.getCurrentPlayer();
         if (currentPlayer.equals(client.getUsername())) {
             client.callBackSendMessage(new Message("turn"));
+        } else {
+            client.callBackSendMessage(new Message("otherTurn", currentPlayer));
         }
-        else{
-            client.callBackSendMessage(new Message("otherTurn",currentPlayer));
-        }
-
     }
 
     default void nextTurn() throws RemoteException {

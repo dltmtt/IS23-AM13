@@ -68,14 +68,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         String category = message.getCategory();
         switch (category) {
             case "ping" -> {
-                // System.out.println("Ping received."+username);
                 serverConnected++;
                 sendMessage(new Message("pong"));
             }
-            // case "pong" -> {
-            //     // System.out.println("Pong received.");
-            //     serverConnected = true;
-            // }
             case "username" -> setUsername(message.getUsername());
             case "UsernameRetry" -> gameView.usernameError();
             case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
@@ -88,10 +83,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 // gameView.showCurrentScore(message.getIntMessage("score"));
                 gameView.showBoard(message.getBoard());
             }
-            case "startGame" -> {
-                // System.out.println("Game started.");
-                gameView.startGame(message);
-            }
+            case "startGame" -> gameView.startGame(message);
             case "turn" -> myTurn();
             case "otherTurn" -> gameView.showMessage("It's " + message.getArgument() + "'s turn.\n");
             case "picked" -> {
@@ -128,7 +120,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 if (argument.equals("notValidNumber")) {
                     gameView.showMessage("Invalid column. Retry.");
                 } else {
-                    gameView.showMessage("There are not enough free cells in the column. Retry.");
+                    gameView.showMessage("There are not enough free cells in the column. Retry.\n");
                 }
                 int column = gameView.promptInsert();
                 sendMessage(new Message("insertMessage", "insert", column));
@@ -161,7 +153,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     public void checkServerConnection() {
-        if (serverConnected<2) {
+        if (serverConnected < 2) {
             System.err.println("\nLost connection to server.");
             System.exit(0);
         }
@@ -183,9 +175,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public abstract void connect() throws IOException, NotBoundException;
 
     /**
-     * Starts the login procedure, in which are asked the username, age, number of players, first game experience.
+     * Shows a message or a graphic to let the player know he has to wait
+     * for other players to join in order to start the game.
      */
-
     public void waitingRoom() {
         gameView.waitingRoom();
     }

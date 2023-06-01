@@ -38,7 +38,6 @@ public class Message implements Serializable {
      * @param jsonFile the json file
      * @throws IOException if the file is not found
      */
-
     public Message(File jsonFile) throws IOException {
         JSONParser parser = new JSONParser();
 
@@ -72,14 +71,13 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the current game backup  message.
+     * Constructor for the current game buckUp message.
      *
      * @param players        the current list of players
      * @param commonGoalList the list of common goals
      * @param board          the current board of the game
      * @param topScoringList the current list of top scoring points of the common goals
      */
-
     public Message(List<Player> players, List<CommonGoal> commonGoalList, Board board, List<Integer> topScoringList, String currentPlayer) {
         json = new JSONObject();
         String path = "src/main/java/it/polimi/ingsw/commons/backUp.json";
@@ -136,7 +134,6 @@ public class Message implements Serializable {
      * @param board          board of the game
      * @param topScoringList list of top scoring of common goals
      */
-
     public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> topScoringList) {
         json = new JSONObject();
         String personalGoalString = Integer.toString(personalGoal);
@@ -187,9 +184,8 @@ public class Message implements Serializable {
      * @param category    category of the message (what's the message about)
      * @param bookshelves hashmap of bookshelves (bookshelf, username of the player who owns it)
      * @param board       board of the game
-     * @param score       list of current scoring of the player. Each element is a different type of scoring
+     * @param score       list of current scoring of the player where each element is a different scoring.
      */
-
     public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> score) {
         json = new JSONObject();
         json.put("category", category);
@@ -249,20 +245,19 @@ public class Message implements Serializable {
         json.put("size", size);
         JSONArray winnersArray = new JSONArray();
         for (int i = 0; i < size; i++) {
-            JSONObject winnerJson = new JSONObject();
-            winnerJson.put("name", names.get(i));
-            winnerJson.put("score", scores.get(i));
+            JSONObject winnersJson = new JSONObject();
+            winnersJson.put("name", names.get(i));
+            winnersJson.put("score", scores.get(i));
         }
         json.put("winners", winnersArray);
     }
 
     /**
-     * Constructor for the pick message . (Coordinates of items picked from the board)
+     * Constructor for the pick message. (Coordinates of items picked from the board)
      *
      * @param from coordinates of the first item picked
      * @param to   coordinates of the last item picked
      */
-
     public Message(Coordinates from, Coordinates to) {
         json = new JSONObject();
 
@@ -629,11 +624,6 @@ public class Message implements Serializable {
         return null;
     }
 
-    public int getAge() {
-        String ageString = (String) json.get("age");
-        return Integer.parseInt(ageString);
-    }
-
     public boolean getFirstGame() {
         return (boolean) json.get("bool");
     }
@@ -825,9 +815,9 @@ public class Message implements Serializable {
             Layout layout = createCommonGoalLayout(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
             CommonGoal commonGoal = new CommonGoal(layout, size);
 
-            int topscoring = TopScoring.get(i);
+            int topScoring = TopScoring.get(i);
             List<Integer> newScoringList = new ArrayList<>(commonGoal.getScoringList());
-            newScoringList.removeIf(scoring -> scoring > topscoring);
+            newScoringList.removeIf(scoring -> scoring > topScoring);
             commonGoal.setScoringList(newScoringList);
             commonGoals.add(commonGoal);
         }
@@ -870,7 +860,7 @@ public class Message implements Serializable {
     public JSONObject createPlayer(Player player) {
         JSONObject playerObject = new JSONObject();
         String nickname = player.getNickname();
-        Boolean isFirstPlayer = player.isFirstPlayer();
+        boolean isFirstPlayer = player.isFirstPlayer();
         String isFirstString = Boolean.toString(isFirstPlayer);
         int personalGoal = player.getPersonalGoal().getIndex();
         String personalGoalString = Integer.toString(personalGoal);
@@ -902,9 +892,7 @@ public class Message implements Serializable {
     public Layout createCommonGoalLayout(String cardType, int occurrences, int size, boolean horizontal) {
         Layout layout = null;
         switch (cardType) {
-            case "corners" -> {
-                layout = new Corners(1, 1);
-            }
+            case "corners" -> layout = new Corners(1, 1);
             case "diagonal" -> layout = new Diagonal(1, 1, 5);
             case "fullLine" -> layout = new FullLine(1, 1, occurrences, horizontal);
             case "group" -> layout = new Group(1, 1, occurrences, size);

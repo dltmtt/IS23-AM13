@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 
-import static it.polimi.ingsw.utils.CliUtilities.GRAY;
-import static it.polimi.ingsw.utils.CliUtilities.RESET;
+import static it.polimi.ingsw.utils.CliUtilities.*;
 
 /**
  * Complete server class, which starts both RMI and socket servers.
@@ -22,8 +21,6 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     private static final String SHUTDOWN_COMMAND = "exit";
     private ServerRmi rmiServer;
     private ServerTcp socketServer;
-
-
 
     /**
      * This method creates a new server.
@@ -78,22 +75,13 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
         socketServer.start();
         System.out.println("Server started.");
         if (controller.isGameSaved()) {
-            System.out.println("A saved game has been found. Do you want to load it? (y/n)");
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            String line;
-            try {
-                line = in.readLine();
-                if (line.equals("y")) {
+            boolean load = askYesNoQuestion("A saved game has been found. Do you want to load it?", "n");
+            if (load) {
+                try {
                     controller.loadLastGame();
+                } catch (IOException e) {
+                    System.err.println("Unable to load the game.");
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-                // }
-                // try {
-                //     controller.loadLastGame();
-                // } catch (IOException e) {
-                //     throw new RuntimeException(e);
-                // }
             }
         }
     }
