@@ -20,21 +20,19 @@ import java.util.List;
 
 public class GuiView extends Application implements GameView {
 
+    public static final Object pickLock = new Object();
+    public static final GameGuiController gameController = new GameGuiController();
     // Static reference to the client, in order to use the sendMessage() function
     public static Client client;
     public static List<Client> clients;
-
     public static GuiView gui;
     // loaded scenes
     public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene;
     // main stage
     public static Stage stage;
-    public static GameGuiController gameController;
     // scene loader
     private static FXMLLoader loginSceneLoader, playerNumberSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
     private static LoginGuiController loginController;
-
-    public final Object pickLock = new Object();
 
     @Override
     public void waitingRoom() {
@@ -119,7 +117,7 @@ public class GuiView extends Application implements GameView {
         }
 
         gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"));
-        gameController = new GameGuiController();
+        // gameController = new GameGuiController();
         gameSceneLoader.setController(gameController);
         try {
             gameScene = new Scene(gameSceneLoader.load());
@@ -167,21 +165,27 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public List<Coordinates> showPick() {
-        Platform.runLater(() -> {
-            gameController.enableAllItems();
-            synchronized (pickLock) {
-                while (GameGuiController.pickedItems.size() != 2) {
-                    try {
-                        pickLock.wait();
-                    } catch (InterruptedException e) {
-                        System.out.println("Selected Items:" + GameGuiController.pickedItems.toString());
-                    }
+        Platform.runLater(gameController::enableAllItems);
+        System.out.println("showPick");
+        synchronized (gameController) {
+
+            try {
+                System.out.println("entrato nel synchronized");
+                while (GameGuiController.pickedItems == null || GameGuiController.pickedItems.size() < 2) {
+                    System.out.println("entrato nel wait");
+                    gameController.wait();
+                    // System.out.println(GameGuiController.pickedItems.size());
                 }
+                System.out.println("uscito dal wait");
+                List<Coordinates> returnablePickedItems = GameGuiController.pickedItems;
+                GameGuiController.pickedItems = null;
+                System.out.println("Selected Items:" + returnablePickedItems);
+                return returnablePickedItems;
+            } catch (InterruptedException e) {
+                // throw new RuntimeException(e);
             }
-        });
-        List<Coordinates> returnablePickedItems = GameGuiController.pickedItems;
-        GameGuiController.pickedItems = null;
-        return returnablePickedItems;
+        }
+        return null;
     }
 
     @Override

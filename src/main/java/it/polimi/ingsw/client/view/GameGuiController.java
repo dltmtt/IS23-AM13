@@ -10,6 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -80,7 +81,8 @@ public class GameGuiController {
      * @param row
      * @param col
      */
-    private void highlightPickableItems(int row, int col) {
+    private synchronized void highlightPickableItems(int row, int col) {
+        /*
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getColumnCount(); i++) {
             selectedNode = getNodeByRowColumnIndex(row, i);
@@ -96,9 +98,32 @@ public class GameGuiController {
                 selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
             }
         }
+
+         */
+        Node selectedNode;
+        for (int i = 0; i < boardGridPane.getRowCount(); i++) {
+            for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
+                if (i == row || j == col) {
+                    selectedNode = getNodeByRowColumnIndex(i, j);
+                    if (selectedNode != null) {
+                        selectedNode.setDisable(false);
+                        selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+                    }
+                } else {
+                    selectedNode = getNodeByRowColumnIndex(i, j);
+                    if (selectedNode != null) {
+                        selectedNode.setDisable(true);
+                        selectedNode.setEffect(null);
+                        ColorAdjust colorAdjust = new ColorAdjust();
+                        colorAdjust.setSaturation(-1);
+                        selectedNode.setEffect(colorAdjust);
+                    }
+                }
+            }
+        }
     }
 
-    public Node getNodeByRowColumnIndex(final int row, final int column) {
+    public synchronized Node getNodeByRowColumnIndex(final int row, final int column) {
         Node result = null;
         ObservableList<Node> children = boardGridPane.getChildren();
 
@@ -111,7 +136,7 @@ public class GameGuiController {
         return result;
     }
 
-    public void enableAllItems() {
+    public synchronized void enableAllItems() {
         pickedItems = new ArrayList<>();
         ObservableList<Node> children = this.boardGridPane.getChildren();
         for (Node node : children) {
@@ -120,26 +145,28 @@ public class GameGuiController {
             // set node cursor as a hand
             node.setCursor(Cursor.HAND);
         }
+        System.out.println("enabled all items");
     }
 
-    public void selectItem(int row, int col) {
+    public synchronized void selectItem(int row, int col) {
         System.out.println("selected " + row + ", col" + col);
         if (pickedItems == null) {
             pickedItems = new ArrayList<>();
-        }
-        synchronized (view.pickLock) {
-            pickedItems.add(new Coordinates(row, col));
-            if (pickedItems.size() == 1) {
+        } else {
+            if (pickedItems.size() == 0) {
+                pickedItems.add(new Coordinates(row, col));
                 highlightPickableItems(row, col);
             } else {
-                if (pickedItems.size() == 2) {
-                    view.pickLock.notify();
+                if (pickedItems.size() == 1) {
+                    pickedItems.add(new Coordinates(row, col));
+                    System.out.println("picked items: " + pickedItems);
+                    notify();
                 }
             }
         }
     }
 
-    public void showGame(Message message) {
+    public synchronized void showGame(Message message) {
 
         // Personal Goal image loading
         int personalGoalIndex = message.getPersonalGoal();
