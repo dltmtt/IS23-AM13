@@ -20,7 +20,6 @@ import java.util.List;
 
 public class GuiView extends Application implements GameView {
 
-    public static final Object pickLock = new Object();
     public static final GameGuiController gameController = new GameGuiController();
     // Static reference to the client, in order to use the sendMessage() function
     public static Client client;
@@ -33,6 +32,7 @@ public class GuiView extends Application implements GameView {
     // scene loader
     private static FXMLLoader loginSceneLoader, playerNumberSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
     private static LoginGuiController loginController;
+    public final Object pickLock = new Object();
 
     @Override
     public void waitingRoom() {
@@ -64,7 +64,6 @@ public class GuiView extends Application implements GameView {
      */
     @Override
     public void startView(Client client) {
-        System.out.println("prova");
         launch();
         // Instruction executed after closing GUI window
     }
@@ -165,27 +164,76 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public List<Coordinates> showPick() {
-        Platform.runLater(gameController::enableAllItems);
+        // Platform.runLater(gameController::enableAllItems);
+        /*
         System.out.println("showPick");
-        synchronized (gameController) {
-
+        synchronized (pickLock) {
             try {
                 System.out.println("entrato nel synchronized");
+                gameController.wait();
                 while (GameGuiController.pickedItems == null || GameGuiController.pickedItems.size() < 2) {
                     System.out.println("entrato nel wait");
-                    gameController.wait();
+                    pickLock.wait();
                     // System.out.println(GameGuiController.pickedItems.size());
                 }
-                System.out.println("uscito dal wait");
-                List<Coordinates> returnablePickedItems = GameGuiController.pickedItems;
-                GameGuiController.pickedItems = null;
-                System.out.println("Selected Items:" + returnablePickedItems);
-                return returnablePickedItems;
             } catch (InterruptedException e) {
                 // throw new RuntimeException(e);
             }
         }
-        return null;
+        System.out.println("uscito dal wait");
+        List<Coordinates> returnablePickedItems = GameGuiController.pickedItems;
+        GameGuiController.pickedItems = null;
+        System.out.println("Selected Items:" + returnablePickedItems);
+        return returnablePickedItems;
+
+         */
+        System.out.println("showPick");
+        Platform.runLater(gameController::enableAllItems);
+        System.out.println("prima del wait");
+        /*
+        try {
+            gameController.getListLock().wait();
+        } catch (InterruptedException e) {
+            // throw new RuntimeException(e);
+        }
+
+         */
+        System.out.println("prima del synchronized");
+        try {
+            pickLock.wait();
+        } catch (InterruptedException e) {
+            // throw new RuntimeException(e);
+        }
+        System.out.println("prima del runlater");
+        Platform.runLater(() -> {
+            synchronized (gameController.getListLock()) {
+                try {
+                    while (gameController.getPickedItems() == null || gameController.getPickedItems().size() < 2) {
+                        gameController.getListLock().wait();
+                    }
+                    pickLock.notify();
+                    System.out.println("dopo il while");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        /*
+        synchronized (gameController.getListLock()) {
+            try {
+                while (gameController.getPickedItems() == null || gameController.getPickedItems().size() < 2) {
+                    gameController.getListLock().wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+         */
+        System.out.println("dopo il synchronized");
+        synchronized (pickLock) {
+            return gameController.getPickedItems();
+        }
     }
 
     @Override

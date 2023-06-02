@@ -28,9 +28,10 @@ public class GameGuiController {
     private static final int ITEM_SIZE = 40; // Adjust the size of each item image
     private static final int ROW_SPACING = 10; // Adjust the spacing between rows
     private static final int COLUMN_SPACING = 10; // Adjust the spacing between columns
-    public static List<Coordinates> pickedItems;
+    public static List<Coordinates> pickedItems = new ArrayList<>();
     public static Client client;
     public static GuiView view;
+    public final Object listLock = new Object();
     @FXML
     private GridPane boardGridPane;
     @FXML
@@ -81,25 +82,7 @@ public class GameGuiController {
      * @param row
      * @param col
      */
-    private synchronized void highlightPickableItems(int row, int col) {
-        /*
-        Node selectedNode;
-        for (int i = 0; i < boardGridPane.getColumnCount(); i++) {
-            selectedNode = getNodeByRowColumnIndex(row, i);
-            if (selectedNode != null) {
-                selectedNode.setDisable(false);
-                selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
-            }
-        }
-        for (int j = 0; j < boardGridPane.getRowCount(); j++) {
-            selectedNode = getNodeByRowColumnIndex(j, col);
-            if (selectedNode != null) {
-                selectedNode.setDisable(false);
-                selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
-            }
-        }
-
-         */
+    private void highlightPickableItems(int row, int col) {
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getRowCount(); i++) {
             for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
@@ -123,20 +106,33 @@ public class GameGuiController {
         }
     }
 
-    public synchronized Node getNodeByRowColumnIndex(final int row, final int column) {
-        Node result = null;
-        ObservableList<Node> children = boardGridPane.getChildren();
+    /**
+     * Returns the Node at the given row and column position.
+     * Please note that the row and column index are referred to the Board System, not to the GridPane.
+     * Therefore, the cell (0,0) is the bottom left corner of the board.
+     *
+     * @param row    the row index of the node (Board-wise)
+     * @param column the column index of the node (Board-wise)
+     * @return the Node at the given row and column position
+     */
 
-        for (Node node : children) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
+    public Node getNodeByRowColumnIndex(final int row, final int column) {
+        Node result = null;
+        if (row < 0 || column < 0 || row >= boardGridPane.getRowCount() || column >= boardGridPane.getColumnCount()) {
+            return null;
+        } else {
+            ObservableList<Node> children = boardGridPane.getChildren();
+            for (Node node : children) {
+                if (GridPane.getRowIndex(node) == boardGridPane.getRowCount() - row - 1 && GridPane.getColumnIndex(node) == column) {
+                    result = node;
+                    break;
+                }
             }
+            return result;
         }
-        return result;
     }
 
-    public synchronized void enableAllItems() {
+    public void enableAllItems() {
         pickedItems = new ArrayList<>();
         ObservableList<Node> children = this.boardGridPane.getChildren();
         for (Node node : children) {
@@ -145,28 +141,36 @@ public class GameGuiController {
             // set node cursor as a hand
             node.setCursor(Cursor.HAND);
         }
-        System.out.println("enabled all items");
+        // System.out.println("enabled all items");
     }
 
-    public synchronized void selectItem(int row, int col) {
+    public void selectItem(int row, int col) {
         System.out.println("selected " + row + ", col" + col);
-        if (pickedItems == null) {
-            pickedItems = new ArrayList<>();
-        } else {
-            if (pickedItems.size() == 0) {
-                pickedItems.add(new Coordinates(row, col));
+
+        pickedItems.add(new Coordinates(row, col));
+        synchronized (listLock) {
+            if (pickedItems.size() == 1) {
+                // pickedItems.add(new Coordinates(row, col));
                 highlightPickableItems(row, col);
             } else {
-                if (pickedItems.size() == 1) {
-                    pickedItems.add(new Coordinates(row, col));
+                if (pickedItems.size() == 2) {
+                    // pickedItems.add(new Coordinates(row, col));
                     System.out.println("picked items: " + pickedItems);
-                    notify();
+                    listLock.notify();
                 }
             }
         }
     }
 
-    public synchronized void showGame(Message message) {
+    public List<Coordinates> getPickedItems() {
+        return pickedItems;
+    }
+
+    public Object getListLock() {
+        return listLock;
+    }
+
+    public void showGame(Message message) {
 
         // Personal Goal image loading
         int personalGoalIndex = message.getPersonalGoal();
@@ -183,7 +187,7 @@ public class GameGuiController {
         try {
             cg1.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(0) + ".jpg").toExternalForm()));
         } catch (NullPointerException e) {
-            System.out.println("Error loading commonGoal: " + commonGoalFiles.get(0));
+            System.out.println("Error on loading commonGoal: " + commonGoalFiles.get(0));
         }
         try {
             if (message.getCardType().size() == 1) {
@@ -192,7 +196,7 @@ public class GameGuiController {
                 cg2.setImage(new Image(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(1) + ".jpg").toExternalForm()));
             }
         } catch (NullPointerException e) {
-            System.out.println("Error loading commonGoal2:" + commonGoalFiles.get(1));
+            System.out.println("Error on loading commonGoal2:" + commonGoalFiles.get(1));
         }
 
         // Board items loading
@@ -220,11 +224,14 @@ public class GameGuiController {
                         // initially every item is not enabled
                         itemImageView.setDisable(true);
                     } catch (NullPointerException e) {
-                        System.out.println("Error loading item image: " + fileName);
+                        System.out.println("Error loading on loading item image: " + fileName);
                     }
                 }
             }
         }
         System.out.println("game loaded");
+        synchronized (this.listLock) {
+            listLock.notify();
+        }
     }
 }
