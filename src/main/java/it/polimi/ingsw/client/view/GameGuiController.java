@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.MyShelfie;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.utils.Coordinates;
@@ -31,7 +32,7 @@ public class GameGuiController {
     public static List<Coordinates> pickedItems = new ArrayList<>();
     public static Client client;
     public static GuiView view;
-    public final Object listLock = new Object();
+    // public final Object listLock = new Object();
     @FXML
     private GridPane boardGridPane;
     @FXML
@@ -72,7 +73,7 @@ public class GameGuiController {
     private Label player3;
 
     public GameGuiController() {
-        client = GuiView.client;
+        client = MyShelfie.client;
         view = GuiView.gui;
     }
 
@@ -148,30 +149,22 @@ public class GameGuiController {
         System.out.println("selected " + row + ", col" + col);
 
         pickedItems.add(new Coordinates(row, col));
-        synchronized (listLock) {
-            if (pickedItems.size() == 1) {
+        // synchronized (listLock) {
+        if (pickedItems.size() == 1) {
+            // pickedItems.add(new Coordinates(row, col));
+            highlightPickableItems(row, col);
+        } else {
+            if (pickedItems.size() == 2) {
                 // pickedItems.add(new Coordinates(row, col));
-                highlightPickableItems(row, col);
-            } else {
-                if (pickedItems.size() == 2) {
-                    // pickedItems.add(new Coordinates(row, col));
-                    System.out.println("picked items: " + pickedItems);
-                    listLock.notify();
-                }
+                System.out.println("picked items: " + pickedItems);
+                List<Coordinates> pickedItemsCopy = new ArrayList<>(pickedItems);
+                pickedItems.clear();
+                client.sendMessage(new Message(pickedItemsCopy.get(0), pickedItemsCopy.get(1)));
             }
         }
     }
 
-    public List<Coordinates> getPickedItems() {
-        return pickedItems;
-    }
-
-    public Object getListLock() {
-        return listLock;
-    }
-
     public void showGame(Message message) {
-
         // Personal Goal image loading
         int personalGoalIndex = message.getPersonalGoal();
         String imagePath = "graphics/personal_goal_cards/pg_" + personalGoalIndex + ".png";
@@ -230,8 +223,5 @@ public class GameGuiController {
             }
         }
         System.out.println("game loaded");
-        synchronized (this.listLock) {
-            listLock.notify();
-        }
     }
 }

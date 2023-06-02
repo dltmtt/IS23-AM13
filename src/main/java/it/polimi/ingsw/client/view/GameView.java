@@ -5,7 +5,6 @@ import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
-import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -50,7 +49,10 @@ public interface GameView {
 
     void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException;
 
-    List<Coordinates> showPick();
+    /**
+     * Allows the pick of the items from the board and sends the message to the server
+     */
+    void showPick();
 
     void showBoard(Board board);
 

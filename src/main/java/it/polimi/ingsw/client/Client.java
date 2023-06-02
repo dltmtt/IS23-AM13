@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Bookshelf;
-import it.polimi.ingsw.utils.Coordinates;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -99,9 +98,15 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             }
             case "PickRetry" -> {
                 gameView.showMessage("Invalid pick. Retry.");
-                List<Coordinates> pick = gameView.showPick();
+
+                // showPick() sends the message to the server
+                gameView.showPick();
+
+                /*List<Coordinates> pick = gameView.showPick();
                 Message myPick = new Message(pick.get(0), pick.get(1));
                 sendMessage(myPick);
+
+                 */
             }
             case "endGame" -> gameView.showEndGame(message.getWinners());
             case "disconnection" -> gameView.showDisconnection();
@@ -190,9 +195,14 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public void myTurn() {
         gameView.showMessage("It's your turn!\n");
+        // showPick() sends the message to the server
+        gameView.showPick();
+        /*
         List<Coordinates> pick = gameView.showPick();
         Message myPickMessage = new Message(pick.get(0), pick.get(1));
         sendMessage(myPickMessage);
+
+         */
     }
 
     public void endGame() {
