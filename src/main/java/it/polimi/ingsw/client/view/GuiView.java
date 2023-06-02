@@ -148,7 +148,7 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showMessage(String message) {
-
+        // System.out.println(message);
     }
 
     @Override

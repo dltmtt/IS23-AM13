@@ -312,12 +312,12 @@ public class GameCliView implements GameView {
             }
         });
 
-        animatedDots.start();
+        // animatedDots.start();
     }
 
     @Override
     public void startGame(Message message) {
-        animatedDots.interrupt();
+        // animatedDots.interrupt();
 
         // Personal goal
         try {
