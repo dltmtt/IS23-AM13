@@ -34,7 +34,6 @@ public class PersonalGoal {
     }
 
     /**
-     *
      * @return the index of the personal goal card
      */
     public int getIndex() {
@@ -42,7 +41,6 @@ public class PersonalGoal {
     }
 
     /**
-     *
      * @param key the coordinates of the space to check
      * @return the color of the item to be matched
      */
@@ -95,7 +93,6 @@ public class PersonalGoal {
     }
 
     /**
-     *
      * @return the HashMap representing the personal goal card of the player
      */
     public HashMap<Coordinates, Color> getPersonalGoalCard() {
@@ -103,10 +100,8 @@ public class PersonalGoal {
     }
 
     /**
-     *
      * @return the PersonalGoal of the player
      */
-
     public PersonalGoal getPersonalGoal() {
         return this;
     }

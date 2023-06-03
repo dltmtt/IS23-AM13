@@ -41,10 +41,6 @@ public class Square extends Layout {
         }
     }
 
-    /**
-     * This method returns the name of the layout.
-     * @return
-     */
     @Override
     public String getName() {
         return "square";
@@ -114,7 +110,6 @@ public class Square extends Layout {
     }
 
     /**
-     *
      * @return the number of occurrences of the layout
      */
     public int getCurrent(@NotNull Bookshelf b) { // TODO: finish this method (or remove it if not needed)
@@ -142,7 +137,6 @@ public class Square extends Layout {
     }
 
     /**
-     *
      * @return the info of the layout
      */
     public String getInfo() {

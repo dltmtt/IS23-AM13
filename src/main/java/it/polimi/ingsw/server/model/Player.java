@@ -6,18 +6,18 @@ import java.util.List;
 /**
  * This class represents a player of the game and contains all his information.
  */
-@SuppressWarnings("unused")
+// @SuppressWarnings("unused")
 public class Player {
 
     // Maybe we don't need this, we assign the common goal points in the CommonGoal class
     private static List<CommonGoal> commonGoals = new ArrayList<>();
     private static Board board;
-    private List<Boolean> commonGoalCompleted = new ArrayList<>(2);
     private final String nickname;
+    private final int age;
     private List<Integer> commonGoalPoints = new ArrayList<>(2);
     private boolean isFirstPlayer;
     private boolean isFirstGame;
-    private int age;
+    private List<Boolean> commonGoalCompleted = new ArrayList<>(2);
     private Bookshelf bookshelf;
     private boolean hasEndGameCard;
     private PersonalGoal personalGoal;
@@ -39,7 +39,6 @@ public class Player {
     }
 
     /**
-     *
      * @param commonGoals the common goals to set
      */
     public static void setCommonGoal(List<CommonGoal> commonGoals) {
@@ -47,7 +46,6 @@ public class Player {
     }
 
     /**
-     *
      * @param board the board to set
      */
     public static void setBoard(Board board) {
@@ -57,7 +55,6 @@ public class Player {
     // metodo temporaneo
 
     /**
-     *
      * @return the list of common goals
      */
     public static List<CommonGoal> getCommonGoals() {
@@ -69,7 +66,6 @@ public class Player {
     }
 
     /**
-     *
      * @return the nickname of the player
      */
     public String getNickname() {
@@ -77,23 +73,6 @@ public class Player {
     }
 
     /**
-     *
-     * @return the age of the player
-     */
-    public int getAge() {
-        return age;
-    }
-
-    /**
-     *
-     * @param age the age to set
-     */
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    /**
-     *
      * @return the bookshelf of the player
      */
     public Bookshelf getBookshelf() {
@@ -101,7 +80,6 @@ public class Player {
     }
 
     /**
-     *
      * @param bookshelf the bookshelf to set
      */
     public void setBookshelf(Bookshelf bookshelf) {
@@ -109,7 +87,6 @@ public class Player {
     }
 
     /**
-     *
      * @return the personal goal of the player
      */
     public PersonalGoal getPersonalGoal() {
@@ -117,7 +94,6 @@ public class Player {
     }
 
     /**
-     *
      * @param personalGoal the personal goal to set
      */
     public void setPersonalGoal(PersonalGoal personalGoal) {
@@ -136,6 +112,7 @@ public class Player {
 
     /**
      * This method sets whether it is the player's first game or not.
+     *
      * @param isFirstGame true if it is the player's first game, false otherwise
      */
     public void setFirstGame(boolean isFirstGame) {
@@ -164,8 +141,8 @@ public class Player {
     }
 
     /**
-     *
      * This method sets whether the player has the end game card or not.
+     *
      * @param hasEndGameCard true if the player has the end game card, false otherwise
      */
     public void setHasEndGameCard(boolean hasEndGameCard) {
@@ -256,7 +233,6 @@ public class Player {
     }
 
     /**
-     *
      * @return the points given by adjacent items in the bookshelf
      */
     public int getAdjacentPoints() {
@@ -264,7 +240,6 @@ public class Player {
     }
 
     /**
-     *
      * @return the points given by personal goals
      */
     public int getPersonalGoalPoints() {
@@ -272,7 +247,6 @@ public class Player {
     }
 
     /**
-     *
      * @return the points given by common goals
      */
     public int getCommonGoalPoints() {
@@ -283,28 +257,31 @@ public class Player {
         return score;
     }
 
-    public List<Boolean> getCommonGoalCompleted(){
-        return commonGoalCompleted;
-    }
-    public void setCommonGoalCompleted(List<Boolean> commonGoalCompleted) {
-        this.commonGoalCompleted = commonGoalCompleted;
-    }
     public void setCommonGoalPoints(int commonGoalPoints) {
         this.commonGoalPoints.add(commonGoalPoints);
     }
-    public List<Integer> getCommonGoalScoreList() {
-        return commonGoalPoints;
-    }
+
     public void setCommonGoalPoints(List<Integer> commonGoalPoints) {
         this.commonGoalPoints = commonGoalPoints;
     }
 
     /**
-     *
      * @param commonGoal the points of the common goal to be set
      */
     public void setCommonGoalPoints(CommonGoal commonGoal) {
         //        commonGoalPoints[List.of(commonGoals).indexOf(commonGoal)] = commonGoal.getScoring();
         commonGoalPoints.add(commonGoal.getScoring());
+    }
+
+    public List<Boolean> getCommonGoalCompleted() {
+        return commonGoalCompleted;
+    }
+
+    public void setCommonGoalCompleted(List<Boolean> commonGoalCompleted) {
+        this.commonGoalCompleted = commonGoalCompleted;
+    }
+
+    public List<Integer> getCommonGoalScoreList() {
+        return commonGoalPoints;
     }
 }

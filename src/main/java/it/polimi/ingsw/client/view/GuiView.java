@@ -21,24 +21,22 @@ public class GuiView extends Application implements GameView {
 
     public static GameGuiController gameController;
 
-    // Static reference to the client, in order to use the sendMessage() function
-    public static Client client;
+    public static Client client; // Static reference to the client, in order to use the sendMessage() function
     public static List<Client> clients;
     public static GuiView gui;
-    // loaded scenes
-    public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene;
-    // main stage
-    public static Stage stage;
+    public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene; // Loaded scenes
+    public static Stage stage; // Main stage
     private static LoginGuiController loginController;
 
     /**
-     * launch GUI
-     * CAUTION: if any attributes need to be set do it in the <code>startView</code> method, because startView has the <code>launch()</code> command, which creates another instance of GuiView
+     * Launches the GUI.
      *
      * @param client
      */
     @Override
     public void startView(Client client) {
+        // CAUTION: if any attributes need to be set, do so in the startView method,
+        // because startView has the launch() command, which creates another instance of GuiView.
         launch();
         // Instruction executed after closing GUI window
     }
@@ -49,7 +47,6 @@ public class GuiView extends Application implements GameView {
      *
      * @param stage internal parameter, set by <code>launch()</code>
      */
-
     @Override
     public void start(Stage stage) {
         stage.setTitle("My Shelfie");
@@ -62,7 +59,7 @@ public class GuiView extends Application implements GameView {
         GuiView.stage = stage;
         setClient(MyShelfie.client);
 
-        // scene loader
+        // Scene loader
         FXMLLoader loginSceneLoader = new FXMLLoader(GuiView.class.getResource("login.fxml"));
         loginController = new LoginGuiController(client, this);
         loginSceneLoader.setController(loginController);
@@ -74,7 +71,8 @@ public class GuiView extends Application implements GameView {
         }
 
         FXMLLoader playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"));
-        // Controller is already set in the fxml file
+
+        // Controller is already set in the FXML file
         try {
             playerNumberScene = new Scene(playerNumberSceneLoader.load());
         } catch (IOException e) {

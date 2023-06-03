@@ -9,11 +9,12 @@ import it.polimi.ingsw.utils.CliUtilities;
 public class CommonGoalView {
 
     /**
-     * This method is used to print the common goal
-     * @param type the type of the common goal
-     * @param occurrences
-     * @param size
-     * @param horizontal
+     * This method is used to print the common goal.
+     *
+     * @param type        the common goal's type
+     * @param occurrences the number of occurrences of the common goal
+     * @param size        the size of the common goal's layout
+     * @param horizontal  true if the common goal is horizontal, false if it's vertical
      */
     public static void print(String type, int occurrences, int size, boolean horizontal) {
         System.out.println("This is your common goal card: ");

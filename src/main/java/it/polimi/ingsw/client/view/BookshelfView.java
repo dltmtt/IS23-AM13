@@ -9,6 +9,7 @@ import java.util.Optional;
 
 /**
  * This class is used to print the bookshelf in the cli
+ *
  * @see GameCliView
  * @see CliUtilities
  */
@@ -17,8 +18,9 @@ public class BookshelfView {
     private final Bookshelf bookshelf;
 
     /**
-     * This constructor initializes the bookshelf
-     * @param bookshelf
+     * This constructor initializes the bookshelf.
+     *
+     * @param bookshelf the bookshelf to be printed
      */
     public BookshelfView(Bookshelf bookshelf) {
         this.bookshelf = bookshelf;

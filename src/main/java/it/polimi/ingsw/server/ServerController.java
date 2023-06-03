@@ -282,13 +282,13 @@ public void addDisconnection(String username) {
     }
 
     public int checkRoom() {
-        if (room.isNumSetted() && room.full()) {
+        if (room.isMaxPlayersSet() && room.full()) {
             gameModel = new GameModel(players);
             gameModel.start();
             gameIsStarted = true;
             return 1;
         }
-        if (room.isNumSetted() && room.tooManyPlayers()) {
+        if (room.isMaxPlayersSet() && room.tooManyPlayers()) {
             gameModel = new GameModel(players);
             gameModel.start();
             gameIsStarted = true;

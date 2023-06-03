@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.SettingLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +72,6 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     *
      * @return the number of rows in a bookshelf
      */
     public static int getRows() {
@@ -85,7 +83,6 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     *
      * @return the number of columns in a bookshelf
      */
     public static int getColumns() {
@@ -97,7 +94,6 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     *
      * @return the number of cells in a bookshelf
      */
     public static int getSize() {
@@ -105,7 +101,6 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     *
      * @return the number of rows or columns, whichever is smaller
      */
     public static int getDimension() {
@@ -113,7 +108,6 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     *
      * @param column the column index
      * @return the number of free cells in the column with index <code>column</code>
      */
@@ -128,7 +122,6 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     *
      * @param column the column index
      * @return the number of used cells in the column with index <code>column</code>
      */
@@ -162,7 +155,6 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     *
      * @return true if the bookshelf is full, false otherwise
      */
     public boolean isBookshelfFull() {

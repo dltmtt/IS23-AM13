@@ -28,7 +28,6 @@ import static java.lang.Integer.parseInt;
 public class SettingLoader {
 
     public static final String BASE_PATH = "src/main/resources/it/polimi/ingsw/";
-    // public static final String BASE_PATH = "";
 
     private static String serverIp;
     private static int serverPort;
@@ -48,7 +47,6 @@ public class SettingLoader {
      * @throws IOException    if the file is not found
      * @throws ParseException if the file is not in JSON format
      */
-
     public static PersonalGoal loadSpecificPersonalGoal(int randomPersonalGoalIndex) throws IOException, ParseException {
 
         JSONParser parser = new JSONParser();
@@ -119,12 +117,12 @@ public class SettingLoader {
         }
         JSONArray layouts = (JSONArray) a.get("common_goal_configurations");
         // Setting default values
-        int minDifferent = 0;
-        int maxDifferent = 0;
-        int occurrences = 0;
-        int size = 0;
-        int dimension = 0;
-        boolean horizontal = false;
+        int minDifferent;
+        int maxDifferent;
+        int occurrences;
+        int size;
+        int dimension;
+        boolean horizontal;
 
         // Loading configurations
         for (Object o : layouts) {

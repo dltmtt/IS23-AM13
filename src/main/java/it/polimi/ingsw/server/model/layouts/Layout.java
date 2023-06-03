@@ -6,7 +6,8 @@ import it.polimi.ingsw.server.model.Item;
 import java.util.List;
 
 /**
- * The disposition of the items in a common goal whose position has to be matched in the bookshelf.
+ * The disposition of the items in a common goal whose position
+ * has to be matched in the bookshelf.
  */
 public abstract class Layout {
 
@@ -73,7 +74,6 @@ public abstract class Layout {
     }
 
     /**
-     *
      * @return the name of the layout
      */
     public abstract String getName();

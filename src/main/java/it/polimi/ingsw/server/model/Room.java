@@ -3,9 +3,7 @@ package it.polimi.ingsw.server.model;
 import it.polimi.ingsw.utils.FullRoomException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A room is a collection of players that are playing together.
@@ -16,22 +14,21 @@ public class Room {
     private static int minPlayers;
     private static int maxPlayers;
     private final List<Player> players = new ArrayList<>();
-    private final Map<Integer, Room> rooms = new HashMap<>();
     private final int roomId;
 
     /**
-     * This method creates a new room with the given id.
+     * This method creates a new room with the given ID.
      *
-     * @param roomId the id of the room
+     * @param roomId the ID of the room
      */
     public Room(int roomId) {
         this.roomId = roomId;
     }
 
     /**
-     * This ,ethod creates a new room with the given id and players.
+     * This method creates a new room with the given ID and players.
      *
-     * @param roomId  the id of the room
+     * @param roomId  the ID of the room
      * @param players the list of players
      */
     public Room(int roomId, List<Player> players) {
@@ -40,7 +37,6 @@ public class Room {
     }
 
     /**
-     *
      * @return the number of players
      */
     public int getNumberOfPlayers() {
@@ -58,20 +54,17 @@ public class Room {
     }
 
     /**
-     *
      * @return true if the room is full, false otherwise
      */
     public boolean full() {
         return players.size() == maxPlayers;
     }
 
-
-    public boolean isNumSetted() {
+    public boolean isMaxPlayersSet() {
         return maxPlayers != 0;
     }
 
     /**
-     *
      * @return true if the room has too many players, false otherwise
      */
     public boolean tooManyPlayers() {
@@ -80,8 +73,7 @@ public class Room {
     }
 
     /**
-     *
-     * @return the id of the room
+     * @return the ID of the room
      */
     public int getRoomId() {
         return roomId;
@@ -94,17 +86,16 @@ public class Room {
      * @throws FullRoomException if the room is full
      */
     public void addPlayer(Player newPlayer) throws FullRoomException {
-        //        if (players.size() < maxPlayers) {
-        //            players.add(newPlayer);
-        //        } else {
-        //            String errorMessage = "The selected room (" + roomId + ") is full, the following users are connected:  " + players;
-        //            throw new FullRoomException(errorMessage);
-        //        }
+        // if (players.size() < maxPlayers) {
+        //     players.add(newPlayer);
+        // } else {
+        //     String errorMessage = "The selected room (" + roomId + ") is full, the following users are connected:  " + players;
+        //     throw new FullRoomException(errorMessage);
+        // }
         players.add(newPlayer);
     }
 
     /**
-     *
      * @return the list of players
      */
     public List<Player> getListOfPlayers() {
