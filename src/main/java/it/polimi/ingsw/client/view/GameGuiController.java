@@ -268,4 +268,19 @@ public class GameGuiController {
         }
         System.out.println("game loaded");
     }
+
+    public void toggleHelp() {
+
+    }
+
+    public void deleteCurrentSelection() {
+        /*
+        if (pickedItems.size() == 2) {
+            pickedItems.clear();
+            rearrangeArea.getChildren().clear();
+            enableAllItems();
+        }
+
+         */
+    }
 }

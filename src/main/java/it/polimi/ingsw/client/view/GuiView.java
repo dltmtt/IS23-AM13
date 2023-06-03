@@ -20,6 +20,7 @@ import java.util.List;
 public class GuiView extends Application implements GameView {
 
     public static GameGuiController gameController;
+
     // Static reference to the client, in order to use the sendMessage() function
     public static Client client;
     public static List<Client> clients;
