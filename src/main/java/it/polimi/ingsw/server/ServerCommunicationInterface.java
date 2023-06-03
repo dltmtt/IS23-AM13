@@ -29,7 +29,9 @@ public interface ServerCommunicationInterface extends Remote {
 
         switch (category) {
             // Maybe the controller should do something with the pong.
-            case "pong" -> {}
+            case "pong" -> {
+
+            }
             case "numOfPlayersMessage" -> {
                 int numberOfPlayers = message.getNumPlayer();
                 System.out.println("Number of players: " + numberOfPlayers);
@@ -37,7 +39,7 @@ public interface ServerCommunicationInterface extends Remote {
                 if (!isOk.equals("ok")) {
                     client.callBackSendMessage(new Message("numOfPlayersNotOK"));
                 } else {
-                    controller.setNumPlayer(numberOfPlayers);
+                    controller.setNumberOfPlayers(numberOfPlayers);
                     if (controller.checkRoom() == 1) {
                         startGame();
                     } else if (controller.checkRoom() == -1) {
@@ -94,12 +96,36 @@ public interface ServerCommunicationInterface extends Remote {
                     break;
                 } catch (RemoteException e) {
                     // We fall in this branch when the client disconnects
-                    System.err.println(username + " disconnected.");
-                    controller.disconnect(username);
+                    try {
+                        disconnect(username);
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     break;
                 }
             }
         }).start();
+    }
+
+    /**
+     * Adds a player to the disconnected players list and changes the turn if the
+     * disconnected player was the current player.
+     *
+     * @param username the username of the disconnected player
+     */
+    default void disconnect(String username) throws RemoteException {
+        System.err.println(username + " disconnected.");
+        controller.disconnect(username);
+        if (controller.disconnectedPlayers.size() == controller.numberOfPlayers - 1) {
+            // If there is only one player left, sendAll actually sends the message to the only player left,
+            // telling him that he's alone. He will wait for the other players to reconnect, and if none of them
+            // reconnects, he will win.
+            sendAll(new Message("youAloneBitch"));
+        } else {
+            if (controller.getCurrentPlayer().equals(username)) {
+                nextTurn();
+            }
+        }
     }
 
     default void removePlayers() throws RemoteException {
@@ -139,7 +165,8 @@ public interface ServerCommunicationInterface extends Remote {
         // This is one of the few differences from the Socket implementation
         startPingThread(client);
 
-        // sendAll(new Message("reconnected", client.getUsername()));
+        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
+        System.out.println("Sent reconnected message to all clients except " + client.getUsername());
         sendTurn(client);
     }
 
@@ -191,7 +218,8 @@ public interface ServerCommunicationInterface extends Remote {
         String currentPlayer = controller.getCurrentPlayer();
         Message otherTurn = new Message("otherTurn", currentPlayer);
         Message turn = new Message("turn");
-        sendAllExceptCurrentPlayer(otherTurn);
+        System.out.println("sending turn to " + currentPlayer);
+        sendAllExcept(currentPlayer, otherTurn);
         if (controller.getRmiClients().containsKey(currentPlayer)) {
             controller.getRmiClients().get(currentPlayer).callBackSendMessage(turn);
         }
@@ -214,18 +242,6 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
-    default Message sendTurn(int position) throws RemoteException {
-        return new Message("turn", "turn", controller.yourTurn(position));
-    }
-
-    default void sendPong(ClientCommunicationInterface client) throws RemoteException {
-        client.callBackSendMessage(new Message("pong"));
-    }
-
-    default void sendPong(SocketClientHandler client) throws RemoteException {
-        client.sendMessageToClient(new Message("pong"));
-    }
-
     default void sendAll(Message message) throws RemoteException {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
@@ -237,16 +253,16 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
-    default void sendAllExceptCurrentPlayer(Message message) throws RemoteException {
+    default void sendAllExcept(String player, Message message) throws RemoteException {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
         for (String username : tcpClients.keySet()) {
-            if (!username.equals(controller.getCurrentPlayer())) {
+            if (!username.equals(player)) {
                 tcpClients.get(username).sendMessageToClient(message);
             }
         }
         for (String username : rmiClients.keySet()) {
-            if (!username.equals(controller.getCurrentPlayer())) {
+            if (!username.equals(player)) {
                 rmiClients.get(username).callBackSendMessage(message);
             }
         }

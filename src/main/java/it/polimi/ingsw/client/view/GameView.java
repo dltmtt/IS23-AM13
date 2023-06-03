@@ -47,8 +47,6 @@ public interface GameView {
 
     void showCurrentScore(int score);
 
-    void showDisconnection();
-
     void waitingRoom();
 
     void startGame(Message myGame);

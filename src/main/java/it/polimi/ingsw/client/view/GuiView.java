@@ -194,11 +194,6 @@ public class GuiView extends Application implements GameView {
     }
 
     @Override
-    public void showDisconnection() {
-
-    }
-
-    @Override
     public void endGame() {
         stage.setScene(endGameScene);
         stage.show();

@@ -264,11 +264,6 @@ public class GameCliView implements GameView {
     }
 
     @Override
-    public void showDisconnection() {
-        showMessage("All other players have disconnected. Please wait...\n");
-    }
-
-    @Override
     public void waitingRoom() {
         showMessage("Waiting for other players to join...\n");
     }

@@ -60,8 +60,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                             System.err.println("Unable to parse message from client");
                         } catch (NullPointerException e) {
                             Utils.showDebugInfo(e);
-                            System.err.println(username + " disconnected.");
-                            controller.disconnect(username);
+                            disconnect(username);
                             break;
                         }
 
@@ -76,8 +75,12 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 } catch (IOException e) {
                     Utils.showDebugInfo(e);
                     // We are here because the client disconnected (probably)
-                    System.err.println(username + " disconnected.");
-                    controller.disconnect(username);
+                    System.err.println("IOException");
+                    try {
+                        disconnect(username);
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     break;
                 }
             }
@@ -130,7 +133,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 if (!isOk.equals("ok")) {
                     sendMessageToClient(new Message("numOfPlayersNotOK"));
                 } else {
-                    controller.setNumPlayer(numPlayer);
+                    controller.setNumberOfPlayers(numPlayer);
                     if (controller.checkRoom() == 1) {
                         startGame();
                     } else if (controller.checkRoom() == -1) {
@@ -177,7 +180,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         client.sendMessageToClient(game);
 
         controller.addClient(getUsername(), client);
-
+        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
         sendTurn(client);
     }
 
