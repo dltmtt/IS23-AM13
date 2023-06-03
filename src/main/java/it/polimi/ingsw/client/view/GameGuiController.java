@@ -82,7 +82,7 @@ public class GameGuiController {
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getRowCount(); i++) {
             for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
-                if (i == row || j == col) {
+                if ((i == row || j == col) && (Math.abs(i - row) <= 2 && Math.abs(j - col) <= 2)) {
                     selectedNode = getNodeByRowColumnIndex(i, j);
                     if (selectedNode != null) {
                         selectedNode.setDisable(false);
@@ -186,20 +186,23 @@ public class GameGuiController {
     public void selectItem(int row, int col) {
         System.out.println("selected " + row + ", col" + col);
 
-        pickedItems.add(new Coordinates(row, col));
-        // synchronized (listLock) {
-        if (pickedItems.size() == 1) {
-            // pickedItems.add(new Coordinates(row, col));
-            highlightPickableItems(row, col);
-        } else {
-            if (pickedItems.size() == 2) {
+        if(boardModel.checkBorder(new Coordinates(row, col))) {
+
+            pickedItems.add(new Coordinates(row, col));
+            // synchronized (listLock) {
+            if (pickedItems.size() == 1) {
                 // pickedItems.add(new Coordinates(row, col));
-                System.out.println("picked items: " + pickedItems);
-                addPickedItemsToRearrangeArea();
-                List<Coordinates> pickedItemsCopy = new ArrayList<>(pickedItems);
-                pickedItems.clear();
-                disableAllItems();
-                client.sendMessage(new Message(pickedItemsCopy.get(0), pickedItemsCopy.get(1)));
+                highlightPickableItems(row, col);
+            } else {
+                if (pickedItems.size() == 2) {
+                    // pickedItems.add(new Coordinates(row, col));
+                    System.out.println("picked items: " + pickedItems);
+                    addPickedItemsToRearrangeArea();
+                    List<Coordinates> pickedItemsCopy = new ArrayList<>(pickedItems);
+                    pickedItems.clear();
+                    disableAllItems();
+                    client.sendMessage(new Message(pickedItemsCopy.get(0), pickedItemsCopy.get(1)));
+                }
             }
         }
     }
