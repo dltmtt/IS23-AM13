@@ -49,7 +49,7 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         listenThread = new Thread(() -> {
             while (true) {
                 Message receivedMessage = receiveMessage();
-                parseReceivedMessage(receivedMessage);
+                callBackSendMessage(receivedMessage);
             }
         });
         listenThread.start();

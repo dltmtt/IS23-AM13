@@ -60,13 +60,13 @@ public class GuiView extends Application implements GameView {
         setClient(MyShelfie.client);
 
         // Scene loader
-        FXMLLoader loginSceneLoader = new FXMLLoader(GuiView.class.getResource("login.fxml"));
+        FXMLLoader loginSceneLoader = new FXMLLoader(GuiView.class.getResource("newLogin2.fxml"));
         loginController = new LoginGuiController(client, this);
         loginSceneLoader.setController(loginController);
         try {
             loginScene = new Scene(loginSceneLoader.load());
         } catch (IOException e) {
-            System.err.println("Failed to load login.fxml");
+            System.err.println("Failed to load newLogin2.fxml");
             throw new RuntimeException(e);
         }
 
