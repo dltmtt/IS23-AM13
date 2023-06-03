@@ -19,9 +19,9 @@ import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 /**
  * This class represents the board of the game as a matrix of items. It also contains:
  * <ul>
- *     <li>itemBag: the bag of items</li>
- *     <li>usableCells: the list of coordinates of the cells that can be used</li>
- *     <li>extractedItems: the list of items extracted from the bag</li>
+ *   <li>itemBag: the bag of items</li>
+ *   <li>usableCells: the list of coordinates of the cells that can be used</li>
+ *   <li>extractedItems: the list of items extracted from the bag</li>
  * </ul>
  */
 public class Board {
@@ -31,17 +31,16 @@ public class Board {
     private final Item[][] boardMatrix;
     private final List<Item> itemBag;
     private final List<Coordinates> usableCells;
-    private List<Item> extractedItems;
 
     /**
      * This method:
      * <ul>
-     *     <li>creates a new square board of size <code>boardSize</code>;</li>
-     *     <li>fills the bag of items with every possible item;</li>
-     *     <li>defines the usable cells in this board based on the number of players.</li>
+     *   <li>creates a new square board of size <code>boardSize</code>;</li>
+     *   <li>fills the bag of items with every possible item;</li>
+     *   <li>defines the usable cells in this board based on the number of players.</li>
      * </ul>
      *
-     * @param numOfPlayers the number of players in the game.
+     * @param numOfPlayers the number of players in the game
      */
     public Board(int numOfPlayers) {
         boardMatrix = new Item[boardSize][boardSize];
@@ -70,22 +69,20 @@ public class Board {
                 itemBag.add(new Item(color, i % 3));
             }
         }
-        extractedItems = new ArrayList<>();
     }
 
     /**
      * This method creates a new square board of size <code>boardSize</code> and initializes:
-     * <li>the bag of items;</li>
-     * <li>the list of usable cells;</li>
-     * <li>the list of extractedItems.</li>
-     *
+     * <ul>
+     *   <li>the bag of items;</li>
+     *   <li>the list of usable cells;</li>
+     *   <li>the list of extractedItems.</li>
      * </ul>
      */
     public Board() {
         boardMatrix = new Item[boardSize][boardSize];
         itemBag = new ArrayList<>();
         usableCells = new ArrayList<>();
-        extractedItems = new ArrayList<>();
     }
 
     /**
@@ -100,9 +97,7 @@ public class Board {
     }
 
     /**
-     * This method returns the list of Items contained in the bag.
-     *
-     * @return the list of Items contained in the bag
+     * @return the list of items contained in the bag
      */
     public List<Item> getItemBag() {
         return itemBag;
@@ -125,8 +120,6 @@ public class Board {
     }
 
     /**
-     * This method returns the matrix.
-     *
      * @return the board as a matrix of Items.
      */
     public Item[][] getBoardMatrix() {
@@ -136,7 +129,6 @@ public class Board {
     /**
      * @return the size of the board
      */
-
     public int getBoardSize() {
         return boardSize;
     }
@@ -193,7 +185,6 @@ public class Board {
                 boardMatrix[i][pickedFromTo.get(0).y()] = null;
             }
         }
-        extractedItems = itemsPicked;
         return itemsPicked;
     }
 

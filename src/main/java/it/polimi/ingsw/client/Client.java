@@ -10,7 +10,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
-import java.util.List;
 
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
@@ -21,7 +20,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     public GameView gameView;
     String username = null;
-    int serverConnected = 0;
     private int myPosition;
 
     public Client() throws RemoteException {
@@ -63,77 +61,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public abstract void sendMessage(Message message);
 
-    public void parseReceivedMessage(Message message) {
-        String category = message.getCategory();
-        switch (category) {
-            case "ping" -> {
-                serverConnected++;
-                sendMessage(new Message("pong"));
-            }
-            case "username" -> setUsername(message.getUsername());
-            case "UsernameRetry" -> gameView.usernameError();
-            case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
-            case "chooseNumOfPlayer" -> gameView.playerChoice();
-            case "numOfPlayersNotOK" -> gameView.playerNumberError();
-            case "update" -> {
-                System.out.println("Received update message");
-                HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
-                gameView.pickMyBookshelf(bookshelves);
-                gameView.pickOtherBookshelf(bookshelves);
-                // gameView.showCurrentScore(message.getIntMessage("score"));
-                gameView.showBoard(message.getBoard());
-            }
-            case "startGame" -> gameView.startGame(message);
-            case "turn" -> myTurn();
-            case "otherTurn" -> gameView.showMessage("It's " + message.getArgument() + "'s turn.\n");
-            case "picked" -> {
-                try {
-                    if (gameView.showRearrange(message.getPicked())) {
-                        sendMessage(new Message("sort", gameView.rearrange(message.getPicked())));
-                    }
-                    int column = gameView.promptInsert();
-                    sendMessage(new Message("insertMessage", "insert", column));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            case "PickRetry" -> {
-                gameView.showMessage("Invalid pick. Retry.");
-
-                // showPick() sends the message to the server
-                gameView.showPick();
-            }
-            case "endGame" -> gameView.showEndGame(message.getWinners());
-            case "disconnection" -> gameView.showDisconnection();
-            case "waitingRoom" -> waitingRoom();
-            case "lastRound" -> gameView.showLastRound();
-            case "gameAlreadyStarted" -> {
-                gameView.showGameAlreadyStarted();
-                stop();
-            }
-            case "removePlayer" -> {
-                gameView.showRemovePlayer();
-                stop();
-            }
-            case "insertRetry" -> {
-                String argument = message.getArgument();
-                if (argument.equals("notValidNumber")) {
-                    gameView.showMessage("Invalid column. Retry.");
-                } else {
-                    gameView.showMessage("There are not enough free cells in the column. Retry.\n");
-                }
-                int column = gameView.promptInsert();
-                sendMessage(new Message("insertMessage", "insert", column));
-            }
-            case "disconnected" -> {
-                List<String> disconnected = message.getDisconnected();
-                gameView.showDisconnection(disconnected);
-                stop();
-            }
-            default -> throw new IllegalArgumentException("Invalid message category: " + category);
-        }
-    }
-
     public void stop() {
         System.exit(0);
     }
@@ -143,21 +70,12 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             while (true) {
                 try {
                     Thread.sleep(15000);
-                    checkServerConnection();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
         pingThread.start();
-    }
-
-    public void checkServerConnection() {
-        if (serverConnected < 2) {
-            System.err.println("\nLost connection to server.");
-            System.exit(0);
-        }
-        serverConnected = 0;
     }
 
     /**
@@ -192,12 +110,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         gameView.showMessage("It's your turn!\n");
         // showPick() sends the message to the server
         gameView.showPick();
-        /*
-        List<Coordinates> pick = gameView.showPick();
-        Message myPickMessage = new Message(pick.get(0), pick.get(1));
-        sendMessage(myPickMessage);
-
-         */
     }
 
     public void endGame() {
@@ -226,6 +138,71 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     @Override
     public void callBackSendMessage(Message message) {
-        parseReceivedMessage(message);
+        String category = message.getCategory();
+        switch (category) {
+            case "ping" -> sendMessage(new Message("pong"));
+            case "username" -> setUsername(message.getUsername());
+            case "UsernameRetry" -> gameView.usernameError();
+            case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
+            case "chooseNumOfPlayer" -> gameView.playerChoice();
+            case "numOfPlayersNotOK" -> gameView.playerNumberError();
+            case "update" -> {
+                System.out.println("Received update message");
+                HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
+                gameView.pickMyBookshelf(bookshelves);
+                gameView.pickOtherBookshelf(bookshelves);
+                // gameView.showCurrentScore(message.getIntMessage("score"));
+                gameView.showBoard(message.getBoard());
+            }
+            case "startGame" -> gameView.startGame(message);
+            case "turn" -> myTurn();
+            case "otherTurn" -> gameView.showMessage("It's " + message.getArgument() + "'s turn.\n");
+            case "picked" -> {
+                try {
+                    if (gameView.showRearrange(message.getPicked())) {
+                        sendMessage(new Message("sort", gameView.rearrange(message.getPicked())));
+                    }
+                    int column = gameView.promptInsert();
+                    sendMessage(new Message("insertMessage", "insert", column));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case "pickRetry" -> {
+                gameView.showMessage("Invalid pick. Retry.");
+
+                // showPick() sends the message to the server
+                gameView.showPick();
+            }
+            case "endGame" -> gameView.showEndGame(message.getWinners());
+            case "disconnection" -> gameView.showDisconnection();
+            case "waitingRoom" -> waitingRoom();
+            case "lastRound" -> gameView.showLastRound();
+            case "gameAlreadyStarted" -> {
+                gameView.showGameAlreadyStarted();
+                stop();
+            }
+            case "removePlayer" -> {
+                gameView.showRemovePlayer();
+                stop();
+            }
+            case "insertRetry" -> {
+                String argument = message.getArgument();
+                if (argument.equals("notValidNumber")) {
+                    gameView.showMessage("Invalid column. Retry.");
+                } else {
+                    gameView.showMessage("There are not enough free cells in the column. Retry.\n");
+                }
+                int column = gameView.promptInsert();
+                sendMessage(new Message("insertMessage", "insert", column));
+            }
+            case "disconnected" -> {
+                System.err.println("You have been disconnected from the server. Let Matteo know about this.");
+                // List<String> disconnected = message.getDisconnected();
+                // gameView.showDisconnection(disconnected);
+                // stop();
+            }
+            default -> throw new IllegalArgumentException("Invalid message category: " + category);
+        }
     }
 }

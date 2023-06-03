@@ -14,16 +14,10 @@ public interface GameView {
 
     String insertError = "The index must be between 0 and " + (Bookshelf.getColumns() - 1) + ": "; // TODO: make sure to load settings before this
     String insertUsernamePrompt = "Please, insert your username: ";
-    String insertAgePrompt = "Please, insert your age: ";
     String firstGameQuestion = "Is this the first time you play this game?";
     String insertUsernameAgainPrompt = "Please, insert your username again: ";
     String welcomeMessage = "Welcome to...\n";
     String insertNumberOfPlayersPrompt = "Please, insert the total number of players: ";
-
-    static void cleanScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
 
     void loginProcedure();
 

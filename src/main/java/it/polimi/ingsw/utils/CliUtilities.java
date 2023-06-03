@@ -128,7 +128,8 @@ public final class CliUtilities {
     /**
      * Asks the user a close-ended question with a yes/no answer and returns the answer.
      *
-     * @param question
+     * @param question      the yes/no question to ask the user (with or without a question mark)
+     * @param defaultAnswer the default answer (case is ignored)
      * @return true if the user answered yes, false otherwise
      * @see #askCloseEndedQuestion(String, List, String)
      */
@@ -260,15 +261,13 @@ public final class CliUtilities {
     /**
      * Transforms a bookshelf in a pretty list of strings :)
      *
-     * @param items
+     * @param items the bookshelf to stringify
      * @return a list of strings
-     * @throws IllegalArgumentException
      */
-    public static List<String> stringifyBookshelf(Optional<Item>[][] items) throws IllegalArgumentException {
-
+    public static List<String> stringifyBookshelf(Optional<Item>[][] items) {
         if (Bookshelf.getRows() == 1) {
-
-            if (Bookshelf.getColumns() == 1) {
+            if (Bookshelf.getColumns() == 1) // noinspection GrazieInspection
+            {
                 // Single row, single column case
                 //╓─────╖ top row
                 //║     ║ middle row

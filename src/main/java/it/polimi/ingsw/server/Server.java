@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.commons.Message;
-import it.polimi.ingsw.utils.FullRoomException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -99,7 +98,7 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     }
 
     @Override
-    public void receiveMessageTcp(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
+    public void receiveMessageTcp(Message message, SocketClientHandler client) throws RemoteException {
         // Not used
     }
 }

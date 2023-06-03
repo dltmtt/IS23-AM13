@@ -12,14 +12,14 @@ public class GameModel {
 
     // This value is tied to the switch statement in the PersonalGoal class
     private static final int personalGoalDeckSize = 12;
-    private Board livingRoom;
     private final List<PersonalGoal> personalGoalDeck;
-    private List<Player> players = null;
+    private final List<Player> players;
+    private final List<Integer> topScoringPoints;
+    private Board livingRoom;
     private List<CommonGoal> commonGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
     private boolean isTheGameEnded;
-    private List<Integer> topScoringPoints;
 
     public GameModel(List<Player> players) {
         SettingLoader.loadBookshelfSettings();
@@ -50,22 +50,16 @@ public class GameModel {
         this.players.clear();
         this.players.addAll(players);
     }
-    public void setGame(Board board,List<CommonGoal> commonGoals) {
+
+    public void setGame(Board board, List<CommonGoal> commonGoals) {
         Player.setBoard(board);
         Player.setCommonGoal(commonGoals);
-        this.livingRoom=board;
-    }
-
-    public void setTopScoringPoints(List<Integer> topScoringPoints) {
-        this.topScoringPoints.clear();
-        this.topScoringPoints.addAll(topScoringPoints);
+        this.livingRoom = board;
     }
 
     /**
      * @return the top of the scoring list of each common goal card
-     * @authot Valeria
      */
-
     public List<Integer> getTopScoringPoints() {
 
         for (CommonGoal cg : Player.getCommonGoals()) {
@@ -74,17 +68,21 @@ public class GameModel {
         return topScoringPoints;
     }
 
+    public void setTopScoringPoints(List<Integer> topScoringPoints) {
+        this.topScoringPoints.clear();
+        this.topScoringPoints.addAll(topScoringPoints);
+    }
+
     /**
-     * @param player
+     * @param player the player to get the points of
      * @return a list of all the points that the player has earned
      * <ul>
-     *     <li>first element(index 0):the points of the personal goal</li>
-     *     <li>second element(index 1):the points of the common goal/s</li>
-     *     <li>third element(index 2):the points of the bookshelf</li>
-     *     <li>fourth element(index 3):the total of all points</li>
-     * @authot Valeria
+     *   <li>first element(index 0):the points of the personal goal</li>
+     *   <li>second element(index 1):the points of the common goal/s</li>
+     *   <li>third element(index 2):the points of the bookshelf</li>
+     *   <li>fourth element(index 3):the total of all points</li>
+     * </ul>
      */
-
     public List<Integer> getAllPoints(Player player) {
         List<Integer> allPoints = new ArrayList<>();
 

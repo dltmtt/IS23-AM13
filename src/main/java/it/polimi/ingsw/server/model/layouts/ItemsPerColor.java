@@ -12,7 +12,6 @@ public class ItemsPerColor extends Layout {
     }
 
     /**
-     *
      * @return the name of the layout
      */
     @Override
@@ -21,7 +20,6 @@ public class ItemsPerColor extends Layout {
     }
 
     /**
-     *
      * @return the name of the layout
      */
     @Override

@@ -18,7 +18,7 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
     private ServerCommunicationInterface server;
 
     /**
-     * Starts the client
+     * Starts the client.
      */
     public ClientRmi() throws RemoteException {
         super();
@@ -32,8 +32,6 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
             // throw new RuntimeException(e);
         }
     }
-
-
 
     @Override
     public void connect() throws RemoteException, NotBoundException {

@@ -70,7 +70,6 @@ public class Stair extends Layout {
     }
 
     /**
-     *
      * @return the name of the layout
      */
     @Override
@@ -94,7 +93,6 @@ public class Stair extends Layout {
     }
 
     /**
-     *
      * @return the info of the layout
      */
     public String getInfo() {

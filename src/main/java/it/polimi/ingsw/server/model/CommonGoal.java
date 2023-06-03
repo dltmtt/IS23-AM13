@@ -44,21 +44,19 @@ public class CommonGoal {
         }
     }
 
-    public void setScoringList(List<Integer> scoringList) {
-        this.scoringList.clear();
-        this.scoringList.addAll(scoringList);
-    }
-
     /**
-     *
      * @return the list of scores
      */
     public List<Integer> getScoringList() {
         return scoringList;
     }
 
+    public void setScoringList(List<Integer> scoringList) {
+        this.scoringList.clear();
+        this.scoringList.addAll(scoringList);
+    }
+
     /**
-     *
      * @return the layout of the common goal
      */
     public Layout getLayout() {
