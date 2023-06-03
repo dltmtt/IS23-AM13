@@ -194,8 +194,9 @@ public interface ServerCommunicationInterface extends Remote {
         Message otherTurn = new Message("otherTurn", currentPlayer);
         Message turn = new Message("turn");
         sendAllExceptCurrentPlayer(otherTurn);
-        if (controller.getRmiClients().containsKey(currentPlayer))
+        if (controller.getRmiClients().containsKey(currentPlayer)) {
             controller.getRmiClients().get(currentPlayer).callBackSendMessage(turn);
+        }
         if (controller.getTcpClients().containsKey(currentPlayer))
             controller.getTcpClients().get(currentPlayer).sendMessageToClient(turn);
     }

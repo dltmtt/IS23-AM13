@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308"
       maxWidth="1.7976931348623157E308"
-      prefHeight="500.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19">
+      prefHeight="650.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19">
     <children>
         <StackPane VBox.vgrow="ALWAYS">
             <children>
-                <ImageView fitHeight="600.0" fitWidth="1024.0" pickOnBounds="true" StackPane.alignment="CENTER">
+                <ImageView fitHeight="650.0" fitWidth="1024.0" pickOnBounds="true" StackPane.alignment="CENTER">
                     <image>
                         <Image url="@graphics/misc/sfondo_parquet.jpg"/>
                     </image>
@@ -21,155 +20,119 @@
                     </viewport>
                 </ImageView>
                 <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                          prefHeight="667.0" prefWidth="1021.0" StackPane.alignment="CENTER">
+                          prefHeight="711.0" prefWidth="1046.0" StackPane.alignment="CENTER">
                     <columnConstraints>
                         <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0"/>
-                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="100.0" percentWidth="40.0"/>
+                        <ColumnConstraints hgrow="NEVER" maxWidth="157.6000099182129" minWidth="20.0"
+                                           prefWidth="157.6000099182129"/>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="402.79998779296875"
+                                           minWidth="100.0" percentWidth="40.0" prefWidth="272.3999900817871"/>
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="778.3999938964844" minWidth="10.0"
-                                           prefWidth="160.60000000000002"/>
+                                           prefWidth="285.5999877929687"/>
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="778.3999938964844" minWidth="10.0"
-                                           prefWidth="412.6"/>
+                                           prefWidth="288.0000122070312"/>
                         <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0"/>
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER"
-                                        vgrow="NEVER"/>
-                        <RowConstraints maxHeight="532.8" minHeight="10.0" prefHeight="146.40000915527344"
-                                        valignment="CENTER" vgrow="ALWAYS"/>
-                        <RowConstraints maxHeight="300.0" minHeight="0.0" prefHeight="20.79997558593749"
+                        <RowConstraints maxHeight="300.0" minHeight="0.0" prefHeight="18.400000000000006"
                                         valignment="CENTER" vgrow="NEVER"/>
-                        <RowConstraints maxHeight="532.8" minHeight="10.0" prefHeight="389.40002441406256"
+                        <RowConstraints maxHeight="572.3999877929689" minHeight="10.0" prefHeight="567.2"
                                         vgrow="ALWAYS"/>
                         <RowConstraints maxHeight="51.20001220703125" minHeight="20.0" prefHeight="24.0" vgrow="NEVER"/>
                     </rowConstraints>
                     <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1"
-                                   GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3"
-                                   GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0"
+                              GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
+                              GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                             <children>
-                                <ImageView fx:id="board" fitHeight="396.0" fitWidth="419.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <image>
-                                        <Image url="@graphics/boards/livingroom.png"/>
-                                    </image>
-                                </ImageView>
-                                <GridPane fx:id="boardGridPane" prefHeight="367.0" prefWidth="338.0">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                           prefWidth="39.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                           prefWidth="39.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                           prefWidth="39.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                           prefWidth="39.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                           prefWidth="39.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                           prefWidth="39.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                           prefWidth="39.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                           prefWidth="39.0"/>
-                                        <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS"
-                                                           maxWidth="39.0" minWidth="39.0" prefWidth="39.0"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                        <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                        valignment="CENTER" vgrow="ALWAYS"/>
-                                    </rowConstraints>
-                                    <StackPane.margin>
-                                        <Insets bottom="35.0" left="27.0" right="27.0" top="30.0"/>
-                                    </StackPane.margin>
-                                </GridPane>
+                                <StackPane prefHeight="150.0" prefWidth="200.0">
+                                    <children>
+                                        <ImageView fx:id="board" fitHeight="396.0" fitWidth="419.0" pickOnBounds="true"
+                                                   preserveRatio="true" StackPane.alignment="CENTER">
+                                            <image>
+                                                <Image url="@graphics/boards/livingroom.png"/>
+                                            </image>
+                                        </ImageView>
+                                        <GridPane fx:id="boardGridPane" alignment="CENTER" prefHeight="348.0"
+                                                  prefWidth="357.0" StackPane.alignment="CENTER">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                                   prefWidth="39.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                                   prefWidth="39.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                                   prefWidth="39.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                                   prefWidth="39.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                                   prefWidth="39.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                                   prefWidth="39.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                                   prefWidth="39.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                                   prefWidth="39.0"/>
+                                                <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS"
+                                                                   maxWidth="39.0" minWidth="39.0" prefWidth="39.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                            </rowConstraints>
+                                            <StackPane.margin>
+                                                <Insets/>
+                                            </StackPane.margin>
+                                        </GridPane>
+                                    </children>
+                                </StackPane>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Button fx:id="help" mnemonicParsing="false" onAction="#toggleHelp"
+                                                text="Help"/>
+                                        <Button fx:id="delete" mnemonicParsing="false"
+                                                onAction="#deleteCurrentSelection" text="Delete current selection"/>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                    <children>
+                                        <ImageView fx:id="cg1" fitHeight="110.0" fitWidth="170.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@graphics/common_goal_cards/back.jpg"/>
+                                            </image>
+                                        </ImageView>
+                                        <ImageView fx:id="cg2" fitHeight="110.0" fitWidth="170.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@graphics/common_goal_cards/back.jpg"/>
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </HBox>
                             </children>
-                        </StackPane>
-                        <GridPane style="-fx-background-color: #560a0ad6;" GridPane.columnIndex="1"
-                                  GridPane.rowIndex="1">
-                            <columnConstraints>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
-                                                   prefWidth="100.0"/>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
-                                                   prefWidth="100.0"/>
-                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
-                                                   prefWidth="100.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints maxHeight="110.5999969482422" minHeight="10.0"
-                                                prefHeight="31.99999694824217" valignment="CENTER" vgrow="ALWAYS"/>
-                                <RowConstraints maxHeight="124.79999694824218" minHeight="10.0"
-                                                prefHeight="114.4000030517578" valignment="CENTER" vgrow="ALWAYS"/>
-                            </rowConstraints>
-                            <children>
-                                <ImageView fitHeight="97.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true"
-                                           GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
-                                           GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                    <image>
-                                        <Image url="@graphics/our_variants/back.jpg"/>
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="97.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true"
-                                           GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
-                                           GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                    <image>
-                                        <Image url="@graphics/our_variants/back.jpg"/>
-                                    </image>
-                                </ImageView>
-                                <ImageView fitHeight="97.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true"
-                                           GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
-                                           GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                    <image>
-                                        <Image url="@graphics/our_variants/back.jpg"/>
-                                    </image>
-                                </ImageView>
-                                <Label fx:id="player1" text="Label" textAlignment="CENTER" textFill="#faffb8"
-                                       GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER"
-                                       GridPane.vgrow="ALWAYS">
-                                    <font>
-                                        <Font name="Ink Free" size="25.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="player2" text="Label" textAlignment="CENTER" textFill="#faffb8"
-                                       GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
-                                       GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                    <font>
-                                        <Font name="Ink Free" size="25.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="player3" text="Label" textAlignment="CENTER" textFill="#faffb8"
-                                       GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
-                                       GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                    <font>
-                                        <Font name="Ink Free" size="25.0"/>
-                                    </font>
-                                </Label>
-                                <Canvas fx:id="canvasPlayer1" height="97.0" width="87.0" GridPane.rowIndex="1"/>
-                                <Canvas fx:id="canvasPlayer2" height="97.0" width="87.0" GridPane.columnIndex="1"
-                                        GridPane.rowIndex="1"/>
-                                <Canvas fx:id="canvasPlayer3" height="97.0" width="87.0" GridPane.columnIndex="2"
-                                        GridPane.rowIndex="1"/>
-                            </children>
-                        </GridPane>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0"
-                              GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3"
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0"
+                              GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1"
                               GridPane.valignment="CENTER">
                             <children>
+                                <VBox fx:id="rearrangeArea" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                                      spacing="15.0" style="-fx-background-color: #560a0ad6;"/>
                                 <StackPane prefHeight="270.0" prefWidth="309.0">
                                     <children>
                                         <ImageView fx:id="bookshelf" fitHeight="270.0" fitWidth="235.0"
@@ -182,7 +145,7 @@
                                                   nodeOrientation="LEFT_TO_RIGHT" prefHeight="270.0" prefWidth="236.0"
                                                   vgap="3.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
-                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
+                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
                                                                    prefWidth="100.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
                                                                    prefWidth="100.0"/>
@@ -196,25 +159,25 @@
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="111.79999389648438" minHeight="10.0"
                                                                 prefHeight="46.19996490478516" valignment="CENTER"
-                                                                vgrow="NEVER"/>
+                                                                vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="103.20001068115235" minHeight="10.0"
                                                                 prefHeight="44.79999389648439" valignment="CENTER"
-                                                                vgrow="NEVER"/>
+                                                                vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="88.00000610351563" minHeight="10.0"
                                                                 prefHeight="47.19999389648436" valignment="CENTER"
-                                                                vgrow="NEVER"/>
+                                                                vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="72.00000610351563" minHeight="10.0"
                                                                 prefHeight="43.20002441406251" valignment="CENTER"
-                                                                vgrow="NEVER"/>
+                                                                vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="63.199987792968756" minHeight="10.0"
                                                                 prefHeight="45.60003662109375" valignment="CENTER"
-                                                                vgrow="NEVER"/>
+                                                                vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="47.19998779296873" minHeight="10.0"
                                                                 prefHeight="44.79996337890623" valignment="CENTER"
-                                                                vgrow="NEVER"/>
+                                                                vgrow="ALWAYS"/>
                                             </rowConstraints>
                                             <StackPane.margin>
-                                                <Insets bottom="5.0" left="97.0" right="97.0" top="5.0"/>
+                                                <Insets/>
                                             </StackPane.margin>
                                             <children>
                                                 <Button maxHeight="1.7976931348623157E308"
@@ -341,55 +304,17 @@
                                         </GridPane>
                                     </children>
                                 </StackPane>
-                                <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="98.0" prefWidth="400.0"/>
-                                    </content>
-                                </ScrollPane>
-                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0"
-                                      VBox.vgrow="ALWAYS">
-                                    <children>
-                                        <ChoiceBox prefHeight="26.0" prefWidth="89.0"/>
-                                        <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                                   prefHeight="26.0" prefWidth="258.0"
-                                                   promptText="type your message . . ."/>
-                                        <Button mnemonicParsing="false" text="Send"/>
-                                    </children>
-                                </HBox>
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0"
-                              GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3"
-                              GridPane.valignment="CENTER">
-                            <children>
-                                <ImageView fx:id="pg" fitHeight="197.0" fitWidth="120.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <image>
-                                        <Image url="@graphics/personal_goal_cards/front_empty.jpg"/>
-                                    </image>
-                                </ImageView>
-                                <ImageView fx:id="cg1" fitHeight="80.0" fitWidth="120.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <image>
-                                        <Image url="@graphics/common_goal_cards/back.jpg"/>
-                                    </image>
-                                </ImageView>
-                                <ImageView fx:id="cg2" fitHeight="78.0" fitWidth="120.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <image>
-                                        <Image url="@graphics/common_goal_cards/back.jpg"/>
-                                    </image>
-                                </ImageView>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                              GridPane.columnIndex="4" GridPane.rowIndex="1">
                             <children>
                                 <GridPane>
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.800048828125" minWidth="10.0"
-                                                           prefWidth="225.2000732421875"/>
+                                                           prefWidth="177.6"/>
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="199.5999755859375"
-                                                           minWidth="10.0" prefWidth="186.7999267578125"/>
+                                                           minWidth="10.0" prefWidth="59.19999999999999"/>
                                     </columnConstraints>
                                     <rowConstraints>
                                         <RowConstraints maxHeight="39.799993896484374" minHeight="10.0"
@@ -432,14 +357,48 @@
                                         <Label text="0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
                                     </children>
                                 </GridPane>
+                                <ImageView fx:id="pg" fitHeight="243.0" fitWidth="170.0" pickOnBounds="true"
+                                           preserveRatio="true">
+                                    <image>
+                                        <Image url="@graphics/personal_goal_cards/front_empty.jpg"/>
+                                    </image>
+                                </ImageView>
                             </children>
                         </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0"
-                              GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1"
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0"
+                              GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1"
                               GridPane.valignment="CENTER">
                             <children>
-                                <Button mnemonicParsing="false" text="?"/>
-                                <Button mnemonicParsing="false" text="X"/>
+                                <ImageView fitHeight="97.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@graphics/our_variants/back.jpg"/>
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="player1" text="Label" textAlignment="CENTER" textFill="#faffb8">
+                                    <font>
+                                        <Font name="Ink Free" size="25.0"/>
+                                    </font>
+                                </Label>
+                                <ImageView fitHeight="97.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@graphics/our_variants/back.jpg"/>
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="player2" text="Label" textAlignment="CENTER" textFill="#faffb8">
+                                    <font>
+                                        <Font name="Ink Free" size="25.0"/>
+                                    </font>
+                                </Label>
+                                <ImageView fitHeight="97.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@graphics/our_variants/back.jpg"/>
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="player3" text="Label" textAlignment="CENTER" textFill="#faffb8">
+                                    <font>
+                                        <Font name="Ink Free" size="25.0"/>
+                                    </font>
+                                </Label>
                             </children>
                         </VBox>
                     </children>

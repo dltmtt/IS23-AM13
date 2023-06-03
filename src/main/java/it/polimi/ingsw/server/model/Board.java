@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-
 import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
 
 /**
@@ -76,9 +75,9 @@ public class Board {
 
     /**
      * This method creates a new square board of size <code>boardSize</code> and initializes:
-     *     <li>the bag of items;</li>
-     *     <li>the list of usable cells;</li>
-     *     <li>the list of extractedItems.</li>
+     * <li>the bag of items;</li>
+     * <li>the list of usable cells;</li>
+     * <li>the list of extractedItems.</li>
      *
      * </ul>
      */
@@ -92,9 +91,9 @@ public class Board {
     /**
      * This method sets the Item.
      *
-     * @param row the row of the board
+     * @param row    the row of the board
      * @param column the column of the board
-     * @param item the item to be set
+     * @param item   the item to be set
      */
     public void setItem(int row, int column, Item item) {
         boardMatrix[row][column] = item;
@@ -112,12 +111,17 @@ public class Board {
     /**
      * This method enables to get an Item from the board.
      *
-     * @param row the row of the board
+     * @param row    the row of the board
      * @param column the column of the board
      * @return the Item in the specified position
      */
     public Item getItem(int row, int column) {
         return boardMatrix[row][column];
+    }
+
+    public String getItemFileName(int row, int column) {
+        Item item = boardMatrix[row][column];
+        return item.color().toString().toLowerCase().charAt(0) + String.valueOf(item.number()) + ".png";
     }
 
     /**
@@ -130,7 +134,6 @@ public class Board {
     }
 
     /**
-     *
      * @return the size of the board
      */
 
