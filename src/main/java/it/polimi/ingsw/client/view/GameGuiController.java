@@ -78,15 +78,30 @@ public class GameGuiController {
      * @param row
      * @param col
      */
+
+    //un po' rietitivo, se possibile da sistemare
     private void highlightPickableItems(int row, int col) {
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getRowCount(); i++) {
             for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
-                if ((i == row || j == col) && (Math.abs(i - row) <= 2 && Math.abs(j - col) <= 2)) {
-                    selectedNode = getNodeByRowColumnIndex(i, j);
-                    if (selectedNode != null) {
-                        selectedNode.setDisable(false);
-                        selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+                if ((i == row || j == col) && (Math.abs(i - row) <= 2 && Math.abs(j - col) <= 2) && boardModel.checkBorder(new Coordinates(i,j))) {
+                    if((i==row-2 && !boardModel.checkBorder(new Coordinates(i+1,j))) || (i==row+2 && !boardModel.checkBorder(new Coordinates(i-1,j))) || (j==col-2 && !boardModel.checkBorder(new Coordinates(i,j+1))) || (j==col+2 && !boardModel.checkBorder(new Coordinates(i,j-1)))) {
+                        selectedNode = getNodeByRowColumnIndex(i, j);
+                        if (selectedNode != null) {
+                            selectedNode.setDisable(true);
+                            selectedNode.setEffect(null);
+                            ColorAdjust colorAdjust = new ColorAdjust();
+                            colorAdjust.setSaturation(-1);
+                            selectedNode.setEffect(colorAdjust);
+                        }
+
+                    }
+                    else{
+                        selectedNode = getNodeByRowColumnIndex(i, j);
+                        if (selectedNode != null) {
+                            selectedNode.setDisable(false);
+                            selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+                        }
                     }
                 } else {
                     selectedNode = getNodeByRowColumnIndex(i, j);
@@ -100,6 +115,17 @@ public class GameGuiController {
                 }
             }
         }
+    }
+
+    public void deleteCurrentSelection() {
+        /*
+        if (pickedItems.size() == 2) {
+            pickedItems.clear();
+            rearrangeArea.getChildren().clear();
+            enableAllItems();
+        }
+
+         */
     }
 
     /**
@@ -276,14 +302,4 @@ public class GameGuiController {
 
     }
 
-    public void deleteCurrentSelection() {
-        /*
-        if (pickedItems.size() == 2) {
-            pickedItems.clear();
-            rearrangeArea.getChildren().clear();
-            enableAllItems();
-        }
-
-         */
-    }
 }
