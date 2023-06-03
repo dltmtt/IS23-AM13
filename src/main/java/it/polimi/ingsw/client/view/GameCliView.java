@@ -131,13 +131,11 @@ public class GameCliView implements GameView {
         return index;
     }
 
-    @Override
     public void showPersonalGoal(int card) throws IOException, ParseException {
         PersonalGoalView personalGoalView = new PersonalGoalView(card);
         personalGoalView.printLayout();
     }
 
-    @Override
     public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) {
         CommonGoalView.print(card, occurrences, size, horizontal);
     }

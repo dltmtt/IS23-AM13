@@ -9,50 +9,42 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
+import java.util.Objects;
 
 public class GameGuiController {
 
-    private static final String BASE_PATH = "graphics/item_tiles/";
+    private static final String ITEM_BASE_PATH = "graphics/item_tiles/";
     private static final int ITEM_SIZE = 40; // Adjust the size of each item image
     private static final int ROW_SPACING = 10; // Adjust the spacing between rows
     private static final int COLUMN_SPACING = 10; // Adjust the spacing between columns
     public static List<Coordinates> pickedItems = new ArrayList<>();
     public static Client client;
     public static GuiView view;
-    // public final Object listLock = new Object();
-    @FXML
-    private GridPane boardGridPane;
-    @FXML
-    private GridPane bookshelfGrid;
-    @FXML
-    private ResourceBundle resources;
-    @FXML
-    private URL location;
+
+    public Board boardModel;
+
     @FXML
     private ImageView board;
+
+    @FXML
+    private GridPane boardGridPane;
+
     @FXML
     private ImageView bookshelf;
-    @FXML
-    private Canvas canvasPlayer1;
 
     @FXML
-    private Canvas canvasPlayer2;
-
-    @FXML
-    private Canvas canvasPlayer3;
+    private GridPane bookshelfGrid;
 
     @FXML
     private ImageView cg1;
@@ -71,6 +63,9 @@ public class GameGuiController {
 
     @FXML
     private Label player3;
+
+    @FXML
+    private VBox rearrangeArea;
 
     public GameGuiController() {
         client = MyShelfie.client;
@@ -145,6 +140,49 @@ public class GameGuiController {
         // System.out.println("enabled all items");
     }
 
+    public void disableAllItems() {
+        ObservableList<Node> children = this.boardGridPane.getChildren();
+        for (Node node : children) {
+            node.setDisable(true);
+            node.setEffect(null);
+            ColorAdjust colorAdjust = new ColorAdjust();
+            colorAdjust.setSaturation(-1);
+            node.setEffect(colorAdjust);
+            // set node cursor as a default
+            node.setCursor(Cursor.DEFAULT);
+        }
+        // System.out.println("disabled all items");
+    }
+
+    public void addPickedItemsToRearrangeArea() {
+        if (Objects.equals(pickedItems.get(0).x(), pickedItems.get(1).x())) {
+            for (int i = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y()); i <= Math.max(pickedItems.get(0).y(), pickedItems.get(1).y()); i++) {
+                String itemFileName = ITEM_BASE_PATH + boardModel.getItemFileName(pickedItems.get(0).x(), i);
+                try {
+                    ImageView item = new ImageView(new Image(getClass().getResource(itemFileName).toExternalForm()));
+                    item.setFitHeight(ITEM_SIZE);
+                    item.setFitWidth(ITEM_SIZE);
+                    item.setPreserveRatio(true);
+                    item.setSmooth(true);
+                    item.setCache(true);
+                    rearrangeArea.getChildren().add(item);
+                } catch (NullPointerException e) {
+                    System.err.println("Error on loading item image: " + itemFileName + " at (" + pickedItems.get(0).x() + "," + i + "), item not added to rearrange area");
+                }
+            }
+        } else {
+            for (int i = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x()); i <= Math.max(pickedItems.get(0).x(), pickedItems.get(1).x()); i++) {
+                ImageView item = new ImageView(new Image(ITEM_BASE_PATH + boardModel.getItemFileName(i, pickedItems.get(0).y())));
+                item.setFitHeight(ITEM_SIZE);
+                item.setFitWidth(ITEM_SIZE);
+                item.setPreserveRatio(true);
+                item.setSmooth(true);
+                item.setCache(true);
+                rearrangeArea.getChildren().add(item);
+            }
+        }
+    }
+
     public void selectItem(int row, int col) {
         System.out.println("selected " + row + ", col" + col);
 
@@ -157,8 +195,10 @@ public class GameGuiController {
             if (pickedItems.size() == 2) {
                 // pickedItems.add(new Coordinates(row, col));
                 System.out.println("picked items: " + pickedItems);
+                addPickedItemsToRearrangeArea();
                 List<Coordinates> pickedItemsCopy = new ArrayList<>(pickedItems);
                 pickedItems.clear();
+                disableAllItems();
                 client.sendMessage(new Message(pickedItemsCopy.get(0), pickedItemsCopy.get(1)));
             }
         }
@@ -197,13 +237,17 @@ public class GameGuiController {
         // i=row (board)
         // j=column (board)
 
-        Board board = message.getBoard();
-        for (int i = 0; i < board.getBoardSize(); i++) {
-            for (int j = 0; j < board.getBoardSize(); j++) {
-                if (board.getItem(i, j) != null) {
-                    String fileName = board.getItem(i, j).color().toString().toLowerCase().charAt(0) + String.valueOf(board.getItem(i, j).number());
+        boardModel = message.getBoard();
+        for (int i = 0; i < boardModel.getBoardSize(); i++) {
+            for (int j = 0; j < boardModel.getBoardSize(); j++) {
+                if (boardModel.getItem(i, j) != null) {
+                    // String fileName = boardModel.getItem(i, j).color().toString().toLowerCase().charAt(0) + String.valueOf(boardModel.getItem(i, j).number());
+                    String fileName = boardModel.getItemFileName(i, j);
                     try {
-                        Image itemImage = new Image(getClass().getResource(BASE_PATH + fileName + ".png").toExternalForm());
+                        // Image itemImage = new Image(getClass().getResource(ITEM_BASE_PATH + fileName + ".png").toExternalForm());
+
+                        Image itemImage = new Image(getClass().getResource(ITEM_BASE_PATH + fileName).toExternalForm());
+
                         ImageView itemImageView = new ImageView(itemImage);
                         itemImageView.setFitHeight(ITEM_SIZE);
                         itemImageView.setFitWidth(ITEM_SIZE);
@@ -213,11 +257,11 @@ public class GameGuiController {
                         int finalJ = j;
                         itemImageView.setOnMouseClicked(mouseEvent -> selectItem(finalI, finalJ));
 
-                        boardGridPane.add(itemImageView, j, board.getBoardSize() - i - 1);
+                        boardGridPane.add(itemImageView, j, boardModel.getBoardSize() - i - 1);
                         // initially every item is not enabled
                         itemImageView.setDisable(true);
                     } catch (NullPointerException e) {
-                        System.out.println("Error loading on loading item image: " + fileName);
+                        System.out.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + boardModel.getItem(i, j));
                     }
                 }
             }

@@ -5,7 +5,6 @@ import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,23 +30,7 @@ public interface GameView {
     // Parameter is useless in CLI but needed in GUI
     void startView(Client client);
 
-    // String readUsername();
-
-    // int readNumber();
-
-    // String showLogin();
-
     void showMessage(String message);
-
-    // int promptAge();
-
-    // boolean promptFirstGame();
-
-    // int promptNumberOfPlayers();
-
-    void showPersonalGoal(int card) throws IOException, ParseException;
-
-    void showCommonGoal(String card, int occurrences, int size, boolean horizontal) throws IOException, ParseException;
 
     /**
      * Allows the pick of the items from the board and sends the message to the server

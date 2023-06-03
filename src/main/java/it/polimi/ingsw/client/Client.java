@@ -102,12 +102,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
                 // showPick() sends the message to the server
                 gameView.showPick();
-
-                /*List<Coordinates> pick = gameView.showPick();
-                Message myPick = new Message(pick.get(0), pick.get(1));
-                sendMessage(myPick);
-
-                 */
             }
             case "endGame" -> gameView.showEndGame(message.getWinners());
             case "disconnection" -> gameView.showDisconnection();

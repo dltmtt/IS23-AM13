@@ -28,32 +28,7 @@ public class GuiView extends Application implements GameView {
     public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene;
     // main stage
     public static Stage stage;
-    // scene loader
-    private static FXMLLoader loginSceneLoader, playerNumberSceneLoader, waitingRoomSceneLoader, gameSceneLoader, endGameSceneLoader;
     private static LoginGuiController loginController;
-    // public final Object pickLock = new Object();
-
-    @Override
-    public void waitingRoom() {
-        Platform.runLater(() -> {
-            stage.setScene(waitingRoomScene);
-            stage.show();
-        });
-    }
-
-    /**
-     * sets the main stage to the gameScene
-     *
-     * @param message
-     */
-    @Override
-    public void startGame(Message message) {
-        Platform.runLater(() -> {
-            stage.setScene(gameScene);
-            gameController.showGame(message);
-            stage.show();
-        });
-    }
 
     /**
      * launch GUI
@@ -83,12 +58,13 @@ public class GuiView extends Application implements GameView {
             System.err.println("Icon not found");
         }
         GuiView.gui = this;
-
         GuiView.stage = stage;
         setClient(MyShelfie.client);
 
-        loginSceneLoader = new FXMLLoader(GuiView.class.getResource("login.fxml"));
-        loginSceneLoader.setController(new LoginGuiController(client, this));
+        // scene loader
+        FXMLLoader loginSceneLoader = new FXMLLoader(GuiView.class.getResource("login.fxml"));
+        loginController = new LoginGuiController(client, this);
+        loginSceneLoader.setController(loginController);
         try {
             loginScene = new Scene(loginSceneLoader.load());
         } catch (IOException e) {
@@ -96,8 +72,8 @@ public class GuiView extends Application implements GameView {
             throw new RuntimeException(e);
         }
 
-        playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"));
-        // playerNumberSceneLoader.setController(new PlayerSelectionGuiController());
+        FXMLLoader playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"));
+        // Controller is already set in the fxml file
         try {
             playerNumberScene = new Scene(playerNumberSceneLoader.load());
         } catch (IOException e) {
@@ -105,7 +81,7 @@ public class GuiView extends Application implements GameView {
             throw new RuntimeException(e);
         }
 
-        waitingRoomSceneLoader = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
+        FXMLLoader waitingRoomSceneLoader = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
         waitingRoomSceneLoader.setController(new WaitingRoomController());
         try {
             waitingRoomScene = new Scene(waitingRoomSceneLoader.load());
@@ -114,7 +90,7 @@ public class GuiView extends Application implements GameView {
             throw new RuntimeException(e);
         }
 
-        gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"));
+        FXMLLoader gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"));
         gameController = new GameGuiController();
         gameSceneLoader.setController(gameController);
         try {
@@ -124,7 +100,7 @@ public class GuiView extends Application implements GameView {
             throw new RuntimeException(e);
         }
 
-        endGameSceneLoader = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
+        FXMLLoader endGameSceneLoader = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
         endGameSceneLoader.setController(new EndGameGuiController(clients, this));
 
         try {
@@ -135,6 +111,28 @@ public class GuiView extends Application implements GameView {
         }
 
         loginProcedure();
+    }
+
+    /**
+     * sets the main stage to the gameScene
+     *
+     * @param message
+     */
+    @Override
+    public void startGame(Message message) {
+        Platform.runLater(() -> {
+            stage.setScene(gameScene);
+            gameController.showGame(message);
+            stage.show();
+        });
+    }
+
+    @Override
+    public void waitingRoom() {
+        Platform.runLater(() -> {
+            stage.setScene(waitingRoomScene);
+            stage.show();
+        });
     }
 
     /**
@@ -152,20 +150,8 @@ public class GuiView extends Application implements GameView {
     }
 
     @Override
-    public void showPersonalGoal(int card) {
-
-    }
-
-    @Override
-    public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) {
-
-    }
-
-    @Override
     public void showPick() {
-        System.out.println("showPick");
         Platform.runLater(gameController::enableAllItems);
-        System.out.println("prima del wait");
     }
 
     @Override
