@@ -6,14 +6,19 @@ import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.utils.Coordinates;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,9 +36,9 @@ public class GameGuiController {
     public static List<Coordinates> pickedItems = new ArrayList<>();
     public static Client client;
     public static GuiView view;
-
+    private final List<ImageView> itemImageViews = new ArrayList<>();
+    private final List<Integer> indexList = new ArrayList<>();
     public Board boardModel;
-
     @FXML
     private ImageView board;
 
@@ -53,6 +58,15 @@ public class GameGuiController {
     private ImageView cg2;
 
     @FXML
+    private Button confirmSelection;
+
+    @FXML
+    private Button delete;
+
+    @FXML
+    private Button help;
+
+    @FXML
     private ImageView pg;
 
     @FXML
@@ -63,6 +77,12 @@ public class GameGuiController {
 
     @FXML
     private Label player3;
+
+    @FXML
+    private Label promptInsert;
+
+    @FXML
+    private Label promptRearrange;
 
     @FXML
     private VBox rearrangeArea;
@@ -79,13 +99,13 @@ public class GameGuiController {
      * @param col
      */
 
-    //un po' rietitivo, se possibile da sistemare
+    // un po' rietitivo, se possibile da sistemare
     private void highlightPickableItems(int row, int col) {
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getRowCount(); i++) {
             for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
-                if ((i == row || j == col) && (Math.abs(i - row) <= 2 && Math.abs(j - col) <= 2) && boardModel.checkBorder(new Coordinates(i,j))) {
-                    if((i==row-2 && !boardModel.checkBorder(new Coordinates(i+1,j))) || (i==row+2 && !boardModel.checkBorder(new Coordinates(i-1,j))) || (j==col-2 && !boardModel.checkBorder(new Coordinates(i,j+1))) || (j==col+2 && !boardModel.checkBorder(new Coordinates(i,j-1)))) {
+                if ((i == row || j == col) && (Math.abs(i - row) <= 2 && Math.abs(j - col) <= 2) && boardModel.checkBorder(new Coordinates(i, j))) {
+                    if ((i == row - 2 && !boardModel.checkBorder(new Coordinates(i + 1, j))) || (i == row + 2 && !boardModel.checkBorder(new Coordinates(i - 1, j))) || (j == col - 2 && !boardModel.checkBorder(new Coordinates(i, j + 1))) || (j == col + 2 && !boardModel.checkBorder(new Coordinates(i, j - 1)))) {
                         selectedNode = getNodeByRowColumnIndex(i, j);
                         if (selectedNode != null) {
                             selectedNode.setDisable(true);
@@ -94,9 +114,7 @@ public class GameGuiController {
                             colorAdjust.setSaturation(-1);
                             selectedNode.setEffect(colorAdjust);
                         }
-
-                    }
-                    else{
+                    } else {
                         selectedNode = getNodeByRowColumnIndex(i, j);
                         if (selectedNode != null) {
                             selectedNode.setDisable(false);
@@ -118,14 +136,9 @@ public class GameGuiController {
     }
 
     public void deleteCurrentSelection() {
-        /*
-        if (pickedItems.size() == 2) {
-            pickedItems.clear();
-            rearrangeArea.getChildren().clear();
-            enableAllItems();
-        }
-
-         */
+        pickedItems.clear();
+        rearrangeArea.getChildren().clear();
+        enableItemsWithOneFreeSide();
     }
 
     /**
@@ -151,6 +164,42 @@ public class GameGuiController {
                 }
             }
             return result;
+        }
+    }
+
+    public void enableItemsWithOneFreeSide() {
+        // ObservableList<Node> children = this.boardGridPane.getChildren();
+        for (int row = 0; row < boardGridPane.getRowCount(); row++) {
+            for (int col = 0; col < boardGridPane.getColumnCount(); col++) {
+                if (boardModel.checkBorder(new Coordinates(row, col))) {
+                    enableItem(row, col);
+                } else {
+                    disableItem(row, col);
+                }
+            }
+        }
+    }
+
+    public void enableItem(int row, int col) {
+        Node selectedNode = getNodeByRowColumnIndex(row, col);
+        if (selectedNode != null) {
+            selectedNode.setDisable(false);
+            selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+            // set node cursor as a hand
+            selectedNode.setCursor(Cursor.HAND);
+        }
+    }
+
+    public void disableItem(int row, int col) {
+        Node selectedNode = getNodeByRowColumnIndex(row, col);
+        if (selectedNode != null) {
+            selectedNode.setDisable(true);
+            selectedNode.setEffect(null);
+            ColorAdjust colorAdjust = new ColorAdjust();
+            colorAdjust.setSaturation(-1);
+            selectedNode.setEffect(colorAdjust);
+            // set node cursor as a default
+            selectedNode.setCursor(Cursor.DEFAULT);
         }
     }
 
@@ -180,39 +229,10 @@ public class GameGuiController {
         // System.out.println("disabled all items");
     }
 
-    public void addPickedItemsToRearrangeArea() {
-        if (Objects.equals(pickedItems.get(0).x(), pickedItems.get(1).x())) {
-            for (int i = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y()); i <= Math.max(pickedItems.get(0).y(), pickedItems.get(1).y()); i++) {
-                String itemFileName = ITEM_BASE_PATH + boardModel.getItemFileName(pickedItems.get(0).x(), i);
-                try {
-                    ImageView item = new ImageView(new Image(getClass().getResource(itemFileName).toExternalForm()));
-                    item.setFitHeight(ITEM_SIZE);
-                    item.setFitWidth(ITEM_SIZE);
-                    item.setPreserveRatio(true);
-                    item.setSmooth(true);
-                    item.setCache(true);
-                    rearrangeArea.getChildren().add(item);
-                } catch (NullPointerException e) {
-                    System.err.println("Error on loading item image: " + itemFileName + " at (" + pickedItems.get(0).x() + "," + i + "), item not added to rearrange area");
-                }
-            }
-        } else {
-            for (int i = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x()); i <= Math.max(pickedItems.get(0).x(), pickedItems.get(1).x()); i++) {
-                ImageView item = new ImageView(new Image(ITEM_BASE_PATH + boardModel.getItemFileName(i, pickedItems.get(0).y())));
-                item.setFitHeight(ITEM_SIZE);
-                item.setFitWidth(ITEM_SIZE);
-                item.setPreserveRatio(true);
-                item.setSmooth(true);
-                item.setCache(true);
-                rearrangeArea.getChildren().add(item);
-            }
-        }
-    }
-
     public void selectItem(int row, int col) {
         System.out.println("selected " + row + ", col" + col);
 
-        if(boardModel.checkBorder(new Coordinates(row, col))) {
+        if (boardModel.checkBorder(new Coordinates(row, col))) {
 
             pickedItems.add(new Coordinates(row, col));
             // synchronized (listLock) {
@@ -224,13 +244,18 @@ public class GameGuiController {
                     // pickedItems.add(new Coordinates(row, col));
                     System.out.println("picked items: " + pickedItems);
                     addPickedItemsToRearrangeArea();
-                    List<Coordinates> pickedItemsCopy = new ArrayList<>(pickedItems);
-                    pickedItems.clear();
-                    disableAllItems();
-                    client.sendMessage(new Message(pickedItemsCopy.get(0), pickedItemsCopy.get(1)));
+                    confirmSelection.setDisable(false);
                 }
             }
         }
+    }
+
+    @FXML
+    void sendSelection(ActionEvent event) {
+        List<Coordinates> pickedItemsCopy = new ArrayList<>(pickedItems);
+        pickedItems.clear();
+        disableAllItems();
+        client.sendMessage(new Message(pickedItemsCopy.get(0), pickedItemsCopy.get(1)));
     }
 
     public void showGame(Message message) {
@@ -302,4 +327,130 @@ public class GameGuiController {
 
     }
 
+    public void addPickedItemsToRearrangeArea() {
+        if (Objects.equals(pickedItems.get(0).x(), pickedItems.get(1).x())) {
+            for (int i = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y()); i <= Math.max(pickedItems.get(0).y(), pickedItems.get(1).y()); i++) {
+                String itemFileName = ITEM_BASE_PATH + boardModel.getItemFileName(pickedItems.get(0).x(), i);
+                try {
+                    ImageView item = createImageView(itemFileName);
+                    setupDragAndDrop(item, itemImageViews.size());
+                    rearrangeArea.getChildren().add(item);
+                    itemImageViews.add(item);
+                    indexList.add(itemImageViews.size() - 1);
+                } catch (NullPointerException e) {
+                    System.err.println("Error on loading item image: " + itemFileName + " at (" + pickedItems.get(0).x() + "," + i + "), item not added to rearrange area");
+                }
+            }
+        } else {
+            for (int i = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x()); i <= Math.max(pickedItems.get(0).x(), pickedItems.get(1).x()); i++) {
+                String itemFileName = ITEM_BASE_PATH + boardModel.getItemFileName(i, pickedItems.get(0).y());
+                try {
+                    ImageView item = createImageView(itemFileName);
+                    setupDragAndDrop(item, itemImageViews.size());
+                    rearrangeArea.getChildren().add(item);
+                    itemImageViews.add(item);
+                    indexList.add(itemImageViews.size() - 1);
+                } catch (NullPointerException e) {
+                    System.err.println("Error on loading item image: " + itemFileName + " at (" + pickedItems.get(0).x() + "," + i + "), item not added to rearrange area");
+                }
+            }
+        }
+    }
+
+    private ImageView createImageView(String itemFileName) {
+        ImageView item = new ImageView(new Image(getClass().getResource(itemFileName).toExternalForm()));
+        item.setFitHeight(ITEM_SIZE);
+        item.setFitWidth(ITEM_SIZE);
+        item.setPreserveRatio(true);
+        item.setSmooth(true);
+        item.setCache(true);
+        item.setCursor(Cursor.HAND); // Set the cursor to hand
+        return item;
+    }
+
+    private void setupDragAndDrop(ImageView itemImageView, int itemIndex) {
+        itemImageView.setOnDragDetected(event -> {
+            Dragboard dragboard = itemImageView.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(Integer.toString(itemIndex));
+            dragboard.setContent(content);
+            event.consume();
+        });
+
+        itemImageView.setOnDragOver(event -> {
+            if (event.getGestureSource() != itemImageView && event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+            event.consume();
+        });
+
+        itemImageView.setOnDragEntered(event -> {
+            if (event.getGestureSource() != itemImageView && event.getDragboard().hasString()) {
+                itemImageView.setCursor(Cursor.HAND);
+            }
+            event.consume();
+        });
+
+        itemImageView.setOnDragExited(event -> {
+            if (event.getGestureSource() != itemImageView && event.getDragboard().hasString()) {
+                itemImageView.setCursor(Cursor.DEFAULT);
+            }
+            event.consume();
+        });
+
+        itemImageView.setOnDragDropped(event -> {
+            Dragboard dragboard = event.getDragboard();
+            boolean success = false;
+
+            if (dragboard.hasString()) {
+                int sourceIndex = Integer.parseInt(dragboard.getString());
+                ImageView sourceImageView = itemImageViews.get(sourceIndex);
+                ImageView targetImageView = (ImageView) event.getSource();
+
+                rearrangeImageViews(sourceImageView, targetImageView);
+                rearrangeItems(sourceIndex, itemIndex);
+                success = true;
+            }
+
+            event.setDropCompleted(success);
+            event.consume();
+        });
+
+        itemImageView.setOnDragDone(event -> {
+            if (event.getTransferMode() == TransferMode.MOVE) {
+                // Perform any additional cleanup or actions after the drag-and-drop operation
+            }
+            event.consume();
+        });
+    }
+
+    private void rearrangeImageViews(ImageView sourceImageView, ImageView targetImageView) {
+        int sourceIndex = rearrangeArea.getChildren().indexOf(sourceImageView);
+        int targetIndex = rearrangeArea.getChildren().indexOf(targetImageView);
+
+        rearrangeArea.getChildren().removeAll(sourceImageView, targetImageView);
+        rearrangeArea.getChildren().add(targetIndex, sourceImageView);
+        rearrangeArea.getChildren().add(sourceIndex, targetImageView);
+
+        // Swap the image views in the list
+        itemImageViews.set(sourceIndex, targetImageView);
+        itemImageViews.set(targetIndex, sourceImageView);
+
+        // Swap the positions in the index list
+        int sourcePosition = indexList.get(sourceIndex);
+        int targetPosition = indexList.get(targetIndex);
+        indexList.set(sourceIndex, targetPosition);
+        indexList.set(targetIndex, sourcePosition);
+    }
+
+    private void rearrangeItems(int sourceIndex, int targetIndex) {
+        int sourcePosition = indexList.get(sourceIndex);
+        indexList.remove(sourceIndex);
+
+        if (targetIndex > sourceIndex) {
+            indexList.add(targetIndex - 1, sourcePosition);
+        } else {
+            indexList.add(targetIndex, sourcePosition);
+        }
+    }
 }
