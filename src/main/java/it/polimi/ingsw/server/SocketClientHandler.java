@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.ClientCommunicationInterface;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.utils.FullRoomException;
+import it.polimi.ingsw.utils.Utils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -58,6 +58,11 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                             messageFromClient = (JSONObject) parser.parse(clientString);
                         } catch (ParseException e) {
                             System.err.println("Unable to parse message from client");
+                        } catch (NullPointerException e) {
+                            Utils.showDebugInfo(e);
+                            System.err.println(username + " disconnected.");
+                            controller.disconnect(username);
+                            break;
                         }
 
                         Message message = new Message(messageFromClient);
@@ -69,9 +74,10 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                         }
                     }
                 } catch (IOException e) {
-                    // We are here because the client disconnected
-                    System.err.println(username+ " disconnected.");
-                    controller.addDisconnection(username);
+                    Utils.showDebugInfo(e);
+                    // We are here because the client disconnected (probably)
+                    System.err.println(username + " disconnected.");
+                    controller.disconnect(username);
                     break;
                 }
             }
@@ -116,12 +122,8 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         String category = message.getCategory();
 
         switch (category) {
-            case "pong"->{
-                controller.pongReceived(username);
-            }
-            case "ping" -> {
-                sendPong(client);
-            }
+            // Maybe the controller should do something with the pong.
+            case "pong" -> {}
             case "numOfPlayersMessage" -> {
                 int numPlayer = message.getNumPlayer();
                 String isOk = controller.checkNumPlayer(numPlayer);
@@ -161,36 +163,21 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
             case "completeLogin" -> {
                 String username = message.getUsername();
                 int checkStatus = controller.checkUsername(username);
-                checkUsername(client, message.getUsername(),message.getFirstGame(),checkStatus);
+                checkUsername(client, message.getUsername(), message.getFirstGame(), checkStatus);
             }
             default -> System.out.println(message + " requested unknown");
         }
     }
-    public void startThread(SocketClientHandler client){
-        Thread thread = new Thread(() -> {
-            try {
-                while (true) {
-                    client.sendMessageToClient(new Message("ping"));
-                    Thread.sleep(3000);
-                    // if(!controller.isAlive(username)){
-                    //     System.out.println(client.getUsername() + " disconnected.");
-                    //     controller.addDisconnection(client.getUsername());
-                    //     break;
-                    // }
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        thread.start();
-    }
 
-    public void sendGame(SocketClientHandler client) throws RemoteException {
+    public void resendGameToReconnectedClient(SocketClientHandler client) throws RemoteException {
         int position = controller.getPositionByUsername(getUsername());
-        Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
-        client.sendMessageToClient(myGame);
+        System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
+
+        Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
+        client.sendMessageToClient(game);
+
         controller.addClient(getUsername(), client);
-        startThread(client);
+
         sendTurn(client);
     }
 
@@ -198,30 +185,33 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         String currentPlayer = controller.getCurrentPlayer();
         if (currentPlayer.equals(getUsername())) {
             client.sendMessageToClient(new Message("turn"));
+        } else {
+            client.sendMessageToClient(new Message("otherTurn", currentPlayer));
         }
-        else{
-            client.sendMessageToClient(new Message("otherTurn",currentPlayer));
-        }
-
     }
 
     public void sendMessageToClient(Message message) {
         clientPrintStream.println(message.getJSONstring());
     }
+
     public void checkUsername(SocketClientHandler client, String username, boolean firstGame, int checkStatus) throws RemoteException, FullRoomException {
         switch (checkStatus) {
-            case 1:
+            case 1 -> {
                 if (controller.isGameStarted()) {
                     client.sendMessageToClient(new Message("gameAlreadyStarted"));
                 } else {
                     client.sendMessageToClient(new Message("username", username));
+
                     controller.addPlayer(username, 0, firstGame);
                     System.out.println(username + " logged in.");
+
                     setUsername(username);
                     controller.addClient(username, client);
-                    startThread(client);
+
                     controller.startRoom();
+
                     if (controller.isFirst()) {
+                        // Let the first player choose the number of players
                         client.sendMessageToClient(new Message("chooseNumOfPlayer"));
                     } else {
                         client.sendMessageToClient(new Message("waitingRoom"));
@@ -233,30 +223,30 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                         }
                     }
                 }
-                break;
-            case 0:
+            }
+            case 0 -> {
                 // The username has already been taken, retry
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                // try {
+                //     Thread.sleep(3000);
+                // } catch (InterruptedException e) {
+                //     e.printStackTrace();
+                // }
                 checkStatus = controller.checkUsername(username);
                 if (checkStatus == 0) {
                     System.out.println(username + " requested login, but the username is already taken.");
                     client.sendMessageToClient(new Message("UsernameRetry"));
                 } else {
-                    setUsername(username);
-                    sendGame(client);
                     System.out.println(username + " reconnected.");
+                    setUsername(username);
+                    resendGameToReconnectedClient(client);
                 }
-                break;
-            case -1:
+            }
+            case -1 -> {
                 // The username is already taken, but the player was disconnected and is trying to reconnect
                 System.out.println(username + " reconnected.");
                 setUsername(username);
-                sendGame(client);
-                break;
+                resendGameToReconnectedClient(client);
+            }
         }
     }
 }

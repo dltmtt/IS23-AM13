@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
+import it.polimi.ingsw.utils.Utils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -65,27 +66,32 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
                 dataOutputStream.writeBytes(stringMessage + "\n"); // Send the message to the server (with newline)
             }
         } catch (IOException e) {
-            // System.err.println("Unable to send message to server. Is it still running?");
-            System.err.println("Unable to send message to server.");
+            System.err.println("Unable to send message to server. The server is probably down. Exiting...");
+            Utils.showDebugInfo(e);
             close();
         }
     }
 
-
     public Message receiveMessage() {
         String serverMessageString;
         try {
-            serverMessageString = serverBufferedReader.readLine(); // Read the message from the server
+            serverMessageString = serverBufferedReader.readLine(); // Read a message from the server
             try {
                 JSONParser parser = new JSONParser();
                 JSONObject messageFromClient = (JSONObject) parser.parse(serverMessageString);
                 return new Message(messageFromClient);
             } catch (ParseException e) {
+                System.err.println("Unable to parse message from server.");
                 System.out.println(serverMessageString);
                 return new Message(serverMessageString);
+            } catch (NullPointerException e) {
+                System.err.println("Cannot read message from server. The server is probably down. Exiting...");
+                Utils.showDebugInfo(e);
+                close();
             }
         } catch (IOException e) {
-            System.err.println("\nLost connection to server.");
+            System.err.println("Cannot read message from server. The server is probably down. Exiting...");
+            Utils.showDebugInfo(e);
             close();
         }
         return null;
