@@ -160,10 +160,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "picked" -> {
                 try {
                     if (gameView.showRearrange(message.getPicked())) {
-                        sendMessage(new Message("sort", gameView.rearrange(message.getPicked())));
+                        gameView.rearrangeProcedure(message.getPicked());
                     }
-                    int column = gameView.promptInsert();
-                    sendMessage(new Message("insertMessage", "insert", column));
+                    gameView.promptInsert();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -193,8 +192,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 } else {
                     gameView.showMessage("There are not enough free cells in the column. Retry.\n");
                 }
-                int column = gameView.promptInsert();
-                sendMessage(new Message("insertMessage", "insert", column));
+                gameView.promptInsert();
             }
             case "disconnected" -> {
                 System.err.println("You have been disconnected from the server. Let Matteo know about this.");

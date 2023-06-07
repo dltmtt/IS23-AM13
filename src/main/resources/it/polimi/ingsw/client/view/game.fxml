@@ -136,7 +136,7 @@
                                 <Label fx:id="promptRearrange" text="Rearrange your Items"/>
                                 <VBox fx:id="rearrangeArea" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
                                       spacing="15.0" style="-fx-background-color: #560a0ad6;"/>
-                                <Label fx:id="promptInsert" text="Choose the column to insert the Itens in"/>
+                                <Label fx:id="promptInsert" text="Choose the column to insert the Items in"/>
                                 <StackPane prefHeight="270.0" prefWidth="309.0">
                                     <children>
                                         <ImageView fx:id="bookshelf" fitHeight="270.0" fitWidth="235.0"
@@ -183,128 +183,6 @@
                                             <StackPane.margin>
                                                 <Insets/>
                                             </StackPane.margin>
-                                            <children>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.vgrow="ALWAYS"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.rowIndex="1"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.rowIndex="2"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.rowIndex="3"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.rowIndex="4"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.rowIndex="5"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="1"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="2"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="3"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="3" GridPane.rowIndex="5"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="4"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="4" GridPane.rowIndex="3"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="4" GridPane.rowIndex="4"/>
-                                                <Button maxHeight="1.7976931348623157E308"
-                                                        maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                        prefHeight="47.0" prefWidth="43.0" visible="false"
-                                                        GridPane.columnIndex="4" GridPane.rowIndex="5"/>
-                                            </children>
                                         </GridPane>
                                     </children>
                                 </StackPane>
@@ -405,6 +283,7 @@
                                 </Label>
                             </children>
                         </VBox>
+                        <Label fx:id="messageLabel" text="Label" GridPane.columnIndex="2"/>
                     </children>
                 </GridPane>
             </children>

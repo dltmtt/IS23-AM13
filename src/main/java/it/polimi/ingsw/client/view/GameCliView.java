@@ -109,14 +109,14 @@ public class GameCliView implements GameView {
     }
 
     @Override
-    public int promptInsert() {
+    public void promptInsert() {
         showMessage("Insert the index of the column where you want to insert the picked items (starting from 0): ");
         int index = readNumber();
         while (index < 0 || index > Bookshelf.getColumns() - 1) {
             System.err.print(insertError);
             index = readNumber();
         }
-        return index;
+        client.sendMessage(new Message("insertMessage", "insert", index));
     }
 
     public void showPersonalGoal(int card) throws IOException, ParseException {
@@ -184,7 +184,6 @@ public class GameCliView implements GameView {
         bookshelfView.printBookshelf();
     }
 
-    @Override
     public void showStartGame() {
         String title = """
                         ___  ___        _____ _          _  __ _      \s
@@ -306,10 +305,6 @@ public class GameCliView implements GameView {
         showMessage("The game is over!\n");
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     @Override
     public void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves) {
         String name = client.getUsername();
@@ -322,14 +317,13 @@ public class GameCliView implements GameView {
     }
 
     @Override
-    public void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves) {
-        String name = client.getUsername();
-        for (Bookshelf bookshelf : bookshelves.keySet()) {
-            if (!bookshelves.get(bookshelf).equals(name)) {
-                showOtherBookshelf(bookshelf, bookshelves.get(bookshelf));
-                break;
-            }
-        }
+    public Client getClient() {
+        return client;
+    }
+
+    @Override
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @Override
@@ -392,5 +386,10 @@ public class GameCliView implements GameView {
             showMessage(player + " ");
         }
         showMessage("\n");
+    }
+
+    @Override
+    public void rearrangeProcedure(List<Item> items) {
+        client.sendMessage(new Message("sort", rearrange(items)));
     }
 }

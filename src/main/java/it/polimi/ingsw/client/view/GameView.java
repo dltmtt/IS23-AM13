@@ -35,11 +35,9 @@ public interface GameView {
 
     void showBookshelf(Bookshelf bookshelf);
 
-    void showStartGame();
-
     boolean showRearrange(List<Item> items) throws IOException;
 
-    int promptInsert();
+    void promptInsert();
 
     void showEndGame(List<String> winners);
 
@@ -55,11 +53,29 @@ public interface GameView {
 
     void endGame();
 
+    default void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves) {
+        String name = getClient().getUsername();
+        for (Bookshelf bookshelf : bookshelves.keySet()) {
+            if (bookshelves.get(bookshelf).equals(name)) {
+                showBookshelf(bookshelf);
+                break;
+            }
+        }
+    }
+
+    default void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves) {
+        String name = getClient().getUsername();
+        for (Bookshelf bookshelf : bookshelves.keySet()) {
+            if (!bookshelves.get(bookshelf).equals(name)) {
+                showOtherBookshelf(bookshelf, bookshelves.get(bookshelf));
+                break;
+            }
+        }
+    }
+
+    Client getClient();
+
     void setClient(Client client);
-
-    void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves);
-
-    void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves);
 
     void showOtherBookshelf(Bookshelf bookshelf, String name);
 
@@ -78,4 +94,6 @@ public interface GameView {
     void showRemovePlayer();
 
     void showDisconnection(List<String> disconnectedPlayers);
+
+    void rearrangeProcedure(List<Item> items);
 }

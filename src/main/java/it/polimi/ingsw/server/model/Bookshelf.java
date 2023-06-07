@@ -370,4 +370,9 @@ public class Bookshelf implements AbleToGetPoints {
     public void setItem(int row, int col, Optional<Item> item) {
         items[row][col] = item;
     }
+
+    public String getItemFileName(int row, int col) {
+        Item item = items[row][col].get();
+        return item.color().toString().toLowerCase().charAt(0) + String.valueOf(item.number()) + ".png";
+    }
 }

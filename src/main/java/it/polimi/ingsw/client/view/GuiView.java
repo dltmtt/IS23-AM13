@@ -14,8 +14,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class GuiView extends Application implements GameView {
 
@@ -31,7 +31,7 @@ public class GuiView extends Application implements GameView {
     /**
      * Launches the GUI.
      *
-     * @param client
+     * @param client the client reference
      */
     @Override
     public void startView(Client client) {
@@ -51,7 +51,7 @@ public class GuiView extends Application implements GameView {
     public void start(Stage stage) {
         stage.setTitle("My Shelfie");
         try {
-            stage.getIcons().add(new Image(GuiView.class.getResource("graphics/publisher_material/icon.png").openStream()));
+            stage.getIcons().add(new Image(Objects.requireNonNull(GuiView.class.getResource("graphics/publisher_material/icon.png")).openStream()));
         } catch (IOException e) {
             System.err.println("Icon not found");
         }
@@ -115,7 +115,7 @@ public class GuiView extends Application implements GameView {
     /**
      * sets the main stage to the gameScene
      *
-     * @param message
+     * @param message the message containing the game information
      */
     @Override
     public void startGame(Message message) {
@@ -145,7 +145,7 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showMessage(String message) {
-        // System.out.println(message);
+        Platform.runLater(() -> gameController.showMessage(message));
     }
 
     @Override
@@ -155,27 +155,20 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showBoard(Board board) {
-
-    }
-
-    @Override
-    public void showBookshelf(Bookshelf bookshelf) {
-
-    }
-
-    @Override
-    public void showStartGame() {
-
+        Platform.runLater(() -> {
+            GameGuiController.boardModel = board;
+            gameController.updateBoard();
+        });
     }
 
     @Override
     public boolean showRearrange(List<Item> items) {
-        return false;
+        return true;
     }
 
     @Override
-    public int promptInsert() {
-        return 0;
+    public void promptInsert() {
+        Platform.runLater(gameController::enableInsert);
     }
 
     @Override
@@ -205,23 +198,18 @@ public class GuiView extends Application implements GameView {
     }
 
     @Override
-    public void setClient(Client client) {
-        GuiView.client = client;
-    }
-
-    @Override
-    public void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves) {
-
-    }
-
-    @Override
-    public void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves) {
-
-    }
-
-    @Override
     public void showOtherBookshelf(Bookshelf bookshelf, String name) {
+        Platform.runLater(() -> {
+            gameController.updateOtherBookshelves(bookshelf, name);
+        });
+    }
 
+    @Override
+    public void showBookshelf(Bookshelf bookshelf) {
+        Platform.runLater(() -> {
+            GameGuiController.bookshelfModel = bookshelf;
+            gameController.updateBookshelf(gameController.bookshelfGrid, bookshelf);
+        });
     }
 
     @Override
@@ -266,5 +254,22 @@ public class GuiView extends Application implements GameView {
     @Override
     public void showDisconnection(List<String> disconnectedPlayers) {
 
+    }
+
+    @Override
+    public void rearrangeProcedure(List<Item> items) {
+        Platform.runLater(() -> {
+            gameController.enableRearrange();
+        });
+    }
+
+    @Override
+    public Client getClient() {
+        return client;
+    }
+
+    @Override
+    public void setClient(Client client) {
+        GuiView.client = client;
     }
 }
