@@ -150,7 +150,7 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showPick() {
-        Platform.runLater(gameController::enableAllItems);
+        Platform.runLater(gameController::enableItemsWithOneFreeSide);
     }
 
     @Override

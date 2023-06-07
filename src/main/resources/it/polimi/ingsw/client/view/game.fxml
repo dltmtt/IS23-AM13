@@ -107,6 +107,8 @@
                                                 text="Help"/>
                                         <Button fx:id="delete" mnemonicParsing="false"
                                                 onAction="#deleteCurrentSelection" text="Delete current selection"/>
+                                        <Button fx:id="confirmSelection" mnemonicParsing="false"
+                                                onAction="#sendSelection" text="Confirm Selection"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
@@ -131,8 +133,10 @@
                               GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1"
                               GridPane.valignment="CENTER">
                             <children>
+                                <Label fx:id="promptRearrange" text="Rearrange your Items"/>
                                 <VBox fx:id="rearrangeArea" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
                                       spacing="15.0" style="-fx-background-color: #560a0ad6;"/>
+                                <Label fx:id="promptInsert" text="Choose the column to insert the Itens in"/>
                                 <StackPane prefHeight="270.0" prefWidth="309.0">
                                     <children>
                                         <ImageView fx:id="bookshelf" fitHeight="270.0" fitWidth="235.0"
