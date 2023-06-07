@@ -16,7 +16,7 @@ public interface ServerCommunicationInterface extends Remote {
 
     int PORT_RMI = 1099;
     int PORT_SOCKET = 888;
-    String HOSTNAME = "localhost"; // Shared by RMI and socket
+    String HOSTNAME = "192.168.28.121"; // Shared by RMI and socket
     ServerController controller = new ServerController();
 
     // This method's implementation is basically identical to receiveMessage.
@@ -30,7 +30,15 @@ public interface ServerCommunicationInterface extends Remote {
         switch (category) {
             // Maybe the controller should do something with the pong.
             case "pong" -> {
-
+                System.out.println("Received pong from " + client.getUsername());
+                controller.pong(client.getUsername());
+                controller.addPongLost(client.getUsername());
+                if (controller.disconnectedPlayers.contains(client.getUsername())) {
+                    System.out.println("Player " + client.getUsername() + " reconnected");
+                    startPingThread(client);
+                    sendAll(new Message("reconnected", client.getUsername()));
+                    controller.disconnectedPlayers.remove(client.getUsername());
+                }
             }
             case "numOfPlayersMessage" -> {
                 int numberOfPlayers = message.getNumPlayer();
@@ -79,13 +87,14 @@ public interface ServerCommunicationInterface extends Remote {
     }
 
     default void startPingThread(ClientCommunicationInterface client) throws RemoteException {
-        new Thread(() -> {
-            String username = null;
-            try {
-                username = client.getUsername();
-            } catch (RemoteException e) {
-                System.err.println("Error while getting username from client.");
-            }
+        String username = null;
+        try {
+            username = client.getUsername();
+        } catch (RemoteException e) {
+            System.err.println("Error while getting username from client.");
+        }
+        String finalUsername = username;
+        Thread pingThread = new Thread(() -> {
 
             while (true) {
                 try {
@@ -97,15 +106,52 @@ public interface ServerCommunicationInterface extends Remote {
                 } catch (RemoteException e) {
                     // We fall in this branch when the client disconnects
                     try {
-                        disconnect(username);
+                        disconnect(finalUsername);
                     } catch (RemoteException ex) {
                         throw new RuntimeException(ex);
                     }
                     break;
                 }
             }
-        }).start();
+        });
+        pingThread.start();
+
+        Thread checkThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(3000);
+                    if (!controller.pongReceived.contains(finalUsername) && !controller.disconnectedPlayers.contains(finalUsername)) {
+                        System.out.println("Pong not received from " + finalUsername + ". Disconnecting.");
+                        Thread.sleep(10000);
+                        if (controller.pongLost.get(finalUsername) != 0) {
+                            disconnect(finalUsername);
+                            pingThread.interrupt();
+                            break;
+                        }
+                    } else {
+                        controller.pongReceived.remove(finalUsername);
+                    }
+                } catch (InterruptedException | RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        checkThread.start();
     }
+    // default void disconnect(String username) throws RemoteException {
+    //     System.err.println(username + " disconnected.");
+    //     controller.disconnect(username);
+    //     if (controller.get.size() == controller.numberOfPlayers - 1) {
+    //         // If there is only one player left, sendAll actually sends the message to the only player left,
+    //         // telling him that he's alone. He will wait for the other players to reconnect, and if none of them
+    //         // reconnects, he will win.
+    //         sendAll(new Message("youAloneBitch"));
+    //     } else {
+    //         if (controller.getCurrentPlayer().equals(username)) {
+    //             nextTurn();
+    //         }
+    //     }
+    // }
 
     /**
      * Adds a player to the disconnected players list and changes the turn if the

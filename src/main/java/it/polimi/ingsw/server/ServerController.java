@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 public class ServerController {
 
     public final List<String> disconnectedPlayers;
+    public final HashMap<String, Integer> pongLost;
+    public final List<String> pongReceived;
     private final List<Player> players;
     private final List<String> winnersNickname;
     private final HashMap<String, ClientCommunicationInterface> rmiClients;
@@ -42,6 +44,26 @@ public class ServerController {
         disconnectedPlayers = new ArrayList<>();
         rmiClients = new HashMap<>();
         tcpClients = new HashMap<>();
+        pongLost = new HashMap<>();
+        pongReceived = new ArrayList<>();
+    }
+
+    public void pong(String username) {
+        if (!pongReceived.contains(username)) {
+            pongReceived.add(username);
+        }
+        pongLost.remove(username);
+        pongLost.put(username, 0);
+    }
+
+    public void removePong(String username) {
+        pongReceived.remove(username);
+    }
+
+    public void addPongLost(String username) {
+        int currentPongLost = pongLost.get(username);
+        pongLost.remove(username);
+        pongLost.put(username, currentPongLost + 1);
     }
 
     public void removeClientByUsername(String username) {
@@ -81,7 +103,7 @@ public class ServerController {
      */
     public void disconnect(String username) {
         disconnectedPlayers.add(username);
-        removeClientByUsername(username);
+        // removeClientByUsername(username);
     }
 
     public void setNumberOfPlayers(int numberOfPlayers) {

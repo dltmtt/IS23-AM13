@@ -220,7 +220,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void waitForReconnection() {
         new Thread(() -> {
             try {
-                Thread.sleep(15000);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
