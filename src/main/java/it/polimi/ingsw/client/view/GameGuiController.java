@@ -250,6 +250,19 @@ public class GameGuiController {
         }
     }
 
+    public void removeItemsFromBoard(List<Coordinates> pickedItems){
+        for(int i=0; i<boardModel.getBoardSize(); i++){
+            for(int j=0; j<boardModel.getBoardSize();j++){
+                for(Coordinates c:pickedItems){
+                    if(c.x().equals(boardModel.getBoardSize() - i -1) && c.y().equals(j)){
+                        int finalJ = j;
+                        int finalI =i;
+                        boardGridPane.getChildren().removeIf(node -> GridPane.getColumnIndex(node) == finalJ && GridPane.getRowIndex(node) == finalI);
+                    }
+                }
+            }
+        }
+    }
     @FXML
     void sendSelection(ActionEvent event) {
         List<Coordinates> pickedItemsCopy = new ArrayList<>(pickedItems);
@@ -337,6 +350,7 @@ public class GameGuiController {
                     rearrangeArea.getChildren().add(item);
                     itemImageViews.add(item);
                     indexList.add(itemImageViews.size() - 1);
+                    removeItemsFromBoard(pickedItems);
                 } catch (NullPointerException e) {
                     System.err.println("Error on loading item image: " + itemFileName + " at (" + pickedItems.get(0).x() + "," + i + "), item not added to rearrange area");
                 }
@@ -350,6 +364,7 @@ public class GameGuiController {
                     rearrangeArea.getChildren().add(item);
                     itemImageViews.add(item);
                     indexList.add(itemImageViews.size() - 1);
+                    removeItemsFromBoard(pickedItems);
                 } catch (NullPointerException e) {
                     System.err.println("Error on loading item image: " + itemFileName + " at (" + pickedItems.get(0).x() + "," + i + "), item not added to rearrange area");
                 }
