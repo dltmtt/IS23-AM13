@@ -260,6 +260,7 @@ public class GuiView extends Application implements GameView {
     public void rearrangeProcedure(List<Item> items) {
         Platform.runLater(() -> {
             gameController.enableRearrange();
+            gameController.rearrange(items);
         });
     }
 

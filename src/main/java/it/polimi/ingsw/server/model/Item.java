@@ -10,10 +10,15 @@ public record Item(Color color, int number) {
 
     /**
      * This method checks if the item is equal to another one.
+     *
      * @param check the item to check
      * @return true if the items are equal, false otherwise
      */
     public boolean equals(Item check) {
         return color() == check.color() && number() == check.number();
+    }
+
+    public String fileName() {
+        return color().toString().toLowerCase().charAt(0) + String.valueOf(number()) + ".png";
     }
 }

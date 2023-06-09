@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.MyShelfie;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,7 +27,6 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
@@ -42,7 +42,7 @@ public class GameGuiController {
     private final List<ImageView> itemImageViews = new ArrayList<>();
     private final List<Integer> indexList = new ArrayList<>();
     @FXML
-    GridPane bookshelfGrid;
+    public GridPane bookshelfGrid;
     @FXML
     private ImageView board;
     @FXML
@@ -105,7 +105,7 @@ public class GameGuiController {
             for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
                 if ((i == row || j == col) && (Math.abs(i - row) <= 2 && Math.abs(j - col) <= 2) && boardModel.checkBorder(new Coordinates(i, j))) {
                     if ((i == row - 2 && !boardModel.checkBorder(new Coordinates(i + 1, j))) || (i == row + 2 && !boardModel.checkBorder(new Coordinates(i - 1, j))) || (j == col - 2 && !boardModel.checkBorder(new Coordinates(i, j + 1))) || (j == col + 2 && !boardModel.checkBorder(new Coordinates(i, j - 1)))) {
-                        selectedNode = getNodeByRowColumnIndex(i, j);
+                        selectedNode = getNodeByRowColumnIndex(boardGridPane, i, j);
                         if (selectedNode != null) {
                             selectedNode.setDisable(true);
                             selectedNode.setEffect(null);
@@ -114,14 +114,14 @@ public class GameGuiController {
                             selectedNode.setEffect(colorAdjust);
                         }
                     } else {
-                        selectedNode = getNodeByRowColumnIndex(i, j);
+                        selectedNode = getNodeByRowColumnIndex(boardGridPane, i, j);
                         if (selectedNode != null) {
                             selectedNode.setDisable(false);
                             selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
                         }
                     }
                 } else {
-                    selectedNode = getNodeByRowColumnIndex(i, j);
+                    selectedNode = getNodeByRowColumnIndex(boardGridPane, i, j);
                     if (selectedNode != null) {
                         selectedNode.setDisable(true);
                         selectedNode.setEffect(null);
@@ -152,14 +152,14 @@ public class GameGuiController {
      * @param column the column index of the node (Board-wise)
      * @return the Node at the given row and column position
      */
-    public Node getNodeByRowColumnIndex(final int row, final int column) {
+    public Node getNodeByRowColumnIndex(GridPane selectedGrid, final int row, final int column) {
         Node result = null;
-        if (row < 0 || column < 0 || row >= boardGridPane.getRowCount() || column >= boardGridPane.getColumnCount()) {
+        if (row < 0 || column < 0 || row >= selectedGrid.getRowCount() || column >= selectedGrid.getColumnCount()) {
             return null;
         } else {
-            ObservableList<Node> children = boardGridPane.getChildren();
+            ObservableList<Node> children = selectedGrid.getChildren();
             for (Node node : children) {
-                if (GridPane.getRowIndex(node) == boardGridPane.getRowCount() - row - 1 && getColumnIndex(node) == column) {
+                if (GridPane.getRowIndex(node) == selectedGrid.getRowCount() - row - 1 && getColumnIndex(node) == column) {
                     result = node;
                     break;
                 }
@@ -192,7 +192,7 @@ public class GameGuiController {
      * @param col
      */
     public void enableItem(int row, int col) {
-        Node selectedNode = getNodeByRowColumnIndex(row, col);
+        Node selectedNode = getNodeByRowColumnIndex(boardGridPane, row, col);
         if (selectedNode != null) {
             selectedNode.setDisable(false);
             selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
@@ -208,7 +208,7 @@ public class GameGuiController {
      * @param col
      */
     public void disableItem(int row, int col) {
-        Node selectedNode = getNodeByRowColumnIndex(row, col);
+        Node selectedNode = getNodeByRowColumnIndex(boardGridPane, row, col);
         if (selectedNode != null) {
             selectedNode.setDisable(true);
             selectedNode.setEffect(null);
@@ -269,10 +269,10 @@ public class GameGuiController {
                 highlightPickableItems(row, col);
             } else {
                 if (pickedItems.size() == 2) {
-                    removeItemsFromBoard(pickedItems);
+                    // removeItemsFromBoard(pickedItems);
                     disableAllItems();
                     System.out.println("picked items: " + pickedItems);
-                    addPickedItemsToRearrangeArea();
+                    // addPickedItemsToRearrangeArea();
                     confirmSelection.setDisable(false);
                 }
             }
@@ -291,7 +291,8 @@ public class GameGuiController {
         int endY = Math.max(pickedItems.get(0).y(), pickedItems.get(1).y());
         for (int i = startX; i <= endX; i++) {
             for (int j = startY; j <= endY; j++) {
-                getNodeByRowColumnIndex(i, j).setVisible(false);
+                getNodeByRowColumnIndex(boardGridPane, i, j).setVisible(false);
+                getNodeByRowColumnIndex(boardGridPane, i, j).setDisable(true);
                 // boardGridPane.getChildren().removeIf(node -> GridPane.getColumnIndex(node) == finalJ && GridPane.getRowIndex(node) == finalI);
             }
         }
@@ -311,12 +312,28 @@ public class GameGuiController {
                 node.setCursor(Cursor.HAND);
                 node.setOnMouseClicked(mouseEvent -> {
                     disableAllItems();
+                    disableBookshelf();
                     confirmSelection.setDisable(true);
                     delete.setDisable(true);
                     pickedItems.clear();
                     client.sendMessage(new Message("insertMessage", "insert", getColumnIndex(node)));
+                    rearrangeArea.getChildren().clear();
+                    indexList.clear();
                 });
+            } else {
+                node.setDisable(true);
+                node.setEffect(null);
+                node.setCursor(Cursor.DEFAULT);
             }
+        }
+    }
+
+    public void disableBookshelf() {
+        ObservableList<Node> children = bookshelfGrid.getChildren();
+        for (Node node : children) {
+            node.setDisable(true);
+            // set node cursor as a default
+            node.setCursor(Cursor.DEFAULT);
         }
     }
 
@@ -327,6 +344,7 @@ public class GameGuiController {
         client.sendMessage(new Message(pickedItemsCopy.get(0), pickedItemsCopy.get(1)));
         confirmSelection.setDisable(true);
         delete.setDisable(true);
+        removeItemsFromBoard(pickedItems);
         pickedItems.clear();
     }
 
@@ -403,38 +421,6 @@ public class GameGuiController {
 
     public void toggleHelp() {
 
-    }
-
-    public void addPickedItemsToRearrangeArea() {
-        if (Objects.equals(pickedItems.get(0).x(), pickedItems.get(1).x())) {
-            for (int i = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y()); i <= Math.max(pickedItems.get(0).y(), pickedItems.get(1).y()); i++) {
-                String itemFileName = ITEM_BASE_PATH + boardModel.getItemFileName(pickedItems.get(0).x(), i);
-                try {
-                    ImageView item = createImageView(itemFileName);
-                    setupDragAndDrop(item, itemImageViews.size());
-                    rearrangeArea.getChildren().add(item);
-                    itemImageViews.add(item);
-                    indexList.add(itemImageViews.size() - 1);
-                    // removeItemsFromBoard(pickedItems);
-                } catch (NullPointerException e) {
-                    System.err.println("Error on loading item image: " + itemFileName + " at (" + pickedItems.get(0).x() + "," + i + "), item not added to rearrange area");
-                }
-            }
-        } else {
-            for (int i = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x()); i <= Math.max(pickedItems.get(0).x(), pickedItems.get(1).x()); i++) {
-                String itemFileName = ITEM_BASE_PATH + boardModel.getItemFileName(i, pickedItems.get(0).y());
-                try {
-                    ImageView item = createImageView(itemFileName);
-                    setupDragAndDrop(item, itemImageViews.size());
-                    rearrangeArea.getChildren().add(item);
-                    itemImageViews.add(item);
-                    indexList.add(itemImageViews.size() - 1);
-                    // removeItemsFromBoard(pickedItems);
-                } catch (NullPointerException e) {
-                    System.err.println("Error on loading item image: " + itemFileName + " at (" + pickedItems.get(0).x() + "," + i + "), item not added to rearrange area");
-                }
-            }
-        }
     }
 
     private ImageView createImageView(String itemFileName) {
@@ -545,28 +531,29 @@ public class GameGuiController {
         for (int i = 0; i < Bookshelf.getRows(); i++) {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 if (bookshelf.getItemAt(i, j).isPresent()) {
-                    // String fileName = boardModel.getItem(i, j).color().toString().toLowerCase().charAt(0) + String.valueOf(boardModel.getItem(i, j).number());
                     String fileName = bookshelf.getItemFileName(i, j);
                     try {
-                        // Image itemImage = new Image(getClass().getResource(ITEM_BASE_PATH + fileName + ".png").toExternalForm());
-
                         Image itemImage = new Image(getClass().getResource(ITEM_BASE_PATH + fileName).toExternalForm());
-
                         ImageView itemImageView = new ImageView(itemImage);
                         itemImageView.setFitHeight(ITEM_SIZE);
                         itemImageView.setFitWidth(ITEM_SIZE);
-
-                        // set the onClicked action as itemSelected() on itemImageView
-                        int finalI = i;
-                        int finalJ = j;
-                        itemImageView.setOnMouseClicked(mouseEvent -> selectItem(finalI, finalJ));
-
+                        itemImageView.setImage(itemImage);
                         grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
-                        // initially every item is not enabled
-                        itemImageView.setDisable(true);
+                        itemImageView.setVisible(true);
                     } catch (NullPointerException e) {
-                        System.out.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + boardModel.getItem(i, j));
+                        System.out.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + bookshelf.getItemAt(i, j));
                     }
+                } else {
+                    ImageView itemImageView = new ImageView(getClass().getResource(ITEM_BASE_PATH + "null.png").toExternalForm());
+                    itemImageView.setFitHeight(ITEM_SIZE);
+                    itemImageView.setFitWidth(ITEM_SIZE);
+                    itemImageView.setPreserveRatio(true);
+                    itemImageView.setSmooth(true);
+                    itemImageView.setCache(true);
+                    // itemImageView.setCursor(Cursor.HAND); // Set the cursor to hand
+                    // set image to be transparent
+                    // itemImageView.setOpacity(0.0);
+                    grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                 }
             }
         }
@@ -599,6 +586,8 @@ public class GameGuiController {
                 itemImageView.setSmooth(true);
                 itemImageView.setCache(true);
                 itemImageView.setCursor(Cursor.HAND); // Set the cursor to hand
+                // set image to be transparent
+                // itemImageView.setOpacity(0.0);
                 bookshelfGrid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
             }
         }
@@ -606,5 +595,21 @@ public class GameGuiController {
 
     public void enableRearrange() {
         rearrangeArea.setDisable(false);
+    }
+
+    public void rearrange(List<Item> items) {
+        rearrangeArea.getChildren().clear();
+        for (Item item : items) {
+            try {
+                ImageView itemView = createImageView(ITEM_BASE_PATH + item.fileName());
+                setupDragAndDrop(itemView, itemImageViews.size());
+                rearrangeArea.getChildren().add(itemView);
+                itemImageViews.add(itemView);
+                indexList.add(items.indexOf(item));
+                // removeItemsFromBoard(pickedItems);
+            } catch (NullPointerException e) {
+                System.err.println("Error on loading item image: " + item.fileName() + ", item not added to rearrange area");
+            }
+        }
     }
 }
