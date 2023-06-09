@@ -16,7 +16,7 @@ public interface ServerCommunicationInterface extends Remote {
 
     int PORT_RMI = 1099;
     int PORT_SOCKET = 888;
-    String HOSTNAME = "192.168.28.121"; // Shared by RMI and socket
+    String HOSTNAME = "localhost"; // Shared by RMI and socket
     ServerController controller = new ServerController();
 
     // This method's implementation is basically identical to receiveMessage.
@@ -160,7 +160,7 @@ public interface ServerCommunicationInterface extends Remote {
      * @param username the username of the disconnected player
      */
     default void disconnect(String username) throws RemoteException {
-        System.err.println(username + " disconnected.");
+        System.err.println(username + " disconnected. in disconnected");
         controller.disconnect(username);
         if (controller.disconnectedPlayers.size() == controller.numberOfPlayers - 1) {
             // If there is only one player left, sendAll actually sends the message to the only player left,
@@ -227,6 +227,7 @@ public interface ServerCommunicationInterface extends Remote {
 
     default void nextTurn() throws RemoteException {
         controller.changeTurn();
+        controller.saveGame();
         if (controller.checkGameStatus() == -1) {
             // the game has ended
             List<String> winnersNickname = controller.getWinnersNickname();
@@ -292,10 +293,14 @@ public interface ServerCommunicationInterface extends Remote {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
         for (String username : tcpClients.keySet()) {
-            tcpClients.get(username).sendMessageToClient(message);
+            if (!controller.disconnectedPlayers.contains(username)) {
+                tcpClients.get(username).sendMessageToClient(message);
+            }
         }
         for (String username : rmiClients.keySet()) {
-            rmiClients.get(username).callBackSendMessage(message);
+            if (!controller.disconnectedPlayers.contains(username)) {
+                rmiClients.get(username).callBackSendMessage(message);
+            }
         }
     }
 

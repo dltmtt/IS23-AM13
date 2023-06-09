@@ -85,7 +85,6 @@ public class ServerController {
         gameModel.setGame(lastGame.getBoard(), lastGame.getCommonGoals(players.size()));
         gameModel.setCurrentPlayer(lastGame.getCurrentPlayer());
         disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
-        changeTurn();
         System.out.println("Last game loaded");
     }
 
@@ -415,7 +414,6 @@ public class ServerController {
         }
 
         gameModel.move(currentPicked, column);
-        saveGame();
         return 1;
     }
 

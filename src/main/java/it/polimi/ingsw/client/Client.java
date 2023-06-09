@@ -22,6 +22,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     String username = null;
     boolean theOnlyOne = false;
     private int myPosition;
+    private boolean serverConnection = false;
 
     public Client() throws RemoteException {
         super();
@@ -142,7 +143,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         String category = message.getCategory();
 
         switch (category) {
-            case "ping" -> sendMessage(new Message("pong"));
+            case "ping" -> {
+                serverConnection = true;
+                sendMessage(new Message("pong"));
+            }
             case "username" -> setUsername(message.getUsername());
             case "UsernameRetry" -> gameView.usernameError();
             case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
@@ -228,6 +232,31 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             if (theOnlyOne) {
                 gameView.showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
                 System.exit(0);
+            }
+        }).start();
+    }
+
+    public void checkServerConnection() {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (!serverConnection) {
+                    System.err.println("Server not responding. Please wait.");
+                    try {
+                        Thread.sleep(5000);
+                        if (!serverConnection) {
+                            System.err.println("Lost connection to server.");
+                            stop();
+                        }
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                serverConnection = false;
             }
         }).start();
     }
