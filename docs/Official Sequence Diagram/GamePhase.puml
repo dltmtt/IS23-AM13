@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+Client->Server:
+Server->Server: turn
+alt is your turn
+Server->Client: "turn"
+Client->Client: myTurn()
+Client->Server: "pick": coordinata prima cella, coordinata ultima cella
+Server->Server: check
+alt is valid
+Server->Client: "picked": lista degli item pescati
+Client->Client: choose rearrange
+alt rearrange yes
+Client->Server: "sort": lista di int che rappresenta il nuovo ordine
+end
+Client->Server: "insertMessage": int della colonna
+Server->Client: "update": bookshelves, board, lista degli score (viene mandato a tutti i client)
+else not valid
+Server->Client: "pickRetry"
+end
+else not your turn
+Server->Client: "otherTurn": username of other player
+Client->Client: otherTurn()
+end
+
+@enduml
