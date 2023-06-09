@@ -126,6 +126,9 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Sets the waiting room scene
+     */
     @Override
     public void waitingRoom() {
         Platform.runLater(() -> {
@@ -143,16 +146,29 @@ public class GuiView extends Application implements GameView {
         stage.show();
     }
 
+    /**
+     * Shows a message in a label inside the game scene
+     *
+     * @param message the message to be shown
+     */
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> gameController.showMessage(message));
     }
 
+    /**
+     * enables the items with one free side, allowing the player to pick them
+     */
     @Override
     public void showPick() {
         Platform.runLater(gameController::enableItemsWithOneFreeSide);
     }
 
+    /**
+     * updates the board model in the GUI interface, then it updates the GUI accordingly
+     *
+     * @param board the board to be shown
+     */
     @Override
     public void showBoard(Board board) {
         Platform.runLater(() -> {
@@ -161,11 +177,20 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * this particular implementation of showRearrange always returns true, because the GUI doesn't really need to ask the user if he wants to rearrange the items
+     *
+     * @param items the items to be rearranged
+     * @return true (always)
+     */
     @Override
     public boolean showRearrange(List<Item> items) {
         return true;
     }
 
+    /**
+     * enables the available columns, allowing the player to insert the item they picked
+     */
     @Override
     public void promptInsert() {
         Platform.runLater(gameController::enableInsert);
@@ -191,12 +216,20 @@ public class GuiView extends Application implements GameView {
 
     }
 
+    /**
+     * shows the end game scene
+     */
     @Override
     public void endGame() {
         stage.setScene(endGameScene);
         stage.show();
     }
 
+    /**
+     * shows the other player's bookshelf
+     *
+     * @param bookshelf the bookshelf to be shown
+     */
     @Override
     public void showOtherBookshelf(Bookshelf bookshelf, String name) {
         Platform.runLater(() -> {
@@ -204,6 +237,11 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * shows the player's bookshelf
+     *
+     * @param bookshelf the bookshelf to be shown
+     */
     @Override
     public void showBookshelf(Bookshelf bookshelf) {
         Platform.runLater(() -> {
@@ -212,22 +250,37 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Sets an error message in the login scene
+     */
     @Override
     public void usernameError() {
-        loginController.usernameAlreadyTaken();
+        Platform.runLater(() -> loginController.usernameAlreadyTaken());
+        // loginController.usernameAlreadyTaken();
     }
 
+    /**
+     * Sets an error message in the login scene
+     *
+     * @see #usernameError() (GUI-wise there's no difference)
+     */
     @Override
     public void completeLoginError() {
         // GUI-wise there's no difference
         usernameError();
     }
 
+    /**
+     * sets an error message in the player number scene, but since the number of players is set by a slider, which minimum and maximum are valid, this method is never called and does nothing
+     */
     @Override
     public void playerNumberError() {
         // since the number of players is set by a slider, which minimum and maximum are valid, there is no prob
     }
 
+    /**
+     * sets the player number scene
+     */
     @Override
     public void playerChoice() {
         Platform.runLater(() -> {
@@ -256,6 +309,9 @@ public class GuiView extends Application implements GameView {
 
     }
 
+    /**
+     * enables the rearrange area in the GUI, allowing the player to rearrange the items
+     */
     @Override
     public void rearrangeProcedure(List<Item> items) {
         Platform.runLater(() -> {
