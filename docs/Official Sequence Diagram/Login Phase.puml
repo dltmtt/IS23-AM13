@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Server: "Complete Login": username, 0,firstGame,0
+Server->Server: checkLogin
+
+alt username invalid{
+Server->Client: "UsernameRetry"
+else username valid
+Server->Client: "username"
+Client->Client: setUsername
+alt first Player
+Server->Client: "chooseNumOfPlayer"
+Server->Client: "waitingRoom"
+else not first Player
+Server->Client: "waitingRoom"
+alt there are enough players
+Server->Client: "removePlayer"
+else not enough players
+Server->Client: "waitingRoom"
+Server->Client: "startGame": personalGoalCard, CommonGoalCards, Bookshelves,Board
+end
+end
+else game is already started
+Server->Client: "gameAlreadyStarted"
+Client->Client: stop
+end
+
+@enduml
