@@ -26,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,13 +36,17 @@ public class GameGuiController {
 
     private static final String ITEM_BASE_PATH = "graphics/item_tiles/";
     private static final int ITEM_SIZE = 40; // Adjust the size of each item image
+    private static final List<GridPane> playersBookshelves = new ArrayList<>();
     public static List<Coordinates> pickedItems = new ArrayList<>();
     public static Client client;
     public static GuiView view;
     public static Board boardModel;
     public static Bookshelf bookshelfModel = new Bookshelf();
+    private static List<Label> playersLabels;
     private final List<ImageView> itemImageViews = new ArrayList<>();
     private final List<Integer> indexList = new ArrayList<>();
+    public HashMap<String, Integer> playersBookshelf = new HashMap<>();
+    public int playerCounter = 1;
     @FXML
     public GridPane bookshelfGrid;
     @FXML
@@ -52,46 +57,38 @@ public class GameGuiController {
     private ImageView bookshelf;
     @FXML
     private ImageView cg1;
-
     @FXML
     private ImageView cg2;
-
     @FXML
     private Button confirmSelection;
-
     @FXML
     private Button delete;
-
     @FXML
     private Button help;
-
     @FXML
     private ImageView pg;
-
     @FXML
     private Label messageLabel;
-
     @FXML
     private Label player1;
-
     @FXML
     private Label player2;
-
     @FXML
     private Label player3;
-
     @FXML
     private Label promptInsert;
-
     @FXML
     private Label promptRearrange;
-
     @FXML
     private VBox rearrangeArea;
 
     public GameGuiController() {
         client = MyShelfie.client;
         view = GuiView.gui;
+        playersLabels = new ArrayList<>();
+        playersLabels.add(player1);
+        playersLabels.add(player2);
+        playersLabels.add(player3);
     }
 
     /**
@@ -261,14 +258,37 @@ public class GameGuiController {
             if (pickedItems.size() == 1) {
                 // pickedItems.add(new Coordinates(row, col));
                 highlightPickableItems(row, col);
+                highlightItem(row, col, Color.GREEN);
+                confirmSelection.setDisable(false);
+                delete.setDisable(false);
             } else {
                 if (pickedItems.size() == 2) {
                     // removeItemsFromBoard(pickedItems);
                     disableAllItems();
                     System.out.println("picked items: " + pickedItems);
                     // addPickedItemsToRearrangeArea();
-                    confirmSelection.setDisable(false);
+
+                    highlightSelection(pickedItems);
                 }
+            }
+        }
+    }
+
+    public void highlightItem(int row, int col, Color color) {
+        Node selectedNode = getNodeByRowColumnIndex(boardGridPane, row, col);
+        if (selectedNode != null) {
+            selectedNode.setEffect(new DropShadow(20, color));
+        }
+    }
+
+    public void highlightSelection(List<Coordinates> pickedItems) {
+        int startX = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x());
+        int startY = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y());
+        int endX = Math.max(pickedItems.get(0).x(), pickedItems.get(1).x());
+        int endY = Math.max(pickedItems.get(0).y(), pickedItems.get(1).y());
+        for (int i = startX; i <= endX; i++) {
+            for (int j = startY; j <= endY; j++) {
+                highlightItem(i, j, Color.GREEN);
             }
         }
     }
@@ -342,7 +362,11 @@ public class GameGuiController {
     @FXML
     void sendSelection(ActionEvent event) {
         disableAllItems();
-        client.sendMessage(new Message(pickedItems.get(0), pickedItems.get(1)));
+        if (pickedItems.size() == 2) {
+            client.sendMessage(new Message(pickedItems.get(0), pickedItems.get(1)));
+        } else {
+            client.sendMessage(new Message(pickedItems.get(0), pickedItems.get(0)));
+        }
         confirmSelection.setDisable(true);
         delete.setDisable(true);
         removeItemsFromBoard(pickedItems);
@@ -605,7 +629,9 @@ public class GameGuiController {
     }
 
     public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
-
+        if (!playersBookshelf.containsKey(name)) {
+            playersBookshelf.put(name, playerCounter);
+        }
     }
 
     /**

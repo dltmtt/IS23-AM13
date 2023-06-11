@@ -6,7 +6,7 @@ autonumber
 Client -> Server: "Complete Login": username, 0,firstGame,0
 Server->Server: checkLogin
 
-alt username invalid{
+alt username invalid
 Server->Client: "UsernameRetry"
 else username valid
 Server->Client: "username"

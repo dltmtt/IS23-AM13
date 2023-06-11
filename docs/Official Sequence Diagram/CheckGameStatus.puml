@@ -10,7 +10,7 @@ Server->Client: "winners": lista nomi vincitori e punteggi
 else is last round
 Server->Client: "lastRound"
 'poi è come in game phase
-else the game is not ended and is not last round
+else the game has not ended and is not last round
 'come in game phase
 else
 @enduml
