@@ -132,14 +132,6 @@ public class GameGuiController {
         }
     }
 
-    /**
-     * Method called when the user clicks on the delete button.
-     */
-    public void deleteCurrentSelection() {
-        pickedItems.clear();
-        grid.getChildren().clear();
-        enableItemsWithOneFreeSide();
-    }
 
     /**
      * Returns the Node at the given row and column position.
@@ -205,8 +197,8 @@ public class GameGuiController {
      * @param row the row index of the node (Model-wise)
      * @param col the column index of the node (Model-wise)
      */
-    public void disableItem(GridPane grid, int row, int col) {
-        Node selectedNode = getNodeByRowColumnIndex(grid, row, col);
+    public void disableItem(GridPane grid2, int row, int col) {
+        Node selectedNode = getNodeByRowColumnIndex(grid2, row, col);
         if (selectedNode != null) {
             selectedNode.setDisable(true);
             selectedNode.setEffect(null);
@@ -630,11 +622,11 @@ public class GameGuiController {
     /**
      * Updates the bookshelf view, displaying the given bookshelf in the given grid.
      *
-     * @param grid      the grid to be updated
+     * @param grid2      the grid to be updated
      * @param bookshelf the bookshelf to be displayed
      */
-    public void updateBookshelf(GridPane grid, Bookshelf bookshelf) {
-        grid.getChildren().clear();
+    public void updateBookshelf(GridPane grid2, Bookshelf bookshelf) {
+        grid2.getChildren().clear();
         for (int i = 0; i < Bookshelf.getRows(); i++) {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 if (bookshelf.getItemAt(i, j).isPresent()) {
@@ -645,7 +637,7 @@ public class GameGuiController {
                         itemImageView.setFitHeight(ITEM_SIZE);
                         itemImageView.setFitWidth(ITEM_SIZE);
                         itemImageView.setImage(itemImage);
-                        grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
+                        grid2.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                         itemImageView.setVisible(true);
                     } catch (NullPointerException e) {
                         System.out.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + bookshelf.getItemAt(i, j));
@@ -661,7 +653,7 @@ public class GameGuiController {
                         // itemImageView.setCursor(Cursor.HAND); // Set the cursor to hand
                         // set image to be transparent
                         // itemImageView.setOpacity(0.0);
-                        grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
+                        grid2.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                     } catch (NullPointerException e) {
                         System.out.println("Error on loading item image: null.png");
                     }
