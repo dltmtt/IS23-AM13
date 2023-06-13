@@ -49,6 +49,9 @@ public class GameGuiController {
     public int playerCounter = 1;
     @FXML
     public GridPane bookshelfGrid;
+
+    @FXML
+    public GridPane grid = new GridPane();
     @FXML
     private ImageView board;
     @FXML
@@ -61,6 +64,10 @@ public class GameGuiController {
     private ImageView cg2;
     @FXML
     private Button confirmSelection;
+    @FXML
+    private Button rearrange;
+    @FXML
+    private Button finish;
     @FXML
     private Button delete;
     @FXML
@@ -130,7 +137,7 @@ public class GameGuiController {
      */
     public void deleteCurrentSelection() {
         pickedItems.clear();
-        rearrangeArea.getChildren().clear();
+        grid.getChildren().clear();
         enableItemsWithOneFreeSide();
     }
 
@@ -274,6 +281,31 @@ public class GameGuiController {
         }
     }
 
+    public void selectInRearrangeArea(GridPane grid){
+        rearrange.setDisable(false);
+        if(grid.getChildren().size()==2){
+            Node node1 = grid.getChildren().get(1);
+            grid.getChildren().remove(1);
+            Node node0 = grid.getChildren().get(0);
+            grid.getChildren().remove(0);
+            grid.add(node1,0,0);
+            grid.add(node0,0,1);
+
+        }
+        else{   //size==3
+            Node node2 = grid.getChildren().get(2);
+            grid.getChildren().remove(2);
+            Node node1=grid.getChildren().get(1);
+            grid.getChildren().remove(1);
+            Node node0 = grid.getChildren().get(0);
+            grid.getChildren().remove(0);
+            grid.add(node2,0,0);
+            grid.add(node0,0,1);
+            grid.add(node1,0,2);
+        }
+    }
+
+
     public void highlightItem(int row, int col, Color color) {
         Node selectedNode = getNodeByRowColumnIndex(boardGridPane, row, col);
         if (selectedNode != null) {
@@ -331,7 +363,8 @@ public class GameGuiController {
                     delete.setDisable(true);
                     pickedItems.clear();
                     client.sendMessage(new Message("insertMessage", "insert", getColumnIndex(node)));
-                    rearrangeArea.getChildren().clear();
+                  //  rearrangeArea.getChildren().clear();
+                    grid.getChildren().clear();
                     indexList.clear();
                 });
             } else {
@@ -486,6 +519,7 @@ public class GameGuiController {
      * @param itemImageView the ImageView of the item
      * @param itemIndex     the index of the item in the rearrangeArea
      */
+    /*
     private void setupDragAndDrop(ImageView itemImageView, int itemIndex) {
         itemImageView.setOnDragDetected(event -> {
             Dragboard dragboard = itemImageView.startDragAndDrop(TransferMode.MOVE);
@@ -543,12 +577,15 @@ public class GameGuiController {
         });
     }
 
+     */
+
     /**
      * Method used to swap the images in the rearrangeArea and the itemImageViews list
      *
      * @param sourceImageView the ImageView of the item to be moved
      * @param targetImageView the ImageView of the item to be swapped with
      */
+    /*
     private void rearrangeImageViews(ImageView sourceImageView, ImageView targetImageView) {
         int sourceIndex = rearrangeArea.getChildren().indexOf(sourceImageView);
         int targetIndex = rearrangeArea.getChildren().indexOf(targetImageView);
@@ -568,12 +605,15 @@ public class GameGuiController {
         indexList.set(targetIndex, sourcePosition);
     }
 
+
+     */
     /**
      * Method used to swap the items in the indexList
      *
      * @param sourceIndex the index of the item to be moved
      * @param targetIndex the index of the item to be swapped with
      */
+    /*
     private void rearrangeItems(int sourceIndex, int targetIndex) {
         int sourcePosition = indexList.get(sourceIndex);
         indexList.remove(sourceIndex);
@@ -584,6 +624,8 @@ public class GameGuiController {
             indexList.add(targetIndex, sourcePosition);
         }
     }
+
+     */
 
     /**
      * Updates the bookshelf view, displaying the given bookshelf in the given grid.
@@ -669,24 +711,41 @@ public class GameGuiController {
     }
 
     public void enableRearrange() {
-        rearrangeArea.setDisable(false);
+        grid.setDisable(false);
     }
 
     public void rearrange(List<Item> items) {
-        rearrangeArea.getChildren().clear();
-        for (Item item : items) {
+        int i=0;
+        grid.getChildren().clear();
+        for(int j=0; j<items.size(); j++) {
             try {
-                ImageView itemView = createImageView(ITEM_BASE_PATH + item.fileName());
-                if (itemView != null) {
-                    setupDragAndDrop(itemView, itemImageViews.size());
+                int finalI=items.size()-i-1;
+                System.out.println("finalI: " + finalI);
+                ImageView itemView = createImageView(ITEM_BASE_PATH + items.get(j).fileName());
+
+                if(itemView != null) {
+                  //  rearrange.setOnMouseClicked(mouseEvent-> selectInRearrangeArea(itemView,finalI));
+                    itemView.setFitHeight(ITEM_SIZE);
+                    itemView.setFitWidth(ITEM_SIZE);
+                    grid.add(itemView, 0, finalI);
+
+                    System.out.println("itemView is not null");
+                    itemView.setDisable(false);
+
                 }
-                rearrangeArea.getChildren().add(itemView);
-                itemImageViews.add(itemView);
-                indexList.add(items.indexOf(item));
-                // removeItemsFromBoard(pickedItems);
+
             } catch (NullPointerException e) {
-                System.err.println("Error on loading item image: " + item.fileName() + ", item not added to rearrange area");
+                System.err.println("Error on loading item image: " + items.get(j).fileName() + ", item not added to rearrange area");
             }
+            i++;
         }
+        System.out.println(grid.getChildren().size());
+        if (grid.getChildren().size() == 1) {
+            rearrange.setDisable(true);
+        }
+        else{
+            rearrange.setOnMouseClicked(mouseEvent -> selectInRearrangeArea(grid));
+        }
+
     }
 }
