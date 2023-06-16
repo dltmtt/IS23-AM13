@@ -47,8 +47,13 @@ public class GameGuiController {
     private final List<Integer> indexList = new ArrayList<>();
     public HashMap<String, Integer> playersBookshelf = new HashMap<>();
     public int playerCounter = 1;
+    private final List<Integer> newOrder = new ArrayList<>();
     @FXML
     public GridPane bookshelfGrid;
+    @FXML
+    public GridPane grid;
+    @FXML
+    private Button rearrange;
     @FXML
     private ImageView board;
     @FXML
@@ -79,8 +84,6 @@ public class GameGuiController {
     private Label promptInsert;
     @FXML
     private Label promptRearrange;
-    @FXML
-    private VBox rearrangeArea;
 
     public GameGuiController() {
         client = MyShelfie.client;
@@ -130,7 +133,7 @@ public class GameGuiController {
      */
     public void deleteCurrentSelection() {
         pickedItems.clear();
-        rearrangeArea.getChildren().clear();
+        grid.getChildren().clear();
         enableItemsWithOneFreeSide();
     }
 
@@ -330,8 +333,9 @@ public class GameGuiController {
                     confirmSelection.setDisable(true);
                     delete.setDisable(true);
                     pickedItems.clear();
+                    client.sendMessage(new Message("sort", indexList));
                     client.sendMessage(new Message("insertMessage", "insert", getColumnIndex(node)));
-                    rearrangeArea.getChildren().clear();
+                    grid.getChildren().clear();
                     indexList.clear();
                 });
             } else {
@@ -480,92 +484,22 @@ public class GameGuiController {
         }
     }
 
-    /**
-     * Method used to create the drag&drop functionality for rearranging the items in the rearrangeArea
-     *
-     * @param itemImageView the ImageView of the item
-     * @param itemIndex     the index of the item in the rearrangeArea
-     */
-    private void setupDragAndDrop(ImageView itemImageView, int itemIndex) {
-        itemImageView.setOnDragDetected(event -> {
-            Dragboard dragboard = itemImageView.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent content = new ClipboardContent();
-            content.putString(Integer.toString(itemIndex));
-            dragboard.setContent(content);
-            event.consume();
-        });
 
-        itemImageView.setOnDragOver(event -> {
-            if (event.getGestureSource() != itemImageView && event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.MOVE);
-            }
-            event.consume();
-        });
 
-        itemImageView.setOnDragEntered(event -> {
-            if (event.getGestureSource() != itemImageView && event.getDragboard().hasString()) {
-                itemImageView.setCursor(Cursor.HAND);
-            }
-            event.consume();
-        });
-
-        itemImageView.setOnDragExited(event -> {
-            if (event.getGestureSource() != itemImageView && event.getDragboard().hasString()) {
-                itemImageView.setCursor(Cursor.DEFAULT);
-            }
-            event.consume();
-        });
-
-        itemImageView.setOnDragDropped(event -> {
-            Dragboard dragboard = event.getDragboard();
-            boolean success = false;
-
-            if (dragboard.hasString()) {
-                int sourceIndex = Integer.parseInt(dragboard.getString());
-                ImageView sourceImageView = itemImageViews.get(sourceIndex);
-                ImageView targetImageView = (ImageView) event.getSource();
-
-                rearrangeImageViews(sourceImageView, targetImageView);
-                rearrangeItems(sourceIndex, itemIndex);
-                success = true;
-            }
-
-            event.setDropCompleted(success);
-            event.consume();
-        });
-
-        itemImageView.setOnDragDone(event -> {
-            if (event.getTransferMode() == TransferMode.MOVE) {
-                // Lines to perform any additional cleanup or actions after the drag-and-drop operation
-
-            }
-            event.consume();
-        });
+    public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
+        if (!playersBookshelf.containsKey(name)) {
+            playersBookshelf.put(name, playerCounter);
+        }
     }
 
     /**
-     * Method used to swap the images in the rearrangeArea and the itemImageViews list
+     * Show a message on the messageLabel
      *
-     * @param sourceImageView the ImageView of the item to be moved
-     * @param targetImageView the ImageView of the item to be swapped with
+     * @param message the message to be shown
      */
-    private void rearrangeImageViews(ImageView sourceImageView, ImageView targetImageView) {
-        int sourceIndex = rearrangeArea.getChildren().indexOf(sourceImageView);
-        int targetIndex = rearrangeArea.getChildren().indexOf(targetImageView);
-
-        rearrangeArea.getChildren().removeAll(sourceImageView, targetImageView);
-        rearrangeArea.getChildren().add(targetIndex, sourceImageView);
-        rearrangeArea.getChildren().add(sourceIndex, targetImageView);
-
-        // Swap the image views in the list
-        itemImageViews.set(sourceIndex, targetImageView);
-        itemImageViews.set(targetIndex, sourceImageView);
-
-        // Swap the positions in the index list
-        int sourcePosition = indexList.get(sourceIndex);
-        int targetPosition = indexList.get(targetIndex);
-        indexList.set(sourceIndex, targetPosition);
-        indexList.set(targetIndex, sourcePosition);
+    public void showMessage(String message) {
+        messageLabel.setText(message);
+        messageLabel.setVisible(true);
     }
 
     /**
@@ -583,6 +517,74 @@ public class GameGuiController {
         } else {
             indexList.add(targetIndex, sourcePosition);
         }
+    }
+
+    public void selectInRearrangeArea(GridPane grid){
+        rearrange.setDisable(false);
+        newOrder.clear();
+        if(grid.getChildren().size()==2){
+            Node node1 = grid.getChildren().get(1);
+            grid.getChildren().remove(1);
+            Node node0 = grid.getChildren().get(0);
+            grid.getChildren().remove(0);
+            grid.add(node1,0,0);
+            grid.add(node0,0,1);
+
+          //  rearrangeItems(0,1);
+          //  rearrangeItems(1,0);
+            newOrder.addAll(indexList);
+            indexList.clear();
+            indexList.add(newOrder.get(1));
+            indexList.add(newOrder.get(0));
+        }
+        else {   //size==3
+            Node node2 = grid.getChildren().get(2);
+            grid.getChildren().remove(2);
+            Node node1=grid.getChildren().get(1);
+            grid.getChildren().remove(1);
+            Node node0 = grid.getChildren().get(0);
+            grid.getChildren().remove(0);
+            grid.add(node2,0,0);
+            grid.add(node0,0,1);
+            grid.add(node1,0,2);
+
+            newOrder.addAll(indexList);
+            indexList.clear();
+            indexList.add(newOrder.get(2));
+            indexList.add(newOrder.get(0));
+            indexList.add(newOrder.get(1));
+          //  rearrangeItems(0,1);
+          //  rearrangeItems(1,2);
+          //  rearrangeItems(2,0);
+        }
+    }
+
+    /**
+     * Initialize the bookshelf grid with empty image views.
+     */
+    private void initializeBookshelfGrid() {
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
+            for (int j = 0; j < Bookshelf.getColumns(); j++) {
+                try {
+                    ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
+                    itemImageView.setFitHeight(ITEM_SIZE);
+                    itemImageView.setFitWidth(ITEM_SIZE);
+                    itemImageView.setPreserveRatio(true);
+                    itemImageView.setSmooth(true);
+                    itemImageView.setCache(true);
+                    itemImageView.setCursor(Cursor.HAND); // Set the cursor to hand
+                    // set image to be transparent
+                    // itemImageView.setOpacity(0.0);
+                    bookshelfGrid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
+                } catch (NullPointerException e) {
+                    System.out.println("Error on loading item image: null.png");
+                }
+            }
+        }
+    }
+
+    public void enableRearrange() {
+        grid.setDisable(false);
     }
 
     /**
@@ -628,65 +630,34 @@ public class GameGuiController {
         }
     }
 
-    public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
-        if (!playersBookshelf.containsKey(name)) {
-            playersBookshelf.put(name, playerCounter);
-        }
-    }
-
-    /**
-     * Show a message on the messageLabel
-     *
-     * @param message the message to be shown
-     */
-    public void showMessage(String message) {
-        messageLabel.setText(message);
-        messageLabel.setVisible(true);
-    }
-
-    /**
-     * Initialize the bookshelf grid with empty image views.
-     */
-    private void initializeBookshelfGrid() {
-        for (int i = 0; i < Bookshelf.getRows(); i++) {
-            for (int j = 0; j < Bookshelf.getColumns(); j++) {
-                try {
-                    ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
-                    itemImageView.setFitHeight(ITEM_SIZE);
-                    itemImageView.setFitWidth(ITEM_SIZE);
-                    itemImageView.setPreserveRatio(true);
-                    itemImageView.setSmooth(true);
-                    itemImageView.setCache(true);
-                    itemImageView.setCursor(Cursor.HAND); // Set the cursor to hand
-                    // set image to be transparent
-                    // itemImageView.setOpacity(0.0);
-                    bookshelfGrid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
-                } catch (NullPointerException e) {
-                    System.out.println("Error on loading item image: null.png");
-                }
-            }
-        }
-    }
-
-    public void enableRearrange() {
-        rearrangeArea.setDisable(false);
-    }
 
     public void rearrange(List<Item> items) {
-        rearrangeArea.getChildren().clear();
-        for (Item item : items) {
+        int i=0;
+        grid.getChildren().clear();
+        for (int j=0; j<items.size(); j++){
             try {
-                ImageView itemView = createImageView(ITEM_BASE_PATH + item.fileName());
+                int finalI = items.size()-i-1;
+                ImageView itemView = createImageView(ITEM_BASE_PATH + items.get(j).fileName());
                 if (itemView != null) {
-                    setupDragAndDrop(itemView, itemImageViews.size());
+                    itemView.setFitHeight(ITEM_SIZE);
+                    itemView.setFitWidth(ITEM_SIZE);
+                    grid.add(itemView,0, finalI);
+                    System.out.println("itemView is not null");
+                    itemView.setDisable(false);
+                    indexList.add(items.indexOf(items.get(j)));
                 }
-                rearrangeArea.getChildren().add(itemView);
-                itemImageViews.add(itemView);
-                indexList.add(items.indexOf(item));
-                // removeItemsFromBoard(pickedItems);
+
             } catch (NullPointerException e) {
-                System.err.println("Error on loading item image: " + item.fileName() + ", item not added to rearrange area");
+                System.err.println("Error on loading item image: " + items.get(j).fileName() + ", item not added to rearrange area");
             }
+            i++;
+        }System.out.println(grid.getChildren().size());
+        if (grid.getChildren().size() == 1) {
+            rearrange.setDisable(true);
         }
+        else{
+            rearrange.setOnMouseClicked(mouseEvent -> selectInRearrangeArea(grid));
+        }
+
     }
 }

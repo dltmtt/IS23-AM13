@@ -28,9 +28,28 @@ public class EndGameGuiController {
 
     public EndGameGuiController(List<Client> clients, GuiView view) {
         this.clients = clients;
-       // this.view = view;
     }
-
+    public void insertNames(){
+        if(clients.size()==2){
+            username1.setText(clients.get(0).getUsername());
+            username2.setText(clients.get(1).getUsername());
+            username3.setText("");
+            username4.setText("");
+        }
+        else if(clients.size()==3){
+            username1.setText(clients.get(0).getUsername());
+            username2.setText(clients.get(1).getUsername());
+            username3.setText(clients.get(2).getUsername());
+            username4.setText("");
+        }
+        else{
+            username1.setText(clients.get(0).getUsername());
+            username2.setText(clients.get(1).getUsername());
+            username3.setText(clients.get(2).getUsername());
+            username4.setText(clients.get(3).getUsername());
+        }
+    }
+/*
     //it changes the value of the labels with the usernames of the players
     public void onSliderChanged1() {
         if (clients.size() > 0) {
@@ -67,17 +86,27 @@ public class EndGameGuiController {
         }
     }
 
+ */
+
+    public void insertScores(){
+        if(clients.size()==2){
+
+        }
+        else if(clients.size()==3){
+
+        }
+        else{   // 4 players
+
+        }
+    }
+/*
     public void onScoreChanged1(){
         if(username1.getText().isEmpty() && clients.size()>0){  //I have no client
             score1.setTextFill(javafx.scene.paint.Color.RED);
             score1.setText("Score1 cannot be empty");
             }
         //this should never occur because players are at least 2
-        /*
-        else if(username2.getText().isEmpty()){
-            score2.setText("");
-        }
-         */
+
         //this should never occur because players are at least 2
         else if(username1.getText().isEmpty()){
             score1.setText("");
@@ -92,16 +121,13 @@ public class EndGameGuiController {
             score2.setText("Score2 cannot be empty");
         }
         //this should never occur because players are at least 2
-        /*
-        else if(username2.getText().isEmpty()){
-            score2.setText("");
-        }
-         */
         else{
             //   score1.setText(String.valueOf((int) clients.get(0).calculateScore()));
         }
 
     }
+ */
+    /*
     public void onScoreChanged3(){
         if(username3.getText().isEmpty() && clients.size()==3){
             score3.setTextFill(javafx.scene.paint.Color.RED);
@@ -127,4 +153,6 @@ public class EndGameGuiController {
             //score4.setText(String.valueOf((int) clients.get(0).calculateScore()));
         }
     }
+    
+     */
 }
