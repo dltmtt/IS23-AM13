@@ -477,14 +477,14 @@ public class GameGuiController {
 
     private void updateScoring(List<Integer> topScoring) {
         try {
-            topOfScoring1.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(0) + ".png")).toExternalForm()));
+            topOfScoring1.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(0) + ".jpg")).toExternalForm()));
             topOfScoring1.setVisible(true);
         } catch (NullPointerException e) {
             System.out.println("Error on loading scoring token: " + topScoring.get(0));
         }
         if (topScoring.size() == 2) {
             try {
-                topOfScoring2.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(1) + ".png")).toExternalForm()));
+                topOfScoring2.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(1) + ".jpg")).toExternalForm()));
                 topOfScoring2.setVisible(true);
             } catch (NullPointerException e) {
                 System.out.println("Error on loading scoring token: " + topScoring.get(1));

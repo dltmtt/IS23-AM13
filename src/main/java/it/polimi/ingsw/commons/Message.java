@@ -169,8 +169,10 @@ public class Message implements Serializable {
 
         json.put("board", boardJson(board));
         for (int i = 0; i < topOfScoringList.size(); i++) {
-            json.put("topOfScoringList " + i, topOfScoringList.get(i));
+            String integerString = Integer.toString(topOfScoringList.get(i));
+            json.put("topScoring" + i, integerString);
         }
+        System.out.println(json.toString());
     }
 
     /**
@@ -198,8 +200,10 @@ public class Message implements Serializable {
         json.put("cgScore", Integer.toString(score.get(1)));
         json.put("bookshelfScore", Integer.toString(score.get(2)));
         json.put("totalScore", Integer.toString(score.get(3)));
+        System.out.println("topOfScoring size: " + topOfScoring.size());
         for (int i = 0; i < topOfScoring.size(); i++) {
-            json.put("topScoring " + i, topOfScoring.get(i));
+            String topOfScoringString = Integer.toString(topOfScoring.get(i));
+            json.put("topScoring " + i, topOfScoringString);
         }
     }
 
@@ -632,13 +636,22 @@ public class Message implements Serializable {
     }
 
     public List<Integer> getTopOfScoringList() {
-        int i = 0;
+
         List<Integer> topScoringList = new ArrayList<>();
-        while (json.get("topScoring" + i) != null) {
-            String topScoring = (String) json.get("topScoring" + i);
-            topScoringList.add(Integer.parseInt(topScoring));
-            i++;
+        for (int i = 0; i < 1; i++) {
+            if (json.get("topScoring" + i) != null) {
+                String topScoring = (String) json.get("topScoring" + i);
+                topScoringList.add(Integer.parseInt(topScoring));
+            } else {
+                break;
+            }
         }
+        // while (json.get("topScoring" + i) != null) {
+        //     String topScoring = (String) json.get("topScoring" + i);
+        //     topScoringList.add(Integer.parseInt(topScoring));
+        //     i++;
+        // }
+
         return topScoringList;
     }
 
