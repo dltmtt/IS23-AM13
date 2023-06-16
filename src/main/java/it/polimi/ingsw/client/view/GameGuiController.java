@@ -334,10 +334,21 @@ public class GameGuiController {
      * @param pickedItems the list of the starting and ending coordinates of the picked items
      */
     public void highlightSelection(List<Coordinates> pickedItems) {
-        int startX = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x());
-        int startY = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y());
-        int endX = Math.max(pickedItems.get(0).x(), pickedItems.get(1).x());
-        int endY = Math.max(pickedItems.get(0).y(), pickedItems.get(1).y());
+        int startX;
+        int startY;
+        int endX;
+        int endY;
+        if (pickedItems.size() == 2) {
+            startX = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x());
+            startY = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y());
+            endX = Math.max(pickedItems.get(0).x(), pickedItems.get(1).x());
+            endY = Math.max(pickedItems.get(0).y(), pickedItems.get(1).y());
+        } else {
+            startX = pickedItems.get(0).x();
+            startY = pickedItems.get(0).y();
+            endX = pickedItems.get(0).x();
+            endY = pickedItems.get(0).y();
+        }
         for (int i = startX; i <= endX; i++) {
             for (int j = startY; j <= endY; j++) {
                 highlightItem(i, j, Color.GREEN);
@@ -351,10 +362,22 @@ public class GameGuiController {
      * @param pickedItems the list of the items to remove
      */
     public void removeItemsFromBoard(List<Coordinates> pickedItems) {
-        int startX = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x());
-        int startY = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y());
-        int endX = Math.max(pickedItems.get(0).x(), pickedItems.get(1).x());
-        int endY = Math.max(pickedItems.get(0).y(), pickedItems.get(1).y());
+        int startX;
+        int startY;
+        int endX;
+        int endY;
+
+        if (pickedItems.size() == 2) {
+            startX = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x());
+            startY = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y());
+            endX = Math.max(pickedItems.get(0).x(), pickedItems.get(1).x());
+            endY = Math.max(pickedItems.get(0).y(), pickedItems.get(1).y());
+        } else {
+            startX = pickedItems.get(0).x();
+            startY = pickedItems.get(0).y();
+            endX = pickedItems.get(0).x();
+            endY = pickedItems.get(0).y();
+        }
         for (int i = startX; i <= endX; i++) {
             for (int j = startY; j <= endY; j++) {
                 getNodeByRowColumnIndex(boardGridPane, i, j).setVisible(false);
@@ -524,34 +547,28 @@ public class GameGuiController {
         playersName.remove(client.getUsername());
         for (int i = 0; i < playersName.size(); i++) {
             switch (i) {
-                case 0:
-                    player1.setText(playersName.get(i));
-                    break;
-                case 1:
-                    player2.setText(playersName.get(i));
-                    break;
-                case 2:
-                    player3.setText(playersName.get(i));
-                    break;
-                default:
-                    break;
+                case 0 -> player1.setText(playersName.get(i));
+                case 1 -> player2.setText(playersName.get(i));
+                case 2 -> player3.setText(playersName.get(i));
+                default -> {
+                }
             }
             playersBookshelf.put(playersName.get(i), i + 1);
         }
 
         switch (playersName.size()) {
-            case 1:
+            case 1 -> {
                 player2.setVisible(false);
                 player3.setVisible(false);
                 player2StackPane.setVisible(false);
                 player3StackPane.setVisible(false);
-                break;
-            case 2:
+            }
+            case 2 -> {
                 player3.setVisible(false);
                 player3StackPane.setVisible(false);
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
     }
 
@@ -607,17 +624,11 @@ public class GameGuiController {
     public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
         int playerNumber = playersBookshelf.get(name);
         switch (playerNumber) {
-            case 1:
-                updateBookshelf(bookshelfGrid1, bookshelf, false, SMALL_ITEM_SIZE);
-                break;
-            case 2:
-                updateBookshelf(bookshelfGrid2, bookshelf, false, SMALL_ITEM_SIZE);
-                break;
-            case 3:
-                updateBookshelf(bookshelfGrid3, bookshelf, false, SMALL_ITEM_SIZE);
-                break;
-            default:
-                System.err.println("Error on updating bookshelf " + playerNumber + " called by " + name + ", doesn't appear on hashmap " + playersBookshelf);
+            case 1 -> updateBookshelf(bookshelfGrid1, bookshelf, false, SMALL_ITEM_SIZE);
+            case 2 -> updateBookshelf(bookshelfGrid2, bookshelf, false, SMALL_ITEM_SIZE);
+            case 3 -> updateBookshelf(bookshelfGrid3, bookshelf, false, SMALL_ITEM_SIZE);
+            default ->
+                    System.err.println("Error on updating bookshelf " + playerNumber + " called by " + name + ", doesn't appear on hashmap " + playersBookshelf);
         }
     }
 

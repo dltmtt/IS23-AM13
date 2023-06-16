@@ -247,6 +247,7 @@ public class Message implements Serializable {
             JSONObject winnersJson = new JSONObject();
             winnersJson.put("name", names.get(i));
             winnersJson.put("score", scores.get(i));
+            winnersArray.add(winnersJson);
         }
         json.put("winners", winnersArray);
     }
