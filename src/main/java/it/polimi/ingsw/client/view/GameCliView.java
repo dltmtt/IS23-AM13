@@ -363,12 +363,14 @@ public class GameCliView implements GameView {
     @Override
     public void showGameAlreadyStarted() {
         showMessage("Game already started! You have to wait for the next one :(\n");
+        client.stop();
     }
 
     @Override
     public void showRemovePlayer() {
         showMessage("Sorry, there are already enough players for this match 😞😭💔😔.\n");
         showMessage("Try again later.\n");
+        client.stop();
     }
 
     @Override

@@ -62,9 +62,11 @@ public class GameModel {
      */
     public List<Integer> getTopScoringPoints() {
 
+        topScoringPoints.clear();
         for (CommonGoal cg : Player.getCommonGoals()) {
             topScoringPoints.add(cg.getScoringList().get(0));
         }
+
         return topScoringPoints;
     }
 

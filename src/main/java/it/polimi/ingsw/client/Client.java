@@ -184,11 +184,11 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "lastRound" -> gameView.showLastRound();
             case "gameAlreadyStarted" -> {
                 gameView.showGameAlreadyStarted();
-                stop();
+                // stop();
             }
             case "removePlayer" -> {
                 gameView.showRemovePlayer();
-                stop();
+                // stop();
             }
             case "insertRetry" -> {
                 String argument = message.getArgument();

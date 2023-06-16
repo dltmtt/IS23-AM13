@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a player of the game and contains all his information.
+ * This class represents a player of the game and contains all their information.
  */
 // @SuppressWarnings("unused")
 public class Player {

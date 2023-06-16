@@ -71,7 +71,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the current game buckUp message.
+     * Constructor for the current game backUp message.
      *
      * @param players        the current list of players
      * @param commonGoalList the list of common goals
@@ -473,6 +473,17 @@ public class Message implements Serializable {
         return players;
     }
 
+    public List<String> getPlayersName() {
+        List<String> playersName = new ArrayList<>();
+        JSONArray bookshelvesArray = (JSONArray) json.get("bookshelves");
+        for (Object o : bookshelvesArray) {
+            JSONObject bookshelfJson = (JSONObject) o;
+            String name = (String) bookshelfJson.get("username");
+            playersName.add(name);
+        }
+        return playersName;
+    }
+
     public List<Boolean> getCommonGoalCompleted(JSONObject player) {
         List<Boolean> commonGoalCompleted = new ArrayList<>();
         JSONArray array = (JSONArray) player.get("CommonGoalCompleted");
@@ -638,7 +649,7 @@ public class Message implements Serializable {
     public List<Integer> getTopOfScoringList() {
 
         List<Integer> topScoringList = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i <= 1; i++) {
             if (json.get("topScoring" + i) != null) {
                 String topScoring = (String) json.get("topScoring" + i);
                 topScoringList.add(Integer.parseInt(topScoring));

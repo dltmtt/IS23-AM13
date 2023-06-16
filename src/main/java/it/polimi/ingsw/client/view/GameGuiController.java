@@ -19,6 +19,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -30,20 +31,29 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
 
 public class GameGuiController {
 
+    // Size of the main items in the bookshelf
+    public static final double MAIN_ITEM_SIZE = 40;
+
+    // Path of the images
     private static final String ITEM_BASE_PATH = "graphics/item_tiles/";
-    private static final int ITEM_SIZE = 40; // Adjust the size of each item image
-    private static final List<GridPane> playersBookshelves = new ArrayList<>();
+
+    // Size of the small items in the bookshelf (other players)
+    private static final double SMALL_ITEM_SIZE = 17;
     public static List<Coordinates> pickedItems = new ArrayList<>();
+
+    // static reference to the client, in order to use the sendMessage() function
     public static Client client;
+
+    // static reference to the view
     public static GuiView view;
     public static Board boardModel;
     public static Bookshelf bookshelfModel = new Bookshelf();
-    private static List<Label> playersLabels;
     private final List<ImageView> itemImageViews = new ArrayList<>();
     private final List<Integer> indexList = new ArrayList<>();
     private final List<Integer> newOrder = new ArrayList<>();
+
+    // hashmap used to associate each unique username to a number, in order to display the correct bookshelf
     public HashMap<String, Integer> playersBookshelf = new HashMap<>();
-    public int playerCounter = 1;
     @FXML
     public GridPane bookshelfGrid;
     @FXML
@@ -99,13 +109,26 @@ public class GameGuiController {
     @FXML
     private Label totalPointsLabel;
 
+    @FXML
+    private ImageView endGameImage;
+
+    @FXML
+    private GridPane bookshelfGrid1;
+    @FXML
+    private GridPane bookshelfGrid2;
+    @FXML
+    private GridPane bookshelfGrid3;
+
+    @FXML
+    private StackPane player2StackPane, player3StackPane;
+
+    /**
+     * Creates a new GameGuiController, setting the static references to the client and the view.
+     * The required references are taken from the MyShelfie class and the GuiView class.
+     */
     public GameGuiController() {
         client = MyShelfie.client;
         view = GuiView.gui;
-        playersLabels = new ArrayList<>();
-        playersLabels.add(player1);
-        playersLabels.add(player2);
-        playersLabels.add(player3);
     }
 
     /**
@@ -291,6 +314,13 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * Highlights the specified item with the given color.
+     *
+     * @param row   the row index of the node (Model-wise)
+     * @param col   the column index of the node (Model-wise)
+     * @param color the color to highlight the item with
+     */
     public void highlightItem(int row, int col, Color color) {
         Node selectedNode = getNodeByRowColumnIndex(boardGridPane, row, col);
         if (selectedNode != null) {
@@ -298,6 +328,11 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * Highlights the picked items.
+     *
+     * @param pickedItems the list of the starting and ending coordinates of the picked items
+     */
     public void highlightSelection(List<Coordinates> pickedItems) {
         int startX = Math.min(pickedItems.get(0).x(), pickedItems.get(1).x());
         int startY = Math.min(pickedItems.get(0).y(), pickedItems.get(1).y());
@@ -413,8 +448,8 @@ public class GameGuiController {
                         Image itemImage = new Image(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + fileName)).toExternalForm());
 
                         ImageView itemImageView = new ImageView(itemImage);
-                        itemImageView.setFitHeight(ITEM_SIZE);
-                        itemImageView.setFitWidth(ITEM_SIZE);
+                        itemImageView.setFitHeight(MAIN_ITEM_SIZE);
+                        itemImageView.setFitWidth(MAIN_ITEM_SIZE);
 
                         // set the onClicked action as itemSelected() on itemImageView
                         int finalI = i;
@@ -470,9 +505,54 @@ public class GameGuiController {
 
         updateScoring(message.getTopOfScoringList());
 
+        setPlayersName(message);
+
+        endGameImage.setVisible(true);
+
         System.out.println("game loaded");
         disableAllItems();
         initializeBookshelfGrid();
+    }
+
+    /**
+     * Method that sets the other players name on the screen, creating the association between the username and the player number and setting as hidden the unused players.
+     */
+    private void setPlayersName(Message message) {
+        // Players name loading
+
+        List<String> playersName = message.getPlayersName();
+        playersName.remove(client.getUsername());
+        for (int i = 0; i < playersName.size(); i++) {
+            switch (i) {
+                case 0:
+                    player1.setText(playersName.get(i));
+                    break;
+                case 1:
+                    player2.setText(playersName.get(i));
+                    break;
+                case 2:
+                    player3.setText(playersName.get(i));
+                    break;
+                default:
+                    break;
+            }
+            playersBookshelf.put(playersName.get(i), i + 1);
+        }
+
+        switch (playersName.size()) {
+            case 1:
+                player2.setVisible(false);
+                player3.setVisible(false);
+                player2StackPane.setVisible(false);
+                player3StackPane.setVisible(false);
+                break;
+            case 2:
+                player3.setVisible(false);
+                player3StackPane.setVisible(false);
+                break;
+            default:
+                break;
+        }
     }
 
     private void updateScoring(List<Integer> topScoring) {
@@ -505,8 +585,8 @@ public class GameGuiController {
     private ImageView createImageView(String itemFileName) {
         try {
             ImageView item = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(itemFileName)).toExternalForm()));
-            item.setFitHeight(ITEM_SIZE);
-            item.setFitWidth(ITEM_SIZE);
+            item.setFitHeight(MAIN_ITEM_SIZE);
+            item.setFitWidth(MAIN_ITEM_SIZE);
             item.setPreserveRatio(true);
             item.setSmooth(true);
             item.setCache(true);
@@ -518,9 +598,26 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * Method that updates the opponents' bookshelves.
+     *
+     * @param bookshelf the bookshelf to be updated
+     * @param name      the name of the player that owns the bookshelf
+     */
     public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
-        if (!playersBookshelf.containsKey(name)) {
-            playersBookshelf.put(name, playerCounter);
+        int playerNumber = playersBookshelf.get(name);
+        switch (playerNumber) {
+            case 1:
+                updateBookshelf(bookshelfGrid1, bookshelf, false, SMALL_ITEM_SIZE);
+                break;
+            case 2:
+                updateBookshelf(bookshelfGrid2, bookshelf, false, SMALL_ITEM_SIZE);
+                break;
+            case 3:
+                updateBookshelf(bookshelfGrid3, bookshelf, false, SMALL_ITEM_SIZE);
+                break;
+            default:
+                System.err.println("Error on updating bookshelf " + playerNumber + " called by " + name + ", doesn't appear on hashmap " + playersBookshelf);
         }
     }
 
@@ -598,12 +695,12 @@ public class GameGuiController {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 try {
                     ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
-                    itemImageView.setFitHeight(ITEM_SIZE);
-                    itemImageView.setFitWidth(ITEM_SIZE);
+                    itemImageView.setFitHeight(MAIN_ITEM_SIZE);
+                    itemImageView.setFitWidth(MAIN_ITEM_SIZE);
                     itemImageView.setPreserveRatio(true);
                     itemImageView.setSmooth(true);
                     itemImageView.setCache(true);
-                    itemImageView.setCursor(Cursor.HAND); // Set the cursor to hand
+                    itemImageView.setCursor(Cursor.DEFAULT); // Set the cursor to default
                     // set image to be transparent
                     // itemImageView.setOpacity(0.0);
                     bookshelfGrid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
@@ -614,6 +711,9 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * enables the grid to be rearranged
+     */
     public void enableRearrange() {
         grid.setDisable(false);
     }
@@ -624,7 +724,7 @@ public class GameGuiController {
      * @param grid      the grid to be updated
      * @param bookshelf the bookshelf to be displayed
      */
-    public void updateBookshelf(GridPane grid, Bookshelf bookshelf) {
+    public void updateBookshelf(GridPane grid, Bookshelf bookshelf, boolean isMainPlayer, double itemSize) {
         grid.getChildren().clear();
         for (int i = 0; i < Bookshelf.getRows(); i++) {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
@@ -633,8 +733,8 @@ public class GameGuiController {
                     try {
                         Image itemImage = new Image(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + fileName)).toExternalForm());
                         ImageView itemImageView = new ImageView(itemImage);
-                        itemImageView.setFitHeight(ITEM_SIZE);
-                        itemImageView.setFitWidth(ITEM_SIZE);
+                        itemImageView.setFitHeight(itemSize);
+                        itemImageView.setFitWidth(itemSize);
                         itemImageView.setImage(itemImage);
                         grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                         itemImageView.setVisible(true);
@@ -642,19 +742,21 @@ public class GameGuiController {
                         System.out.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + bookshelf.getItemAt(i, j));
                     }
                 } else {
-                    try {
-                        ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
-                        itemImageView.setFitHeight(ITEM_SIZE);
-                        itemImageView.setFitWidth(ITEM_SIZE);
-                        itemImageView.setPreserveRatio(true);
-                        itemImageView.setSmooth(true);
-                        itemImageView.setCache(true);
-                        // itemImageView.setCursor(Cursor.HAND); // Set the cursor to hand
-                        // set image to be transparent
-                        // itemImageView.setOpacity(0.0);
-                        grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
-                    } catch (NullPointerException e) {
-                        System.out.println("Error on loading item image: null.png");
+                    if (isMainPlayer) {
+                        try {
+                            ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
+                            itemImageView.setFitHeight(itemSize);
+                            itemImageView.setFitWidth(itemSize);
+                            itemImageView.setPreserveRatio(true);
+                            itemImageView.setSmooth(true);
+                            itemImageView.setCache(true);
+                            itemImageView.setCursor(Cursor.DEFAULT); // Set the cursor to default
+                            // set image to be transparent
+                            // itemImageView.setOpacity(0.0);
+                            grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
+                        } catch (NullPointerException e) {
+                            System.out.println("Error on loading item image: null.png");
+                        }
                     }
                 }
             }
@@ -669,8 +771,8 @@ public class GameGuiController {
                 int finalI = items.size() - i - 1;
                 ImageView itemView = createImageView(ITEM_BASE_PATH + items.get(j).fileName());
                 if (itemView != null) {
-                    itemView.setFitHeight(ITEM_SIZE);
-                    itemView.setFitWidth(ITEM_SIZE);
+                    itemView.setFitHeight(MAIN_ITEM_SIZE);
+                    itemView.setFitWidth(MAIN_ITEM_SIZE);
                     grid.add(itemView, 0, finalI);
                     System.out.println("itemView is not null");
                     itemView.setDisable(false);
@@ -699,5 +801,9 @@ public class GameGuiController {
         commonGoalLabel.setText(score.get(1).toString());
         adjacentGroupsLabel.setText(score.get(2).toString());
         totalPointsLabel.setText(score.get(3).toString());
+    }
+
+    public void showLastRound() {
+        endGameImage.setVisible(false);
     }
 }

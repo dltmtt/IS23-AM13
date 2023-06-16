@@ -24,7 +24,7 @@ public class GuiView extends Application implements GameView {
     public static Client client; // Static reference to the client, in order to use the sendMessage() function
     public static List<Client> clients;
     public static GuiView gui;
-    public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene; // Loaded scenes
+    public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene, refusedScene; // Loaded scenes
     public static Stage stage; // Main stage
     private static LoginGuiController loginController;
 
@@ -38,6 +38,7 @@ public class GuiView extends Application implements GameView {
         // CAUTION: if any attributes need to be set, do so in the startView method,
         // because startView has the launch() command, which creates another instance of GuiView.
         launch();
+
         // Instruction executed after closing GUI window
     }
 
@@ -106,6 +107,16 @@ public class GuiView extends Application implements GameView {
             endGameScene = new Scene(endGameSceneLoader.load());
         } catch (IOException e) {
             System.err.println("Failed to load endGame.fxml");
+            throw new RuntimeException(e);
+        }
+
+        FXMLLoader refusedSceneLoader = new FXMLLoader(this.getClass().getResource("refused.fxml"));
+        refusedSceneLoader.setController(new RefusedGuiController(this));
+
+        try {
+            refusedScene = new Scene(refusedSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load refused.fxml");
             throw new RuntimeException(e);
         }
 
@@ -198,7 +209,10 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showEndGame(List<String> winners) {
-
+        Platform.runLater(() -> {
+            stage.setScene(endGameScene);
+            stage.show();
+        });
     }
 
     @Override
@@ -241,7 +255,7 @@ public class GuiView extends Application implements GameView {
     public void showBookshelf(Bookshelf bookshelf) {
         Platform.runLater(() -> {
             GameGuiController.bookshelfModel = bookshelf;
-            gameController.updateBookshelf(gameController.bookshelfGrid, bookshelf);
+            gameController.updateBookshelf(gameController.bookshelfGrid, bookshelf, true, GameGuiController.MAIN_ITEM_SIZE);
         });
     }
 
@@ -286,17 +300,22 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showLastRound() {
-        // TODO: implement
+        Platform.runLater(() -> {
+            gameController.showLastRound();
+        });
     }
 
     @Override
     public void showGameAlreadyStarted() {
-
+        showRemovePlayer();
     }
 
     @Override
     public void showRemovePlayer() {
-
+        Platform.runLater(() -> {
+            stage.setScene(refusedScene);
+            stage.show();
+        });
     }
 
     @Override
@@ -318,7 +337,7 @@ public class GuiView extends Application implements GameView {
     @Override
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         Platform.runLater(() -> {
-            gameController.updateScore(topOfScoringList, score);
+            // gameController.updateScore(topOfScoringList, score);
         });
     }
 
