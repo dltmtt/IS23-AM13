@@ -119,7 +119,7 @@ public interface ServerCommunicationInterface extends Remote {
         Thread checkThread = new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(20000);
                     if (!controller.pongReceived.contains(finalUsername) && !controller.disconnectedPlayers.contains(finalUsername)) {
                         System.out.println("Pong not received from " + finalUsername + ". Disconnecting.");
                         Thread.sleep(10000);

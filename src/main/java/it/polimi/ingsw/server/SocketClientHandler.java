@@ -60,7 +60,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                             System.err.println("Unable to parse message from client");
                         } catch (NullPointerException e) {
                             Utils.showDebugInfo(e);
-                            disconnect(username);
+                            // disconnect(username);
                             break;
                         }
 
@@ -76,11 +76,11 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                     Utils.showDebugInfo(e);
                     // We are here because the client disconnected (probably)
                     System.err.println("IOException");
-                    try {
-                        disconnect(username);
-                    } catch (RemoteException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    // try {
+                    //     disconnect(username);
+                    // } catch (RemoteException ex) {
+                    //     throw new RuntimeException(ex);
+                    // }
                     break;
                 }
             }
@@ -203,9 +203,9 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         Thread checkThread = new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(20000);
                     if (!controller.pongReceived.contains(finalUsername) && !controller.disconnectedPlayers.contains(finalUsername)) {
-                        System.out.println("Pong not received from " + finalUsername + ". Disconnecting.");
+                        System.err.println("Pong not received from " + finalUsername + ". Disconnecting.");
                         Thread.sleep(10000);
                         if (controller.pongLost.get(finalUsername) != 0) {
                             disconnect(finalUsername);
