@@ -199,7 +199,7 @@ public class Message implements Serializable {
         json.put("bookshelfScore", Integer.toString(score.get(2)));
         json.put("totalScore", Integer.toString(score.get(3)));
         for (int i = 0; i < topOfScoring.size(); i++) {
-            json.put("topOfScoringList " + i, topOfScoring.get(i));
+            json.put("topScoring " + i, topOfScoring.get(i));
         }
     }
 
@@ -635,7 +635,7 @@ public class Message implements Serializable {
         int i = 0;
         List<Integer> topScoringList = new ArrayList<>();
         while (json.get("topScoring" + i) == null) {
-            String topScoring = (String) json.get("topScoring");
+            String topScoring = (String) json.get("topScoring" + i);
             topScoringList.add(Integer.parseInt(topScoring));
         }
         return topScoringList;
