@@ -158,6 +158,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 gameView.pickOtherBookshelf(bookshelves);
                 // gameView.showCurrentScore(message.getIntMessage("score"));
                 gameView.showBoard(message.getBoard());
+                gameView.updateScore(message.getTopOfScoringList(), message.getScore());
             }
             case "startGame" -> gameView.startGame(message);
             case "turn" -> myTurn();

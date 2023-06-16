@@ -18,11 +18,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -45,9 +41,9 @@ public class GameGuiController {
     private static List<Label> playersLabels;
     private final List<ImageView> itemImageViews = new ArrayList<>();
     private final List<Integer> indexList = new ArrayList<>();
+    private final List<Integer> newOrder = new ArrayList<>();
     public HashMap<String, Integer> playersBookshelf = new HashMap<>();
     public int playerCounter = 1;
-    private final List<Integer> newOrder = new ArrayList<>();
     @FXML
     public GridPane bookshelfGrid;
     @FXML
@@ -84,6 +80,24 @@ public class GameGuiController {
     private Label promptInsert;
     @FXML
     private Label promptRearrange;
+
+    @FXML
+    private ImageView topOfScoring1;
+
+    @FXML
+    private ImageView topOfScoring2;
+
+    @FXML
+    private Label adjacentGroupsLabel;
+
+    @FXML
+    private Label commonGoalLabel;
+
+    @FXML
+    private Label personalGoalLabel;
+
+    @FXML
+    private Label totalPointsLabel;
 
     public GameGuiController() {
         client = MyShelfie.client;
@@ -453,9 +467,29 @@ public class GameGuiController {
 
         boardModel = message.getBoard();
         updateBoard();
+
+        updateScoring(message.getTopOfScoringList());
+
         System.out.println("game loaded");
         disableAllItems();
         initializeBookshelfGrid();
+    }
+
+    private void updateScoring(List<Integer> topScoring) {
+        try {
+            topOfScoring1.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(0) + ".png")).toExternalForm()));
+            topOfScoring1.setVisible(true);
+        } catch (NullPointerException e) {
+            System.out.println("Error on loading scoring token: " + topScoring.get(0));
+        }
+        if (topScoring.size() == 2) {
+            try {
+                topOfScoring2.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(1) + ".png")).toExternalForm()));
+                topOfScoring2.setVisible(true);
+            } catch (NullPointerException e) {
+                System.out.println("Error on loading scoring token: " + topScoring.get(1));
+            }
+        }
     }
 
     public void toggleHelp() {
@@ -483,8 +517,6 @@ public class GameGuiController {
             return null;
         }
     }
-
-
 
     public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
         if (!playersBookshelf.containsKey(name)) {
@@ -519,43 +551,42 @@ public class GameGuiController {
         }
     }
 
-    public void selectInRearrangeArea(GridPane grid){
+    public void selectInRearrangeArea(GridPane grid) {
         rearrange.setDisable(false);
         newOrder.clear();
-        if(grid.getChildren().size()==2){
+        if (grid.getChildren().size() == 2) {
             Node node1 = grid.getChildren().get(1);
             grid.getChildren().remove(1);
             Node node0 = grid.getChildren().get(0);
             grid.getChildren().remove(0);
-            grid.add(node1,0,0);
-            grid.add(node0,0,1);
+            grid.add(node1, 0, 0);
+            grid.add(node0, 0, 1);
 
-          //  rearrangeItems(0,1);
-          //  rearrangeItems(1,0);
+            //  rearrangeItems(0,1);
+            //  rearrangeItems(1,0);
             newOrder.addAll(indexList);
             indexList.clear();
             indexList.add(newOrder.get(1));
             indexList.add(newOrder.get(0));
-        }
-        else {   //size==3
+        } else {   // size==3
             Node node2 = grid.getChildren().get(2);
             grid.getChildren().remove(2);
-            Node node1=grid.getChildren().get(1);
+            Node node1 = grid.getChildren().get(1);
             grid.getChildren().remove(1);
             Node node0 = grid.getChildren().get(0);
             grid.getChildren().remove(0);
-            grid.add(node2,0,0);
-            grid.add(node0,0,1);
-            grid.add(node1,0,2);
+            grid.add(node2, 0, 0);
+            grid.add(node0, 0, 1);
+            grid.add(node1, 0, 2);
 
             newOrder.addAll(indexList);
             indexList.clear();
             indexList.add(newOrder.get(2));
             indexList.add(newOrder.get(0));
             indexList.add(newOrder.get(1));
-          //  rearrangeItems(0,1);
-          //  rearrangeItems(1,2);
-          //  rearrangeItems(2,0);
+            //  rearrangeItems(0,1);
+            //  rearrangeItems(1,2);
+            //  rearrangeItems(2,0);
         }
     }
 
@@ -630,34 +661,43 @@ public class GameGuiController {
         }
     }
 
-
     public void rearrange(List<Item> items) {
-        int i=0;
+        int i = 0;
         grid.getChildren().clear();
-        for (int j=0; j<items.size(); j++){
+        for (int j = 0; j < items.size(); j++) {
             try {
-                int finalI = items.size()-i-1;
+                int finalI = items.size() - i - 1;
                 ImageView itemView = createImageView(ITEM_BASE_PATH + items.get(j).fileName());
                 if (itemView != null) {
                     itemView.setFitHeight(ITEM_SIZE);
                     itemView.setFitWidth(ITEM_SIZE);
-                    grid.add(itemView,0, finalI);
+                    grid.add(itemView, 0, finalI);
                     System.out.println("itemView is not null");
                     itemView.setDisable(false);
                     indexList.add(items.indexOf(items.get(j)));
                 }
-
             } catch (NullPointerException e) {
                 System.err.println("Error on loading item image: " + items.get(j).fileName() + ", item not added to rearrange area");
             }
             i++;
-        }System.out.println(grid.getChildren().size());
+        }
+        System.out.println(grid.getChildren().size());
         if (grid.getChildren().size() == 1) {
             rearrange.setDisable(true);
-        }
-        else{
+        } else {
             rearrange.setOnMouseClicked(mouseEvent -> selectInRearrangeArea(grid));
         }
+    }
 
+    public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
+        updateScoring(topOfScoringList);
+        updatePoints(score);
+    }
+
+    private void updatePoints(List<Integer> score) {
+        personalGoalLabel.setText(score.get(0).toString());
+        commonGoalLabel.setText(score.get(1).toString());
+        adjacentGroupsLabel.setText(score.get(2).toString());
+        totalPointsLabel.setText(score.get(3).toString());
     }
 }

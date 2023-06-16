@@ -388,4 +388,9 @@ public class GameCliView implements GameView {
     public void rearrangeProcedure(List<Item> items) {
         client.sendMessage(new Message("sort", rearrange(items)));
     }
+
+    @Override
+    public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
+        // does nothing as it's a method for GUI
+    }
 }

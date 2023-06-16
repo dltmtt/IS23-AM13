@@ -634,9 +634,10 @@ public class Message implements Serializable {
     public List<Integer> getTopOfScoringList() {
         int i = 0;
         List<Integer> topScoringList = new ArrayList<>();
-        while (json.get("topScoring" + i) == null) {
+        while (json.get("topScoring" + i) != null) {
             String topScoring = (String) json.get("topScoring" + i);
             topScoringList.add(Integer.parseInt(topScoring));
+            i++;
         }
         return topScoringList;
     }

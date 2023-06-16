@@ -9,7 +9,7 @@ import it.polimi.ingsw.utils.CliUtilities;
 public class CommonGoalView {
 
     /**
-     * This method is used to print the common goal.
+     * This method is used to print the given common goal, featuring a switch-case statement in which the specific method is called based on the common goal's type
      *
      * @param type        the common goal's type
      * @param occurrences the number of occurrences of the common goal
@@ -30,6 +30,10 @@ public class CommonGoalView {
             default -> System.out.println("Error in CommonGoalView");
         }
     }
+
+    /**
+     * This method is used to print in CLI the corner common goal
+     */
 
     public static void cornersPrintLayout() {
         String description = "Four tiles of the same type in the four corners of the bookshelf.";
@@ -74,6 +78,12 @@ public class CommonGoalView {
         System.out.println(cell);
     }
 
+    /**
+     * This method is used to print the full line common goal
+     *
+     * @param occurrences the number of occurrences of the common goal
+     * @param horizontal  whether the common goal is horizontal or not
+     */
     public static void fullLinePrintLayout(int occurrences, boolean horizontal) {
         String description = fullLineDescription(occurrences, horizontal);
         StringBuilder card = new StringBuilder();
@@ -128,6 +138,13 @@ public class CommonGoalView {
         System.out.println(card);
     }
 
+    /**
+     * This method prints the full line description, based on its parameters
+     *
+     * @param occurrences the number of occurrences of the common goal
+     * @param horizontal  whether the common goal is horizontal or not
+     * @return the description of the common goal
+     */
     public static String fullLineDescription(int occurrences, boolean horizontal) {
         String description = occurrences + " ";
         if (horizontal) {
@@ -148,6 +165,12 @@ public class CommonGoalView {
         return description;
     }
 
+    /**
+     * This method is used to print the group common goal
+     *
+     * @param occurrences the number of occurrences of the common goal
+     * @param size        the size of the common goal
+     */
     public static void groupPrintLayout(int occurrences, int size) {
         String description = occurrences + " groups each containing at least 2 tiles of the same type (not necessarily in the depicted shape).";
         StringBuilder cell;
@@ -174,6 +197,9 @@ public class CommonGoalView {
         System.out.println(cell);
     }
 
+    /**
+     * This method is used to print the items per color common goal
+     */
     public static void itemsPerColorPrintLayout() {
         String description = "\tEight tiles of the same type. No restriction about the positions.";
         StringBuilder cell = new StringBuilder();
@@ -188,6 +214,9 @@ public class CommonGoalView {
         System.out.println(cell);
     }
 
+    /**
+     * This method is used to print the square common goal
+     */
     public static void squarePrintLayout() {
         String description = "   Two groups each containing 4 tiles of the same type in a 2x2 square. The two squares are independent.";
         String cell = CliUtilities.upperLeftBox + " ".repeat(7) + CliUtilities.upperRightBox + "\n" + "  " + CliUtilities.filledCell.repeat(2) + " ".repeat(7) + description + "\n" + "  " + CliUtilities.filledCell.repeat(2) + "\n" + CliUtilities.lowerLeftBox + " ".repeat(7) + CliUtilities.lowerRightBox + " ".repeat(3) + "x2";
