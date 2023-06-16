@@ -66,7 +66,6 @@ public interface GameView {
         for (Bookshelf bookshelf : bookshelves.keySet()) {
             if (!bookshelves.get(bookshelf).equals(name)) {
                 showOtherBookshelf(bookshelf, bookshelves.get(bookshelf));
-                break;
             }
         }
     }
