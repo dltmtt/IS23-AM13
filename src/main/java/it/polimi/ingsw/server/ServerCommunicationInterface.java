@@ -160,7 +160,7 @@ public interface ServerCommunicationInterface extends Remote {
      * @param username the username of the disconnected player
      */
     default void disconnect(String username) throws RemoteException {
-        System.err.println(username + " disconnected. in disconnected");
+        System.err.println(username + " disconnected.");
         controller.disconnect(username);
         if (controller.disconnectedPlayers.size() == controller.numberOfPlayers - 1) {
             // If there is only one player left, sendAll actually sends the message to the only player left,

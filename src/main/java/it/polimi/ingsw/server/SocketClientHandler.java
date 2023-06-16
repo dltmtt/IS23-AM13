@@ -126,7 +126,17 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
 
         switch (category) {
             // Maybe the controller should do something with the pong.
-            case "pong" -> {}
+            case "pong" -> {
+                System.out.println("Received pong from " + client.getUsername());
+                controller.pong(client.getUsername());
+                controller.addPongLost(client.getUsername());
+                if (controller.disconnectedPlayers.contains(client.getUsername())) {
+                    System.out.println("Player " + client.getUsername() + " reconnected");
+                    startPingThread(client);
+                    sendAll(new Message("reconnected", client.getUsername()));
+                    controller.disconnectedPlayers.remove(client.getUsername());
+                }
+            }
             case "numOfPlayersMessage" -> {
                 int numPlayer = message.getNumPlayer();
                 String isOk = controller.checkNumPlayer(numPlayer);
@@ -172,6 +182,47 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         }
     }
 
+    public void startPingThread(SocketClientHandler client) throws RemoteException {
+        String username = null;
+        username = client.getUsername();
+        String finalUsername = username;
+        Thread pingThread = new Thread(() -> {
+
+            while (true) {
+                try {
+                    client.sendMessageToClient(new Message("ping"));
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    System.err.println("Ping thread interrupted");
+                    break;
+                }
+            }
+        });
+        pingThread.start();
+
+        Thread checkThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(3000);
+                    if (!controller.pongReceived.contains(finalUsername) && !controller.disconnectedPlayers.contains(finalUsername)) {
+                        System.out.println("Pong not received from " + finalUsername + ". Disconnecting.");
+                        Thread.sleep(10000);
+                        if (controller.pongLost.get(finalUsername) != 0) {
+                            disconnect(finalUsername);
+                            pingThread.interrupt();
+                            break;
+                        }
+                    } else {
+                        controller.pongReceived.remove(finalUsername);
+                    }
+                } catch (InterruptedException | RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        checkThread.start();
+    }
+
     public void resendGameToReconnectedClient(SocketClientHandler client) throws RemoteException {
         int position = controller.getPositionByUsername(getUsername());
         System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
@@ -210,7 +261,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
 
                     setUsername(username);
                     controller.addClient(username, client);
-
+                    startPingThread(client);
                     controller.startRoom();
 
                     if (controller.isFirst()) {
