@@ -16,14 +16,16 @@ import java.util.stream.Collectors;
 
 public class ServerController {
 
+    public final List<String> disconnectedPlayers;
+    public final HashMap<String, Integer> pongLost;
+    public final List<String> pongReceived;
     private final List<Player> players;
     private final List<String> winnersNickname;
-    private final List<String> disconnectedPlayers;
     private final HashMap<String, ClientCommunicationInterface> rmiClients;
     private final HashMap<String, SocketClientHandler> tcpClients;
+    public int numberOfPlayers = 0;
     private HashMap<ClientCommunicationInterface, PersonalGoal> personalGoalRMI;
     private HashMap<SocketClientHandler, PersonalGoal> personalGoalTCP;
-    private int numPlayer = 0;
     private boolean gameIsStarted = false;
     private boolean printedTurn = false;
     private List<Item> currentPicked;
@@ -42,6 +44,31 @@ public class ServerController {
         disconnectedPlayers = new ArrayList<>();
         rmiClients = new HashMap<>();
         tcpClients = new HashMap<>();
+        pongLost = new HashMap<>();
+        pongReceived = new ArrayList<>();
+    }
+
+    public void pong(String username) {
+        if (!pongReceived.contains(username)) {
+            pongReceived.add(username);
+        }
+        pongLost.remove(username);
+        pongLost.put(username, 0);
+    }
+
+    public void removePong(String username) {
+        pongReceived.remove(username);
+    }
+
+    public void addPongLost(String username) {
+        int currentPongLost = pongLost.get(username);
+        pongLost.remove(username);
+        pongLost.put(username, currentPongLost + 1);
+    }
+
+    public void removeClientByUsername(String username) {
+        tcpClients.remove(username);
+        rmiClients.remove(username);
     }
 
     public boolean isGameSaved() {
@@ -58,7 +85,6 @@ public class ServerController {
         gameModel.setGame(lastGame.getBoard(), lastGame.getCommonGoals(players.size()));
         gameModel.setCurrentPlayer(lastGame.getCurrentPlayer());
         disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
-        changeTurn();
         System.out.println("Last game loaded");
     }
 
@@ -76,27 +102,22 @@ public class ServerController {
      */
     public void disconnect(String username) {
         disconnectedPlayers.add(username);
-
-        // Skip turn if the disconnected player is the current player
-        if (getCurrentPlayer().equals(username)) {
-            changeTurn();
-            System.out.println(username + "'s turn skipped because he disconnected. Now it's " + gameModel.getCurrentPlayer().getNickname() + "'s turn.");
-        }
+        // removeClientByUsername(username);
     }
 
-    public void setNumPlayer(int numPlayer) {
-        this.numPlayer = numPlayer;
-        room.setNumberOfPlayers(numPlayer);
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+        room.setNumberOfPlayers(numberOfPlayers);
     }
 
     public List<String> getExtraPlayers() {
-        List<String> ExtraPlayers = new ArrayList<>();
-        for (int i = numPlayer; i < players.size(); i++) {
-            ExtraPlayers.add(players.get(i).getNickname());
+        List<String> extraPlayers = new ArrayList<>();
+        for (int i = numberOfPlayers; i < players.size(); i++) {
+            extraPlayers.add(players.get(i).getNickname());
         }
-        removePlayers(ExtraPlayers);
-        System.out.println("Extra players: " + ExtraPlayers);
-        return ExtraPlayers;
+        removePlayers(extraPlayers);
+        System.out.println("Extra players: " + extraPlayers);
+        return extraPlayers;
     }
 
     public void removePlayers(List<String> playersToRemove) {
@@ -274,51 +295,14 @@ public class ServerController {
     }
 
     /**
-     * @param index is the position of the player in the list of players
-     * @return 1, 0, -1 or 2:
-     * <ul>
-     *   <li>1: it's the player's turn</li>
-     *   <li>0: it's not the player's turn</li>
-     *   <li>-1: the game has ended</li>
-     *   <li>2: all other players are disconnectedPlayers and there is only one connected</li>
-     * </ul>
-     */
-    public int yourTurn(int index) {
-        if (!printedTurn) {
-            System.out.println("It's " + gameModel.getCurrentPlayer().getNickname() + "'s turn");
-            printedTurn = true;
-        }
-
-        if (disconnectedPlayers.size() == players.size() - 1) {
-            // All the other players are disconnectedPlayers, there is only one left
-            return 2;
-        }
-
-        if (disconnectedPlayers.contains(gameModel.getCurrentPlayer().getNickname())) {
-            System.out.println("It's " + gameModel.getCurrentPlayer().getNickname() + "'s turn");
-            changeTurn();
-            return 0;
-        }
-
-        if (gameModel.isTheGameEnded()) {
-            return -1;
-        }
-
-        if (gameModel.getCurrentPlayer().equals(room.getListOfPlayers().get(index))) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-    /**
      * this method checks if the game is ended or not or if it's the last round
      *
      * @return -1,0 or 1:
      * <ul>
-     *     <li>-1: the game has ended</li>
-     *      <li>0: it's the last round</li>
-     *      <li>1: the game is not ended and it's not the last round</li>
+     *   <li>-1: the game has ended
+     *   <li>0: it's the last round
+     *   <li>1: the game is not ended and it's not the last round
+     * </ul>
      */
     public int checkGameStatus() {
         if (gameModel.isTheGameEnded()) {
@@ -415,9 +399,10 @@ public class ServerController {
      * @param column the column where the player wants to insert the picked items
      * @return -1,0 or 1:
      * <ul>
-     *     <li>-1: the player can't insert the picked items in the bookshelf because there are not enough free cells</li>
-     *     <li>0: the player can't insert the picked items in the bookshelf because the column is not valid</li>
-     *     <li>1: the player can insert the picked items in the bookshelf</li>
+     *   <li>-1: the player can't insert the picked items in the bookshelf because there are not enough free cells
+     *   <li>0: the player can't insert the picked items in the bookshelf because the column is not valid
+     *   <li>1: the player can insert the picked items in the bookshelf
+     * </ul>
      */
     public int checkInsert(int column) {
         if (gameModel.getCurrentPlayer().getBookshelf().getFreeCellsInColumn(column) < currentPicked.size()) {
@@ -429,7 +414,6 @@ public class ServerController {
         }
 
         gameModel.move(currentPicked, column);
-        saveGame();
         return 1;
     }
 
@@ -437,60 +421,12 @@ public class ServerController {
         new Message(players, getCommonGoals(), getBoard(), gameModel.getTopScoringPoints(), gameModel.getCurrentPlayer().getNickname());
     }
 
-    // public boolean isPresentInJson(String username) {
-    //     JSONParser parser = new JSONParser();
-    //     System.out.println("sono nel metodo isPresentInJson");
-    //     try {
-    //         Object obj = parser.parse(new FileReader("src/main/java/it/polimi/ingsw/commons/backUp.json"));
-    //         JSONObject jsonObject = (JSONObject) obj;
-    //         JSONArray jsonArray = (JSONArray) jsonObject.get("players");
-    //         System.out.println("sono nel metodo isPresentInJson e ho letto il file");
-    //         for (Object o : jsonArray) {
-    //             JSONObject jsonPlayer = (JSONObject) o;
-    //             if (jsonPlayer.get("username").equals(username)) {
-    //                 System.out.println("sono nel metodo isPresentInJson e ho trovato l'utente");
-    //
-    //                 return true;
-    //             }
-    //         }
-    //     } catch (IOException | ParseException e) {
-    //         e.printStackTrace();
-    //     }
-    //     System.out.println("sono nel metodo isPresentInJson e non ho trovato l'utente");
-    //     return false;
-    // }
-    //
-    // public void reconnectPlayer(JSONObject jsonPlayer) {
-    //     String username = (String) jsonPlayer.get("username");
-    //     boolean firstPlayer = (boolean) jsonPlayer.get("firstPlayer");
-    //     int personalGoal = (int) jsonPlayer.get("personalGoal");
-    //     Bookshelf bookshelf = getBookshelf(jsonPlayer);
-    //     Player player = new Player(username, 0, false, firstPlayer, false);
-    //     player.setBookshelf(bookshelf);
-    //     //
-    //     players.add(player);
-    //     // isGameOn(player);
-    // }
-    //
-    // public void isGameOn(Player player) {
-    //     if (room == null) {
-    //         room = new Room(1234);
-    //         room.addPlayer(player);
-    //     }
-    // }
-
     public List<Coordinates> createCoordinateList(List<Integer> integers) {
         List<Coordinates> coordinates = new ArrayList<>();
         for (int i = 0; i < integers.size(); i += 2) {
             coordinates.add(new Coordinates(integers.get(i), integers.get(i + 1)));
         }
         return coordinates;
-    }
-
-    public int getCurrentPlayerScore() {
-        int score = gameModel.getCurrentPlayer().calculateScore();
-        changeTurn();
-        return score;
     }
 
     public List<String> getWinnersNickname() {

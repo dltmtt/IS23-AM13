@@ -20,7 +20,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     public GameView gameView;
     String username = null;
+    boolean theOnlyOne = false;
     private int myPosition;
+    private boolean serverConnection = false;
 
     public Client() throws RemoteException {
         super();
@@ -139,15 +141,18 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     @Override
     public void callBackSendMessage(Message message) {
         String category = message.getCategory();
+
         switch (category) {
-            case "ping" -> sendMessage(new Message("pong"));
+            case "ping" -> {
+                serverConnection = true;
+                sendMessage(new Message("pong"));
+            }
             case "username" -> setUsername(message.getUsername());
             case "UsernameRetry" -> gameView.usernameError();
             case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
             case "chooseNumOfPlayer" -> gameView.playerChoice();
             case "numOfPlayersNotOK" -> gameView.playerNumberError();
             case "update" -> {
-                System.out.println("Received update message");
                 HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
                 gameView.pickMyBookshelf(bookshelves);
                 gameView.pickOtherBookshelf(bookshelves);
@@ -174,7 +179,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 gameView.showPick();
             }
             case "endGame" -> gameView.showEndGame(message.getWinners());
-            case "disconnection" -> gameView.showDisconnection();
             case "waitingRoom" -> waitingRoom();
             case "lastRound" -> gameView.showLastRound();
             case "gameAlreadyStarted" -> {
@@ -200,7 +204,58 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 // gameView.showDisconnection(disconnected);
                 // stop();
             }
+            case "reconnected" -> {
+                System.out.println("Reconnected");
+                String username = message.getArgument();
+                gameView.showMessage(username + " reconnected.\n");
+                theOnlyOne = false;
+            }
+            case "youAloneBitch" -> {
+                gameView.showMessage("You are the only player in the game. Please wait for other players to reconnect.\n");
+                theOnlyOne = true;
+                waitForReconnection();
+            }
             default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
+    }
+
+    public void waitForReconnection() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (theOnlyOne) {
+                gameView.showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
+                System.exit(0);
+            }
+        }).start();
+    }
+
+    public void checkServerConnection() {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (!serverConnection) {
+                    System.err.println("Server not responding. Please wait.");
+                    try {
+                        Thread.sleep(5000);
+                        if (!serverConnection) {
+                            System.err.println("Lost connection to server.");
+                            stop();
+                        }
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                serverConnection = false;
+            }
+        }).start();
     }
 }

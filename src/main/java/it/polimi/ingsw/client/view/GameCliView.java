@@ -28,6 +28,7 @@ public class GameCliView implements GameView {
         boolean firstGame = promptFirstGame();
         client.startPingThread(username);
         client.sendMessage(new Message("completeLogin", username, 0, firstGame, 0));
+        client.checkServerConnection();
     }
 
     @Override
@@ -260,11 +261,6 @@ public class GameCliView implements GameView {
     @Override
     public void showCurrentScore(int score) {
         showMessage("Your current score is " + score + "\n");
-    }
-
-    @Override
-    public void showDisconnection() {
-        showMessage("All other players have disconnected. Please wait...\n");
     }
 
     @Override
