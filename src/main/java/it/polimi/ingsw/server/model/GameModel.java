@@ -73,6 +73,10 @@ public class GameModel {
         this.topScoringPoints.addAll(topScoringPoints);
     }
 
+    public int getTopOfScoring() {
+        return topScoringPoints.get(0);
+    }
+
     /**
      * @param player the player to get the points of
      * @return a list of all the points that the player has earned

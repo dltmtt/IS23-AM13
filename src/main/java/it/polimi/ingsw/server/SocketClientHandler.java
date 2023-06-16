@@ -227,8 +227,8 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         int position = controller.getPositionByUsername(getUsername());
         System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
 
-        Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
-        client.sendMessageToClient(game);
+        Message myGame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.allPoints(position), controller.getTopOfScoring());
+        client.sendMessageToClient(myGame);
 
         controller.addClient(getUsername(), client);
         sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));

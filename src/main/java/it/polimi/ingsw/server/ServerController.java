@@ -85,6 +85,7 @@ public class ServerController {
         gameModel.setGame(lastGame.getBoard(), lastGame.getCommonGoals(players.size()));
         gameModel.setCurrentPlayer(lastGame.getCurrentPlayer());
         disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
+        changeTurn();
         System.out.println("Last game loaded");
     }
 
@@ -399,10 +400,9 @@ public class ServerController {
      * @param column the column where the player wants to insert the picked items
      * @return -1,0 or 1:
      * <ul>
-     *   <li>-1: the player can't insert the picked items in the bookshelf because there are not enough free cells
-     *   <li>0: the player can't insert the picked items in the bookshelf because the column is not valid
-     *   <li>1: the player can insert the picked items in the bookshelf
-     * </ul>
+     *     <li>-1: the player can't insert the picked items in the bookshelf because there are not enough free cells</li>
+     *     <li>0: the player can't insert the picked items in the bookshelf because the column is not valid</li>
+     *     <li>1: the player can insert the picked items in the bookshelf</li>
      */
     public int checkInsert(int column) {
         if (gameModel.getCurrentPlayer().getBookshelf().getFreeCellsInColumn(column) < currentPicked.size()) {
@@ -414,6 +414,7 @@ public class ServerController {
         }
 
         gameModel.move(currentPicked, column);
+        saveGame();
         return 1;
     }
 
@@ -474,5 +475,13 @@ public class ServerController {
             }
         }
         return bookshelf;
+    }
+
+    public List<Integer> getTopOfScoring() {
+        return gameModel.getTopScoringPoints();
+    }
+
+    public List<Integer> allPoints(int position) {
+        return gameModel.getAllPoints(players.get(position));
     }
 }

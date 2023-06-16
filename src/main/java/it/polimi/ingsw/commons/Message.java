@@ -128,13 +128,13 @@ public class Message implements Serializable {
     /**
      * Constructor for the startGame message.
      *
-     * @param personalGoal   personal goal of the player
-     * @param commonGoalList list of common goals (1 or 2)
-     * @param bookshelves    hashmap of bookshelves (bookshelf, username of the player who owns it)
-     * @param board          board of the game
-     * @param topScoringList list of top scoring of common goals
+     * @param personalGoal     personal goal of the player
+     * @param commonGoalList   list of common goals (1 or 2)
+     * @param bookshelves      hashmap of bookshelves (bookshelf, username of the player who owns it)
+     * @param board            board of the game
+     * @param topOfScoringList top of the scoring list of the common goals points
      */
-    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> topScoringList) {
+    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> topOfScoringList) {
         json = new JSONObject();
         String personalGoalString = Integer.toString(personalGoal);
         SettingLoader.loadBookshelfSettings();
@@ -168,14 +168,9 @@ public class Message implements Serializable {
         json.put("bookshelves", bookshelfArray);
 
         json.put("board", boardJson(board));
-
-        JSONArray scoringList = new JSONArray();
-        for (Integer integer : topScoringList) {
-            JSONObject scoringJson = new JSONObject();
-            scoringJson.put("score", integer);
-            scoringList.add(scoringJson);
+        for (int i = 0; i < topOfScoringList.size(); i++) {
+            json.put("topOfScoringList " + i, topOfScoringList.get(i));
         }
-        json.put("topScoringList", scoringList);
     }
 
     /**
@@ -186,7 +181,7 @@ public class Message implements Serializable {
      * @param board       board of the game
      * @param score       list of current scoring of the player where each element is a different scoring.
      */
-    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> score) {
+    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> score, List<Integer> topOfScoring) {
         json = new JSONObject();
         json.put("category", category);
         JSONArray bookshelfArray = new JSONArray();
@@ -199,13 +194,13 @@ public class Message implements Serializable {
         json.put("bookshelves", bookshelfArray);
 
         json.put("board", boardJson(board));
-        JSONArray points = new JSONArray();
-        for (Integer integer : score) {
-            JSONObject scoreJson = new JSONObject();
-            scoreJson.put("score", integer);
-            points.add(scoreJson);
+        json.put("pgScore", Integer.toString(score.get(0)));
+        json.put("cgScore", Integer.toString(score.get(1)));
+        json.put("bookshelfScore", Integer.toString(score.get(2)));
+        json.put("totalScore", Integer.toString(score.get(3)));
+        for (int i = 0; i < topOfScoring.size(); i++) {
+            json.put("topOfScoringList " + i, topOfScoring.get(i));
         }
-        json.put("currentPointsList", points);
     }
 
     /**
@@ -375,42 +370,45 @@ public class Message implements Serializable {
      * @param commonGoalList list of common goals
      * @param bookshelves    bookshelf of the players
      * @param board          board of the game
+     * @param topScoring     top of the scoring list for common goals points
      */
-    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board) {
-        json = new JSONObject();
-        String personalGoalString = Integer.toString(personalGoal);
-        SettingLoader.loadBookshelfSettings();
-        json.put("category", "startGame");
-        json.put("personal_goal", personalGoalString);
-        for (int i = 0; i < commonGoalList.size(); i++) {
-            Layout layout = commonGoalList.get(i).getLayout();
-            json.put("commonGoalLayout " + i, layout.getName());
-
-            if ("fullLine".equals(commonGoalList.get(i).getLayout().getName())) {
-                json.put("occurrences " + i, layout.getOccurrences());
-                json.put("horizontal " + i, layout.isHorizontal());
-                json.put("size " + i, 0);
-            } else if ("group".equals(layout.getName())) {
-                json.put("occurrences " + i, layout.getOccurrences());
-                json.put("horizontal " + i, false);
-                json.put("size " + i, layout.getSize());
-            } else {
-                json.put("occurrences " + i, 0);
-                json.put("horizontal " + i, false);
-                json.put("size " + i, 0);
-            }
-        }
-        JSONArray bookshelfArray = new JSONArray();
-        for (Bookshelf bookshelf : bookshelves.keySet()) {
-            JSONObject bookshelfJson = new JSONObject();
-            bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
-            bookshelfJson.put("username", bookshelves.get(bookshelf));
-            bookshelfArray.add(bookshelfJson);
-        }
-        json.put("bookshelves", bookshelfArray);
-
-        json.put("board", boardJson(board));
-    }
+    // public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board, int topScoring) {
+    //     json = new JSONObject();
+    //     String personalGoalString = Integer.toString(personalGoal);
+    //     SettingLoader.loadBookshelfSettings();
+    //     json.put("category", "startGame");
+    //     json.put("personal_goal", personalGoalString);
+    //     for (int i = 0; i < commonGoalList.size(); i++) {
+    //         Layout layout = commonGoalList.get(i).getLayout();
+    //         json.put("commonGoalLayout " + i, layout.getName());
+    //
+    //         if ("fullLine".equals(commonGoalList.get(i).getLayout().getName())) {
+    //             json.put("occurrences " + i, layout.getOccurrences());
+    //             json.put("horizontal " + i, layout.isHorizontal());
+    //             json.put("size " + i, 0);
+    //         } else if ("group".equals(layout.getName())) {
+    //             json.put("occurrences " + i, layout.getOccurrences());
+    //             json.put("horizontal " + i, false);
+    //             json.put("size " + i, layout.getSize());
+    //         } else {
+    //             json.put("occurrences " + i, 0);
+    //             json.put("horizontal " + i, false);
+    //             json.put("size " + i, 0);
+    //         }
+    //     }
+    //     JSONArray bookshelfArray = new JSONArray();
+    //     for (Bookshelf bookshelf : bookshelves.keySet()) {
+    //         JSONObject bookshelfJson = new JSONObject();
+    //         bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
+    //         bookshelfJson.put("username", bookshelves.get(bookshelf));
+    //         bookshelfArray.add(bookshelfJson);
+    //     }
+    //     json.put("bookshelves", bookshelfArray);
+    //
+    //     json.put("board", boardJson(board));
+    //     String topScoringString = Integer.toString(topScoring);
+    //     json.put("topScoring", topScoringString);
+    // }
 
     // la uso??
 
@@ -428,7 +426,7 @@ public class Message implements Serializable {
 
     // da sostituire con l'altro
 
-    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, int score) {
+    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, int score, int topOfScoring) {
         json = new JSONObject();
         json.put("category", category);
         JSONArray bookshelfArray = new JSONArray();
@@ -631,6 +629,16 @@ public class Message implements Serializable {
     public int getNumPlayer() {
         String numPlayer = (String) json.get("numOfPlayers");
         return Integer.parseInt(numPlayer);
+    }
+
+    public List<Integer> getTopOfScoringList() {
+        int i = 0;
+        List<Integer> topScoringList = new ArrayList<>();
+        while (json.get("topScoring" + i) == null) {
+            String topScoring = (String) json.get("topScoring");
+            topScoringList.add(Integer.parseInt(topScoring));
+        }
+        return topScoringList;
     }
 
     public String getMessage() {
@@ -903,5 +911,19 @@ public class Message implements Serializable {
             default -> System.out.println("Error in CommonGoalView");
         }
         return layout;
+    }
+
+    public List<Integer> getScore() {
+        List<Integer> score = new ArrayList<>();
+        String pgString = (String) json.get("pgScore");
+        String cgString = (String) json.get("cgScore");
+        String bString = (String) json.get("bookshelfScore");
+        String tString = (String) json.get("totalScore");
+
+        score.add(Integer.parseInt(pgString));
+        score.add(Integer.parseInt(cgString));
+        score.add(Integer.parseInt(bString));
+        score.add(Integer.parseInt(tString));
+        return score;
     }
 }

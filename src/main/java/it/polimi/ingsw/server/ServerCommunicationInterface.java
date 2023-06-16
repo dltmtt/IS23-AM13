@@ -200,7 +200,7 @@ public interface ServerCommunicationInterface extends Remote {
         System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
 
         try {
-            Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
+            Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring());
             client.callBackSendMessage(game);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -248,12 +248,12 @@ public interface ServerCommunicationInterface extends Remote {
 
         for (String username : tcpClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
+            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring());
             tcpClients.get(username).sendMessageToClient(myGame);
         }
         for (String username : rmiClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard());
+            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring());
             rmiClients.get(username).callBackSendMessage(myGame);
         }
 
@@ -279,12 +279,12 @@ public interface ServerCommunicationInterface extends Remote {
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
         for (String username : tcpClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            Message myGame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.getScore(position));
+            Message myGame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.allPoints(position), controller.getTopOfScoring());
             tcpClients.get(username).sendMessageToClient(myGame);
         }
         for (String username : rmiClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            Message myGame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.getScore(position));
+            Message myGame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.allPoints(position), controller.getTopOfScoring());
             rmiClients.get(username).callBackSendMessage(myGame);
         }
     }

@@ -14,7 +14,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -209,11 +208,6 @@ public class GuiView extends Application implements GameView {
 
     @Override
     public void showCurrentScore(int score) {
-
-    }
-
-    @Override
-    public void showDisconnection() {
 
     }
 
