@@ -248,6 +248,8 @@ public interface ServerCommunicationInterface extends Remote {
 
         for (String username : tcpClients.keySet()) {
             int position = controller.getPositionByUsername(username);
+            System.out.println(controller.getCommonGoals().get(0).getLayout().getName());
+            System.out.println(controller.getCommonGoals().get(1).getLayout().getName());
             Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring());
             tcpClients.get(username).sendMessageToClient(myGame);
         }

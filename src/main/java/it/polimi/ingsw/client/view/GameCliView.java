@@ -201,7 +201,7 @@ public class GameCliView implements GameView {
 
     @Override
     public void showEndGame(List<String> winners) {
-        showMessage("The game is over!'n");
+        showMessage("The game is over!\n");
         showMessage("The winners are:\n");
         for (String winner : winners) {
             showMessage(winner + "\n");

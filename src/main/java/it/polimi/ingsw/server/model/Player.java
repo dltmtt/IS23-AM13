@@ -61,6 +61,10 @@ public class Player {
         return commonGoals;
     }
 
+    public void setCommonGoals(List<CommonGoal> commonGoals) {
+        Player.commonGoals = commonGoals;
+    }
+
     public void setIsFirstPlayer(boolean isFirstPlayer) {
         this.isFirstPlayer = isFirstPlayer;
     }
@@ -161,7 +165,7 @@ public class Player {
         bookshelf.insert(column, items);
         for (int i = 0; i < commonGoals.size(); i++) {
             if (!commonGoalCompleted.get(i)) {
-                if (commonGoals.get(i).check(this.bookshelf)) {
+                if (commonGoals.get(i).check(bookshelf)) {
                     setCommonGoalPoints(commonGoals.get(i));
                     commonGoalCompleted.set(i, true);
                 }

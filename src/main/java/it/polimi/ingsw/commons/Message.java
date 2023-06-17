@@ -241,15 +241,11 @@ public class Message implements Serializable {
     public Message(int size, List<String> names, List<Integer> scores) {
         json = new JSONObject();
         json.put("category", "winners");
-        json.put("size", size);
-        JSONArray winnersArray = new JSONArray();
+        String sizeString = Integer.toString(size);
+        json.put("size", sizeString);
         for (int i = 0; i < size; i++) {
-            JSONObject winnersJson = new JSONObject();
-            winnersJson.put("name", names.get(i));
-            winnersJson.put("score", scores.get(i));
-            winnersArray.add(winnersJson);
+            json.put("name" + i, names.get(i));
         }
-        json.put("winners", winnersArray);
     }
 
     /**

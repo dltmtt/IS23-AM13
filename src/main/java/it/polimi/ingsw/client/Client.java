@@ -158,7 +158,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
                 gameView.pickMyBookshelf(bookshelves);
                 gameView.pickOtherBookshelf(bookshelves);
-                // gameView.showCurrentScore(message.getIntMessage("score"));
+                gameView.showCurrentScore(message.getScore().get(3));
                 gameView.showBoard(message.getBoard());
                 gameView.updateScore(message.getTopOfScoringList(), message.getScore());
             }
@@ -181,7 +181,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 // showPick() sends the message to the server
                 gameView.showPick();
             }
-            case "endGame" -> gameView.showEndGame(message.getWinners());
+            case "winners" -> gameView.showEndGame(message.getWinners());
             case "waitingRoom" -> waitingRoom();
             case "lastRound" -> gameView.showLastRound();
             case "gameAlreadyStarted" -> gameView.showGameAlreadyStarted();

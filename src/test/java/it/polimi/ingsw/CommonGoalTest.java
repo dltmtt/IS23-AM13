@@ -1,9 +1,18 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
+import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.layouts.Diagonal;
 import it.polimi.ingsw.server.model.layouts.Layout;
+import it.polimi.ingsw.server.model.layouts.XShape;
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,5 +47,39 @@ public class CommonGoalTest {
         assertEquals(6, c4.getScoring());
         assertEquals(4, c4.getScoring());
         assertEquals(2, c4.getScoring());
+    }
+
+    @Test
+    void commonGoalWithMove() {
+        SettingLoader.loadBookshelfSettings();
+        Layout s = new XShape(1, 1, 5);
+        Bookshelf b = new Bookshelf();
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(0, items);
+
+        items.clear();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        b.insert(1, items);
+
+        items.clear();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+
+        Player p = new Player("test", 0, false, true, false);
+        p.setBookshelf(b);
+
+        List<CommonGoal> commonGoals = new ArrayList<>();
+        commonGoals.add(new CommonGoal(s, 2));
+        p.setCommonGoals(commonGoals);
+        p.move(items, 3);
+        p.move(items, 2);
     }
 }
