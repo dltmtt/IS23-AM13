@@ -40,6 +40,8 @@ public class GameGuiController {
 
     // Size of the small items in the bookshelf (other players)
     private static final double SMALL_ITEM_SIZE = 17;
+    //numChangeOrder is used to count the number of times the player changes the order of the items in the bookshelf
+    private int numChangeOrder=0;
     private List<Coordinates> newList=new ArrayList<>();
     public static List<Coordinates> pickedItems = new ArrayList<>();
 
@@ -172,21 +174,8 @@ public class GameGuiController {
      * This method makes it possible to delete the current selection and to bring the items back in the board
      */
     public void deleteCurrentSelection() {
-       // rearrange.setDisable(true);
-        Node nd;
-
-        /*
-        for (Coordinates pickedItem : newList) {
-            nd = getNodeByRowColumnIndex(boardGridPane, pickedItem.x(), pickedItem.y());
-            boardGridPane.add(nd, pickedItem.y(), pickedItem.x());
-        }
-
-         */
         pickedItems.clear();
         grid.getChildren().clear();
-        //bring the items in items back in the board
-
-
         enableItemsWithOneFreeSide();
     }
 
@@ -317,6 +306,8 @@ public class GameGuiController {
                 highlightItem(row, col, Color.GREEN);
                 confirmSelection.setDisable(false);
                 delete.setDisable(false);
+
+                delete.setOnMouseClicked(mouseEvent -> deleteCurrentSelection());
             } else {
                 if (pickedItems.size() == 2) {
                     // removeItemsFromBoard(pickedItems);
@@ -677,8 +668,9 @@ public class GameGuiController {
 
     public void changeOrder(GridPane grid, List<Item> items){
         newOrder.clear();
+        numChangeOrder++;
 
-        System.out.println("ciao"+getNodeByRowColumnIndex(grid, 2, 0));
+        System.out.println(numChangeOrder);
         if(items.size()==2) {
             Node n0 = getNodeByRowColumnIndex(grid, 2, 0);
             Node n1 = getNodeByRowColumnIndex(grid, 1, 0);
@@ -827,6 +819,7 @@ public class GameGuiController {
     }
 
     public void rearrange(List<Item> items) {
+        numChangeOrder=0;
         newList.clear();
         newList = new ArrayList<>(pickedItems);
         int i = 0;
@@ -850,8 +843,6 @@ public class GameGuiController {
             i++;
         }
         System.out.println(grid.getChildren().size());
-        delete.setDisable(false);
-        delete.setOnMouseClicked(mouseEvent -> deleteCurrentSelection());
         rearrange.setDisable(false);
         if (grid.getChildren().size() == 1) {
             rearrange.setDisable(true);
