@@ -143,7 +143,7 @@ public class GameGuiController {
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getRowCount(); i++) {
             for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
-                if ((i == row || j == col) && (Math.abs(i - row) <= 2 && Math.abs(j - col) <= 2) && boardModel.checkBorder(new Coordinates(i, j))) {
+                if ((i == row || j == col) && (Math.abs(i - row) <= bookshelfModel.numCellsToHighlight() && Math.abs(j - col) <= bookshelfModel.numCellsToHighlight()) && boardModel.checkBorder(new Coordinates(i, j))) {
                     if ((i == row - 2 && !boardModel.checkBorder(new Coordinates(i + 1, j))) || (i == row + 2 && !boardModel.checkBorder(new Coordinates(i - 1, j))) || (j == col - 2 && !boardModel.checkBorder(new Coordinates(i, j + 1))) || (j == col + 2 && !boardModel.checkBorder(new Coordinates(i, j - 1)))) {
                         disableItem(boardGridPane, i, j);
                     } else {
@@ -852,6 +852,7 @@ public class GameGuiController {
         System.out.println(grid.getChildren().size());
         delete.setDisable(false);
         delete.setOnMouseClicked(mouseEvent -> deleteCurrentSelection());
+        rearrange.setDisable(false);
         if (grid.getChildren().size() == 1) {
             rearrange.setDisable(true);
         } else {

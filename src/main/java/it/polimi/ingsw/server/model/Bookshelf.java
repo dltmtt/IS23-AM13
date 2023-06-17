@@ -121,6 +121,25 @@ public class Bookshelf implements AbleToGetPoints {
         return freeCells;
     }
 
+    public int numCellsToHighlight(){
+        int cellsToHighLight=0;
+        int max=0;
+        for(int j=0; j<columns; j++){
+            if(getFreeCellsInColumn(j)>=3){
+                cellsToHighLight=2;
+            }
+            else if(getFreeCellsInColumn(j)==2){
+                cellsToHighLight=1;
+            }
+            else{
+                cellsToHighLight=0;
+            }
+            if(max<cellsToHighLight)
+                max=cellsToHighLight;
+        }
+        return max;
+    }
+
     /**
      * @param column the column index
      * @return the number of used cells in the column with index <code>column</code>
