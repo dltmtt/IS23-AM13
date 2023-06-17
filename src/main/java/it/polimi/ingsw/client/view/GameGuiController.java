@@ -10,6 +10,7 @@ import it.polimi.ingsw.utils.Coordinates;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -63,7 +64,11 @@ public class GameGuiController {
     @FXML
     public GridPane grid;
     @FXML
-    private Button rearrange;
+    private Button top;
+    @FXML
+    private Button down;
+    @FXML
+    private Button deleteChoice;
     @FXML
     private ImageView board;
     @FXML
@@ -169,15 +174,7 @@ public class GameGuiController {
         }
     }
 
-    /**
-     * Method called when the user clicks on the delete button.
-     * This method makes it possible to delete the current selection and to bring the items back in the board
-     */
-    public void deleteCurrentSelection() {
-        pickedItems.clear();
-        grid.getChildren().clear();
-        enableItemsWithOneFreeSide();
-    }
+
 
     /**
      * Returns the Node at the given row and column position.
@@ -259,12 +256,12 @@ public class GameGuiController {
     /**
      * Enables all the items in the <code>boardGridPane</code>.
      */
-    public void enableAllItems() {
-        pickedItems = new ArrayList<>();
-        ObservableList<Node> children = this.boardGridPane.getChildren();
+    public void enableAllItems(GridPane gridPane) {
+     //   pickedItems = new ArrayList<>();
+        ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
             node.setDisable(false);
-            node.setEffect(new DropShadow(20, Color.ORANGE));
+         //   node.setEffect(new DropShadow(20, Color.ORANGE));
             // set node cursor as a hand
             node.setCursor(Cursor.HAND);
         }
@@ -303,7 +300,7 @@ public class GameGuiController {
             if (pickedItems.size() == 1) {
                 // pickedItems.add(new Coordinates(row, col));
                 highlightPickableItems(row, col);
-                highlightItem(row, col, Color.GREEN);
+                highlightItem(boardGridPane,row, col, Color.GREEN);
                 confirmSelection.setDisable(false);
                 delete.setDisable(false);
 
@@ -328,8 +325,8 @@ public class GameGuiController {
      * @param col   the column index of the node (Model-wise)
      * @param color the color to highlight the item with
      */
-    public void highlightItem(int row, int col, Color color) {
-        Node selectedNode = getNodeByRowColumnIndex(boardGridPane, row, col);
+    public void highlightItem(GridPane grid,int row, int col, Color color) {
+        Node selectedNode = getNodeByRowColumnIndex(grid, row, col);
         if (selectedNode != null) {
             selectedNode.setEffect(new DropShadow(20, color));
         }
@@ -358,7 +355,7 @@ public class GameGuiController {
         }
         for (int i = startX; i <= endX; i++) {
             for (int j = startY; j <= endY; j++) {
-                highlightItem(i, j, Color.GREEN);
+                highlightItem(boardGridPane, i, j, Color.GREEN);
             }
         }
     }
@@ -665,7 +662,67 @@ public class GameGuiController {
             indexList.add(targetIndex, sourcePosition);
         }
     }
+    /**
+     * Method called when the user clicks on the delete button.
+     * This method makes it possible to delete the current selection and to bring the items back in the board
+     */
+    public void deleteCurrentSelection() {
+        pickedItems.clear();
+        grid.getChildren().clear();
+        enableItemsWithOneFreeSide();
+    }
 
+    //this method is used before starting to change the order of the items in the rearrangeArea
+    public void deleteChoice(){
+        deleteChoice.setDisable(true);
+        enableAllItems(grid);
+    }
+    public void selectInGrid(int row, int col){
+        highlightItem(grid,row,col,Color.GREEN);
+        deleteChoice.setDisable(false);
+
+        deleteChoice.setOnMouseClicked(mouseEvent -> deleteChoice());
+    }
+    public void changeOrderUp(GridPane grid, List<Item> items){
+        newOrder.clear();
+            Node n0 = getNodeByRowColumnIndex(grid, 2, 0);
+            Node n1 = getNodeByRowColumnIndex(grid, 1, 0);
+            grid.getChildren().removeAll(n0, n1);
+
+            grid.add(n1, 0, 0);
+            grid.add(n0, 0, 1);
+
+            newOrder.addAll(indexList);
+            indexList.clear();
+            if(items.size()==2) {
+                indexList.add(newOrder.get(1));
+                indexList.add(newOrder.get(0));
+            }
+            else {
+                indexList.add(newOrder.get(0));
+                indexList.add(newOrder.get(2));
+                indexList.add(newOrder.get(1));
+            }
+    }
+
+    public void changeOrderDown(GridPane grid, List<Item> items){
+
+        newOrder.clear();
+        Node n0 = getNodeByRowColumnIndex(grid, 1, 0);
+        Node n1 = getNodeByRowColumnIndex(grid, 0, 0);
+        grid.getChildren().removeAll(n0, n1);
+
+        grid.add(n1, 0, 1);
+        grid.add(n0, 0, 2);
+
+        newOrder.addAll(indexList);
+        indexList.clear();
+        indexList.add(newOrder.get(1));
+        indexList.add(newOrder.get(0));
+        indexList.add(newOrder.get(2));
+
+    }
+/*
     public void changeOrder(GridPane grid, List<Item> items){
         newOrder.clear();
         numChangeOrder++;
@@ -700,6 +757,8 @@ public class GameGuiController {
             indexList.add(newOrder.get(1));
         }
     }
+
+ */
 /*
     public void selectInRearrangeArea(GridPane grid) {
         rearrange.setDisable(false);
@@ -825,6 +884,9 @@ public class GameGuiController {
         int i = 0;
         grid.getChildren().clear();
         for (int j = 0; j < items.size(); j++) {
+            top.setDisable(false);
+            down.setDisable(false);
+            deleteChoice.setDisable(false);
             try {
                 int finalI = items.size() - i - 1;
                 ImageView itemView = createImageView(ITEM_BASE_PATH + items.get(j).fileName());
@@ -832,10 +894,27 @@ public class GameGuiController {
                     itemView.setFitHeight(MAIN_ITEM_SIZE);
                     itemView.setFitWidth(MAIN_ITEM_SIZE);
                     grid.add(itemView, 0, finalI);
+
+                    grid.setHalignment(itemView, HPos.CENTER);
+
                     System.out.println("itemView is not null");
                     itemView.setDisable(false);
                     indexList.add(items.indexOf(items.get(j)));
 
+                    int finalInt = i;
+                    if(items.size()==2) {
+                        itemView.setOnMouseClicked(mouseEvent -> selectInGrid(finalInt+1, 0));
+                    }
+                    else{
+                        itemView.setOnMouseClicked(mouseEvent -> selectInGrid(finalInt, 0));
+                    }
+
+                    if(finalI==0){
+                        top.setDisable(true);
+                    }
+                    if(finalI==2){
+                        down.setDisable(true);
+                    }
                 }
             } catch (NullPointerException e) {
                 System.err.println("Error on loading item image: " + items.get(j).fileName() + ", item not added to rearrange area");
@@ -843,11 +922,21 @@ public class GameGuiController {
             i++;
         }
         System.out.println(grid.getChildren().size());
-        rearrange.setDisable(false);
+        top.setDisable(false);
+        down.setDisable(false);
         if (grid.getChildren().size() == 1) {
-            rearrange.setDisable(true);
+            top.setDisable(true);
+            down.setDisable(true);
+            deleteChoice.setDisable(true);
         } else {
-            rearrange.setOnMouseClicked(mouseEvent -> changeOrder(grid,items));
+            if(items.size()==2) {
+                top.setOnMouseClicked(mouseEvent -> changeOrderUp(grid, items));
+                down.setDisable(true);
+            }
+            else{
+                top.setOnMouseClicked(mouseEvent -> changeOrderUp(grid, items));
+                down.setOnMouseClicked(mouseEvent -> changeOrderDown(grid, items));
+            }
         }
     }
 
