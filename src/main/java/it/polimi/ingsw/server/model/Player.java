@@ -184,9 +184,12 @@ public class Player {
         if (items.size() != order.size()) {
             throw new IllegalArgumentException("The number of items and the number of positions are not the same.");
         }
+        /*
         if (order.stream().distinct().count() != order.size()) {
             throw new IllegalArgumentException("An item is placed in two different positions.");
         }
+
+         */
 
         List<Item> rearrangedItems = new ArrayList<>();
 

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static javafx.scene.layout.GridPane.getColumnIndex;
+import static javafx.scene.layout.GridPane.getRowIndex;
 
 public class GameGuiController {
 
@@ -39,6 +40,7 @@ public class GameGuiController {
 
     // Size of the small items in the bookshelf (other players)
     private static final double SMALL_ITEM_SIZE = 17;
+    private List<Coordinates> newList=new ArrayList<>();
     public static List<Coordinates> pickedItems = new ArrayList<>();
 
     // static reference to the client, in order to use the sendMessage() function
@@ -167,10 +169,24 @@ public class GameGuiController {
 
     /**
      * Method called when the user clicks on the delete button.
+     * This method makes it possible to delete the current selection and to bring the items back in the board
      */
     public void deleteCurrentSelection() {
+       // rearrange.setDisable(true);
+        Node nd;
+
+        /*
+        for (Coordinates pickedItem : newList) {
+            nd = getNodeByRowColumnIndex(boardGridPane, pickedItem.x(), pickedItem.y());
+            boardGridPane.add(nd, pickedItem.y(), pickedItem.x());
+        }
+
+         */
         pickedItems.clear();
         grid.getChildren().clear();
+        //bring the items in items back in the board
+
+
         enableItemsWithOneFreeSide();
     }
 
@@ -659,6 +675,40 @@ public class GameGuiController {
         }
     }
 
+    public void changeOrder(GridPane grid, List<Item> items){
+        newOrder.clear();
+
+        System.out.println("ciao"+getNodeByRowColumnIndex(grid, 2, 0));
+        if(items.size()==2) {
+            Node n0 = getNodeByRowColumnIndex(grid, 2, 0);
+            Node n1 = getNodeByRowColumnIndex(grid, 1, 0);
+            grid.getChildren().removeAll(n0, n1);
+
+            grid.add(n1, 0, 0);
+            grid.add(n0, 0, 1);
+
+            newOrder.addAll(indexList);
+            indexList.clear();
+            indexList.add(newOrder.get(1));
+            indexList.add(newOrder.get(0));
+        }
+        else{
+            Node n0 = getNodeByRowColumnIndex(grid, 0, 0);      //element on top
+            Node n1 = getNodeByRowColumnIndex(grid, 1, 0);      //element in the middle
+            Node n2 = getNodeByRowColumnIndex(grid, 2, 0);      //element on the bottom
+            grid.getChildren().removeAll(n0, n1, n2);
+            grid.add(n1, 0, 0);
+            grid.add(n0, 0, 1);
+            grid.add(n2, 0, 2);
+
+            newOrder.addAll(indexList);
+            indexList.clear();
+            indexList.add(newOrder.get(2));
+            indexList.add(newOrder.get(0));
+            indexList.add(newOrder.get(1));
+        }
+    }
+/*
     public void selectInRearrangeArea(GridPane grid) {
         rearrange.setDisable(false);
         newOrder.clear();
@@ -698,6 +748,8 @@ public class GameGuiController {
         }
     }
 
+
+ */
     /**
      * Initialize the bookshelf grid with empty image views.
      */
@@ -775,6 +827,8 @@ public class GameGuiController {
     }
 
     public void rearrange(List<Item> items) {
+        newList.clear();
+        newList = new ArrayList<>(pickedItems);
         int i = 0;
         grid.getChildren().clear();
         for (int j = 0; j < items.size(); j++) {
@@ -788,6 +842,7 @@ public class GameGuiController {
                     System.out.println("itemView is not null");
                     itemView.setDisable(false);
                     indexList.add(items.indexOf(items.get(j)));
+
                 }
             } catch (NullPointerException e) {
                 System.err.println("Error on loading item image: " + items.get(j).fileName() + ", item not added to rearrange area");
@@ -795,10 +850,12 @@ public class GameGuiController {
             i++;
         }
         System.out.println(grid.getChildren().size());
+        delete.setDisable(false);
+        delete.setOnMouseClicked(mouseEvent -> deleteCurrentSelection());
         if (grid.getChildren().size() == 1) {
             rearrange.setDisable(true);
         } else {
-            rearrange.setOnMouseClicked(mouseEvent -> selectInRearrangeArea(grid));
+            rearrange.setOnMouseClicked(mouseEvent -> changeOrder(grid,items));
         }
     }
 
