@@ -19,14 +19,14 @@ import java.util.Objects;
 
 public class GuiView extends Application implements GameView {
 
-    public static GameGuiController gameController;
-
     public static Client client; // Static reference to the client, in order to use the sendMessage() function
     public static List<Client> clients;
     public static GuiView gui;
     public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene, refusedScene; // Loaded scenes
     public static Stage stage; // Main stage
+    public static GameGuiController gameController;
     private static LoginGuiController loginController;
+    private static EndGameGuiController endGameController;
 
     /**
      * Launches the GUI.
@@ -101,7 +101,8 @@ public class GuiView extends Application implements GameView {
         }
 
         FXMLLoader endGameSceneLoader = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
-        endGameSceneLoader.setController(new EndGameGuiController(clients, this));
+        endGameController = new EndGameGuiController(this, client.getUsername());
+        endGameSceneLoader.setController(endGameController);
 
         try {
             endGameScene = new Scene(endGameSceneLoader.load());
@@ -131,8 +132,8 @@ public class GuiView extends Application implements GameView {
     @Override
     public void startGame(Message message) {
         Platform.runLater(() -> {
-            stage.setScene(gameScene);
             gameController.showGame(message);
+            stage.setScene(gameScene);
             stage.show();
         });
     }
@@ -210,6 +211,8 @@ public class GuiView extends Application implements GameView {
     @Override
     public void showEndGame(List<String> winners) {
         Platform.runLater(() -> {
+            // TODO: a list of winners?
+            // endGameController.setWinner(winners.toString());
             stage.setScene(endGameScene);
             stage.show();
         });
@@ -223,15 +226,6 @@ public class GuiView extends Application implements GameView {
     @Override
     public void showCurrentScore(int score) {
 
-    }
-
-    /**
-     * shows the end game scene
-     */
-    @Override
-    public void endGame() {
-        stage.setScene(endGameScene);
-        stage.show();
     }
 
     /**

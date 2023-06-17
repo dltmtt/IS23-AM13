@@ -1,158 +1,61 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.Client;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import java.util.List;
-
 public class EndGameGuiController {
-    private final List<Client> clients;
-  //  private final GuiView view;
+
+    private final GuiView view;
+    private final String username;
     @FXML
-    private Label username1;
+    private Button homeButton;
+
     @FXML
-    private Label username2;
+    private Label player1;
+
     @FXML
-    private Label username3;
+    private Label player2;
+
     @FXML
-    private Label username4;
+    private Label player3;
+
     @FXML
-    private Label score1;
+    private Label player4;
+
     @FXML
-    private Label score2;
+    private Label points1;
+
     @FXML
-    private Label score3;
+    private Label points2;
+
     @FXML
-    private Label score4;
+    private Label points3;
 
-    public EndGameGuiController(List<Client> clients, GuiView view) {
-        this.clients = clients;
-    }
-    public void insertNames(){
-        if(clients.size()==2){
-            username1.setText(clients.get(0).getUsername());
-            username2.setText(clients.get(1).getUsername());
-            username3.setText("");
-            username4.setText("");
-        }
-        else if(clients.size()==3){
-            username1.setText(clients.get(0).getUsername());
-            username2.setText(clients.get(1).getUsername());
-            username3.setText(clients.get(2).getUsername());
-            username4.setText("");
-        }
-        else{
-            username1.setText(clients.get(0).getUsername());
-            username2.setText(clients.get(1).getUsername());
-            username3.setText(clients.get(2).getUsername());
-            username4.setText(clients.get(3).getUsername());
-        }
-    }
-/*
-    //it changes the value of the labels with the usernames of the players
-    public void onSliderChanged1() {
-        if (clients.size() > 0) {
-            username1.setText(clients.get(0).getUsername());
-        } else {
-            //this should never occur because players are at least 2
-            username1.setText("");
-        }
-    }
-    public void onSliderChanged2(){
-        if(clients.size()>1) {
-            username2.setText(clients.get(1).getUsername());
-        }
-        else{
-            //this should never occur because players are at least 2
-            username2.setText("");
-        }
+    @FXML
+    private Label points4;
+
+    @FXML
+    private Label winner;
+
+    @FXML
+    private Label winnerPhrase;
+
+    public EndGameGuiController(GuiView guiView, String username) {
+        view = guiView;
+        this.username = username;
     }
 
-    public void onSliderChanged3() {
-        if(clients.size()==3) {
-            username3.setText(clients.get(2).getUsername());
-        }
-        else{
-            username3.setText("");
-        }
-    }
-    public void onSliderChanged4() {
-        if(clients.size()==4) {
-            username4.setText(clients.get(3).getUsername());
-        }
-        else{
-            username4.setText("");
-        }
+    @FXML
+    void homeScreen(ActionEvent event) {
+        view.loginProcedure();
     }
 
- */
-
-    public void insertScores(){
-        if(clients.size()==2){
-
-        }
-        else if(clients.size()==3){
-
-        }
-        else{   // 4 players
-
-        }
+    public void setWinner(String winner) {
+        if (winner.equals(username))
+            this.winnerPhrase.setText("You");
+        else
+            this.winner.setText(winner);
     }
-/*
-    public void onScoreChanged1(){
-        if(username1.getText().isEmpty() && clients.size()>0){  //I have no client
-            score1.setTextFill(javafx.scene.paint.Color.RED);
-            score1.setText("Score1 cannot be empty");
-            }
-        //this should never occur because players are at least 2
-
-        //this should never occur because players are at least 2
-        else if(username1.getText().isEmpty()){
-            score1.setText("");
-        }
-        else{
-         //   score1.setText(String.valueOf((int) clients.get(0).calculateScore()));
-        }
-    }
-    public void onScoreChanged2(){
-        if(username2.getText().isEmpty() && clients.size()==2){
-            score2.setTextFill(javafx.scene.paint.Color.RED);
-            score2.setText("Score2 cannot be empty");
-        }
-        //this should never occur because players are at least 2
-        else{
-            //   score1.setText(String.valueOf((int) clients.get(0).calculateScore()));
-        }
-
-    }
- */
-    /*
-    public void onScoreChanged3(){
-        if(username3.getText().isEmpty() && clients.size()==3){
-            score3.setTextFill(javafx.scene.paint.Color.RED);
-            score3.setText("Score3 cannot be empty");
-        }
-        else if(username3.getText().isEmpty()){
-            score3.setText("");
-        }
-        else{
-            //score3.setText(String.valueOf((int) clients.get(0).calculateScore()));
-        }
-    }
-
-    public void onScoreChanged4(){
-        if(username4.getText().isEmpty() && clients.size()==4){
-            score3.setTextFill(javafx.scene.paint.Color.RED);
-            score3.setText("Score4 cannot be empty");
-        }
-        else if(username4.getText().isEmpty()){
-            score2.setText("");
-        }
-        else{
-            //score4.setText(String.valueOf((int) clients.get(0).calculateScore()));
-        }
-    }
-    
-     */
 }

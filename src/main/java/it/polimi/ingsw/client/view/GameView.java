@@ -49,8 +49,6 @@ public interface GameView {
 
     void startGame(Message myGame);
 
-    void endGame();
-
     default void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves) {
         String name = getClient().getUsername();
         for (Bookshelf bookshelf : bookshelves.keySet()) {

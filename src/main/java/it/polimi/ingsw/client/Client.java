@@ -114,9 +114,11 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         gameView.showPick();
     }
 
+    /*
     public void endGame() {
         gameView.endGame();
     }
+     */
 
     public int getMyPosition() {
         return myPosition;
