@@ -400,11 +400,23 @@ public class GameGuiController {
                     disableBookshelf();
                     confirmSelection.setDisable(true);
                     delete.setDisable(true);
-                    pickedItems.clear();
+                    try {
+                        pickedItems.clear();
+                    } catch (UnsupportedOperationException e) {
+                        System.err.println("pickedItems is unmodifiable");
+                    }
                     client.sendMessage(new Message("sort", indexList));
                     client.sendMessage(new Message("insertMessage", "insert", getColumnIndex(node)));
-                    grid.getChildren().clear();
-                    indexList.clear();
+                    try {
+                        grid.getChildren().clear();
+                    } catch (UnsupportedOperationException e) {
+                        System.err.println("grid is unmodifiable");
+                    }
+                    try {
+                        indexList.clear();
+                    } catch (UnsupportedOperationException e) {
+                        System.err.println("indexList is unmodifiable");
+                    }
                 });
             } else {
                 node.setDisable(true);
@@ -519,6 +531,11 @@ public class GameGuiController {
             System.out.println("Error on loading commonGoal2:" + commonGoalFiles.get(1));
         }
 
+        System.out.println(message.getCardType());
+        System.out.println(message.getCardSize());
+        System.out.println(message.getCardOccurrences());
+        System.out.println(message.getCardHorizontal());
+
         boardModel = message.getBoard();
         updateBoard();
 
@@ -569,15 +586,25 @@ public class GameGuiController {
     }
 
     private void updateScoring(List<Integer> topScoring) {
+        System.out.println("topScoring: " + topScoring);
+
         try {
-            topOfScoring1.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(0) + ".jpg")).toExternalForm()));
+            if (topScoring.get(0) == null || topScoring.get(0) == 0) {
+                topOfScoring1.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/scoring.jpg")).toExternalForm()));
+            } else {
+                topOfScoring1.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(0) + ".jpg")).toExternalForm()));
+            }
             topOfScoring1.setVisible(true);
         } catch (NullPointerException e) {
             System.out.println("Error on loading scoring token: " + topScoring.get(0));
         }
         if (topScoring.size() == 2) {
             try {
-                topOfScoring2.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(1) + ".jpg")).toExternalForm()));
+                if (topScoring.get(1) == null || topScoring.get(1) == 0) {
+                    topOfScoring2.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/scoring.jpg")).toExternalForm()));
+                } else {
+                    topOfScoring2.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/" + topScoring.get(1) + ".jpg")).toExternalForm()));
+                }
                 topOfScoring2.setVisible(true);
             } catch (NullPointerException e) {
                 System.out.println("Error on loading scoring token: " + topScoring.get(1));
