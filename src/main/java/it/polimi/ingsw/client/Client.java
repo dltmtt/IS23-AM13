@@ -21,7 +21,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public GameView gameView;
     String username = null;
     boolean theOnlyOne = false;
-    boolean serverConnection = true;
+    boolean serverConnection = false;
     private int myPosition;
 
     public Client() throws RemoteException {
@@ -147,8 +147,11 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         switch (category) {
             case "ping" -> {
                 serverConnection = true;
-                sendMessage(new Message("pong"));
                 // System.out.println("Pong!");
+            }
+            case "pong" -> {
+                serverConnection = true;
+                // System.out.println("Ping!");
             }
             case "username" -> setUsername(message.getUsername());
             case "UsernameRetry" -> gameView.usernameError();

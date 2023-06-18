@@ -126,7 +126,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
 
         switch (category) {
             // Maybe the controller should do something with the pong.
-            case "pong" -> {
+            case "ping" -> {
                 // System.out.println("Received pong from " + client.getUsername());
                 // controller.pong(client.getUsername());
                 // controller.addPongLost(client.getUsername());
@@ -136,6 +136,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 //     sendAll(new Message("reconnected", client.getUsername()));
                 //     controller.disconnectedPlayers.remove(client.getUsername());
                 // }
+                sendMessageToClient(new Message("pong"));
             }
             case "numOfPlayersMessage" -> {
                 int numPlayer = message.getNumPlayer();
