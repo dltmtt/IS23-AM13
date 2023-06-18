@@ -148,6 +148,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "ping" -> {
                 serverConnection = true;
                 sendMessage(new Message("pong"));
+                // System.out.println("Pong!");
             }
             case "username" -> setUsername(message.getUsername());
             case "UsernameRetry" -> gameView.usernameError();
@@ -181,7 +182,8 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 // showPick() sends the message to the server
                 gameView.showPick();
             }
-            case "winners" -> gameView.showEndGame(message.getWinners());
+            case "winners" ->
+                    gameView.showEndGame(message.getWinners(), message.getWinnersScore(), message.getOtherPlayersName(), message.getOtherScores());
             case "waitingRoom" -> waitingRoom();
             case "lastRound" -> gameView.showLastRound();
             case "gameAlreadyStarted" -> gameView.showGameAlreadyStarted();
@@ -236,7 +238,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(15000);
+                    Thread.sleep(30000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

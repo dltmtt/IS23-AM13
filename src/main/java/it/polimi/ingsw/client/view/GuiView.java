@@ -209,7 +209,7 @@ public class GuiView extends Application implements GameView {
     }
 
     @Override
-    public void showEndGame(List<String> winners) {
+    public void showEndGame(List<String> winners, List<Integer> scores, List<String> losers, List<Integer> loserScores) {
         Platform.runLater(() -> {
             // TODO: a list of winners?
             // endGameController.setWinner(winners.toString());

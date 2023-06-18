@@ -126,6 +126,40 @@ public class Message implements Serializable {
     }
 
     /**
+     * Construct for endGame message.
+     *
+     * @param winners       list of winners
+     *                      (if there is only one winner, the list contains only one element)
+     * @param otherPlayers  list of other players
+     *                      (if there is only one other player, the list contains only one element)
+     * @param WinnersScores list of all scores
+     *                      (if there is only one score, the list contains only one element)
+     * @param otherScores   list of other scores
+     *                      (if there is only one score, the list contains only one element)
+     */
+
+    public Message(List<String> winners, List<Integer> WinnersScores, List<String> otherPlayers, List<Integer> otherScores) {
+        json = new JSONObject();
+        json.put("category", "winners");
+        int size = winners.size();
+        String sizeString = Integer.toString(size);
+        json.put("size", sizeString);
+        for (int i = 0; i < size; i++) {
+            json.put("name" + i, winners.get(i));
+            String scoreString = Integer.toString(WinnersScores.get(i));
+            json.put("score" + i, scoreString);
+        }
+        int size2 = otherPlayers.size();
+        String sizeString2 = Integer.toString(size2);
+        json.put("size2", sizeString2);
+        for (int i = 0; i < size2; i++) {
+            json.put("name2" + i, otherPlayers.get(i));
+            String scoreString2 = Integer.toString(otherScores.get(i));
+            json.put("score2" + i, scoreString2);
+        }
+    }
+
+    /**
      * Constructor for the startGame message.
      *
      * @param personalGoal     personal goal of the player
@@ -243,8 +277,11 @@ public class Message implements Serializable {
         json.put("category", "winners");
         String sizeString = Integer.toString(size);
         json.put("size", sizeString);
+        System.out.println(scores);
         for (int i = 0; i < size; i++) {
             json.put("name" + i, names.get(i));
+            String scoreString = Integer.toString(scores.get(i));
+            json.put("score" + i, scoreString);
         }
     }
 
@@ -477,6 +514,40 @@ public class Message implements Serializable {
             JSONObject bookshelfJson = (JSONObject) o;
             String name = (String) bookshelfJson.get("username");
             playersName.add(name);
+        }
+        return playersName;
+    }
+
+    public List<Integer> getOtherScores() {
+        List<Integer> scores = new ArrayList<>();
+        int i = 0;
+        while (json.get("score2" + i) != null) {
+            String scoreString = (String) json.get("score2" + i);
+            int score = Integer.parseInt(scoreString);
+            scores.add(score);
+            i++;
+        }
+        return scores;
+    }
+
+    public List<String> getOtherPlayersName() {
+        List<String> playersName = new ArrayList<>();
+        int i = 0;
+        while (json.get("name2" + i) != null) {
+            String name = (String) json.get("name2" + i);
+            playersName.add(name);
+            i++;
+        }
+        return playersName;
+    }
+
+    public List<String> getPlayersForEndGame() {
+        List<String> playersName = new ArrayList<>();
+        int i = 0;
+        while (json.get("player" + i) != null) {
+            String name = (String) json.get("player" + i);
+            playersName.add(name);
+            i++;
         }
         return playersName;
     }
@@ -933,6 +1004,18 @@ public class Message implements Serializable {
             default -> System.out.println("Error in CommonGoalView");
         }
         return layout;
+    }
+
+    public List<Integer> getWinnersScore() {
+        List<Integer> winnersScore = new ArrayList<>();
+        int i = 0;
+        while (json.get("score" + i) != null) {
+            String scoreString = (String) json.get("score" + i);
+            int score = Integer.parseInt(scoreString);
+            winnersScore.add(score);
+            i++;
+        }
+        return winnersScore;
     }
 
     public List<Integer> getScore() {

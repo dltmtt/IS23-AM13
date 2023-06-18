@@ -39,7 +39,7 @@ public interface GameView {
 
     void promptInsert();
 
-    void showEndGame(List<String> winners);
+    void showEndGame(List<String> winners, List<Integer> Wscores, List<String> otherPlayers, List<Integer> otherScores);
 
     List<Integer> rearrange(List<Item> items) throws IOException;
 

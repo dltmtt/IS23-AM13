@@ -187,11 +187,10 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         username = client.getUsername();
         String finalUsername = username;
         Thread pingThread = new Thread(() -> {
-
             while (true) {
                 try {
                     client.sendMessageToClient(new Message("ping"));
-                    Thread.sleep(3000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     System.err.println("Ping thread interrupted");
                     break;
@@ -232,6 +231,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
 
         controller.addClient(getUsername(), client);
         sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
+        startPingThread(client);
         sendTurn(client);
     }
 
@@ -298,6 +298,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
             case -1 -> {
                 // The username is already taken, but the player was disconnected and is trying to reconnect
                 System.out.println(username + " reconnected.");
+                client.sendMessageToClient(new Message("username", username));
                 setUsername(username);
                 resendGameToReconnectedClient(client);
             }

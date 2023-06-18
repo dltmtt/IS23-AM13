@@ -219,11 +219,13 @@ public interface ServerCommunicationInterface extends Remote {
 
     default void nextTurn() throws RemoteException {
         controller.changeTurn();
-        controller.saveGame();
+        if (controller.checkGameStatus() != 0) {
+            controller.saveGame();
+        }
         if (controller.checkGameStatus() == -1) {
             // the game has ended
             List<String> winnersNickname = controller.getWinnersNickname();
-            sendAll(new Message(winnersNickname.size(), winnersNickname, controller.getWinnersScore()));
+            sendAll(new Message(winnersNickname, controller.getWinnersScore(), controller.getPlayersUsername(), controller.getFinalPoints()));
         } else if (controller.checkGameStatus() == 0) {
             // it's the last round
             sendAll(new Message("lastRound"));
@@ -240,8 +242,6 @@ public interface ServerCommunicationInterface extends Remote {
 
         for (String username : tcpClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            System.out.println(controller.getCommonGoals().get(0).getLayout().getName());
-            System.out.println(controller.getCommonGoals().get(1).getLayout().getName());
             Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring());
             tcpClients.get(username).sendMessageToClient(myGame);
         }
@@ -347,21 +347,8 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
             case 0 -> {
-                // The username has already been taken, retry
-                // try {
-                //     Thread.sleep(3000);
-                // } catch (InterruptedException e) {
-                //     e.printStackTrace();
-                // }
-                checkStatus = controller.checkUsername(username);
-                if (checkStatus == 0) {
-                    System.out.println(username + " requested login, but the username is already taken.");
-                    client.callBackSendMessage(new Message("UsernameRetry"));
-                } else {
-                    System.out.println(username + " reconnected.");
-                    client.setUsername(username);
-                    resendGameToReconnectedClient(client);
-                }
+                System.out.println(username + " requested login, but the username is already taken.");
+                client.callBackSendMessage(new Message("UsernameRetry"));
             }
             case -1 -> {
                 // The username is already taken, but the player was disconnected and is trying to reconnect

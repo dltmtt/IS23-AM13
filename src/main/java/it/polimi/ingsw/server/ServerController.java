@@ -23,6 +23,7 @@ public class ServerController {
     private final List<String> winnersNickname;
     private final HashMap<String, ClientCommunicationInterface> rmiClients;
     private final HashMap<String, SocketClientHandler> tcpClients;
+    private final List<Integer> finalPoints;
     public int numberOfPlayers = 0;
     private HashMap<ClientCommunicationInterface, PersonalGoal> personalGoalRMI;
     private HashMap<SocketClientHandler, PersonalGoal> personalGoalTCP;
@@ -46,6 +47,15 @@ public class ServerController {
         tcpClients = new HashMap<>();
         pongLost = new HashMap<>();
         pongReceived = new ArrayList<>();
+        finalPoints = new ArrayList<>();
+    }
+
+    public List<Integer> getFinalPoints() {
+        return finalPoints;
+    }
+
+    public List<String> getPlayersUsername() {
+        return players.stream().map(Player::getNickname).toList();
     }
 
     public void pong(String username) {
@@ -184,6 +194,7 @@ public class ServerController {
                     disconnectedPlayers.remove(username);
                     return -1;
                 }
+                return 0;
             }
         }
         return 1;
@@ -358,26 +369,29 @@ public class ServerController {
         for (Player player : players) {
             finalScoring.add(player.calculateScore());
         }
+        finalPoints.addAll(finalScoring);
 
         if (finalScoring.stream().distinct().count() < players.size()) {
             // There is a tie
             int max = finalScoring.stream().max(Integer::compare).get();
             for (Integer score : finalScoring) {
                 if (score == max) {
-                    winners.add(players.get(finalScoring.indexOf(score)));
-                    players.remove(finalScoring.indexOf(score));
+                    if (!players.get(finalScoring.indexOf(score)).isFirstPlayer()) {
+                        winners.add(players.get(finalScoring.indexOf(score)));
+                        finalPoints.remove(finalScoring.indexOf(score));
+                    }
                 }
             }
         } else {
             int max = finalScoring.stream().max(Integer::compare).get();
             winners.add(players.get(finalScoring.indexOf(max)));
+            finalPoints.remove(finalScoring.indexOf(max));
         }
 
-        if (winners.size() > 1) {
-            winners.removeIf(Player::isFirstPlayer);
-        }
+        List<String> officialWinners = winners.stream().map(Player::getNickname).collect(Collectors.toList());
+        winnersNickname.addAll(officialWinners);
 
-        return winners.stream().map(Player::getNickname).collect(Collectors.toList());
+        return officialWinners;
     }
 
     public List<Item> getPicked(List<Integer> picked) {
@@ -414,7 +428,7 @@ public class ServerController {
         }
 
         gameModel.move(currentPicked, column);
-        saveGame();
+        // saveGame();
         return 1;
     }
 
@@ -440,6 +454,7 @@ public class ServerController {
             for (Player player : players) {
                 if (player.getNickname().equals(nickname)) {
                     winnersScore.add(player.calculateScore());
+                    players.remove(player);
                 }
             }
         }
