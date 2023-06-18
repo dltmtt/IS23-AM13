@@ -127,15 +127,15 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         switch (category) {
             // Maybe the controller should do something with the pong.
             case "pong" -> {
-                System.out.println("Received pong from " + client.getUsername());
-                controller.pong(client.getUsername());
-                controller.addPongLost(client.getUsername());
-                if (controller.disconnectedPlayers.contains(client.getUsername())) {
-                    System.out.println("Player " + client.getUsername() + " reconnected");
-                    startPingThread(client);
-                    sendAll(new Message("reconnected", client.getUsername()));
-                    controller.disconnectedPlayers.remove(client.getUsername());
-                }
+                // System.out.println("Received pong from " + client.getUsername());
+                // controller.pong(client.getUsername());
+                // controller.addPongLost(client.getUsername());
+                // if (controller.disconnectedPlayers.contains(client.getUsername())) {
+                //     System.out.println("Player " + client.getUsername() + " reconnected");
+                //     startPingThread(client);
+                //     sendAll(new Message("reconnected", client.getUsername()));
+                //     controller.disconnectedPlayers.remove(client.getUsername());
+                // }
             }
             case "numOfPlayersMessage" -> {
                 int numPlayer = message.getNumPlayer();
@@ -220,7 +220,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 }
             }
         });
-        checkThread.start();
+        // checkThread.start();
     }
 
     public void resendGameToReconnectedClient(SocketClientHandler client) throws RemoteException {

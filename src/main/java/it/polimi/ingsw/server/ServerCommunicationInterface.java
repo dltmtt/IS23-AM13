@@ -30,15 +30,15 @@ public interface ServerCommunicationInterface extends Remote {
         switch (category) {
             // Maybe the controller should do something with the pong.
             case "pong" -> {
-                System.out.println("Received pong from " + client.getUsername());
-                controller.pong(client.getUsername());
-                controller.addPongLost(client.getUsername());
-                if (controller.disconnectedPlayers.contains(client.getUsername())) {
-                    System.out.println("Player " + client.getUsername() + " reconnected");
-                    startPingThread(client);
-                    sendAll(new Message("reconnected", client.getUsername()));
-                    controller.disconnectedPlayers.remove(client.getUsername());
-                }
+                // System.out.println("Received pong from " + client.getUsername());
+                // controller.pong(client.getUsername());
+                // controller.addPongLost(client.getUsername());
+                // if (controller.disconnectedPlayers.contains(client.getUsername())) {
+                //     System.out.println("Player " + client.getUsername() + " reconnected");
+                //     startPingThread(client);
+                //     sendAll(new Message("reconnected", client.getUsername()));
+                //     controller.disconnectedPlayers.remove(client.getUsername());
+                // }
             }
             case "numOfPlayersMessage" -> {
                 int numberOfPlayers = message.getNumPlayer();
@@ -100,16 +100,8 @@ public interface ServerCommunicationInterface extends Remote {
                 try {
                     client.callBackSendMessage(new Message("ping"));
                     Thread.sleep(3000);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException | RemoteException e) {
                     System.err.println("Ping thread interrupted");
-                    break;
-                } catch (RemoteException e) {
-                    // We fall in this branch when the client disconnects
-                    try {
-                        disconnect(finalUsername);
-                    } catch (RemoteException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     break;
                 }
             }
@@ -136,7 +128,7 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
         });
-        checkThread.start();
+        // checkThread.start();
     }
     // default void disconnect(String username) throws RemoteException {
     //     System.err.println(username + " disconnected.");
