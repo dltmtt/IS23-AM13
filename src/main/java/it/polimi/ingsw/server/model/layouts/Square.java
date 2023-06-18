@@ -53,6 +53,9 @@ public class Square extends Layout {
      * @return true if the layout is valid, false otherwise
      */
     public boolean check(Bookshelf b) {
+        for (int i = 0; i < Bookshelf.getRows(); i++) {
+            Arrays.fill(booleanMatrix[i], true);
+        }
         int found = 0;
         for (int j = 0; j < Bookshelf.getColumns(); j++) {
             for (int i = 0; i < Bookshelf.getRows(); i++) {

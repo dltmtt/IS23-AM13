@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.client.view.BookshelfView;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.FullLine;
@@ -310,5 +311,39 @@ public class SquareTest {
 
         assertTrue(square.check(b));
         assertTrue(fullLine.check(b));
+    }
+
+    @Test
+    void checkFromGui() {
+        Layout square = new Square(1, 1, 2, 2);
+
+        Bookshelf b = new Bookshelf();
+        List<Item> items = new ArrayList<>();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+
+        b.insert(0, items);
+        items.clear();
+
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+
+        b.insert(1, items);
+        items.clear();
+
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+
+        b.insert(3, items);
+        items.clear();
+        square.check(b);
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(4, items);
+        items.clear();
+        BookshelfView view = new BookshelfView(b);
+        // view.printBookshelf();
+        assertTrue(square.check(b));
     }
 }

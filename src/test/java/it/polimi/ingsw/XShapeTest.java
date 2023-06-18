@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.server.model.layouts.XShape;
@@ -94,5 +95,35 @@ public class XShapeTest {
                 }
             }
         }
+    }
+
+    @Test
+    void XShapeTestFromGui() {
+        Bookshelf b = new Bookshelf();
+        List<Item> itemList = new ArrayList<>();
+        Layout XShape = new XShape(1, 1, 5);
+        CommonGoal commonGoal = new CommonGoal(XShape, 2);
+
+        itemList.add(new Item(Color.GREEN, 0));
+        itemList.add(new Item(Color.LIGHTBLUE, 0));
+        itemList.add(new Item(Color.GREEN, 0));
+        b.insert(1, itemList);
+
+        itemList.clear();
+
+        itemList.add(new Item(Color.GREEN, 0));
+        itemList.add(new Item(Color.GREEN, 0));
+        b.insert(2, itemList);
+
+        itemList.clear();
+
+        itemList.add(new Item(Color.GREEN, 0));
+        itemList.add(new Item(Color.BLUE, 0));
+        itemList.add(new Item(Color.GREEN, 0));
+        b.insert(3, itemList);
+
+        itemList.clear();
+
+        assertTrue(commonGoal.check(b));
     }
 }

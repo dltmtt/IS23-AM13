@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.Bookshelf;
+import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.ItemsPerColor;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.BookshelfUtilities;
@@ -10,6 +11,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ItemsPerColorTest {
@@ -52,5 +57,48 @@ public class ItemsPerColorTest {
                 }
             }
         }
+    }
+
+    @Test
+    void ItemPerColorFake() {
+        Bookshelf b = new Bookshelf();
+        Layout L = new ItemsPerColor(1, 1);
+        List<Item> items = new ArrayList<>();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(0, items);
+        items.clear();
+
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(1, items);
+
+        assertFalse(L.check(b));
+    }
+
+    @Test
+    void okTest() {
+        Bookshelf b = new Bookshelf();
+        Layout L = new ItemsPerColor(1, 1);
+        List<Item> items = new ArrayList<>();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(0, items);
+        items.clear();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(1, items);
+
+        assertTrue(L.check(b));
     }
 }
