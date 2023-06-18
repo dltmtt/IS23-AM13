@@ -67,6 +67,7 @@ public interface ServerCommunicationInterface extends Remote {
             }
             case "insertMessage" -> {
                 if (controller.checkInsert(message.getInsert()) == 1) {
+                    System.out.println("Inserting " + message.getInsert());
                     sendUpdate();
                     nextTurn();
                 } else if (controller.checkInsert(message.getInsert()) == 0) {
@@ -279,6 +280,7 @@ public interface ServerCommunicationInterface extends Remote {
         for (String username : rmiClients.keySet()) {
             int position = controller.getPositionByUsername(username);
             Message myGame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.allPoints(position), controller.getTopOfScoring());
+
             rmiClients.get(username).callBackSendMessage(myGame);
         }
     }

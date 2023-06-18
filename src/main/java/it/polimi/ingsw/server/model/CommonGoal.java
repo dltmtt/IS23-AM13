@@ -71,7 +71,7 @@ public class CommonGoal {
      */
     public int getScoring() throws IndexOutOfBoundsException {
         if (scoringList.size() == 0)
-            throw new IndexOutOfBoundsException();
+            return 0;
 
         int value = scoringList.get(0);
         scoringList.remove(scoringList.get(0));

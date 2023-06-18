@@ -163,9 +163,13 @@ public class Player {
     public void move(List<Item> items, int column) throws IllegalArgumentException {
 
         bookshelf.insert(column, items);
+        System.out.println("Player " + nickname + " moved " + items.size() + " tiles to column " + column + " of their bookshelf.");
         for (int i = 0; i < commonGoals.size(); i++) {
+            System.out.println("Checking common goal " + commonGoals.get(i).getLayout().getName() + "...");
+            System.out.println(commonGoalCompleted.get(i));
             if (!commonGoalCompleted.get(i)) {
                 if (commonGoals.get(i).check(bookshelf)) {
+                    System.out.println("Player " + nickname + " completed the common goal " + commonGoals.get(i).getLayout().getName() + " and earned " + commonGoals.get(i).getScoringList().get(0) + " points!");
                     setCommonGoalPoints(commonGoals.get(i));
                     commonGoalCompleted.set(i, true);
                 }

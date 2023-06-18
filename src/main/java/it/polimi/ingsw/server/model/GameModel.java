@@ -63,7 +63,11 @@ public class GameModel {
     public List<Integer> getTopScoringPoints() {
         topScoringPoints.clear();
         for (CommonGoal cg : Player.getCommonGoals()) {
-            topScoringPoints.add(cg.getScoringList().get(0));
+            if (cg.getScoringList().size() > 0) {
+                topScoringPoints.add(cg.getScoringList().get(0));
+            } else {
+                topScoringPoints.add(0);
+            }
         }
 
         return topScoringPoints;
@@ -167,6 +171,7 @@ public class GameModel {
         for (int i = 0; i < commonGoalNumber; i++) {
             int randomLayoutIndex = randomNumberGenerator.nextInt(commonGoalDeck.size());
             extracted.add(commonGoalDeck.get(randomLayoutIndex));
+            System.out.println("Common goal: " + extracted.get(i).getLayout().getName());
             // Remove the extracted common goal from the deck so that it can't be drawn again.
             commonGoalDeck.remove(randomLayoutIndex);
         }

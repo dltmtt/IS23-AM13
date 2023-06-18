@@ -957,7 +957,6 @@ public class GameGuiController {
     }
 
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
-        System.out.println(topOfScoringList);
         updateScoring(topOfScoringList);
         updatePoints(score);
     }

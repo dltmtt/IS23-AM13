@@ -331,20 +331,20 @@ public class ServerController {
     }
 
     public String checkPick(List<Integer> move) {
-         if (move.size() != 4) {
-             return "no";
-         }
-         if (Objects.equals(move.get(0), move.get(2)) || Objects.equals(move.get(1), move.get(3))) {
-             List<Coordinates> coordinatesOfPick = createCoordinateList(move);
-             if (gameModel.getLivingRoom().OrderAndMaxOf3(coordinatesOfPick)) {
-                 if (gameModel.getLivingRoom().allNotNull(coordinatesOfPick)) {
-                     if (gameModel.getLivingRoom().AtLeastOneFree(coordinatesOfPick)) {
-                         return "ok";
-                     }
-                 }
-             }
-         }
-         return "no";
+        if (move.size() != 4) {
+            return "no";
+        }
+        if (Objects.equals(move.get(0), move.get(2)) || Objects.equals(move.get(1), move.get(3))) {
+            List<Coordinates> coordinatesOfPick = createCoordinateList(move);
+            if (gameModel.getLivingRoom().OrderAndMaxOf3(coordinatesOfPick)) {
+                if (gameModel.getLivingRoom().allNotNull(coordinatesOfPick)) {
+                    if (gameModel.getLivingRoom().AtLeastOneFree(coordinatesOfPick)) {
+                        return "ok";
+                    }
+                }
+            }
+        }
+        return "no";
     }
 
     public void changeTurn() {
@@ -420,14 +420,17 @@ public class ServerController {
      */
     public int checkInsert(int column) {
         if (gameModel.getCurrentPlayer().getBookshelf().getFreeCellsInColumn(column) < currentPicked.size()) {
+            System.out.println("You can't insert the picked items in the bookshelf because there are not enough free cells");
             return -1;
         }
 
         if (column < 0 || column > 4) {
+            System.out.println("You can't insert the picked items in the bookshelf because the column is not valid");
             return 0;
         }
 
         gameModel.move(currentPicked, column);
+        System.out.println("You have inserted the picked items in the bookshelf");
         // saveGame();
         return 1;
     }
