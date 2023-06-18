@@ -102,6 +102,11 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         socket = new Socket(HOSTNAME, PORT_SOCKET);
     }
 
+    @Override
+    public void checkServerConnection() {
+
+    }
+
     /**
      * Closes the socket and the streams
      */
