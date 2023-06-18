@@ -52,24 +52,21 @@ public class ItemsPerColor extends Layout {
         if (b == null) {
             throw new IllegalArgumentException("Invalid bookshelf");
         } else {
-            for (int i = 0; i < Bookshelf.getRows(); i++) {
-                for (int j = 0; j < Bookshelf.getColumns(); j++) {
-                    if (b.getItemAt(i, j).isPresent()) {
-                        Color color = b.getItemAt(i, j).get().color();
-                        if (checkForColor(b, color, i, j)) {
-                            return true;
-                        }
-                    }
+            for (Color c : Color.values()) {
+                if (checkForColor(b, c)) {
+                    return true;
+                } else {
+                    count = 0;
                 }
             }
             return false;
         }
     }
 
-    public boolean checkForColor(Bookshelf b, Color c, int i, int j) {
+    public boolean checkForColor(Bookshelf b, Color c) {
         for (int k = 0; k < Bookshelf.getRows(); k++) {
             for (int t = 0; t < Bookshelf.getColumns(); t++) {
-                if (k != i && t != j && b.getItemAt(k, t).isPresent()) {
+                if (b.getItemAt(k, t).isPresent()) {
                     if (b.getItemAt(k, t).get().color().equals(c)) {
                         count++;
                     }

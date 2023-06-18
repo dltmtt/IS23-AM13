@@ -101,4 +101,29 @@ public class ItemsPerColorTest {
 
         assertTrue(L.check(b));
     }
+
+    @Test
+    void ciaoTest() {
+        Bookshelf b = new Bookshelf();
+        Layout L = new ItemsPerColor(1, 1);
+        List<Item> items = new ArrayList<>();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(0, items);
+        items.clear();
+
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+
+        b.insert(1, items);
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.GREEN, 1));
+        b.insert(2, items);
+
+        assertFalse(L.check(b));
+    }
 }
