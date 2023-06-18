@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
@@ -11,7 +10,7 @@
     <children>
         <ImageView fitHeight="620.0" fitWidth="890.0" pickOnBounds="true" StackPane.alignment="CENTER">
             <image>
-                <Image url="@graphics/misc/sfondo_parquet%20-%20Copia.jpg"/>
+                <Image url="@graphics/misc/sfondo_parquet_wide.jpg"/>
             </image>
         </ImageView>
         <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
@@ -65,50 +64,50 @@
                                         <Font name="Ink Free" size="36.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="player1" text="Label" textFill="#eaa214" GridPane.halignment="CENTER"
+                                <Label fx:id="player0" text="Label" textFill="#eaa214" GridPane.halignment="CENTER"
                                        GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                     <font>
                                         <Font name="Ink Free" size="27.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="points1" text="Label" textFill="#eaa214" GridPane.columnIndex="1"
+                                <Label fx:id="points0" text="Label" textFill="#eaa214" GridPane.columnIndex="1"
                                        GridPane.rowIndex="1">
                                     <font>
                                         <Font name="Ink Free" size="24.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="player2" text="Label" textFill="#b1b1b1" GridPane.halignment="CENTER"
+                                <Label fx:id="player1" text="Label" textFill="#b1b1b1" GridPane.halignment="CENTER"
                                        GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                     <font>
                                         <Font name="Ink Free" size="25.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="points2" text="Label" textFill="#b1b1b1" GridPane.columnIndex="1"
+                                <Label fx:id="points1" text="Label" textFill="#b1b1b1" GridPane.columnIndex="1"
                                        GridPane.rowIndex="2">
                                     <font>
                                         <Font name="Ink Free" size="24.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="player3" alignment="CENTER" text="Label" textFill="#ff866b"
+                                <Label fx:id="player2" alignment="CENTER" text="Label" textFill="#ff866b"
                                        GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                     <font>
                                         <Font name="Ink Free" size="24.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="player4" alignment="CENTER" layoutX="73.0" layoutY="170.0" text="Label"
+                                <Label fx:id="player3" alignment="CENTER" layoutX="73.0" layoutY="170.0" text="Label"
                                        textFill="#fff2d6" GridPane.halignment="CENTER" GridPane.rowIndex="4"
                                        GridPane.valignment="CENTER">
                                     <font>
                                         <Font name="Ink Free" size="24.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="points3" text="Label" textFill="#ff866b" GridPane.columnIndex="1"
+                                <Label fx:id="points2" text="Label" textFill="#ff866b" GridPane.columnIndex="1"
                                        GridPane.rowIndex="3">
                                     <font>
                                         <Font name="Ink Free" size="24.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="points4" text="Label" textFill="#fff2d6" GridPane.columnIndex="1"
+                                <Label fx:id="points3" text="Label" textFill="#fff2d6" GridPane.columnIndex="1"
                                        GridPane.rowIndex="4">
                                     <font>
                                         <Font name="Ink Free" size="24.0"/>

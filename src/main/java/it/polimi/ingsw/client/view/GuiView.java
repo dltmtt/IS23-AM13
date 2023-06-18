@@ -101,7 +101,7 @@ public class GuiView extends Application implements GameView {
         }
 
         FXMLLoader endGameSceneLoader = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
-        endGameController = new EndGameGuiController(this, client.getUsername());
+        endGameController = new EndGameGuiController(this, client);
         endGameSceneLoader.setController(endGameController);
 
         try {
@@ -213,6 +213,7 @@ public class GuiView extends Application implements GameView {
         Platform.runLater(() -> {
             // TODO: a list of winners?
             // endGameController.setWinner(winners.toString());
+            endGameController.setWinner(winners, scores, losers, loserScores);
             stage.setScene(endGameScene);
             stage.show();
         });

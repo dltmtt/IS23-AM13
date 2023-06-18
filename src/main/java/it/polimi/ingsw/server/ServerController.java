@@ -371,9 +371,11 @@ public class ServerController {
         }
         finalPoints.addAll(finalScoring);
 
-        if (finalScoring.stream().distinct().count() < players.size()) {
+        Integer max = finalScoring.stream().max(Integer::compare).get();
+
+        // if the value max is contained more than one time in the list finalScoring
+        if (Collections.frequency(finalScoring, max) > 1) {
             // There is a tie
-            int max = finalScoring.stream().max(Integer::compare).get();
             for (Integer score : finalScoring) {
                 if (score == max) {
                     if (!players.get(finalScoring.indexOf(score)).isFirstPlayer()) {
@@ -383,7 +385,6 @@ public class ServerController {
                 }
             }
         } else {
-            int max = finalScoring.stream().max(Integer::compare).get();
             winners.add(players.get(finalScoring.indexOf(max)));
             finalPoints.remove(finalScoring.indexOf(max));
         }
