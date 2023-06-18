@@ -73,6 +73,6 @@ public class ItemsPerColor extends Layout {
                 }
             }
         }
-        return count >= 7;
+        return count >= 8;
     }
 }
