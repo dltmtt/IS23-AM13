@@ -320,21 +320,20 @@ public class ServerController {
     }
 
     public String checkPick(List<Integer> move) {
-        // if (move.size() != 4) {
-        //     return "no";
-        // }
-        // if (Objects.equals(move.get(0), move.get(2)) || Objects.equals(move.get(1), move.get(3))) {
-        //     List<Coordinates> coordinatesOfPick = createCoordinateList(move);
-        //     if (gameModel.getLivingRoom().OrderAndMaxOf3(coordinatesOfPick)) {
-        //         if (gameModel.getLivingRoom().allNotNull(coordinatesOfPick)) {
-        //             if (gameModel.getLivingRoom().AtLeastOneFree(coordinatesOfPick)) {
-        //                 return "ok";
-        //             }
-        //         }
-        //     }
-        // }
-        // return "no";
-        return "ok";
+         if (move.size() != 4) {
+             return "no";
+         }
+         if (Objects.equals(move.get(0), move.get(2)) || Objects.equals(move.get(1), move.get(3))) {
+             List<Coordinates> coordinatesOfPick = createCoordinateList(move);
+             if (gameModel.getLivingRoom().OrderAndMaxOf3(coordinatesOfPick)) {
+                 if (gameModel.getLivingRoom().allNotNull(coordinatesOfPick)) {
+                     if (gameModel.getLivingRoom().AtLeastOneFree(coordinatesOfPick)) {
+                         return "ok";
+                     }
+                 }
+             }
+         }
+         return "no";
     }
 
     public void changeTurn() {

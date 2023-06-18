@@ -148,7 +148,6 @@
                                        <children>
                                                     <Button fx:id="top" mnemonicParsing="false" text="^" />
                                           <Button fx:id="down" mnemonicParsing="false" text="v" />
-                                          <Button fx:id="deleteChoice" mnemonicParsing="false" text="X" />
                                        </children>
                                     </VBox>
                                  </children>

@@ -68,8 +68,6 @@ public class GameGuiController {
     @FXML
     private Button down;
     @FXML
-    private Button deleteChoice;
-    @FXML
     private ImageView board;
     @FXML
     private GridPane boardGridPane;
@@ -671,17 +669,16 @@ public class GameGuiController {
         grid.getChildren().clear();
         enableItemsWithOneFreeSide();
     }
-
+/*
     //this method is used before starting to change the order of the items in the rearrangeArea
     public void deleteChoice(){
         deleteChoice.setDisable(true);
         enableAllItems(grid);
     }
+
+ */
     public void selectInGrid(int row, int col){
         highlightItem(grid,row,col,Color.GREEN);
-        deleteChoice.setDisable(false);
-
-        deleteChoice.setOnMouseClicked(mouseEvent -> deleteChoice());
     }
     public void changeOrderUp(GridPane grid, List<Item> items){
         newOrder.clear();
@@ -886,7 +883,6 @@ public class GameGuiController {
         for (int j = 0; j < items.size(); j++) {
             top.setDisable(false);
             down.setDisable(false);
-            deleteChoice.setDisable(false);
             try {
                 int finalI = items.size() - i - 1;
                 ImageView itemView = createImageView(ITEM_BASE_PATH + items.get(j).fileName());
@@ -927,7 +923,6 @@ public class GameGuiController {
         if (grid.getChildren().size() == 1) {
             top.setDisable(true);
             down.setDisable(true);
-            deleteChoice.setDisable(true);
         } else {
             if(items.size()==2) {
                 top.setOnMouseClicked(mouseEvent -> changeOrderUp(grid, items));
