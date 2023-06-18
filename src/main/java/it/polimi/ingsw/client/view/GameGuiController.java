@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static javafx.scene.layout.GridPane.getColumnIndex;
-import static javafx.scene.layout.GridPane.getRowIndex;
 
 public class GameGuiController {
 
@@ -41,14 +40,9 @@ public class GameGuiController {
 
     // Size of the small items in the bookshelf (other players)
     private static final double SMALL_ITEM_SIZE = 17;
-    //numChangeOrder is used to count the number of times the player changes the order of the items in the bookshelf
-    private int numChangeOrder=0;
-    private List<Coordinates> newList=new ArrayList<>();
     public static List<Coordinates> pickedItems = new ArrayList<>();
-
     // static reference to the client, in order to use the sendMessage() function
     public static Client client;
-
     // static reference to the view
     public static GuiView view;
     public static Board boardModel;
@@ -56,13 +50,15 @@ public class GameGuiController {
     private final List<ImageView> itemImageViews = new ArrayList<>();
     private final List<Integer> indexList = new ArrayList<>();
     private final List<Integer> newOrder = new ArrayList<>();
-
     // hashmap used to associate each unique username to a number, in order to display the correct bookshelf
     public HashMap<String, Integer> playersBookshelf = new HashMap<>();
     @FXML
     public GridPane bookshelfGrid;
     @FXML
     public GridPane grid;
+    // numChangeOrder is used to count the number of times the player changes the order of the items in the bookshelf
+    private int numChangeOrder = 0;
+    private List<Coordinates> newList = new ArrayList<>();
     @FXML
     private Button top;
     @FXML
@@ -172,8 +168,6 @@ public class GameGuiController {
         }
     }
 
-
-
     /**
      * Returns the Node at the given row and column position.
      * Please note that the row and column index are referred to the Board System, not to the GridPane.
@@ -255,11 +249,11 @@ public class GameGuiController {
      * Enables all the items in the <code>boardGridPane</code>.
      */
     public void enableAllItems(GridPane gridPane) {
-     //   pickedItems = new ArrayList<>();
+        //   pickedItems = new ArrayList<>();
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
             node.setDisable(false);
-         //   node.setEffect(new DropShadow(20, Color.ORANGE));
+            //   node.setEffect(new DropShadow(20, Color.ORANGE));
             // set node cursor as a hand
             node.setCursor(Cursor.HAND);
         }
@@ -298,7 +292,7 @@ public class GameGuiController {
             if (pickedItems.size() == 1) {
                 // pickedItems.add(new Coordinates(row, col));
                 highlightPickableItems(row, col);
-                highlightItem(boardGridPane,row, col, Color.GREEN);
+                highlightItem(boardGridPane, row, col, Color.GREEN);
                 confirmSelection.setDisable(false);
                 delete.setDisable(false);
 
@@ -323,7 +317,7 @@ public class GameGuiController {
      * @param col   the column index of the node (Model-wise)
      * @param color the color to highlight the item with
      */
-    public void highlightItem(GridPane grid,int row, int col, Color color) {
+    public void highlightItem(GridPane grid, int row, int col, Color color) {
         Node selectedNode = getNodeByRowColumnIndex(grid, row, col);
         if (selectedNode != null) {
             selectedNode.setEffect(new DropShadow(20, color));
@@ -660,6 +654,7 @@ public class GameGuiController {
             indexList.add(targetIndex, sourcePosition);
         }
     }
+
     /**
      * Method called when the user clicks on the delete button.
      * This method makes it possible to delete the current selection and to bring the items back in the board
@@ -669,40 +664,41 @@ public class GameGuiController {
         grid.getChildren().clear();
         enableItemsWithOneFreeSide();
     }
-/*
-    //this method is used before starting to change the order of the items in the rearrangeArea
-    public void deleteChoice(){
-        deleteChoice.setDisable(true);
-        enableAllItems(grid);
+
+    /*
+        //this method is used before starting to change the order of the items in the rearrangeArea
+        public void deleteChoice(){
+            deleteChoice.setDisable(true);
+            enableAllItems(grid);
+        }
+
+     */
+    public void selectInGrid(int row, int col) {
+        highlightItem(grid, row, col, Color.GREEN);
     }
 
- */
-    public void selectInGrid(int row, int col){
-        highlightItem(grid,row,col,Color.GREEN);
-    }
-    public void changeOrderUp(GridPane grid, List<Item> items){
+    public void changeOrderUp(GridPane grid, List<Item> items) {
         newOrder.clear();
-            Node n0 = getNodeByRowColumnIndex(grid, 2, 0);
-            Node n1 = getNodeByRowColumnIndex(grid, 1, 0);
-            grid.getChildren().removeAll(n0, n1);
+        Node n0 = getNodeByRowColumnIndex(grid, 2, 0);
+        Node n1 = getNodeByRowColumnIndex(grid, 1, 0);
+        grid.getChildren().removeAll(n0, n1);
 
-            grid.add(n1, 0, 0);
-            grid.add(n0, 0, 1);
+        grid.add(n1, 0, 0);
+        grid.add(n0, 0, 1);
 
-            newOrder.addAll(indexList);
-            indexList.clear();
-            if(items.size()==2) {
-                indexList.add(newOrder.get(1));
-                indexList.add(newOrder.get(0));
-            }
-            else {
-                indexList.add(newOrder.get(0));
-                indexList.add(newOrder.get(2));
-                indexList.add(newOrder.get(1));
-            }
+        newOrder.addAll(indexList);
+        indexList.clear();
+        if (items.size() == 2) {
+            indexList.add(newOrder.get(1));
+            indexList.add(newOrder.get(0));
+        } else {
+            indexList.add(newOrder.get(0));
+            indexList.add(newOrder.get(2));
+            indexList.add(newOrder.get(1));
+        }
     }
 
-    public void changeOrderDown(GridPane grid, List<Item> items){
+    public void changeOrderDown(GridPane grid, List<Item> items) {
 
         newOrder.clear();
         Node n0 = getNodeByRowColumnIndex(grid, 1, 0);
@@ -717,7 +713,6 @@ public class GameGuiController {
         indexList.add(newOrder.get(1));
         indexList.add(newOrder.get(0));
         indexList.add(newOrder.get(2));
-
     }
 /*
     public void changeOrder(GridPane grid, List<Item> items){
@@ -798,6 +793,7 @@ public class GameGuiController {
 
 
  */
+
     /**
      * Initialize the bookshelf grid with empty image views.
      */
@@ -875,7 +871,7 @@ public class GameGuiController {
     }
 
     public void rearrange(List<Item> items) {
-        numChangeOrder=0;
+        numChangeOrder = 0;
         newList.clear();
         newList = new ArrayList<>(pickedItems);
         int i = 0;
@@ -891,24 +887,23 @@ public class GameGuiController {
                     itemView.setFitWidth(MAIN_ITEM_SIZE);
                     grid.add(itemView, 0, finalI);
 
-                    grid.setHalignment(itemView, HPos.CENTER);
+                    GridPane.setHalignment(itemView, HPos.CENTER);
 
                     System.out.println("itemView is not null");
                     itemView.setDisable(false);
                     indexList.add(items.indexOf(items.get(j)));
 
                     int finalInt = i;
-                    if(items.size()==2) {
-                        itemView.setOnMouseClicked(mouseEvent -> selectInGrid(finalInt+1, 0));
-                    }
-                    else{
+                    if (items.size() == 2) {
+                        itemView.setOnMouseClicked(mouseEvent -> selectInGrid(finalInt + 1, 0));
+                    } else {
                         itemView.setOnMouseClicked(mouseEvent -> selectInGrid(finalInt, 0));
                     }
 
-                    if(finalI==0){
+                    if (finalI == 0) {
                         top.setDisable(true);
                     }
-                    if(finalI==2){
+                    if (finalI == 2) {
                         down.setDisable(true);
                     }
                 }
@@ -924,11 +919,10 @@ public class GameGuiController {
             top.setDisable(true);
             down.setDisable(true);
         } else {
-            if(items.size()==2) {
+            if (items.size() == 2) {
                 top.setOnMouseClicked(mouseEvent -> changeOrderUp(grid, items));
                 down.setDisable(true);
-            }
-            else{
+            } else {
                 top.setOnMouseClicked(mouseEvent -> changeOrderUp(grid, items));
                 down.setOnMouseClicked(mouseEvent -> changeOrderDown(grid, items));
             }
@@ -936,6 +930,7 @@ public class GameGuiController {
     }
 
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
+        System.out.println(topOfScoringList);
         updateScoring(topOfScoringList);
         updatePoints(score);
     }
@@ -945,6 +940,7 @@ public class GameGuiController {
         commonGoalLabel.setText(score.get(1).toString());
         adjacentGroupsLabel.setText(score.get(2).toString());
         totalPointsLabel.setText(score.get(3).toString());
+        System.out.println("Points updated");
     }
 
     public void showLastRound() {

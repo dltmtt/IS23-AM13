@@ -331,7 +331,7 @@ public class GuiView extends Application implements GameView {
     @Override
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         Platform.runLater(() -> {
-            // gameController.updateScore(topOfScoringList, score);
+            gameController.updateScore(topOfScoringList, score);
         });
     }
 

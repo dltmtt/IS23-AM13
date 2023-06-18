@@ -61,7 +61,6 @@ public class GameModel {
      * @return the top of the scoring list of each common goal card
      */
     public List<Integer> getTopScoringPoints() {
-
         topScoringPoints.clear();
         for (CommonGoal cg : Player.getCommonGoals()) {
             topScoringPoints.add(cg.getScoringList().get(0));

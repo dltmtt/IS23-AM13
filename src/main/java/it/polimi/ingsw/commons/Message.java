@@ -206,7 +206,6 @@ public class Message implements Serializable {
             String integerString = Integer.toString(topOfScoringList.get(i));
             json.put("topScoring" + i, integerString);
         }
-        System.out.println(json.toString());
     }
 
     /**
@@ -217,7 +216,7 @@ public class Message implements Serializable {
      * @param board       board of the game
      * @param score       list of current scoring of the player where each element is a different scoring.
      */
-    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> score, List<Integer> topOfScoring) {
+    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> score, List<Integer> topOfScoringList) {
         json = new JSONObject();
         json.put("category", category);
         JSONArray bookshelfArray = new JSONArray();
@@ -234,10 +233,10 @@ public class Message implements Serializable {
         json.put("cgScore", Integer.toString(score.get(1)));
         json.put("bookshelfScore", Integer.toString(score.get(2)));
         json.put("totalScore", Integer.toString(score.get(3)));
-        System.out.println("topOfScoring size: " + topOfScoring.size());
-        for (int i = 0; i < topOfScoring.size(); i++) {
-            String topOfScoringString = Integer.toString(topOfScoring.get(i));
-            json.put("topScoring " + i, topOfScoringString);
+
+        for (int i = 0; i < topOfScoringList.size(); i++) {
+            String integerString = Integer.toString(topOfScoringList.get(i));
+            json.put("topScoring" + i, integerString);
         }
     }
 
