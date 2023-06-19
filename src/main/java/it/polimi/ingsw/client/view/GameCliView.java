@@ -28,7 +28,6 @@ public class GameCliView implements GameView {
         boolean firstGame = promptFirstGame();
         client.startPingThread(username);
         client.sendMessage(new Message("completeLogin", username, 0, firstGame, 0));
-        client.checkServerConnection();
     }
 
     @Override

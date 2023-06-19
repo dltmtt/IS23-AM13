@@ -46,7 +46,7 @@ public interface ServerCommunicationInterface extends Remote {
         switch (category) {
             // Maybe the controller should do something with the pong.
             case "ping" -> {
-                System.out.println("Received pong from " + client.getUsername());
+                System.out.println("Received ping from " + client.getUsername());
                 controller.pong(client.getUsername());
                 controller.addPongLost(client.getUsername());
                 if (controller.disconnectedPlayers.contains(client.getUsername())) {

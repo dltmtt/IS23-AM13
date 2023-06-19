@@ -148,7 +148,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 serverConnection = true;
                 // System.out.println("Ping!");
             }
-            case "username" -> setUsername(message.getUsername());
+            case "username" -> {
+                setUsername(message.getUsername());
+                checkServerConnection();
+            }
             case "UsernameRetry" -> gameView.usernameError();
             case "UsernameRetryCompleteLogin" -> gameView.completeLoginError();
             case "chooseNumOfPlayer" -> gameView.playerChoice();
