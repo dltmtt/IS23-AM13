@@ -151,14 +151,28 @@ public class GameGuiController {
                         disableItem(boardGridPane, i, j);
                     }
                     else if(boardModel.getItem(i,j)==null){
-                        if(row==i && j+1<boardGridPane.getColumnCount()) {
-                            disableItem(boardGridPane, i, j + 1);
-                            b=j+1;
+                        if(i>=row && j>=col) {
+                            if (row == i && j + 1 < boardGridPane.getColumnCount()) {
+                                disableItem(boardGridPane, i, j + 1);
+                                b = j + 1;
+                            }
+                            else {
+                                if(i+1<boardGridPane.getRowCount()) {
+                                    disableItem(boardGridPane, i + 1, j);
+                                    b = i + 1;
+                                }
+                            }
                         }
-                        else {
-                            if(i+1<boardGridPane.getRowCount()) {
-                                disableItem(boardGridPane, i + 1, j);
-                                b = i + 1;
+                        else{
+                            if(row==i && j-1>=0){
+                                disableItem(boardGridPane,i,j-1);
+                                b=j-1;
+                            }
+                            else{
+                                if(i-1>=0){
+                                    disableItem(boardGridPane,i-1,j);
+                                    b=i-1;
+                                }
                             }
                         }
                     }
