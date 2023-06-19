@@ -142,6 +142,7 @@ public class GameGuiController {
      */
     private void highlightPickableItems(int row, int col) {
         int b=0;
+
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getRowCount(); i++) {
             for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
