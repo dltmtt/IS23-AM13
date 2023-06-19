@@ -141,17 +141,33 @@ public class GameGuiController {
      * @param col the column of the selected ImageView
      */
     private void highlightPickableItems(int row, int col) {
+        int b=0;
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getRowCount(); i++) {
             for (int j = 0; j < boardGridPane.getColumnCount(); j++) {
                 if ((i == row || j == col) && (Math.abs(i - row) <= bookshelfModel.numCellsToHighlight() && Math.abs(j - col) <= bookshelfModel.numCellsToHighlight()) && boardModel.checkBorder(new Coordinates(i, j))) {
                     if ((i == row - 2 && !boardModel.checkBorder(new Coordinates(i + 1, j))) || (i == row + 2 && !boardModel.checkBorder(new Coordinates(i - 1, j))) || (j == col - 2 && !boardModel.checkBorder(new Coordinates(i, j + 1))) || (j == col + 2 && !boardModel.checkBorder(new Coordinates(i, j - 1)))) {
                         disableItem(boardGridPane, i, j);
-                    } else {
-                        selectedNode = getNodeByRowColumnIndex(boardGridPane, i, j);
-                        if (selectedNode != null) {
-                            selectedNode.setDisable(false);
-                            selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+                    }
+                    else if(boardModel.getItem(i,j)==null){
+                        if(row==i && j+1<boardGridPane.getColumnCount()) {
+                            disableItem(boardGridPane, i, j + 1);
+                            b=j+1;
+                        }
+                        else {
+                            if(i+1<boardGridPane.getRowCount()) {
+                                disableItem(boardGridPane, i + 1, j);
+                                b = i + 1;
+                            }
+                        }
+                    }
+                    else {
+                        if((i!=b && j==col) || (j!=b && i==row)) {
+                            selectedNode = getNodeByRowColumnIndex(boardGridPane, i, j);
+                            if (selectedNode != null) {
+                                selectedNode.setDisable(false);
+                                selectedNode.setEffect(new DropShadow(20, Color.ORANGE));
+                            }
                         }
                     }
                 } else {
