@@ -121,21 +121,19 @@ public class Bookshelf implements AbleToGetPoints {
         return freeCells;
     }
 
-    public int numCellsToHighlight(){
-        int cellsToHighLight=0;
-        int max=0;
-        for(int j=0; j<columns; j++){
-            if(getFreeCellsInColumn(j)>=3){
-                cellsToHighLight=2;
+    public int numCellsToHighlight() {
+        int cellsToHighLight = 0;
+        int max = 0;
+        for (int j = 0; j < columns; j++) {
+            if (getFreeCellsInColumn(j) >= 3) {
+                cellsToHighLight = 2;
+            } else if (getFreeCellsInColumn(j) == 2) {
+                cellsToHighLight = 1;
+            } else {
+                cellsToHighLight = 0;
             }
-            else if(getFreeCellsInColumn(j)==2){
-                cellsToHighLight=1;
-            }
-            else{
-                cellsToHighLight=0;
-            }
-            if(max<cellsToHighLight)
-                max=cellsToHighLight;
+            if (max < cellsToHighLight)
+                max = cellsToHighLight;
         }
         return max;
     }
@@ -155,15 +153,18 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * This method is used to clear the boolean matrix
+     * Clears the boolean matrix by setting all the cells to <code>true</code>.
      */
-    // Clears the boolean matrix
     public void clearBooleanMatrix() {
         for (boolean[] row : booleanMatrix) {
             Arrays.fill(row, true);
         }
     }
 
+    /**
+     * Deletes all the items in the bookshelf by setting them to
+     * <code>Optional.empty()</code> and clears the boolean matrix.
+     */
     public void clearBookshelf() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -386,10 +387,25 @@ public class Bookshelf implements AbleToGetPoints {
         return items;
     }
 
+    /**
+     * Sets the item at the specified position.
+     *
+     * @param row  the row index
+     * @param col  the column index
+     * @param item the item to set at the specified position
+     */
     public void setItem(int row, int col, Optional<Item> item) {
         items[row][col] = item;
     }
 
+    /**
+     * Gets the file name of the image that represents the item at the
+     * specified position.
+     *
+     * @param row the row index
+     * @param col the column index
+     * @return the file name of the item at the specified position
+     */
     public String getItemFileName(int row, int col) {
         Item item = items[row][col].get();
         return item.color().toString().toLowerCase().charAt(0) + String.valueOf(item.number()) + ".png";

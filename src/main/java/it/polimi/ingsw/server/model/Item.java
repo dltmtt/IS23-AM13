@@ -5,7 +5,6 @@ import it.polimi.ingsw.utils.Color;
 /**
  * An item made of a color and a number identifying its drawing.
  */
-
 public record Item(Color color, int number) {
 
     /**
@@ -18,6 +17,9 @@ public record Item(Color color, int number) {
         return color() == check.color() && number() == check.number();
     }
 
+    /**
+     * @return the name of the image file containing the image of the item
+     */
     public String fileName() {
         return color().toString().toLowerCase().charAt(0) + String.valueOf(number()) + ".png";
     }

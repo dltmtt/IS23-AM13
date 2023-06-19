@@ -4,7 +4,14 @@ import it.polimi.ingsw.server.model.Bookshelf;
 
 public class Group extends Layout {
 
+    /**
+     * The number of occurrences of the layout.
+     */
     private final int occurrences;
+
+    /**
+     * The size of the group.
+     */
     private final int size;
 
     /**
@@ -33,7 +40,6 @@ public class Group extends Layout {
     }
 
     /**
-     *
      * @return the name of the layout
      */
     @Override
@@ -64,7 +70,6 @@ public class Group extends Layout {
     }
 
     /**
-     *
      * @return the number of occurrences of the layout within the bookshelf of the player
      */
     public int getOccurrences() {
@@ -76,7 +81,6 @@ public class Group extends Layout {
     }
 
     /**
-     *
      * @return the info of the layout
      */
     @Override

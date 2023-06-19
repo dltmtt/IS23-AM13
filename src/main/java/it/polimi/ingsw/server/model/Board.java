@@ -26,10 +26,30 @@ import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
  */
 public class Board {
 
+    /**
+     * The size of the board.
+     */
     public static final int boardSize = 9;
+
+    /**
+     * The number of occurrences of each color in the bag.
+     */
     private static final int numOfColorOccurrences = 22;
+
+    /**
+     * The matrix of items that represents the board.
+     */
     private final Item[][] boardMatrix;
+
+    /**
+     * The bag of items.
+     */
     private final List<Item> itemBag;
+
+    /**
+     * The list of coordinates of the cells that can be used. It is
+     * determined by the number of players.
+     */
     private final List<Coordinates> usableCells;
 
     /**
@@ -114,6 +134,14 @@ public class Board {
         return boardMatrix[row][column];
     }
 
+    /**
+     * Given a row and a column, this method returns the name of the
+     * image file that represents the Item in that position.
+     *
+     * @param row    the row of the board
+     * @param column the column of the board
+     * @return the name of the file that represents the Item in that position
+     */
     public String getItemFileName(int row, int column) {
         Item item = boardMatrix[row][column];
         return item.color().toString().toLowerCase().charAt(0) + String.valueOf(item.number()) + ".png";

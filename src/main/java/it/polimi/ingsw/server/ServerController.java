@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 
 public class ServerController {
 
+    /**
+     * The names of the players that have lost the connection
+     */
     public final List<String> disconnectedPlayers;
     public final HashMap<String, Integer> pongLost;
     public final List<String> pongReceived;
@@ -54,6 +57,11 @@ public class ServerController {
         return finalPoints;
     }
 
+    /**
+     * Get the usernames of the players in the game.
+     *
+     * @return the list of the players' usernames
+     */
     public List<String> getPlayersUsername() {
         return players.stream().map(Player::getNickname).toList();
     }
@@ -81,11 +89,22 @@ public class ServerController {
         rmiClients.remove(username);
     }
 
+    /**
+     * Checks whether the game has been saved or not. This is done by
+     * checking if the JSON which contains the state of the game exists.
+     *
+     * @return true if the game has been saved, false otherwise
+     */
     public boolean isGameSaved() {
         File jsonGame = new File("src/main/java/it/polimi/ingsw/commons/backUp.json");
         return jsonGame.exists();
     }
 
+    /**
+     * Loads the game saved in the JSON file.
+     *
+     * @throws IOException if the file does not exist
+     */
     public void loadLastGame() throws IOException {
         File jsonGame = new File("src/main/java/it/polimi/ingsw/commons/backUp.json");
         Message lastGame = new Message(jsonGame);
@@ -121,6 +140,12 @@ public class ServerController {
         room.setNumberOfPlayers(numberOfPlayers);
     }
 
+    /**
+     * Return the list of players' nicknames that cannot play because
+     * there are already 4 players in the room.
+     *
+     * @return the list of players' nicknames that cannot play
+     */
     public List<String> getExtraPlayers() {
         List<String> extraPlayers = new ArrayList<>();
         for (int i = numberOfPlayers; i < players.size(); i++) {
@@ -200,6 +225,15 @@ public class ServerController {
         return 1;
     }
 
+    /**
+     * Return the position of the player in the list of players.
+     * If the player is not present in the list, it returns -1.
+     * The list is ordered by the order of the players' turns.
+     *
+     * @param username the username of the player
+     * @return the position of the player in the list of players,
+     * or -1 if the player is not in the list
+     */
     public int getPositionByUsername(String username) {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getNickname().equals(username)) {
@@ -209,10 +243,24 @@ public class ServerController {
         return -1;
     }
 
+    /**
+     * Saves a player in the list of players.
+     *
+     * @param username  the username of the player
+     * @param age       the age of the player
+     * @param firstGame true if it's the first game of the player
+     */
     public void addPlayer(String username, int age, boolean firstGame) {
         players.add(new Player(username, age, firstGame, false, false));
     }
 
+    /**
+     * Creates a new room and adds the player to it if it doesn't exist,
+     * otherwise adds the player to the existing room. If the room didn't
+     * exist, the player is the first player of the game.
+     *
+     * @throws FullRoomException if the room is full
+     */
     public void startRoom() throws FullRoomException {
         if (room == null) {
             Random random = new Random();
@@ -229,6 +277,16 @@ public class ServerController {
         }
     }
 
+    /**
+     * Starts the game if it's possible.
+     *
+     * @return a number representing the status of the room:
+     * <ul>
+     *     <li>1: the room is full and the game can start</li>
+     *     <li>0: the maximum number of players is not set</li>
+     *     <li>-1: the room is full and there are too many players</li>
+     * </ul>
+     */
     public int checkRoom() {
         if (room.isMaxPlayersSet() && room.full()) {
             gameModel = new GameModel(players);
@@ -265,10 +323,19 @@ public class ServerController {
         return gameModel.getPlayers().get(position).calculateScore();
     }
 
+    /**
+     * @return a map of the bookshelves and the players who own them
+     */
     public HashMap<Bookshelf, String> getBookshelves() {
         return gameModel.getPlayers().stream().collect(Collectors.toMap(Player::getBookshelf, Player::getNickname, (a, b) -> b, HashMap::new));
     }
 
+    /**
+     * Checks if the number of players is valid (between 2 and 4).
+     *
+     * @param numPlayer the number of players inserted by the first user
+     * @return "ok" if the number of players is valid, "retry" otherwise
+     */
     public String checkNumPlayer(int numPlayer) {
         if (numPlayer > 4 || numPlayer < 2) {
             return "retry";
@@ -294,11 +361,21 @@ public class ServerController {
         return gameModel.getCurrentPlayer().getBookshelf();
     }
 
+    /**
+     * Refills the board if there are no more items to pick and if the item bag is not empty.
+     *
+     * @return true if the board has been refilled, false otherwise
+     */
     public boolean refill() {
         // If there are no more items to pick or if all the items are isolated and if the item bag is not empty
         return (gameModel.getLivingRoom().numLeft() == 0 || gameModel.getLivingRoom().allIsolated()) && !gameModel.getLivingRoom().getItemBag().isEmpty();
     }
 
+    /**
+     * Returns the board and refills it if it's necessary.
+     *
+     * @return the board
+     */
     public Board getBoard() {
         if (refill()) {
             gameModel.getLivingRoom().fill();
@@ -326,10 +403,12 @@ public class ServerController {
         }
     }
 
-    public String pick(List<Integer> move) {
-        return checkPick(move);
-    }
-
+    /**
+     * Checks if a pick is valid.
+     *
+     * @param move the representation of the pick
+     * @return "ok" if the pick is valid, "no" otherwise
+     */
     public String checkPick(List<Integer> move) {
         if (move.size() != 4) {
             return "no";
@@ -347,6 +426,9 @@ public class ServerController {
         return "no";
     }
 
+    /**
+     * Changes the turn in the model or ends the game.
+     */
     public void changeTurn() {
         int currentPlayerIndex = players.indexOf(gameModel.getCurrentPlayer());
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
@@ -362,6 +444,9 @@ public class ServerController {
         printedTurn = false;
     }
 
+    /**
+     * @return the list of winners
+     */
     public List<String> setWinner() {
         List<Player> winners = new ArrayList<>();
         List<Integer> finalScoring = new ArrayList<>();
@@ -371,9 +456,11 @@ public class ServerController {
         }
         finalPoints.addAll(finalScoring);
 
-        if (finalScoring.stream().distinct().count() < players.size()) {
+        Integer max = finalScoring.stream().max(Integer::compare).get();
+
+        // if the value max is contained more than one time in the list finalScoring
+        if (Collections.frequency(finalScoring, max) > 1) {
             // There is a tie
-            int max = finalScoring.stream().max(Integer::compare).get();
             for (Integer score : finalScoring) {
                 if (score == max) {
                     if (!players.get(finalScoring.indexOf(score)).isFirstPlayer()) {
@@ -383,7 +470,6 @@ public class ServerController {
                 }
             }
         } else {
-            int max = finalScoring.stream().max(Integer::compare).get();
             winners.add(players.get(finalScoring.indexOf(max)));
             finalPoints.remove(finalScoring.indexOf(max));
         }
@@ -394,6 +480,12 @@ public class ServerController {
         return officialWinners;
     }
 
+    /**
+     * Picks the items from the board and returns them.
+     *
+     * @param picked the representation of the pick
+     * @return the list of picked items
+     */
     public List<Item> getPicked(List<Integer> picked) {
         currentPicked.clear();
         List<Coordinates> currentPickedCoordinates = new ArrayList<>();
@@ -404,6 +496,11 @@ public class ServerController {
         return currentPicked;
     }
 
+    /**
+     * Rearranges the picked items according to the order given by the player.
+     *
+     * @param sort the list of indexes of the items in the order given by the player
+     */
     public void rearrangePicked(List<Integer> sort) {
         currentPicked = gameModel.getCurrentPlayer().rearrangePickedItems(currentPicked, sort);
     }
@@ -451,6 +548,9 @@ public class ServerController {
         return setWinner();
     }
 
+    /**
+     * @return the list of the winners' scores
+     */
     public List<Integer> getWinnersScore() {
         List<Integer> winnersScore = new ArrayList<>();
         for (String nickname : winnersNickname) {
@@ -464,6 +564,9 @@ public class ServerController {
         return winnersScore;
     }
 
+    /**
+     * @return true if the player is the first player, false otherwise
+     */
     public boolean isFirst() {
         return tcpClients.size() + rmiClients.size() == 1;
     }
@@ -495,10 +598,17 @@ public class ServerController {
         return bookshelf;
     }
 
+    /**
+     * @return the top scoring list of each common goal
+     */
     public List<Integer> getTopOfScoring() {
         return gameModel.getTopScoringPoints();
     }
 
+    /**
+     * @param position the position of the player
+     * @return the list of the points of the player
+     */
     public List<Integer> allPoints(int position) {
         return gameModel.getAllPoints(players.get(position));
     }

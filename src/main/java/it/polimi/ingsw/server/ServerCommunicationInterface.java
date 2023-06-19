@@ -22,8 +22,24 @@ public interface ServerCommunicationInterface extends Remote {
     // This method's implementation is basically identical to receiveMessage.
     // I still have to figure out how to unify them: I could create a sendMessageToClient method
     // in RMI too, but I still (think) I need different signatures for controller.addClient()
-    void receiveMessageTcp(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException;
 
+    /**
+     * Receive a message from a socket client and act accordingly.
+     *
+     * @param message the message received from the client.
+     * @param client  the client that sent the message.
+     * @throws FullRoomException if the room is full.
+     */
+    default void receiveMessage(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
+    }
+
+    /**
+     * Receive a message from an RMI client and act accordingly.
+     *
+     * @param message the message received from the client.
+     * @throws Exception         if something goes wrong.
+     * @throws FullRoomException if the room is full.
+     */
     default void receiveMessage(Message message, ClientCommunicationInterface client) throws Exception, FullRoomException {
         String category = message.getCategory();
 
@@ -59,7 +75,7 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
             case "pick" -> {
-                if ("ok".equals(controller.pick(message.getPick()))) {
+                if ("ok".equals(controller.checkPick(message.getPick()))) {
                     client.callBackSendMessage(new Message(controller.getPicked(message.getPick())));
                 } else {
                     client.callBackSendMessage(new Message("pickRetry"));
@@ -209,6 +225,12 @@ public interface ServerCommunicationInterface extends Remote {
         sendTurn(client);
     }
 
+    /**
+     * Tells a client if it's his turn or another player's turn.
+     *
+     * @param client the client to whom the message is sent
+     * @throws RemoteException if the connection fails
+     */
     default void sendTurn(ClientCommunicationInterface client) throws RemoteException {
         String currentPlayer = controller.getCurrentPlayer();
         if (currentPlayer.equals(client.getUsername())) {
@@ -218,6 +240,12 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
+    /**
+     * Changes the turn, checks if the game has ended or if it's the
+     * last round and saves the game.
+     *
+     * @throws RemoteException if the connection fails
+     */
     default void nextTurn() throws RemoteException {
         controller.changeTurn();
         if (controller.checkGameStatus() != 0) {
@@ -285,6 +313,12 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
+    /**
+     * Sends a message to all the clients.
+     *
+     * @param message the message to send
+     * @throws RemoteException if the connection fails
+     */
     default void sendAll(Message message) throws RemoteException {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
@@ -300,6 +334,14 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
+    /**
+     * Sends a message to all the clients except the one that identifies
+     * the player's name passed as parameter.
+     *
+     * @param player  the player that won't receive the message
+     * @param message the message to send
+     * @throws RemoteException if the connection fails
+     */
     default void sendAllExcept(String player, Message message) throws RemoteException {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();

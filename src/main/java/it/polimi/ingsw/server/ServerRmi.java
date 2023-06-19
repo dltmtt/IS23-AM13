@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.commons.Message;
-
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -43,10 +41,5 @@ public class ServerRmi implements ServerCommunicationInterface, ServerInterface 
             System.err.println("Unable to stop the RMI server.");
         }
         System.out.println("RMI server stopped.");
-    }
-
-    @Override
-    public void receiveMessageTcp(Message message, SocketClientHandler client) {
-        // Not used
     }
 }

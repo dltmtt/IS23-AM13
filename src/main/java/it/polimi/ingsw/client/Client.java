@@ -19,7 +19,7 @@ import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 public abstract class Client extends UnicastRemoteObject implements Serializable, ClientCommunicationInterface {
 
     public GameView gameView;
-    String username = null;
+    public String username;
     boolean theOnlyOne = false;
     boolean serverConnection = false;
     private int myPosition;

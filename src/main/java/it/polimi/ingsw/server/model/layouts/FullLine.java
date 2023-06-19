@@ -10,8 +10,15 @@ import java.util.List;
  */
 public class FullLine extends Layout {
 
-    private final int occurrences; // number of occurrences of the layout
-    private final boolean horizontal; // true if the layout is a row, false if it is a column
+    /**
+     * Number of occurrences of the layout
+     */
+    private final int occurrences;
+
+    /**
+     * True if the layout is a row, false if it is a column
+     */
+    private final boolean horizontal;
 
     /**
      * Creates a full line layout, either horizontal or vertical.
@@ -45,7 +52,7 @@ public class FullLine extends Layout {
     }
 
     /**
-     * Checks if the layout is satisfied in the bookshelf
+     * Checks if the layout is satisfied in the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is satisfied, false otherwise

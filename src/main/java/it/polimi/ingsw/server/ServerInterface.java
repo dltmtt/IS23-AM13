@@ -17,7 +17,20 @@ public interface ServerInterface {
 
     // Note: the actual implementation of the methods doesn't have
     // to throw all the exceptions listed here
+
+    /**
+     * Starts the server.
+     *
+     * @throws RemoteException       if a connection error occurs
+     * @throws MalformedURLException if the url of the server is not valid
+     */
     void start() throws RemoteException, MalformedURLException;
 
+    /**
+     * Stops the server.
+     *
+     * @throws RemoteException   if a connection error occurs
+     * @throws NotBoundException if the server is not bound
+     */
     void stop() throws RemoteException, NotBoundException;
 }

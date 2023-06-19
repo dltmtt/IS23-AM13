@@ -15,7 +15,14 @@ import java.util.List;
  */
 public class CommonGoal {
 
+    /**
+     * The layout of the common goal.
+     */
     private final Layout layout;
+
+    /**
+     * The stack of scores of the common goal.
+     */
     private final List<Integer> scoringList;
 
     /**
