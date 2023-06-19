@@ -104,7 +104,22 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
 
     @Override
     public void checkServerConnection() {
-
+        new Thread(() -> {
+            while (true) {
+                try {
+                    sendMessage(new Message("ping"));
+                    Thread.sleep(60000);
+                    System.out.println("after sleep");
+                    if (!serverConnection) {
+                        System.err.println("Server is down. Exiting...");
+                        System.exit(0);
+                    }
+                    serverConnection = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     /**
