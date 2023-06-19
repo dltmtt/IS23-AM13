@@ -39,29 +39,30 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
         server = (ServerCommunicationInterface) registry.lookup("ServerCommunicationInterface");
     }
 
-    @Override
-    public void checkServerConnection() {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(30000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (!serverConnection) {
-                    System.err.println("Server not responding. Please wait.");
-                    try {
-                        Thread.sleep(5000);
-                        if (!serverConnection) {
-                            System.err.println("Lost connection to server.");
-                            stop();
-                        }
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                serverConnection = false;
-            }
-        }).start();
-    }
+    // @Override
+    // public void checkServerConnection() {
+    //     new Thread(() -> {
+    //         while (true) {
+    //             try {
+    //                 Thread.sleep(30000);
+    //             } catch (InterruptedException e) {
+    //                 e.printStackTrace();
+    //             }
+    //             if (!serverConnection) {
+    //                 System.err.println("Server not responding. Please wait.");
+    //                 try {
+    //                     Thread.sleep(5000);
+    //                     if (!serverConnection) {
+    //                         System.err.println("Lost connection to server.");
+    //                         stop();
+    //                     }
+    //                 } catch (InterruptedException e) {
+    //                     throw new RuntimeException(e);
+    //                 }
+    //             }
+    //             System.out.println("Server is responding.");
+    //             serverConnection = false;
+    //         }
+    //     }).start();
+    // }
 }

@@ -108,18 +108,13 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      * then asks the user to choose a column to place the tiles in.
      * At the end of the turn, the player returns to the waiting room. // TODO: does he?
      */
-    public void myTurn() {
-        gameView.showMessage("It's your turn!\n");
-        // showPick() sends the message to the server
-        gameView.showPick();
-    }
+
 
     /*
     public void endGame() {
         gameView.endGame();
     }
      */
-
     public int getMyPosition() {
         return myPosition;
     }
@@ -172,9 +167,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "picked" -> {
                 try {
                     if (gameView.showRearrange(message.getPicked())) {
-                        gameView.rearrangeProcedure(message.getPicked());
+                        rearrange(message);
                     }
-                    gameView.promptInsert();
+                    insert(message);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -208,10 +203,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 // stop();
             }
             case "reconnected" -> {
+                theOnlyOne = false;
                 System.out.println("Reconnected");
                 String username = message.getArgument();
                 gameView.showMessage(username + " reconnected.\n");
-                theOnlyOne = false;
             }
             case "youAloneBitch" -> {
                 gameView.showMessage("You are the only player in the game. Please wait for other players to reconnect.\n");
@@ -225,11 +220,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void waitForReconnection() {
         new Thread(() -> {
             try {
-                Thread.sleep(30000);
+                Thread.sleep(60000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             if (theOnlyOne) {
                 gameView.showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
                 System.exit(0);
@@ -237,5 +231,43 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         }).start();
     }
 
-    public abstract void checkServerConnection();
+    public void checkServerConnection() {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    sendMessage(new Message("ping"));
+                    Thread.sleep(10000);
+                    // System.out.println("after sleep");
+                    if (!serverConnection) {
+                        System.err.println("Server is down. Exiting...");
+                        System.exit(0);
+                    }
+                    serverConnection = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void myTurn() {
+        Thread turnThread = new Thread(() -> {
+            gameView.showPick();
+        });
+        turnThread.start();
+    }
+
+    public void insert(Message message) {
+        Thread insThread = new Thread(() -> {
+            gameView.promptInsert();
+        });
+        insThread.start();
+    }
+
+    public void rearrange(Message message) {
+        Thread threadRearrange = new Thread(() -> {
+            gameView.rearrangeProcedure(message.getPicked());
+        });
+        threadRearrange.start();
+    }
 }

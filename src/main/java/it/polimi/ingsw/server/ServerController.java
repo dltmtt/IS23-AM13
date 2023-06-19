@@ -132,7 +132,7 @@ public class ServerController {
      */
     public void disconnect(String username) {
         disconnectedPlayers.add(username);
-        // removeClientByUsername(username);
+        removeClientByUsername(username);
     }
 
     public void setNumberOfPlayers(int numberOfPlayers) {

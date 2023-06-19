@@ -131,6 +131,7 @@ public class GameCliView implements GameView {
 
     @Override
     public void showPick() {
+
         List<Coordinates> coordinates = new ArrayList<>();
         showMessage("Insert the coordinates of the first and the last cell you want to to pick, e.g. (1, 2) - (2, 3): ");
         boolean valid = false;

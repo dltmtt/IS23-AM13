@@ -45,16 +45,17 @@ public interface ServerCommunicationInterface extends Remote {
 
         switch (category) {
             // Maybe the controller should do something with the pong.
-            case "pong" -> {
-                // System.out.println("Received pong from " + client.getUsername());
-                // controller.pong(client.getUsername());
-                // controller.addPongLost(client.getUsername());
-                // if (controller.disconnectedPlayers.contains(client.getUsername())) {
-                //     System.out.println("Player " + client.getUsername() + " reconnected");
-                //     startPingThread(client);
-                //     sendAll(new Message("reconnected", client.getUsername()));
-                //     controller.disconnectedPlayers.remove(client.getUsername());
-                // }
+            case "ping" -> {
+                System.out.println("Received pong from " + client.getUsername());
+                controller.pong(client.getUsername());
+                controller.addPongLost(client.getUsername());
+                if (controller.disconnectedPlayers.contains(client.getUsername())) {
+                    System.out.println("Player " + client.getUsername() + " reconnected");
+                    startPingThread(client);
+                    sendAll(new Message("reconnected", client.getUsername()));
+                    controller.disconnectedPlayers.remove(client.getUsername());
+                }
+                client.callBackSendMessage(new Message("pong"));
             }
             case "numOfPlayersMessage" -> {
                 int numberOfPlayers = message.getNumPlayer();
@@ -116,14 +117,14 @@ public interface ServerCommunicationInterface extends Remote {
             while (true) {
                 try {
                     client.callBackSendMessage(new Message("ping"));
-                    Thread.sleep(3000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException | RemoteException e) {
                     System.err.println("Ping thread interrupted");
                     break;
                 }
             }
         });
-        pingThread.start();
+        // pingThread.start();
 
         Thread checkThread = new Thread(() -> {
             while (true) {
@@ -132,7 +133,7 @@ public interface ServerCommunicationInterface extends Remote {
                     if (!controller.pongReceived.contains(finalUsername) && !controller.disconnectedPlayers.contains(finalUsername)) {
                         System.out.println("Pong not received from " + finalUsername + ". Disconnecting.");
                         Thread.sleep(10000);
-                        if (controller.pongLost.get(finalUsername) != 0) {
+                        if (!controller.pongReceived.contains(finalUsername)) {
                             disconnect(finalUsername);
                             pingThread.interrupt();
                             break;
@@ -145,7 +146,7 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
         });
-        // checkThread.start();
+        checkThread.start();
     }
     // default void disconnect(String username) throws RemoteException {
     //     System.err.println(username + " disconnected.");
@@ -346,12 +347,12 @@ public interface ServerCommunicationInterface extends Remote {
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
         for (String username : tcpClients.keySet()) {
-            if (!username.equals(player)) {
+            if (!controller.disconnectedPlayers.contains(username) && !username.equals(player)) {
                 tcpClients.get(username).sendMessageToClient(message);
             }
         }
         for (String username : rmiClients.keySet()) {
-            if (!username.equals(player)) {
+            if (!controller.disconnectedPlayers.contains(username) && !username.equals(player)) {
                 rmiClients.get(username).callBackSendMessage(message);
             }
         }
