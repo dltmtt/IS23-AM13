@@ -13,9 +13,19 @@ import java.util.Arrays;
  */
 public class Square extends Layout {
 
-    // The number of ideal occurrences of the layout
+    /**
+     * The number of ideal occurrences of the layout.
+     */
     private final int occurrences;
+
+    /**
+     * The size of the square.
+     */
     private final int size;
+
+    /**
+     * The matrix of booleans that represents the square.
+     */
     boolean[][] booleanMatrix = new boolean[Bookshelf.getRows()][Bookshelf.getColumns()];
 
     /**

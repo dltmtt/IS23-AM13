@@ -10,8 +10,7 @@ import java.util.Random;
 
 public class GameModel {
 
-    // This value is tied to the switch statement in the PersonalGoal class
-    private static final int personalGoalDeckSize = 12;
+    private static final int personalGoalDeckSize = 12; // This value is tied to the switch statement in the PersonalGoal class
     private final List<PersonalGoal> personalGoalDeck;
     private final List<Player> players;
     private final List<Integer> topScoringPoints;
@@ -221,10 +220,6 @@ public class GameModel {
     public void addPlayer(Player player) {
         players.add(player);
     }
-
-    /**
-     * Changes the turn to the next player.
-     */
 
     public List<CommonGoal> getCommonGoalDeck() {
         return commonGoalDeck;

@@ -60,6 +60,9 @@ public class Room {
         return players.size() == maxPlayers;
     }
 
+    /**
+     * @return true if the maximum number of players is set, false otherwise
+     */
     public boolean isMaxPlayersSet() {
         return maxPlayers != 0;
     }

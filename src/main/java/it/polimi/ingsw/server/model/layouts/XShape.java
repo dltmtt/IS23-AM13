@@ -40,10 +40,14 @@ public class XShape extends Layout {
     }
 
     /**
-     * This method checks if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum.
+     * This method checks if the bookshelf has no free cells in the first
+     * and last column and if the number of distinct colors in the four
+     * corners is between the minimum and the maximum.
      *
-     * @param b the bookshelf to be checked
-     * @return true if the bookshelf has no free cells in the first and last column and if the number of distinct colors in the four corners is between the minimum and the maximum, false otherwise
+     * @param b the bookshelf to check
+     * @return true if the bookshelf has no free cells in the first and
+     * last column and if the number of distinct colors in the four corners is
+     * between the minimum and the maximum, false otherwise
      * @throws IllegalArgumentException if the bookshelf is null
      */
     public boolean check(Bookshelf b) throws IllegalArgumentException {
@@ -117,7 +121,6 @@ public class XShape extends Layout {
     }
 
     /**
-     *
      * @return a string representation of the layout
      */
     public String getInfo() {
