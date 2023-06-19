@@ -13,10 +13,21 @@ import java.rmi.RemoteException;
 
 public class SocketClientHandler implements Runnable, ServerCommunicationInterface {
 
+    /**
+     * The place to read incoming messages from the client.
+     */
     public final BufferedReader clientBufferedReader;
     private final Socket socket;
+
+    /**
+     * The place to write outgoing messages to the client.
+     */
     public PrintStream clientPrintStream;
-    public DataOutputStream dataOutputStream;
+    public DataOutputStream dataOutputStream; // TODO: check if this is needed
+
+    /**
+     * The thread that listens for messages coming from the client.
+     */
     public Thread listenThread;
     private String username;
 
@@ -67,7 +78,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                         Message message = new Message(messageFromClient);
 
                         try {
-                            receiveMessageTcp(message, this);
+                            receiveMessage(message, this);
                         } catch (IllegalAccessException | FullRoomException e) {
                             throw new RuntimeException(e);
                         }
@@ -121,7 +132,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
     }
 
     @Override
-    public void receiveMessageTcp(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
+    public void receiveMessage(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
         String category = message.getCategory();
 
         switch (category) {
@@ -155,7 +166,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 }
             }
             case "pick" -> {
-                if ("ok".equals(controller.pick(message.getPick()))) {
+                if ("ok".equals(controller.checkPick(message.getPick()))) {
                     sendMessageToClient(new Message(controller.getPicked(message.getPick())));
                 } else {
                     sendMessageToClient(new Message("pickRetry"));

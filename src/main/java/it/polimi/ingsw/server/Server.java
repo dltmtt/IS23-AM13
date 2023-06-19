@@ -1,11 +1,8 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.commons.Message;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.utils.CliUtilities.*;
 
@@ -17,6 +14,9 @@ import static it.polimi.ingsw.utils.CliUtilities.*;
  */
 public class Server implements ServerCommunicationInterface, ServerInterface {
 
+    /**
+     * The name of the command to type in the console to stop the server.
+     */
     private static final String SHUTDOWN_COMMAND = "exit";
     private ServerRmi rmiServer;
     private ServerTcp socketServer;
@@ -95,10 +95,5 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
         socketServer.stop();
         System.out.println("Server shut down.");
         System.exit(0);
-    }
-
-    @Override
-    public void receiveMessageTcp(Message message, SocketClientHandler client) throws RemoteException {
-        // Not used
     }
 }

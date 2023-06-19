@@ -17,9 +17,25 @@ import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_SOCKET;
 public class ServerTcp implements ServerInterface {
 
     private final ServerSocket serverSocket;
+
+    /**
+     * The list of the connected clients.
+     */
     public List<SocketClientHandler> connectedClients;
+
+    /**
+     * The map between the connected clients and the players.
+     */
     public HashMap<SocketClientHandler, Player> connectedPlayers;
+
+    /**
+     * The executor service used to handle the clients.
+     */
     public ExecutorService executor;
+
+    /**
+     * The thread that accepts new connections.
+     */
     public Thread acceptConnectionsThread;
 
     public ServerTcp() throws IOException {
@@ -77,6 +93,9 @@ public class ServerTcp implements ServerInterface {
         acceptConnectionsThread.interrupt();
     }
 
+    /**
+     * Closes all the connections with the clients.
+     */
     public void closeAllConnections() {
         for (SocketClientHandler clientHandler : connectedClients) {
             clientHandler.close();
