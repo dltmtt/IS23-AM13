@@ -18,9 +18,24 @@ import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_SOCKET;
 
 public class ClientTcp extends Client implements ClientCommunicationInterface {
 
+    /**
+     * Used to send messages to the server.
+     */
     public final DataOutputStream dataOutputStream;
+
+    /**
+     * The socket used to communicate with the server.
+     */
     public Socket socket;
+
+    /**
+     * Used to read messages from the server.
+     */
     public BufferedReader serverBufferedReader;
+
+    /**
+     * The thread that listens for messages from the server.
+     */
     public Thread listenThread;
 
     /**
@@ -72,6 +87,15 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         }
     }
 
+    /**
+     * Receives a message from the server by reading it from the
+     * <code>serverBufferedReader</code>. If the message is not a valid JSON
+     * string, it is returned as a <code>String</code> object. If
+     * <code>serverBufferedReader.readLine()</code> throws an exception, the
+     * client is closed.
+     *
+     * @return the message received from the server
+     */
     public Message receiveMessage() {
         String serverMessageString;
         try {
@@ -103,7 +127,7 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     }
 
     /**
-     * Closes the socket and the streams
+     * Closes the socket and the streams.
      */
     public void close() {
         try {

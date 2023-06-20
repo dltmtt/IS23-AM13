@@ -18,11 +18,19 @@ import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 // be an RMI client or a Socket client
 public abstract class Client extends UnicastRemoteObject implements Serializable, ClientCommunicationInterface {
 
+    /**
+     * The <code>GameView</code> associated with this client.
+     */
     public GameView gameView;
+
+    /**
+     * The username of the player using this client.
+     */
     public String username;
-    boolean theOnlyOne = false;
-    boolean serverConnection = false;
-    private int myPosition;
+
+    private boolean theOnlyOne = false; // Whether this client is the only one in the game
+    private boolean serverConnection = false; // Whether there is a connection to the server
+    private int myPosition; // The position of this player in the game
 
     public Client() throws RemoteException {
         super();
@@ -63,10 +71,14 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public abstract void sendMessage(Message message);
 
+    /**
+     * Terminates the client.
+     */
     public void stop() {
         System.exit(0);
     }
 
+    // TODO: check if this is used
     public void startPingThread(String username) {
         Thread pingThread = new Thread(() -> {
             while (true) {
@@ -92,6 +104,12 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         this.gameView = gameView;
     }
 
+    /**
+     * Connects to the server.
+     *
+     * @throws IOException       if the connection fails
+     * @throws NotBoundException if the server is not bound
+     */
     public abstract void connect() throws IOException, NotBoundException;
 
     /**
@@ -109,12 +127,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      * At the end of the turn, the player returns to the waiting room. // TODO: does he?
      */
 
-
-    /*
-    public void endGame() {
-        gameView.endGame();
-    }
-     */
+    // public void endGame() {
+    //     gameView.endGame();
+    // }
     public int getMyPosition() {
         return myPosition;
     }
@@ -172,13 +187,13 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                     if (gameView.showRearrange(message.getPicked())) {
                         rearrange(message);
                     }
-                    insert(message);
+                    insert();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
             case "pickRetry" -> {
-                gameView.showMessage("Invalid pick. Retry.");
+                gameView.showMessage("Invalid pick. Retry.\n");
 
                 // showPick() sends the message to the server
                 gameView.showPick();
@@ -220,6 +235,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         }
     }
 
+    /**
+     * Waits 60 seconds for other players to reconnect. If nobody reconnects,
+     * player wins the game and exits.
+     */
     public void waitForReconnection() {
         new Thread(() -> {
             try {
@@ -234,6 +253,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         }).start();
     }
 
+    /**
+     * Checks if the server is still connected.
+     * If it's not, exits the game.
+     */
     public void checkServerConnection() {
         new Thread(() -> {
             while (true) {
@@ -253,6 +276,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         }).start();
     }
 
+    /**
+     * Asks the player to pick some tiles and sends the message to the server.
+     */
     public void myTurn() {
         Thread turnThread = new Thread(() -> {
             gameView.showPick();
@@ -260,13 +286,23 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         turnThread.start();
     }
 
-    public void insert(Message message) {
+    /**
+     * Asks the player to insert the tiles he picked and sends the
+     * message to the server.
+     */
+    public void insert() {
         Thread insThread = new Thread(() -> {
             gameView.promptInsert();
         });
         insThread.start();
     }
 
+    /**
+     * Asks the player to rearrange the tiles he picked and sends the
+     * message to the server.
+     *
+     * @param message the message containing the tiles to rearrange
+     */
     public void rearrange(Message message) {
         Thread threadRearrange = new Thread(() -> {
             gameView.rearrangeProcedure(message.getPicked());
