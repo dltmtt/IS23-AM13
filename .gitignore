@@ -7,9 +7,8 @@ target/
 !**/src/main/resources/
 
 ### IntelliJ IDEA ###
-# Uncomment the following two lines before the final commit
-# .idea
-# .run
+.idea
+.run
 .idea/shelf/
 .idea/workspace.xml
 .idea/usage.statistics.xml

@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Complete GUI (TCP)" type="CompoundRunConfigurationType">
-    <toRun name="MyShelfie GUI (TCP)" type="Application" />
-    <toRun name="MyShelfie GUI (TCP) copy" type="Application" />
-    <toRun name="Server" type="Application" />
-    <method v="2" />
-  </configuration>
-</component>
