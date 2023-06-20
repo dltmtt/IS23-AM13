@@ -21,6 +21,23 @@ public class GameCliView implements GameView {
     private static final String illegalNumberOfPlayersError = "The number of players must be between 2 and 4 (inclusive): ";
     public Client client;
 
+    /**
+     * If there is data to be read from the input buffer, read it and discard it.
+     * Otherwise, do nothing.
+     * This method is used to prevent accidental input from the user during
+     * another player's turn to be read as input for his action.
+     */
+    private void flushInputBuffer() {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            if (in.ready()) {
+                in.readLine();
+            }
+        } catch (IOException e) {
+            // It's not a big deal if this fails
+        }
+    }
+
     @Override
     public void loginProcedure() {
         showStartGame();
@@ -130,7 +147,7 @@ public class GameCliView implements GameView {
 
     @Override
     public void showPick() {
-
+        flushInputBuffer();
         List<Coordinates> coordinates = new ArrayList<>();
         showMessage("Insert the coordinates of the first and the last cell you want to to pick, e.g. (1, 2) - (2, 3): ");
         boolean valid = false;
