@@ -172,7 +172,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "chooseNumOfPlayer" -> gameView.playerChoice();
             case "numOfPlayersNotOK" -> gameView.playerNumberError();
             case "update" -> {
-                HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
+                HashMap<String, Bookshelf> bookshelves = message.getAllBookshelves();
                 gameView.pickMyBookshelf(bookshelves);
                 gameView.pickOtherBookshelf(bookshelves);
                 gameView.showCurrentScore(message.getScore().get(3));

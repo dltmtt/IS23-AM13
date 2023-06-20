@@ -308,7 +308,7 @@ public class GameCliView implements GameView {
         }
 
         // Bookshelves
-        HashMap<Bookshelf, String> bookshelves = message.getAllBookshelves();
+        HashMap<String, Bookshelf> bookshelves = message.getAllBookshelves();
         pickMyBookshelf(bookshelves);
         // showCurrentScore(message.getIntMessage("score"));
         pickOtherBookshelf(bookshelves);
@@ -326,14 +326,9 @@ public class GameCliView implements GameView {
      */
 
     @Override
-    public void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves) {
+    public void pickMyBookshelf(HashMap<String, Bookshelf> bookshelves) {
         String name = client.getUsername();
-        for (Bookshelf bookshelf : bookshelves.keySet()) {
-            if (bookshelves.get(bookshelf).equals(name)) {
-                showBookshelf(bookshelf);
-                break;
-            }
-        }
+        showBookshelf(bookshelves.get(name));
     }
 
     @Override

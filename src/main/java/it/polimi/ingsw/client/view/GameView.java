@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.Item;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public interface GameView {
 
@@ -49,22 +50,16 @@ public interface GameView {
 
     void startGame(Message myGame);
 
-    default void pickMyBookshelf(HashMap<Bookshelf, String> bookshelves) {
+    default void pickMyBookshelf(HashMap<String, Bookshelf> bookshelves) {
         String name = getClient().getUsername();
-        for (Bookshelf bookshelf : bookshelves.keySet()) {
-            if (bookshelves.get(bookshelf).equals(name)) {
-                showBookshelf(bookshelf);
-                break;
-            }
-        }
+        showBookshelf(bookshelves.get(name));
     }
 
-    default void pickOtherBookshelf(HashMap<Bookshelf, String> bookshelves) {
-        String name = getClient().getUsername();
-        for (Bookshelf bookshelf : bookshelves.keySet()) {
-            if (!bookshelves.get(bookshelf).equals(name)) {
-                showOtherBookshelf(bookshelf, bookshelves.get(bookshelf));
-            }
+    default void pickOtherBookshelf(HashMap<String, Bookshelf> bookshelves) {
+        Set<String> otherBookshelves = bookshelves.keySet();
+        otherBookshelves.remove(getClient().getUsername());
+        for (String name : otherBookshelves) {
+            showOtherBookshelf(bookshelves.get(name), name);
         }
     }
 

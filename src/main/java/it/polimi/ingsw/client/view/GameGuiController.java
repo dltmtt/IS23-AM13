@@ -141,7 +141,7 @@ public class GameGuiController {
      * @param col the column of the selected ImageView
      */
     private void highlightPickableItems(int row, int col) {
-        int b=0;
+        int b = 0;
 
         Node selectedNode;
         for (int i = 0; i < boardGridPane.getRowCount(); i++) {
@@ -149,35 +149,30 @@ public class GameGuiController {
                 if ((i == row || j == col) && (Math.abs(i - row) <= bookshelfModel.numCellsToHighlight() && Math.abs(j - col) <= bookshelfModel.numCellsToHighlight()) && boardModel.checkBorder(new Coordinates(i, j))) {
                     if ((i == row - 2 && !boardModel.checkBorder(new Coordinates(i + 1, j))) || (i == row + 2 && !boardModel.checkBorder(new Coordinates(i - 1, j))) || (j == col - 2 && !boardModel.checkBorder(new Coordinates(i, j + 1))) || (j == col + 2 && !boardModel.checkBorder(new Coordinates(i, j - 1)))) {
                         disableItem(boardGridPane, i, j);
-                    }
-                    else if(boardModel.getItem(i,j)==null){
-                        if(i>=row && j>=col) {
+                    } else if (boardModel.getItem(i, j) == null) {
+                        if (i >= row && j >= col) {
                             if (row == i && j + 1 < boardGridPane.getColumnCount()) {
                                 disableItem(boardGridPane, i, j + 1);
                                 b = j + 1;
-                            }
-                            else {
-                                if(i+1<boardGridPane.getRowCount()) {
+                            } else {
+                                if (i + 1 < boardGridPane.getRowCount()) {
                                     disableItem(boardGridPane, i + 1, j);
                                     b = i + 1;
                                 }
                             }
-                        }
-                        else{
-                            if(row==i && j-1>=0){
-                                disableItem(boardGridPane,i,j-1);
-                                b=j-1;
-                            }
-                            else{
-                                if(i-1>=0){
-                                    disableItem(boardGridPane,i-1,j);
-                                    b=i-1;
+                        } else {
+                            if (row == i && j - 1 >= 0) {
+                                disableItem(boardGridPane, i, j - 1);
+                                b = j - 1;
+                            } else {
+                                if (i - 1 >= 0) {
+                                    disableItem(boardGridPane, i - 1, j);
+                                    b = i - 1;
                                 }
                             }
                         }
-                    }
-                    else {
-                        if((i!=b && j==col) || (j!=b && i==row)) {
+                    } else {
+                        if ((i != b && j == col) || (j != b && i == row)) {
                             selectedNode = getNodeByRowColumnIndex(boardGridPane, i, j);
                             if (selectedNode != null) {
                                 selectedNode.setDisable(false);
@@ -576,9 +571,17 @@ public class GameGuiController {
 
         endGameImage.setVisible(true);
 
-        System.out.println("game loaded");
         disableAllItems();
         initializeBookshelfGrid();
+
+        for (String players : message.getAllBookshelves().keySet()) {
+            if (!players.equals(client.getUsername())) {
+                updateOtherBookshelves(message.getAllBookshelves().get(players), players);
+            } else {
+                updateBookshelf(bookshelfGrid, message.getAllBookshelves().get(client.getUsername()), true, MAIN_ITEM_SIZE);
+            }
+        }
+        System.out.println("game loaded");
     }
 
     /**
@@ -589,12 +592,25 @@ public class GameGuiController {
 
         List<String> playersName = message.getPlayersName();
         playersName.remove(client.getUsername());
+        HashMap<String, Bookshelf> allBookshelves = message.getAllBookshelves();
         for (int i = 0; i < playersName.size(); i++) {
             switch (i) {
-                case 0 -> player1.setText(playersName.get(i));
-                case 1 -> player2.setText(playersName.get(i));
-                case 2 -> player3.setText(playersName.get(i));
+                case 0 -> {
+                    player1.setText(playersName.get(i));
+                    // updateBookshelf(bookshelfGrid1, allBookshelves.get(playersName.get(i)), false, SMALL_ITEM_SIZE);
+
+                }
+                case 1 -> {
+                    player2.setText(playersName.get(i));
+                    // updateBookshelf(bookshelfGrid2, allBookshelves.get(playersName.get(i)), false, SMALL_ITEM_SIZE);
+
+                }
+                case 2 -> {
+                    player3.setText(playersName.get(i));
+                    // updateBookshelf(bookshelfGrid3, allBookshelves.get(playersName.get(i)), false, SMALL_ITEM_SIZE);
+                }
                 default -> {
+                    System.out.println("Error on loading players name, too many players, what the fuck?");
                 }
             }
             playersBookshelf.put(playersName.get(i), i + 1);
@@ -860,6 +876,7 @@ public class GameGuiController {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 try {
                     ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
+                    // ImageView itemImageView = new ImageView();
                     itemImageView.setFitHeight(MAIN_ITEM_SIZE);
                     itemImageView.setFitWidth(MAIN_ITEM_SIZE);
                     itemImageView.setPreserveRatio(true);
@@ -886,8 +903,11 @@ public class GameGuiController {
     /**
      * Updates the bookshelf view, displaying the given bookshelf in the given grid.
      *
-     * @param grid      the grid to be updated
-     * @param bookshelf the bookshelf to be displayed
+     * @param grid         the grid to be updated
+     * @param bookshelf    the bookshelf to be displayed
+     * @param isMainPlayer whether the bookshelf is for the main player
+     *                     (if false, the bookshelf is for the opponent)
+     * @param itemSize     the size of the item
      */
     public void updateBookshelf(GridPane grid, Bookshelf bookshelf, boolean isMainPlayer, double itemSize) {
         grid.getChildren().clear();
