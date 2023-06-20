@@ -168,7 +168,7 @@ public class Message implements Serializable {
      * @param board            board of the game
      * @param topOfScoringList top of the scoring list of the common goals points
      */
-    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> topOfScoringList) {
+    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> topOfScoringList) {
         json = new JSONObject();
         String personalGoalString = Integer.toString(personalGoal);
         SettingLoader.loadBookshelfSettings();
@@ -193,10 +193,10 @@ public class Message implements Serializable {
             }
         }
         JSONArray bookshelfArray = new JSONArray();
-        for (Bookshelf bookshelf : bookshelves.keySet()) {
+        for (String username : bookshelves.keySet()) {
             JSONObject bookshelfJson = new JSONObject();
-            bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
-            bookshelfJson.put("username", bookshelves.get(bookshelf));
+            bookshelfJson.put("bookshelf", bookshelfJson(bookshelves.get(username)));
+            bookshelfJson.put("username", username);
             bookshelfArray.add(bookshelfJson);
         }
         json.put("bookshelves", bookshelfArray);
@@ -216,14 +216,14 @@ public class Message implements Serializable {
      * @param board       board of the game
      * @param score       list of current scoring of the player where each element is a different scoring.
      */
-    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, List<Integer> score, List<Integer> topOfScoringList) {
+    public Message(String category, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> score, List<Integer> topOfScoringList) {
         json = new JSONObject();
         json.put("category", category);
         JSONArray bookshelfArray = new JSONArray();
-        for (Bookshelf bookshelf : bookshelves.keySet()) {
+        for (String username : bookshelves.keySet()) {
             JSONObject bookshelfJson = new JSONObject();
-            bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
-            bookshelfJson.put("username", bookshelves.get(bookshelf));
+            bookshelfJson.put("bookshelf", bookshelfJson(bookshelves.get(username)));
+            bookshelfJson.put("username", username);
             bookshelfArray.add(bookshelfJson);
         }
         json.put("bookshelves", bookshelfArray);
@@ -463,14 +463,14 @@ public class Message implements Serializable {
 
     // da sostituire con l'altro
 
-    public Message(String category, HashMap<Bookshelf, String> bookshelves, Board board, int score, int topOfScoring) {
+    public Message(String category, HashMap<String, Bookshelf> bookshelves, Board board, int score, int topOfScoring) {
         json = new JSONObject();
         json.put("category", category);
         JSONArray bookshelfArray = new JSONArray();
-        for (Bookshelf bookshelf : bookshelves.keySet()) {
+        for (String username : bookshelves.keySet()) {
             JSONObject bookshelfJson = new JSONObject();
-            bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
-            bookshelfJson.put("username", bookshelves.get(bookshelf));
+            bookshelfJson.put("bookshelf", bookshelfJson(bookshelves.get(username)));
+            bookshelfJson.put("username", username);
             bookshelfArray.add(bookshelfJson);
         }
         json.put("bookshelves", bookshelfArray);
@@ -617,6 +617,12 @@ public class Message implements Serializable {
         return sort;
     }
 
+    /**
+     * Given a Bookshelf, returns its JSON representation
+     *
+     * @param bookshelf the Bookshelf to be converted
+     * @return the JSON representation of the Bookshelf
+     */
     public JSONArray bookshelfJson(Bookshelf bookshelf) {
         JSONArray bookshelfItemList = new JSONArray();
         for (int i = 0; i < Bookshelf.getRows(); i++) {
@@ -761,7 +767,6 @@ public class Message implements Serializable {
     }
 
     public Bookshelf getBookshelf(JSONObject json) {
-        // TODO: change JSON Bookshelf to and array of columns (array of arrays)
         SettingLoader.loadBookshelfSettings();
         Bookshelf bookshelf = new Bookshelf(6, 5);
 
@@ -787,7 +792,6 @@ public class Message implements Serializable {
     }
 
     public Bookshelf getBookshelf() {
-        // TODO: change JSON Bookshelf to and array of columns (array of arrays)
         Bookshelf bookshelf = new Bookshelf();
         JSONArray bookshelfJson = (JSONArray) json.get("bookshelf");
         for (Object obj : bookshelfJson) {
@@ -810,8 +814,8 @@ public class Message implements Serializable {
         return bookshelf;
     }
 
-    public HashMap<Bookshelf, String> getAllBookshelves() {
-        HashMap<Bookshelf, String> bookshelves = new HashMap<>();
+    public HashMap<String, Bookshelf> getAllBookshelves() {
+        HashMap<String, Bookshelf> bookshelves = new HashMap<>();
         JSONArray bookshelfJson = (JSONArray) json.get("bookshelves");
 
         for (Object obj : bookshelfJson) {
@@ -836,7 +840,7 @@ public class Message implements Serializable {
                     bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
                 }
             }
-            bookshelves.put(bookshelf, username);
+            bookshelves.put(username, bookshelf);
         }
         return bookshelves;
     }

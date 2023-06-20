@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class EndGameGuiController {
@@ -83,7 +82,7 @@ public class EndGameGuiController {
         }
 
         if (winners.contains(client.getUsername())) {
-            this.winnerPhrase.setText("You");
+            this.winner.setText("You");
         } else {
             this.winner.setText(winners.get(0));
         }
@@ -93,13 +92,7 @@ public class EndGameGuiController {
             }
         }
 
-        HashMap<String, Integer> scoresMap = new HashMap<>();
-        for (int i = 0; i < losers.size(); i++) {
-            scoresMap.put(losers.get(i), loserScores.get(i));
-        }
-        for (int i = 0; i < winners.size(); i++) {
-            scoresMap.put(winners.get(i), scores.get(i));
-        }
+
         /*
 
         List<Integer> pointsList = new ArrayList<>();

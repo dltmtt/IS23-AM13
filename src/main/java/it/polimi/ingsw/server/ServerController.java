@@ -326,8 +326,8 @@ public class ServerController {
     /**
      * @return a map of the bookshelves and the players who own them
      */
-    public HashMap<Bookshelf, String> getBookshelves() {
-        return gameModel.getPlayers().stream().collect(Collectors.toMap(Player::getBookshelf, Player::getNickname, (a, b) -> b, HashMap::new));
+    public HashMap<String, Bookshelf> getBookshelves() {
+        return gameModel.getPlayers().stream().collect(Collectors.toMap(Player::getNickname, Player::getBookshelf, (a, b) -> b, HashMap::new));
     }
 
     /**
