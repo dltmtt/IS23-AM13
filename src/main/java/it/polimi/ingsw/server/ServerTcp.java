@@ -42,12 +42,9 @@ public class ServerTcp implements ServerInterface {
         connectedClients = new ArrayList<>();
         connectedPlayers = new HashMap<>();
         executor = Executors.newCachedThreadPool();
-        try {
-            serverSocket = new ServerSocket(PORT_SOCKET);
-            System.out.println("Server socket started on port " + serverSocket.getLocalPort() + ".");
-        } catch (IOException e) {
-            throw new IOException("Unable to start the server socket.");
-        }
+
+        serverSocket = new ServerSocket(PORT_SOCKET); // Throws IOException
+        System.out.println("Server socket started on port " + serverSocket.getLocalPort() + ".");
 
         acceptConnectionsThread = new Thread(() -> {
             while (true) {

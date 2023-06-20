@@ -30,8 +30,8 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
             this.rmiServer = new ServerRmi();
             this.socketServer = new ServerTcp();
         } catch (IOException e) {
-            // e.printStackTrace();
-            System.err.println("The server is not ready.\nThe game cannot start");
+            System.err.println("Another server is already running. Closing this instance...");
+            System.exit(0);
         }
     }
 

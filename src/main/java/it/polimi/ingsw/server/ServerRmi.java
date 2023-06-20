@@ -24,8 +24,8 @@ public class ServerRmi implements ServerCommunicationInterface, ServerInterface 
             registry = LocateRegistry.createRegistry(PORT_RMI);
             registry.rebind("ServerCommunicationInterface", stub);
         } catch (RemoteException e) {
-            // e.printStackTrace();
-            System.err.println("Unable to start the RMI server.");
+            System.err.println("Another server is already running. Closing this instance...");
+            System.exit(0);
         }
 
         System.out.println("RMI server started on port " + PORT_RMI + ".");
