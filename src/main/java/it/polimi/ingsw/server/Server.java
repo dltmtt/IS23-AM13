@@ -75,11 +75,21 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
         System.out.println("Server started.");
         if (controller.isGameSaved()) {
             boolean load = askYesNoQuestion("A saved game has been found. Do you want to load it?", "n");
+            System.out.println("If you answer after players have joined, the answer to this question will be ignored.");
             if (load) {
-                try {
-                    controller.loadLastGame();
-                } catch (IOException e) {
-                    System.err.println("Unable to load the game.");
+                if (controller.numberOfPlayers > 0) {
+                    String message = """
+                            Players have already started playing.
+                            It is no longer possible to load the game.
+                            The new saved game will be this one.
+                            """;
+                    System.out.print(message);
+                } else {
+                    try {
+                        controller.loadLastGame();
+                    } catch (IOException e) {
+                        System.err.println("Unable to load the game.");
+                    }
                 }
             }
         }
