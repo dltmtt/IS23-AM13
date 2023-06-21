@@ -146,8 +146,8 @@
                                               </GridPane>
                                     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                                        <children>
-                                                    <Button fx:id="top" mnemonicParsing="false" text="^" />
-                                          <Button fx:id="down" mnemonicParsing="false" text="v" />
+                                                    <Button fx:id="top" mnemonicParsing="false" text="⇅" />
+                                          <Button fx:id="down" mnemonicParsing="false" text="⇅" />
                                        </children>
                                     </VBox>
                                  </children>

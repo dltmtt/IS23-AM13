@@ -757,7 +757,9 @@ public class GameGuiController {
     public void changeOrderUp(GridPane grid, List<Item> items) {
         newOrder.clear();
         Node n0 = getNodeByRowColumnIndex(grid, 2, 0);
+        n0.setOnMouseClicked(null);
         Node n1 = getNodeByRowColumnIndex(grid, 1, 0);
+        n1.setOnMouseClicked(null);
         grid.getChildren().removeAll(n0, n1);
 
         grid.add(n1, 0, 0);
@@ -779,7 +781,9 @@ public class GameGuiController {
 
         newOrder.clear();
         Node n0 = getNodeByRowColumnIndex(grid, 1, 0);
+        n0.setOnMouseClicked(null);
         Node n1 = getNodeByRowColumnIndex(grid, 0, 0);
+        n1.setOnMouseClicked(null);
         grid.getChildren().removeAll(n0, n1);
 
         grid.add(n1, 0, 1);
