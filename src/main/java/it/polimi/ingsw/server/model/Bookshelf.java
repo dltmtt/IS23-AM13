@@ -120,6 +120,15 @@ public class Bookshelf implements AbleToGetPoints {
         }
         return freeCells;
     }
+    public int getFreeCellsInRow(int row){
+        int freeCells = 0;
+        for(int j=0; j<columns; j++){
+            if(this.items[row][j].isEmpty()){
+                freeCells++;
+            }
+        }
+        return freeCells;
+    }
 
     public int numCellsToHighlight() {
         int cellsToHighLight = 0;
@@ -232,15 +241,17 @@ public class Bookshelf implements AbleToGetPoints {
      * @return true if the row is completely full, false otherwise
      */
     public boolean isRowFull(int row) throws IllegalArgumentException {
+        int count=0;
         if (row >= rows || row < 0) {
             throw new IllegalArgumentException("Invalid row for the method isRowFull -row:" + row);
         }
+
         for (int col = 0; col < columns; col++) {
-            if (getItemAt(row, col).isEmpty()) {
-                return false;
+            if (getItemAt(row, col).isPresent()) {
+                count++;
             }
         }
-        return true;
+        return count==columns;
     }
 
     /**
@@ -371,8 +382,8 @@ public class Bookshelf implements AbleToGetPoints {
         }
         List<Item> content = new ArrayList<>();
         Optional<Item> item;
-        for (int i = 0; i < getColumns(); i++) {
-            item = getItemAt(row, i);
+        for (int j = 0; j < getColumns(); j++) {
+            item = getItemAt(row, j);
             item.ifPresent(content::add);
         }
         return content;

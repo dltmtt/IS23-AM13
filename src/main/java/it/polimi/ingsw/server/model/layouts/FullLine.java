@@ -3,7 +3,9 @@ package it.polimi.ingsw.server.model.layouts;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The common goal layout with a row or a column with every cell filled.
@@ -65,17 +67,20 @@ public class FullLine extends Layout {
 
         // Set search parameters, depending on the orientation of the layout
         int counter = 0;
-        int i = 0;
 
         if (horizontal) {
             // Check every row until there are no more full rows
-            while (i < Bookshelf.getRows() && b.isRowFull(i)) {
-                List<Item> rowContent = b.getRowContent(i);
-                if (getDifferentColors(rowContent) >= getMinDifferent() && getDifferentColors(rowContent) <= getMaxDifferent()) {
-                    counter++;
+            for(int i=0; i<Bookshelf.getRows(); i++){
+                if(b.isRowFull(i)) {
+                    List<Item> rowContent = b.getRowContent(i);
+                    int differentColors = getDifferentColors(rowContent);
+
+                    if (differentColors >= getMinDifferent() && differentColors <= getMaxDifferent()) {
+                        counter++;
+                    }
                 }
-                i++;
             }
+
         } else {
             // Check every column
             for (int j = 0; j < Bookshelf.getColumns(); j++) {

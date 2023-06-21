@@ -96,8 +96,8 @@
       "type": "fullLine",
       "parameters": [
         {
-          "minDifferent": 1,
-          "maxDifferent": 1,
+          "minDifferent": 6,
+          "maxDifferent": 6,
           "occurrences": 2,
           "horizontal": false
         }
@@ -108,8 +108,8 @@
       "type": "fullLine",
       "parameters": [
         {
-          "minDifferent": 1,
-          "maxDifferent": 1,
+          "minDifferent": 5,
+          "maxDifferent": 5,
           "occurrences": 2,
           "horizontal": true
         }
