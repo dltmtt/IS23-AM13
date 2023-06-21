@@ -48,6 +48,12 @@ public class XShapeTest {
         XCenter.add(new Item(Xcolor, 0));
         XCenter.add(new Item(Color.getRandomColor(), 0));
 
+        //right column of the X
+        List<Item> XRight = new ArrayList<>();
+        XRight.add(new Item(Xcolor,0));
+        XRight.add(new Item(Color.getRandomColor(), 0));
+        XRight.add(new Item(Xcolor,0));
+
         List<Item> itemList = new ArrayList<>();
 
         // This test is composed by various batches, because of the nature of random generated colors…
@@ -73,7 +79,7 @@ public class XShapeTest {
                     }
 
                     // Insertion of the X shape
-                    b.insert(startingCol, XBorder);
+                    b.insert(startingCol, XRight);
                     b.insert(startingCol + 1, XCenter);
                     b.insert(startingCol + 2, XBorder);
 
@@ -125,5 +131,34 @@ public class XShapeTest {
         itemList.clear();
 
         assertTrue(commonGoal.check(b));
+    }
+    @Test
+    void XShape2(){
+        Bookshelf b = new Bookshelf();
+
+        List<Item> itemList = new ArrayList<>();
+        Layout XShape = new XShape(1, 1, 5);
+        CommonGoal commonGoal = new CommonGoal(XShape, 2);
+
+        itemList.add(new Item(Color.BLUE, 0));
+        itemList.add(new Item(Color.GREEN, 0));
+        itemList.add(new Item(Color.BLUE, 0));
+        b.insert(2, itemList);
+
+        itemList.clear();
+        itemList.add(new Item(Color.WHITE, 0));
+        itemList.add(new Item(Color.BLUE, 0));
+        itemList.add(new Item(Color.BLUE, 0));
+        b.insert(3, itemList);
+
+        itemList.clear();
+        itemList.add(new Item(Color.BLUE, 0));
+        itemList.add(new Item(Color.PINK, 0));
+        itemList.add(new Item(Color.BLUE, 0));
+        b.insert(4, itemList);
+
+        itemList.clear();
+        assertTrue(commonGoal.check(b));
+
     }
 }

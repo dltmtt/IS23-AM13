@@ -20,6 +20,7 @@ import java.util.List;
  * The width and height of the layout are set to 3 because the number of rows and columns is taken directly from the examined bookshelf.
  */
 public class XShape extends Layout {
+    private final List<Color> colorsList = new ArrayList<>();
 
     /**
      * Creates a new X Shape layout with the given parameters.
@@ -50,6 +51,60 @@ public class XShape extends Layout {
      * between the minimum and the maximum, false otherwise
      * @throws IllegalArgumentException if the bookshelf is null
      */
+
+    public boolean check(Bookshelf b) throws IllegalArgumentException{
+        if(b==null)
+            throw new IllegalArgumentException("The bookshelf cannot be null");
+
+        Color color;
+        boolean check;
+
+        for(int row =0; row<Bookshelf.getRows(); row++){
+            for(int col=0; col<Bookshelf.getColumns();col++) {
+                colorsList.clear();
+                check = true;
+                if (b.getItemAt(row, col).isPresent()) {
+
+                    //element in the same row on the right
+                    if (col + 2 < Bookshelf.getColumns() && b.getItemAt(row, col + 2).isPresent()) {
+                        colorsList.add(b.getItemAt(row, col + 2).get().color());
+                    } else
+                        continue;
+                    //element in the same column on the bottom
+                    if (row - 2 >= 0 && b.getItemAt(row - 2, col).isPresent()) {
+                        colorsList.add(b.getItemAt(row - 2, col).get().color());
+                    } else
+                        continue;
+                    //element in the row below and next column
+                    if (col + 1 < Bookshelf.getColumns() && b.getItemAt(row - 1, col + 1).isPresent()) {
+                        colorsList.add(b.getItemAt(row - 1, col + 1).get().color());
+                    } else
+                        continue;
+                    // element on the bottom and on the left
+                    if (col + 2 < Bookshelf.getColumns() && b.getItemAt(row - 2, col + 2).isPresent()) {
+                        colorsList.add(b.getItemAt(row - 2, col + 2).get().color());
+                    } else
+                        continue;
+
+                    color = b.getItemAt(row, col).get().color();
+                    if (colorsList.size() < 4)
+                        check = false;
+                    else {
+                        for (Color c : colorsList) {
+                            if (c != color) {
+                                check = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (check)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+    /*
     public boolean check(Bookshelf b) throws IllegalArgumentException {
         if (b == null)
             throw new IllegalArgumentException("The bookshelf cannot be null");
@@ -119,6 +174,7 @@ public class XShape extends Layout {
         }
         return false;
     }
+    */
 
     /**
      * @return a string representation of the layout
