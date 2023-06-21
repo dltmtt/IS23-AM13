@@ -34,6 +34,39 @@ public class ItemsPerColor extends Layout {
      * @param b the bookshelf to check
      * @return true if the layout is valid for the bookshelf, false otherwise
      */
+    public boolean check(Bookshelf b) throws IllegalArgumentException{
+        if(b==null) {
+            throw new IllegalArgumentException("Invalid bookshelf");
+        }
+        else{
+            for(Color c: Color.values()){
+                if(checkColors(b,c))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    /**
+     * Checks if there are at least the minimum number of items of the
+     * specified color in the bookshelf.
+     *
+     * @param b the bookshelf to check
+     * @param c the color to check
+     * @return true if there are at least the minimum number of items of the
+     * specified color in the bookshelf, false otherwise
+     */
+    public boolean checkColors(Bookshelf b, Color c){
+        count=0;
+        for(int i=0; i<Bookshelf.getRows();i++){
+            for(int j=0; j<Bookshelf.getColumns();j++){
+                if(b.getItemAt(i,j).isPresent() && b.getItemAt(i,j).get().color().equals(c))
+                    count++;
+            }
+        }
+        return count>=8;
+    }
+    /*
     @Override
     public boolean check(Bookshelf b) throws IllegalArgumentException {
         if (b == null) {
@@ -49,6 +82,8 @@ public class ItemsPerColor extends Layout {
             return false;
         }
     }
+
+     */
 
     // @Override
     // public boolean check(Bookshelf b) throws IllegalArgumentException {
@@ -66,25 +101,4 @@ public class ItemsPerColor extends Layout {
     //     return Arrays.stream(numberOfItems).anyMatch(x -> (x >= getMinDifferent() && x <= getMaxDifferent()));
     // }
 
-    /**
-     * Checks if there are at least the minimum number of items of the
-     * specified color in the bookshelf.
-     *
-     * @param b the bookshelf to check
-     * @param c the color to check
-     * @return true if there are at least the minimum number of items of the
-     * specified color in the bookshelf, false otherwise
-     */
-    public boolean checkForColor(Bookshelf b, Color c) {
-        for (int k = 0; k < Bookshelf.getRows(); k++) {
-            for (int t = 0; t < Bookshelf.getColumns(); t++) {
-                if (b.getItemAt(k, t).isPresent()) {
-                    if (b.getItemAt(k, t).get().color().equals(c)) {
-                        count++;
-                    }
-                }
-            }
-        }
-        return count >= 8;
-    }
 }

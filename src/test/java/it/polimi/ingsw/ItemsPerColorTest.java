@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.ItemsPerColor;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.BookshelfUtilities;
+import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
@@ -37,10 +38,11 @@ public class ItemsPerColorTest {
         for (Color color : Color.values()) {
             b.clearBookshelf();
             BookshelfUtilities.createRandomElements(b, color, 8);
+            CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
             assert L.check(b);
         }
 
-        int goalNum = 6;
+        int goalNum = 8;
         // And the other way round
         for (Color color : Color.values()) {
             for (int numOfElements = 1; numOfElements < Bookshelf.getSize(); numOfElements++) {
@@ -51,8 +53,10 @@ public class ItemsPerColorTest {
                     if (!L.check(b)) {
                         System.out.println(L.getInfo());
                     }
+                    CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
                     assertTrue(L.check(b));
                 } else {
+                    CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
                     assert true;
                 }
             }
@@ -124,6 +128,7 @@ public class ItemsPerColorTest {
         items.add(new Item(Color.GREEN, 1));
         b.insert(2, items);
 
+        CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
         assertFalse(L.check(b));
     }
 }
