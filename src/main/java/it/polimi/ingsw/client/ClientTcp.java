@@ -74,11 +74,10 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     @Override
     public void sendMessage(Message message) {
         String stringMessage = message.getJSONstring();
-
         try {
-            synchronized (dataOutputStream) {
+            synchronized (dataOutputStream) { // Synchronize to avoid sending multiple messages at the same time
+                dataOutputStream.writeBytes(stringMessage + "\n");
                 dataOutputStream.flush();
-                dataOutputStream.writeBytes(stringMessage + "\n"); // Send the message to the server (with newline)
             }
         } catch (IOException e) {
             System.err.println("Unable to send message to server. The server is probably down. Exiting...");

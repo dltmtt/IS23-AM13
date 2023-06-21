@@ -479,6 +479,23 @@ public class Message implements Serializable {
         json.put("score", score);
     }
 
+    /**
+     * Converts a JSON string into a Message object.
+     *
+     * @param message the JSON string to convert
+     * @return the Message object corresponding to the JSON string
+     */
+    public static Message fromString(String message) {
+        JSONParser parser = new JSONParser();
+        try {
+            JSONObject json = (JSONObject) parser.parse(message);
+            return new Message(json);
+        } catch (ParseException e) {
+            System.err.println("Error while parsing message: " + message);
+        }
+        return null;
+    }
+
     ///////////////////////////////////////////////////////GETTERS////////////////////////////////////////////////////////
 
     public List<Player> getPlayers() {

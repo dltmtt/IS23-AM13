@@ -19,7 +19,7 @@ public interface ServerCommunicationInterface extends Remote {
     String HOSTNAME = "localhost"; // Shared by RMI and socket
     ServerController controller = new ServerController();
 
-    // This method's implementation is basically identical to receiveMessage.
+    // This method's implementation is basically identical to handleMessage.
     // I still have to figure out how to unify them: I could create a sendMessageToClient method
     // in RMI too, but I still (think) I need different signatures for controller.addClient()
 
@@ -30,7 +30,7 @@ public interface ServerCommunicationInterface extends Remote {
      * @param client  the client that sent the message.
      * @throws FullRoomException if the room is full.
      */
-    default void receiveMessage(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
+    default void handleMessage(Message message, SocketClientHandler client) throws RemoteException, FullRoomException {
     }
 
     /**
@@ -40,7 +40,7 @@ public interface ServerCommunicationInterface extends Remote {
      * @throws Exception         if something goes wrong.
      * @throws FullRoomException if the room is full.
      */
-    default void receiveMessage(Message message, ClientCommunicationInterface client) throws Exception, FullRoomException {
+    default void handleMessage(Message message, ClientCommunicationInterface client) throws Exception, FullRoomException {
         String category = message.getCategory();
 
         switch (category) {
@@ -113,7 +113,6 @@ public interface ServerCommunicationInterface extends Remote {
         }
         String finalUsername = username;
         Thread pingThread = new Thread(() -> {
-
             while (true) {
                 try {
                     client.callBackSendMessage(new Message("ping"));
@@ -124,7 +123,7 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
         });
-        // pingThread.start();
+        pingThread.start();
 
         Thread checkThread = new Thread(() -> {
             while (true) {
@@ -148,20 +147,6 @@ public interface ServerCommunicationInterface extends Remote {
         });
         checkThread.start();
     }
-    // default void disconnect(String username) throws RemoteException {
-    //     System.err.println(username + " disconnected.");
-    //     controller.disconnect(username);
-    //     if (controller.get.size() == controller.numberOfPlayers - 1) {
-    //         // If there is only one player left, sendAll actually sends the message to the only player left,
-    //         // telling him that he's alone. He will wait for the other players to reconnect, and if none of them
-    //         // reconnects, he will win.
-    //         sendAll(new Message("youAloneBitch"));
-    //     } else {
-    //         if (controller.getCurrentPlayer().equals(username)) {
-    //             nextTurn();
-    //         }
-    //     }
-    // }
 
     /**
      * Adds a player to the disconnected players list and changes the turn if the
@@ -218,7 +203,6 @@ public interface ServerCommunicationInterface extends Remote {
 
         controller.addClient(client.getUsername(), client);
 
-        // This is one of the few differences from the Socket implementation
         startPingThread(client);
 
         sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
@@ -372,7 +356,6 @@ public interface ServerCommunicationInterface extends Remote {
                     client.setUsername(username);
                     controller.addClient(username, client);
 
-                    // This is one of the few differences from the Socket implementation
                     startPingThread(client);
 
                     controller.startRoom();

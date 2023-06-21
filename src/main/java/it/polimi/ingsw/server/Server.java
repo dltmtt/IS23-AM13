@@ -12,7 +12,7 @@ import static it.polimi.ingsw.utils.CliUtilities.*;
  * The server can be stopped by typing {@value #SHUTDOWN_COMMAND} in the console.
  * This will stop both the RMI and the socket servers.
  */
-public class Server implements ServerCommunicationInterface, ServerInterface {
+public class Server implements ServerInterface {
 
     /**
      * The name of the command to type in the console to stop the server.
@@ -73,9 +73,12 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
         rmiServer.start();
         socketServer.start();
         System.out.println("Server started.");
+
+        ServerController controller = rmiServer.controller;
         if (controller.isGameSaved()) {
+            System.out.println("If you answer the after players have joined, the answer to this question will be ignored.");
             boolean load = askYesNoQuestion("A saved game has been found. Do you want to load it?", "n");
-            System.out.println("If you answer after players have joined, the answer to this question will be ignored.");
+            System.out.println();
             if (load) {
                 if (controller.numberOfPlayers > 0) {
                     String message = """
