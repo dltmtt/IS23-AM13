@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EndGameGuiController {
@@ -60,26 +61,14 @@ public class EndGameGuiController {
     }
 
     public void setWinner(List<String> winners, List<Integer> scores, List<String> losers, List<Integer> loserScores) {
-        for (int i = 0; i < 4; i++) {
-            switch (i) {
-                case 0 -> {
-                    player0.setText("");
-                    points0.setText("");
-                }
-                case 1 -> {
-                    player1.setText("");
-                    points1.setText("");
-                }
-                case 2 -> {
-                    player2.setText("");
-                    points2.setText("");
-                }
-                case 3 -> {
-                    player3.setText("");
-                    points3.setText("");
-                }
-            }
-        }
+        player0.setText("");
+        points0.setText("");
+        player1.setText("");
+        points1.setText("");
+        player2.setText("");
+        points2.setText("");
+        player3.setText("");
+        points3.setText("");
 
         if (winners.contains(client.getUsername())) {
             this.winner.setText("You");
@@ -92,41 +81,31 @@ public class EndGameGuiController {
             }
         }
 
+        List<String> players = new ArrayList<>(winners);
+        players.addAll(losers);
 
-        /*
+        List<Integer> scoresList = new ArrayList<>(scores);
+        scoresList.addAll(loserScores);
 
-        List<Integer> pointsList = new ArrayList<>();
-        pointsList = scoresMap.values().stream().sorted().toList();
-        // Collections.reverse(pointsList);
-        List<String> playerList = new ArrayList<>();
-        playerList = scoresMap.keySet().stream().toList();
-        for (int i = pointsList.size() - 1; i >= 0; i--) {
-            for (String player : playerList) {
-                if (scoresMap.get(player).equals(pointsList.get(i))) {
-                    switch (i) {
-                        case 0 -> {
-                            player0.setText(player);
-                            points0.setText(String.valueOf(pointsList.get(i)));
-                        }
-                        case 1 -> {
-                            player1.setText(player);
-                            points1.setText(String.valueOf(pointsList.get(i)));
-                        }
-                        case 2 -> {
-                            player2.setText(player);
-                            points2.setText(String.valueOf(pointsList.get(i)));
-                        }
-                        case 3 -> {
-                            player3.setText(player);
-                            points3.setText(String.valueOf(pointsList.get(i)));
-                        }
-                    }
-                    playerList.remove(player);
+        for (int i = 0; i < players.size(); i++) {
+            switch (i) {
+                case 0 -> {
+                    player0.setText(players.get(i));
+                    points0.setText(scoresList.get(i).toString());
+                }
+                case 1 -> {
+                    player1.setText(players.get(i));
+                    points1.setText(scoresList.get(i).toString());
+                }
+                case 2 -> {
+                    player2.setText(players.get(i));
+                    points2.setText(scoresList.get(i).toString());
+                }
+                case 3 -> {
+                    player3.setText(players.get(i));
+                    points3.setText(scoresList.get(i).toString());
                 }
             }
-
-
         }
-        */
     }
 }

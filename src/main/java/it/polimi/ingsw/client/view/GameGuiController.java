@@ -692,6 +692,9 @@ public class GameGuiController {
      * @param name      the name of the player that owns the bookshelf
      */
     public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
+        if (playersBookshelf.size() == 0) {
+            //setPlayersName();
+        }
         int playerNumber = playersBookshelf.get(name);
         switch (playerNumber) {
             case 1 -> updateBookshelf(bookshelfGrid1, bookshelf, false, SMALL_ITEM_SIZE);
