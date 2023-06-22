@@ -452,9 +452,9 @@
                                                 <Image url="@graphics/our_variants/back.jpg"/>
                                             </image>
                                         </ImageView>
-                                        <GridPane fx:id="bookshelfGrid1" alignment="CENTER" hgap="3.0"
-                                                  nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0" prefWidth="106.0"
-                                                  vgap="3.0" StackPane.alignment="CENTER">
+                                        <GridPane fx:id="bookshelfGrid1" alignment="CENTER" gridLinesVisible="true"
+                                                  hgap="3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0"
+                                                  prefWidth="106.0" vgap="3.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
                                                 <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
                                                                    prefWidth="100.0"/>
@@ -469,26 +469,17 @@
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="111.79999389648438" minHeight="10.0"
-                                                                prefHeight="46.19996490478516" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="103.20001068115235" minHeight="10.0"
-                                                                prefHeight="44.79999389648439" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="88.00000610351563" minHeight="10.0"
-                                                                prefHeight="47.19999389648436" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="72.00000610351563" minHeight="10.0"
-                                                                prefHeight="43.20002441406251" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="63.199987792968756" minHeight="10.0"
-                                                                prefHeight="45.60003662109375" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="47.19998779296873" minHeight="10.0"
-                                                                prefHeight="44.79996337890623" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
-                                                <RowConstraints maxHeight="47.19998779296873" minHeight="10.0"
-                                                                prefHeight="44.79996337890623" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="ALWAYS"/>
                                             </rowConstraints>
                                             <StackPane.margin>
                                                 <Insets left="2.0" right="2.0"/>
