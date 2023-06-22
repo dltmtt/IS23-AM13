@@ -78,9 +78,4 @@ public class Corners extends Layout {
             return colorList.size() >= getMinDifferent() && colorList.size() <= getMaxDifferent();
         }
     }
-
-    @Override
-    public String getInfo() {
-        return super.getInfo();
-    }
 }

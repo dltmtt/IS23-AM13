@@ -317,13 +317,6 @@ public class GameCliView implements GameView {
         showBoard(message.getBoard());
     }
 
-    /*
-    @Override
-    public void endGame() {
-        showMessage("The game is over!\n");
-    }
-
-     */
 
     @Override
     public void pickMyBookshelf(HashMap<String, Bookshelf> bookshelves) {

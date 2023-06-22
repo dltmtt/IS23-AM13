@@ -125,6 +125,9 @@ public class GameGuiController {
     @FXML
     private StackPane player2StackPane, player3StackPane;
 
+    @FXML
+    private Label boardHelp, bookshelfHelp, opponentHelp, cgHelp, pgHelp, rearrangeHelp;
+
     /**
      * Creates a new GameGuiController, setting the static references to the client and the view.
      * The required references are taken from the MyShelfie class and the GuiView class.
@@ -632,6 +635,11 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * Method that updates the current scoring of the common goals
+     *
+     * @param topScoring List of the top scoring
+     */
     private void updateScoring(List<Integer> topScoring) {
         System.out.println("topScoring: " + topScoring);
 
@@ -660,6 +668,12 @@ public class GameGuiController {
     }
 
     public void toggleHelp() {
+        boardHelp.setVisible(!boardHelp.isVisible());
+        bookshelfHelp.setVisible(!bookshelfHelp.isVisible());
+        cgHelp.setVisible(!cgHelp.isVisible());
+        pgHelp.setVisible(!pgHelp.isVisible());
+        opponentHelp.setVisible(!opponentHelp.isVisible());
+        rearrangeHelp.setVisible(!rearrangeHelp.isVisible());
 
     }
 
@@ -692,9 +706,6 @@ public class GameGuiController {
      * @param name      the name of the player that owns the bookshelf
      */
     public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
-        if (playersBookshelf.size() == 0) {
-            //setPlayersName();
-        }
         int playerNumber = playersBookshelf.get(name);
         switch (playerNumber) {
             case 1 -> updateBookshelf(bookshelfGrid1, bookshelf, false, SMALL_ITEM_SIZE);
@@ -742,14 +753,6 @@ public class GameGuiController {
         enableItemsWithOneFreeSide();
     }
 
-    /*
-        //this method is used before starting to change the order of the items in the rearrangeArea
-        public void deleteChoice(){
-            deleteChoice.setDisable(true);
-            enableAllItems(grid);
-        }
-
-     */
     public void selectInGrid(int row, int col) {
         highlightItem(grid, row, col, Color.GREEN);
     }
@@ -795,85 +798,7 @@ public class GameGuiController {
         indexList.add(newOrder.get(0));
         indexList.add(newOrder.get(2));
     }
-/*
-    public void changeOrder(GridPane grid, List<Item> items){
-        newOrder.clear();
-        numChangeOrder++;
 
-        System.out.println(numChangeOrder);
-        if(items.size()==2) {
-            Node n0 = getNodeByRowColumnIndex(grid, 2, 0);
-            Node n1 = getNodeByRowColumnIndex(grid, 1, 0);
-            grid.getChildren().removeAll(n0, n1);
-
-            grid.add(n1, 0, 0);
-            grid.add(n0, 0, 1);
-
-            newOrder.addAll(indexList);
-            indexList.clear();
-            indexList.add(newOrder.get(1));
-            indexList.add(newOrder.get(0));
-        }
-        else{
-            Node n0 = getNodeByRowColumnIndex(grid, 0, 0);      //element on top
-            Node n1 = getNodeByRowColumnIndex(grid, 1, 0);      //element in the middle
-            Node n2 = getNodeByRowColumnIndex(grid, 2, 0);      //element on the bottom
-            grid.getChildren().removeAll(n0, n1, n2);
-            grid.add(n1, 0, 0);
-            grid.add(n0, 0, 1);
-            grid.add(n2, 0, 2);
-
-            newOrder.addAll(indexList);
-            indexList.clear();
-            indexList.add(newOrder.get(2));
-            indexList.add(newOrder.get(0));
-            indexList.add(newOrder.get(1));
-        }
-    }
-
- */
-/*
-    public void selectInRearrangeArea(GridPane grid) {
-        rearrange.setDisable(false);
-        newOrder.clear();
-        if (grid.getChildren().size() == 2) {
-            Node node1 = grid.getChildren().get(1);
-            grid.getChildren().remove(1);
-            Node node0 = grid.getChildren().get(0);
-            grid.getChildren().remove(0);
-            grid.add(node1, 0, 0);
-            grid.add(node0, 0, 1);
-
-            //  rearrangeItems(0,1);
-            //  rearrangeItems(1,0);
-            newOrder.addAll(indexList);
-            indexList.clear();
-            indexList.add(newOrder.get(1));
-            indexList.add(newOrder.get(0));
-        } else {   // size==3
-            Node node2 = grid.getChildren().get(2);
-            grid.getChildren().remove(2);
-            Node node1 = grid.getChildren().get(1);
-            grid.getChildren().remove(1);
-            Node node0 = grid.getChildren().get(0);
-            grid.getChildren().remove(0);
-            grid.add(node2, 0, 0);
-            grid.add(node0, 0, 1);
-            grid.add(node1, 0, 2);
-
-            newOrder.addAll(indexList);
-            indexList.clear();
-            indexList.add(newOrder.get(2));
-            indexList.add(newOrder.get(0));
-            indexList.add(newOrder.get(1));
-            //  rearrangeItems(0,1);
-            //  rearrangeItems(1,2);
-            //  rearrangeItems(2,0);
-        }
-    }
-
-
- */
 
     /**
      * Initialize the bookshelf grid with empty image views.
@@ -1014,11 +939,27 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * Updates the scoring view, updating common goals, personal goals, adjacent groups and total points.
+     *
+     * @param topOfScoringList the list of top of scoring
+     * @param score            the list of personal score
+     */
+
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         updateScoring(topOfScoringList);
         updatePoints(score);
     }
 
+    /**
+     * Updates the personal points
+     *
+     * @param score the list of personal score
+     *              0: personal goal
+     *              1: common goal
+     *              2: adjacent groups
+     *              3: total points
+     */
     private void updatePoints(List<Integer> score) {
         personalGoalLabel.setText(score.get(0).toString());
         commonGoalLabel.setText(score.get(1).toString());

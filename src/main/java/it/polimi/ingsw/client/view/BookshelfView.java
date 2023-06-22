@@ -34,10 +34,6 @@ public class BookshelfView {
         CliUtilities.stringifyBookshelf(items).forEach(System.out::println);
     }
 
-    public void drawBookshelf() {
-
-    }
-
     /**
      * This method prints the other bookshelves in the console.
      */

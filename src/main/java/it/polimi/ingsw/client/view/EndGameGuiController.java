@@ -56,10 +56,6 @@ public class EndGameGuiController {
         view.loginProcedure();
     }
 
-    public void setWinner(String winner) {
-
-    }
-
     public void setWinner(List<String> winners, List<Integer> scores, List<String> losers, List<Integer> loserScores) {
         player0.setText("");
         points0.setText("");

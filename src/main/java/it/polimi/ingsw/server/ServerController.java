@@ -557,6 +557,7 @@ public class ServerController {
             for (Player player : players) {
                 if (player.getNickname().equals(nickname)) {
                     winnersScore.add(player.calculateScore());
+                    System.out.println("prova");
                     players.remove(player);
                 }
             }

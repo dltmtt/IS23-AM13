@@ -27,8 +27,6 @@ public class GroupTest {
     @Test
     public void testGroup() {
         // Testing possible problematics dispositions of the bookshelves
-        // bookshelf.clearBooleanMatrix();
-        // bookshelf.clearBookshelf();
         int groupSize = 4;
         Layout layout;
 

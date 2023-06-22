@@ -38,8 +38,9 @@ public class GuiView extends Application implements GameView {
         // CAUTION: if any attributes need to be set, do so in the startView method,
         // because startView has the launch() command, which creates another instance of GuiView.
         launch();
-        System.exit(0);
         // Instruction executed after closing GUI window
+        System.exit(0);
+
     }
 
     /**
