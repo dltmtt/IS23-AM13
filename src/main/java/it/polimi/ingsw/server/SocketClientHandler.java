@@ -115,8 +115,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
             e.printStackTrace();
             System.err.println("Error while closing buffered reader or socket.");
         }
-
-        System.exit(0);
     }
 
     @Override

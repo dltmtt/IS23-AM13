@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 
 import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_SOCKET;
 
@@ -44,27 +43,21 @@ public class ServerTcp implements ServerInterface {
         executor = Executors.newCachedThreadPool();
 
         serverSocket = new ServerSocket(PORT_SOCKET); // Throws IOException
-        System.out.println("Server socket started on port " + serverSocket.getLocalPort() + ".");
+        System.out.println("TCP server started on port " + serverSocket.getLocalPort() + ".");
 
         acceptConnectionsThread = new Thread(() -> {
             while (true) {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     SocketClientHandler clientHandler;
-                    try {
-                        clientHandler = new SocketClientHandler(clientSocket);
-                        try {
-                            executor.submit(clientHandler);
-                            connectedClients.add(clientHandler);
-                        } catch (RejectedExecutionException | NullPointerException e) {
-                            System.err.println("Socket " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ": socket client handler cannot be submitted to the executor.");
-                        }
-                    } catch (IOException e) {
-                        System.err.println("Socket " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + ": socket client handler cannot be created.");
-                    }
+
+                    clientHandler = new SocketClientHandler(clientSocket);
+
+                    executor.submit(clientHandler);
+                    connectedClients.add(clientHandler);
                 } catch (IOException e) {
-                    System.err.println("Server is closed, unable to accept a connection.");
-                    System.exit(0);
+                    // The server socket has been closed, this thread can be interrupted
+                    break;
                 }
             }
         });
@@ -80,12 +73,11 @@ public class ServerTcp implements ServerInterface {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
             System.err.println("Unable to stop the socket server.");
         }
         closeAllConnections();
         executor.shutdownNow();
-        System.out.println("Socket server stopped.");
+        System.out.println("TCP server stopped.");
         acceptConnectionsThread.interrupt();
     }
 

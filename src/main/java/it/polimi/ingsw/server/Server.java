@@ -74,8 +74,8 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
         socketServer.start();
         System.out.println("Server started.");
         if (controller.isGameSaved()) {
-            boolean load = askYesNoQuestion("A saved game has been found. Do you want to load it?", "n");
             System.out.println("If you answer after players have joined, the answer to this question will be ignored.");
+            boolean load = askYesNoQuestion("A saved game has been found. Do you want to load it?", "n");
             if (load) {
                 if (controller.numberOfPlayers > 0) {
                     String message = """
@@ -103,7 +103,6 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     public void stop() {
         rmiServer.stop();
         socketServer.stop();
-        System.out.println("Server shut down.");
         System.exit(0);
     }
 }
