@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.commons.Message;
-import it.polimi.ingsw.utils.FullRoomException;
-import it.polimi.ingsw.utils.Utils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -64,7 +62,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                         } catch (ParseException e) {
                             System.err.println("Unable to parse message from client");
                         } catch (NullPointerException e) {
-                            Utils.showDebugInfo(e);
                             disconnect(username);
                             break;
                         }
@@ -73,18 +70,16 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
 
                         try {
                             receiveMessage(message, this);
-                        } catch (IllegalAccessException | FullRoomException e) {
+                        } catch (IllegalAccessException e) {
                             throw new RuntimeException(e);
                         }
                     }
                 } catch (IOException e) {
-                    Utils.showDebugInfo(e);
                     // We are here because the client disconnected (probably)
-                    System.err.println("IOException");
                     try {
                         disconnect(username);
                     } catch (RemoteException ex) {
-                        throw new RuntimeException(ex);
+                        // This should never happen in TCP
                     }
                     break;
                 }
@@ -118,7 +113,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
     }
 
     @Override
-    public void receiveMessage(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
+    public void receiveMessage(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException {
         String category = message.getCategory();
 
         switch (category) {
@@ -244,7 +239,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         clientPrintStream.println(message.getJSONstring());
     }
 
-    public void checkUsername(SocketClientHandler client, String username, boolean firstGame, int checkStatus) throws RemoteException, FullRoomException {
+    public void checkUsername(SocketClientHandler client, String username, boolean firstGame, int checkStatus) throws RemoteException {
         switch (checkStatus) {
             case 1 -> {
                 if (controller.isGameStarted()) {

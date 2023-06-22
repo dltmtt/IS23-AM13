@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
-import it.polimi.ingsw.utils.Utils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -82,7 +81,6 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
             }
         } catch (IOException e) {
             System.err.println("Unable to send message to server. The server is probably down. Exiting...");
-            Utils.showDebugInfo(e);
             close();
         }
     }
@@ -110,12 +108,10 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
                 return new Message(serverMessageString);
             } catch (NullPointerException e) {
                 System.err.println("Cannot read message from server. The server is probably down. Exiting...");
-                Utils.showDebugInfo(e);
                 close();
             }
         } catch (IOException e) {
             System.err.println("Cannot read message from server. The server is probably down. Exiting...");
-            Utils.showDebugInfo(e);
             close();
         }
         return null;

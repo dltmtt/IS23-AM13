@@ -29,17 +29,6 @@ public class SettingLoader {
 
     public static final String BASE_PATH = "src/main/resources/it/polimi/ingsw/";
 
-    private static String serverIp;
-    private static int serverPort;
-
-    public static int getServerPort() {
-        return serverPort;
-    }
-
-    public static String getServerIp() {
-        return serverIp;
-    }
-
     /**
      * Loads the settings of the common goals from the JSON file.
      *
@@ -207,21 +196,5 @@ public class SettingLoader {
 
         Bookshelf.setRows(rowsSetting);
         Bookshelf.setColumns(colsSetting);
-    }
-
-    public static void loadConnectionSettings() {
-        Properties prop = new Properties();
-
-        try (InputStream settings = new FileInputStream(BASE_PATH + "settings.properties")) {
-            prop.load(settings);
-            serverIp = prop.getProperty("connection.ip");
-            serverPort = parseInt(prop.getProperty("connection.port"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // In case the file is not found or there is and error reading the file,
-            // the default values will be used instead
-            serverIp = "localhost";
-            serverPort = 1234;
-        }
     }
 }
