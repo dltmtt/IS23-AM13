@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.ClientCommunicationInterface;
 import it.polimi.ingsw.commons.Message;
-import it.polimi.ingsw.utils.FullRoomException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -27,19 +26,17 @@ public interface ServerCommunicationInterface extends Remote {
      *
      * @param message the message received from the client.
      * @param client  the client that sent the message.
-     * @throws FullRoomException if the room is full.
      */
-    default void receiveMessage(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException, FullRoomException {
+    default void receiveMessage(Message message, SocketClientHandler client) throws IllegalAccessException, RemoteException {
     }
 
     /**
      * Receive a message from an RMI client and act accordingly.
      *
      * @param message the message received from the client.
-     * @throws Exception         if something goes wrong.
-     * @throws FullRoomException if the room is full.
+     * @throws Exception if something goes wrong.
      */
-    default void receiveMessage(Message message, ClientCommunicationInterface client) throws Exception, FullRoomException {
+    default void receiveMessage(Message message, ClientCommunicationInterface client) throws Exception {
         String category = message.getCategory();
 
         switch (category) {
@@ -347,7 +344,7 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
-    default void checkUsername(ClientCommunicationInterface client, String username, boolean firstGame, int checkStatus) throws RemoteException, FullRoomException {
+    default void checkUsername(ClientCommunicationInterface client, String username, boolean firstGame, int checkStatus) throws RemoteException {
         switch (checkStatus) {
             case 1 -> {
                 if (controller.isGameStarted()) {

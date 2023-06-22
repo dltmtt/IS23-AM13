@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.ClientCommunicationInterface;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
-import it.polimi.ingsw.utils.FullRoomException;
 
 import java.io.File;
 import java.io.IOException;
@@ -245,10 +244,8 @@ public class ServerController {
      * Creates a new room and adds the player to it if it doesn't exist,
      * otherwise adds the player to the existing room. If the room didn't
      * exist, the player is the first player of the game.
-     *
-     * @throws FullRoomException if the room is full
      */
-    public void startRoom() throws FullRoomException {
+    public void startRoom() {
         if (room == null) {
             Random random = new Random();
             int idRoom = random.nextInt(1000);
@@ -258,9 +255,6 @@ public class ServerController {
         } else if (!room.full()) {
             players.get(players.size() - 1).setIsFirstPlayer(false);
             room.addPlayer(players.get(players.size() - 1));
-        } else {
-            // TODO: gestire l'eccezione
-            throw new FullRoomException("Room is full");
         }
     }
 

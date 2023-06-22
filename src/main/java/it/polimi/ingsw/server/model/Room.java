@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.utils.FullRoomException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,14 +84,12 @@ public class Room {
      * This method adds a player to the room.
      *
      * @param newPlayer the player to be added
-     * @throws FullRoomException if the room is full
      */
-    public void addPlayer(Player newPlayer) throws FullRoomException {
+    public void addPlayer(Player newPlayer) {
         // if (players.size() < maxPlayers) {
         //     players.add(newPlayer);
         // } else {
         //     String errorMessage = "The selected room (" + roomId + ") is full, the following users are connected:  " + players;
-        //     throw new FullRoomException(errorMessage);
         // }
         players.add(newPlayer);
     }

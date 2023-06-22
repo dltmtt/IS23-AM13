@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.ServerCommunicationInterface;
-import it.polimi.ingsw.utils.FullRoomException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -28,8 +27,8 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
     public void sendMessage(Message message) {
         try {
             server.receiveMessage(message, this);
-        } catch (FullRoomException | Exception e) {
-            // throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.err.println("Error while sending message to server.");
         }
     }
 
