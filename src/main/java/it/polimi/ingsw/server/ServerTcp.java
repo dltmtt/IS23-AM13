@@ -77,7 +77,6 @@ public class ServerTcp implements ServerInterface {
 
     @Override
     public void stop() {
-        sendToAll("Server is shutting down...");
         try {
             serverSocket.close();
         } catch (IOException e) {
@@ -97,24 +96,5 @@ public class ServerTcp implements ServerInterface {
         for (SocketClientHandler clientHandler : connectedClients) {
             clientHandler.close();
         }
-    }
-
-    // TODO: check if this method is needed
-    public void sendToAll(String message) {
-        for (SocketClientHandler clientHandler : connectedClients) {
-            clientHandler.sendString(message);
-        }
-    }
-
-    // TODO: check if this method is needed
-    public void sendToAllExcept(String message, SocketClientHandler excludedPlayer) throws IllegalArgumentException {
-        if (excludedPlayer == null || message == null)
-            throw new IllegalArgumentException("null parameter handler cannot be null.");
-        connectedClients.stream().filter(client -> client != excludedPlayer).forEach(client -> client.sendString(message));
-    }
-
-    // TODO: check if this method is needed
-    public int getConnectedPlayers() {
-        return connectedClients.size();
     }
 }

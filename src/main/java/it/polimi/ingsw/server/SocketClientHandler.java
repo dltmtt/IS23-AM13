@@ -7,7 +7,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
@@ -23,7 +26,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
      * The place to write outgoing messages to the client.
      */
     public PrintStream clientPrintStream;
-    public DataOutputStream dataOutputStream; // TODO: check if this is needed
 
     /**
      * The thread that listens for messages coming from the client.
@@ -45,14 +47,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         try {
             clientBufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // This is to send data to the server
-        try {
-            dataOutputStream = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            System.err.println("Unable to create output stream");
             throw new RuntimeException(e);
         }
 
@@ -111,12 +105,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         listenThread.start();
     }
 
-    public void sendString(String message) {
-        clientPrintStream.println(message);
-    }
-
     public void close() {
-        sendString("Connection closed.");
         listenThread.interrupt();
         clientPrintStream.close();
         try {
@@ -127,7 +116,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
             System.err.println("Error while closing buffered reader or socket.");
         }
 
-        // terminate application
         System.exit(0);
     }
 
@@ -195,9 +183,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
     }
 
     public void startPingThread(SocketClientHandler client) throws RemoteException {
-        String username = null;
-        username = client.getUsername();
-        String finalUsername = username;
+        String finalUsername = client.getUsername();
         Thread pingThread = new Thread(() -> {
             while (true) {
                 try {
@@ -292,11 +278,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
             }
             case 0 -> {
                 // The username has already been taken, retry
-                // try {
-                //     Thread.sleep(3000);
-                // } catch (InterruptedException e) {
-                //     e.printStackTrace();
-                // }
                 checkStatus = controller.checkUsername(username);
                 if (checkStatus == 0) {
                     System.out.println(username + " requested login, but the username is already taken.");

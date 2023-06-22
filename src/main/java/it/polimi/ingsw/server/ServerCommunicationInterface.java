@@ -147,20 +147,6 @@ public interface ServerCommunicationInterface extends Remote {
         });
         checkThread.start();
     }
-    // default void disconnect(String username) throws RemoteException {
-    //     System.err.println(username + " disconnected.");
-    //     controller.disconnect(username);
-    //     if (controller.get.size() == controller.numberOfPlayers - 1) {
-    //         // If there is only one player left, sendAll actually sends the message to the only player left,
-    //         // telling him that he's alone. He will wait for the other players to reconnect, and if none of them
-    //         // reconnects, he will win.
-    //         sendAll(new Message("youAloneBitch"));
-    //     } else {
-    //         if (controller.getCurrentPlayer().equals(username)) {
-    //             nextTurn();
-    //         }
-    //     }
-    // }
 
     /**
      * Adds a player to the disconnected players list and changes the turn if the

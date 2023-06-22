@@ -3,11 +3,8 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.ClientCommunicationInterface;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
 import it.polimi.ingsw.utils.FullRoomException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,10 +25,7 @@ public class ServerController {
     private final HashMap<String, SocketClientHandler> tcpClients;
     private final List<Integer> finalPoints;
     public int numberOfPlayers = 0;
-    private HashMap<ClientCommunicationInterface, PersonalGoal> personalGoalRMI;
-    private HashMap<SocketClientHandler, PersonalGoal> personalGoalTCP;
     private boolean gameIsStarted = false;
-    private boolean printedTurn = false;
     private List<Item> currentPicked;
     private GameModel gameModel;
     private Room room = null;
@@ -91,7 +85,7 @@ public class ServerController {
 
     /**
      * Checks whether the game has been saved or not. This is done by
-     * checking if the JSON which contains the state of the game exists.
+     * checking if the JSON that contains the state of the game exists.
      *
      * @return true if the game has been saved, false otherwise
      */
@@ -117,13 +111,6 @@ public class ServerController {
         changeTurn();
         System.out.println("Last game loaded");
     }
-
-    // public int getPosition(SocketClientHandler client) {
-    //     for (int i = 0; i < tcpClients.size(); i++) {
-    //         if (tcpClients.get(i).equals(client)) {
-    //         }
-    //     }
-    // }
 
     /**
      * Adds a player to the list of disconnected players
@@ -311,14 +298,6 @@ public class ServerController {
         return gameModel.getCurrentPlayer().getNickname();
     }
 
-    public ClientCommunicationInterface getCurrentClientRmi() {
-        return rmiClients.get(gameModel.getCurrentPlayer().getNickname());
-    }
-
-    public SocketClientHandler getCurrentClientTcp() {
-        return tcpClients.get(gameModel.getCurrentPlayer().getNickname());
-    }
-
     public int getScore(int position) {
         return gameModel.getPlayers().get(position).calculateScore();
     }
@@ -351,14 +330,6 @@ public class ServerController {
 
     public List<CommonGoal> getCommonGoals() {
         return Player.getCommonGoals();
-    }
-
-    public Bookshelf getBookshelf(int index) {
-        return room.getListOfPlayers().get(index).getBookshelf();
-    }
-
-    public Bookshelf getCurrentPlayerBookshelf() {
-        return gameModel.getCurrentPlayer().getBookshelf();
     }
 
     /**
@@ -441,7 +412,6 @@ public class ServerController {
         } else {
             gameModel.setCurrentPlayer(players.get(nextPlayerIndex));
         }
-        printedTurn = false;
     }
 
     /**
@@ -462,7 +432,7 @@ public class ServerController {
         if (Collections.frequency(finalScoring, max) > 1) {
             // There is a tie
             for (Integer score : finalScoring) {
-                if (score == max) {
+                if (score.equals(max)) {
                     if (!players.get(finalScoring.indexOf(score)).isFirstPlayer()) {
                         winners.add(players.get(finalScoring.indexOf(score)));
                         finalPoints.remove(finalScoring.indexOf(score));
@@ -570,33 +540,6 @@ public class ServerController {
      */
     public boolean isFirst() {
         return tcpClients.size() + rmiClients.size() == 1;
-    }
-
-    public int getCurrentPlayerPersonalGoal() {
-        return gameModel.getCurrentPlayer().getPersonalGoal().getIndex();
-    }
-
-    public Bookshelf getBookshelf(JSONObject json) {
-        Bookshelf bookshelf = new Bookshelf();
-        JSONArray bookshelfJson = (JSONArray) json.get("bookshelf");
-        for (Object obj : bookshelfJson) {
-            JSONObject bookshelfItem = (JSONObject) obj;
-            String rowString = (String) bookshelfItem.get("row");
-            String columnString = (String) bookshelfItem.get("column");
-            int row = Integer.parseInt(rowString);
-            int column = Integer.parseInt(columnString);
-            JSONArray itemJson = (JSONArray) bookshelfItem.get("item");
-            if (itemJson == null) {
-                bookshelf.setItem(row, column, Optional.empty());
-            } else {
-                JSONObject item = (JSONObject) itemJson.get(0);
-                String color = (String) item.get("color");
-                String valueString = (String) item.get("value");
-                int value = Integer.parseInt(valueString);
-                bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
-            }
-        }
-        return bookshelf;
     }
 
     /**
