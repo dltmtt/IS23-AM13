@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
-import static it.polimi.ingsw.server.ServerCommunicationInterface.HOSTNAME;
+import static it.polimi.ingsw.client.MyShelfie.HOSTNAME;
 import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_SOCKET;
 
 public class ClientTcp extends Client implements ClientCommunicationInterface {

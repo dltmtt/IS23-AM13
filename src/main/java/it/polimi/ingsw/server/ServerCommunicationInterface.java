@@ -16,7 +16,6 @@ public interface ServerCommunicationInterface extends Remote {
 
     int PORT_RMI = 1099;
     int PORT_SOCKET = 888;
-    String HOSTNAME = "localhost"; // Shared by RMI and socket
     ServerController controller = new ServerController();
 
     // This method's implementation is basically identical to receiveMessage.

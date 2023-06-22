@@ -14,17 +14,25 @@ import java.rmi.RemoteException;
  */
 public class MyShelfie {
 
-    public static Client client;
+    public static Client client; // It's static so that it can be accessed from static methods
+
+    /**
+     * The hostname of the server. It's set when the game is launched.
+     * It's shared by RMI and TCP.
+     */
+    public static String HOSTNAME;
 
     public static void main(String[] args) {
         SettingLoader.loadBookshelfSettings();
         Option protocol = new Option("p", "protocol", true, "select network protocol to use (default: RMI)");
         Option view = new Option("m", "view", true, "launch CLI or GUI (default: CLI)");
+        Option hostname = new Option("n", "hostname", true, "set the hostname of the server (default: localhost)");
         Option help = new Option("h", "help", false, "show this help message");
 
         Options options = new Options();
         options.addOption(protocol);
         options.addOption(view);
+        options.addOption(hostname);
         options.addOption(help);
 
         CommandLineParser parser = new DefaultParser();
@@ -43,6 +51,7 @@ public class MyShelfie {
             System.exit(0);
         }
 
+        MyShelfie.HOSTNAME = line.getOptionValue("hostname", "localhost");
         String protocolType = line.getOptionValue("protocol", "rmi");
 
         client = null;

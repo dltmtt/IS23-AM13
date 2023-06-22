@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import static it.polimi.ingsw.server.ServerCommunicationInterface.HOSTNAME;
+import static it.polimi.ingsw.client.MyShelfie.HOSTNAME;
 import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_RMI;
 
 public class ClientRmi extends Client implements ClientCommunicationInterface {
