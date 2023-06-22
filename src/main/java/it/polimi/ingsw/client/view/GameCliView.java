@@ -216,7 +216,7 @@ public class GameCliView implements GameView {
         showMessage(welcomeMessage + title);
     }
 
-    @Override
+    /*@Override
     public void showEndGame(List<String> winners, List<Integer> scores, List<String> losers, List<Integer> loserScores) {
         showMessage("The game is over!\n");
         showMessage("The winners are:\n");
@@ -226,6 +226,21 @@ public class GameCliView implements GameView {
         showMessage("The losers are:\n");
         for (int i = 0; i < losers.size(); i++) {
             showMessage(losers.get(i) + " with " + loserScores.get(i) + " points\n");
+        }
+    }
+    */
+
+    @Override
+    public void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
+        showMessage("The game is over!\n");
+        showMessage("The winners are:\n");
+        for (String winner : winners.keySet()) {
+            showMessage(winner + " with " + winners.get(winner) + " points\n");
+        }
+
+        showMessage("The losers are:\n");
+        for (String loser : losers.keySet()) {
+            showMessage(loser + " with " + losers.get(loser) + " points\n");
         }
     }
 

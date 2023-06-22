@@ -200,7 +200,8 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 gameView.showPick();
             }
             case "winners" ->
-                    gameView.showEndGame(message.getWinners(), message.getWinnersScore(), message.getOtherPlayersName(), message.getOtherScores());
+                //gameView.showEndGame(message.getWinners(), message.getWinnersScore(), message.getOtherPlayersName(), message.getOtherScores());
+                    gameView.showEndGame(message.getWinners(), message.getLosers());
             case "waitingRoom" -> waitingRoom();
             case "lastRound" -> gameView.showLastRound();
             case "gameAlreadyStarted" -> gameView.showGameAlreadyStarted();

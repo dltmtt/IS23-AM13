@@ -239,8 +239,12 @@ public interface ServerCommunicationInterface extends Remote {
         }
         if (controller.checkGameStatus() == -1) {
             // the game has ended
-            List<String> winnersNickname = controller.getWinnersNickname();
-            sendAll(new Message(winnersNickname, controller.getWinnersScore(), controller.getPlayersUsername(), controller.getFinalPoints()));
+            //List<String> winnersNickname = controller.getWinners();
+            //sendAll(new Message(winnersNickname, controller.getWinnersScore(), controller.getPlayersUsername(), controller.getFinalPoints()));
+            controller.setWinner();
+            sendAll(new Message(controller.getWinners(), controller.getLosers()));
+
+
         } else if (controller.checkGameStatus() == 0) {
             // it's the last round
             sendAll(new Message("lastRound"));

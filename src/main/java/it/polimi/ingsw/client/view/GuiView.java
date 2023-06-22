@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -209,6 +210,7 @@ public class GuiView extends Application implements GameView {
         Platform.runLater(gameController::enableInsert);
     }
 
+    /*
     @Override
     public void showEndGame(List<String> winners, List<Integer> scores, List<String> losers, List<Integer> loserScores) {
         Platform.runLater(() -> {
@@ -219,6 +221,18 @@ public class GuiView extends Application implements GameView {
             stage.show();
         });
     }
+
+     */
+
+    @Override
+    public void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
+        Platform.runLater(() -> {
+            endGameController.setWinner(winners, losers);
+            stage.setScene(endGameScene);
+            stage.show();
+        });
+    }
+
 
     @Override
     public List<Integer> rearrange(List<Item> items) {

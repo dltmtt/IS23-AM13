@@ -344,8 +344,24 @@
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0"
-                              GridPane.columnIndex="4" GridPane.rowIndex="1">
+                              GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                             <children>
+                                <HBox fx:id="firstPlayer0" alignment="CENTER" prefHeight="62.0" prefWidth="236.0"
+                                      spacing="20.0" style="-fx-background-color: #560a0ad6;" visible="false">
+                                    <children>
+                                        <ImageView fitHeight="46.0" fitWidth="41.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@graphics/misc/first_player_token.png"/>
+                                            </image>
+                                        </ImageView>
+                                        <Label text="You are the first player" textFill="WHITE">
+                                            <font>
+                                                <Font size="14.0"/>
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
                                 <GridPane prefHeight="214.0" prefWidth="236.0" style="-fx-background-color: #560a0ad6;">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.800048828125" minWidth="10.0"
@@ -439,6 +455,9 @@
                                     </children>
                                 </StackPane>
                             </children>
+                            <GridPane.margin>
+                                <Insets left="10.0"/>
+                            </GridPane.margin>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0"
                               GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1"
@@ -452,9 +471,9 @@
                                                 <Image url="@graphics/our_variants/back.jpg"/>
                                             </image>
                                         </ImageView>
-                                        <GridPane fx:id="bookshelfGrid1" alignment="CENTER" gridLinesVisible="true"
-                                                  hgap="3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0"
-                                                  prefWidth="106.0" vgap="3.0" StackPane.alignment="CENTER">
+                                        <GridPane fx:id="bookshelfGrid1" alignment="CENTER" hgap="3.0"
+                                                  nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0" prefWidth="106.0"
+                                                  vgap="3.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
                                                 <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
                                                                    prefWidth="100.0"/>
@@ -505,7 +524,7 @@
                                 <HBox alignment="CENTER" fillHeight="false" spacing="10.0">
                                     <children>
                                         <ImageView fx:id="firstPlayer1" fitHeight="25.0" fitWidth="25.0"
-                                                   pickOnBounds="true" preserveRatio="true">
+                                                   pickOnBounds="true" preserveRatio="true" visible="false">
                                             <image>
                                                 <Image url="@graphics/misc/first_player_token.png"/>
                                             </image>
@@ -570,7 +589,7 @@
                                 <HBox alignment="CENTER" fillHeight="false" spacing="10.0">
                                     <children>
                                         <ImageView fx:id="firstPlayer2" fitHeight="25.0" fitWidth="25.0"
-                                                   pickOnBounds="true" preserveRatio="true">
+                                                   pickOnBounds="true" preserveRatio="true" visible="false">
                                             <image>
                                                 <Image url="@graphics/misc/first_player_token.png"/>
                                             </image>
@@ -635,7 +654,7 @@
                                 <HBox alignment="CENTER" spacing="10.0">
                                     <children>
                                         <ImageView fx:id="firstPlayer3" fitHeight="25.0" fitWidth="25.0"
-                                                   pickOnBounds="true" preserveRatio="true">
+                                                   pickOnBounds="true" preserveRatio="true" visible="false">
                                             <image>
                                                 <Image url="@graphics/misc/first_player_token.png"/>
                                             </image>
@@ -648,6 +667,9 @@
                                     </children>
                                 </HBox>
                             </children>
+                            <GridPane.margin>
+                                <Insets right="5.0"/>
+                            </GridPane.margin>
                         </VBox>
                         <Label fx:id="messageLabel" GridPane.columnIndex="2"/>
                     </children>

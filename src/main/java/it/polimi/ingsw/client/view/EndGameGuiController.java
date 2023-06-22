@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EndGameGuiController {
@@ -43,8 +44,8 @@ public class EndGameGuiController {
     @FXML
     private Label winner;
 
-    @FXML
-    private Label winnerPhrase;
+    //@FXML
+    //private Label winnerPhrase;
 
     public EndGameGuiController(GuiView guiView, Client client) {
         view = guiView;
@@ -56,7 +57,7 @@ public class EndGameGuiController {
         view.loginProcedure();
     }
 
-    public void setWinner(List<String> winners, List<Integer> scores, List<String> losers, List<Integer> loserScores) {
+    public void setWinner(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
         player0.setText("");
         points0.setText("");
         player1.setText("");
@@ -65,43 +66,42 @@ public class EndGameGuiController {
         points2.setText("");
         player3.setText("");
         points3.setText("");
+        this.winner.setText("");
 
-        if (winners.contains(client.getUsername())) {
-            this.winner.setText("You");
-        } else {
-            this.winner.setText(winners.get(0));
-        }
-        if (winners.size() > 1) {
-            for (int i = 1; i < winners.size(); i++) {
-                this.winner.setText(this.winner.getText() + ", " + winners.get(i));
+        for (String s : winners.keySet()) {
+            if (s.equals(client.getUsername())) {
+                this.winner.setText(this.winner.getText() + "You");
+            } else {
+                this.winner.setText(this.winner.getText() + s);
             }
         }
 
-        List<String> players = new ArrayList<>(winners);
-        players.addAll(losers);
+        HashMap<String, Integer> scores = new HashMap<>(winners);
+        scores.putAll(losers);
+        List<String> players = new ArrayList<>(scores.keySet());
 
-        List<Integer> scoresList = new ArrayList<>(scores);
-        scoresList.addAll(loserScores);
 
         for (int i = 0; i < players.size(); i++) {
+            String playername = players.get(i);
             switch (i) {
                 case 0 -> {
-                    player0.setText(players.get(i));
-                    points0.setText(scoresList.get(i).toString());
+                    player0.setText(playername);
+                    points0.setText(scores.get(playername).toString());
                 }
                 case 1 -> {
-                    player1.setText(players.get(i));
-                    points1.setText(scoresList.get(i).toString());
+                    player1.setText(playername);
+                    points1.setText(scores.get(playername).toString());
                 }
                 case 2 -> {
-                    player2.setText(players.get(i));
-                    points2.setText(scoresList.get(i).toString());
+                    player2.setText(playername);
+                    points2.setText(scores.get(playername).toString());
                 }
                 case 3 -> {
-                    player3.setText(players.get(i));
-                    points3.setText(scoresList.get(i).toString());
+                    player3.setText(playername);
+                    points3.setText(scores.get(playername).toString());
                 }
             }
+
         }
     }
 }

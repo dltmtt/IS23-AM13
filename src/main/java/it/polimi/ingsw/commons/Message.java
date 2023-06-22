@@ -159,6 +159,52 @@ public class Message implements Serializable {
         }
     }
 
+    public Message(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
+        json = new JSONObject();
+        json.put("category", "winners");
+
+        JSONArray winnersJson = new JSONArray();
+
+        for (String winner : winners.keySet()) {
+            JSONObject winnerJson = new JSONObject();
+            winnerJson.put("name", winner);
+            winnerJson.put("score", winners.get(winner));
+            winnersJson.add(winnerJson);
+        }
+
+        JSONArray losersJson = new JSONArray();
+        for (String loser : losers.keySet()) {
+            JSONObject loserJson = new JSONObject();
+            loserJson.put("name", loser);
+            loserJson.put("score", losers.get(loser));
+            losersJson.add(loserJson);
+        }
+
+        json.put("winners", winnersJson);
+        json.put("losers", losersJson);
+
+        /*
+        int size = winners.size();
+        String sizeString = Integer.toString(size);
+        json.put("size", sizeString);
+        for (int i = 0; i < size; i++) {
+            json.put("name" + i, winners.get(i));
+            String scoreString = Integer.toString(WinnersScores.get(i));
+            json.put("score" + i, scoreString);
+        }
+        int size2 = otherPlayers.size();
+        String sizeString2 = Integer.toString(size2);
+        json.put("size2", sizeString2);
+        for (int i = 0; i < size2; i++) {
+            json.put("name2" + i, otherPlayers.get(i));
+            String scoreString2 = Integer.toString(otherScores.get(i));
+            json.put("score2" + i, scoreString2);
+        }
+
+         */
+
+    }
+
     /**
      * Constructor for the startGame message.
      *
@@ -517,6 +563,7 @@ public class Message implements Serializable {
         return playersName;
     }
 
+    /*
     public List<Integer> getOtherScores() {
         List<Integer> scores = new ArrayList<>();
         int i = 0;
@@ -529,6 +576,9 @@ public class Message implements Serializable {
         return scores;
     }
 
+     */
+
+    /*
     public List<String> getOtherPlayersName() {
         List<String> playersName = new ArrayList<>();
         int i = 0;
@@ -539,6 +589,8 @@ public class Message implements Serializable {
         }
         return playersName;
     }
+
+     */
 
     public List<String> getPlayersForEndGame() {
         List<String> playersName = new ArrayList<>();
@@ -596,6 +648,7 @@ public class Message implements Serializable {
         return (String) json.get("argument");
     }
 
+    /*
     public List<String> getWinners() {
         List<String> winners = new ArrayList<>();
         String sizeString = (String) json.get("size");
@@ -606,6 +659,7 @@ public class Message implements Serializable {
         }
         return winners;
     }
+     */
 
     public List<Integer> getSort() {
         List<Integer> sort = new ArrayList<>();
@@ -1009,6 +1063,7 @@ public class Message implements Serializable {
         return layout;
     }
 
+    /*
     public List<Integer> getWinnersScore() {
         List<Integer> winnersScore = new ArrayList<>();
         int i = 0;
@@ -1020,6 +1075,8 @@ public class Message implements Serializable {
         }
         return winnersScore;
     }
+
+     */
 
     public List<Integer> getScore() {
         List<Integer> score = new ArrayList<>();
@@ -1033,5 +1090,32 @@ public class Message implements Serializable {
         score.add(Integer.parseInt(bString));
         score.add(Integer.parseInt(tString));
         return score;
+    }
+
+    public HashMap<String, Integer> getWinners() {
+        HashMap<String, Integer> winners = new HashMap<>();
+        JSONArray winnersJson = (JSONArray) json.get("winners");
+        for (Object obj : winnersJson) {
+            JSONObject winner = (JSONObject) obj;
+            String nickname = (String) winner.get("name");
+            Integer score = (Integer) winner.get("score");
+            //int score = Integer.parseInt(scoreString);
+            winners.put(nickname, score);
+        }
+        return winners;
+    }
+
+    public HashMap<String, Integer> getLosers() {
+        HashMap<String, Integer> losers = new HashMap<>();
+        JSONArray losersJson = (JSONArray) json.get("losers");
+        for (Object obj : losersJson) {
+            JSONObject loser = (JSONObject) obj;
+            String nickname = (String) loser.get("name");
+            //String scoreString = (String) loser.get("score");
+            Integer score = (Integer) loser.get("score");
+            //int score = Integer.parseInt(scoreString);
+            losers.put(nickname, score);
+        }
+        return losers;
     }
 }

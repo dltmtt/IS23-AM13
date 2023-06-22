@@ -19,8 +19,9 @@ public class ServerController {
     public final List<String> disconnectedPlayers;
     public final HashMap<String, Integer> pongLost;
     public final List<String> pongReceived;
+    public final HashMap<String, Integer> winners = new HashMap<>();
+    public final HashMap<String, Integer> losers = new HashMap<>();
     private final List<Player> players;
-    private final List<String> winnersNickname;
     private final HashMap<String, ClientCommunicationInterface> rmiClients;
     private final HashMap<String, SocketClientHandler> tcpClients;
     private final List<Integer> finalPoints;
@@ -37,7 +38,6 @@ public class ServerController {
      */
     public ServerController() {
         players = new ArrayList<>();
-        winnersNickname = new ArrayList<>();
         currentPicked = new ArrayList<>();
         disconnectedPlayers = new ArrayList<>();
         rmiClients = new HashMap<>();
@@ -415,10 +415,10 @@ public class ServerController {
     }
 
     /**
-     * @return the list of winners
+     * @return the hashMap of winners (String nickname, Integer score)
      */
-    public List<String> setWinner() {
-        List<Player> winners = new ArrayList<>();
+    public void setWinner() {
+        //List<Player> winners = new ArrayList<>();
         List<Integer> finalScoring = new ArrayList<>();
 
         for (Player player : players) {
@@ -428,6 +428,17 @@ public class ServerController {
 
         Integer max = finalScoring.stream().max(Integer::compare).get();
 
+        for (Player player : players) {
+            if (finalPoints.get(players.indexOf(player)) == max) {
+                winners.put(player.getNickname(), max);
+            } else {
+                losers.put(player.getNickname(), finalPoints.get(players.indexOf(player)));
+            }
+        }
+        //return winners;
+    }
+
+        /*
         // if the value max is contained more than one time in the list finalScoring
         if (Collections.frequency(finalScoring, max) > 1) {
             // There is a tie
@@ -445,9 +456,18 @@ public class ServerController {
         }
 
         List<String> officialWinners = winners.stream().map(Player::getNickname).collect(Collectors.toList());
-        winnersNickname.addAll(officialWinners);
+        this.winners.addAll(officialWinners);
 
-        return officialWinners;
+        //return officialWinners;
+
+         */
+
+    public HashMap<String, Integer> getLosers() {
+        return losers;
+    }
+
+    public HashMap<String, Integer> getWinners() {
+        return winners;
     }
 
     /**
@@ -514,16 +534,18 @@ public class ServerController {
         return coordinates;
     }
 
-    public List<String> getWinnersNickname() {
-        return setWinner();
+    /*
+    public List<String> getWinners() {
+        //return setWinner();
     }
 
     /**
      * @return the list of the winners' scores
      */
+    /*
     public List<Integer> getWinnersScore() {
         List<Integer> winnersScore = new ArrayList<>();
-        for (String nickname : winnersNickname) {
+        for (String nickname : winners) {
             for (Player player : players) {
                 if (player.getNickname().equals(nickname)) {
                     winnersScore.add(player.calculateScore());
@@ -534,6 +556,9 @@ public class ServerController {
         }
         return winnersScore;
     }
+
+     */
+
 
     /**
      * @return true if the player is the first player, false otherwise

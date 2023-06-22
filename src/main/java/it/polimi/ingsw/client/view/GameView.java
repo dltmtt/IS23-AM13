@@ -40,7 +40,10 @@ public interface GameView {
 
     void promptInsert();
 
-    void showEndGame(List<String> winners, List<Integer> Wscores, List<String> otherPlayers, List<Integer> otherScores);
+    //void showEndGame(List<String> winners, List<Integer> Wscores, List<String> otherPlayers, List<Integer> otherScores);
+
+    void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers);
+
 
     List<Integer> rearrange(List<Item> items) throws IOException;
 
