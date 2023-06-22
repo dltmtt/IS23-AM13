@@ -168,7 +168,8 @@ public class Message implements Serializable {
         for (String winner : winners.keySet()) {
             JSONObject winnerJson = new JSONObject();
             winnerJson.put("name", winner);
-            winnerJson.put("score", winners.get(winner));
+            String scoreString = Integer.toString(winners.get(winner));
+            winnerJson.put("score", scoreString);
             winnersJson.add(winnerJson);
         }
 
@@ -176,7 +177,8 @@ public class Message implements Serializable {
         for (String loser : losers.keySet()) {
             JSONObject loserJson = new JSONObject();
             loserJson.put("name", loser);
-            loserJson.put("score", losers.get(loser));
+            String scoreString = Integer.toString(losers.get(loser));
+            loserJson.put("score", scoreString);
             losersJson.add(loserJson);
         }
 
@@ -1098,8 +1100,8 @@ public class Message implements Serializable {
         for (Object obj : winnersJson) {
             JSONObject winner = (JSONObject) obj;
             String nickname = (String) winner.get("name");
-            Integer score = (Integer) winner.get("score");
-            //int score = Integer.parseInt(scoreString);
+            String scoreString = (String) winner.get("score");
+            Integer score = Integer.parseInt(scoreString);
             winners.put(nickname, score);
         }
         return winners;
@@ -1111,9 +1113,8 @@ public class Message implements Serializable {
         for (Object obj : losersJson) {
             JSONObject loser = (JSONObject) obj;
             String nickname = (String) loser.get("name");
-            //String scoreString = (String) loser.get("score");
-            Integer score = (Integer) loser.get("score");
-            //int score = Integer.parseInt(scoreString);
+            String scoreString = (String) loser.get("score");
+            Integer score = Integer.parseInt(scoreString);
             losers.put(nickname, score);
         }
         return losers;
