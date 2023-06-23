@@ -127,7 +127,7 @@ public interface ServerCommunicationInterface extends Remote {
                 try {
                     Thread.sleep(20000);
                     if (!controller.pongReceived.contains(finalUsername) && !controller.disconnectedPlayers.contains(finalUsername)) {
-                        System.out.println("Pong not received from " + finalUsername + ". Disconnecting.");
+                        System.out.println("Ping not received from " + finalUsername + ". Disconnecting.");
                         Thread.sleep(10000);
                         if (!controller.pongReceived.contains(finalUsername)) {
                             disconnect(finalUsername);
@@ -192,6 +192,7 @@ public interface ServerCommunicationInterface extends Remote {
         System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
 
         try {
+            client.callBackSendMessage(new Message("username", client.getUsername()));
             Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer());
             client.callBackSendMessage(game);
         } catch (RemoteException e) {
@@ -236,12 +237,10 @@ public interface ServerCommunicationInterface extends Remote {
         }
         if (controller.checkGameStatus() == -1) {
             // the game has ended
-            //List<String> winnersNickname = controller.getWinners();
-            //sendAll(new Message(winnersNickname, controller.getWinnersScore(), controller.getPlayersUsername(), controller.getFinalPoints()));
+            // List<String> winnersNickname = controller.getWinners();
+            // sendAll(new Message(winnersNickname, controller.getWinnersScore(), controller.getPlayersUsername(), controller.getFinalPoints()));
             controller.setWinner();
             sendAll(new Message(controller.getWinners(), controller.getLosers()));
-
-
         } else if (controller.checkGameStatus() == 0) {
             // it's the last round
             sendAll(new Message("lastRound"));
@@ -344,7 +343,7 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
-    default void checkUsername(ClientCommunicationInterface client, String username, boolean firstGame, int checkStatus) throws RemoteException {
+    default void checkUsername(ClientCommunicationInterface client, String username, boolean firstGame, int checkStatus) throws RemoteException, InterruptedException {
         switch (checkStatus) {
             case 1 -> {
                 if (controller.isGameStarted()) {
@@ -378,13 +377,24 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
             case 0 -> {
-                System.out.println(username + " requested login, but the username is already taken.");
-                client.callBackSendMessage(new Message("UsernameRetry"));
+                // The username is already taken
+                client.callBackSendMessage(new Message("checkingDisconnection"));
+                Thread.sleep(60000);
+                if (controller.checkUsername(username) == -1) {
+                    System.out.println(username + " reconnected.");
+                    client.setUsername(username);
+
+                    resendGameToReconnectedClient(client);
+                } else {
+                    System.out.println(username + " requested login, but the username is already taken.");
+                    client.callBackSendMessage(new Message("UsernameRetry"));
+                }
             }
             case -1 -> {
                 // The username is already taken, but the player was disconnected and is trying to reconnect
                 System.out.println(username + " reconnected.");
                 client.setUsername(username);
+
                 resendGameToReconnectedClient(client);
             }
         }

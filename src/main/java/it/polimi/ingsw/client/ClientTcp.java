@@ -21,17 +21,14 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
      * Used to send messages to the server.
      */
     public final DataOutputStream dataOutputStream;
-
+    /**
+     * Used to read messages from the server.
+     */
+    public final BufferedReader serverBufferedReader;
     /**
      * The socket used to communicate with the server.
      */
     public Socket socket;
-
-    /**
-     * Used to read messages from the server.
-     */
-    public BufferedReader serverBufferedReader;
-
     /**
      * The thread that listens for messages from the server.
      */
@@ -102,7 +99,9 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     public Message receiveMessage() {
         String serverMessageString;
         try {
+
             serverMessageString = serverBufferedReader.readLine(); // Read a message from the server
+
             try {
                 JSONParser parser = new JSONParser();
                 JSONObject messageFromClient = (JSONObject) parser.parse(serverMessageString);

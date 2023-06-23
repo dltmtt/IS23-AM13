@@ -18,18 +18,17 @@ import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 // be an RMI client or a Socket client
 public abstract class Client extends UnicastRemoteObject implements Serializable, ClientCommunicationInterface {
 
+    private final Object lock;
     /**
      * The <code>GameView</code> associated with this client.
      */
     public GameView gameView;
-
     /**
      * The username of the player using this client.
      */
     public String username;
-
     private boolean theOnlyOne = false; // Whether this client is the only one in the game
-    private boolean serverConnection = false; // Whether there is a connection to the server
+    private Boolean serverConnection = false; // Whether there is a connection to the server
     private int myPosition; // The position of this player in the game
 
     public Client() throws RemoteException {
@@ -62,6 +61,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             System.err.println("Unable to connect to the server. Is it running?");
             System.exit(1);
         }
+        lock = new Object();
     }
 
     /**
@@ -119,7 +119,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void waitingRoom() {
         gameView.waitingRoom();
     }
-    
+
     public int getMyPosition() {
         return myPosition;
     }
@@ -157,7 +157,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             }
             case "pong" -> {
                 serverConnection = true;
-                // System.out.println("Ping!");
+//                System.out.println("Pong!" + serverConnection);
             }
             case "username" -> {
                 setUsername(message.getUsername());
@@ -212,8 +212,8 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 }
                 gameView.promptInsert();
             }
-            case "disconnected" -> {
-                System.err.println("You have been disconnected from the server. Let Matteo know about this.");
+            case "checkingDisconnection" -> {
+                gameView.showMessage("Server is checking if you disconnected...");
                 // List<String> disconnected = message.getDisconnected();
                 // gameView.showDisconnection(disconnected);
                 // stop();
@@ -260,13 +260,16 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             while (true) {
                 try {
                     sendMessage(new Message("ping"));
-                    Thread.sleep(10000);
-                    // System.out.println("after sleep");
-                    if (!serverConnection) {
-                        System.err.println("Server is down. Exiting...");
-                        System.exit(0);
+                    synchronized (lock) {
+                        Thread.sleep(10000);
+//                        System.out.println("ping" + serverConnection);
+                        // System.out.println("after sleep");
+                        if (!serverConnection) {
+                            System.err.println("Server is down. Exiting...");
+                            System.exit(0);
+                        }
+                        serverConnection = false;
                     }
-                    serverConnection = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -278,6 +281,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      * Asks the player to pick some tiles and sends the message to the server.
      */
     public void myTurn() {
+        gameView.showMessage("It's your turn.\n");
         Thread turnThread = new Thread(() -> {
             gameView.showPick();
         });
