@@ -480,6 +480,16 @@ public class GameGuiController {
      * @param message the message containing the complete game
      */
     public void showGame(Message message) {
+        boardGridPane.getChildren().clear();
+        bookshelfGrid.getChildren().clear();
+        adjacentGroupsLabel.setText("0");
+        commonGoalLabel.setText("0");
+        personalGoalLabel.setText("0");
+        totalPointsLabel.setText("0");
+        firstPlayer1.setVisible(false);
+        firstPlayer2.setVisible(false);
+        firstPlayer3.setVisible(false);
+        firstPlayer0.setVisible(false);
         // Personal Goal image loading
         int personalGoalIndex = message.getPersonalGoal();
         String imagePath = "graphics/personal_goal_cards/pg_" + personalGoalIndex + ".png";
