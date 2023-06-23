@@ -1,4 +1,4 @@
-package it.polimi.ingsw.caseTest;
+package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class foundBug {
+public class BugsFound {
 
     @BeforeAll
     static void setupAll() {

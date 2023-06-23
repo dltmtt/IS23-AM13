@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.server.model.layouts.Stair;
 import it.polimi.ingsw.utils.BookshelfUtilities;
+import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,6 @@ public class StairTest {
         assertTrue(stair.check(b));
         b.clearBookshelf();
         BookshelfUtilities.createRightStair(b);
-        //        b.print();
         assertTrue(stair.check(b));
     }
 
@@ -77,5 +77,26 @@ public class StairTest {
         }
         BookshelfUtilities.createRightStair(b);
         assertTrue(stair.check(b));
+    }
+    @Test
+    void MirroredStairCheckRowZero(){
+        BookshelfUtilities.createRightStair(b);
+        assertTrue(stair.check(b));
+        CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
+        b.clearBookshelf();
+    }
+
+    @Test
+    void MirroredStairCheckRowOne(){
+        List<Item> itemList = new ArrayList<>();
+        for (int i = 0; i < Bookshelf.getColumns(); i++) {
+            itemList.clear();
+            itemList.add(new Item(Color.getRandomColor(), 0));
+            b.insert(i, itemList);
+        }
+        BookshelfUtilities.createRightStair(b);
+        assertTrue(stair.check(b));
+        CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
+        b.clearBookshelf();
     }
 }
