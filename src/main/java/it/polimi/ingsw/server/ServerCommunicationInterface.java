@@ -232,9 +232,9 @@ public interface ServerCommunicationInterface extends Remote {
      * @throws RemoteException if this connection fails
      */
     default void nextTurn() throws RemoteException {
+        controller.changeTurn();
         controller.saveGame();
 
-        controller.changeTurn();
 
         if (controller.checkGameStatus() == -1) {
             // the game has ended

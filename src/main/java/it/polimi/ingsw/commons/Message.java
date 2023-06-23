@@ -489,8 +489,10 @@ public class Message implements Serializable {
         List<Integer> commonPoints = new ArrayList<>();
         JSONArray array = (JSONArray) player.get("CommonPoints");
         for (int i = 0; i < array.size(); i++) {
-            String name = (String) json.get(i);
-            commonPoints.add(Integer.parseInt(name));
+            String name = (String) array.get(i);
+            int points = Integer.parseInt(name);
+            commonPoints.add(points);
+
         }
         return commonPoints;
     }
