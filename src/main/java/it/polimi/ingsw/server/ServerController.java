@@ -15,6 +15,7 @@ public class ServerController {
     /**
      * The names of the players that have lost the connection
      */
+    public static final String BACKUP_FILE = "src/main/java/it/polimi/ingsw/commons/backUp.json";
     public final List<String> disconnectedPlayers;
     public final HashMap<String, Integer> pongLost;
     public final List<String> pongReceived;
@@ -89,7 +90,7 @@ public class ServerController {
      * @return true if the game has been saved, false otherwise
      */
     public boolean isGameSaved() {
-        File jsonGame = new File("src/main/java/it/polimi/ingsw/commons/backUp.json");
+        File jsonGame = new File(BACKUP_FILE);
         return jsonGame.exists();
     }
 
@@ -99,7 +100,7 @@ public class ServerController {
      * @throws IOException if the file does not exist
      */
     public void loadLastGame() throws IOException {
-        File jsonGame = new File("src/main/java/it/polimi/ingsw/commons/backUp.json");
+        File jsonGame = new File(BACKUP_FILE);
         Message lastGame = new Message(jsonGame);
         players.addAll(lastGame.getPlayers());
         System.out.println("Loading last game...");
@@ -412,7 +413,7 @@ public class ServerController {
      * @return the hashMap of winners (String nickname, Integer score)
      */
     public void setWinner() {
-        //List<Player> winners = new ArrayList<>();
+        // List<Player> winners = new ArrayList<>();
         List<Integer> finalScoring = new ArrayList<>();
 
         for (Player player : players) {
@@ -430,7 +431,6 @@ public class ServerController {
             }
         }
     }
-
 
     public HashMap<String, Integer> getLosers() {
         return losers;
@@ -505,6 +505,31 @@ public class ServerController {
     }
 
 
+    /*
+    public List<String> getWinners() {
+        //return setWinner();
+    }
+
+    /**
+     * @return the list of the winners' scores
+     */
+    /*
+    public List<Integer> getWinnersScore() {
+        List<Integer> winnersScore = new ArrayList<>();
+        for (String nickname : winners) {
+            for (Player player : players) {
+                if (player.getNickname().equals(nickname)) {
+                    winnersScore.add(player.calculateScore());
+                    System.out.println("prova");
+                    players.remove(player);
+                }
+            }
+        }
+        return winnersScore;
+    }
+
+     */
+
     /**
      * @return true if the player is the first player, false otherwise
      */
@@ -538,4 +563,11 @@ public class ServerController {
         return firstPlayer;
     }
 
+    public void resetSavedGame() {
+        File file = new File(BACKUP_FILE);
+        boolean deleted = file.delete();
+        if (!deleted) {
+            System.err.println("Error in deleting the saved game.");
+        }
+    }
 }

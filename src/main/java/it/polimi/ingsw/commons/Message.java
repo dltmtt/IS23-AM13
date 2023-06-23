@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import static it.polimi.ingsw.server.ServerController.BACKUP_FILE;
+
 @SuppressWarnings("unchecked")
 public class Message implements Serializable {
 
@@ -80,7 +82,6 @@ public class Message implements Serializable {
      */
     public Message(List<Player> players, List<CommonGoal> commonGoalList, Board board, List<Integer> topScoringList, String currentPlayer) {
         json = new JSONObject();
-        String path = "src/main/java/it/polimi/ingsw/commons/backUp.json";
         SettingLoader.loadBookshelfSettings();
         JSONArray playersArray = new JSONArray();
         for (Player player : players) {
@@ -118,7 +119,7 @@ public class Message implements Serializable {
         }
         json.put("topScoringList", scoringList);
 
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(BACKUP_FILE))) {
             out.write(json.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -511,7 +512,6 @@ public class Message implements Serializable {
     public String getArgument() {
         return (String) json.get("argument");
     }
-
 
     public List<Integer> getSort() {
         List<Integer> sort = new ArrayList<>();
