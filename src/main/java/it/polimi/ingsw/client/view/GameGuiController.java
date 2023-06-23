@@ -48,18 +48,17 @@ public class GameGuiController {
     public static GuiView view;
     public static Board boardModel;
     public static Bookshelf bookshelfModel = new Bookshelf();
-    private final List<ImageView> itemImageViews = new ArrayList<>();
     private final List<Integer> indexList = new ArrayList<>();
     private final List<Integer> newOrder = new ArrayList<>();
-    // hashmap used to associate each unique username to a number, in order to display the correct bookshelf
+
+    /**
+     * Hash map used to associate each unique username to a number, in order to display the correct bookshelf
+     */
     public HashMap<String, Integer> playersBookshelf = new HashMap<>();
     @FXML
     public GridPane bookshelfGrid;
     @FXML
     public GridPane grid;
-    // numChangeOrder is used to count the number of times the player changes the order of the items in the bookshelf
-    private int numChangeOrder = 0;
-    private List<Coordinates> newList = new ArrayList<>();
     @FXML
     private Button top, down, confirmSelection, delete, help;
     @FXML
@@ -490,6 +489,7 @@ public class GameGuiController {
         firstPlayer2.setVisible(false);
         firstPlayer3.setVisible(false);
         firstPlayer0.setVisible(false);
+        playersBookshelf = new HashMap<>();
         // Personal Goal image loading
         int personalGoalIndex = message.getPersonalGoal();
         String imagePath = "graphics/personal_goal_cards/pg_" + personalGoalIndex + ".png";
@@ -879,9 +879,6 @@ public class GameGuiController {
      * @param items the items to be put in the rearrange Area
      */
     public void rearrange(List<Item> items) {
-        numChangeOrder = 0;
-        newList.clear();
-        newList = new ArrayList<>(pickedItems);
         int i = 0;
         grid.getChildren().clear();
         for (int j = 0; j < items.size(); j++) {
