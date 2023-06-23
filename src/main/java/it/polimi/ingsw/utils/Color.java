@@ -31,15 +31,6 @@ public enum Color {
         Color[] colors = Color.values();
         return colors[random.nextInt(colors.length)];
     }
-
-    /**
-     *
-     * @return the hex color code of a random color
-     */
-    public static String getRandomHexColor() {
-        return getRandomColor().getHexColorCode();
-    }
-
     /**
      *
      * @param color the color to convert
@@ -58,47 +49,11 @@ public enum Color {
 
         return ESC_STR + "[" + ansiCode + "m";
     }
-
-    /**
-     *
-     * @return the hex color code of the color
-     */
-    public String getHexColorCode() {
-        return hexCode;
-    }
-
     /**
      *
      * @return the ANSI color code of the color
      */
     public String getAnsiColorCode() {
         return ansiColorCode;
-    }
-
-    // TODO not working at the moment, come back later :)
-
-    /**
-     * This method converts a hex color code to an ANSI color code
-     * @param hexCode the hex color code to convert
-     * @param isBackground if true, the color is used as background, otherwise as foreground
-     * @return the ANSI color code
-     * @throws IllegalArgumentException if the hex code is null, not 7 characters long or doesn't start with #
-     */
-    public String fromHEXtoANSI(String hexCode, boolean isBackground) throws IllegalArgumentException {
-        if (hexCode == null) {
-            throw new IllegalArgumentException("Hex code cannot be null");
-        }
-        if (hexCode.length() != 7) {
-            throw new IllegalArgumentException("Hex code must be 7 characters long");
-        }
-        if (hexCode.charAt(0) != '#') {
-            throw new IllegalArgumentException("Hex code must start with #");
-        }
-
-        var r = parseInt(hexCode.substring(1, 3), 16);
-        var g = parseInt(hexCode.substring(3, 5), 16);
-        var b = parseInt(hexCode.substring(5, 7), 16);
-
-        return ESC_STR + "[" + (isBackground ? "48" : "38") + ";2;" + r + ";" + g + ";" + b + "m";
     }
 }

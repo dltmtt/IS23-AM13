@@ -232,33 +232,7 @@ public final class BookshelfUtilities {
             }
             itemList.add(new Item(diagonalcolor, 0));
             b.insert(startingColumn - i, itemList);
-            //            try {
-            //                b.insert(startingColumn - i, itemList);
-            //            } catch (IllegalArgumentException e) {
-            //                bookshelfPrint(b);
-            //            }
         }
-    }
-
-    public static void createFakeDiagonal(Bookshelf b) {
-        List<Item> itemList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            itemList.add(new Item(Color.getRandomColor(), 0));
-        }
-        b.insert(4, itemList);
-        itemList.remove(0);
-        b.insert(3, itemList);
-        itemList.remove(0);
-        b.insert(2, itemList);
-        itemList.remove(0);
-        b.insert(1, itemList);
-        // Dimension 4 diagonal
-        for (int j = 0; j < Bookshelf.getColumns() - 1; j++) {
-            b.insert(j, itemList);
-        }
-        List<Item> items = new ArrayList<>();
-        items.add(new Item(Color.getRandomColor(), 2));
-        b.insert(4, items);
     }
 
     public static void createFakeDiagonal(Bookshelf b, int type) {

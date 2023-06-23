@@ -56,41 +56,6 @@ public class SettingLoader {
         return new PersonalGoal(loadedCoordinates, loadedColors, randomPersonalGoalIndex);
     }
 
-    public static List<PersonalGoal> personalGoalLoader() throws IOException, ParseException {
-        List<PersonalGoal> loadedPersonalGoals = new ArrayList<>();
-        // Parsing JSON file for personal goals configurations
-        JSONParser parser = new JSONParser();
-        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader(BASE_PATH + "personal_goals.json"));
-        // accessing the array of personal goals configurations
-        JSONArray personalGoalConfigurations = (JSONArray) personalGoalJson.get("personal_goal_configurations");
-        for (Object o : personalGoalConfigurations) {
-            JSONObject personalGoalCard = (JSONObject) o;
-            JSONArray configuration = (JSONArray) personalGoalCard.get("configuration");
-
-            List<Coordinates> loadedCoordinates = new ArrayList<>();
-            List<Color> loadedColors = new ArrayList<>();
-            for (Object o1 : configuration) {
-                JSONObject cell = (JSONObject) o1;
-                loadedCoordinates.add(new Coordinates(parseInt(cell.get("x").toString()), parseInt(cell.get("y").toString())));
-                loadedColors.add(Color.valueOf(cell.get("color").toString()));
-            }
-            loadedPersonalGoals.add(new PersonalGoal(loadedCoordinates, loadedColors, 0));
-        }
-
-        // Giving a big ol' shuffle to the personal goal deck
-        for (int j = 0; j < loadedPersonalGoals.size(); j++) {
-            Random rand = new Random();
-
-            for (int i = 0; i < loadedPersonalGoals.size(); i++) {
-                int randomIndexToSwap = rand.nextInt(loadedPersonalGoals.size());
-                PersonalGoal temp = loadedPersonalGoals.get(randomIndexToSwap);
-                loadedPersonalGoals.set(randomIndexToSwap, loadedPersonalGoals.get(i));
-                loadedPersonalGoals.set(i, temp);
-            }
-        }
-        return loadedPersonalGoals;
-    }
-
     public static @NotNull List<CommonGoal> commonGoalLoader(int numOfPlayers) {
         List<CommonGoal> loadedCommonGoals = new ArrayList<>();
         // Parsing JSON file for common goals configurations
