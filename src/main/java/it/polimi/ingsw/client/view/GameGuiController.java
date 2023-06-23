@@ -20,6 +20,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
@@ -127,6 +128,12 @@ public class GameGuiController {
 
     @FXML
     private Label boardHelp, bookshelfHelp, opponentHelp, cgHelp, pgHelp, rearrangeHelp;
+
+    @FXML
+    private HBox firstPlayer0;
+
+    @FXML
+    private ImageView firstPlayer1, firstPlayer2, firstPlayer3;
 
     /**
      * Creates a new GameGuiController, setting the static references to the client and the view.
@@ -588,7 +595,22 @@ public class GameGuiController {
                 updateBookshelf(bookshelfGrid, message.getAllBookshelves().get(client.getUsername()), true, MAIN_ITEM_SIZE);
             }
         }
+
+        assignFirstPlayer(message.getFirstPlayer());
+
         System.out.println("game loaded");
+    }
+
+    private void assignFirstPlayer(String firstPlayer) {
+        if (firstPlayer.equals(client.getUsername())) {
+            firstPlayer0.setVisible(true);
+        } else {
+            switch (playersBookshelf.get(firstPlayer)) {
+                case 1 -> firstPlayer1.setVisible(true);
+                case 2 -> firstPlayer2.setVisible(true);
+                case 3 -> firstPlayer3.setVisible(true);
+            }
+        }
     }
 
     /**
@@ -759,6 +781,7 @@ public class GameGuiController {
 
     /**
      * This method makes it possible to highlight the item in the grid before changing their order
+     *
      * @param row the row of the item
      * @param col the column of the item
      */
@@ -768,7 +791,8 @@ public class GameGuiController {
 
     /**
      * This method changes the order of the first two items in the grid
-     * @param grid the grid where the items are
+     *
+     * @param grid  the grid where the items are
      * @param items the list of items
      */
     public void changeOrderUp(GridPane grid, List<Item> items) {
@@ -796,7 +820,8 @@ public class GameGuiController {
 
     /**
      * This method changes the order of the last two items in the grid
-     * @param grid the grid of the items
+     *
+     * @param grid  the grid of the items
      * @param items the list of the items
      */
     public void changeOrderDown(GridPane grid, List<Item> items) {
@@ -902,6 +927,7 @@ public class GameGuiController {
 
     /**
      * This method putts the selected items in the rearrange Area
+     *
      * @param items the items to be put in the rearrange Area
      */
     public void rearrange(List<Item> items) {
