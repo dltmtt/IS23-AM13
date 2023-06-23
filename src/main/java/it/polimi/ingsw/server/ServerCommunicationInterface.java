@@ -156,8 +156,8 @@ public interface ServerCommunicationInterface extends Remote {
         controller.disconnect(username);
         if (controller.disconnectedPlayers.size() == controller.numberOfPlayers - 1) {
             // If there is only one player left, sendAll actually sends the message to the only player left,
-            // telling him that he's alone. He will wait for the other players to reconnect, and if none of them
-            // reconnects, he will win.
+            // telling him that they are alone. They will wait for the other players to reconnect, and if none of them
+            // reconnects, they will win.
             sendAll(new Message("youAloneBitch"));
         } else {
             if (controller.getCurrentPlayer().equals(username)) {

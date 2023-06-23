@@ -112,7 +112,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public abstract void connect() throws IOException, NotBoundException;
 
     /**
-     * Shows a message or a graphic to let the player know he has to wait
+     * Shows a message or a graphic to let the player know they has to wait
      * for other players to join in order to start the game.
      */
     public void waitingRoom() {
@@ -275,7 +275,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Asks the player to insert the tiles he picked and sends the
+     * Asks the player to insert the tiles they picked and sends the
      * message to the server.
      */
     public void insert() {
@@ -286,7 +286,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Asks the player to rearrange the tiles he picked and sends the
+     * Asks the player to rearrange the tiles they picked and sends the
      * message to the server.
      *
      * @param message the message containing the tiles to rearrange
