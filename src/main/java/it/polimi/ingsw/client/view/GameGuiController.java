@@ -61,79 +61,17 @@ public class GameGuiController {
     private int numChangeOrder = 0;
     private List<Coordinates> newList = new ArrayList<>();
     @FXML
-    private Button top;
+    private Button top, down, confirmSelection, delete, help;
     @FXML
-    private Button down;
+    private ImageView board, bookshelf, pg, cg1, cg2, topOfScoring1, topOfScoring2, endGameImage, firstPlayer1, firstPlayer2, firstPlayer3;
     @FXML
-    private ImageView board;
+    private GridPane boardGridPane, bookshelfGrid1, bookshelfGrid2, bookshelfGrid3;
     @FXML
-    private GridPane boardGridPane;
-    @FXML
-    private ImageView bookshelf;
-    @FXML
-    private ImageView cg1;
-    @FXML
-    private ImageView cg2;
-    @FXML
-    private Button confirmSelection;
-    @FXML
-    private Button delete;
-    @FXML
-    private Button help;
-    @FXML
-    private ImageView pg;
-    @FXML
-    private Label messageLabel;
-    @FXML
-    private Label player1;
-    @FXML
-    private Label player2;
-    @FXML
-    private Label player3;
-    @FXML
-    private Label promptInsert;
-    @FXML
-    private Label promptRearrange;
-
-    @FXML
-    private ImageView topOfScoring1;
-
-    @FXML
-    private ImageView topOfScoring2;
-
-    @FXML
-    private Label adjacentGroupsLabel;
-
-    @FXML
-    private Label commonGoalLabel;
-
-    @FXML
-    private Label personalGoalLabel;
-
-    @FXML
-    private Label totalPointsLabel;
-
-    @FXML
-    private ImageView endGameImage;
-
-    @FXML
-    private GridPane bookshelfGrid1;
-    @FXML
-    private GridPane bookshelfGrid2;
-    @FXML
-    private GridPane bookshelfGrid3;
-
+    private Label messageLabel, player1, player2, player3, promptInsert, promptRearrange, adjacentGroupsLabel, commonGoalLabel, personalGoalLabel, totalPointsLabel, boardHelp, bookshelfHelp, opponentHelp, cgHelp, pgHelp, rearrangeHelp;
     @FXML
     private StackPane player2StackPane, player3StackPane;
-
-    @FXML
-    private Label boardHelp, bookshelfHelp, opponentHelp, cgHelp, pgHelp, rearrangeHelp;
-
     @FXML
     private HBox firstPlayer0;
-
-    @FXML
-    private ImageView firstPlayer1, firstPlayer2, firstPlayer3;
 
     /**
      * Creates a new GameGuiController, setting the static references to the client and the view.
