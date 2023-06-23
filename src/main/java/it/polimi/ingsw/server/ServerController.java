@@ -569,5 +569,20 @@ public class ServerController {
         if (!deleted) {
             System.err.println("Error in deleting the saved game.");
         }
+
+        disconnectedPlayers.clear();
+        pongLost.clear();
+        pongReceived.clear();
+        winners.clear();
+        losers.clear();
+        players.clear();
+        rmiClients.clear();
+        tcpClients.clear();
+        finalPoints.clear();
+        numberOfPlayers = 0;
+        gameIsStarted = false;
+        currentPicked.clear();
+        gameModel = null;
+        room = null;
     }
 }
