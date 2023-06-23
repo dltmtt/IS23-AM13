@@ -35,13 +35,6 @@ public class Room {
     }
 
     /**
-     * @return the number of players
-     */
-    public int getNumberOfPlayers() {
-        return players.size();
-    }
-
-    /**
      * This method sets the minimum and maximum number of players.
      *
      * @param maxPlayers the maximum number of players
@@ -74,31 +67,12 @@ public class Room {
     }
 
     /**
-     * @return the ID of the room
-     */
-    public int getRoomId() {
-        return roomId;
-    }
-
-    /**
      * This method adds a player to the room.
      *
      * @param newPlayer the player to be added
      */
     public void addPlayer(Player newPlayer) {
-        // if (players.size() < maxPlayers) {
-        //     players.add(newPlayer);
-        // } else {
-        //     String errorMessage = "The selected room (" + roomId + ") is full, the following users are connected:  " + players;
-        // }
         players.add(newPlayer);
-    }
-
-    /**
-     * @return the list of players
-     */
-    public List<Player> getListOfPlayers() {
-        return players;
     }
 
     /**

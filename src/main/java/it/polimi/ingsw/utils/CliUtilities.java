@@ -21,8 +21,6 @@ public final class CliUtilities {
     public static final String lowerLeftBox = "╰";
     public static final String lowerRightBox = "╯";
     public static final String SUCCESS_COLOR = "\u001B[32m";
-    public static final String ERROR_COLOR = "\u001B[31m";
-    public static final String WARNING_COLOR = "\u001B[33m";
     public static final String GRAY = "\u001B[37m";
     public static final String RESET = "\u001B[0m";
     public final static String topLeftBookshelfBorder = "╓─────";
@@ -46,8 +44,7 @@ public final class CliUtilities {
      * <p>The list of possible answers is printed in brackets and the default answer, which
      * has to be among the possible answers, is printed in uppercase.
      * <p>If the user presses enter, the default answer is returned.
-     * <p>If the user enters an invalid answer, instructions are printed and the user is
-     * asked to enter an answer again.
+     * <p>If the user enters an invalid answer, instructions are printed and the user has to enter an answer again.
      * <p>
      * Example: the invocation
      * <pre>    askCloseEndedQuestion("Do you want to exit", List.of("yes", "no"), "NO")</pre>
