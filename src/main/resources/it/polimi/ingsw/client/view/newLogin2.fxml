@@ -8,8 +8,7 @@
 <?import javafx.scene.text.Font?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
       minWidth="-Infinity"
-      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19"
-      fx:controller="it.polimi.ingsw.client.view.LoginGuiController">
+      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19">
     <children>
         <StackPane prefHeight="403.0" prefWidth="600.0">
             <children>
