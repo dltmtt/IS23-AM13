@@ -193,7 +193,7 @@ public interface ServerCommunicationInterface extends Remote {
 
         try {
             client.callBackSendMessage(new Message("username", client.getUsername()));
-            Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer());
+            Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
             client.callBackSendMessage(game);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -259,12 +259,12 @@ public interface ServerCommunicationInterface extends Remote {
 
         for (String username : tcpClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer());
+            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getInitialPoints());
             tcpClients.get(username).sendMessageToClient(myGame);
         }
         for (String username : rmiClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer());
+            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getInitialPoints());
             rmiClients.get(username).callBackSendMessage(myGame);
         }
 

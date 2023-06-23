@@ -168,8 +168,9 @@ public class Message implements Serializable {
      * @param board            board of the game
      * @param topOfScoringList top of the scoring list of the common goals points
      * @param firstPlayer      username of the first player
+     * @param currentScores    Hashmap of the current scores of the players
      */
-    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> topOfScoringList, String firstPlayer) {
+    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> topOfScoringList, String firstPlayer, HashMap<String, List<Integer>> currentScores) {
         json = new JSONObject();
         String personalGoalString = Integer.toString(personalGoal);
         SettingLoader.loadBookshelfSettings();
@@ -198,6 +199,10 @@ public class Message implements Serializable {
             JSONObject bookshelfJson = new JSONObject();
             bookshelfJson.put("bookshelf", bookshelfJson(bookshelves.get(username)));
             bookshelfJson.put("username", username);
+            bookshelfJson.put("pgScore", currentScores.get(username).get(0));
+            bookshelfJson.put("cgScore", currentScores.get(username).get(1));
+            bookshelfJson.put("bookshelfScore", currentScores.get(username).get(2));
+            bookshelfJson.put("totalScore", currentScores.get(username).get(3));
             bookshelfArray.add(bookshelfJson);
         }
         json.put("bookshelves", bookshelfArray);
@@ -841,16 +846,27 @@ public class Message implements Serializable {
         return topScoring;
     }
 
-    public List<Integer> getCurrentPoints() {
-        List<Integer> currentPoints = new ArrayList<>();
-        JSONArray currentPointsJson = (JSONArray) json.get("currentPointsList");
-        for (Object obj : currentPointsJson) {
-            JSONObject currentPointsItem = (JSONObject) obj;
-            String scoreString = (String) currentPointsItem.get("score");
-            int score = Integer.parseInt(scoreString);
-            currentPoints.add(score);
+    /**
+     * Extracts the scores from the message
+     *
+     * @param username
+     * @return
+     */
+    public List<Integer> getStartingScores(String username) {
+        JSONArray bookshelfArray = (JSONArray) json.get("bookshelves");
+        for (Object player : bookshelfArray) {
+            JSONObject playerObject = (JSONObject) player;
+            if (playerObject.get("username").equals(username)) {
+                List<Integer> currentPointsList = new ArrayList<>();
+
+                currentPointsList.add(Integer.parseInt(playerObject.get("pgScore").toString()));
+                currentPointsList.add(Integer.parseInt(playerObject.get("cgScore").toString()));
+                currentPointsList.add(Integer.parseInt(playerObject.get("bookshelfScore").toString()));
+                currentPointsList.add(Integer.parseInt(playerObject.get("totalScore").toString()));
+                return currentPointsList;
+            }
         }
-        return currentPoints;
+        return null;
     }
 
     public JSONObject getJson() {

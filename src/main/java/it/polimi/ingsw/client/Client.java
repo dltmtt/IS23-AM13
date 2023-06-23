@@ -29,7 +29,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public String username;
     private boolean theOnlyOne = false; // Whether this client is the only one in the game
     private Boolean serverConnection = false; // Whether there is a connection to the server
-    private int myPosition; // The position of this player in the game
 
     public Client() throws RemoteException {
         super();
@@ -120,24 +119,12 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         gameView.waitingRoom();
     }
 
-    public int getMyPosition() {
-        return myPosition;
-    }
-
-    public void setMyPosition(int position) {
-        this.myPosition = position;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void startGame(Message message) {
-        gameView.startGame(message);
     }
 
 

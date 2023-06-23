@@ -75,14 +75,6 @@ public class GameModel {
         return topScoringPoints;
     }
 
-    public void setTopScoringPoints(List<Integer> topScoringPoints) {
-        this.topScoringPoints.clear();
-        this.topScoringPoints.addAll(topScoringPoints);
-    }
-
-    public int getTopOfScoring() {
-        return topScoringPoints.get(0);
-    }
 
     /**
      * @param player the player to get the points of
@@ -220,9 +212,6 @@ public class GameModel {
         }
     }
 
-    public void addPlayer(Player player) {
-        players.add(player);
-    }
 
     public List<CommonGoal> getCommonGoalDeck() {
         return commonGoalDeck;
@@ -242,9 +231,5 @@ public class GameModel {
 
     public boolean isLastRound() {
         return lastRound;
-    }
-
-    public void setLastRound(boolean lastRound) {
-        this.lastRound = lastRound;
     }
 }

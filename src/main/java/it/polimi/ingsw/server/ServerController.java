@@ -47,18 +47,6 @@ public class ServerController {
         finalPoints = new ArrayList<>();
     }
 
-    public List<Integer> getFinalPoints() {
-        return finalPoints;
-    }
-
-    /**
-     * Get the usernames of the players in the game.
-     *
-     * @return the list of the players' usernames
-     */
-    public List<String> getPlayersUsername() {
-        return players.stream().map(Player::getNickname).toList();
-    }
 
     public void pong(String username) {
         if (!pongReceived.contains(username)) {
@@ -293,9 +281,6 @@ public class ServerController {
         return gameModel.getCurrentPlayer().getNickname();
     }
 
-    public int getScore(int position) {
-        return gameModel.getPlayers().get(position).calculateScore();
-    }
 
     /**
      * @return a map of the bookshelves and the players who own them
@@ -413,7 +398,7 @@ public class ServerController {
     }
 
     /**
-     * @return the hashMap of winners (String nickname, Integer score)
+     * Sets the winner and the losers of the game.
      */
     public void setWinner() {
         // List<Player> winners = new ArrayList<>();
@@ -427,7 +412,7 @@ public class ServerController {
         Integer max = finalScoring.stream().max(Integer::compare).get();
 
         for (Player player : players) {
-            if (finalPoints.get(players.indexOf(player)) == max) {
+            if (Objects.equals(finalPoints.get(players.indexOf(player)), max)) {
                 winners.put(player.getNickname(), max);
             } else {
                 losers.put(player.getNickname(), finalPoints.get(players.indexOf(player)));
@@ -507,32 +492,6 @@ public class ServerController {
         return coordinates;
     }
 
-
-    /*
-    public List<String> getWinners() {
-        //return setWinner();
-    }
-
-    /**
-     * @return the list of the winners' scores
-     */
-    /*
-    public List<Integer> getWinnersScore() {
-        List<Integer> winnersScore = new ArrayList<>();
-        for (String nickname : winners) {
-            for (Player player : players) {
-                if (player.getNickname().equals(nickname)) {
-                    winnersScore.add(player.calculateScore());
-                    System.out.println("prova");
-                    players.remove(player);
-                }
-            }
-        }
-        return winnersScore;
-    }
-
-     */
-
     /**
      * @return true if the player is the first player, false otherwise
      */
@@ -587,5 +546,55 @@ public class ServerController {
         currentPicked.clear();
         gameModel = null;
         room = null;
+    }
+
+
+    /**
+     * Method used to get the initial points of the players, 0 for each field
+     * <ul>
+     *   <li>first element(index 0):the points of the personal goal</li>
+     *   <li>second element(index 1):the points of the common goal/s</li>
+     *   <li>third element(index 2):the points of the bookshelf</li>
+     *   <li>fourth element(index 3):the total of all points</li>
+     * </ul>
+     *
+     * @return a map with the initial points of the players
+     * @see GameModel:getAllPoints()
+     */
+    public HashMap<String, List<Integer>> getInitialPoints() {
+        HashMap<String, List<Integer>> initialPoints = new HashMap<>();
+        /*
+         * @param player the player to get the points of
+         * @return a list of all the points that the player has earned
+         *
+         */
+
+        //procedure to load the zero points in the start game message, as it's a new game
+        List<Integer> zeroPoints = List.of(new Integer[]{0, 0, 0, 0});
+
+        for (Player username : players) {
+            initialPoints.put(username.getNickname(), zeroPoints);
+        }
+        return initialPoints;
+    }
+
+    /**
+     * Method used to get the current points of the players, 0 for each field
+     * <ul>
+     *   <li>first element(index 0):the points of the personal goal</li>
+     *   <li>second element(index 1):the points of the common goal/s</li>
+     *   <li>third element(index 2):the points of the bookshelf</li>
+     *   <li>fourth element(index 3):the total of all points</li>
+     * </ul>
+     *
+     * @return a map with the initial points of the players
+     * @see GameModel:getAllPoints()
+     */
+    public HashMap<String, List<Integer>> getAllCurrentPoints() {
+        HashMap<String, List<Integer>> allCurrentPoints = new HashMap<>();
+        for (Player player : players) {
+            allCurrentPoints.put(player.getNickname(), gameModel.getAllPoints(player));
+        }
+        return allCurrentPoints;
     }
 }

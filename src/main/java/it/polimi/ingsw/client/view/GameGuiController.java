@@ -230,7 +230,6 @@ public class GameGuiController {
             // set node cursor as a hand
             node.setCursor(Cursor.HAND);
         }
-        // System.out.println("enabled all items");
     }
 
     /**
@@ -466,7 +465,7 @@ public class GameGuiController {
                         // initially every item is not enabled
                         itemImageView.setDisable(true);
                     } catch (NullPointerException e) {
-                        System.out.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + boardModel.getItem(i, j));
+                        System.err.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + boardModel.getItem(i, j));
                     }
                 }
             }
@@ -474,11 +473,9 @@ public class GameGuiController {
     }
 
     /**
-     * Method called when the complete game is sent from the server.
-     *
-     * @param message the message containing the complete game
+     * Method that resets the boardGridPane, the bookshelfGrid and the labels.
      */
-    public void showGame(Message message) {
+    public void reset() {
         boardGridPane.getChildren().clear();
         bookshelfGrid.getChildren().clear();
         adjacentGroupsLabel.setText("0");
@@ -490,6 +487,18 @@ public class GameGuiController {
         firstPlayer3.setVisible(false);
         firstPlayer0.setVisible(false);
         playersBookshelf = new HashMap<>();
+    }
+
+    /**
+     * Method called when the complete game is sent from the server.
+     * Loads the personal goal card, the common goal cards, the board and the bookshelf.
+     * Loads the current points (0 in case of a new game).
+     *
+     * @param message the message containing the complete game
+     */
+    public void showGame(Message message) {
+        reset();
+
         // Personal Goal image loading
         int personalGoalIndex = message.getPersonalGoal();
         String imagePath = "graphics/personal_goal_cards/pg_" + personalGoalIndex + ".png";
@@ -505,7 +514,7 @@ public class GameGuiController {
         try {
             cg1.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(0) + ".jpg")).toExternalForm()));
         } catch (NullPointerException e) {
-            System.out.println("Error on loading commonGoal: " + commonGoalFiles.get(0));
+            System.err.println("Error on loading commonGoal: " + commonGoalFiles.get(0));
         }
         try {
             if (message.getCardType().size() == 1) {
@@ -514,18 +523,12 @@ public class GameGuiController {
                 cg2.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/common_goal_cards/" + commonGoalFiles.get(1) + ".jpg")).toExternalForm()));
             }
         } catch (NullPointerException e) {
-            System.out.println("Error on loading commonGoal2:" + commonGoalFiles.get(1));
+            System.err.println("Error on loading commonGoal2:" + commonGoalFiles.get(1));
         }
-
-        System.out.println(message.getCardType());
-        System.out.println(message.getCardSize());
-        System.out.println(message.getCardOccurrences());
-        System.out.println(message.getCardHorizontal());
 
         boardModel = message.getBoard();
         updateBoard();
-
-        updateScoring(message.getTopOfScoringList());
+        setStartingScores(message.getStartingScores(client.username));
 
         setPlayersName(message);
 
@@ -549,6 +552,23 @@ public class GameGuiController {
         System.out.println("game loaded");
     }
 
+    /**
+     * Method that sets the starting scores on the screen.
+     *
+     * @param startingScores the list of the starting scores
+     */
+    private void setStartingScores(List<Integer> startingScores) {
+        personalGoalLabel.setText(startingScores.get(0).toString());
+        commonGoalLabel.setText(startingScores.get(1).toString());
+        adjacentGroupsLabel.setText(startingScores.get(2).toString());
+        totalPointsLabel.setText(startingScores.get(3).toString());
+    }
+
+    /**
+     * Method that sets the first player on the screen.
+     *
+     * @param firstPlayer the username of first player
+     */
     private void assignFirstPlayer(String firstPlayer) {
         if (firstPlayer.equals(client.getUsername())) {
             firstPlayer0.setVisible(true);
@@ -574,20 +594,15 @@ public class GameGuiController {
             switch (i) {
                 case 0 -> {
                     player1.setText(playersName.get(i));
-                    // updateBookshelf(bookshelfGrid1, allBookshelves.get(playersName.get(i)), false, SMALL_ITEM_SIZE);
-
                 }
                 case 1 -> {
                     player2.setText(playersName.get(i));
-                    // updateBookshelf(bookshelfGrid2, allBookshelves.get(playersName.get(i)), false, SMALL_ITEM_SIZE);
-
                 }
                 case 2 -> {
                     player3.setText(playersName.get(i));
-                    // updateBookshelf(bookshelfGrid3, allBookshelves.get(playersName.get(i)), false, SMALL_ITEM_SIZE);
                 }
                 default -> {
-                    System.out.println("Error on loading players name, too many players, what the fuck?");
+                    System.err.println("Error on loading players name, too many players, what the fuck?");
                 }
             }
             playersBookshelf.put(playersName.get(i), i + 1);
@@ -614,9 +629,7 @@ public class GameGuiController {
      *
      * @param topScoring List of the top scoring
      */
-    private void updateScoring(List<Integer> topScoring) {
-        System.out.println("topScoring: " + topScoring);
-
+    private void updateCommonGoalScoring(List<Integer> topScoring) {
         try {
             if (topScoring.get(0) == null || topScoring.get(0) == 0) {
                 topOfScoring1.setImage(new Image(Objects.requireNonNull(getClass().getResource("graphics/scoring_tokens/scoring.jpg")).toExternalForm()));
@@ -625,7 +638,7 @@ public class GameGuiController {
             }
             topOfScoring1.setVisible(true);
         } catch (NullPointerException e) {
-            System.out.println("Error on loading scoring token: " + topScoring.get(0));
+            System.err.println("Error on loading scoring token: " + topScoring.get(0));
         }
         if (topScoring.size() == 2) {
             try {
@@ -636,11 +649,14 @@ public class GameGuiController {
                 }
                 topOfScoring2.setVisible(true);
             } catch (NullPointerException e) {
-                System.out.println("Error on loading scoring token: " + topScoring.get(1));
+                System.err.println("Error on loading scoring token: " + topScoring.get(1));
             }
         }
     }
 
+    /**
+     * Toggles the help hints.
+     */
     public void toggleHelp() {
         boardHelp.setVisible(!boardHelp.isVisible());
         bookshelfHelp.setVisible(!bookshelfHelp.isVisible());
@@ -668,7 +684,7 @@ public class GameGuiController {
             item.setCursor(Cursor.HAND); // Set the cursor to hand
             return item;
         } catch (NullPointerException e) {
-            System.out.println("Error on loading item image: " + itemFileName);
+            System.err.println("Error on loading item image: " + itemFileName);
             return null;
         }
     }
@@ -811,7 +827,7 @@ public class GameGuiController {
                     // itemImageView.setOpacity(0.0);
                     bookshelfGrid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                 } catch (NullPointerException e) {
-                    System.out.println("Error on loading item image: null.png");
+                    System.err.println("Error on loading item image: null.png");
                 }
             }
         }
@@ -848,7 +864,7 @@ public class GameGuiController {
                         grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                         itemImageView.setVisible(true);
                     } catch (NullPointerException e) {
-                        System.out.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + bookshelf.getItemAt(i, j));
+                        System.err.println("Error on loading item image: " + fileName + " at (" + i + "," + j + "), the item is: " + bookshelf.getItemAt(i, j));
                     }
                 } else {
                     if (isMainPlayer) {
@@ -865,7 +881,7 @@ public class GameGuiController {
                             // itemImageView.setOpacity(0.0);
                             grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                         } catch (NullPointerException e) {
-                            System.out.println("Error on loading item image: null.png");
+                            System.err.println("Error on loading item image: null.png");
                         }
                     }
                 }
@@ -893,8 +909,6 @@ public class GameGuiController {
                     grid.add(itemView, 0, finalI);
 
                     GridPane.setHalignment(itemView, HPos.CENTER);
-
-                    System.out.println("itemView is not null");
                     itemView.setDisable(false);
                     indexList.add(items.indexOf(items.get(j)));
 
@@ -917,7 +931,6 @@ public class GameGuiController {
             }
             i++;
         }
-        System.out.println(grid.getChildren().size());
         top.setDisable(false);
         down.setDisable(false);
         if (grid.getChildren().size() == 1) {
@@ -941,8 +954,8 @@ public class GameGuiController {
      * @param score            the list of personal score
      */
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
-        updateScoring(topOfScoringList);
-        updatePoints(score);
+        updateCommonGoalScoring(topOfScoringList);
+        updatePlayerPoints(score);
     }
 
     /**
@@ -954,7 +967,7 @@ public class GameGuiController {
      *              2: adjacent groups
      *              3: total points
      */
-    private void updatePoints(List<Integer> score) {
+    private void updatePlayerPoints(List<Integer> score) {
         personalGoalLabel.setText(score.get(0).toString());
         commonGoalLabel.setText(score.get(1).toString());
         adjacentGroupsLabel.setText(score.get(2).toString());
