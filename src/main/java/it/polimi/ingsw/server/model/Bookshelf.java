@@ -120,18 +120,8 @@ public class Bookshelf implements AbleToGetPoints {
         }
         return freeCells;
     }
-    public int getFreeCellsInRow(int row){
-        int freeCells = 0;
-        for(int j=0; j<columns; j++){
-            if(this.items[row][j].isEmpty()){
-                freeCells++;
-            }
-        }
-        return freeCells;
-    }
-
     public int numCellsToHighlight() {
-        int cellsToHighLight = 0;
+        int cellsToHighLight;
         int max = 0;
         for (int j = 0; j < columns; j++) {
             if (getFreeCellsInColumn(j) >= 3) {

@@ -2,11 +2,8 @@ package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.Color;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-
-// Not finished yet, just a draft
 
 /**
  * The common goal layout with a square of cells of the same type.
@@ -121,34 +118,6 @@ public class Square extends Layout {
             return 0;
         }
     }
-
-    /**
-     * @return the number of occurrences of the layout
-     */
-    public int getCurrent(@NotNull Bookshelf b) { // TODO: finish this method (or remove it if not needed)
-        int counter = 0;
-        int validCells = 0;
-
-        // Validity matrix
-        boolean[][] valid = new boolean[Bookshelf.getColumns()][Bookshelf.getRows()];
-
-        // Reset validity
-        for (int i = 0; i < Bookshelf.getRows(); i++) {
-            Arrays.fill(valid[i], true);
-        }
-
-        for (int col = 0; col < Bookshelf.getColumns() - getWidth(); col++) {
-            for (int row = 0; row < Bookshelf.getRows() - getHeight(); row++) {
-                if (Bookshelf.getRows() - b.getFreeCellsInColumn(col) - row >= getHeight())
-                    for (int width = col; width < col + getWidth(); width++) {
-                        for (int height = row; height < row + getHeight(); height++) {
-                        }
-                    }
-            }
-        }
-        return 1;
-    }
-
     /**
      * @return the info of the layout
      */
