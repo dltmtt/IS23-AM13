@@ -126,39 +126,11 @@ public class Message implements Serializable {
     }
 
     /**
-     * Construct for endGame message.
+     * Constructor for the end game message.
      *
-     * @param winners       list of winners
-     *                      (if there is only one winner, the list contains only one element)
-     * @param otherPlayers  list of other players
-     *                      (if there is only one other player, the list contains only one element)
-     * @param WinnersScores list of all scores
-     *                      (if there is only one score, the list contains only one element)
-     * @param otherScores   list of other scores
-     *                      (if there is only one score, the list contains only one element)
+     * @param winners HashMap containing the winners and their scores
+     * @param losers  HashMap containing the losers and their scores
      */
-
-    public Message(List<String> winners, List<Integer> WinnersScores, List<String> otherPlayers, List<Integer> otherScores) {
-        json = new JSONObject();
-        json.put("category", "winners");
-        int size = winners.size();
-        String sizeString = Integer.toString(size);
-        json.put("size", sizeString);
-        for (int i = 0; i < size; i++) {
-            json.put("name" + i, winners.get(i));
-            String scoreString = Integer.toString(WinnersScores.get(i));
-            json.put("score" + i, scoreString);
-        }
-        int size2 = otherPlayers.size();
-        String sizeString2 = Integer.toString(size2);
-        json.put("size2", sizeString2);
-        for (int i = 0; i < size2; i++) {
-            json.put("name2" + i, otherPlayers.get(i));
-            String scoreString2 = Integer.toString(otherScores.get(i));
-            json.put("score2" + i, scoreString2);
-        }
-    }
-
     public Message(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
         json = new JSONObject();
         json.put("category", "winners");
@@ -184,27 +156,6 @@ public class Message implements Serializable {
 
         json.put("winners", winnersJson);
         json.put("losers", losersJson);
-
-        /*
-        int size = winners.size();
-        String sizeString = Integer.toString(size);
-        json.put("size", sizeString);
-        for (int i = 0; i < size; i++) {
-            json.put("name" + i, winners.get(i));
-            String scoreString = Integer.toString(WinnersScores.get(i));
-            json.put("score" + i, scoreString);
-        }
-        int size2 = otherPlayers.size();
-        String sizeString2 = Integer.toString(size2);
-        json.put("size2", sizeString2);
-        for (int i = 0; i < size2; i++) {
-            json.put("name2" + i, otherPlayers.get(i));
-            String scoreString2 = Integer.toString(otherScores.get(i));
-            json.put("score2" + i, scoreString2);
-        }
-
-         */
-
     }
 
     /**
@@ -446,57 +397,6 @@ public class Message implements Serializable {
         json.put("position", posixString);
     }
 
-    // da sostituire con l'altro
-
-    /**
-     * Constructor for the game message type (Goals, Bookshelf, and Board)
-     *
-     * @param personalGoal   personal goal of the player
-     * @param commonGoalList list of common goals
-     * @param bookshelves    bookshelf of the players
-     * @param board          board of the game
-     * @param topScoring     top of the scoring list for common goals points
-     */
-    // public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<Bookshelf, String> bookshelves, Board board, int topScoring) {
-    //     json = new JSONObject();
-    //     String personalGoalString = Integer.toString(personalGoal);
-    //     SettingLoader.loadBookshelfSettings();
-    //     json.put("category", "startGame");
-    //     json.put("personal_goal", personalGoalString);
-    //     for (int i = 0; i < commonGoalList.size(); i++) {
-    //         Layout layout = commonGoalList.get(i).getLayout();
-    //         json.put("commonGoalLayout " + i, layout.getName());
-    //
-    //         if ("fullLine".equals(commonGoalList.get(i).getLayout().getName())) {
-    //             json.put("occurrences " + i, layout.getOccurrences());
-    //             json.put("horizontal " + i, layout.isHorizontal());
-    //             json.put("size " + i, 0);
-    //         } else if ("group".equals(layout.getName())) {
-    //             json.put("occurrences " + i, layout.getOccurrences());
-    //             json.put("horizontal " + i, false);
-    //             json.put("size " + i, layout.getSize());
-    //         } else {
-    //             json.put("occurrences " + i, 0);
-    //             json.put("horizontal " + i, false);
-    //             json.put("size " + i, 0);
-    //         }
-    //     }
-    //     JSONArray bookshelfArray = new JSONArray();
-    //     for (Bookshelf bookshelf : bookshelves.keySet()) {
-    //         JSONObject bookshelfJson = new JSONObject();
-    //         bookshelfJson.put("bookshelf", bookshelfJson(bookshelf));
-    //         bookshelfJson.put("username", bookshelves.get(bookshelf));
-    //         bookshelfArray.add(bookshelfJson);
-    //     }
-    //     json.put("bookshelves", bookshelfArray);
-    //
-    //     json.put("board", boardJson(board));
-    //     String topScoringString = Integer.toString(topScoring);
-    //     json.put("topScoring", topScoringString);
-    // }
-
-    // la uso??
-
     /**
      * Constructor for the board message type.
      *
@@ -565,46 +465,6 @@ public class Message implements Serializable {
         return playersName;
     }
 
-    /*
-    public List<Integer> getOtherScores() {
-        List<Integer> scores = new ArrayList<>();
-        int i = 0;
-        while (json.get("score2" + i) != null) {
-            String scoreString = (String) json.get("score2" + i);
-            int score = Integer.parseInt(scoreString);
-            scores.add(score);
-            i++;
-        }
-        return scores;
-    }
-
-     */
-
-    /*
-    public List<String> getOtherPlayersName() {
-        List<String> playersName = new ArrayList<>();
-        int i = 0;
-        while (json.get("name2" + i) != null) {
-            String name = (String) json.get("name2" + i);
-            playersName.add(name);
-            i++;
-        }
-        return playersName;
-    }
-
-     */
-
-    public List<String> getPlayersForEndGame() {
-        List<String> playersName = new ArrayList<>();
-        int i = 0;
-        while (json.get("player" + i) != null) {
-            String name = (String) json.get("player" + i);
-            playersName.add(name);
-            i++;
-        }
-        return playersName;
-    }
-
     public List<Boolean> getCommonGoalCompleted(JSONObject player) {
         List<Boolean> commonGoalCompleted = new ArrayList<>();
         JSONArray array = (JSONArray) player.get("CommonGoalCompleted");
@@ -650,18 +510,6 @@ public class Message implements Serializable {
         return (String) json.get("argument");
     }
 
-    /*
-    public List<String> getWinners() {
-        List<String> winners = new ArrayList<>();
-        String sizeString = (String) json.get("size");
-        int size = Integer.parseInt(sizeString);
-        for (int i = 0; i < size; i++) {
-            String name = (String) json.get("name" + i);
-            winners.add(name);
-        }
-        return winners;
-    }
-     */
 
     public List<Integer> getSort() {
         List<Integer> sort = new ArrayList<>();
@@ -786,12 +634,6 @@ public class Message implements Serializable {
                 break;
             }
         }
-        // while (json.get("topScoring" + i) != null) {
-        //     String topScoring = (String) json.get("topScoring" + i);
-        //     topScoringList.add(Integer.parseInt(topScoring));
-        //     i++;
-        // }
-
         return topScoringList;
     }
 
@@ -1064,21 +906,6 @@ public class Message implements Serializable {
         }
         return layout;
     }
-
-    /*
-    public List<Integer> getWinnersScore() {
-        List<Integer> winnersScore = new ArrayList<>();
-        int i = 0;
-        while (json.get("score" + i) != null) {
-            String scoreString = (String) json.get("score" + i);
-            int score = Integer.parseInt(scoreString);
-            winnersScore.add(score);
-            i++;
-        }
-        return winnersScore;
-    }
-
-     */
 
     public List<Integer> getScore() {
         List<Integer> score = new ArrayList<>();

@@ -78,6 +78,10 @@ public class EndGameGuiController {
 
         HashMap<String, Integer> scores = new HashMap<>(winners);
         scores.putAll(losers);
+
+        //order scores by value
+        
+
         List<String> players = new ArrayList<>(scores.keySet());
 
 

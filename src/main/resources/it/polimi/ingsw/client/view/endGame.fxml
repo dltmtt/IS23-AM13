@@ -36,7 +36,7 @@
                                 <Font name="Ink Free" size="33.0"/>
                             </font>
                         </Label>
-                        <Label text="won the game!" textFill="#fff7be">
+                        <Label fx:id="winnerPhrase" text="won the game!" textFill="#fff7be">
                             <font>
                                 <Font name="Ink Free" size="33.0"/>
                             </font>

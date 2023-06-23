@@ -216,19 +216,6 @@ public class GameCliView implements GameView {
         showMessage(welcomeMessage + title);
     }
 
-    /*@Override
-    public void showEndGame(List<String> winners, List<Integer> scores, List<String> losers, List<Integer> loserScores) {
-        showMessage("The game is over!\n");
-        showMessage("The winners are:\n");
-        for (int i = 0; i < winners.size(); i++) {
-            showMessage(winners.get(i) + " with " + scores.get(i) + " points\n");
-        }
-        showMessage("The losers are:\n");
-        for (int i = 0; i < losers.size(); i++) {
-            showMessage(losers.get(i) + " with " + loserScores.get(i) + " points\n");
-        }
-    }
-    */
 
     @Override
     public void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
