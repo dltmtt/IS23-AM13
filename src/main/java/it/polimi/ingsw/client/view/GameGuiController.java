@@ -425,6 +425,8 @@ public class GameGuiController {
                 // set node cursor as a hand
                 node.setCursor(Cursor.HAND);
                 node.setOnMouseClicked(mouseEvent -> {
+                    top.setDisable(true);
+                    down.setDisable(true);
                     disableAllItems();
                     disableBookshelf();
                     confirmSelection.setDisable(true);
@@ -576,6 +578,8 @@ public class GameGuiController {
 
         disableAllItems();
         initializeBookshelfGrid();
+        top.setDisable(true);
+        down.setDisable(true);
 
         for (String players : message.getAllBookshelves().keySet()) {
             if (!players.equals(client.getUsername())) {
@@ -753,10 +757,20 @@ public class GameGuiController {
         enableItemsWithOneFreeSide();
     }
 
+    /**
+     * This method makes it possible to highlight the item in the grid before changing their order
+     * @param row the row of the item
+     * @param col the column of the item
+     */
     public void selectInGrid(int row, int col) {
         highlightItem(grid, row, col, Color.GREEN);
     }
 
+    /**
+     * This method changes the order of the first two items in the grid
+     * @param grid the grid where the items are
+     * @param items the list of items
+     */
     public void changeOrderUp(GridPane grid, List<Item> items) {
         newOrder.clear();
         Node n0 = getNodeByRowColumnIndex(grid, 2, 0);
@@ -780,6 +794,11 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * This method changes the order of the last two items in the grid
+     * @param grid the grid of the items
+     * @param items the list of the items
+     */
     public void changeOrderDown(GridPane grid, List<Item> items) {
 
         newOrder.clear();
@@ -826,7 +845,7 @@ public class GameGuiController {
     }
 
     /**
-     * enables the grid to be rearranged
+     * Enables the grid to be rearranged
      */
     public void enableRearrange() {
         grid.setDisable(false);
@@ -881,6 +900,10 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * This method putts the selected items in the rearrange Area
+     * @param items the items to be put in the rearrange Area
+     */
     public void rearrange(List<Item> items) {
         numChangeOrder = 0;
         newList.clear();
@@ -946,7 +969,6 @@ public class GameGuiController {
      * @param topOfScoringList the list of top of scoring
      * @param score            the list of personal score
      */
-
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         updateScoring(topOfScoringList);
         updatePoints(score);
