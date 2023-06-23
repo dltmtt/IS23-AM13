@@ -169,7 +169,7 @@ public class Message implements Serializable {
      * @param topOfScoringList top of the scoring list of the common goals points
      * @param firstPlayer      username of the first player
      */
-    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> topOfScoringList, String firstPlayer) {
+    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> topOfScoringList, String firstPlayer, List<Integer> score) {
         json = new JSONObject();
         String personalGoalString = Integer.toString(personalGoal);
         SettingLoader.loadBookshelfSettings();
@@ -208,6 +208,12 @@ public class Message implements Serializable {
             json.put("topScoring" + i, integerString);
         }
         json.put("firstPlayer", firstPlayer);
+
+        json.put("pgScore", Integer.toString(score.get(0)));
+        json.put("cgScore", Integer.toString(score.get(1)));
+        json.put("bookshelfScore", Integer.toString(score.get(2)));
+        json.put("totalScore", Integer.toString(score.get(3)));
+
     }
 
     /**
@@ -484,8 +490,10 @@ public class Message implements Serializable {
         List<Integer> commonPoints = new ArrayList<>();
         JSONArray array = (JSONArray) player.get("CommonPoints");
         for (int i = 0; i < array.size(); i++) {
-            String name = (String) json.get(i);
-            commonPoints.add(Integer.parseInt(name));
+            String name = (String) array.get(i);
+            int points = Integer.parseInt(name);
+            commonPoints.add(points);
+
         }
         return commonPoints;
     }
