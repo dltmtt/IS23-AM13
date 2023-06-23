@@ -63,8 +63,13 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         // Listen for messages coming from the server
         listenThread = new Thread(() -> {
             while (true) {
-                Message receivedMessage = receiveMessage();
-                callBackSendMessage(receivedMessage);
+                try {
+                    Message receivedMessage = receiveMessage();
+                    callBackSendMessage(receivedMessage);
+                } catch (Exception e) {
+                    // Don't do anything: if the server is down, the client will
+                    // notice itself and will exit.
+                }
             }
         });
         listenThread.start();
@@ -80,8 +85,8 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
                 dataOutputStream.writeBytes(stringMessage + "\n"); // Send the message to the server (with newline)
             }
         } catch (IOException e) {
-            System.err.println("Unable to send message to server. The server is probably down. Exiting...");
-            close();
+            // Don't do anything: if the server is down, the client will
+            // notice itself and will exit.
         }
     }
 
@@ -107,12 +112,12 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
                 System.out.println(serverMessageString);
                 return new Message(serverMessageString);
             } catch (NullPointerException e) {
-                System.err.println("Cannot read message from server. The server is probably down. Exiting...");
-                close();
+                // Don't do anything: if the server is down, the client will
+                // notice itself and will exit.
             }
         } catch (IOException e) {
-            System.err.println("Cannot read message from server. The server is probably down. Exiting...");
-            close();
+            // Don't do anything: if the server is down, the client will
+            // notice itself and will exit.
         }
         return null;
     }
@@ -120,20 +125,5 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     @Override
     public void connect() throws IOException {
         socket = new Socket(HOSTNAME, PORT_SOCKET);
-    }
-
-    /**
-     * Closes the socket and the streams.
-     */
-    public void close() {
-        try {
-            dataOutputStream.close();
-            serverBufferedReader.close();
-            socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        listenThread.interrupt();
-        System.exit(0);
     }
 }

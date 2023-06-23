@@ -119,17 +119,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void waitingRoom() {
         gameView.waitingRoom();
     }
-
-    /**
-     * Shows the board and asks the user to pick some tiles.
-     * If the pick is valid, asks the user to rearrange the tiles (if he wants to),
-     * then asks the user to choose a column to place the tiles in.
-     * At the end of the turn, the player returns to the waiting room. // TODO: does he?
-     */
-
-    // public void endGame() {
-    //     gameView.endGame();
-    // }
+    
     public int getMyPosition() {
         return myPosition;
     }
@@ -150,6 +140,12 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         gameView.startGame(message);
     }
 
+
+    /**
+     * Parser method, called when a message is received from the server.
+     *
+     * @param message the message to parse
+     */
     @Override
     public void callBackSendMessage(Message message) {
         String category = message.getCategory();
