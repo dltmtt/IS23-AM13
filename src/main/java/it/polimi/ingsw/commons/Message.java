@@ -162,12 +162,13 @@ public class Message implements Serializable {
      * Constructor for the startGame message.
      *
      * @param personalGoal     personal goal of the player
-     * @param commonGoalList   list of common goals (1 or 2)
+     * @param commonGoalList   list of common goals (of size 1 or 2)
      * @param bookshelves      hashmap of bookshelves (bookshelf, username of the player who owns it)
      * @param board            board of the game
      * @param topOfScoringList top of the scoring list of the common goals points
+     * @param firstPlayer      username of the first player
      */
-    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> topOfScoringList) {
+    public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> topOfScoringList, String firstPlayer) {
         json = new JSONObject();
         String personalGoalString = Integer.toString(personalGoal);
         SettingLoader.loadBookshelfSettings();
@@ -205,6 +206,7 @@ public class Message implements Serializable {
             String integerString = Integer.toString(topOfScoringList.get(i));
             json.put("topScoring" + i, integerString);
         }
+        json.put("firstPlayer", firstPlayer);
     }
 
     /**
@@ -945,5 +947,9 @@ public class Message implements Serializable {
             losers.put(nickname, score);
         }
         return losers;
+    }
+
+    public String getFirstPlayer() {
+        return (String) json.get("firstPlayer");
     }
 }

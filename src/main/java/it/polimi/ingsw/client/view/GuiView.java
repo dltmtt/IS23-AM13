@@ -64,7 +64,7 @@ public class GuiView extends Application implements GameView {
 
         // Scene loader
         FXMLLoader loginSceneLoader = new FXMLLoader(GuiView.class.getResource("newLogin2.fxml"));
-        loginController = new LoginGuiController(client, this);
+        loginController = new LoginGuiController();
         loginSceneLoader.setController(loginController);
         try {
             loginScene = new Scene(loginSceneLoader.load());

@@ -192,7 +192,7 @@ public interface ServerCommunicationInterface extends Remote {
         System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
 
         try {
-            Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring());
+            Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer());
             client.callBackSendMessage(game);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -258,12 +258,12 @@ public interface ServerCommunicationInterface extends Remote {
 
         for (String username : tcpClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring());
+            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer());
             tcpClients.get(username).sendMessageToClient(myGame);
         }
         for (String username : rmiClients.keySet()) {
             int position = controller.getPositionByUsername(username);
-            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring());
+            Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer());
             rmiClients.get(username).callBackSendMessage(myGame);
         }
 

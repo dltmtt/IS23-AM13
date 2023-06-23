@@ -429,32 +429,8 @@ public class ServerController {
                 losers.put(player.getNickname(), finalPoints.get(players.indexOf(player)));
             }
         }
-        //return winners;
     }
 
-        /*
-        // if the value max is contained more than one time in the list finalScoring
-        if (Collections.frequency(finalScoring, max) > 1) {
-            // There is a tie
-            for (Integer score : finalScoring) {
-                if (score.equals(max)) {
-                    if (!players.get(finalScoring.indexOf(score)).isFirstPlayer()) {
-                        winners.add(players.get(finalScoring.indexOf(score)));
-                        finalPoints.remove(finalScoring.indexOf(score));
-                    }
-                }
-            }
-        } else {
-            winners.add(players.get(finalScoring.indexOf(max)));
-            finalPoints.remove(finalScoring.indexOf(max));
-        }
-
-        List<String> officialWinners = winners.stream().map(Player::getNickname).collect(Collectors.toList());
-        this.winners.addAll(officialWinners);
-
-        //return officialWinners;
-
-         */
 
     public HashMap<String, Integer> getLosers() {
         return losers;
@@ -528,31 +504,6 @@ public class ServerController {
         return coordinates;
     }
 
-    /*
-    public List<String> getWinners() {
-        //return setWinner();
-    }
-
-    /**
-     * @return the list of the winners' scores
-     */
-    /*
-    public List<Integer> getWinnersScore() {
-        List<Integer> winnersScore = new ArrayList<>();
-        for (String nickname : winners) {
-            for (Player player : players) {
-                if (player.getNickname().equals(nickname)) {
-                    winnersScore.add(player.calculateScore());
-                    System.out.println("prova");
-                    players.remove(player);
-                }
-            }
-        }
-        return winnersScore;
-    }
-
-     */
-
 
     /**
      * @return true if the player is the first player, false otherwise
@@ -575,4 +526,16 @@ public class ServerController {
     public List<Integer> allPoints(int position) {
         return gameModel.getAllPoints(players.get(position));
     }
+
+    public String getFirstPlayer() {
+        List<Player> players = gameModel.getPlayers();
+        String firstPlayer = "";
+        for (Player player : players) {
+            if (player.isFirstPlayer()) {
+                firstPlayer = player.getNickname();
+            }
+        }
+        return firstPlayer;
+    }
+
 }

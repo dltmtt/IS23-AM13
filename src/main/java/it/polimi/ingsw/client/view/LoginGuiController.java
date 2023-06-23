@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.MyShelfie;
 import it.polimi.ingsw.commons.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -8,7 +9,6 @@ import javafx.scene.control.*;
 public class LoginGuiController {
 
     private final Client client;
-    private final GuiView view;
     @FXML
     private TextField username;
     @FXML
@@ -20,9 +20,8 @@ public class LoginGuiController {
     @FXML
     private Button startButton;
 
-    public LoginGuiController(Client client, GuiView view) {
-        this.client = client;
-        this.view = view;
+    public LoginGuiController() {
+        this.client = MyShelfie.client;
     }
 
     @FXML

@@ -807,8 +807,8 @@ public class GameGuiController {
         for (int i = 0; i < Bookshelf.getRows(); i++) {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 try {
-                    //ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
-                    ImageView itemImageView = new ImageView();
+                    ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
+                    //ImageView itemImageView = new ImageView();
                     itemImageView.setFitHeight(MAIN_ITEM_SIZE);
                     itemImageView.setFitWidth(MAIN_ITEM_SIZE);
                     itemImageView.setPreserveRatio(true);
@@ -861,8 +861,8 @@ public class GameGuiController {
                 } else {
                     if (isMainPlayer) {
                         try {
-                            //ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
-                            ImageView itemImageView = new ImageView();
+                            ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
+                            //ImageView itemImageView = new ImageView();
                             itemImageView.setFitHeight(itemSize);
                             itemImageView.setFitWidth(itemSize);
                             itemImageView.setPreserveRatio(true);
