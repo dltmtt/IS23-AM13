@@ -220,7 +220,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             }
             case "reconnected" -> {
                 theOnlyOne = false;
-                System.out.println("Reconnected");
                 String username = message.getArgument();
                 gameView.showMessage(username + " reconnected.\n");
             }
@@ -261,7 +260,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 try {
                     sendMessage(new Message("ping"));
                     synchronized (lock) {
-                        Thread.sleep(10000);
+                        Thread.sleep(20000);
 //                        System.out.println("ping" + serverConnection);
                         // System.out.println("after sleep");
                         if (!serverConnection) {

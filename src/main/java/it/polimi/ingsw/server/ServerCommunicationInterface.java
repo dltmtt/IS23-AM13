@@ -207,6 +207,7 @@ public interface ServerCommunicationInterface extends Remote {
         sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
         System.out.println("Sent reconnected message to all clients except " + client.getUsername());
         sendTurn(client);
+
     }
 
     /**
@@ -228,13 +229,13 @@ public interface ServerCommunicationInterface extends Remote {
      * Changes the turn, checks if the game has ended or if it's the
      * last round and saves the game.
      *
-     * @throws RemoteException if the connection fails
+     * @throws RemoteException if this connection fails
      */
     default void nextTurn() throws RemoteException {
+        controller.saveGame();
+
         controller.changeTurn();
-        if (controller.checkGameStatus() != 0) {
-            controller.saveGame();
-        }
+
         if (controller.checkGameStatus() == -1) {
             // the game has ended
             // List<String> winnersNickname = controller.getWinners();

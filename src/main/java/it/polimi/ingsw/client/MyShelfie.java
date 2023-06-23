@@ -51,7 +51,7 @@ public class MyShelfie {
             System.exit(0);
         }
 
-        MyShelfie.HOSTNAME = line.getOptionValue("hostname", "localhost");
+        MyShelfie.HOSTNAME = line.getOptionValue("hostname", "192.168.250.183");
         String protocolType = line.getOptionValue("protocol", "rmi");
 
         client = null;

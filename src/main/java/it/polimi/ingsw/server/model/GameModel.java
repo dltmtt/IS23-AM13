@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.client.view.BoardView;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 
@@ -54,6 +55,8 @@ public class GameModel {
         Player.setBoard(board);
         Player.setCommonGoal(commonGoals);
         this.livingRoom = board;
+        BoardView boardView = new BoardView(livingRoom);
+        boardView.printBoard();
     }
 
     /**

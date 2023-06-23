@@ -398,6 +398,9 @@ public class ServerController {
     public void changeTurn() {
         int currentPlayerIndex = players.indexOf(gameModel.getCurrentPlayer());
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        while (disconnectedPlayers.contains(players.get(nextPlayerIndex).getNickname())) {
+            nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
+        }
         if (gameModel.isLastRound()) {
             if (players.get(nextPlayerIndex).isFirstPlayer()) {
                 gameModel.setTheGameEnded(true);
