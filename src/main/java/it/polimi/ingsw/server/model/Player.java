@@ -38,6 +38,15 @@ public class Player {
         commonGoalCompleted.add(false);
     }
 
+    public Player(String nickname, int age, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard, List<Boolean> commonGoalCompleted) {
+        this.nickname = nickname;
+        this.age = age;
+        this.isFirstGame = isFirstGame;
+        this.isFirstPlayer = isFirstPlayer;
+        this.hasEndGameCard = hasEndGameCard;
+        this.commonGoalCompleted.addAll(commonGoalCompleted);
+    }
+
     /**
      * @param commonGoals the common goals to set
      */

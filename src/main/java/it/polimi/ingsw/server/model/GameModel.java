@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.client.view.BoardView;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 
@@ -15,7 +14,7 @@ public class GameModel {
     private final List<PersonalGoal> personalGoalDeck;
     private final List<Player> players;
     private final List<Integer> topScoringPoints;
-    private Board livingRoom;
+    private final Board livingRoom;
     private List<CommonGoal> commonGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
@@ -42,6 +41,30 @@ public class GameModel {
         topScoringPoints = new ArrayList<>();
     }
 
+    public GameModel(List<Player> players, Board board, List<CommonGoal> commonGoals) {
+        SettingLoader.loadBookshelfSettings();
+        this.players = new ArrayList<>();
+        this.players.addAll(players);
+        livingRoom = board;
+
+        Player.setBoard(livingRoom);
+
+        commonGoalDeck = new ArrayList<>();
+        personalGoalDeck = new ArrayList<>();
+
+        try {
+            fillCommonGoalDeck(players.size());
+            fillPersonalGoalDeck();
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e + ", error in loading the goal decks");
+        }
+        isTheGameEnded = false;
+        topScoringPoints = new ArrayList<>();
+        for (CommonGoal cg : commonGoals) {
+            topScoringPoints.add(cg.getScoringList().get(0));
+        }
+    }
+
     public List<Player> getPlayers() {
         return players;
     }
@@ -51,12 +74,11 @@ public class GameModel {
         this.players.addAll(players);
     }
 
-    public void setGame(Board board, List<CommonGoal> commonGoals) {
-        Player.setBoard(board);
+    public void setGame(List<CommonGoal> commonGoals) {
+
+//        livingRoom.setItemBag(board.getItemBag());
+//        livingRoom.setBoardMatrix(board.getBoardMatrix());
         Player.setCommonGoal(commonGoals);
-        this.livingRoom = board;
-        BoardView boardView = new BoardView(livingRoom);
-        boardView.printBoard();
     }
 
     /**
@@ -73,6 +95,10 @@ public class GameModel {
         }
 
         return topScoringPoints;
+    }
+
+    public List<Integer> getScoringList(int index) {
+        return Player.getCommonGoals().get(index).getScoringList();
     }
 
 

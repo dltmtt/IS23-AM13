@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.ClientCommunicationInterface;
+import it.polimi.ingsw.client.view.BoardView;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
@@ -92,12 +93,12 @@ public class ServerController {
         Message lastGame = new Message(jsonGame);
         players.addAll(lastGame.getPlayers());
         System.out.println("Loading last game...");
-        gameModel = new GameModel(players);
-        gameModel.setGame(lastGame.getBoard(), lastGame.getCommonGoals(players.size()));
+        Board board = new Board(lastGame.getBoard().getBoardMatrix(), lastGame.getItemBag(), players.size());
+        gameModel = new GameModel(players, board, Player.getCommonGoals());
+        gameModel.setGame(lastGame.getCommonGoals(players.size()));
         gameModel.setCurrentPlayer(lastGame.getCurrentPlayer());
         disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
 //        changeTurn();
-        System.out.println("current player: " + gameModel.getCurrentPlayer().getNickname());
         System.out.println("Last game loaded");
     }
 
@@ -320,7 +321,7 @@ public class ServerController {
      */
     public boolean refill() {
         // If there are no more items to pick or if all the items are isolated and if the item bag is not empty
-        return (gameModel.getLivingRoom().numLeft() == 0 || gameModel.getLivingRoom().allIsolated()) && !gameModel.getLivingRoom().getItemBag().isEmpty();
+        return (gameModel.getLivingRoom().numLeft() == 0 || gameModel.getLivingRoom().allIsolated());
     }
 
     /**
@@ -332,6 +333,8 @@ public class ServerController {
         if (refill()) {
             gameModel.getLivingRoom().fill();
         }
+        BoardView boardView = new BoardView(gameModel.getLivingRoom());
+        boardView.printBoard();
         return gameModel.getLivingRoom();
     }
 
@@ -482,7 +485,7 @@ public class ServerController {
     }
 
     public void saveGame() {
-        new Message(players, getCommonGoals(), getBoard(), gameModel.getTopScoringPoints(), gameModel.getCurrentPlayer().getNickname());
+        new Message(players, getCommonGoals(), getBoard(), gameModel.getCurrentPlayer().getNickname());
     }
 
     public List<Coordinates> createCoordinateList(List<Integer> integers) {

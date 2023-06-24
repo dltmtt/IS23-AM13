@@ -35,22 +35,19 @@ public class Board {
      * The number of occurrences of each color in the bag.
      */
     private static final int numOfColorOccurrences = 22;
-
-    /**
-     * The matrix of items that represents the board.
-     */
-    private final Item[][] boardMatrix;
-
     /**
      * The bag of items.
      */
     private final List<Item> itemBag;
-
     /**
      * The list of coordinates of the cells that can be used. It is
      * determined by the number of players.
      */
     private final List<Coordinates> usableCells;
+    /**
+     * The matrix of items that represents the board.
+     */
+    private Item[][] boardMatrix;
 
     /**
      * This method:
@@ -105,6 +102,29 @@ public class Board {
         usableCells = new ArrayList<>();
     }
 
+    public Board(Item[][] boardMatrix, List<Item> itemBag, int numOfPlayers) {
+        this.boardMatrix = boardMatrix;
+        this.itemBag = itemBag;
+        usableCells = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+        JSONObject personalGoalJson;
+        try {
+            personalGoalJson = (JSONObject) parser.parse(new FileReader(BASE_PATH + "usable_cells.json"));
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+        JSONArray usableCellsArray = (JSONArray) personalGoalJson.get("usable_cells");
+
+        for (int i = 0; i <= numOfPlayers - 2; i++) {
+            JSONObject elem = (JSONObject) usableCellsArray.get(i);
+            JSONArray current_usable = (JSONArray) elem.get("current_usable");
+            for (Object o : current_usable) {
+                JSONObject cell = (JSONObject) o;
+                usableCells.add(new Coordinates(Math.toIntExact((Long) cell.get("x")), Math.toIntExact((Long) cell.get("y"))));
+            }
+        }
+    }
+
     /**
      * This method sets the Item.
      *
@@ -121,6 +141,11 @@ public class Board {
      */
     public List<Item> getItemBag() {
         return itemBag;
+    }
+
+    public void setItemBag(List<Item> itemBag) {
+        this.itemBag.clear();
+        this.itemBag.addAll(itemBag);
     }
 
     /**
@@ -154,6 +179,10 @@ public class Board {
         return boardMatrix;
     }
 
+    public void setBoardMatrix(Item[][] boardMatrix) {
+        this.boardMatrix = boardMatrix;
+    }
+
     /**
      * @return the size of the board
      */
@@ -170,7 +199,7 @@ public class Board {
         for (int row = 0; row < boardSize; row++) {
             for (int column = 0; column < boardSize; column++) {
                 if (itemBag.isEmpty()) {
-                    System.err.println("cannot fll the board, itemBag is empty");
+                    return;
                 } else if (usableCells.contains(new Coordinates(row, column))) {
                     int indexRandom = randNumberGenerator.nextInt(itemBag.size());
                     if (boardMatrix[row][column] == null)

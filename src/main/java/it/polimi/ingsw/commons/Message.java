@@ -78,9 +78,9 @@ public class Message implements Serializable {
      * @param players        the current list of players
      * @param commonGoalList the list of common goals
      * @param board          the current board of the game
-     * @param topScoringList the current list of top scoring points of the common goals
+     * @param currentPlayer  the current player
      */
-    public Message(List<Player> players, List<CommonGoal> commonGoalList, Board board, List<Integer> topScoringList, String currentPlayer) {
+    public Message(List<Player> players, List<CommonGoal> commonGoalList, Board board, String currentPlayer) {
         json = new JSONObject();
         SettingLoader.loadBookshelfSettings();
         JSONArray playersArray = new JSONArray();
@@ -106,18 +106,19 @@ public class Message implements Serializable {
                 json.put("horizontal " + i, false);
                 json.put("size " + i, 0);
             }
+            JSONArray scoringListJson = new JSONArray();
+            for (int j = 0; j < commonGoalList.get(i).getScoringList().size(); j++) {
+                JSONObject scoringJson = new JSONObject();
+                String integerString = Integer.toString(commonGoalList.get(i).getScoringList().get(j));
+                scoringJson.put("score", integerString);
+                scoringListJson.add(scoringJson);
+            }
+            json.put("scoringList" + i, scoringListJson);
         }
         json.put("board", boardJson(board));
+        json.put("items", itemBagFill(board.getItemBag()));
         json.put("currentPlayer", currentPlayer);
-        JSONArray scoringList = new JSONArray();
 
-        for (Integer integer : topScoringList) {
-            JSONObject scoringJson = new JSONObject();
-            String integerString = Integer.toString(integer);
-            scoringJson.put("score", integerString);
-            scoringList.add(scoringJson);
-        }
-        json.put("topScoringList", scoringList);
 
         try (PrintWriter out = new PrintWriter(new FileWriter(BACKUP_FILE))) {
             out.write(json.toString());
@@ -158,6 +159,7 @@ public class Message implements Serializable {
         json.put("winners", winnersJson);
         json.put("losers", losersJson);
     }
+
 
     /**
      * Constructor for the startGame message.
@@ -371,14 +373,14 @@ public class Message implements Serializable {
         json.put("disconnected", array);
     }
 
-    ///////////////////////////////////////////////////////DA SISTEMARE////////////////////////////////////////////////////////
-
     // la uso?
     public Message(String type, String argument) {
         json = new JSONObject();
         json.put("category", type);
         json.put("argument", argument);
     }
+
+    ///////////////////////////////////////////////////////DA SISTEMARE////////////////////////////////////////////////////////
 
     // si può mettere in int message
     // è un turno
@@ -389,6 +391,13 @@ public class Message implements Serializable {
         json.put("position", posString);
     }
 
+    public Message(int position) {
+        json = new JSONObject();
+        String posixString = Integer.toString(position);
+        json.put("category", "index");
+        json.put("position", posixString);
+    }
+
     // è una insert
     // public Message(String category, String type, int n) {
     //     json = new JSONObject();
@@ -397,13 +406,6 @@ public class Message implements Serializable {
     // }
 
     // si può mettere in int message
-
-    public Message(int position) {
-        json = new JSONObject();
-        String posixString = Integer.toString(position);
-        json.put("category", "index");
-        json.put("position", posixString);
-    }
 
     /**
      * Constructor for the board message type.
@@ -416,8 +418,6 @@ public class Message implements Serializable {
         json.put("category", category);
         json.put("board", boardJson(board));
     }
-
-    // da sostituire con l'altro
 
     public Message(String category, HashMap<String, Bookshelf> bookshelves, Board board, int score, int topOfScoring) {
         json = new JSONObject();
@@ -435,6 +435,19 @@ public class Message implements Serializable {
         json.put("score", score);
     }
 
+    // da sostituire con l'altro
+
+    public JSONArray itemBagFill(List<Item> items) {
+        JSONArray itemsArray = new JSONArray();
+        for (Item item : items) {
+            JSONObject itemJson = new JSONObject();
+            itemJson.put("index", Integer.toString(item.number()));
+            itemJson.put("color", item.color().toString());
+            itemsArray.add(itemJson);
+        }
+        return itemsArray;
+    }
+
     ///////////////////////////////////////////////////////GETTERS////////////////////////////////////////////////////////
 
     public List<Player> getPlayers() {
@@ -447,7 +460,7 @@ public class Message implements Serializable {
             int pg = Integer.parseInt((String) playerJson.get("personalGoal"));
             Bookshelf bookshelf;
             bookshelf = getBookshelf(playerJson);
-            Player player = new Player((String) playerJson.get("username"), 0, false, isFirstPlayerBoolean, false);
+            Player player = new Player((String) playerJson.get("username"), 0, false, isFirstPlayerBoolean, false, getCommonGoalCompleted(playerJson));
             player.setBookshelf(bookshelf);
             try {
                 PersonalGoal personalGoal = SettingLoader.loadSpecificPersonalGoal(pg);
@@ -455,7 +468,6 @@ public class Message implements Serializable {
             } catch (IOException | ParseException e) {
                 throw new RuntimeException(e);
             }
-            player.setCommonGoalCompleted(getCommonGoalCompleted(playerJson));
             player.setCommonGoalPoints(getCommonPoints(playerJson));
             players.add(player);
         }
@@ -479,7 +491,7 @@ public class Message implements Serializable {
         // System.out.println(array);
         for (Object i : array) {
 
-            String name = (String) json.get(i);
+            String name = (String) i;
             commonGoalCompleted.add(Boolean.parseBoolean(name));
         }
         return commonGoalCompleted;
@@ -820,32 +832,28 @@ public class Message implements Serializable {
         List<Integer> occurrences = getCardOccurrences();
         List<Integer> sizes = getCardSize();
         List<Boolean> horizontal = getCardHorizontal();
-        List<Integer> TopScoring = getTopScoring();
         List<CommonGoal> commonGoals = new ArrayList<>();
         for (int i = 0; i < cards.size(); i++) {
             Layout layout = createCommonGoalLayout(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
             CommonGoal commonGoal = new CommonGoal(layout, size);
-
-            int topScoring = TopScoring.get(i);
-            List<Integer> newScoringList = new ArrayList<>(commonGoal.getScoringList());
-            newScoringList.removeIf(scoring -> scoring > topScoring);
-            commonGoal.setScoringList(newScoringList);
+            List<Integer> scoring = getScoring(i);
+            commonGoal.setScoringList(scoring);
             commonGoals.add(commonGoal);
         }
         return commonGoals;
     }
 
-    public List<Integer> getTopScoring() {
-        List<Integer> topScoring = new ArrayList<>();
-        JSONArray topScoringJson = (JSONArray) json.get("topScoringList");
+    public List<Integer> getScoring(int i) {
+        List<Integer> scoring = new ArrayList<>();
+        JSONArray topScoringJson = (JSONArray) json.get("scoringList" + i);
         for (Object obj : topScoringJson) {
             JSONObject topScoringItem = (JSONObject) obj;
             String scoreString = (String) topScoringItem.get("score");
 
             int score = Integer.parseInt(scoreString);
-            topScoring.add(score);
+            scoring.add(score);
         }
-        return topScoring;
+        return scoring;
     }
 
     /**
@@ -969,5 +977,19 @@ public class Message implements Serializable {
 
     public String getFirstPlayer() {
         return (String) json.get("firstPlayer");
+    }
+
+    public List<Item> getItemBag() {
+        JSONArray itemBagJson = (JSONArray) json.get("items");
+        List<Item> itemBag = new ArrayList<>();
+        System.out.println("loading item bag");
+        for (Object obj : itemBagJson) {
+            JSONObject item = (JSONObject) obj;
+            String color = (String) item.get("color");
+            String type = (String) item.get("index");
+            Item newItem = new Item(Color.valueOf(color), Integer.parseInt(type));
+            itemBag.add(newItem);
+        }
+        return itemBag;
     }
 }
