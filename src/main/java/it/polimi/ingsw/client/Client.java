@@ -10,6 +10,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
@@ -27,8 +28,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      * The username of the player using this client.
      */
     public String username;
+    public Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build(); // Default locale
     private boolean theOnlyOne = false; // Whether this client is the only one in the game
     private Boolean serverConnection = false; // Whether there is a connection to the server
+
 
     public Client() throws RemoteException {
         super();
@@ -300,4 +303,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         });
         threadRearrange.start();
     }
+
+    public void setLanguage(String language, String country) {
+        locale = new Locale.Builder().setLanguage(language).setRegion(country).build();
+    }
+
 }

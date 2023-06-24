@@ -26,7 +26,7 @@
                                 <Font size="60.0"/>
                             </font>
                         </Label>
-                        <Label text="Sorry, a game has already started" textFill="WHITE">
+                        <Label text="%refused" textFill="WHITE">
                             <font>
                                 <Font size="30.0"/>
                             </font>

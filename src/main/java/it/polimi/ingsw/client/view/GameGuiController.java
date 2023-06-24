@@ -487,6 +487,9 @@ public class GameGuiController {
         firstPlayer3.setVisible(false);
         firstPlayer0.setVisible(false);
         playersBookshelf = new HashMap<>();
+
+        bookshelfModel = new Bookshelf();
+        boardModel = new Board();
     }
 
     /**

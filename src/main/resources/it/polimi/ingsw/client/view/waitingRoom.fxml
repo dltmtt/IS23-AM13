@@ -30,13 +30,13 @@
                         </ImageView>
                     </children>
                 </StackPane>
-                <Label alignment="CENTER" contentDisplay="CENTER" text="You're in the waiting room...">
+                <Label alignment="CENTER" contentDisplay="CENTER" text="%waitingRoom">
                     <font>
                         <Font size="23.0"/>
                     </font>
                 </Label>
                 <ProgressBar prefHeight="107.0" prefWidth="200.0" VBox.vgrow="NEVER"/>
-                <Label alignment="CENTER" text="Please, wait for other players to join the game.">
+                <Label alignment="CENTER" text="%wait">
                     <font>
                         <Font size="18.0"/>
                     </font>

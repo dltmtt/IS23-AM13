@@ -21,16 +21,16 @@
         <VBox alignment="CENTER" fillWidth="false" prefHeight="315.0" prefWidth="493.0" spacing="20.0"
               StackPane.alignment="CENTER">
             <children>
-                <Label text="You are the first player connected">
+                <Label text="%firstConnected">
                     <font>
                         <Font name="System Bold" size="29.0"/>
                     </font>
                 </Label>
-                <Label text="Please select the number of opponents"/>
+                <Label text="%select"/>
                 <Slider fx:id="playerSlider" blockIncrement="1.0" majorTickUnit="1.0" max="4.0" min="2.0"
                         minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="2.0"/>
                 <Button fx:id="createWaitingRoom" mnemonicParsing="false" onAction="#startWaitingRoom"
-                        text="Create Waiting Room"/>
+                        text="%createWaitingRoom"/>
             </children>
         </VBox>
     </children>

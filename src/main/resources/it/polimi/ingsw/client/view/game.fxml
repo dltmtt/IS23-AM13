@@ -127,8 +127,7 @@
                                             </StackPane.margin>
                                         </GridPane>
                                         <Label fx:id="boardHelp" alignment="CENTER" prefHeight="395.0" prefWidth="399.0"
-                                               style="-fx-background-color: #2B2B2BC6;"
-                                               text="This is the board, it contains the items that can be picked&#10;Only the items with at least one free side can be chosen, for a maximum of 3 items per pick&#10;At the bottom right there's a card, which has a value of 1 point and gets assigned to the first one to complete the booksehlf"
+                                               style="-fx-background-color: #2B2B2BC6;" text="%boardHelp"
                                                textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS"
                                                visible="false" wrapText="true">
                                             <opaqueInsets>
@@ -146,11 +145,11 @@
                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                     <children>
                                         <Button fx:id="help" mnemonicParsing="false" onAction="#toggleHelp"
-                                                stylesheets="@sample.css" text="Help"/>
+                                                stylesheets="@sample.css" text="%help"/>
                                         <Button fx:id="delete" mnemonicParsing="false"
-                                                onAction="#deleteCurrentSelection" text="Delete current selection"/>
+                                                onAction="#deleteCurrentSelection" text="%delete"/>
                                         <Button fx:id="confirmSelection" mnemonicParsing="false"
-                                                onAction="#sendSelection" text="Confirm Selection"/>
+                                                onAction="#sendSelection" text="%confirm"/>
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
@@ -172,8 +171,7 @@
                                                 </ImageView>
                                                 <Label fx:id="cgHelp" alignment="CENTER" prefHeight="110.0"
                                                        prefWidth="170.0" style="-fx-background-color: #2B2B2BC6;"
-                                                       text="This is a common goal, each player that completes this goal receives the point token shown and can be reached only once by each player"
-                                                       textAlignment="CENTER" textFill="WHITE"
+                                                       text="%commonGoalHelp" textAlignment="CENTER" textFill="WHITE"
                                                        textOverrun="LEADING_ELLIPSIS" visible="false" wrapText="true">
                                                     <opaqueInsets>
                                                         <Insets/>
@@ -215,7 +213,7 @@
                               GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1"
                               GridPane.valignment="CENTER">
                             <children>
-                                <Label fx:id="promptRearrange" text="Rearrange your Items">
+                                <Label fx:id="promptRearrange" text="%rearrange">
                                     <font>
                                         <Font size="16.0"/>
                                     </font>
@@ -276,7 +274,7 @@
                                         </Label>
                                     </children>
                                 </StackPane>
-                                <Label fx:id="promptInsert" text="Choose the column to insert the Items in"/>
+                                <Label fx:id="promptInsert" text="%insert"/>
                                 <StackPane prefHeight="270.0" prefWidth="309.0">
                                     <children>
                                         <ImageView fx:id="bookshelf" fitHeight="270.0" fitWidth="235.0"
@@ -329,9 +327,8 @@
                                         </GridPane>
                                         <Label fx:id="bookshelfHelp" alignment="CENTER" prefHeight="266.0"
                                                prefWidth="226.0" style="-fx-background-color: #2B2B2BC6;"
-                                               text="This is your bookshelf&#10;During each turn, you can insert the items picked from the board in one of its column&#10;The first player to fill their bookshelf, marks the start of the last turn"
-                                               textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS"
-                                               visible="false" wrapText="true">
+                                               text="%bookshelfHelp" textAlignment="CENTER" textFill="WHITE"
+                                               textOverrun="LEADING_ELLIPSIS" visible="false" wrapText="true">
                                             <opaqueInsets>
                                                 <Insets/>
                                             </opaqueInsets>
@@ -353,7 +350,7 @@
                               GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                             <children>
                                 <HBox fx:id="firstPlayer0" alignment="CENTER" prefHeight="62.0" prefWidth="236.0"
-                                      spacing="20.0" style="-fx-background-color: #560a0ad6;" visible="false">
+                                      spacing="20.0" style="-fx-background-color: #560a0ad6;">
                                     <children>
                                         <ImageView fitHeight="46.0" fitWidth="41.0" pickOnBounds="true"
                                                    preserveRatio="true">
@@ -361,7 +358,7 @@
                                                 <Image url="@graphics/misc/first_player_token.png"/>
                                             </image>
                                         </ImageView>
-                                        <Label text="You are the first player" textFill="WHITE">
+                                        <Label text="%firstPlayer" textFill="WHITE">
                                             <font>
                                                 <Font size="14.0"/>
                                             </font>
@@ -388,24 +385,24 @@
                                                         prefHeight="25.599996948242193" vgrow="SOMETIMES"/>
                                     </rowConstraints>
                                     <children>
-                                        <Label alignment="CENTER" contentDisplay="CENTER" text="Current Points"
+                                        <Label alignment="CENTER" contentDisplay="CENTER" text="%currentPoints"
                                                textFill="#fffafa" GridPane.columnSpan="2" GridPane.halignment="CENTER"
                                                GridPane.valignment="CENTER">
                                             <font>
                                                 <Font name="Ink Free" size="30.0"/>
                                             </font>
                                         </Label>
-                                        <Label text="Reached Common Goals" textFill="#fffafa" GridPane.rowIndex="1">
+                                        <Label text="%commonGoals" textFill="#fffafa" GridPane.rowIndex="1">
                                             <GridPane.margin>
                                                 <Insets left="10.0"/>
                                             </GridPane.margin>
                                         </Label>
-                                        <Label text="Reached Personal Goal" textFill="#fffafa" GridPane.rowIndex="2">
+                                        <Label text="%personalGoals" textFill="#fffafa" GridPane.rowIndex="2">
                                             <GridPane.margin>
                                                 <Insets left="10.0"/>
                                             </GridPane.margin>
                                         </Label>
-                                        <Label text="Adjacent Groups" textFill="#fffafa" GridPane.rowIndex="3">
+                                        <Label text="%adjacentGroups" textFill="#fffafa" GridPane.rowIndex="3">
                                             <GridPane.margin>
                                                 <Insets left="10.0"/>
                                             </GridPane.margin>
@@ -423,7 +420,7 @@
                                                 <Font name="System Bold" size="14.0"/>
                                             </font>
                                         </Label>
-                                        <Label alignment="CENTER" contentDisplay="CENTER" text="Total"
+                                        <Label alignment="CENTER" contentDisplay="CENTER" text="%total"
                                                textAlignment="CENTER" textFill="#fffafa" GridPane.halignment="CENTER"
                                                GridPane.rowIndex="4">
                                             <font>
@@ -444,8 +441,7 @@
                                             </image>
                                         </ImageView>
                                         <Label fx:id="pgHelp" alignment="CENTER" prefHeight="245.0" prefWidth="170.0"
-                                               style="-fx-background-color: #2B2B2BC6;"
-                                               text="This is your personal goal&#10;Try to match your bookshelf as closely as possible to gain points"
+                                               style="-fx-background-color: #2B2B2BC6;" text="%personalGoalHelp"
                                                textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS"
                                                visible="false" wrapText="true">
                                             <opaqueInsets>
@@ -511,9 +507,8 @@
                                         </GridPane>
                                         <Label fx:id="opponentHelp" alignment="CENTER" prefHeight="119.0"
                                                prefWidth="106.0" style="-fx-background-color: #2B2B2BC6;"
-                                               text="This is your opponent's bookshelf" textAlignment="CENTER"
-                                               textFill="WHITE" textOverrun="LEADING_ELLIPSIS" visible="false"
-                                               wrapText="true">
+                                               text="%opponentHelp" textAlignment="CENTER" textFill="WHITE"
+                                               textOverrun="LEADING_ELLIPSIS" visible="false" wrapText="true">
                                             <opaqueInsets>
                                                 <Insets/>
                                             </opaqueInsets>

@@ -409,4 +409,9 @@ public class GameCliView implements GameView {
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         // does nothing as it's a method for GUI
     }
+
+    @Override
+    public void loadLanguage() {
+
+    }
 }

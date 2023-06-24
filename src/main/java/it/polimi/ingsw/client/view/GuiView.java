@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class GuiView extends Application implements GameView {
 
@@ -70,56 +71,6 @@ public class GuiView extends Application implements GameView {
             loginScene = new Scene(loginSceneLoader.load());
         } catch (IOException e) {
             System.err.println("Failed to load newLogin2.fxml");
-            throw new RuntimeException(e);
-        }
-
-        FXMLLoader playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"));
-
-        // Controller is already set in the FXML file
-        try {
-            playerNumberScene = new Scene(playerNumberSceneLoader.load());
-        } catch (IOException e) {
-            System.err.println("Failed to load playerSelection.fxml");
-            throw new RuntimeException(e);
-        }
-
-        FXMLLoader waitingRoomSceneLoader = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"));
-        waitingRoomSceneLoader.setController(new WaitingRoomController());
-        try {
-            waitingRoomScene = new Scene(waitingRoomSceneLoader.load());
-        } catch (IOException e) {
-            System.err.println("Failed to load waitingRoom.fxml");
-            throw new RuntimeException(e);
-        }
-
-        FXMLLoader gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"));
-        gameController = new GameGuiController();
-        gameSceneLoader.setController(gameController);
-        try {
-            gameScene = new Scene(gameSceneLoader.load());
-        } catch (IOException e) {
-            System.err.println("Failed to load game.fxml");
-            throw new RuntimeException(e);
-        }
-
-        FXMLLoader endGameSceneLoader = new FXMLLoader(this.getClass().getResource("endGame.fxml"));
-        endGameController = new EndGameGuiController(this, client);
-        endGameSceneLoader.setController(endGameController);
-
-        try {
-            endGameScene = new Scene(endGameSceneLoader.load());
-        } catch (IOException e) {
-            System.err.println("Failed to load endGame.fxml");
-            throw new RuntimeException(e);
-        }
-
-        FXMLLoader refusedSceneLoader = new FXMLLoader(this.getClass().getResource("refused.fxml"));
-        refusedSceneLoader.setController(new RefusedGuiController(this));
-
-        try {
-            refusedScene = new Scene(refusedSceneLoader.load());
-        } catch (IOException e) {
-            System.err.println("Failed to load refused.fxml");
             throw new RuntimeException(e);
         }
 
@@ -349,6 +300,65 @@ public class GuiView extends Application implements GameView {
         Platform.runLater(() -> {
             gameController.updateScore(topOfScoringList, score);
         });
+    }
+
+    @Override
+    public void loadLanguage() {
+
+        ResourceBundle bundle = ResourceBundle.getBundle("game", client.locale);
+
+
+        FXMLLoader playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"), bundle);
+
+        // Controller is already set in the FXML file
+        try {
+            playerNumberScene = new Scene(playerNumberSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load playerSelection.fxml");
+            throw new RuntimeException(e);
+        }
+
+        FXMLLoader waitingRoomSceneLoader = new FXMLLoader(GuiView.class.getResource("waitingRoom.fxml"), bundle);
+        waitingRoomSceneLoader.setController(new WaitingRoomController());
+        try {
+            waitingRoomScene = new Scene(waitingRoomSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load waitingRoom.fxml");
+            throw new RuntimeException(e);
+        }
+
+
+        FXMLLoader endGameSceneLoader = new FXMLLoader(this.getClass().getResource("endGame.fxml"), bundle);
+        endGameController = new EndGameGuiController(this, client);
+        endGameSceneLoader.setController(endGameController);
+
+        try {
+            endGameScene = new Scene(endGameSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load endGame.fxml");
+            throw new RuntimeException(e);
+        }
+
+        FXMLLoader refusedSceneLoader = new FXMLLoader(this.getClass().getResource("refused.fxml"), bundle);
+        refusedSceneLoader.setController(new RefusedGuiController(this));
+
+        try {
+            refusedScene = new Scene(refusedSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load refused.fxml");
+            throw new RuntimeException(e);
+        }
+
+
+        FXMLLoader gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"), bundle);
+        gameController = new GameGuiController();
+        gameSceneLoader.setController(gameController);
+        try {
+            gameScene = new Scene(gameSceneLoader.load());
+        } catch (IOException e) {
+            System.err.println("Failed to load game.fxml");
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

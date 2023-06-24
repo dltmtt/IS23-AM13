@@ -91,4 +91,6 @@ public interface GameView {
     void rearrangeProcedure(List<Item> items);
 
     void updateScore(List<Integer> topOfScoringList, List<Integer> score);
+
+    void loadLanguage();
 }
