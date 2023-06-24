@@ -529,7 +529,7 @@ public class GameGuiController {
         boardModel = message.getBoard();
         updateBoard();
         setStartingScores(message.getStartingScores(client.username));
-
+        updateCommonGoalScoring(message.getTopOfScoringList());
         setPlayersName(message);
 
         endGameImage.setVisible(true);
