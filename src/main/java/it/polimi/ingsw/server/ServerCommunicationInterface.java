@@ -199,7 +199,7 @@ public interface ServerCommunicationInterface extends Remote {
             e.printStackTrace();
         }
 
-        controller.addClient(client.getUsername(), client);
+//        controller.addClient(client.getUsername(), client);
 
         // This is one of the few differences from the Socket implementation
         startPingThread(client);
@@ -232,8 +232,8 @@ public interface ServerCommunicationInterface extends Remote {
      * @throws RemoteException if this connection fails
      */
     default void nextTurn() throws RemoteException {
-        controller.changeTurn();
         controller.saveGame();
+        controller.changeTurn();
 
 
         if (controller.checkGameStatus() == -1) {
@@ -396,9 +396,31 @@ public interface ServerCommunicationInterface extends Remote {
                 // The username is already taken, but the player was disconnected and is trying to reconnect
                 System.out.println(username + " reconnected.");
                 client.setUsername(username);
-
-                resendGameToReconnectedClient(client);
+                controller.addClient(username, client);
+                if (!controller.isGameLoaded) {
+                    resendGameToReconnectedClient(client);
+                } else {
+                    resendToReconnectAfterServerDown(client);
+                }
             }
+        }
+    }
+
+    default void resendToReconnectAfterServerDown(ClientCommunicationInterface client) throws RemoteException {
+        int position = controller.getPositionByUsername(client.getUsername());
+        System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
+
+        try {
+            client.callBackSendMessage(new Message("username", client.getUsername()));
+            Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
+            client.callBackSendMessage(game);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        if (controller.getRmiClients().size() + controller.getTcpClients().size() != controller.numberOfPlayers) {
+            client.callBackSendMessage(new Message("waitingRoomForReconnect"));
+        } else {
+            nextTurn();
         }
     }
 }

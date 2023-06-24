@@ -221,7 +221,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
         client.sendMessageToClient(myGame);
 
-        controller.addClient(getUsername(), client);
+//        controller.addClient(getUsername(), client);
 //        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
         startPingThread(client);
         sendTurn(client);
@@ -292,8 +292,27 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 System.out.println(username + " reconnected.");
                 client.sendMessageToClient(new Message("username", username));
                 setUsername(username);
-                resendGameToReconnectedClient(client);
+                controller.addClient(username, client);
+                if (!controller.isGameLoaded) {
+                    resendGameToReconnectedClient(client);
+                } else {
+                    resendToReconnectAfterServerDown(client);
+                }
             }
+        }
+    }
+
+    public void resendToReconnectAfterServerDown(SocketClientHandler client) throws RemoteException {
+        int position = controller.getPositionByUsername(getUsername());
+        System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
+        sendMessageToClient(new Message("username", username));
+
+        Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
+        client.sendMessageToClient(myGame);
+        if (controller.getRmiClients().size() + controller.getTcpClients().size() != controller.numberOfPlayers) {
+            sendMessageToClient(new Message("waitingRoomForReconnect"));
+        } else {
+            nextTurn();
         }
     }
 }

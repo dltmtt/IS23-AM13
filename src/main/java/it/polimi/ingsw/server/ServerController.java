@@ -27,6 +27,7 @@ public class ServerController {
     private final HashMap<String, SocketClientHandler> tcpClients;
     private final List<Integer> finalPoints;
     public int numberOfPlayers = 0;
+    public boolean isGameLoaded = false;
     private boolean gameIsStarted = false;
     private List<Item> currentPicked;
     private GameModel gameModel;
@@ -92,6 +93,7 @@ public class ServerController {
         File jsonGame = new File(BACKUP_FILE);
         Message lastGame = new Message(jsonGame);
         players.addAll(lastGame.getPlayers());
+        numberOfPlayers = players.size();
         System.out.println("Loading last game...");
         Board board = new Board(lastGame.getBoard().getBoardMatrix(), lastGame.getItemBag(), players.size());
         gameModel = new GameModel(players, board, Player.getCommonGoals());
@@ -99,6 +101,7 @@ public class ServerController {
         gameModel.setCurrentPlayer(lastGame.getCurrentPlayer());
         disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
 //        changeTurn();
+        isGameLoaded = true;
         System.out.println("Last game loaded");
     }
 

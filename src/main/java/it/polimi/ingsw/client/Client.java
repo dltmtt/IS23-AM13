@@ -215,6 +215,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 theOnlyOne = true;
                 waitForReconnection();
             }
+            case "waitingRoomForReconnect" -> {
+                gameView.showMessage("Waiting for other players to reconnect...\n");
+            }
             default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
     }
