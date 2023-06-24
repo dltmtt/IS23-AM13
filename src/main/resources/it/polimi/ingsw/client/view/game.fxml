@@ -56,10 +56,10 @@
                                         </ImageView>
                                         <GridPane>
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="332.799951171875"
-                                                                   minWidth="10.0" prefWidth="326.2000244140625"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.40003662109376"
+                                                                   minWidth="10.0" prefWidth="356.00001220703126"/>
                                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.199951171875"
-                                                                   minWidth="10.0" prefWidth="83.79997558593749"/>
+                                                                   minWidth="10.0" prefWidth="114.79998779296875"/>
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="198.4" minHeight="10.0" prefHeight="198.4"
