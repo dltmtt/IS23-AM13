@@ -36,6 +36,10 @@ public class LoginGuiController {
 
     @FXML
     public void onStartButtonClicked() {
+        if (username.getText().isEmpty()) {
+            usernameError.setText("Username cannot be empty");
+            return;
+        }
         client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), 0));
         client.startPingThread(username.getText());
     }

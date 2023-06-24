@@ -8,12 +8,12 @@
 <?import javafx.scene.text.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308"
       maxWidth="1.7976931348623157E308"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1024.0"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1178.0"
       xmlns="http://javafx.com/javafx/19">
     <children>
-        <StackPane VBox.vgrow="ALWAYS">
+        <StackPane prefHeight="666.0" prefWidth="1205.0" VBox.vgrow="ALWAYS">
             <children>
-                <ImageView fitHeight="650.0" fitWidth="1024.0" pickOnBounds="true" StackPane.alignment="CENTER">
+                <ImageView fitHeight="665.0" fitWidth="1178.0" pickOnBounds="true" StackPane.alignment="CENTER">
                     <image>
                         <Image url="@graphics/misc/sfondo_parquet.jpg"/>
                     </image>
@@ -22,13 +22,12 @@
                     </viewport>
                 </ImageView>
                 <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                          prefHeight="711.0" prefWidth="1046.0" StackPane.alignment="CENTER">
+                          prefHeight="666.0" prefWidth="1163.0" StackPane.alignment="CENTER">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0"/>
-                        <ColumnConstraints hgrow="NEVER" maxWidth="157.6000099182129" minWidth="20.0"
-                                           prefWidth="157.6000099182129"/>
-                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="402.79998779296875"
-                                           minWidth="100.0" percentWidth="40.0" prefWidth="272.3999900817871"/>
+                        <ColumnConstraints hgrow="NEVER" maxWidth="250.80000915527341" minWidth="20.0"
+                                           prefWidth="232.79998779296875"/>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="498.1999816894531"
+                                           minWidth="100.0" percentWidth="40.0" prefWidth="406.20001220703125"/>
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="778.3999938964844" minWidth="10.0"
                                            prefWidth="285.5999877929687"/>
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="778.3999938964844" minWidth="10.0"
@@ -44,7 +43,7 @@
                     </rowConstraints>
                     <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0"
-                              GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
+                              GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
                               GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                             <children>
                                 <StackPane prefHeight="150.0" prefWidth="200.0">
@@ -82,28 +81,32 @@
                                             </children>
                                         </GridPane>
                                         <GridPane fx:id="boardGridPane" alignment="CENTER" prefHeight="348.0"
-                                                  prefWidth="357.0" StackPane.alignment="CENTER">
+                                                  prefWidth="442.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
+                                                <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0"
+                                                                   prefWidth="40.0"/>
+                                                <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0"
+                                                                   prefWidth="40.0"/>
+                                                <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0"
+                                                                   prefWidth="40.0"/>
+                                                <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="39.0"
+                                                                   prefWidth="40.0"/>
+                                                <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0"
+                                                                   prefWidth="40.0"/>
+                                                <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0"
+                                                                   prefWidth="40.0"/>
+                                                <ColumnConstraints hgrow="NEVER" maxWidth="40.0" minWidth="40.0"
+                                                                   prefWidth="40.0"/>
+                                                <ColumnConstraints hgrow="NEVER" maxWidth="39.0" minWidth="39.0"
                                                                    prefWidth="39.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                                   prefWidth="39.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                                   prefWidth="39.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                                   prefWidth="39.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                                   prefWidth="39.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                                   prefWidth="39.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                                   prefWidth="39.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="39.0" minWidth="39.0"
-                                                                   prefWidth="39.0"/>
-                                                <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS"
-                                                                   maxWidth="39.0" minWidth="39.0" prefWidth="39.0"/>
+                                                <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER"
+                                                                   maxWidth="41.0" minWidth="41.0" prefWidth="41.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
+                                                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0"
+                                                                valignment="CENTER" vgrow="ALWAYS"/>
+                                                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0"
+                                                                valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
                                                                 valignment="CENTER" vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
@@ -116,11 +119,7 @@
                                                                 valignment="CENTER" vgrow="ALWAYS"/>
                                                 <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
                                                                 valignment="CENTER" vgrow="ALWAYS"/>
-                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                                valignment="CENTER" vgrow="ALWAYS"/>
-                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
-                                                                valignment="CENTER" vgrow="ALWAYS"/>
-                                                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0"
+                                                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0"
                                                                 valignment="CENTER" vgrow="ALWAYS"/>
                                             </rowConstraints>
                                             <StackPane.margin>
@@ -147,7 +146,7 @@
                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                     <children>
                                         <Button fx:id="help" mnemonicParsing="false" onAction="#toggleHelp"
-                                                text="Help"/>
+                                                stylesheets="@sample.css" text="Help"/>
                                         <Button fx:id="delete" mnemonicParsing="false"
                                                 onAction="#deleteCurrentSelection" text="Delete current selection"/>
                                         <Button fx:id="confirmSelection" mnemonicParsing="false"
@@ -213,10 +212,14 @@
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0"
-                              GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1"
+                              GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1"
                               GridPane.valignment="CENTER">
                             <children>
-                                <Label fx:id="promptRearrange" text="Rearrange your Items"/>
+                                <Label fx:id="promptRearrange" text="Rearrange your Items">
+                                    <font>
+                                        <Font size="16.0"/>
+                                    </font>
+                                </Label>
                                 <StackPane>
                                     <VBox.margin>
                                         <Insets left="10.0" right="10.0"/>
@@ -283,43 +286,46 @@
                                             </image>
                                         </ImageView>
                                         <GridPane fx:id="bookshelfGrid" alignment="CENTER" hgap="3.0"
-                                                  nodeOrientation="LEFT_TO_RIGHT" prefHeight="270.0" prefWidth="250.0"
+                                                  nodeOrientation="LEFT_TO_RIGHT" prefHeight="270.0" prefWidth="198.0"
                                                   vgap="3.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
-                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER"
+                                                                   minWidth="10.0" prefWidth="95.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="95.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="95.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="95.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="95.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="111.79999389648438" minHeight="10.0"
                                                                 prefHeight="46.19996490478516" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="103.20001068115235" minHeight="10.0"
                                                                 prefHeight="44.79999389648439" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="88.00000610351563" minHeight="10.0"
                                                                 prefHeight="47.19999389648436" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="72.00000610351563" minHeight="10.0"
                                                                 prefHeight="43.20002441406251" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="63.199987792968756" minHeight="10.0"
                                                                 prefHeight="45.60003662109375" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="47.19998779296873" minHeight="10.0"
                                                                 prefHeight="44.79996337890623" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                vgrow="NEVER"/>
                                             </rowConstraints>
                                             <StackPane.margin>
-                                                <Insets left="2.0" right="2.0"/>
+                                                <Insets left="10.0" right="10.0"/>
                                             </StackPane.margin>
+                                            <padding>
+                                                <Insets left="3.0" right="3.0"/>
+                                            </padding>
                                         </GridPane>
                                         <Label fx:id="bookshelfHelp" alignment="CENTER" prefHeight="266.0"
                                                prefWidth="226.0" style="-fx-background-color: #2B2B2BC6;"
@@ -344,7 +350,7 @@
                             </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0"
-                              GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                              GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                             <children>
                                 <HBox fx:id="firstPlayer0" alignment="CENTER" prefHeight="62.0" prefWidth="236.0"
                                       spacing="20.0" style="-fx-background-color: #560a0ad6;" visible="false">
@@ -460,8 +466,7 @@
                             </GridPane.margin>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0"
-                              GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1"
-                              GridPane.valignment="CENTER">
+                              GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                             <children>
                                 <StackPane prefHeight="120.0" prefWidth="92.0">
                                     <children>
@@ -472,19 +477,19 @@
                                             </image>
                                         </ImageView>
                                         <GridPane fx:id="bookshelfGrid1" alignment="CENTER" hgap="3.0"
-                                                  nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0" prefWidth="106.0"
+                                                  nodeOrientation="LEFT_TO_RIGHT" prefHeight="120.0" prefWidth="133.0"
                                                   vgap="3.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
-                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="16.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="16.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="16.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="16.0"/>
+                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
+                                                                   prefWidth="16.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="111.79999389648438" minHeight="10.0"
@@ -529,7 +534,8 @@
                                                 <Image url="@graphics/misc/first_player_token.png"/>
                                             </image>
                                         </ImageView>
-                                        <Label fx:id="player1" text="Label" textAlignment="CENTER" textFill="#faffb8">
+                                        <Label fx:id="player1" text="Label" textAlignment="CENTER" textFill="#faffb8"
+                                               textOverrun="WORD_ELLIPSIS">
                                             <font>
                                                 <Font name="Ink Free" size="25.0"/>
                                             </font>
@@ -549,36 +555,30 @@
                                                   nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0" prefWidth="106.0"
                                                   vgap="3.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
-                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="16.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="16.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="16.0"/>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                                   prefWidth="16.0"/>
+                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
+                                                                   prefWidth="16.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="111.79999389648438" minHeight="10.0"
-                                                                prefHeight="46.19996490478516" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="103.20001068115235" minHeight="10.0"
-                                                                prefHeight="44.79999389648439" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="88.00000610351563" minHeight="10.0"
-                                                                prefHeight="47.19999389648436" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="72.00000610351563" minHeight="10.0"
-                                                                prefHeight="43.20002441406251" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="63.199987792968756" minHeight="10.0"
-                                                                prefHeight="45.60003662109375" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="47.19998779296873" minHeight="10.0"
-                                                                prefHeight="44.79996337890623" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                             </rowConstraints>
                                             <StackPane.margin>
                                                 <Insets left="2.0" right="2.0"/>
@@ -614,36 +614,30 @@
                                                   nodeOrientation="LEFT_TO_RIGHT" prefHeight="93.0" prefWidth="106.0"
                                                   vgap="3.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
-                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
-                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
-                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
-                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
-                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0"
-                                                                   prefWidth="100.0"/>
+                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="16.0"
+                                                                   prefWidth="16.0"/>
+                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="16.0"
+                                                                   prefWidth="16.0"/>
+                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="16.0"
+                                                                   prefWidth="16.0"/>
+                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="16.0"
+                                                                   prefWidth="16.0"/>
+                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="16.0"
+                                                                   prefWidth="16.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="111.79999389648438" minHeight="10.0"
-                                                                prefHeight="46.19996490478516" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="103.20001068115235" minHeight="10.0"
-                                                                prefHeight="44.79999389648439" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="88.00000610351563" minHeight="10.0"
-                                                                prefHeight="47.19999389648436" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="72.00000610351563" minHeight="10.0"
-                                                                prefHeight="43.20002441406251" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="63.199987792968756" minHeight="10.0"
-                                                                prefHeight="45.60003662109375" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                                 <RowConstraints maxHeight="47.19998779296873" minHeight="10.0"
-                                                                prefHeight="44.79996337890623" valignment="CENTER"
-                                                                vgrow="ALWAYS"/>
+                                                                prefHeight="45.0" valignment="CENTER" vgrow="NEVER"/>
                                             </rowConstraints>
                                             <StackPane.margin>
                                                 <Insets left="2.0" right="2.0"/>
@@ -671,7 +665,7 @@
                                 <Insets right="5.0"/>
                             </GridPane.margin>
                         </VBox>
-                        <Label fx:id="messageLabel" GridPane.columnIndex="2"/>
+                        <Label fx:id="messageLabel" GridPane.columnIndex="1"/>
                     </children>
                 </GridPane>
             </children>

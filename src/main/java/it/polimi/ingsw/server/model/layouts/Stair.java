@@ -38,7 +38,7 @@ public class Stair extends Layout {
         int previousCol = b.getCellsInColumn(0) + 1;
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             int currentCol = b.getCellsInColumn(i);
-            if (currentCol != previousCol - 1) {
+            if (currentCol != previousCol - 1 || currentCol == 0) {
                 return false;
             }
             previousCol = currentCol;
@@ -61,7 +61,7 @@ public class Stair extends Layout {
         int previousCol = b.getCellsInColumn(0) - 1;
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             int currentCol = b.getCellsInColumn(i);
-            if (currentCol != previousCol + 1) {
+            if (currentCol != previousCol + 1 || currentCol == 0) {
                 return false;
             }
             previousCol = currentCol;
