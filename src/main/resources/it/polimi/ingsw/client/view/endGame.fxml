@@ -36,7 +36,7 @@
                                 <Font name="Ink Free" size="33.0"/>
                             </font>
                         </Label>
-                        <Label fx:id="winnerPhrase" text="won the game!" textFill="#fff7be">
+                        <Label fx:id="winnerPhrase" text="%winPhrase" textFill="#fff7be">
                             <font>
                                 <Font name="Ink Free" size="33.0"/>
                             </font>
@@ -58,7 +58,7 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                             </rowConstraints>
                             <children>
-                                <Label text="Leaderboard" textFill="#fff2d6" GridPane.columnSpan="2"
+                                <Label text="%leaderBoard" textFill="#fff2d6" GridPane.columnSpan="2"
                                        GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                     <font>
                                         <Font name="Ink Free" size="36.0"/>
@@ -116,7 +116,7 @@
                             </children>
                         </GridPane>
                         <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeScreen" prefHeight="87.0"
-                                prefWidth="122.0" text="Play Again"/>
+                                prefWidth="122.0" text="%playAgain"/>
                     </children>
                 </HBox>
             </children>

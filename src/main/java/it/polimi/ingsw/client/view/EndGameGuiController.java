@@ -44,8 +44,8 @@ public class EndGameGuiController {
     @FXML
     private Label winner;
 
-    //@FXML
-    //private Label winnerPhrase;
+    @FXML
+    private Label winnerPhrase;
 
     public EndGameGuiController(GuiView guiView, Client client) {
         view = guiView;
@@ -70,9 +70,11 @@ public class EndGameGuiController {
 
         for (String s : winners.keySet()) {
             if (s.equals(client.getUsername())) {
-                this.winner.setText(this.winner.getText() + "You");
+                this.winner.setText(this.winner.getText() + view.bundle.getString("self"));
+                this.winnerPhrase.setText(view.bundle.getString("selfWinPhrase"));
             } else {
                 this.winner.setText(this.winner.getText() + s);
+                this.winnerPhrase.setText(view.bundle.getString("winPhrase"));
             }
         }
 
@@ -80,7 +82,7 @@ public class EndGameGuiController {
         scores.putAll(losers);
 
         //order scores by value
-        
+
 
         List<String> players = new ArrayList<>(scores.keySet());
 

@@ -259,9 +259,8 @@
                                         </VBox>
                                         <Label fx:id="rearrangeHelp" alignment="CENTER" prefHeight="222.0"
                                                prefWidth="218.0" style="-fx-background-color: #2B2B2BC6;"
-                                               text="In this area you can rearrange the items picked from the board&#10;Use the upper button to switch the two upper items&#10;Use the lower button to switch the two lower items"
-                                               textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS"
-                                               visible="false" wrapText="true">
+                                               text="%rearrangeHelp" textAlignment="CENTER" textFill="WHITE"
+                                               textOverrun="LEADING_ELLIPSIS" visible="false" wrapText="true">
                                             <opaqueInsets>
                                                 <Insets/>
                                             </opaqueInsets>

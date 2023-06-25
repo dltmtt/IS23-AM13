@@ -29,6 +29,7 @@ public class GuiView extends Application implements GameView {
     public static GameGuiController gameController;
     private static LoginGuiController loginController;
     private static EndGameGuiController endGameController;
+    public ResourceBundle bundle;
 
     /**
      * Launches the GUI.
@@ -305,8 +306,7 @@ public class GuiView extends Application implements GameView {
     @Override
     public void loadLanguage() {
 
-        ResourceBundle bundle = ResourceBundle.getBundle("game", client.locale);
-
+        bundle = ResourceBundle.getBundle("game", client.locale);
 
         FXMLLoader playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"), bundle);
 

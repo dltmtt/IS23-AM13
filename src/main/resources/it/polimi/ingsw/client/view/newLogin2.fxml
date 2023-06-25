@@ -8,33 +8,29 @@
 <?import javafx.scene.text.Font?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
       minWidth="-Infinity"
-      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19">
+      prefHeight="528.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/19">
     <children>
-        <StackPane prefHeight="403.0" prefWidth="600.0">
+        <StackPane prefHeight="537.0" prefWidth="754.0">
             <children>
-                <ImageView fitHeight="402.0" fitWidth="604.0" pickOnBounds="true">
+                <ImageView fitHeight="532.0" fitWidth="761.0" pickOnBounds="true">
                     <image>
                         <Image url="@sfondo_parquet.jpg"/>
                     </image>
                 </ImageView>
                 <StackPane prefHeight="150.0" prefWidth="200.0">
                     <children>
-                        <ImageView fitHeight="63.0" fitWidth="604.0" opacity="0.7" pickOnBounds="true"
+                        <ImageView fitHeight="63.0" fitWidth="758.0" opacity="0.7" pickOnBounds="true"
                                    StackPane.alignment="TOP_CENTER">
                             <image>
                                 <Image url="@graphics/misc/base_pagina2.jpg"/>
                             </image>
                         </ImageView>
-                        <StackPane prefHeight="150.0" prefWidth="200.0">
-                            <children>
-                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
-                                           StackPane.alignment="TOP_CENTER">
-                                    <image>
-                                        <Image url="@graphics/publisher_material/title_2000x618px.png"/>
-                                    </image>
-                                </ImageView>
-                            </children>
-                        </StackPane>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                                   StackPane.alignment="TOP_CENTER">
+                            <image>
+                                <Image url="@graphics/publisher_material/title_2000x618px.png"/>
+                            </image>
+                        </ImageView>
                     </children>
                 </StackPane>
                 <GridPane>
@@ -47,13 +43,13 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                 </GridPane>
-                <TabPane prefHeight="200.0" prefWidth="200.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+                <TabPane prefHeight="550.0" prefWidth="754.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                         <Tab text="Play">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <GridPane layoutX="124.0" layoutY="66.0" prefHeight="246.0" prefWidth="387.0">
+                                        <GridPane layoutX="187.0" layoutY="91.0" prefHeight="246.0" prefWidth="387.0">
                                             <columnConstraints>
                                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0"
                                                                    prefWidth="100.0"/>
@@ -135,9 +131,9 @@
                                                 <Label fx:id="connectionError" translateX="-80.0" translateY="185.0"/>
                                             </children>
                                         </GridPane>
-                                        <Button fx:id="startButton" layoutX="414.0" layoutY="312.0"
+                                        <Button fx:id="startButton" layoutX="499.0" layoutY="337.0"
                                                 mnemonicParsing="false" onAction="#onStartButtonClicked"
-                                                text="Start game"/>
+                                                prefHeight="43.0" prefWidth="124.0" text="Start game"/>
                                     </children>
                                 </AnchorPane>
                             </content>
@@ -151,7 +147,7 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <VBox layoutY="63.0" prefHeight="314.0" prefWidth="604.0">
+                                        <VBox layoutY="63.0" prefHeight="442.0" prefWidth="762.0">
                                             <children>
                                                 <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0"
                                                       prefWidth="200.0" spacing="15.0">
@@ -161,7 +157,7 @@
                                                                 <Font size="19.0"/>
                                                             </font>
                                                         </Label>
-                                                        <ComboBox fx:id="language" editable="true" prefWidth="150.0"/>
+                                                        <ComboBox fx:id="language" prefWidth="150.0"/>
                                                         <Button fx:id="setLanguage" mnemonicParsing="false"
                                                                 onAction="#changeLanguage" text="Set"/>
                                                     </children>
