@@ -118,6 +118,7 @@ public class Square extends Layout {
             return 0;
         }
     }
+
     /**
      * @return the info of the layout
      */

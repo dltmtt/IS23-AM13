@@ -624,15 +624,8 @@ public class Message implements Serializable {
         return (String) json.get("argument");
     }
 
-    public Player getCurrentPlayer() {
-        String username = (String) json.get("currentPlayer");
-        List<Player> players = getPlayers();
-        for (Player player : players) {
-            if (player.getNickname().equals(username)) {
-                return player;
-            }
-        }
-        return null;
+    public String getCurrentPlayer() {
+        return (String) json.get("currentPlayer");
     }
 
     public boolean getFirstGame() {
@@ -924,15 +917,27 @@ public class Message implements Serializable {
         switch (cardType) {
             case "corners" -> layout = new Corners(1, 1);
             case "diagonal" -> layout = new Diagonal(1, 1, 5);
-            case "fullLine" -> layout = new FullLine(1, 1, occurrences, horizontal);
+            case "fullLine" -> layout = createFullLine(occurrences, size, horizontal);
             case "group" -> layout = new Group(1, 1, occurrences, size);
-            case "xShape" -> layout = new XShape(1, 1, occurrences);
+            case "xShape" -> layout = new XShape(1, 1, 3);
             case "itemsPerColor" -> layout = new ItemsPerColor(1, 1);
-            case "stair" -> layout = new Stair(1, 1, occurrences);
-            case "square" -> layout = new Square(1, 1, occurrences, size);
+            case "stair" -> layout = new Stair(1, 6, occurrences);
+            case "square" -> layout = new Square(1, 1, 2, 2);
             default -> System.out.println("Error in CommonGoalView");
         }
         return layout;
+    }
+
+    public Layout createFullLine(int occurrences, int size, boolean horizontal) {
+        if (occurrences == 3 || occurrences == 4) {
+            return new FullLine(1, 3, occurrences, horizontal);
+        }
+        if (horizontal) {
+            return new FullLine(5, 5, occurrences, horizontal);
+        } else {
+            return new FullLine(6, 6, occurrences, horizontal);
+        }
+
     }
 
     public List<Integer> getScore() {

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.client.view.BookshelfView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class Player {
      */
     public static void setCommonGoal(List<CommonGoal> commonGoals) {
         Player.commonGoals = commonGoals;
+
     }
 
     /**
@@ -61,8 +64,6 @@ public class Player {
         Player.board = board;
     }
 
-    // metodo temporaneo
-
     /**
      * @return the list of common goals
      */
@@ -70,8 +71,18 @@ public class Player {
         return commonGoals;
     }
 
+    // metodo temporaneo
+
     public void setCommonGoals(List<CommonGoal> commonGoals) {
         Player.commonGoals = commonGoals;
+    }
+
+    public List<String> getCommonNames() {
+        List<String> names = new ArrayList<>();
+        for (CommonGoal commonGoal : commonGoals) {
+            names.add(commonGoal.getLayout().getName());
+        }
+        return names;
     }
 
     public void setIsFirstPlayer(boolean isFirstPlayer) {
@@ -172,13 +183,14 @@ public class Player {
     public void move(List<Item> items, int column) throws IllegalArgumentException {
 
         bookshelf.insert(column, items);
-        System.out.println("Player " + nickname + " moved " + items.size() + " tiles to column " + column + " of their bookshelf.");
         for (int i = 0; i < commonGoals.size(); i++) {
             System.out.println("Checking common goal " + commonGoals.get(i).getLayout().getName() + "...");
             System.out.println(commonGoalCompleted.get(i));
             if (!commonGoalCompleted.get(i)) {
                 if (commonGoals.get(i).check(bookshelf)) {
                     System.out.println("Player " + nickname + " completed the common goal " + commonGoals.get(i).getLayout().getName() + " and earned " + commonGoals.get(i).getScoringList().get(0) + " points!");
+                    BookshelfView bokkshelfView = new BookshelfView(bookshelf);
+                    bokkshelfView.printBookshelf();
                     setCommonGoalPoints(commonGoals.get(i));
                     commonGoalCompleted.set(i, true);
                 }
@@ -303,5 +315,17 @@ public class Player {
 
     public List<Integer> getCommonGoalScoreList() {
         return commonGoalPoints;
+    }
+
+    public void printPlayer() {
+        System.out.println("Player: " + nickname);
+        System.out.println("Personal Goal: " + personalGoal.toString());
+        System.out.println("Common Goals: ");
+        for (CommonGoal commonGoal : commonGoals) {
+            System.out.println(commonGoal.getLayout().getName());
+        }
+        System.out.println("Bookshelf: ");
+        BookshelfView bookshelfView = new BookshelfView(bookshelf);
+        bookshelfView.printBookshelf();
     }
 }

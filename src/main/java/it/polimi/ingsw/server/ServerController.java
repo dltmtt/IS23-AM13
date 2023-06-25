@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.ClientCommunicationInterface;
-import it.polimi.ingsw.client.view.BoardView;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Coordinates;
@@ -98,10 +97,21 @@ public class ServerController {
         Board board = new Board(lastGame.getBoard().getBoardMatrix(), lastGame.getItemBag(), players.size());
         gameModel = new GameModel(players, board, Player.getCommonGoals());
         gameModel.setGame(lastGame.getCommonGoals(players.size()));
-        gameModel.setCurrentPlayer(lastGame.getCurrentPlayer());
+        String currentPlayer = lastGame.getCurrentPlayer();
+        for (Player player : players) {
+            if (player.getNickname().equals(currentPlayer)) {
+                gameModel.setCurrentPlayer(player);
+                break;
+            }
+        }
         disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
 //        changeTurn();
         isGameLoaded = true;
+        for (Player p : players) {
+            System.out.println(p.getNickname() + " " + p.getCommonGoalCompleted() + " " + p.getCommonGoalPoints() + " " + p.getCommonNames());
+        }
+
+
         System.out.println("Last game loaded");
     }
 
@@ -336,8 +346,6 @@ public class ServerController {
         if (refill()) {
             gameModel.getLivingRoom().fill();
         }
-        BoardView boardView = new BoardView(gameModel.getLivingRoom());
-        boardView.printBoard();
         return gameModel.getLivingRoom();
     }
 

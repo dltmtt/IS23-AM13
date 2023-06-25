@@ -2,10 +2,9 @@ package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
+import it.polimi.ingsw.utils.SettingLoader;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The common goal layout with a row or a column with every cell filled.
@@ -60,6 +59,7 @@ public class FullLine extends Layout {
      * @return true if the layout is satisfied, false otherwise
      */
     public boolean check(Bookshelf b) {
+        SettingLoader.loadBookshelfSettings();
         // Check if the bookshelf is valid
         if (b == null) {
             throw new IllegalArgumentException("Bookshelf is null");
@@ -70,8 +70,8 @@ public class FullLine extends Layout {
 
         if (horizontal) {
             // Check every row until there are no more full rows
-            for(int i=0; i<Bookshelf.getRows(); i++){
-                if(b.isRowFull(i)) {
+            for (int i = 0; i < Bookshelf.getRows(); i++) {
+                if (b.isRowFull(i)) {
                     List<Item> rowContent = b.getRowContent(i);
                     int differentColors = getDifferentColors(rowContent);
 

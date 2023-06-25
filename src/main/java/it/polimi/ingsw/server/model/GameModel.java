@@ -79,6 +79,15 @@ public class GameModel {
 //        livingRoom.setItemBag(board.getItemBag());
 //        livingRoom.setBoardMatrix(board.getBoardMatrix());
         Player.setCommonGoal(commonGoals);
+        for (CommonGoal cg : commonGoals) {
+            System.out.println("name " + cg.getLayout().getName());
+            System.out.println("occurences " + cg.getLayout().getOccurrences());
+            System.out.println("size " + cg.getLayout().getSize());
+            System.out.println("horizontal " + cg.getLayout().isHorizontal());
+            System.out.println("minDiff " + cg.getLayout().getMinDifferent());
+            System.out.println("maxDiff " + cg.getLayout().getMaxDifferent());
+        }
+
     }
 
     /**
