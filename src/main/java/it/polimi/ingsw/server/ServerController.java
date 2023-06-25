@@ -72,6 +72,10 @@ public class ServerController {
         rmiClients.remove(username);
     }
 
+    public void setIsLoaded(boolean isLoaded) {
+        isGameLoaded = isLoaded;
+    }
+
     /**
      * Checks whether the game has been saved or not. This is done by
      * checking if the JSON that contains the state of the game exists.

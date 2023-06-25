@@ -20,6 +20,8 @@ import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 public abstract class Client extends UnicastRemoteObject implements Serializable, ClientCommunicationInterface {
 
     private final Object lock;
+    private final Object lock1;
+    private final Object lock2;
     /**
      * The <code>GameView</code> associated with this client.
      */
@@ -29,9 +31,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public String username;
     public Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build(); // Default locale
-    private boolean theOnlyOne = false; // Whether this client is the only one in the game
+    private Boolean allReconnected = false; // Whether all the players have reconnected
+    private Boolean theOnlyOne = false; // Whether this client is the only one in the game
     private Boolean serverConnection = false; // Whether there is a connection to the server
-
 
     public Client() throws RemoteException {
         super();
@@ -64,6 +66,8 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             System.exit(1);
         }
         lock = new Object();
+        lock1 = new Object();
+        lock2 = new Object();
     }
 
     /**
@@ -220,6 +224,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             }
             case "waitingRoomForReconnect" -> {
                 gameView.showMessage("Waiting for other players to reconnect...\n");
+                waitForReconnectionAfterServerDown();
+            }
+            case "AllIn" -> {
+                allReconnected = true;
             }
             default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
@@ -231,16 +239,40 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public void waitForReconnection() {
         new Thread(() -> {
-            try {
-                Thread.sleep(60000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (theOnlyOne) {
-                gameView.showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
-                System.exit(0);
+            synchronized (lock1) {
+                try {
+                    Thread.sleep(120000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                System.out.println("theOnlyOne: " + theOnlyOne);
+                if (theOnlyOne) {
+                    gameView.showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
+                    System.exit(0);
+                }
             }
         }).start();
+    }
+
+    public void waitForReconnectionAfterServerDown() {
+        Thread wait = new Thread(() -> {
+            synchronized (lock2) {
+                try {
+                    Thread.sleep(60000);
+
+                    Thread.sleep(120000);
+                    if (!allReconnected) {
+                        gameView.showMessage("Other players didn't reconnect. Exiting...");
+                        System.exit(0);
+                    }
+                    allReconnected = false;
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        });
+        wait.start();
     }
 
     /**

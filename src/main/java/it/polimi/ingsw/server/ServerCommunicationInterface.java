@@ -45,12 +45,12 @@ public interface ServerCommunicationInterface extends Remote {
                 System.out.println("Received ping from " + client.getUsername());
                 controller.pong(client.getUsername());
                 controller.addPongLost(client.getUsername());
-                if (controller.disconnectedPlayers.contains(client.getUsername())) {
-                    System.out.println("Player " + client.getUsername() + " reconnected");
-                    startPingThread(client);
-                    sendAll(new Message("reconnected", client.getUsername()));
-                    controller.disconnectedPlayers.remove(client.getUsername());
-                }
+//                if (controller.disconnectedPlayers.contains(client.getUsername())) {
+////                    System.out.println("Player " + client.getUsername() + " reconnected");
+////                    startPingThread(client);
+//                sendAll(new Message("reconnected", client.getUsername()));
+//                    controller.disconnectedPlayers.remove(client.getUsername());
+//                }
                 client.callBackSendMessage(new Message("pong"));
             }
             case "numOfPlayersMessage" -> {
@@ -127,7 +127,7 @@ public interface ServerCommunicationInterface extends Remote {
                 try {
                     Thread.sleep(20000);
                     if (!controller.pongReceived.contains(finalUsername) && !controller.disconnectedPlayers.contains(finalUsername)) {
-                        System.out.println("Ping not received from " + finalUsername + ". Disconnecting.");
+                        System.err.println("Ping not received from " + finalUsername + ". Disconnecting.");
                         Thread.sleep(10000);
                         if (!controller.pongReceived.contains(finalUsername)) {
                             disconnect(finalUsername);
@@ -164,6 +164,7 @@ public interface ServerCommunicationInterface extends Remote {
                 nextTurn();
             }
         }
+        controller.removeClientByUsername(username);
     }
 
     default void removePlayers() throws RemoteException {
@@ -385,7 +386,7 @@ public interface ServerCommunicationInterface extends Remote {
                 if (controller.checkUsername(username) == -1) {
                     System.out.println(username + " reconnected.");
                     client.setUsername(username);
-
+                    controller.addClient(username, client);
                     resendGameToReconnectedClient(client);
                 } else {
                     System.out.println(username + " requested login, but the username is already taken.");
@@ -408,7 +409,7 @@ public interface ServerCommunicationInterface extends Remote {
 
     default void resendToReconnectAfterServerDown(ClientCommunicationInterface client) throws RemoteException {
         int position = controller.getPositionByUsername(client.getUsername());
-        System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
+//        System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
 
         try {
             client.callBackSendMessage(new Message("username", client.getUsername()));
@@ -420,7 +421,12 @@ public interface ServerCommunicationInterface extends Remote {
         if (controller.getRmiClients().size() + controller.getTcpClients().size() != controller.numberOfPlayers) {
             client.callBackSendMessage(new Message("waitingRoomForReconnect"));
         } else {
+            controller.setIsLoaded(false);
+            sendAll(new Message("AllIn"));
+            startPingThread(client);
             nextTurn();
         }
     }
+
+
 }
