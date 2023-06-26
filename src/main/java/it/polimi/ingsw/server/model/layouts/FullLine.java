@@ -37,16 +37,28 @@ public class FullLine extends Layout {
         this.horizontal = horizontal;
     }
 
+    /**
+     *
+     * @return the number of occurrences of the layout
+     */
     @Override
     public int getOccurrences() {
         return occurrences;
     }
 
+    /**
+     *
+     * @return true if the layout is horizontal, false if it is vertical
+     */
     @Override
     public boolean isHorizontal() {
         return horizontal;
     }
 
+    /**
+     *
+     * @return the name of the layout
+     */
     @Override
     public String getName() {
         return "fullLine";
@@ -96,6 +108,10 @@ public class FullLine extends Layout {
         return counter >= occurrences;
     }
 
+    /**
+     *
+     * @return a string containing the representation of the layout
+     */
     public String getInfo() {
         return super.getInfo() + " -type= fullLine -occurrences" + occurrences;
     }

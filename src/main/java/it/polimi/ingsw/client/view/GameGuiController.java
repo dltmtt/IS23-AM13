@@ -982,6 +982,9 @@ public class GameGuiController {
         System.out.println("Points updated");
     }
 
+    /**
+     * It removes the end game token
+     */
     public void showLastRound() {
         endGameImage.setVisible(false);
     }

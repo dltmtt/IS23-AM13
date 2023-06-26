@@ -4,6 +4,10 @@ import it.polimi.ingsw.client.Client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+/**
+ * This class is the controller for the closure gui
+ */
+
 public class ClosureGuiController {
 
     private final Client client;

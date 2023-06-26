@@ -65,10 +65,18 @@ public class GameModel {
         }
     }
 
+    /**
+     *
+     * @return the list of players.
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     *
+     * @param players the list of players to set.
+     */
     public void setPlayers(List<Player> players) {
         this.players.clear();
         this.players.addAll(players);
@@ -132,14 +140,26 @@ public class GameModel {
         return allPoints;
     }
 
+    /**
+     *
+     * @return the current player.
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     *
+     * @param currentPlayer the current player to set.
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     *
+     * @return the board of the game.
+     */
     public Board getLivingRoom() {
         return livingRoom;
     }
@@ -248,14 +268,23 @@ public class GameModel {
     }
 
 
+    /**
+     * @return the CommonGoalDeck.
+     */
     public List<CommonGoal> getCommonGoalDeck() {
         return commonGoalDeck;
     }
 
+    /**
+     * @return the PersonalGoalDeck.
+     */
     public List<PersonalGoal> getPersonalGoalDeck() {
         return personalGoalDeck;
     }
 
+    /**
+     * @return true id the game is ended, otherwise false.
+     */
     public boolean isTheGameEnded() {
         return isTheGameEnded;
     }

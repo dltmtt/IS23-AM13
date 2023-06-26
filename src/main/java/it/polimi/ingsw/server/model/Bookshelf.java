@@ -120,6 +120,11 @@ public class Bookshelf implements AbleToGetPoints {
         }
         return freeCells;
     }
+
+    /**
+     *
+     * @return the number of the cells to highlight in the board, depending on the number of free cells in the columns
+     */
     public int numCellsToHighlight() {
         int cellsToHighLight;
         int max = 0;

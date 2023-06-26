@@ -19,6 +19,10 @@ public class Diagonal extends Layout {
         super(dimension, dimension, minDifferent, maxDifferent);
     }
 
+    /**
+     *
+     * @return the name of the layout
+     */
     @Override
     public String getName() {
         return "diagonal";
@@ -103,6 +107,10 @@ public class Diagonal extends Layout {
         return counter == 5;
     }
 
+    /**
+     *
+     * @return the info of the layout
+     */
     public String getInfo() {
         return super.getInfo() + "-type=diagonal";
     }

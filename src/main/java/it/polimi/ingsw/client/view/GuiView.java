@@ -162,20 +162,12 @@ public class GuiView extends Application implements GameView {
         Platform.runLater(gameController::enableInsert);
     }
 
-    /*
-    @Override
-    public void showEndGame(List<String> winners, List<Integer> scores, List<String> losers, List<Integer> loserScores) {
-        Platform.runLater(() -> {
-            // TODO: a list of winners?
-            // endGameController.setWinner(winners.toString());
-            endGameController.setWinner(winners, scores, losers, loserScores);
-            stage.setScene(endGameScene);
-            stage.show();
-        });
-    }
 
+    /**
+     * Shows the end game scene
+     * @param winners the winners of the game
+     * @param losers the losers of the game
      */
-
     @Override
     public void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
         Platform.runLater(() -> {
@@ -197,7 +189,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * shows the other player's bookshelf
+     * This method shows the other player's bookshelf
      *
      * @param bookshelf the bookshelf to be shown
      */
@@ -209,7 +201,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * shows the player's bookshelf
+     * This method shows the player's bookshelf
      *
      * @param bookshelf the bookshelf to be shown
      */
@@ -222,7 +214,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Sets an error message in the login scene
+     * It sets an error message in the login scene
      */
     @Override
     public void usernameError() {
@@ -242,7 +234,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * sets an error message in the player number scene, but since the number of players is set by a slider, which minimum and maximum are valid, this method is never called and does nothing
+     * It sets an error message in the player number scene, but since the number of players is set by a slider, which minimum and maximum are valid, this method is never called and does nothing
      */
     @Override
     public void playerNumberError() {
@@ -250,7 +242,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * sets the player number scene
+     * It sets the player number scene
      */
     @Override
     public void playerChoice() {
@@ -286,7 +278,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * enables the rearrange area in the GUI, allowing the player to rearrange the items
+     * It enables the rearrange area in the GUI, allowing the player to rearrange the items
      */
     @Override
     public void rearrangeProcedure(List<Item> items) {
@@ -361,11 +353,19 @@ public class GuiView extends Application implements GameView {
         }
     }
 
+    /**
+     *
+     * @return the client
+     */
     @Override
     public Client getClient() {
         return client;
     }
 
+    /**
+     *
+     * @param client the client to set
+     */
     @Override
     public void setClient(Client client) {
         GuiView.client = client;
