@@ -68,16 +68,21 @@ public class LoginGuiController {
      */
     @FXML
     public void changeLanguage(ActionEvent event) {
-        if (language.getValue().equals("English")) {
-            client.setLanguage("en", "US");
-        } else {
-            client.setLanguage("it", "IT");
+        String lang = language.getValue();
+
+        switch (lang) {
+            case "English" -> client.setLanguage("en", "US");
+            case "Italian" -> client.setLanguage("it", "IT");
+            case "Sicilian" -> client.setLanguage("si", "IT");
+            case "Pugliese" -> client.setLanguage("pu", "IT");
+            case "Bergamasco" -> client.setLanguage("bg", "IT");
+            
         }
+
     }
 
     @FXML
     void loadSettings() {
-        language.getItems().addAll("English", "Italian");
-        //l.setText("player");
+        language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese");
     }
 }

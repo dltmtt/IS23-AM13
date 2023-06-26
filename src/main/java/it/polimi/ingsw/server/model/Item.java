@@ -4,6 +4,9 @@ import it.polimi.ingsw.utils.Color;
 
 /**
  * An item made of a color and a number identifying its drawing.
+ *
+ * @param color  the color of the item
+ * @param number the number of the item, identifying its drawing
  */
 public record Item(Color color, int number) {
 

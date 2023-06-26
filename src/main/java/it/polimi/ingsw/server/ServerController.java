@@ -488,6 +488,7 @@ public class ServerController {
      *     <li>-1: the player can't insert the picked items in the bookshelf because there are not enough free cells</li>
      *     <li>0: the player can't insert the picked items in the bookshelf because the column is not valid</li>
      *     <li>1: the player can insert the picked items in the bookshelf</li>
+     *  </ul>
      */
     public int checkInsert(int column) {
         if (gameModel.getCurrentPlayer().getBookshelf().getFreeCellsInColumn(column) < currentPicked.size()) {
@@ -590,7 +591,7 @@ public class ServerController {
      * </ul>
      *
      * @return a map with the initial points of the players
-     * @see GameModel:getAllPoints()
+     * @see GameModel#getAllPoints(Player)
      */
     public HashMap<String, List<Integer>> getInitialPoints() {
         HashMap<String, List<Integer>> initialPoints = new HashMap<>();
@@ -619,7 +620,7 @@ public class ServerController {
      * </ul>
      *
      * @return a map with the initial points of the players
-     * @see GameModel:getAllPoints()
+     * @see GameModel#getAllPoints(Player)
      */
     public HashMap<String, List<Integer>> getAllCurrentPoints() {
         HashMap<String, List<Integer>> allCurrentPoints = new HashMap<>();
