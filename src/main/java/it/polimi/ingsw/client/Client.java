@@ -22,6 +22,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     private final Object lock;
     private final Object lock1;
     private final Object lock2;
+    private final Object insertRearrangeLock;
     /**
      * The <code>GameView</code> associated with this client.
      */
@@ -68,6 +69,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         lock = new Object();
         lock1 = new Object();
         lock2 = new Object();
+        insertRearrangeLock = new Object();
     }
 
     /**
@@ -119,7 +121,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public abstract void connect() throws IOException, NotBoundException;
 
     /**
-     * Shows a message or a graphic to let the player know they has to wait
+     * Shows a message or a graphic to let the player know he has to wait
      * for other players to join in order to start the game.
      */
     public void waitingRoom() {
@@ -134,7 +136,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         this.username = username;
     }
 
-
     /**
      * Parser method, called when a message is received from the server.
      *
@@ -145,14 +146,8 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         String category = message.getCategory();
 
         switch (category) {
-            case "ping" -> {
-                serverConnection = true;
-                // System.out.println("Pong!");
-            }
-            case "pong" -> {
-                serverConnection = true;
-//                System.out.println("Pong!" + serverConnection);
-            }
+            case "ping" -> serverConnection = true;
+            case "pong" -> serverConnection = true;
             case "username" -> {
                 setUsername(message.getUsername());
                 checkServerConnection();
@@ -163,7 +158,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "numOfPlayersNotOK" -> gameView.playerNumberError();
             case "update" -> {
                 HashMap<String, Bookshelf> bookshelves = message.getAllBookshelves();
-                //gameView.setPlayers
+                // gameView.setPlayers
                 gameView.pickMyBookshelf(bookshelves);
                 gameView.pickOtherBookshelf(bookshelves);
                 gameView.showCurrentScore(message.getScore().get(3));
@@ -189,9 +184,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 // showPick() sends the message to the server
                 gameView.showPick();
             }
-            case "winners" ->
-                //gameView.showEndGame(message.getWinners(), message.getWinnersScore(), message.getOtherPlayersName(), message.getOtherScores());
-                    gameView.showEndGame(message.getWinners(), message.getLosers());
+            case "winners" -> gameView.showEndGame(message.getWinners(), message.getLosers());
             case "waitingRoom" -> waitingRoom();
             case "lastRound" -> gameView.showLastRound();
             case "gameAlreadyStarted" -> gameView.showGameAlreadyStarted();
@@ -206,12 +199,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 }
                 gameView.promptInsert();
             }
-            case "checkingDisconnection" -> {
-                gameView.showMessage("Server is checking if you disconnected...");
-                // List<String> disconnected = message.getDisconnected();
-                // gameView.showDisconnection(disconnected);
-                // stop();
-            }
+            case "checkingDisconnection" -> gameView.showMessage("Server is checking if you disconnected...");
             case "reconnected" -> {
                 theOnlyOne = false;
                 String username = message.getArgument();
@@ -226,9 +214,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 gameView.showMessage("Waiting for other players to reconnect...\n");
                 waitForReconnectionAfterServerDown();
             }
-            case "AllIn" -> {
-                allReconnected = true;
-            }
+            case "AllIn" -> allReconnected = true;
             default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
     }
@@ -245,7 +231,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-//                System.out.println("theOnlyOne: " + theOnlyOne);
                 if (theOnlyOne) {
                     gameView.showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
                     System.exit(0);
@@ -258,8 +243,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         Thread wait = new Thread(() -> {
             synchronized (lock2) {
                 try {
-                    Thread.sleep(60000);
-
                     Thread.sleep(120000);
                     if (!allReconnected) {
                         gameView.showMessage("Other players didn't reconnect. Exiting...");
@@ -270,7 +253,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                     throw new RuntimeException(e);
                 }
             }
-
         });
         wait.start();
     }
@@ -286,8 +268,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                     sendMessage(new Message("ping"));
                     synchronized (lock) {
                         Thread.sleep(20000);
-//                        System.out.println("ping" + serverConnection);
-                        // System.out.println("after sleep");
                         if (!serverConnection) {
                             System.err.println("Server is down. Exiting...");
                             System.exit(0);
@@ -318,7 +298,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public void insert() {
         Thread insThread = new Thread(() -> {
-            gameView.promptInsert();
+            synchronized (insertRearrangeLock) {
+                gameView.promptInsert();
+            }
         });
         insThread.start();
     }
@@ -331,7 +313,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public void rearrange(Message message) {
         Thread threadRearrange = new Thread(() -> {
-            gameView.rearrangeProcedure(message.getPicked());
+            synchronized (insertRearrangeLock) {
+                gameView.rearrangeProcedure(message.getPicked());
+            }
         });
         threadRearrange.start();
     }
@@ -339,5 +323,4 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void setLanguage(String language, String country) {
         locale = new Locale.Builder().setLanguage(language).setRegion(country).build();
     }
-
 }
