@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface GameView {
-
     String insertError = "The index must be between 0 and " + (Bookshelf.getColumns() - 1) + ": "; // TODO: make sure to load settings before this
     String insertUsernamePrompt = "Please, insert your username: ";
     String firstGameQuestion = "Is this the first time you play this game?";
@@ -39,8 +38,6 @@ public interface GameView {
     boolean showRearrange(List<Item> items) throws IOException;
 
     void promptInsert();
-
-    // void showEndGame(List<String> winners, List<Integer> Wscores, List<String> otherPlayers, List<Integer> otherScores);
 
     void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers);
 

@@ -51,12 +51,17 @@ public class LoginGuiController {
     public void onStartButtonClicked() {
         if (username.getText().isEmpty()) {
             usernameError.setText("Username cannot be empty");
-            return;
+        }else {
+            showWaiting();
+            client.gameView.loadLanguage();
+            Thread sendLoginMessageThread = new Thread(this::sendLoginMessage);
+            sendLoginMessageThread.start();
         }
-        client.gameView.loadLanguage();
+    }
+
+    public void sendLoginMessage(){
         client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), 0));
         client.startPingThread(username.getText());
-        showWaiting();
     }
 
     /**

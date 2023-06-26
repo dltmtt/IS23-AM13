@@ -21,6 +21,7 @@ public class MyShelfie {
      * It's shared by RMI and TCP.
      */
     public static String HOSTNAME;
+    public static String protocolType;
 
     public static void main(String[] args) {
         SettingLoader.loadBookshelfSettings();
@@ -47,12 +48,15 @@ public class MyShelfie {
         }
 
         if (line.hasOption("help")) {
-            formatter.printHelp("java -jar <project-root>/shade/AM13_Client.jar", options);
+            formatter.printHelp("java -jar <project-root>/AM13_Client.jar", options);
             System.exit(0);
         }
 
-        MyShelfie.HOSTNAME = line.getOptionValue("hostname", "localhost");
-        String protocolType = line.getOptionValue("protocol", "rmi");
+
+        MyShelfie.HOSTNAME = line.getOptionValue("hostname", SettingLoader.loadDefaultIP());
+        protocolType = line.getOptionValue("protocol", SettingLoader.loadDefaultProtocol());
+
+
 
         client = null;
         switch (protocolType) {
