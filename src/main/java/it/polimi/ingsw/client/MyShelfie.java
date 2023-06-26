@@ -25,7 +25,7 @@ public class MyShelfie {
     public static void main(String[] args) {
         SettingLoader.loadBookshelfSettings();
         Option protocol = new Option("p", "protocol", true, "select network protocol to use (default: RMI)");
-        Option view = new Option("m", "view", true, "launch CLI or GUI (default: CLI)");
+        Option view = new Option("v", "view", true, "launch CLI or GUI (default: CLI)");
         Option hostname = new Option("n", "hostname", true, "set the hostname of the server (default: localhost)");
         Option help = new Option("h", "help", false, "show this help message");
 
@@ -47,7 +47,7 @@ public class MyShelfie {
         }
 
         if (line.hasOption("help")) {
-            formatter.printHelp("myshelfie", options);
+            formatter.printHelp("java -jar <project-root>/shade/AM13_Client.jar", options);
             System.exit(0);
         }
 
@@ -93,7 +93,6 @@ public class MyShelfie {
     }
 
     /**
-     *
      * @param client The client to set.
      */
     public void setClient(Client client) {
