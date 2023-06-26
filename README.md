@@ -48,11 +48,12 @@ To play My Shelfie, follow these steps:
 
 When launching the client, you can specify the following options (after `AM13_Client.jar`):
 
-| Option               |      Possible value(s)       | Description                        |
-|----------------------|:----------------------------:|------------------------------------|
-| `-h` or `--help`     |              -               | Prints the help message and exits  |
-| `-v` or `--view`     |        `cli` or `gui`        | Selects the view to use            |
-| `-p` or `--protocol` |        `tcp` or `rmi`        | Selects the protocol to use        |
-| `-n` or `--hostname` | an IP address or `localhost` | Selects the hostname of the server |
+| Option               |      Possible value(s)       |        Default value         | Description                        |
+|----------------------|:----------------------------:|:----------------------------:|------------------------------------|
+| `-h` or `--help`     |              -               |              -               | Prints the help message and exits  |
+| `-v` or `--view`     |        `cli` or `gui`        |            `gui`             | Selects the view to use            |
+| `-p` or `--protocol` |        `tcp` or `rmi`        |            `tcp`             | Selects the protocol to use        |
+| `-n` or `--hostname` | an IP address or `localhost` |        `localhost`           | Selects the hostname of the server |
 
 Options that require an argument must be followed by a space or an equal sign and the argument itself.
+The default values are set in the `settings.properties` in [src/main/resources/it/polimi/ingsw](src/main/resources/it/polimi/ingsw) folder.
