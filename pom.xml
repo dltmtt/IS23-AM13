@@ -80,7 +80,7 @@
                         <configuration>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>project-classifier</shadedClassifierName>
-                            <outputFile>shade\${project.artifactId}_Client.jar</outputFile>
+                            <outputFile>deliverables\shade\${project.artifactId}_Client.jar</outputFile>
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -100,7 +100,7 @@
                         <configuration>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>project-classifier</shadedClassifierName>
-                            <outputFile>shade\${project.artifactId}_Server.jar</outputFile>
+                            <outputFile>deliverables\shade\${project.artifactId}_Server.jar</outputFile>
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">

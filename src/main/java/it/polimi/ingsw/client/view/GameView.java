@@ -94,4 +94,6 @@ public interface GameView {
     void loadLanguage();
 
     void setTheOnlyOne(boolean b);
+
+    void showWaiting();
 }

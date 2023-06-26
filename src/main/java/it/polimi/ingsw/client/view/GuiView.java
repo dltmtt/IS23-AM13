@@ -360,6 +360,13 @@ public class GuiView extends Application implements GameView {
     }
 
     @Override
+    public void showWaiting() {
+        Platform.runLater(() -> {
+            loginController.showWaiting();
+        });
+    }
+
+    @Override
     public Client getClient() {
         return client;
     }

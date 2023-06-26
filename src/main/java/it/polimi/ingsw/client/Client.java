@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
@@ -32,6 +33,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public String username;
     public Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build(); // Default locale
+    public ResourceBundle bundle= ResourceBundle.getBundle("game", locale);
     private Boolean allReconnected = false; // Whether all the players have reconnected
     private Boolean theOnlyOne = false; // Whether this client is the only one in the game
     private Boolean serverConnection = false; // Whether there is a connection to the server
@@ -167,7 +169,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             }
             case "startGame" -> gameView.startGame(message);
             case "turn" -> myTurn();
-            case "otherTurn" -> gameView.showMessage("It's " + message.getArgument() + "'s turn.\n");
+            case "otherTurn" -> gameView.showMessage(otherTurnMessage(message.getArgument()));
             case "picked" -> {
                 try {
                     if (gameView.showRearrange(message.getPicked())) {
@@ -199,15 +201,15 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 }
                 gameView.promptInsert();
             }
-            case "checkingDisconnection" -> gameView.showMessage("Server is checking if you disconnected...");
+            case "checkingDisconnection" -> gameView.showWaiting();
             case "reconnected" -> {
                 theOnlyOne = false;
                 gameView.setTheOnlyOne(false);
                 String username = message.getArgument();
-                gameView.showMessage(username + " reconnected.\n");
+                gameView.showMessage(reconnectionMessage(username));
             }
             case "youAloneBitch" -> {
-                gameView.showMessage("You are the only player in the game. Please wait for other players to reconnect.\n");
+                gameView.showMessage(onlyPlayerMessage());
                 theOnlyOne = true;
                 gameView.setTheOnlyOne(true);
                 waitForReconnection();
@@ -219,6 +221,14 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "AllIn" -> allReconnected = true;
             default -> throw new IllegalArgumentException("Invalid message category: " + category);
         }
+    }
+
+    private String onlyPlayerMessage() {
+        return bundle.getString("onlyPlayer");
+    }
+
+    private String reconnectionMessage(String username) {
+        return bundle.getString("reconnection") + username;
     }
 
     /**
@@ -287,7 +297,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      * Asks the player to pick some tiles and sends the message to the server.
      */
     public void myTurn() {
-        gameView.showMessage("It's your turn.\n");
+        gameView.showMessage(yourTurnMessage());
         Thread turnThread = new Thread(() -> {
             gameView.showPick();
         });
@@ -322,7 +332,25 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         threadRearrange.start();
     }
 
+    /**
+     * Sets the game language to the specified one.
+     * @param language the language selected (2 letters)
+     * @param country the country selected (2 letters)
+     */
     public void setLanguage(String language, String country) {
         locale = new Locale.Builder().setLanguage(language).setRegion(country).build();
+        bundle = ResourceBundle.getBundle("game", locale);
     }
+
+    public String yourTurnMessage(){
+        return bundle.getString("yourTurn");
+    }
+
+    public String otherTurnMessage(String username){
+        return bundle.getString("otherTurn") + username + bundle.getString("otherTurn2");
+    }
+
+
+
+
 }

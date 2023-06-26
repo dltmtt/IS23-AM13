@@ -509,4 +509,9 @@ public class GameCliView implements GameView {
     public void setTheOnlyOne(boolean b) {
         this.theOnlyOne = b;
     }
+
+    @Override
+    public void showWaiting() {
+        System.out.println("Server is checking if you disconnected...");
+    }
 }

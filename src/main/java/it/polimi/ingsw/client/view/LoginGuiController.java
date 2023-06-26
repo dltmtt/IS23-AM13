@@ -6,6 +6,7 @@ import it.polimi.ingsw.commons.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 
 public class LoginGuiController {
 
@@ -28,6 +29,9 @@ public class LoginGuiController {
 
     @FXML
     private Tab settings;
+
+    @FXML
+    private StackPane waiting;
 
     public LoginGuiController() {
         this.client = MyShelfie.client;
@@ -52,6 +56,7 @@ public class LoginGuiController {
         client.gameView.loadLanguage();
         client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), 0));
         client.startPingThread(username.getText());
+        showWaiting();
     }
 
     /**
@@ -59,12 +64,16 @@ public class LoginGuiController {
      */
     @FXML
     public void usernameAlreadyTaken() {
-        usernameError.setText("Username already taken (" + username.getText() + ", retry");
+        usernameError.setText("Username already taken (" + username.getText() + "), retry");
+        waiting.setVisible(false);
+        startButton.setDisable(false);
+        username.setDisable(false);
+        firstGame.setDisable(false);
     }
 
     /**
      * This method makes it possible to change the language of the game
-     * @param event
+     * @param event mouse event
      */
     @FXML
     public void changeLanguage(ActionEvent event) {
@@ -84,5 +93,12 @@ public class LoginGuiController {
     @FXML
     void loadSettings() {
         language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese");
+    }
+
+    public void showWaiting() {
+        waiting.setVisible(true);
+        startButton.setDisable(true);
+        username.setDisable(true);
+        firstGame.setDisable(true);
     }
 }
