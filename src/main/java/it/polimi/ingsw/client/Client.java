@@ -202,12 +202,14 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "checkingDisconnection" -> gameView.showMessage("Server is checking if you disconnected...");
             case "reconnected" -> {
                 theOnlyOne = false;
+                gameView.setTheOnlyOne(false);
                 String username = message.getArgument();
                 gameView.showMessage(username + " reconnected.\n");
             }
             case "youAloneBitch" -> {
                 gameView.showMessage("You are the only player in the game. Please wait for other players to reconnect.\n");
                 theOnlyOne = true;
+                gameView.setTheOnlyOne(true);
                 waitForReconnection();
             }
             case "waitingRoomForReconnect" -> {

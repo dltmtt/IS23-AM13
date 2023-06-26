@@ -30,6 +30,7 @@ public class GuiView extends Application implements GameView {
     private static LoginGuiController loginController;
     private static EndGameGuiController endGameController;
     public ResourceBundle bundle;
+    private boolean theOnlyOne = false;
 
     /**
      * Launches the GUI.
@@ -43,7 +44,6 @@ public class GuiView extends Application implements GameView {
         launch();
         // Instruction executed after closing GUI window
         System.exit(0);
-
     }
 
     /**
@@ -184,7 +184,6 @@ public class GuiView extends Application implements GameView {
             stage.show();
         });
     }
-
 
     @Override
     public List<Integer> rearrange(List<Item> items) {
@@ -327,7 +326,6 @@ public class GuiView extends Application implements GameView {
             throw new RuntimeException(e);
         }
 
-
         FXMLLoader endGameSceneLoader = new FXMLLoader(this.getClass().getResource("endGame.fxml"), bundle);
         endGameController = new EndGameGuiController(this, client);
         endGameSceneLoader.setController(endGameController);
@@ -349,7 +347,6 @@ public class GuiView extends Application implements GameView {
             throw new RuntimeException(e);
         }
 
-
         FXMLLoader gameSceneLoader = new FXMLLoader(GuiView.class.getResource("game.fxml"), bundle);
         gameController = new GameGuiController();
         gameSceneLoader.setController(gameController);
@@ -359,6 +356,11 @@ public class GuiView extends Application implements GameView {
             System.err.println("Failed to load game.fxml");
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void setTheOnlyOne(boolean b) {
+        theOnlyOne = b;
     }
 
     @Override

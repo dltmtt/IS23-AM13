@@ -20,6 +20,7 @@ public class GameCliView implements GameView {
 
     private static final String illegalNumberOfPlayersError = "The number of players must be between 2 and 4 (inclusive): ";
     public Client client;
+    private boolean theOnlyOne = false;
 
     /**
      * If there is data to be read from the input buffer, read it and discard it.
@@ -95,10 +96,15 @@ public class GameCliView implements GameView {
         while (!valid) {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                ignoreInputIfAlone(in);
                 n = Integer.parseInt(in.readLine());
-                valid = true;
+                if (!theOnlyOne) {
+                    valid = true;
+                }
             } catch (NumberFormatException e) {
-                System.err.print("The input is not a number. Please insert a number: ");
+                if (!theOnlyOne) {
+                    System.err.print("The input is not a number. Please insert a number: ");
+                }
             } catch (IOException e) {
                 System.err.println("An error occurred while reading the number.");
             }
@@ -154,6 +160,10 @@ public class GameCliView implements GameView {
         while (!valid) {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+                // Ignore any input inserted when the player is alone. This mimics a freeze of the game.
+                ignoreInputIfAlone(in);
+
                 String input = in.readLine();
 
                 input = input.replaceAll("\\s", ""); // Ignore whitespaces
@@ -176,16 +186,33 @@ public class GameCliView implements GameView {
 
                     coordinates.add(new Coordinates(x, y));
                 }
-                valid = true;
+
+                if (!theOnlyOne) {
+                    valid = true;
+                }
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                System.err.print("The input is not valid. Please insert the coordinates in the correct format: ");
                 coordinates.clear(); // Without this, a coordinate could be added to the list even if the input in its entirety is not valid
+                if (!theOnlyOne) {
+                    System.err.print("The input is not valid. Please insert the coordinates in the correct format: ");
+                }
             } catch (IOException e) {
                 System.err.println("An error occurred while reading the coordinates.");
             }
         }
 
         client.sendMessage(new Message(coordinates.get(0), coordinates.get(1)));
+    }
+
+    private void ignoreInputIfAlone(BufferedReader in) {
+        while (theOnlyOne) {
+            try {
+                if (in.ready()) {
+                    in.readLine();
+                }
+            } catch (IOException e) {
+                // Ignore
+            }
+        }
     }
 
     @Override
@@ -250,13 +277,17 @@ public class GameCliView implements GameView {
         while (!valid) {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+                ignoreInputIfAlone(in);
+
                 String input = in.readLine();
 
                 input = input.replaceAll("\\s", ""); // Ignore whitespaces
 
                 String[] order = input.split(","); // Split the input into the new order
-                if (order.length != items.size())
+                if (order.length != items.size()) {
                     throw new NumberFormatException(); // If the new order doesn't contain all the items
+                }
 
                 for (String index : order) {
                     // This conversion throws NumberFormatException if the input is not a number
@@ -274,10 +305,15 @@ public class GameCliView implements GameView {
 
                     newOrder.add(i);
                 }
-                valid = true;
+
+                if (!theOnlyOne) {
+                    valid = true;
+                }
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                System.err.print("The input is not valid. Please insert the new order in the correct format: ");
                 newOrder.clear(); // Without this, an index could be added to the list even if the input in its entirety is not valid
+                if (!theOnlyOne) {
+                    System.err.print("The input is not valid. Please insert the new order in the correct format: ");
+                }
             } catch (IOException e) {
                 System.err.println("An error occurred while reading the new order.");
             }
@@ -416,5 +452,10 @@ public class GameCliView implements GameView {
     @Override
     public void loadLanguage() {
 
+    }
+
+    @Override
+    public void setTheOnlyOne(boolean b) {
+        this.theOnlyOne = b;
     }
 }
