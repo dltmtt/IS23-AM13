@@ -90,7 +90,9 @@ public class LoginGuiController {
             case "Sicilian" -> client.setLanguage("si", "IT");
             case "Pugliese" -> client.setLanguage("pu", "IT");
             case "Bergamasco" -> client.setLanguage("bg", "IT");
-            
+            case "French" -> client.setLanguage("fr", "FR");
+            case "Spanish" -> client.setLanguage("es", "ES");
+            case "Japanese" -> client.setLanguage("ja", "JP");
         }
 
     }
