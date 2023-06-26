@@ -216,7 +216,6 @@ public class GameCliView implements GameView {
         showMessage(welcomeMessage + title);
     }
 
-
     @Override
     public void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
         showMessage("The game is over!\n");
@@ -265,6 +264,11 @@ public class GameCliView implements GameView {
 
                     // Check if the index is within the items list
                     if (i < 0 || i > items.size() - 1) {
+                        throw new NumberFormatException();
+                    }
+
+                    // Check if the number is already in the list
+                    if (newOrder.contains(i)) {
                         throw new NumberFormatException();
                     }
 
@@ -318,7 +322,6 @@ public class GameCliView implements GameView {
         // Board
         showBoard(message.getBoard());
     }
-
 
     @Override
     public void pickMyBookshelf(HashMap<String, Bookshelf> bookshelves) {
