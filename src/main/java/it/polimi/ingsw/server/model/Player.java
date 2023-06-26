@@ -54,7 +54,6 @@ public class Player {
      */
     public static void setCommonGoal(List<CommonGoal> commonGoals) {
         Player.commonGoals = commonGoals;
-
     }
 
     /**
@@ -181,7 +180,6 @@ public class Player {
      * @throws IllegalArgumentException if the line is not straight or if the selection is empty
      */
     public void move(List<Item> items, int column) throws IllegalArgumentException {
-
         bookshelf.insert(column, items);
         for (int i = 0; i < commonGoals.size(); i++) {
             System.out.println("Checking common goal " + commonGoals.get(i).getLayout().getName() + "...");
@@ -189,8 +187,8 @@ public class Player {
             if (!commonGoalCompleted.get(i)) {
                 if (commonGoals.get(i).check(bookshelf)) {
                     System.out.println("Player " + nickname + " completed the common goal " + commonGoals.get(i).getLayout().getName() + " and earned " + commonGoals.get(i).getScoringList().get(0) + " points!");
-                    BookshelfView bokkshelfView = new BookshelfView(bookshelf);
-                    bokkshelfView.printBookshelf();
+                    BookshelfView bookshelfView = new BookshelfView(bookshelf);
+                    bookshelfView.printBookshelf();
                     setCommonGoalPoints(commonGoals.get(i));
                     commonGoalCompleted.set(i, true);
                 }
