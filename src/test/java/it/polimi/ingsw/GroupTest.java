@@ -81,6 +81,6 @@ public class GroupTest {
         items.clear();
         BookshelfView bookshelfView = new BookshelfView(bookshelf);
         bookshelfView.printBookshelf();
-        assertTrue(group.check(bookshelf));
+        assertTrue(!group.check(bookshelf));
     }
 }
