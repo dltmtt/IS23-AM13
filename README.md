@@ -36,7 +36,7 @@ The UML diagrams and our peer reviews can be found in the [deliverables](deliver
 To play My Shelfie, follow these steps:
 
 1. Make sure to have the `java` executable in your `PATH`;
-2. Open a terminal and type `cd <project-root>/shade/`, where `<project-root>` is the root of this repository;
+2. Open a terminal and type `cd <project-root>`, where `<project-root>` is the root of this repository;
 3. Run the server with:
     ```bash
     java -jar AM13_Server.jar
