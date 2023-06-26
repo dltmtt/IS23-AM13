@@ -255,6 +255,8 @@ public class GameGuiController {
      * @param col the column index of the node (Model-wise)
      */
     public void selectItem(int row, int col) {
+        delete.setDisable(false);
+        confirmSelection.setDisable(false);
         System.out.println("selected " + row + ", col" + col);
 
         if (boardModel.checkBorder(new Coordinates(row, col))) {
@@ -541,6 +543,8 @@ public class GameGuiController {
         initializeBookshelfGrid();
         top.setDisable(true);
         down.setDisable(true);
+        delete.setDisable(true);
+        confirmSelection.setDisable(true);
 
         for (String players : message.getAllBookshelves().keySet()) {
             if (!players.equals(client.getUsername())) {
