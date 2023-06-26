@@ -48,6 +48,10 @@ public class Square extends Layout {
         }
     }
 
+    /**
+     *
+     * @return the name of the layout.
+     */
     @Override
     public String getName() {
         return "square";

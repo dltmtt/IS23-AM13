@@ -95,6 +95,10 @@ public class MyShelfie {
         // client.login();
     }
 
+    /**
+     *
+     * @param client The client to set.
+     */
     public void setClient(Client client) {
         MyShelfie.client = client;
     }

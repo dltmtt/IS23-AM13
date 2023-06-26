@@ -58,6 +58,10 @@ public abstract class Layout {
         this.maxDifferent = maxDifferent;
     }
 
+    /**
+     *
+     * @return the number of occurrences of the layout
+     */
     public int getOccurrences() {
         return 0;
     }
@@ -69,6 +73,10 @@ public abstract class Layout {
         return false;
     }
 
+    /**
+     *
+     * @return the size of the layout
+     */
     public int getSize() {
         return 0;
     }

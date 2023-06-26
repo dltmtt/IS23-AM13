@@ -35,6 +35,10 @@ public class XShape extends Layout {
         super(3, 3, minDifferent, maxDifferent);
     }
 
+    /**
+     *
+     * @return the name of the layout.
+     */
     @Override
     public String getName() {
         return "xShape";

@@ -54,11 +54,18 @@ public class LoginGuiController {
         client.startPingThread(username.getText());
     }
 
+    /**
+     * This method warns that the username has already been taken
+     */
     @FXML
     public void usernameAlreadyTaken() {
         usernameError.setText("Username already taken (" + username.getText() + ", retry");
     }
 
+    /**
+     * This method makes it possible to change the language of the game
+     * @param event
+     */
     @FXML
     public void changeLanguage(ActionEvent event) {
         if (language.getValue().equals("English")) {

@@ -142,11 +142,24 @@ public class GameCliView implements GameView {
         client.sendMessage(new Message("insertMessage", "insert", index));
     }
 
+    /**
+     * Shows the PersonalGoal card.
+     * @param card the number of the card to show
+     * @throws IOException if the file cannot be read
+     * @throws ParseException if the file is not in the correct format
+     */
     public void showPersonalGoal(int card) throws IOException, ParseException {
         PersonalGoalView personalGoalView = new PersonalGoalView(card);
         personalGoalView.printLayout();
     }
 
+    /**
+     * Shows the PublicGoal cards.
+     * @param card the number of the card to show
+     * @param occurrences the number of occurrences of the card
+     * @param size is the number of items in each occurrence of the common goal
+     * @param horizontal true if the cards are to be printed horizontally, false if vertically
+     */
     public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) {
         CommonGoalView.print(card, occurrences, size, horizontal);
     }
@@ -215,6 +228,11 @@ public class GameCliView implements GameView {
         }
     }
 
+    /**
+     * Shows the board.
+     * @param board the board to show
+     *
+     */
     @Override
     public void showBoard(Board board) {
         BoardView boardView = new BoardView(board);
@@ -222,6 +240,11 @@ public class GameCliView implements GameView {
         boardView.printBoard();
     }
 
+    /**
+     * This method prints the bookshelf.
+     * @param bookshelf the bookshelf to show
+     *
+     */
     @Override
     public void showBookshelf(Bookshelf bookshelf) {
         BookshelfView bookshelfView = new BookshelfView(bookshelf);
@@ -229,6 +252,9 @@ public class GameCliView implements GameView {
         bookshelfView.printBookshelf();
     }
 
+    /**
+     * This method prints the opening image of the CLI.
+     */
     public void showStartGame() {
         String title = """
                         ___  ___        _____ _          _  __ _      \s
@@ -243,6 +269,11 @@ public class GameCliView implements GameView {
         showMessage(welcomeMessage + title);
     }
 
+    /**
+     * This method prints the end game message.
+     * @param winners the list of winners
+     * @param losers the list of losers
+     */
     @Override
     public void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
         showMessage("The game is over!\n");
@@ -257,12 +288,22 @@ public class GameCliView implements GameView {
         }
     }
 
+    /**
+     * This method asks the player if they want to rearrange the items they've picked.
+     * @param items the items the player has picked
+     * @return true if the player wants to rearrange the items, false otherwise
+     */
     @Override
     public boolean showRearrange(List<Item> items) {
         ItemView.printItems(items);
         return CliUtilities.askYesNoQuestion("Do you want to rearrange the items you've picked?", "n");
     }
 
+    /**
+     * This method rearranges the order of the picked items.
+     * @param items the items the player has picked
+     * @return the new order of the items
+     */
     @Override
     public List<Integer> rearrange(List<Item> items) {
         String infoMessage = """
@@ -321,11 +362,18 @@ public class GameCliView implements GameView {
         return newOrder;
     }
 
+    /**
+     * This method shows the current score of the player.
+     * @param score the current score of the player
+     */
     @Override
     public void showCurrentScore(int score) {
         showMessage("Your current score is " + score + "\n");
     }
 
+    /**
+     * This method shows the message of the waiting room.
+     */
     @Override
     public void waitingRoom() {
         showMessage("Waiting for other players to join...\n");
@@ -419,6 +467,9 @@ public class GameCliView implements GameView {
         client.stop();
     }
 
+    /**
+     * This method tells the player if the waiting room is already full.
+     */
     @Override
     public void showRemovePlayer() {
         showMessage("Sorry, there are already enough players for this match 😞😭💔😔.\n");

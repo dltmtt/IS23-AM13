@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.FullLine;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.server.model.layouts.Square;
+import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
@@ -311,6 +312,38 @@ public class SquareTest {
 
         assertTrue(square.check(b));
         assertTrue(fullLine.check(b));
+    }
+    @Test
+    void checkFromGui2(){
+        Layout square = new Square(1, 1, 2, 2);
+
+        Bookshelf b = new Bookshelf();
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+
+        b.insert(4, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.GREEN, 1));
+
+        b.insert(3, items);
+
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.WHITE, 1));
+        b.insert(2, items);
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(1, items);
+
+        CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
+        assertFalse(square.check(b));
     }
 
     @Test

@@ -17,6 +17,9 @@ public class PersonalGoalView {
         personalGoalCard = SettingLoader.loadSpecificPersonalGoal(index).getPersonalGoalCard();
     }
 
+    /**
+     * Prints the personal goal card
+     */
     public void printLayout() {
         System.out.println("This is your Personal Goal Card");
         StringBuilder cell;

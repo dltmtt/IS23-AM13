@@ -58,6 +58,11 @@ public class CommonGoal {
         return scoringList;
     }
 
+    /**
+     * This method sets the scoring list of the common goal.
+     * @param scoringList the list of scores
+     */
+
     public void setScoringList(List<Integer> scoringList) {
         this.scoringList.clear();
         this.scoringList.addAll(scoringList);
