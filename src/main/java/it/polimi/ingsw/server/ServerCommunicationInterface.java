@@ -45,12 +45,12 @@ public interface ServerCommunicationInterface extends Remote {
                 System.out.println("Received ping from " + client.getUsername());
                 controller.pong(client.getUsername());
                 controller.addPongLost(client.getUsername());
-//                if (controller.disconnectedPlayers.contains(client.getUsername())) {
-////                    System.out.println("Player " + client.getUsername() + " reconnected");
-////                    startPingThread(client);
-//                sendAll(new Message("reconnected", client.getUsername()));
-//                    controller.disconnectedPlayers.remove(client.getUsername());
-//                }
+                // if (controller.disconnectedPlayers.contains(client.getUsername())) {
+                //     System.out.println("Player " + client.getUsername() + " reconnected");
+                //     startPingThread(client);
+                //     sendAll(new Message("reconnected", client.getUsername()));
+                //     controller.disconnectedPlayers.remove(client.getUsername());
+                // }
                 client.callBackSendMessage(new Message("pong"));
             }
             case "numOfPlayersMessage" -> {
@@ -200,7 +200,7 @@ public interface ServerCommunicationInterface extends Remote {
             e.printStackTrace();
         }
 
-//        controller.addClient(client.getUsername(), client);
+        // controller.addClient(client.getUsername(), client);
 
         // This is one of the few differences from the Socket implementation
         startPingThread(client);
@@ -208,7 +208,6 @@ public interface ServerCommunicationInterface extends Remote {
         sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
         System.out.println("Sent reconnected message to all clients except " + client.getUsername());
         sendTurn(client);
-
     }
 
     /**
@@ -236,20 +235,19 @@ public interface ServerCommunicationInterface extends Remote {
         controller.saveGame();
         controller.changeTurn();
 
-
         if (controller.checkGameStatus() == -1) {
-            // the game has ended
+            // The game has ended
             // List<String> winnersNickname = controller.getWinners();
             // sendAll(new Message(winnersNickname, controller.getWinnersScore(), controller.getPlayersUsername(), controller.getFinalPoints()));
             controller.setWinner();
             sendAll(new Message(controller.getWinners(), controller.getLosers()));
             controller.resetSavedGame();
         } else if (controller.checkGameStatus() == 0) {
-            // it's the last round
+            // It's the last round
             sendAll(new Message("lastRound"));
             turn();
         } else {
-            // the game is still going
+            // The game is still going
             turn();
         }
     }
@@ -407,9 +405,15 @@ public interface ServerCommunicationInterface extends Remote {
         }
     }
 
+    /**
+     * Sends the game to the specified client after the server has gone back online.
+     *
+     * @param client the client to send the game to
+     * @throws RemoteException if the connection fails
+     */
     default void resendToReconnectAfterServerDown(ClientCommunicationInterface client) throws RemoteException {
         int position = controller.getPositionByUsername(client.getUsername());
-//        System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
+        // System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
 
         try {
             client.callBackSendMessage(new Message("username", client.getUsername()));
@@ -427,6 +431,4 @@ public interface ServerCommunicationInterface extends Remote {
             nextTurn();
         }
     }
-
-
 }

@@ -62,7 +62,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                         } catch (ParseException e) {
                             System.err.println("Unable to parse message from client");
                         } catch (NullPointerException e) {
-//                            disconnect(username);
+                            //                            disconnect(username);
                             System.err.println("Error while reading from client.");
                             break;
                         }
@@ -77,7 +77,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                     }
                 } catch (IOException e) {
                     // We are here because the client disconnected (probably)
-//                        disconnect(username);
+                    //                        disconnect(username);
                     System.err.println("Error while reading from client. IO");
 
                     break;
@@ -121,12 +121,12 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 System.out.println("Received ping from " + client.getUsername());
                 controller.pong(client.getUsername());
                 controller.addPongLost(client.getUsername());
-//                if (controller.disconnectedPlayers.contains(client.getUsername())) {
-//                    System.out.println("Player " + client.getUsername() + " reconnected");
-//                    startPingThread(client);
-//                    sendAll(new Message("reconnected", client.getUsername()));
-//                    controller.disconnectedPlayers.remove(client.getUsername());
-//                }
+                //                if (controller.disconnectedPlayers.contains(client.getUsername())) {
+                //                    System.out.println("Player " + client.getUsername() + " reconnected");
+                //                    startPingThread(client);
+                //                    sendAll(new Message("reconnected", client.getUsername()));
+                //                    controller.disconnectedPlayers.remove(client.getUsername());
+                //                }
                 client.sendMessageToClient(new Message("pong"));
             }
             case "numOfPlayersMessage" -> {
@@ -212,6 +212,12 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         checkThread.start();
     }
 
+    /**
+     * Sends the game back to the client that has reconnected.
+     *
+     * @param client the client that has reconnected
+     * @throws RemoteException if the connection fails
+     */
     public void resendGameToReconnectedClient(SocketClientHandler client) throws RemoteException {
         int position = controller.getPositionByUsername(getUsername());
         System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
@@ -220,7 +226,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
         client.sendMessageToClient(myGame);
 
-//        controller.addClient(getUsername(), client);
+        // controller.addClient(getUsername(), client);
         sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
         startPingThread(client);
         sendTurn(client);
@@ -302,9 +308,15 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         }
     }
 
+    /**
+     * Sends the game to the specified client after the server has gone back online.
+     *
+     * @param client the client to send the game to
+     * @throws RemoteException if the connection fails
+     */
     public void resendToReconnectAfterServerDown(SocketClientHandler client) throws RemoteException {
         int position = controller.getPositionByUsername(getUsername());
-//        System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
+        // System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
         sendMessageToClient(new Message("username", username));
 
         Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());

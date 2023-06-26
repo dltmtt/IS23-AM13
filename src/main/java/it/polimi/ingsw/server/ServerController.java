@@ -48,7 +48,6 @@ public class ServerController {
         finalPoints = new ArrayList<>();
     }
 
-
     public void pong(String username) {
         if (!pongReceived.contains(username)) {
             pongReceived.add(username);
@@ -109,7 +108,7 @@ public class ServerController {
             }
         }
         disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
-//        changeTurn();
+        //        changeTurn();
         isGameLoaded = true;
         for (Player p : players) {
             System.out.println(p.getNickname() + " " + p.getCommonGoalCompleted() + " " + p.getCommonGoalPoints() + " " + p.getCommonNames());
@@ -296,10 +295,12 @@ public class ServerController {
         return gameIsStarted;
     }
 
+    /**
+     * @return the username of the current player
+     */
     public String getCurrentPlayer() {
         return gameModel.getCurrentPlayer().getNickname();
     }
-
 
     /**
      * @return a map of the bookshelves and the players who own them
@@ -439,10 +440,16 @@ public class ServerController {
         }
     }
 
+    /**
+     * @return the map between the losers and their final points
+     */
     public HashMap<String, Integer> getLosers() {
         return losers;
     }
 
+    /**
+     * @return the map between the winners and their final points
+     */
     public HashMap<String, Integer> getWinners() {
         return winners;
     }
@@ -533,6 +540,9 @@ public class ServerController {
         return gameModel.getAllPoints(players.get(position));
     }
 
+    /**
+     * @return the username of the first player
+     */
     public String getFirstPlayer() {
         List<Player> players = gameModel.getPlayers();
         String firstPlayer = "";
@@ -544,6 +554,9 @@ public class ServerController {
         return firstPlayer;
     }
 
+    /**
+     * Resets information about the game on the server. Used when a game ends.
+     */
     public void resetSavedGame() {
         File file = new File(BACKUP_FILE);
         boolean deleted = file.delete();
@@ -567,7 +580,6 @@ public class ServerController {
         room = null;
     }
 
-
     /**
      * Method used to get the initial points of the players, 0 for each field
      * <ul>
@@ -588,7 +600,7 @@ public class ServerController {
          *
          */
 
-        //procedure to load the zero points in the start game message, as it's a new game
+        // procedure to load the zero points in the start game message, as it's a new game
         List<Integer> zeroPoints = List.of(new Integer[]{0, 0, 0, 0});
 
         for (Player username : players) {
