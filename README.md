@@ -21,7 +21,7 @@ Legend:
 | TCP            | 🟢     |
 | RMI            | 🟢     |
 | CLI            | 🟢     |
-| GUI            | 🟡     |
+| GUI            | 🟢     |
 | Resilience     | 🟢     |
 | Persistence    | 🟢     |
 | Multiple games | 🔴     |
@@ -30,3 +30,29 @@ Legend:
 ## Documentation
 
 The UML diagrams and our peer reviews can be found in the [deliverables](deliverables) folder.
+
+### How to play
+
+To play My Shelfie, follow these steps:
+
+1. Make sure to have the `java` executable in your `PATH`;
+2. Open a terminal and type `cd <project-root>/shade/`, where `<project-root>` is the root of this repository;
+3. Run the server with:
+    ```bash
+    java -jar AM13_Server.jar
+    ```
+4. In another terminal, run the client with:
+    ```bash
+    java -jar AM13_Client.jar
+    ```
+
+When launching the client, you can specify the following options (after `AM13_Client.jar`):
+
+| Option               |      Possible value(s)       | Description                        |
+|----------------------|:----------------------------:|------------------------------------|
+| `-h` or `--help`     |              -               | Prints the help message and exits  |
+| `-v` or `--view`     |        `cli` or `gui`        | Selects the view to use            |
+| `-p` or `--protocol` |        `tcp` or `rmi`        | Selects the protocol to use        |
+| `-n` or `--hostname` | an IP address or `localhost` | Selects the hostname of the server |
+
+Options that require an argument must be followed by a space or an equal sign and the argument itself.
