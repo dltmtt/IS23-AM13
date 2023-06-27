@@ -27,7 +27,7 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
     public void sendMessage(Message message) {
         try {
             server.receiveMessage(message, this);
-        } catch (Exception e) {
+        } catch (RemoteException e) {
             // Don't do anything: if the server is down, the client will
             // notice itself and will exit.
         }
