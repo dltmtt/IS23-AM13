@@ -93,13 +93,14 @@ public class LoginGuiController {
             case "French" -> client.setLanguage("fr", "FR");
             case "Spanish" -> client.setLanguage("es", "ES");
             case "Japanese" -> client.setLanguage("ja", "JP");
+            case "Catalan" -> client.setLanguage("ca", "ES");
         }
 
     }
 
     @FXML
     void loadSettings() {
-        language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese");
+        language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese", "Catalan");
     }
 
     public void showWaiting() {
