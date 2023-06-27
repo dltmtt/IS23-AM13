@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GroupTest {
@@ -52,6 +53,8 @@ public class GroupTest {
         SettingLoader.loadBookshelfSettings();
         Bookshelf bookshelf = new Bookshelf();
         Layout group = new Group(1, 1, 6, 2);
+        assertEquals(6, group.getOccurrences());
+        assertEquals(2, group.getSize());
         CommonGoal commonGoal = new CommonGoal(group, 2);
         List<Item> items = new ArrayList<>();
 

@@ -32,6 +32,7 @@ public class SettingLoader {
     /**
      * Loads the settings of the common goals from the JSON file.
      *
+     * @param randomPersonalGoalIndex the index of the personal goal to be loaded
      * @return the complete common goal deck
      * @throws IOException    if the file is not found
      * @throws ParseException if the file is not in JSON format
@@ -162,21 +163,6 @@ public class SettingLoader {
 
         Bookshelf.setRows(rowsSetting);
         Bookshelf.setColumns(colsSetting);
-    }
-
-    public static void loadConnectionSettings() {
-        Properties prop = new Properties();
-
-        try (InputStream settings = new FileInputStream(BASE_PATH + "settings.properties")) {
-            prop.load(settings);
-
-        } catch (IOException ex) {
-            //ex.printStackTrace();
-            System.err.println("settings.properties file not found at "+BASE_PATH+", using default values");
-            // In case the file is not found or there is and error reading the file,
-            // the default values will be used instead
-
-        }
     }
 
     public static String loadDefaultIP() {

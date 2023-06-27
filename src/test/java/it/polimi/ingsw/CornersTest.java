@@ -9,8 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CornersTest {
 
@@ -29,6 +28,7 @@ public class CornersTest {
     @Test
     void cornerCheck() {
         Layout layout = new Corners(1, 1);
+        assertEquals("corners", layout.getName());
         BookshelfUtilities.createCorner(b);
         assertTrue(layout.check(b));
     }

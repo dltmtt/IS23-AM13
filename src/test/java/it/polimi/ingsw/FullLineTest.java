@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FullLineTest {
@@ -76,6 +77,9 @@ public class FullLineTest {
         SettingLoader.loadBookshelfSettings();
         Bookshelf bookshelf = new Bookshelf();
         Layout fullLine = new FullLine(5, 5, 2, true);
+        assertEquals("fullLine", fullLine.getName());
+        assertEquals(2, fullLine.getOccurrences());
+        assertTrue(fullLine.isHorizontal());
         CommonGoal commonGoal = new CommonGoal(fullLine, 2);
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(commonGoal);
