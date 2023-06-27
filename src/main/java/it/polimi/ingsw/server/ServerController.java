@@ -149,6 +149,9 @@ public class ServerController {
         return extraPlayers;
     }
 
+    /**
+     * @param playersToRemove the list of players to remove
+     */
     public void removePlayers(List<String> playersToRemove) {
         playersToRemove.forEach((player) -> {
             players.removeIf(p -> p.getNickname().equals(player));
@@ -291,6 +294,10 @@ public class ServerController {
         return 0;
     }
 
+    /**
+     *
+     * @return true if the game has already started, false otherwise.
+     */
     public boolean isGameStarted() {
         return gameIsStarted;
     }

@@ -143,11 +143,6 @@ public class Board {
         return itemBag;
     }
 
-    public void setItemBag(List<Item> itemBag) {
-        this.itemBag.clear();
-        this.itemBag.addAll(itemBag);
-    }
-
     /**
      * This method enables to get an Item from the board.
      *
@@ -177,10 +172,6 @@ public class Board {
      */
     public Item[][] getBoardMatrix() {
         return boardMatrix;
-    }
-
-    public void setBoardMatrix(Item[][] boardMatrix) {
-        this.boardMatrix = boardMatrix;
     }
 
     /**

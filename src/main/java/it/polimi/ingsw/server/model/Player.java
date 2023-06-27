@@ -134,15 +134,6 @@ public class Player {
     }
 
     /**
-     * This method sets whether it is the player's first game or not.
-     *
-     * @param isFirstGame true if it is the player's first game, false otherwise
-     */
-    public void setFirstGame(boolean isFirstGame) {
-        this.isFirstGame = isFirstGame;
-    }
-
-    /**
      * This method tells whether the player is the first to play or not.
      * If it is, the player will hold the 1st player seat.
      *
@@ -150,17 +141,6 @@ public class Player {
      */
     public boolean isFirstPlayer() {
         return isFirstPlayer;
-    }
-
-    /**
-     * Tells whether the player has the end game card or not.
-     * The end game card is assigned to the first player to fill their bookshelf.
-     * It gives a bonus point to the player who holds it.
-     *
-     * @return true if the player has the end game card, false otherwise
-     */
-    public boolean hasEndGameCard() {
-        return hasEndGameCard;
     }
 
     /**
@@ -211,12 +191,6 @@ public class Player {
         if (items.size() != order.size()) {
             throw new IllegalArgumentException("The number of items and the number of positions are not the same.");
         }
-        /*
-        if (order.stream().distinct().count() != order.size()) {
-            throw new IllegalArgumentException("An item is placed in two different positions.");
-        }
-
-         */
 
         List<Item> rearrangedItems = new ArrayList<>();
 
