@@ -13,7 +13,6 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 
 public class SocketClientHandler implements Runnable, ServerCommunicationInterface {
-
     /**
      * The place to read incoming messages from the client.
      */
@@ -226,7 +225,9 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         client.sendMessageToClient(myGame);
 
         // controller.addClient(getUsername(), client);
-        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
+        //sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername(), controller.gameModel.getCurrentPlayer().getNickname()));
+        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername(), controller.gameModel.getCurrentPlayer().getNickname()));
+
         startPingThread(client);
         sendTurn(client);
     }

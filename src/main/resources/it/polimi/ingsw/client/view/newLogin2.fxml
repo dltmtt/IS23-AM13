@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -62,7 +63,7 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <GridPane layoutX="187.0" layoutY="91.0" prefHeight="246.0" prefWidth="387.0">
+                                        <GridPane fx:id="login" layoutX="360.0" layoutY="84.0" prefHeight="335.0" prefWidth="387.0" visible="false">
                                             <columnConstraints>
                                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                             </columnConstraints>
@@ -129,16 +130,42 @@
                                                         <Insets left="30.0" right="30.0" />
                                                     </GridPane.margin>
                                                 </TextField>
-                                                <Label fx:id="connectionError" translateX="-80.0" translateY="185.0" />
                                     <StackPane fx:id="waiting" prefHeight="150.0" prefWidth="200.0" visible="false" GridPane.rowIndex="4">
                                        <children>
                                           <ProgressBar prefHeight="18.0" prefWidth="371.0" />
                                           <Label text="Waiting for a response from the server, it may take a while..." textFill="#26505e" />
                                        </children>
                                     </StackPane>
+                                              <Button fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClicked" prefHeight="43.0" prefWidth="124.0" text="Start game" GridPane.rowIndex="4" />
                                             </children>
                                         </GridPane>
-                                        <Button fx:id="startButton" layoutX="450.0" layoutY="337.0" mnemonicParsing="false" onAction="#onStartButtonClicked" prefHeight="43.0" prefWidth="124.0" text="Start game" />
+                              <VBox alignment="CENTER" layoutX="14.0" layoutY="91.0" prefHeight="320.0" prefWidth="294.0" spacing="10.0" style="-fx-background-color: #560a0ad6;">
+                                 <children>
+                                    <HBox alignment="CENTER" fillHeight="false" prefHeight="72.0" prefWidth="294.0" spacing="10.0" VBox.vgrow="NEVER">
+                                       <children>
+                                          <Label text="Server IP Address" textFill="#fcffe5">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="serverIp" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" fillHeight="false" prefHeight="70.0" prefWidth="294.0" spacing="10.0" VBox.vgrow="NEVER">
+                                       <children>
+                                          <Label text="Connection Type" textFill="#fcffe5">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="connectionType" prefHeight="26.0" prefWidth="78.0" />
+                                       </children>
+                                    </HBox>
+                                    <Button fx:id="connect" mnemonicParsing="false" onAction="#connectToServer" text="Connect" />
+                                    <ProgressIndicator fx:id="waitingConnection" prefHeight="37.0" prefWidth="55.0" visible="false" />
+                                                <Label fx:id="connectionStatus" prefHeight="54.0" prefWidth="234.0" />
+                                 </children>
+                              </VBox>
                                     </children>
                                 </AnchorPane>
                             </content>

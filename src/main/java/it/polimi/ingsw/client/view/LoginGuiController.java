@@ -6,23 +6,24 @@ import it.polimi.ingsw.commons.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 public class LoginGuiController {
 
-    private final Client client;
+    private Client client;
     @FXML
-    private TextField username;
+    private TextField username, serverIp;
     @FXML
     private Slider ageSlider, playerSlider;
     @FXML
-    private Label ageValue, playerValue, usernameError, ageError, connectionError, userMessage;
+    private Label ageValue, playerValue, usernameError, ageError, connectionStatus, userMessage;
     @FXML
     private CheckBox firstGame;
     @FXML
-    private Button startButton, setLanguage;
+    private Button startButton, setLanguage, connect;
     @FXML
-    private ComboBox<String> language;
+    private ComboBox<String> language, connectionType;
 
     @FXML
     private Label l;
@@ -33,8 +34,15 @@ public class LoginGuiController {
     @FXML
     private StackPane waiting;
 
+    @FXML
+    private GridPane login;
+
+    @FXML
+    private ProgressIndicator waitingConnection;
+
     public LoginGuiController() {
         this.client = MyShelfie.client;
+        //login.setVisible(false);
     }
 
     @FXML
@@ -115,5 +123,54 @@ public class LoginGuiController {
         startButton.setDisable(false);
         username.setDisable(false);
         firstGame.setDisable(false);
+    }
+
+    public void connectToServer() {
+        if (serverIp.getText().isEmpty() || connectionType.getValue() == null) {
+            connectionStatus.setText("Server IP or connection Type cannot be empty");
+        }else {
+            if(!MyShelfie.isIpValid(serverIp.getText())){
+                connectionStatus.setText("Server IP is not valid");
+            }else{
+                connectionType.setDisable(true);
+                connect.setDisable(true);
+                serverIp.setDisable(true);
+                Thread connectToServerThread = new Thread(()->{
+                        MyShelfie.setParameters(serverIp.getText(), connectionType.getValue().toLowerCase(), GuiView.gui);});
+                connectToServerThread.start();
+            }
+        }
+    }
+
+
+    public void setSettings() {
+        connectionType.getItems().addAll("TCP", "RMI");
+        connectionType.setValue("TCP");
+        settings.setDisable(true);
+    }
+
+    public void initiateConnection() {
+        waitingConnection.setVisible(true);
+    }
+
+    public void connectionSuccess() {
+        waitingConnection.setVisible(false);
+        login.setVisible(true);
+        settings.setDisable(false);
+        connect.setDisable(true);
+        serverIp.setDisable(true);
+        connectionType.setDisable(true);
+        connectionStatus.setTextFill(javafx.scene.paint.Color.GREEN);
+        connectionStatus.setText("Connected");
+        this.client=MyShelfie.client;
+    }
+
+    public void connectionError() {
+        waitingConnection.setVisible(false);
+        connectionStatus.setTextFill(javafx.scene.paint.Color.RED);
+        connectionStatus.setText("Connection error, is the server running ("+serverIp.getText()+")?");
+        connect.setDisable(false);
+        serverIp.setDisable(false);
+        connectionType.setDisable(false);
     }
 }

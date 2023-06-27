@@ -373,11 +373,23 @@ public class Message implements Serializable {
         json.put("disconnected", array);
     }
 
-    // la uso?
     public Message(String type, String argument) {
         json = new JSONObject();
         json.put("category", type);
         json.put("argument", argument);
+    }
+
+    /**
+     * Message for the reconnect of a player
+     * @param type type of the message (reconnection)
+     * @param argument username of the reconnected player
+     * @param player username whose turn is
+     */
+    public Message(String type, String argument, String player){
+        json = new JSONObject();
+        json.put("category", type);
+        json.put("argument", argument);
+        json.put("playerTurn", player);
     }
 
     ///////////////////////////////////////////////////////DA SISTEMARE////////////////////////////////////////////////////////
@@ -997,4 +1009,9 @@ public class Message implements Serializable {
         }
         return itemBag;
     }
+
+    public String getPlayerTurn() {
+        return (String) json.get("PlayerTurn");
+    }
+
 }

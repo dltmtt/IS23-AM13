@@ -22,7 +22,7 @@ public interface GameView {
     void loginProcedure();
 
     // Parameter is useless in CLI but needed in GUI
-    void startView(Client client);
+    void startView();
 
     void showMessage(String message);
 
@@ -93,4 +93,14 @@ public interface GameView {
     void setTheOnlyOne(boolean b);
 
     void showWaiting();
+
+    void disableGame();
+
+    void enableGame(Boolean currentTurn);
+
+    void initiateConnection();
+
+    void connectionSuccess();
+
+    void connectionError();
 }

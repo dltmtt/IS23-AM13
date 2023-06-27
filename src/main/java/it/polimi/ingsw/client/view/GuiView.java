@@ -34,11 +34,9 @@ public class GuiView extends Application implements GameView {
 
     /**
      * Launches the GUI.
-     *
-     * @param client the client reference
      */
     @Override
-    public void startView(Client client) {
+    public void startView() {
         // CAUTION: if any attributes need to be set, do so in the startView method,
         // because startView has the launch() command, which creates another instance of GuiView.
         launch();
@@ -110,6 +108,7 @@ public class GuiView extends Application implements GameView {
     public void loginProcedure() {
         Platform.runLater(() -> {
             loginController.hideWaiting();
+            loginController.setSettings();
             stage.setScene(loginScene);
             stage.show();
         });
@@ -366,6 +365,41 @@ public class GuiView extends Application implements GameView {
     public void showWaiting() {
         Platform.runLater(() -> {
             loginController.showWaiting();
+        });
+    }
+
+    @Override
+    public void disableGame() {
+        Platform.runLater(() -> {
+            gameController.freezeGame();
+        });
+    }
+
+    @Override
+    public void enableGame(Boolean currentTurn) {
+        Platform.runLater(() -> {
+            gameController.unfreezeGame(currentTurn);
+        });
+    }
+
+    @Override
+    public void initiateConnection() {
+        Platform.runLater(() -> {
+            loginController.initiateConnection();
+        });
+    }
+
+    @Override
+    public void connectionSuccess() {
+        Platform.runLater(() -> {
+            loginController.connectionSuccess();
+        });
+    }
+
+    @Override
+    public void connectionError() {
+        Platform.runLater(() -> {
+            loginController.connectionError();
         });
     }
 

@@ -21,6 +21,7 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
      */
     public ClientRmi() throws RemoteException {
         super();
+
     }
 
     @Override

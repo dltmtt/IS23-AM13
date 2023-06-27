@@ -40,8 +40,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     public Client() throws RemoteException {
         super();
-        // All these messages should probably be moved to the view
-        System.out.print("Connecting to server... ");
+        gameView=MyShelfie.gameView;
+
+        gameView.initiateConnection();
 
         boolean connected = false;
         long now = System.currentTimeMillis();
@@ -63,9 +64,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         }
 
         if (connected) {
-            System.out.println(SUCCESS_COLOR + "connected" + RESET);
+            gameView.connectionSuccess();
         } else {
-            System.err.println("Unable to connect to the server. Is it running?");
+            gameView.connectionError();
             System.exit(1);
         }
         lock = new Object();
@@ -107,7 +108,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public void start() {
         // gameView.setClient(this);
-        gameView.startView(this);
+        //gameView.startView();
     }
 
     public void setView(GameView gameView) {
@@ -206,12 +207,15 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 theOnlyOne = false;
                 gameView.setTheOnlyOne(false);
                 String username = message.getArgument();
+                Boolean isMyTurn= message.getPlayerTurn().equals(username);
+                gameView.enableGame(isMyTurn);
                 gameView.showMessage(reconnectionMessage(username));
             }
             case "youAloneBitch" -> {
                 gameView.showMessage(onlyPlayerMessage());
                 theOnlyOne = true;
                 gameView.setTheOnlyOne(true);
+                gameView.disableGame();
                 waitForReconnection();
             }
             case "waitingRoomForReconnect" -> {

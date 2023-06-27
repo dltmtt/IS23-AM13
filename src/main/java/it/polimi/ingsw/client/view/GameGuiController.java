@@ -414,6 +414,15 @@ public class GameGuiController {
         }
     }
 
+    public void enableBookshelf() {
+        ObservableList<Node> children = bookshelfGrid.getChildren();
+        for (Node node : children) {
+            node.setDisable(false);
+            // set node cursor as a default
+            //node.setCursor(Cursor.DEFAULT);
+        }
+    }
+
     /**
      * Method that is called when the "Send Selection" button is pressed, sending the List of Coordinates to the server, disabling the remaining items on the board and removing the selected items from the board.
      *
@@ -987,5 +996,23 @@ public class GameGuiController {
      */
     public void showLastRound() {
         endGameImage.setVisible(false);
+    }
+
+    public void freezeGame() {
+        disableBookshelf();
+        disableAllItems();
+    }
+
+    public void unfreezeGame(Boolean currentTurn) {
+        enableBookshelf();
+        enableAllItems(boardGridPane);
+        if(currentTurn){
+            showMessage(client.bundle.getString("yourTurn"));
+            if(grid.getChildren().size()!=0){
+                enableInsert();
+            }else{
+                enableItemsWithOneFreeSide();
+            }
+        }
     }
 }

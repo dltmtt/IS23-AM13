@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientRmi;
+import it.polimi.ingsw.client.ClientTcp;
+import it.polimi.ingsw.client.MyShelfie;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
@@ -12,15 +15,53 @@ import org.json.simple.parser.ParseException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static it.polimi.ingsw.utils.CliUtilities.RESET;
+import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 
 public class GameCliView implements GameView {
 
     private static final String illegalNumberOfPlayersError = "The number of players must be between 2 and 4 (inclusive): ";
     public Client client;
     private boolean theOnlyOne = false;
+
+    public GameCliView() {
+        String ip = null;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        do {
+            System.out.println("Insert Server IP: ");
+            try {
+                ip = reader.readLine();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+            if (!MyShelfie.isIpValid(ip)) {
+                System.err.println("Invalid IP address: " + ip);
+            }
+        } while (!MyShelfie.isIpValid(ip));
+
+
+        String protocolType = null;
+        do {
+            System.out.println("Choose a protocol (rmi or tcp): ");
+            try {
+                protocolType = reader.readLine();
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+            if (!protocolType.equals("rmi") && !protocolType.equals("tcp")) {
+                System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'tcp'.");
+            }
+        } while (!protocolType.equals("rmi") && !protocolType.equals("tcp"));
+
+        MyShelfie.setParameters(ip, protocolType, this);
+    }
 
     /**
      * If there is data to be read from the input buffer, read it and discard it.
@@ -49,7 +90,7 @@ public class GameCliView implements GameView {
     }
 
     @Override
-    public void startView(Client client) {
+    public void startView() {
         // this.client = client;
         // client.login()
         loginProcedure();
@@ -513,5 +554,31 @@ public class GameCliView implements GameView {
     @Override
     public void showWaiting() {
         System.out.println("Server is checking if you disconnected...");
+    }
+
+    @Override
+    public void disableGame() {
+        // does nothing as it's a method for GUI
+    }
+
+    @Override
+    public void enableGame(Boolean currentTurn) {
+        // does nothing as it's a method for GUI
+    }
+
+    @Override
+    public void initiateConnection() {
+        System.out.print("Connecting to server... ");
+    }
+
+    @Override
+    public void connectionSuccess() {
+        System.out.println(SUCCESS_COLOR + "connected" + RESET);
+    }
+
+    @Override
+    public void connectionError() {
+        System.err.println("Unable to connect to the server. Is it running?");
+        System.exit(1);
     }
 }

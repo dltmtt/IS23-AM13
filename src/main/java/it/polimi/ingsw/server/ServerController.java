@@ -29,7 +29,7 @@ public class ServerController {
     public boolean isGameLoaded = false;
     private boolean gameIsStarted = false;
     private List<Item> currentPicked;
-    private GameModel gameModel;
+    GameModel gameModel;
     private Room room = null;
 
     /**
