@@ -51,14 +51,22 @@ public interface ServerCommunicationInterface extends Remote {
                 //     sendAll(new Message("reconnected", client.getUsername()));
                 //     controller.disconnectedPlayers.remove(client.getUsername());
                 // }
-                client.callBackSendMessage(new Message("pong"));
+                try {
+                    client.callBackSendMessage(new Message("pong"));
+                } catch (RemoteException e) {
+                    System.err.println("Error while sending pong to client.");
+                }
             }
             case "numOfPlayersMessage" -> {
                 int numberOfPlayers = message.getNumPlayer();
                 System.out.println("Number of players: " + numberOfPlayers);
                 String isOk = controller.checkNumPlayer(numberOfPlayers);
                 if (!isOk.equals("ok")) {
-                    client.callBackSendMessage(new Message("numOfPlayersNotOK"));
+                    try {
+                        client.callBackSendMessage(new Message("numOfPlayersNotOK"));
+                    } catch (RemoteException e) {
+                        System.err.println("Error while sending numOfPlayersNotOK to client.");
+                    }
                 } else {
                     controller.setNumberOfPlayers(numberOfPlayers);
                     if (controller.checkRoom() == 1) {
@@ -67,15 +75,27 @@ public interface ServerCommunicationInterface extends Remote {
                         removePlayers();
                         startGame();
                     } else {
-                        client.callBackSendMessage(new Message("waitingRoom"));
+                        try {
+                            client.callBackSendMessage(new Message("waitingRoom"));
+                        } catch (RemoteException e) {
+                            System.err.println("Error while sending waitingRoom to client.");
+                        }
                     }
                 }
             }
             case "pick" -> {
                 if ("ok".equals(controller.checkPick(message.getPick()))) {
-                    client.callBackSendMessage(new Message(controller.getPicked(message.getPick())));
+                    try {
+                        client.callBackSendMessage(new Message(controller.getPicked(message.getPick())));
+                    } catch (RemoteException e) {
+                        System.err.println("Error while sending picked to client.");
+                    }
                 } else {
-                    client.callBackSendMessage(new Message("pickRetry"));
+                    try {
+                        client.callBackSendMessage(new Message("pickRetry"));
+                    } catch (RemoteException e) {
+                        System.err.println("Error while sending pickRetry to client.");
+                    }
                 }
             }
             case "insertMessage" -> {
@@ -84,9 +104,19 @@ public interface ServerCommunicationInterface extends Remote {
                     sendUpdate();
                     nextTurn();
                 } else if (controller.checkInsert(message.getInsert()) == 0) {
-                    client.callBackSendMessage(new Message("insertRetry", "notValidNumber"));
+                    try {
+                        client.callBackSendMessage(new Message("insertRetry", "notValidNumber"));
+                    } catch (RemoteException e) {
+                        System.err.println("Error while sending insertRetry to client.");
+                    }
+
                 } else if (controller.checkInsert(message.getInsert()) == -1) {
-                    client.callBackSendMessage(new Message("insertRetry", "notEnoughFreeCells"));
+                    try {
+                        client.callBackSendMessage(new Message("insertRetry", "notEnoughFreeCells"));
+                    } catch (RemoteException e) {
+                        System.err.println("Error while sending insertRetry to client.");
+                    }
+
                 }
                 // TODO: return an error message if the insert is not valid, otherwise the game will freeze
             }
@@ -173,8 +203,13 @@ public interface ServerCommunicationInterface extends Remote {
         List<String> toRemove = controller.getExtraPlayers();
         for (String username : toRemove) {
             if (rmiClients.containsKey(username)) {
-                rmiClients.get(username).callBackSendMessage(new Message("removePlayer"));
-                rmiClients.remove(username);
+                try {
+                    rmiClients.get(username).callBackSendMessage(new Message("removePlayer"));
+                    rmiClients.remove(username);
+                } catch (RemoteException e) {
+                    System.err.println("Error while removing player " + username);
+                }
+
             } else {
                 tcpClients.get(username).sendMessageToClient(new Message("removePlayer"));
                 tcpClients.remove(username);
@@ -219,9 +254,20 @@ public interface ServerCommunicationInterface extends Remote {
     default void sendTurn(ClientCommunicationInterface client) throws RemoteException {
         String currentPlayer = controller.getCurrentPlayer();
         if (currentPlayer.equals(client.getUsername())) {
-            client.callBackSendMessage(new Message("turn"));
+            try {
+                client.callBackSendMessage(new Message("turn"));
+            } catch (RemoteException e) {
+                System.err.println("Error while sending turn to " + client.getUsername());
+            }
+
         } else {
-            client.callBackSendMessage(new Message("otherTurn", currentPlayer));
+            try {
+                client.callBackSendMessage(new Message("otherTurn", currentPlayer));
+
+            } catch (RemoteException e) {
+                System.err.println("Error while sending otherTurn to " + client.getUsername());
+            }
+
         }
     }
 
@@ -264,7 +310,12 @@ public interface ServerCommunicationInterface extends Remote {
         for (String username : rmiClients.keySet()) {
             int position = controller.getPositionByUsername(username);
             Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getInitialPoints());
-            rmiClients.get(username).callBackSendMessage(myGame);
+            try {
+                rmiClients.get(username).callBackSendMessage(myGame);
+            } catch (RemoteException e) {
+                // e.printStackTrace();
+                System.err.println("Error while sending game to " + username);
+            }
         }
 
         controller.saveGame();
@@ -278,7 +329,11 @@ public interface ServerCommunicationInterface extends Remote {
         System.out.println("sending turn to " + currentPlayer);
         sendAllExcept(currentPlayer, otherTurn);
         if (controller.getRmiClients().containsKey(currentPlayer)) {
-            controller.getRmiClients().get(currentPlayer).callBackSendMessage(turn);
+            try {
+                controller.getRmiClients().get(currentPlayer).callBackSendMessage(turn);
+            } catch (RemoteException e) {
+                System.err.println("Error while sending turn to " + currentPlayer);
+            }
         }
         if (controller.getTcpClients().containsKey(currentPlayer))
             controller.getTcpClients().get(currentPlayer).sendMessageToClient(turn);
@@ -295,8 +350,12 @@ public interface ServerCommunicationInterface extends Remote {
         for (String username : rmiClients.keySet()) {
             int position = controller.getPositionByUsername(username);
             Message myGame = new Message("update", controller.getBookshelves(), controller.getBoard(), controller.allPoints(position), controller.getTopOfScoring());
-
-            rmiClients.get(username).callBackSendMessage(myGame);
+            try {
+                rmiClients.get(username).callBackSendMessage(myGame);
+            } catch (RemoteException e) {
+                //e.printStackTrace();
+                System.err.println("Impossible to send update to " + username + " because they probably disconnected.");
+            }
         }
     }
 
@@ -307,17 +366,21 @@ public interface ServerCommunicationInterface extends Remote {
      * @throws RemoteException if the connection fails
      */
     default void sendAll(Message message) throws RemoteException {
+
         HashMap<String, ClientCommunicationInterface> rmiClients = controller.getRmiClients();
         HashMap<String, SocketClientHandler> tcpClients = controller.getTcpClients();
         for (String username : tcpClients.keySet()) {
-            if (!controller.disconnectedPlayers.contains(username)) {
-                tcpClients.get(username).sendMessageToClient(message);
-            }
+            tcpClients.get(username).sendMessageToClient(message);
+
         }
         for (String username : rmiClients.keySet()) {
-            if (!controller.disconnectedPlayers.contains(username)) {
+            try {
                 rmiClients.get(username).callBackSendMessage(message);
+            } catch (RemoteException e) {
+                System.err.println("Impossible to send message to " + username + " because they probably disconnected.");
             }
+
+
         }
     }
 
@@ -339,7 +402,12 @@ public interface ServerCommunicationInterface extends Remote {
         }
         for (String username : rmiClients.keySet()) {
             if (!controller.disconnectedPlayers.contains(username) && !username.equals(player)) {
-                rmiClients.get(username).callBackSendMessage(message);
+                try {
+                    rmiClients.get(username).callBackSendMessage(message);
+                } catch (RemoteException e) {
+                    //e.printStackTrace();
+                    System.err.println("Impossible to send message to " + username + " because they probably disconnected.");
+                }
             }
         }
     }
@@ -348,9 +416,19 @@ public interface ServerCommunicationInterface extends Remote {
         switch (checkStatus) {
             case 1 -> {
                 if (controller.isGameStarted()) {
-                    client.callBackSendMessage(new Message("gameAlreadyStarted"));
+                    try {
+                        client.callBackSendMessage(new Message("gameAlreadyStarted"));
+                    } catch (RemoteException e) {
+                        System.err.println("Error while sending message to " + username);
+                    }
+
                 } else {
-                    client.callBackSendMessage(new Message("username", username));
+                    try {
+                        client.callBackSendMessage(new Message("username", username));
+                    } catch (RemoteException e) {
+                        System.err.println("Error while sending message to " + username);
+                    }
+
 
                     controller.addPlayer(username, 0, firstGame);
                     System.out.println(username + " logged in.");
@@ -365,9 +443,19 @@ public interface ServerCommunicationInterface extends Remote {
 
                     if (controller.isFirst()) {
                         // Let the first player choose the number of players
-                        client.callBackSendMessage(new Message("chooseNumOfPlayer"));
+                        try {
+                            client.callBackSendMessage(new Message("chooseNumOfPlayer"));
+                        } catch (RemoteException e) {
+                            System.err.println("Error while sending message to " + username);
+                        }
+
                     } else {
-                        client.callBackSendMessage(new Message("waitingRoom"));
+                        try {
+                            client.callBackSendMessage(new Message("waitingRoom"));
+                        } catch (RemoteException e) {
+                            System.err.println("Error while sending message to " + username);
+                        }
+
                         if (controller.checkRoom() == 1) {
                             startGame();
                             System.out.println("Game started.");
@@ -379,7 +467,12 @@ public interface ServerCommunicationInterface extends Remote {
             }
             case 0 -> {
                 // The username is already taken
-                client.callBackSendMessage(new Message("checkingDisconnection"));
+                try {
+                    client.callBackSendMessage(new Message("checkingDisconnection"));
+                } catch (RemoteException e) {
+                    System.err.println("Error while sending message to " + username);
+                }
+
                 Thread.sleep(60000);
                 if (controller.checkUsername(username) == -1) {
                     System.out.println(username + " reconnected.");
@@ -388,7 +481,12 @@ public interface ServerCommunicationInterface extends Remote {
                     resendGameToReconnectedClient(client);
                 } else {
                     System.out.println(username + " requested login, but the username is already taken.");
-                    client.callBackSendMessage(new Message("UsernameRetry"));
+                    try {
+                        client.callBackSendMessage(new Message("UsernameRetry"));
+                    } catch (RemoteException e) {
+                        System.err.println("Error while sending message to " + username);
+                    }
+
                 }
             }
             case -1 -> {
@@ -414,7 +512,7 @@ public interface ServerCommunicationInterface extends Remote {
     default void resendToReconnectAfterServerDown(ClientCommunicationInterface client) throws RemoteException {
         int position = controller.getPositionByUsername(client.getUsername());
         // System.out.println("Sending game to " + client.getUsername() + ", who just reconnected.");
-
+        startPingThread(client);
         try {
             client.callBackSendMessage(new Message("username", client.getUsername()));
             Message game = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
@@ -423,12 +521,17 @@ public interface ServerCommunicationInterface extends Remote {
             e.printStackTrace();
         }
         if (controller.getRmiClients().size() + controller.getTcpClients().size() != controller.numberOfPlayers) {
-            client.callBackSendMessage(new Message("waitingRoomForReconnect"));
+            try {
+                client.callBackSendMessage(new Message("waitingRoomForReconnect"));
+            } catch (RemoteException e) {
+                System.err.println("Error while sending message to " + client.getUsername());
+            }
+
         } else {
             controller.setIsLoaded(false);
             sendAll(new Message("AllIn"));
-            startPingThread(client);
             nextTurn();
         }
+
     }
 }

@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.view.GuiView;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.apache.commons.cli.*;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 
 /**
@@ -48,12 +50,33 @@ public class MyShelfie {
         }
 
         if (line.hasOption("help")) {
-            formatter.printHelp("java -jar <project-root>/deliverables/shade/AM13_Client.jar", options);
+            formatter.printHelp("java -jar <project-root>/AM13_Client.jar", options);
             System.exit(0);
         }
 
-        MyShelfie.HOSTNAME = line.getOptionValue("hostname", SettingLoader.loadDefaultIP());
-        protocolType = line.getOptionValue("protocol", SettingLoader.loadDefaultProtocol());
+
+//        MyShelfie.HOSTNAME = line.getOptionValue("hostname", SettingLoader.loadDefaultIP());
+//        protocolType = line.getOptionValue("protocol", SettingLoader.loadDefaultProtocol());
+        System.out.println("Insert Server IP: ");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        try {
+            MyShelfie.HOSTNAME = reader.readLine();
+            if (MyShelfie.HOSTNAME.equals("\n")) {
+                MyShelfie.HOSTNAME = SettingLoader.loadDefaultIP();
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+
+        System.out.println("Choose a protocol (rmi or tcp): ");
+        try {
+            protocolType = reader.readLine();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
 
         client = null;
         switch (protocolType) {
@@ -79,6 +102,14 @@ public class MyShelfie {
 
         String modeType = line.getOptionValue("view", "gui"); // setSocketOption
         GameView gameView = null;
+
+        System.out.println("Choose a view (cli or gui): ");
+        try {
+            modeType = reader.readLine();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
         switch (modeType) {
             case "cli" -> gameView = new GameCliView();
             case "gui" -> gameView = new GuiView();
