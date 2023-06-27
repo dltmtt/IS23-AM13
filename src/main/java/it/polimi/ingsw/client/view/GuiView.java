@@ -108,8 +108,11 @@ public class GuiView extends Application implements GameView {
      */
     @Override
     public void loginProcedure() {
-        stage.setScene(loginScene);
-        stage.show();
+        Platform.runLater(() -> {
+            loginController.hideWaiting();
+            stage.setScene(loginScene);
+            stage.show();
+        });
     }
 
     /**

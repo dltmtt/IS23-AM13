@@ -108,4 +108,11 @@ public class LoginGuiController {
         username.setDisable(true);
         firstGame.setDisable(true);
     }
+
+    public void hideWaiting() {
+        waiting.setVisible(false);
+        startButton.setDisable(false);
+        username.setDisable(false);
+        firstGame.setDisable(false);
+    }
 }
