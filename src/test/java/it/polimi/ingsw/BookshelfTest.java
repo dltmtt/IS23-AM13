@@ -140,4 +140,30 @@ class BookshelfTest {
             }
         }
     }
+
+
+    @Test
+    public void bookshelfTest(){
+        bookshelf=new Bookshelf();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+
+        for(int i=0; i<Bookshelf.getColumns(); i++){
+            bookshelf.insert(i, items);
+        }
+        assertEquals(Bookshelf.getRows()- items.size()-1, bookshelf.numCellsToHighlight());
+
+        items.clear();
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        for(int i=0; i<Bookshelf.getColumns(); i++){
+            bookshelf.insert(i, items);
+        }
+        assert(bookshelf.isBookshelfFull());
+
+        bookshelf.setItem(0,0, Optional.of(new Item(Color.YELLOW, 1)));
+        assertEquals(Optional.of(new Item(Color.YELLOW, 1)), bookshelf.getItemAt(0,0));
+    }
 }

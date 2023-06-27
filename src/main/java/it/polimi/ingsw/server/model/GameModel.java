@@ -114,11 +114,6 @@ public class GameModel {
         return topScoringPoints;
     }
 
-    public List<Integer> getScoringList(int index) {
-        return Player.getCommonGoals().get(index).getScoringList();
-    }
-
-
     /**
      * @param player the player to get the points of
      * @return a list of all the points that the player has earned

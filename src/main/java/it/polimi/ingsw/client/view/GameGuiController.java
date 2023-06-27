@@ -861,7 +861,7 @@ public class GameGuiController {
         for (int i = 0; i < Bookshelf.getRows(); i++) {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 if (bookshelf.getItemAt(i, j).isPresent()) {
-                    String fileName = bookshelf.getItemFileName(i, j);
+                    String fileName = bookshelf.getItemAt(i, j).get().fileName();
                     try {
                         Image itemImage = new Image(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + fileName)).toExternalForm());
                         ImageView itemImageView = new ImageView(itemImage);
