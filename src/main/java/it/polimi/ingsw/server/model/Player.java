@@ -237,13 +237,6 @@ public class Player {
     }
 
     /**
-     * @return the points given by adjacent items in the bookshelf
-     */
-    public int getAdjacentPoints() {
-        return bookshelf.getPoints();
-    }
-
-    /**
      * @return the points given by personal goals
      */
     public int getPersonalGoalPoints() {
@@ -259,10 +252,6 @@ public class Player {
             score += scoring;
         }
         return score;
-    }
-
-    public void setCommonGoalPoints(int commonGoalPoints) {
-        this.commonGoalPoints.add(commonGoalPoints);
     }
 
     public void setCommonGoalPoints(List<Integer> commonGoalPoints) {
@@ -281,23 +270,8 @@ public class Player {
         return commonGoalCompleted;
     }
 
-    public void setCommonGoalCompleted(List<Boolean> commonGoalCompleted) {
-        this.commonGoalCompleted = commonGoalCompleted;
-    }
 
     public List<Integer> getCommonGoalScoreList() {
         return commonGoalPoints;
-    }
-
-    public void printPlayer() {
-        System.out.println("Player: " + nickname);
-        System.out.println("Personal Goal: " + personalGoal.toString());
-        System.out.println("Common Goals: ");
-        for (CommonGoal commonGoal : commonGoals) {
-            System.out.println(commonGoal.getLayout().getName());
-        }
-        System.out.println("Bookshelf: ");
-        BookshelfView bookshelfView = new BookshelfView(bookshelf);
-        bookshelfView.printBookshelf();
     }
 }
