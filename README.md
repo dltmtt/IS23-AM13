@@ -36,7 +36,8 @@ The UML diagrams and our peer reviews can be found in the [deliverables](deliver
 To play My Shelfie, follow these steps:
 
 1. Make sure to have the `java` executable in your `PATH`;
-2. Open a terminal and type `cd <project-root>`, where `<project-root>` is the root of this repository;
+2. Open a terminal and type `cd <project-root>/deliverables/shade`, where `<project-root>` is the root of this
+   repository;
 3. Run the server with:
     ```bash
     java -jar AM13_Server.jar
@@ -48,12 +49,13 @@ To play My Shelfie, follow these steps:
 
 When launching the client, you can specify the following options (after `AM13_Client.jar`):
 
-| Option               |      Possible value(s)       |        Default value         | Description                        |
-|----------------------|:----------------------------:|:----------------------------:|------------------------------------|
-| `-h` or `--help`     |              -               |              -               | Prints the help message and exits  |
-| `-v` or `--view`     |        `cli` or `gui`        |            `gui`             | Selects the view to use            |
-| `-p` or `--protocol` |        `tcp` or `rmi`        |            `tcp`             | Selects the protocol to use        |
-| `-n` or `--hostname` | an IP address or `localhost` |        `localhost`           | Selects the hostname of the server |
+| Option               |      Possible value(s)       | Default value | Description                        |
+|----------------------|:----------------------------:|:-------------:|------------------------------------|
+| `-h` or `--help`     |              -               |       -       | Prints the help message and exits  |
+| `-v` or `--view`     |        `cli` or `gui`        |     `gui`     | Selects the view to use            |
+| `-p` or `--protocol` |        `tcp` or `rmi`        |     `tcp`     | Selects the protocol to use        |
+| `-n` or `--hostname` | an IP address or `localhost` |  `localhost`  | Selects the hostname of the server |
 
 Options that require an argument must be followed by a space or an equal sign and the argument itself.
-The default values are set in the `settings.properties` in [src/main/resources/it/polimi/ingsw](src/main/resources/it/polimi/ingsw) folder.
+The default values are set in the `settings.properties`
+in [src/main/resources/it/polimi/ingsw](src/main/resources/it/polimi/ingsw) folder.

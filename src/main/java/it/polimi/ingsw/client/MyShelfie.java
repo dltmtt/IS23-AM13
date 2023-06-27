@@ -48,15 +48,12 @@ public class MyShelfie {
         }
 
         if (line.hasOption("help")) {
-            formatter.printHelp("java -jar <project-root>/AM13_Client.jar", options);
+            formatter.printHelp("java -jar <project-root>/deliverables/shade/AM13_Client.jar", options);
             System.exit(0);
         }
 
-
         MyShelfie.HOSTNAME = line.getOptionValue("hostname", SettingLoader.loadDefaultIP());
         protocolType = line.getOptionValue("protocol", SettingLoader.loadDefaultProtocol());
-
-
 
         client = null;
         switch (protocolType) {
