@@ -339,12 +339,12 @@ public class Board {
     }
 
     /**
-     * This method checks if all the tiles chosen are not null.
+     * This method checks if the start and end items are not null.
      *
      * @param cells the list of coordinates of the tiles chosen
      * @return true if all the tiles chosen are not null, false otherwise
      */
-    public boolean allNotNull(List<Coordinates> cells) {
+    public boolean startEndNotNull(List<Coordinates> cells) {
         for (Coordinates cell : cells) {
             if (boardMatrix[cell.x()][cell.y()] == null) {
                 return false;
