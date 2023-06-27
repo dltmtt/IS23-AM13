@@ -176,17 +176,17 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
 
     public void startPingThread(SocketClientHandler client) throws RemoteException {
         String finalUsername = client.getUsername();
-        Thread pingThread = new Thread(() -> {
-            while (true) {
-                try {
-                    client.sendMessageToClient(new Message("ping"));
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    System.err.println("Ping thread interrupted");
-                    break;
-                }
-            }
-        });
+//        Thread pingThread = new Thread(() -> {
+//            while (true) {
+//                try {
+//                    client.sendMessageToClient(new Message("ping"));
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    System.err.println("Ping thread interrupted");
+//                    break;
+//                }
+//            }
+//        });
         // pingThread.start();
 
         Thread checkThread = new Thread(() -> {
@@ -198,7 +198,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                         Thread.sleep(10000);
                         if (!controller.pongReceived.contains(finalUsername)) {
                             disconnect(finalUsername);
-                            pingThread.interrupt();
                             break;
                         }
                     } else {
@@ -318,7 +317,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         int position = controller.getPositionByUsername(getUsername());
         // System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
         sendMessageToClient(new Message("username", username));
-
+        startPingThread(client);
         Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
         client.sendMessageToClient(myGame);
         if (controller.getRmiClients().size() + controller.getTcpClients().size() != controller.numberOfPlayers) {
@@ -326,7 +325,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         } else {
             controller.setIsLoaded(false);
             sendAll(new Message("AllIn"));
-            startPingThread(client);
             nextTurn();
         }
     }
