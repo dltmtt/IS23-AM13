@@ -6,7 +6,11 @@ import it.polimi.ingsw.client.view.GuiView;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.apache.commons.cli.*;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.rmi.RemoteException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This is the entry point of the client. It parses the command line arguments
@@ -23,10 +27,12 @@ public class MyShelfie {
     public static String HOSTNAME;
     public static String protocolType;
 
+    public static GameView gameView;
+
     public static void main(String[] args) {
         SettingLoader.loadBookshelfSettings();
         Option protocol = new Option("p", "protocol", true, "select network protocol to use (default: RMI)");
-        Option view = new Option("v", "view", true, "launch CLI or GUI (default: CLI)");
+        Option view = new Option("v", "view", true, "launch CLI or GUI (default: GUI)");
         Option hostname = new Option("n", "hostname", true, "set the hostname of the server (default: localhost)");
         Option help = new Option("h", "help", false, "show this help message");
 
@@ -48,14 +54,25 @@ public class MyShelfie {
         }
 
         if (line.hasOption("help")) {
-            formatter.printHelp("java -jar <project-root>/deliverables/shade/AM13_Client.jar", options);
+            formatter.printHelp("java -jar <project-root>/AM13_Client.jar", options);
             System.exit(0);
         }
 
-        MyShelfie.HOSTNAME = line.getOptionValue("hostname", SettingLoader.loadDefaultIP());
-        protocolType = line.getOptionValue("protocol", SettingLoader.loadDefaultProtocol());
+        String modeType = line.getOptionValue("view", "gui");
+        switch (modeType) {
+            case "cli" -> gameView = new GameCliView();
+            case "gui" -> gameView = new GuiView();
+            default -> {
+                System.err.println("Invalid view: " + modeType + ". Use 'cli' or 'gui'.");
+                System.exit(1);
+            }
+        }
+        gameView.startView();
+    }
 
-        client = null;
+    public static void setParameters(String hostname, String protocolType, GameView gameView) {
+        MyShelfie.HOSTNAME = hostname;
+        MyShelfie.protocolType = protocolType;
         switch (protocolType) {
             case "rmi" -> {
                 try {
@@ -76,27 +93,24 @@ public class MyShelfie {
                 System.exit(1);
             }
         }
-
-        String modeType = line.getOptionValue("view", "gui"); // setSocketOption
-        GameView gameView = null;
-        switch (modeType) {
-            case "cli" -> gameView = new GameCliView();
-            case "gui" -> gameView = new GuiView();
-            default -> {
-                System.err.println("Invalid view: " + modeType + ". Use 'cli' or 'gui'.");
-                System.exit(1);
-            }
-        }
-
         client.setView(gameView);
         gameView.setClient(client);
-        client.start();
+        //client.start();
     }
+
 
     /**
      * @param client The client to set.
      */
     public void setClient(Client client) {
         MyShelfie.client = client;
+    }
+
+    public static boolean isIpValid(String ip) {
+        if(ip.equals("localhost")) return true;
+        String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(ip);
+        return matcher.matches();
     }
 }

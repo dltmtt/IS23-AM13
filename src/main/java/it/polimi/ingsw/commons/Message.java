@@ -373,69 +373,41 @@ public class Message implements Serializable {
         json.put("disconnected", array);
     }
 
-    // la uso?
+    /**
+     * Constructor for  a generic  String message.
+     *
+     * @param type     category of the message (reconnection)
+     * @param argument the argument of the message
+     */
+
     public Message(String type, String argument) {
         json = new JSONObject();
         json.put("category", type);
         json.put("argument", argument);
     }
 
-    ///////////////////////////////////////////////////////DA SISTEMARE////////////////////////////////////////////////////////
-
-    // si può mettere in int message
-    // è un turno
-    public Message(String category, int position) {
+    /**
+     * Message for the reconnect of a player
+     *
+     * @param type     type of the message (reconnection)
+     * @param argument username of the reconnected player
+     * @param player   username whose turn is
+     */
+    public Message(String type, String argument, String player) {
         json = new JSONObject();
-        String posString = Integer.toString(position);
-        json.put("category", category);
-        json.put("position", posString);
+        json.put("category", type);
+        json.put("argument", argument);
+        json.put("playerTurn", player);
     }
 
-    public Message(int position) {
-        json = new JSONObject();
-        String posixString = Integer.toString(position);
-        json.put("category", "index");
-        json.put("position", posixString);
-    }
-
-    // è una insert
-    // public Message(String category, String type, int n) {
-    //     json = new JSONObject();
-    //     json.put("category", category);
-    //     json.put(type, n);
-    // }
-
-    // si può mettere in int message
+    ///////////////////////////////////////////////////////UTILS////////////////////////////////////////////////////////
 
     /**
-     * Constructor for the board message type.
+     * Util method for the creation of the json of the itemBag.
      *
-     * @param category category of the message (Board)
-     * @param board    board of the game
+     * @param items list of the items in the itemBag
+     * @return the json of the itemBag
      */
-    public Message(String category, Board board) {
-        json = new JSONObject();
-        json.put("category", category);
-        json.put("board", boardJson(board));
-    }
-
-    public Message(String category, HashMap<String, Bookshelf> bookshelves, Board board, int score, int topOfScoring) {
-        json = new JSONObject();
-        json.put("category", category);
-        JSONArray bookshelfArray = new JSONArray();
-        for (String username : bookshelves.keySet()) {
-            JSONObject bookshelfJson = new JSONObject();
-            bookshelfJson.put("bookshelf", bookshelfJson(bookshelves.get(username)));
-            bookshelfJson.put("username", username);
-            bookshelfArray.add(bookshelfJson);
-        }
-        json.put("bookshelves", bookshelfArray);
-
-        json.put("board", boardJson(board));
-        json.put("score", score);
-    }
-
-    // da sostituire con l'altro
 
     public JSONArray itemBagFill(List<Item> items) {
         JSONArray itemsArray = new JSONArray();
@@ -446,100 +418,6 @@ public class Message implements Serializable {
             itemsArray.add(itemJson);
         }
         return itemsArray;
-    }
-
-    ///////////////////////////////////////////////////////GETTERS////////////////////////////////////////////////////////
-
-    public List<Player> getPlayers() {
-        List<Player> players = new ArrayList<>();
-        JSONArray array = (JSONArray) json.get("players");
-        for (Object o : array) {
-            JSONObject playerJson = (JSONObject) o;
-            String isFirstPlayer = (String) playerJson.get("isFirstPlayer");
-            boolean isFirstPlayerBoolean = Boolean.parseBoolean(isFirstPlayer);
-            int pg = Integer.parseInt((String) playerJson.get("personalGoal"));
-            Bookshelf bookshelf;
-            bookshelf = getBookshelf(playerJson);
-            Player player = new Player((String) playerJson.get("username"), 0, false, isFirstPlayerBoolean, false, getCommonGoalCompleted(playerJson));
-            player.setBookshelf(bookshelf);
-            try {
-                PersonalGoal personalGoal = SettingLoader.loadSpecificPersonalGoal(pg);
-                player.setPersonalGoal(personalGoal);
-            } catch (IOException | ParseException e) {
-                throw new RuntimeException(e);
-            }
-            player.setCommonGoalPoints(getCommonPoints(playerJson));
-            players.add(player);
-        }
-        return players;
-    }
-
-    public List<String> getPlayersName() {
-        List<String> playersName = new ArrayList<>();
-        JSONArray bookshelvesArray = (JSONArray) json.get("bookshelves");
-        for (Object o : bookshelvesArray) {
-            JSONObject bookshelfJson = (JSONObject) o;
-            String name = (String) bookshelfJson.get("username");
-            playersName.add(name);
-        }
-        return playersName;
-    }
-
-    public List<Boolean> getCommonGoalCompleted(JSONObject player) {
-        List<Boolean> commonGoalCompleted = new ArrayList<>();
-        JSONArray array = (JSONArray) player.get("CommonGoalCompleted");
-        // System.out.println(array);
-        for (Object i : array) {
-
-            String name = (String) i;
-            commonGoalCompleted.add(Boolean.parseBoolean(name));
-        }
-        return commonGoalCompleted;
-    }
-
-    public List<Integer> getCommonPoints(JSONObject player) {
-        List<Integer> commonPoints = new ArrayList<>();
-        JSONArray array = (JSONArray) player.get("CommonPoints");
-        for (int i = 0; i < array.size(); i++) {
-            String name = (String) array.get(i);
-            int points = Integer.parseInt(name);
-            commonPoints.add(points);
-
-        }
-        return commonPoints;
-    }
-
-    public List<String> getDisconnected() {
-        List<String> disconnected = new ArrayList<>();
-        JSONArray array = (JSONArray) json.get("disconnected");
-        for (int i = 0; i < array.size(); i++) {
-            String name = (String) json.get(i);
-            disconnected.add(name);
-        }
-        return disconnected;
-    }
-
-    public List<Integer> getPick() {
-        List<Integer> pick = new ArrayList<>();
-        pick.add(Integer.parseInt((String) json.get("startRow")));
-        pick.add(Integer.parseInt((String) json.get("startColumn")));
-        pick.add(Integer.parseInt((String) json.get("finalRow")));
-        pick.add(Integer.parseInt((String) json.get("finalColumn")));
-        return pick;
-    }
-
-    public String getArgument() {
-        return (String) json.get("argument");
-    }
-
-    public List<Integer> getSort() {
-        List<Integer> sort = new ArrayList<>();
-        JSONArray array = (JSONArray) json.get("sort");
-        for (Object object : array) {
-            String objectString = object.toString();
-            sort.add(Integer.parseInt(objectString));
-        }
-        return sort;
     }
 
     /**
@@ -574,6 +452,13 @@ public class Message implements Serializable {
         return bookshelfItemList;
     }
 
+    /**
+     * Given a Board, returns its JSON representation
+     *
+     * @param board the Board to be converted
+     * @return the JSON representation of the Board
+     */
+
     public JSONArray boardJson(Board board) {
         JSONArray boardMatrix = new JSONArray();
 
@@ -601,285 +486,58 @@ public class Message implements Serializable {
         return boardMatrix;
     }
 
-    public int getTurn() {
-        String turnString = json.get("turn").toString();
-        return Integer.parseInt(turnString);
-    }
+    /**
+     * Creates a layout for a common goal
+     *
+     * @param cardType    the type of card
+     * @param occurrences the number of occurrences
+     * @param size        the size of the layout
+     * @param horizontal  whether the layout is horizontal
+     * @return the layout
+     */
 
-    public int getIntMessage(String type) {
-        String typeString = json.get(type).toString();
-        return Integer.parseInt(typeString);
-    }
-
-    public int getInsert() {
-        String insertString = json.get("insert").toString();
-        return Integer.parseInt(insertString);
-    }
-
-    public String getCategory() {
-        return (String) json.get("category");
-    }
-
-    public String getUsername() {
-        return (String) json.get("argument");
-    }
-
-    public String getCurrentPlayer() {
-        return (String) json.get("currentPlayer");
-    }
-
-    public boolean getFirstGame() {
-        return (boolean) json.get("bool");
-    }
-
-    public int getNumPlayer() {
-        String numPlayer = (String) json.get("numOfPlayers");
-        return Integer.parseInt(numPlayer);
-    }
-
-    public List<Integer> getTopOfScoringList() {
-
-        List<Integer> topScoringList = new ArrayList<>();
-        for (int i = 0; i <= 1; i++) {
-            if (json.get("topScoring" + i) != null) {
-                String topScoring = (String) json.get("topScoring" + i);
-                topScoringList.add(Integer.parseInt(topScoring));
-            } else {
-                break;
-            }
+    public Layout createCommonGoalLayout(String cardType, int occurrences, int size, boolean horizontal) {
+        Layout layout = null;
+        switch (cardType) {
+            case "corners" -> layout = new Corners(1, 1);
+            case "diagonal" -> layout = new Diagonal(1, 1, 5);
+            case "fullLine" -> layout = createFullLine(occurrences, size, horizontal);
+            case "group" -> layout = new Group(1, 1, occurrences, size);
+            case "xShape" -> layout = new XShape(1, 1, 3);
+            case "itemsPerColor" -> layout = new ItemsPerColor(1, 1);
+            case "stair" -> layout = new Stair(1, 6, occurrences);
+            case "square" -> layout = new Square(1, 1, 2, 2);
+            default -> System.out.println("Error in CommonGoalView");
         }
-        return topScoringList;
-    }
-
-    public String getMessage() {
-        return (String) json.get("category");
-    }
-
-    public int getPosition() {
-        String position = (String) json.get("position");
-        return Integer.parseInt(position);
-    }
-
-    public int getPersonalGoal() {
-        String personalGoal = (String) json.get("personal_goal");
-        return Integer.parseInt(personalGoal);
-    }
-
-    public List<Item> getPicked() {
-        List<Item> picked = new ArrayList<>();
-        JSONArray pickedJson = (JSONArray) json.get("picked");
-        for (Object obj : pickedJson) {
-            JSONObject item = (JSONObject) obj;
-            String color = (String) item.get("color");
-            String valueString = (String) item.get("value");
-            int value = Integer.parseInt(valueString);
-            picked.add(new Item(Color.valueOf(color), value));
-        }
-        return picked;
-    }
-
-    public Bookshelf getBookshelf(JSONObject json) {
-        SettingLoader.loadBookshelfSettings();
-        Bookshelf bookshelf = new Bookshelf(6, 5);
-
-        JSONArray bookshelfJson = (JSONArray) json.get("bookshelf");
-        for (Object obj : bookshelfJson) {
-            JSONObject bookshelfItem = (JSONObject) obj;
-            String rowString = (String) bookshelfItem.get("row");
-            String columnString = (String) bookshelfItem.get("column");
-            int row = Integer.parseInt(rowString);
-            int column = Integer.parseInt(columnString);
-            JSONArray itemJson = (JSONArray) bookshelfItem.get("item");
-            if (itemJson == null) {
-                bookshelf.setItem(row, column, Optional.empty());
-            } else {
-                JSONObject item = (JSONObject) itemJson.get(0);
-                String color = (String) item.get("color");
-                String valueString = (String) item.get("value");
-                int value = Integer.parseInt(valueString);
-                bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
-            }
-        }
-        return bookshelf;
-    }
-
-    public Bookshelf getBookshelf() {
-        Bookshelf bookshelf = new Bookshelf();
-        JSONArray bookshelfJson = (JSONArray) json.get("bookshelf");
-        for (Object obj : bookshelfJson) {
-            JSONObject bookshelfItem = (JSONObject) obj;
-            String rowString = (String) bookshelfItem.get("row");
-            String columnString = (String) bookshelfItem.get("column");
-            int row = Integer.parseInt(rowString);
-            int column = Integer.parseInt(columnString);
-            JSONArray itemJson = (JSONArray) bookshelfItem.get("item");
-            if (itemJson == null) {
-                bookshelf.setItem(row, column, Optional.empty());
-            } else {
-                JSONObject item = (JSONObject) itemJson.get(0);
-                String color = (String) item.get("color");
-                String valueString = (String) item.get("value");
-                int value = Integer.parseInt(valueString);
-                bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
-            }
-        }
-        return bookshelf;
-    }
-
-    public HashMap<String, Bookshelf> getAllBookshelves() {
-        HashMap<String, Bookshelf> bookshelves = new HashMap<>();
-        JSONArray bookshelfJson = (JSONArray) json.get("bookshelves");
-
-        for (Object obj : bookshelfJson) {
-            JSONObject bookshelfItem = (JSONObject) obj;
-            String username = (String) bookshelfItem.get("username");
-            Bookshelf bookshelf = new Bookshelf();
-            JSONArray bookshelfArray = (JSONArray) bookshelfItem.get("bookshelf");
-            for (Object obj2 : bookshelfArray) {
-                JSONObject bookshelfItem2 = (JSONObject) obj2;
-                String rowString = (String) bookshelfItem2.get("row");
-                String columnString = (String) bookshelfItem2.get("column");
-                int row = Integer.parseInt(rowString);
-                int column = Integer.parseInt(columnString);
-                JSONArray itemJson = (JSONArray) bookshelfItem2.get("item");
-                if (itemJson == null) {
-                    bookshelf.setItem(row, column, Optional.empty());
-                } else {
-                    JSONObject item = (JSONObject) itemJson.get(0);
-                    String color = (String) item.get("color");
-                    String valueString = (String) item.get("value");
-                    int value = Integer.parseInt(valueString);
-                    bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
-                }
-            }
-            bookshelves.put(username, bookshelf);
-        }
-        return bookshelves;
-    }
-
-    public Board getBoard() {
-        Board board = new Board();
-        JSONArray boardJson = (JSONArray) json.get("board");
-        for (Object obj : boardJson) {
-            JSONObject boardItem = (JSONObject) obj;
-            String rowString = (String) boardItem.get("row");
-            String columnString = (String) boardItem.get("column");
-            int row = Integer.parseInt(rowString);
-            int column = Integer.parseInt(columnString);
-            JSONArray itemJson = (JSONArray) boardItem.get("item");
-            if (itemJson == null) {
-                board.setItem(row, column, null);
-            } else {
-                JSONObject item = (JSONObject) itemJson.get(0);
-                String color = (String) item.get("color");
-                String valueString = (String) item.get("value");
-                int value = Integer.parseInt(valueString);
-                board.setItem(row, column, new Item(Color.valueOf(color), value));
-            }
-        }
-        return board;
-    }
-
-    public List<String> getCardType() {
-        List<String> cardType = new ArrayList<>();
-        int i = 0;
-        while (json.get("commonGoalLayout " + i) != null) {
-            cardType.add((String) json.get("commonGoalLayout " + i));
-            i++;
-        }
-        return cardType;
-    }
-
-    public List<Integer> getCardOccurrences() {
-        List<Integer> cardOccurrences = new ArrayList<>();
-        int j = 0;
-        while (json.get("occurrences " + j) != null) {
-            cardOccurrences.add(Integer.parseInt(json.get("occurrences " + j).toString()));
-            j++;
-        }
-        return cardOccurrences;
-    }
-
-    public List<Integer> getCardSize() {
-        List<Integer> cardSize = new ArrayList<>();
-        int j = 0;
-        while (json.get("size " + j) != null) {
-            cardSize.add(Integer.parseInt(json.get("size " + j).toString()));
-            j++;
-        }
-        return cardSize;
-    }
-
-    public List<Boolean> getCardHorizontal() {
-        List<Boolean> cardHorizontal = new ArrayList<>();
-        int i = 0;
-        while (json.get("horizontal " + i) != null) {
-            cardHorizontal.add((boolean) json.get("horizontal " + i));
-            i++;
-        }
-        return cardHorizontal;
-    }
-
-    public List<CommonGoal> getCommonGoals(int size) {
-        List<String> cards = getCardType();
-        List<Integer> occurrences = getCardOccurrences();
-        List<Integer> sizes = getCardSize();
-        List<Boolean> horizontal = getCardHorizontal();
-        List<CommonGoal> commonGoals = new ArrayList<>();
-        for (int i = 0; i < cards.size(); i++) {
-            Layout layout = createCommonGoalLayout(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
-            CommonGoal commonGoal = new CommonGoal(layout, size);
-            List<Integer> scoring = getScoring(i);
-            commonGoal.setScoringList(scoring);
-            commonGoals.add(commonGoal);
-        }
-        return commonGoals;
-    }
-
-    public List<Integer> getScoring(int i) {
-        List<Integer> scoring = new ArrayList<>();
-        JSONArray topScoringJson = (JSONArray) json.get("scoringList" + i);
-        for (Object obj : topScoringJson) {
-            JSONObject topScoringItem = (JSONObject) obj;
-            String scoreString = (String) topScoringItem.get("score");
-
-            int score = Integer.parseInt(scoreString);
-            scoring.add(score);
-        }
-        return scoring;
+        return layout;
     }
 
     /**
-     * Extracts the scores from the message
+     * Creates a full line layout
      *
-     * @param username
-     * @return
+     * @param occurrences the number of occurrences
+     * @param size        the size of the layout
+     * @param horizontal  whether the layout is horizontal
+     * @return the layout
      */
-    public List<Integer> getStartingScores(String username) {
-        JSONArray bookshelfArray = (JSONArray) json.get("bookshelves");
-        for (Object player : bookshelfArray) {
-            JSONObject playerObject = (JSONObject) player;
-            if (playerObject.get("username").equals(username)) {
-                List<Integer> currentPointsList = new ArrayList<>();
-
-                currentPointsList.add(Integer.parseInt(playerObject.get("pgScore").toString()));
-                currentPointsList.add(Integer.parseInt(playerObject.get("cgScore").toString()));
-                currentPointsList.add(Integer.parseInt(playerObject.get("bookshelfScore").toString()));
-                currentPointsList.add(Integer.parseInt(playerObject.get("totalScore").toString()));
-                return currentPointsList;
-            }
+    public Layout createFullLine(int occurrences, int size, boolean horizontal) {
+        if (occurrences == 3 || occurrences == 4) {
+            return new FullLine(1, 3, occurrences, horizontal);
         }
-        return null;
+        if (horizontal) {
+            return new FullLine(5, 5, occurrences, horizontal);
+        } else {
+            return new FullLine(6, 6, occurrences, horizontal);
+        }
+
     }
 
-    public JSONObject getJson() {
-        return json;
-    }
-
-    public String getJSONstring() {
-        return json.toJSONString();
-    }
-
+    /**
+     * Creates a json object for the player.
+     *
+     * @param player the player to be converted to json
+     * @return the json object of the player
+     */
     public JSONObject createPlayer(Player player) {
         JSONObject playerObject = new JSONObject();
         String nickname = player.getNickname();
@@ -911,35 +569,490 @@ public class Message implements Serializable {
         playerObject.put("CommonGoalCompleted", completedArray);
         return playerObject;
     }
+    ///////////////////////////////////////////////////////GETTERS////////////////////////////////////////////////////////
 
-    public Layout createCommonGoalLayout(String cardType, int occurrences, int size, boolean horizontal) {
-        Layout layout = null;
-        switch (cardType) {
-            case "corners" -> layout = new Corners(1, 1);
-            case "diagonal" -> layout = new Diagonal(1, 1, 5);
-            case "fullLine" -> layout = createFullLine(occurrences, size, horizontal);
-            case "group" -> layout = new Group(1, 1, occurrences, size);
-            case "xShape" -> layout = new XShape(1, 1, 3);
-            case "itemsPerColor" -> layout = new ItemsPerColor(1, 1);
-            case "stair" -> layout = new Stair(1, 6, occurrences);
-            case "square" -> layout = new Square(1, 1, 2, 2);
-            default -> System.out.println("Error in CommonGoalView");
+    /**
+     * Getter for the players of the json. (backUp)
+     *
+     * @return the list of the players of the message
+     */
+    public List<Player> getPlayers() {
+        List<Player> players = new ArrayList<>();
+        JSONArray array = (JSONArray) json.get("players");
+        for (Object o : array) {
+            JSONObject playerJson = (JSONObject) o;
+            String isFirstPlayer = (String) playerJson.get("isFirstPlayer");
+            boolean isFirstPlayerBoolean = Boolean.parseBoolean(isFirstPlayer);
+            int pg = Integer.parseInt((String) playerJson.get("personalGoal"));
+            Bookshelf bookshelf;
+            bookshelf = getBookshelf(playerJson);
+            Player player = new Player((String) playerJson.get("username"), 0, false, isFirstPlayerBoolean, false, getCommonGoalCompleted(playerJson));
+            player.setBookshelf(bookshelf);
+            try {
+                PersonalGoal personalGoal = SettingLoader.loadSpecificPersonalGoal(pg);
+                player.setPersonalGoal(personalGoal);
+            } catch (IOException | ParseException e) {
+                throw new RuntimeException(e);
+            }
+            player.setCommonGoalPoints(getCommonPoints(playerJson));
+            players.add(player);
         }
-        return layout;
+        return players;
     }
 
-    public Layout createFullLine(int occurrences, int size, boolean horizontal) {
-        if (occurrences == 3 || occurrences == 4) {
-            return new FullLine(1, 3, occurrences, horizontal);
+    /**
+     * Getter for players names
+     *
+     * @return the list of the players names
+     */
+    public List<String> getPlayersName() {
+        List<String> playersName = new ArrayList<>();
+        JSONArray bookshelvesArray = (JSONArray) json.get("bookshelves");
+        for (Object o : bookshelvesArray) {
+            JSONObject bookshelfJson = (JSONObject) o;
+            String name = (String) bookshelfJson.get("username");
+            playersName.add(name);
         }
-        if (horizontal) {
-            return new FullLine(5, 5, occurrences, horizontal);
-        } else {
-            return new FullLine(6, 6, occurrences, horizontal);
-        }
-
+        return playersName;
     }
 
+    /**
+     * Getter for the list of common Goal completed
+     *
+     * @param player the player whose common Goal completed we want to know(JSON)
+     * @return the list of common Goal completed
+     */
+
+    public List<Boolean> getCommonGoalCompleted(JSONObject player) {
+        List<Boolean> commonGoalCompleted = new ArrayList<>();
+        JSONArray array = (JSONArray) player.get("CommonGoalCompleted");
+        // System.out.println(array);
+        for (Object i : array) {
+
+            String name = (String) i;
+            commonGoalCompleted.add(Boolean.parseBoolean(name));
+        }
+        return commonGoalCompleted;
+    }
+
+
+    /**
+     * Getter for the list of common Goal points
+     *
+     * @param player the player whose common Goal points we want to know (JSON)
+     * @return the list of common Goal completed
+     */
+    public List<Integer> getCommonPoints(JSONObject player) {
+        List<Integer> commonPoints = new ArrayList<>();
+        JSONArray array = (JSONArray) player.get("CommonPoints");
+        for (Object o : array) {
+            String name = (String) o;
+            int points = Integer.parseInt(name);
+            commonPoints.add(points);
+
+        }
+        return commonPoints;
+    }
+
+    public List<String> getDisconnected() {
+        List<String> disconnected = new ArrayList<>();
+        JSONArray array = (JSONArray) json.get("disconnected");
+        for (int i = 0; i < array.size(); i++) {
+            String name = (String) json.get(i);
+            disconnected.add(name);
+        }
+        return disconnected;
+    }
+
+    /**
+     * Getter for the picked items from the Board.
+     *
+     * @return the list of the picked items
+     */
+    public List<Integer> getPick() {
+        List<Integer> pick = new ArrayList<>();
+        pick.add(Integer.parseInt((String) json.get("startRow")));
+        pick.add(Integer.parseInt((String) json.get("startColumn")));
+        pick.add(Integer.parseInt((String) json.get("finalRow")));
+        pick.add(Integer.parseInt((String) json.get("finalColumn")));
+        return pick;
+    }
+
+    /**
+     * Getter for a generic argument of the json.
+     *
+     * @return the argument of the json
+     */
+
+    public String getArgument() {
+        return (String) json.get("argument");
+    }
+
+    /**
+     * Getter for the sort chosen.
+     *
+     * @return the new sort chosen.
+     */
+    public List<Integer> getSort() {
+        List<Integer> sort = new ArrayList<>();
+        JSONArray array = (JSONArray) json.get("sort");
+        for (Object object : array) {
+            String objectString = object.toString();
+            sort.add(Integer.parseInt(objectString));
+        }
+        return sort;
+    }
+
+    /**
+     * Getter for the column chosen from the json.
+     *
+     * @return the  column chosen.
+     */
+    public int getInsert() {
+        String insertString = json.get("insert").toString();
+        return Integer.parseInt(insertString);
+    }
+
+    /**
+     * Getter for the category of the json.
+     *
+     * @return the category of the json.
+     */
+
+    public String getCategory() {
+        return (String) json.get("category");
+    }
+
+    /**
+     * Getter for the username of the json.
+     *
+     * @return the username of the json.
+     */
+    public String getUsername() {
+        return (String) json.get("argument");
+    }
+
+    /**
+     * Getter for the username of  the current player of the json.
+     *
+     * @return the username of  the current player of the json.
+     */
+    public String getCurrentPlayer() {
+        return (String) json.get("currentPlayer");
+    }
+
+
+    /**
+     * Getter for the first game boolean.
+     *
+     * @return the first game boolean.
+     */
+    public boolean getFirstGame() {
+        return (boolean) json.get("bool");
+    }
+
+
+    /**
+     * Getter for the number of players.
+     *
+     * @return the number of players.
+     */
+    public int getNumPlayer() {
+        String numPlayer = (String) json.get("numOfPlayers");
+        return Integer.parseInt(numPlayer);
+    }
+
+
+    /**
+     * Getter for the top scoring list of common goals.
+     *
+     * @return the top scoring list of common goals.
+     */
+    public List<Integer> getTopOfScoringList() {
+
+        List<Integer> topScoringList = new ArrayList<>();
+        for (int i = 0; i <= 1; i++) {
+            if (json.get("topScoring" + i) != null) {
+                String topScoring = (String) json.get("topScoring" + i);
+                topScoringList.add(Integer.parseInt(topScoring));
+            } else {
+                break;
+            }
+        }
+        return topScoringList;
+    }
+
+
+    /**
+     * Getter for the personal goal of the json.
+     *
+     * @return the personal goal of the json.
+     */
+    public int getPersonalGoal() {
+        String personalGoal = (String) json.get("personal_goal");
+        return Integer.parseInt(personalGoal);
+    }
+
+
+    /**
+     * Getter for the picked items of the json.
+     *
+     * @return the picked items of the json.
+     */
+    public List<Item> getPicked() {
+        List<Item> picked = new ArrayList<>();
+        JSONArray pickedJson = (JSONArray) json.get("picked");
+        for (Object obj : pickedJson) {
+            JSONObject item = (JSONObject) obj;
+            String color = (String) item.get("color");
+            String valueString = (String) item.get("value");
+            int value = Integer.parseInt(valueString);
+            picked.add(new Item(Color.valueOf(color), value));
+        }
+        return picked;
+    }
+
+    /**
+     * Getter for the bookshelf of the json.
+     *
+     * @return the bookshelf items of the json.
+     */
+
+    public Bookshelf getBookshelf(JSONObject json) {
+        SettingLoader.loadBookshelfSettings();
+        Bookshelf bookshelf = new Bookshelf(6, 5);
+
+        JSONArray bookshelfJson = (JSONArray) json.get("bookshelf");
+        for (Object obj : bookshelfJson) {
+            JSONObject bookshelfItem = (JSONObject) obj;
+            String rowString = (String) bookshelfItem.get("row");
+            String columnString = (String) bookshelfItem.get("column");
+            int row = Integer.parseInt(rowString);
+            int column = Integer.parseInt(columnString);
+            JSONArray itemJson = (JSONArray) bookshelfItem.get("item");
+            if (itemJson == null) {
+                bookshelf.setItem(row, column, Optional.empty());
+            } else {
+                JSONObject item = (JSONObject) itemJson.get(0);
+                String color = (String) item.get("color");
+                String valueString = (String) item.get("value");
+                int value = Integer.parseInt(valueString);
+                bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
+            }
+        }
+        return bookshelf;
+    }
+
+    /**
+     * Getter for all bookshelves of the json.
+     *
+     * @return the bookshelves of the json.
+     */
+    public HashMap<String, Bookshelf> getAllBookshelves() {
+        HashMap<String, Bookshelf> bookshelves = new HashMap<>();
+        JSONArray bookshelfJson = (JSONArray) json.get("bookshelves");
+
+        for (Object obj : bookshelfJson) {
+            JSONObject bookshelfItem = (JSONObject) obj;
+            String username = (String) bookshelfItem.get("username");
+            Bookshelf bookshelf = new Bookshelf();
+            JSONArray bookshelfArray = (JSONArray) bookshelfItem.get("bookshelf");
+            for (Object obj2 : bookshelfArray) {
+                JSONObject bookshelfItem2 = (JSONObject) obj2;
+                String rowString = (String) bookshelfItem2.get("row");
+                String columnString = (String) bookshelfItem2.get("column");
+                int row = Integer.parseInt(rowString);
+                int column = Integer.parseInt(columnString);
+                JSONArray itemJson = (JSONArray) bookshelfItem2.get("item");
+                if (itemJson == null) {
+                    bookshelf.setItem(row, column, Optional.empty());
+                } else {
+                    JSONObject item = (JSONObject) itemJson.get(0);
+                    String color = (String) item.get("color");
+                    String valueString = (String) item.get("value");
+                    int value = Integer.parseInt(valueString);
+                    bookshelf.setItem(row, column, Optional.of(new Item(Color.valueOf(color), value)));
+                }
+            }
+            bookshelves.put(username, bookshelf);
+        }
+        return bookshelves;
+    }
+
+
+    /**
+     * Getter for the board of the json.
+     *
+     * @return the board of the json.
+     */
+
+    public Board getBoard() {
+        Board board = new Board();
+        JSONArray boardJson = (JSONArray) json.get("board");
+        for (Object obj : boardJson) {
+            JSONObject boardItem = (JSONObject) obj;
+            String rowString = (String) boardItem.get("row");
+            String columnString = (String) boardItem.get("column");
+            int row = Integer.parseInt(rowString);
+            int column = Integer.parseInt(columnString);
+            JSONArray itemJson = (JSONArray) boardItem.get("item");
+            if (itemJson == null) {
+                board.setItem(row, column, null);
+            } else {
+                JSONObject item = (JSONObject) itemJson.get(0);
+                String color = (String) item.get("color");
+                String valueString = (String) item.get("value");
+                int value = Integer.parseInt(valueString);
+                board.setItem(row, column, new Item(Color.valueOf(color), value));
+            }
+        }
+        return board;
+    }
+
+
+    /**
+     * Getter for the card types of common goals of the json.
+     *
+     * @return the card types of the json.
+     */
+    public List<String> getCardType() {
+        List<String> cardType = new ArrayList<>();
+        int i = 0;
+        while (json.get("commonGoalLayout " + i) != null) {
+            cardType.add((String) json.get("commonGoalLayout " + i));
+            i++;
+        }
+        return cardType;
+    }
+
+    /**
+     * Getter for the card occurrences of common goals of the json.
+     *
+     * @return the occurences of the json.
+     */
+
+    public List<Integer> getCardOccurrences() {
+        List<Integer> cardOccurrences = new ArrayList<>();
+        int j = 0;
+        while (json.get("occurrences " + j) != null) {
+            cardOccurrences.add(Integer.parseInt(json.get("occurrences " + j).toString()));
+            j++;
+        }
+        return cardOccurrences;
+    }
+
+    /**
+     * Getter for the card size of common goals of the json.
+     *
+     * @return the card size of the json.
+     */
+
+    public List<Integer> getCardSize() {
+        List<Integer> cardSize = new ArrayList<>();
+        int j = 0;
+        while (json.get("size " + j) != null) {
+            cardSize.add(Integer.parseInt(json.get("size " + j).toString()));
+            j++;
+        }
+        return cardSize;
+    }
+
+    /**
+     * Getter for the card horizontal boolean of common goals of the json.
+     *
+     * @return the card horizontal boolean of the json.
+     */
+
+    public List<Boolean> getCardHorizontal() {
+        List<Boolean> cardHorizontal = new ArrayList<>();
+        int i = 0;
+        while (json.get("horizontal " + i) != null) {
+            cardHorizontal.add((boolean) json.get("horizontal " + i));
+            i++;
+        }
+        return cardHorizontal;
+    }
+
+    /**
+     * Getter for all common goals
+     *
+     * @param size the size of the common goals list
+     * @return the list of common goals
+     */
+
+    public List<CommonGoal> getCommonGoals(int size) {
+        List<String> cards = getCardType();
+        List<Integer> occurrences = getCardOccurrences();
+        List<Integer> sizes = getCardSize();
+        List<Boolean> horizontal = getCardHorizontal();
+        List<CommonGoal> commonGoals = new ArrayList<>();
+        for (int i = 0; i < cards.size(); i++) {
+            Layout layout = createCommonGoalLayout(cards.get(i), occurrences.get(i), sizes.get(i), horizontal.get(i));
+            CommonGoal commonGoal = new CommonGoal(layout, size);
+            List<Integer> scoring = getScoring(i);
+            commonGoal.setScoringList(scoring);
+            commonGoals.add(commonGoal);
+        }
+        return commonGoals;
+    }
+
+
+    /**
+     * Getter for the scoring of the json. (scoring of common gaol)
+     *
+     * @param i the index of the scoring to get.
+     * @return the scoring of the json.
+     */
+    public List<Integer> getScoring(int i) {
+        List<Integer> scoring = new ArrayList<>();
+        JSONArray topScoringJson = (JSONArray) json.get("scoringList" + i);
+        for (Object obj : topScoringJson) {
+            JSONObject topScoringItem = (JSONObject) obj;
+            String scoreString = (String) topScoringItem.get("score");
+
+            int score = Integer.parseInt(scoreString);
+            scoring.add(score);
+        }
+        return scoring;
+    }
+
+    /**
+     * Getter for the starting scores of the json.
+     *
+     * @param username the username of the player to get the starting scores of.
+     * @return the starting scores of the player.(a list of 4 integers).
+     */
+    public List<Integer> getStartingScores(String username) {
+        JSONArray bookshelfArray = (JSONArray) json.get("bookshelves");
+        for (Object player : bookshelfArray) {
+            JSONObject playerObject = (JSONObject) player;
+            if (playerObject.get("username").equals(username)) {
+                List<Integer> currentPointsList = new ArrayList<>();
+
+                currentPointsList.add(Integer.parseInt(playerObject.get("pgScore").toString()));
+                currentPointsList.add(Integer.parseInt(playerObject.get("cgScore").toString()));
+                currentPointsList.add(Integer.parseInt(playerObject.get("bookshelfScore").toString()));
+                currentPointsList.add(Integer.parseInt(playerObject.get("totalScore").toString()));
+                return currentPointsList;
+            }
+        }
+        return null;
+    }
+
+    public JSONObject getJson() {
+        return json;
+    }
+
+    public String getJSONstring() {
+        return json.toJSONString();
+    }
+
+
+    /**
+     * Getter for the score of the player.
+     *
+     * @return the score of the player.
+     */
     public List<Integer> getScore() {
         List<Integer> score = new ArrayList<>();
         String pgString = (String) json.get("pgScore");
@@ -954,6 +1067,13 @@ public class Message implements Serializable {
         return score;
     }
 
+
+    /**
+     * Getter for the winners.
+     *
+     * @return the winners
+     */
+
     public HashMap<String, Integer> getWinners() {
         HashMap<String, Integer> winners = new HashMap<>();
         JSONArray winnersJson = (JSONArray) json.get("winners");
@@ -966,6 +1086,12 @@ public class Message implements Serializable {
         }
         return winners;
     }
+
+    /**
+     * Getter for the losers.
+     *
+     * @return the losers
+     */
 
     public HashMap<String, Integer> getLosers() {
         HashMap<String, Integer> losers = new HashMap<>();
@@ -980,10 +1106,22 @@ public class Message implements Serializable {
         return losers;
     }
 
+    /**
+     * Getter for the firts player.
+     *
+     * @return the first player
+     */
+
     public String getFirstPlayer() {
         return (String) json.get("firstPlayer");
     }
 
+
+    /**
+     * Getters for the item bag.
+     *
+     * @return the item bag
+     */
     public List<Item> getItemBag() {
         JSONArray itemBagJson = (JSONArray) json.get("items");
         List<Item> itemBag = new ArrayList<>();
@@ -997,4 +1135,15 @@ public class Message implements Serializable {
         }
         return itemBag;
     }
+
+    /**
+     * Extracts the player turn from the message
+     *
+     * @return the player turn
+     */
+
+    public String getPlayerTurn() {
+        return (String) json.get("playerTurn");
+    }
+
 }

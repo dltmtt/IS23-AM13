@@ -11,16 +11,6 @@ import it.polimi.ingsw.utils.Color;
 public record Item(Color color, int number) {
 
     /**
-     * This method checks if the item is equal to another one.
-     *
-     * @param check the item to check
-     * @return true if the items are equal, false otherwise
-     */
-    public boolean equals(Item check) {
-        return color() == check.color() && number() == check.number();
-    }
-
-    /**
      * @return the name of the image file containing the image of the item
      */
     public String fileName() {

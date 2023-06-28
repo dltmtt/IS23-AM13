@@ -11,12 +11,20 @@ public class RefusedGuiController {
     @FXML
     private Button homeButton;
 
+    /**
+     * Constructor for the class
+     *
+     * @param guiView the gui view
+     */
     public RefusedGuiController(GuiView guiView) {
         view = guiView;
     }
 
+    /**
+     * This method is called when the home button is clicked, changing the scene to the login one
+     */
     @FXML
-    void homeScreen(ActionEvent event) {
+    public void homeScreen(ActionEvent event) {
         view.loginProcedure();
     }
 }

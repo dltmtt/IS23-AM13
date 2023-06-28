@@ -137,6 +137,7 @@ public class Board {
     }
 
     /**
+     * This method returns the item bag
      * @return the list of items contained in the bag
      */
     public List<Item> getItemBag() {
@@ -168,6 +169,7 @@ public class Board {
     }
 
     /**
+     * This method the matrix
      * @return the board as a matrix of Items.
      */
     public Item[][] getBoardMatrix() {
@@ -175,6 +177,7 @@ public class Board {
     }
 
     /**
+     * This method returns the size of the board.
      * @return the size of the board
      */
     public int getBoardSize() {
@@ -339,12 +342,12 @@ public class Board {
     }
 
     /**
-     * This method checks if all the tiles chosen are not null.
+     * This method checks if the start and end items are not null.
      *
      * @param cells the list of coordinates of the tiles chosen
      * @return true if all the tiles chosen are not null, false otherwise
      */
-    public boolean allNotNull(List<Coordinates> cells) {
+    public boolean startEndNotNull(List<Coordinates> cells) {
         for (Coordinates cell : cells) {
             if (boardMatrix[cell.x()][cell.y()] == null) {
                 return false;

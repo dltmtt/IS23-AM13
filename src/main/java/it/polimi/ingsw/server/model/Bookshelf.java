@@ -65,12 +65,6 @@ public class Bookshelf implements AbleToGetPoints {
         clearBooleanMatrix();
     }
 
-    public Bookshelf(Optional<Item>[][] items) {
-        this.items = items;
-        booleanMatrix = new boolean[Bookshelf.rows][Bookshelf.columns];
-        clearBooleanMatrix();
-    }
-
     /**
      * @return the number of rows in a bookshelf
      */
@@ -123,7 +117,7 @@ public class Bookshelf implements AbleToGetPoints {
 
     /**
      *
-     * @return the number of the cells to highlight in the board, depending on the number of free cells in the columns
+     * @return the maximum number of the cells to highlight in the board, depending on the number of free cells in the columns
      */
     public int numCellsToHighlight() {
         int cellsToHighLight;
@@ -402,18 +396,5 @@ public class Bookshelf implements AbleToGetPoints {
      */
     public void setItem(int row, int col, Optional<Item> item) {
         items[row][col] = item;
-    }
-
-    /**
-     * Gets the file name of the image that represents the item at the
-     * specified position.
-     *
-     * @param row the row index
-     * @param col the column index
-     * @return the file name of the item at the specified position
-     */
-    public String getItemFileName(int row, int col) {
-        Item item = items[row][col].get();
-        return item.color().toString().toLowerCase().charAt(0) + String.valueOf(item.number()) + ".png";
     }
 }

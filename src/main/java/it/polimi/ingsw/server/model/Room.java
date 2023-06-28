@@ -32,6 +32,7 @@ public class Room {
     public Room(int roomId, List<Player> players) {
         this.roomId = roomId;
         this.players.addAll(players);
+        maxPlayers = players.size();
     }
 
     /**
@@ -45,6 +46,8 @@ public class Room {
     }
 
     /**
+     * This method tells whether the room is full or not.
+     *
      * @return true if the room is full, false otherwise
      */
     public boolean full() {
@@ -52,6 +55,8 @@ public class Room {
     }
 
     /**
+     * This method tells whether the maximum number of players is set or not.
+     *
      * @return true if the maximum number of players is set, false otherwise
      */
     public boolean isMaxPlayersSet() {
@@ -59,6 +64,8 @@ public class Room {
     }
 
     /**
+     * This method tells whether the room has too many players or not.
+     *
      * @return true if the room has too many players, false otherwise
      */
     public boolean tooManyPlayers() {

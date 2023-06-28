@@ -66,7 +66,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @return the list of players.
      */
     public List<Player> getPlayers() {
@@ -74,7 +73,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @param players the list of players to set.
      */
     public void setPlayers(List<Player> players) {
@@ -84,8 +82,6 @@ public class GameModel {
 
     public void setGame(List<CommonGoal> commonGoals) {
 
-//        livingRoom.setItemBag(board.getItemBag());
-//        livingRoom.setBoardMatrix(board.getBoardMatrix());
         Player.setCommonGoal(commonGoals);
         for (CommonGoal cg : commonGoals) {
             System.out.println("name " + cg.getLayout().getName());
@@ -114,11 +110,6 @@ public class GameModel {
         return topScoringPoints;
     }
 
-    public List<Integer> getScoringList(int index) {
-        return Player.getCommonGoals().get(index).getScoringList();
-    }
-
-
     /**
      * @param player the player to get the points of
      * @return a list of all the points that the player has earned
@@ -141,7 +132,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @return the current player.
      */
     public Player getCurrentPlayer() {
@@ -149,7 +139,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @param currentPlayer the current player to set.
      */
     public void setCurrentPlayer(Player currentPlayer) {
@@ -157,7 +146,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @return the board of the game.
      */
     public Board getLivingRoom() {
@@ -237,7 +225,7 @@ public class GameModel {
     }
 
     /**
-     * Creates a deck with all the possible personal goals.
+     * This method creates a deck with all the possible personal goals.
      * A personal goal is a matrix with highlighted spaces with the corresponding item tiles
      * that players have to replicate in their bookshelves to get points.
      */
@@ -249,7 +237,7 @@ public class GameModel {
     }
 
     /**
-     * Moves column or a row of items from the board to the player's bookshelf. If the bookshelf is full, the player gets the end game card and
+     * This method moves a column or a row of items from the board to the player's bookshelf. If the bookshelf is full, the player gets the end game card and
      * the last round starts. At the end, the turn is changed.
      *
      * @param items  the list of coordinates of the items to be moved
@@ -269,6 +257,7 @@ public class GameModel {
 
 
     /**
+     * This method returns a list representing the CommonGoalDeck.
      * @return the CommonGoalDeck.
      */
     public List<CommonGoal> getCommonGoalDeck() {
@@ -276,6 +265,7 @@ public class GameModel {
     }
 
     /**
+     * This method returns the list representing the PersonalGoalDeck.
      * @return the PersonalGoalDeck.
      */
     public List<PersonalGoal> getPersonalGoalDeck() {
@@ -283,16 +273,25 @@ public class GameModel {
     }
 
     /**
+     * This method returns a boolean representing if the game has ended.
      * @return true id the game is ended, otherwise false.
      */
     public boolean isTheGameEnded() {
         return isTheGameEnded;
     }
 
+    /**
+     * This method sets the boolean representing if the game has ended.
+     * @param theGameEnded the boolean to set.
+     */
     public void setTheGameEnded(boolean theGameEnded) {
         isTheGameEnded = theGameEnded;
     }
 
+    /**
+     * This method returns a boolean representing if the last round has started.
+     * @return true if the last round has started, otherwise false.
+     */
     public boolean isLastRound() {
         return lastRound;
     }

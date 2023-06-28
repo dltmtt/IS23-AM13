@@ -16,8 +16,10 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 
-// This is abstract (non instantiable) because each client will either
-// be an RMI client or a Socket client
+/**
+ * This is abstract (non instantiable) because each client will either be an RMI client or a Socket client
+ */
+
 public abstract class Client extends UnicastRemoteObject implements Serializable, ClientCommunicationInterface {
 
     private final Object lock;
@@ -40,8 +42,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     public Client() throws RemoteException {
         super();
-        // All these messages should probably be moved to the view
-        System.out.print("Connecting to server... ");
+        gameView=MyShelfie.gameView;
+
+        gameView.initiateConnection();
 
         boolean connected = false;
         long now = System.currentTimeMillis();
@@ -63,9 +66,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         }
 
         if (connected) {
-            System.out.println(SUCCESS_COLOR + "connected" + RESET);
+            gameView.connectionSuccess();
         } else {
-            System.err.println("Unable to connect to the server. Is it running?");
+            gameView.connectionError();
             System.exit(1);
         }
         lock = new Object();
@@ -102,13 +105,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         pingThread.start();
     }
 
-    /**
-     * Starts the <code>gameView</code> and starts the login procedure.
-     */
-    public void start() {
-        // gameView.setClient(this);
-        gameView.startView(this);
-    }
 
     public void setView(GameView gameView) {
         this.gameView = gameView;
@@ -160,7 +156,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "numOfPlayersNotOK" -> gameView.playerNumberError();
             case "update" -> {
                 HashMap<String, Bookshelf> bookshelves = message.getAllBookshelves();
-                // gameView.setPlayers
                 gameView.pickMyBookshelf(bookshelves);
                 gameView.pickOtherBookshelf(bookshelves);
                 gameView.showCurrentScore(message.getScore().get(3));
@@ -206,12 +201,15 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 theOnlyOne = false;
                 gameView.setTheOnlyOne(false);
                 String username = message.getArgument();
+                Boolean isMyTurn= message.getPlayerTurn().equals(this.username);
+                gameView.enableGame(isMyTurn);
                 gameView.showMessage(reconnectionMessage(username));
             }
             case "youAloneBitch" -> {
                 gameView.showMessage(onlyPlayerMessage());
                 theOnlyOne = true;
                 gameView.setTheOnlyOne(true);
+                gameView.disableGame();
                 waitForReconnection();
             }
             case "waitingRoomForReconnect" -> {

@@ -22,7 +22,7 @@ public interface GameView {
     void loginProcedure();
 
     // Parameter is useless in CLI but needed in GUI
-    void startView(Client client);
+    void startView();
 
     void showMessage(String message);
 
@@ -82,8 +82,6 @@ public interface GameView {
 
     void showRemovePlayer();
 
-    void showDisconnection(List<String> disconnectedPlayers);
-
     void rearrangeProcedure(List<Item> items);
 
     void updateScore(List<Integer> topOfScoringList, List<Integer> score);
@@ -93,4 +91,14 @@ public interface GameView {
     void setTheOnlyOne(boolean b);
 
     void showWaiting();
+
+    void disableGame();
+
+    void enableGame(Boolean currentTurn);
+
+    void initiateConnection();
+
+    void connectionSuccess();
+
+    void connectionError();
 }

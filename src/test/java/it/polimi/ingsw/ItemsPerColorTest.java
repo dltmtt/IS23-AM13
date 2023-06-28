@@ -62,6 +62,11 @@ public class ItemsPerColorTest {
             }
         }
     }
+    @Test
+    void getName(){
+        Layout L = new ItemsPerColor(1, 1);
+        assert L.getName().equals("itemsPerColor");
+    }
 
     @Test
     void ItemPerColorFake() {

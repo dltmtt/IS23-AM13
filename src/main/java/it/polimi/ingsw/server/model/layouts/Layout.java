@@ -16,11 +16,17 @@ public abstract class Layout {
     // Minimum/maximum number of different colors in a layout
     private final int minDifferent;
     private final int maxDifferent;
+    /**
+     * The name of the layout.
+     */
     public String name;
+    /**
+     * The description of the layout.
+     */
     public String description;
 
     /**
-     * This constructor creates a layout
+     * This constructor creates a layout.
      *
      * @param width        the width of the layout
      * @param height       the height of the layout
@@ -59,6 +65,7 @@ public abstract class Layout {
     }
 
     /**
+     * This method returns the number of occurrences of the layout.
      *
      * @return the number of occurrences of the layout
      */
@@ -67,6 +74,7 @@ public abstract class Layout {
     }
 
     /**
+     * This method indicates whether the layout is horizontal or not.
      * @return true if the layout is horizontal, false is the default value
      */
     public boolean isHorizontal() {
@@ -74,6 +82,7 @@ public abstract class Layout {
     }
 
     /**
+     * This method returns the size of the layout.
      *
      * @return the size of the layout
      */
@@ -82,12 +91,14 @@ public abstract class Layout {
     }
 
     /**
+     * This method returns the name of the layout.
+     *
      * @return the name of the layout
      */
     public abstract String getName();
 
     /**
-     * Checks if the layout is valid for the bookshelf.
+     * This method checks if the layout is valid for the bookshelf.
      *
      * @param b the bookshelf to check
      * @return true if the layout is valid for the bookshelf, false otherwise
@@ -95,7 +106,7 @@ public abstract class Layout {
     public abstract boolean check(Bookshelf b) throws IllegalArgumentException;
 
     /**
-     * Returns a string with the information about the layout.
+     * This method returns a string with the information about the layout.
      *
      * @return info about the layout
      */
@@ -140,6 +151,8 @@ public abstract class Layout {
     }
 
     /**
+     * This method returns the number of different colors in the list of items.
+     *
      * @param itemList the list of items to check
      * @return the number of different colors in the list of items
      * @throws IllegalArgumentException if the list is null

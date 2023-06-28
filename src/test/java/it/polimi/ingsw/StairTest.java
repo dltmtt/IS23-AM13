@@ -58,6 +58,11 @@ public class StairTest {
         BookshelfUtilities.createRightStair(b);
         assertTrue(stair.check(b));
     }
+    @Test
+    void getName(){
+        Layout l = new Stair(1, 6, Bookshelf.getColumns());
+        assertTrue(l.getName().equals("stair"));
+    }
 
     @Test
     void StairCheckRowOne() {

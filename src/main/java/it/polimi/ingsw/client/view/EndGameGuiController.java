@@ -53,16 +53,33 @@ public class EndGameGuiController {
     @FXML
     private Label winnerPhrase;
 
+    /**
+     * Constructor for the class
+     *
+     * @param guiView the gui view
+     * @param client  the client
+     */
     public EndGameGuiController(GuiView guiView, Client client) {
         view = guiView;
         this.client = client;
     }
 
+    /**
+     * This method is called when the home button is pressed, changing the scene to the login one
+     *
+     * @param event the event of the button being pressed
+     */
     @FXML
     void homeScreen(ActionEvent event) {
         view.loginProcedure();
     }
 
+    /**
+     * This method is called when the scene is loaded, it sets the winner and the scores
+     *
+     * @param winners the hash map associating the winner of the game to their score
+     * @param losers  the hash map associating the losers of the game to their scores
+     */
     public void setWinner(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
         player0.setText("");
         points0.setText("");

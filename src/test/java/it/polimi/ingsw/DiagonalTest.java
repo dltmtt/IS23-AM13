@@ -9,8 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DiagonalTest {
 
@@ -29,6 +28,7 @@ public class DiagonalTest {
     @Test
     void checkSingleRightDiagonal() {
         Layout layout = new Diagonal(1, 1, 5);
+        assertEquals("diagonal", layout.getName());
         BookshelfUtilities.createSingleRightDiagonal(b, 0, 0, 5);
         assertTrue(layout.check(b));
         b.clearBookshelf();

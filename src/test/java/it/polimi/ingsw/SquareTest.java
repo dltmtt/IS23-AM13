@@ -26,6 +26,12 @@ public class SquareTest {
     }
 
     @Test
+    void getName(){
+        Layout square = new Square(1, 1, 2, 2);
+        assertTrue(square.getName().equals("square"));
+    }
+
+    @Test
     void FirstTest() {
         Layout square = new Square(1, 1, 2, 2);
 

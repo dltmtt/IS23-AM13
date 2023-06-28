@@ -78,7 +78,7 @@ public class CommonGoalTest {
 
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(s, 2));
-        p.setCommonGoals(commonGoals);
+        Player.setCommonGoal(commonGoals);
         p.move(items, 3);
         p.move(items, 2);
     }

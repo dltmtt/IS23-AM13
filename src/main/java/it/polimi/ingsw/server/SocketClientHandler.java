@@ -13,7 +13,6 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 
 public class SocketClientHandler implements Runnable, ServerCommunicationInterface {
-
     /**
      * The place to read incoming messages from the client.
      */
@@ -77,7 +76,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                     }
                 } catch (IOException e) {
                     // We are here because the client disconnected (probably)
-                    //                        disconnect(username);
                     System.err.println("Error while reading from client. IO");
 
                     break;
@@ -116,17 +114,10 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         String category = message.getCategory();
 
         switch (category) {
-            // Maybe the controller should do something with the pong.
             case "ping" -> {
                 System.out.println("Received ping from " + client.getUsername());
                 controller.pong(client.getUsername());
                 controller.addPongLost(client.getUsername());
-                //                if (controller.disconnectedPlayers.contains(client.getUsername())) {
-                //                    System.out.println("Player " + client.getUsername() + " reconnected");
-                //                    startPingThread(client);
-                //                    sendAll(new Message("reconnected", client.getUsername()));
-                //                    controller.disconnectedPlayers.remove(client.getUsername());
-                //                }
                 client.sendMessageToClient(new Message("pong"));
             }
             case "numOfPlayersMessage" -> {
@@ -176,18 +167,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
 
     public void startPingThread(SocketClientHandler client) throws RemoteException {
         String finalUsername = client.getUsername();
-        Thread pingThread = new Thread(() -> {
-            while (true) {
-                try {
-                    client.sendMessageToClient(new Message("ping"));
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    System.err.println("Ping thread interrupted");
-                    break;
-                }
-            }
-        });
-        // pingThread.start();
 
         Thread checkThread = new Thread(() -> {
             while (true) {
@@ -198,7 +177,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                         Thread.sleep(10000);
                         if (!controller.pongReceived.contains(finalUsername)) {
                             disconnect(finalUsername);
-                            pingThread.interrupt();
                             break;
                         }
                     } else {
@@ -226,8 +204,8 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
         client.sendMessageToClient(myGame);
 
-        // controller.addClient(getUsername(), client);
-        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername()));
+        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername(), controller.gameModel.getCurrentPlayer().getNickname()));
+
         startPingThread(client);
         sendTurn(client);
     }
@@ -316,9 +294,9 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
      */
     public void resendToReconnectAfterServerDown(SocketClientHandler client) throws RemoteException {
         int position = controller.getPositionByUsername(getUsername());
-        // System.out.println("Sending game to " + getUsername() + ", who just reconnected.");
-        sendMessageToClient(new Message("username", username));
 
+        sendMessageToClient(new Message("username", username));
+        startPingThread(client);
         Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
         client.sendMessageToClient(myGame);
         if (controller.getRmiClients().size() + controller.getTcpClients().size() != controller.numberOfPlayers) {
@@ -326,7 +304,6 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         } else {
             controller.setIsLoaded(false);
             sendAll(new Message("AllIn"));
-            startPingThread(client);
             nextTurn();
         }
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.MyShelfie;
 import it.polimi.ingsw.commons.Message;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
@@ -16,11 +17,56 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static it.polimi.ingsw.utils.CliUtilities.RESET;
+import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
+
+
+/**
+ * This class handles the CLI view of the game. It contains all the methods used to show the game state to the user by the command line and to get input from the user.
+ */
+
 public class GameCliView implements GameView {
 
     private static final String illegalNumberOfPlayersError = "The number of players must be between 2 and 4 (inclusive): ";
     public Client client;
     private boolean theOnlyOne = false;
+
+    /**
+     * This is the constructor of the class. It asks the user for the server IP and the protocol to use (RMI or TCP).
+     */
+    public GameCliView() {
+        String ip = null;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        do {
+            System.out.println("Insert Server IP: ");
+            try {
+                ip = reader.readLine();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+            if (!MyShelfie.isIpValid(ip)) {
+                System.err.println("Invalid IP address: " + ip);
+            }
+        } while (!MyShelfie.isIpValid(ip));
+
+
+        String protocolType = null;
+        do {
+            System.out.println("Choose a protocol (rmi or tcp): ");
+            try {
+                protocolType = reader.readLine();
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+            if (!protocolType.equals("rmi") && !protocolType.equals("tcp")) {
+                System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'tcp'.");
+            }
+        } while (!protocolType.equals("rmi") && !protocolType.equals("tcp"));
+
+        MyShelfie.setParameters(ip, protocolType, this);
+    }
 
     /**
      * If there is data to be read from the input buffer, read it and discard it.
@@ -39,6 +85,10 @@ public class GameCliView implements GameView {
         }
     }
 
+    /**
+     * This method starts the login procedure, it asks the user for a username and sends it to the server. It also starts the ping thread for check the connection.
+     */
+
     @Override
     public void loginProcedure() {
         showStartGame();
@@ -48,8 +98,12 @@ public class GameCliView implements GameView {
         client.sendMessage(new Message("completeLogin", username, 0, firstGame, 0));
     }
 
+    /**
+     * This method shows the start game.
+     */
+
     @Override
-    public void startView(Client client) {
+    public void startView() {
         // this.client = client;
         // client.login()
         loginProcedure();
@@ -112,10 +166,18 @@ public class GameCliView implements GameView {
         return n;
     }
 
+    /**
+     * This method shows the loginPrompt for the user.
+     */
+
     public String showLogin() {
         showMessage(insertUsernamePrompt);
         return readUsername();
     }
+
+    /**
+     * This method shows the firt game question for the user.
+     */
 
     public boolean promptFirstGame() {
         return CliUtilities.askYesNoQuestion(firstGameQuestion, "y");
@@ -131,6 +193,10 @@ public class GameCliView implements GameView {
         return n;
     }
 
+    /**
+     * This method shows the insert question for the user.
+     */
+
     @Override
     public void promptInsert() {
         showMessage("Insert the index of the column where you want to insert the picked items (starting from 0): ");
@@ -144,8 +210,9 @@ public class GameCliView implements GameView {
 
     /**
      * Shows the PersonalGoal card.
+     *
      * @param card the number of the card to show
-     * @throws IOException if the file cannot be read
+     * @throws IOException    if the file cannot be read
      * @throws ParseException if the file is not in the correct format
      */
     public void showPersonalGoal(int card) throws IOException, ParseException {
@@ -155,15 +222,20 @@ public class GameCliView implements GameView {
 
     /**
      * Shows the PublicGoal cards.
-     * @param card the number of the card to show
+     *
+     * @param card        the number of the card to show
      * @param occurrences the number of occurrences of the card
-     * @param size is the number of items in each occurrence of the common goal
-     * @param horizontal true if the cards are to be printed horizontally, false if vertically
+     * @param size        is the number of items in each occurrence of the common goal
+     * @param horizontal  true if the cards are to be printed horizontally, false if vertically
      */
     public void showCommonGoal(String card, int occurrences, int size, boolean horizontal) {
         CommonGoalView.print(card, occurrences, size, horizontal);
     }
 
+
+    /**
+     * This method shows the pick question for the user and check if the input is valid.
+     */
     @Override
     public void showPick() {
         flushInputBuffer();
@@ -216,6 +288,10 @@ public class GameCliView implements GameView {
         client.sendMessage(new Message(coordinates.get(0), coordinates.get(1)));
     }
 
+    /**
+     * This method ignores the input if the player is alone.
+     */
+
     private void ignoreInputIfAlone(BufferedReader in) {
         while (theOnlyOne) {
             try {
@@ -230,8 +306,8 @@ public class GameCliView implements GameView {
 
     /**
      * Shows the board.
-     * @param board the board to show
      *
+     * @param board the board to show
      */
     @Override
     public void showBoard(Board board) {
@@ -242,8 +318,8 @@ public class GameCliView implements GameView {
 
     /**
      * This method prints the bookshelf.
-     * @param bookshelf the bookshelf to show
      *
+     * @param bookshelf the bookshelf to show
      */
     @Override
     public void showBookshelf(Bookshelf bookshelf) {
@@ -271,8 +347,9 @@ public class GameCliView implements GameView {
 
     /**
      * This method prints the end game message.
+     *
      * @param winners the list of winners
-     * @param losers the list of losers
+     * @param losers  the list of losers
      */
     @Override
     public void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
@@ -290,6 +367,7 @@ public class GameCliView implements GameView {
 
     /**
      * This method asks the player if they want to rearrange the items they've picked.
+     *
      * @param items the items the player has picked
      * @return true if the player wants to rearrange the items, false otherwise
      */
@@ -301,6 +379,7 @@ public class GameCliView implements GameView {
 
     /**
      * This method rearranges the order of the picked items.
+     *
      * @param items the items the player has picked
      * @return the new order of the items
      */
@@ -364,6 +443,7 @@ public class GameCliView implements GameView {
 
     /**
      * This method shows the current score of the player.
+     *
      * @param score the current score of the player
      */
     @Override
@@ -379,6 +459,10 @@ public class GameCliView implements GameView {
         showMessage("Waiting for other players to join...\n");
     }
 
+
+    /**
+     * This method shows the game to the player. (the board, their bookshelf, the common goals, the personal goal, the current score, the bookshelves of the other players)
+     */
     @Override
     public void startGame(Message message) {
         // Personal goal
@@ -407,22 +491,44 @@ public class GameCliView implements GameView {
         showBoard(message.getBoard());
     }
 
+
+    /**
+     * This method shows  to the player their bookshelf (picked from the message from the server).
+     *
+     * @param bookshelves the bookshelves of all the players
+     */
     @Override
     public void pickMyBookshelf(HashMap<String, Bookshelf> bookshelves) {
         String name = client.getUsername();
         showBookshelf(bookshelves.get(name));
     }
 
+    /**
+     * Getter for the client.
+     *
+     * @return the client
+     */
     @Override
     public Client getClient() {
         return client;
     }
 
+    /**
+     * Setter for the client.
+     *
+     * @param client the client
+     */
     @Override
     public void setClient(Client client) {
         this.client = client;
     }
 
+
+    /**
+     * This method shows to the player the bookshelf of another player (picked from the message from the server).
+     *
+     * @param bookshelf the bookshelf of  the players
+     */
     @Override
     public void showOtherBookshelf(Bookshelf bookshelf, String name) {
         showMessage(name + "'s bookshelf:\n");
@@ -430,7 +536,10 @@ public class GameCliView implements GameView {
         bookshelfView.printOtherBookshelf();
     }
 
-    // TODO: check if this works
+
+    /**
+     * This method shows the message for an invalid username.
+     */
     @Override
     public void usernameError() {
         System.err.println("Username already taken. Retry.");
@@ -439,16 +548,28 @@ public class GameCliView implements GameView {
         client.sendMessage(new Message("completeLogin", username, 0, firstGame1, 0));
     }
 
+    /**
+     * This method shows the message for an invalid username.
+     *
+     * @see #usernameError()
+     */
     @Override
     public void completeLoginError() {
         usernameError();
     }
 
+    /**
+     * This method shows the message for an invalid number of players.
+     */
     @Override
     public void playerNumberError() {
         System.err.println(illegalNumberOfPlayersError);
         playerChoice();
     }
+
+    /**
+     * This method shows the message for the choice of the player.
+     */
 
     @Override
     public void playerChoice() {
@@ -456,10 +577,18 @@ public class GameCliView implements GameView {
         client.sendMessage(new Message("numOfPlayersMessage", "numOfPlayers", numOfPlayers));
     }
 
+    /**
+     * This method shows the message for the last round.
+     */
+
     @Override
     public void showLastRound() {
         showMessage("Last round!\n");
     }
+
+    /**
+     * This method shows the message for game already started.
+     */
 
     @Override
     public void showGameAlreadyStarted() {
@@ -477,41 +606,105 @@ public class GameCliView implements GameView {
         client.stop();
     }
 
+    /**
+     * This method shows a generic message.
+     *
+     * @param message the message to be shown
+     */
+
     @Override
     public void showMessage(String message) {
         System.out.print(message);
     }
 
-    public void showDisconnection(List<String> disconnected) {
-        showMessage("The following players disconnected: ");
-        for (String player : disconnected) {
-            showMessage(player + " ");
-        }
-        showMessage("\n");
-    }
+
+    /**
+     * This method shows the message for the rearrange procedure.
+     */
 
     @Override
     public void rearrangeProcedure(List<Item> items) {
         client.sendMessage(new Message("sort", rearrange(items)));
     }
 
+    /**
+     * This is only for Gui view.
+     *
+     * @param topOfScoringList the list of the players in the top of the scoring
+     * @param score            the list of the scores of the players
+     */
     @Override
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         // does nothing as it's a method for GUI
     }
+
+    /**
+     * This is only for Gui view.
+     */
 
     @Override
     public void loadLanguage() {
 
     }
 
+    /**
+     * This method sets the only one player.
+     */
+
     @Override
     public void setTheOnlyOne(boolean b) {
         this.theOnlyOne = b;
     }
 
+    /**
+     * This method shows the waiting message for the server to check if the player disconnected.
+     */
     @Override
     public void showWaiting() {
         System.out.println("Server is checking if you disconnected...");
+    }
+
+    /**
+     * This is only for Gui view.
+     */
+    @Override
+    public void disableGame() {
+        // does nothing as it's a method for GUI
+    }
+
+    /**
+     * This is only for Gui view.
+     */
+    @Override
+    public void enableGame(Boolean currentTurn) {
+        // does nothing as it's a method for GUI
+    }
+
+    /**
+     * This method shows the message for the connection to server.
+     */
+
+    @Override
+    public void initiateConnection() {
+        System.out.print("Connecting to server... ");
+    }
+
+    /**
+     * This method shows the message for the connection to server success.
+     */
+
+    @Override
+    public void connectionSuccess() {
+        System.out.println(SUCCESS_COLOR + "connected" + RESET);
+    }
+
+
+    /**
+     * This method shows the message for the connection to server error.
+     */
+    @Override
+    public void connectionError() {
+        System.err.println("Unable to connect to the server. Is it running?");
+        System.exit(1);
     }
 }
