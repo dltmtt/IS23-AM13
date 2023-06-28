@@ -65,10 +65,11 @@ public class PlayerTest {
 
     @Test
     void set_get_points() throws IOException, ParseException {
-        Player p = new Player("Ciao", 0, true, true, true);
+        Player p = new Player("Ciao", 0, true, true, false);
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Diagonal(1, 3, 2), 2));
         commonGoals.add(new CommonGoal(new Stair(1, 6, Bookshelf.getColumns()), 2));
+
         p.setCommonGoals(commonGoals);
         List<Integer> points = new ArrayList<>();
         points.add(4);
@@ -79,6 +80,10 @@ public class PlayerTest {
         Bookshelf b = new Bookshelf(6, 5);
         p.setBookshelf(b);
         assertEquals(0, p.getPersonalGoalPoints());
+        assertEquals(12, p.calculateScore());
+        assert (p.getBookshelf() != null);
+        assert (p.getCommonGoalScoreList().get(0) == 4);
+
     }
 
 
