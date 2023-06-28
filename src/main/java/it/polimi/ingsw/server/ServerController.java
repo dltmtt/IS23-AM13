@@ -585,6 +585,9 @@ public class ServerController {
         currentPicked.clear();
         gameModel = null;
         room = null;
+        for (Thread thread : checkThreads) {
+            thread.interrupt();
+        }
         checkThreads.clear();
     }
 
