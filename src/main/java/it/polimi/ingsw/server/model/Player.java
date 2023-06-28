@@ -18,8 +18,8 @@ public class Player {
     private final int age;
     private List<Integer> commonGoalPoints = new ArrayList<>(2);
     private boolean isFirstPlayer;
-    private boolean isFirstGame;
-    private List<Boolean> commonGoalCompleted = new ArrayList<>(2);
+    private final boolean isFirstGame;
+    private final List<Boolean> commonGoalCompleted = new ArrayList<>(2);
     private Bookshelf bookshelf;
     private boolean hasEndGameCard;
     private PersonalGoal personalGoal;
@@ -162,8 +162,8 @@ public class Player {
     public void move(List<Item> items, int column) throws IllegalArgumentException {
         bookshelf.insert(column, items);
         for (int i = 0; i < commonGoals.size(); i++) {
-            System.out.println("Checking common goal " + commonGoals.get(i).getLayout().getName() + "...");
-            System.out.println(commonGoalCompleted.get(i));
+//            System.out.println("Checking common goal " + commonGoals.get(i).getLayout().getName() + "...");
+//            System.out.println(commonGoalCompleted.get(i));
             if (!commonGoalCompleted.get(i)) {
                 if (commonGoals.get(i).check(bookshelf)) {
                     System.out.println("Player " + nickname + " completed the common goal " + commonGoals.get(i).getLayout().getName() + " and earned " + commonGoals.get(i).getScoringList().get(0) + " points!");
