@@ -202,10 +202,14 @@ public class GameModel {
         List<CommonGoal> extracted = new ArrayList<>();
 
         int commonGoalNumber = isFirstGame ? 1 : 2;
-
+        int randomLayoutIndex = 0;
         for (int i = 0; i < commonGoalNumber; i++) {
             Random randomNumberGenerator = new Random();
-            int randomLayoutIndex = randomNumberGenerator.nextInt(commonGoalDeck.size());
+
+            //fuck those randoms
+            for(int j=0; j<3; j++){
+                randomLayoutIndex = randomNumberGenerator.nextInt(commonGoalDeck.size());
+            }
             extracted.add(commonGoalDeck.get(randomLayoutIndex));
             System.out.println("Common goal: " + extracted.get(i).getLayout().getName());
             // Remove the extracted common goal from the deck so that it can't be drawn again.

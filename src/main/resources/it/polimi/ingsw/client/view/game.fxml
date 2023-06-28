@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1178.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1282.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <StackPane prefHeight="666.0" prefWidth="1205.0" VBox.vgrow="ALWAYS">
             <children>
-                <ImageView fitHeight="665.0" fitWidth="1178.0" pickOnBounds="true" StackPane.alignment="CENTER">
+                <ImageView fitHeight="665.0" fitWidth="1284.0" pickOnBounds="true" StackPane.alignment="CENTER">
                     <image>
                         <Image url="@graphics/misc/sfondo_parquet.jpg" />
                     </image>
@@ -29,8 +29,8 @@
                 </ImageView>
                 <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="666.0" prefWidth="1163.0" StackPane.alignment="CENTER">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="NEVER" maxWidth="250.80000915527341" minWidth="20.0" prefWidth="232.79998779296875" />
-                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="498.1999816894531" minWidth="100.0" percentWidth="40.0" prefWidth="406.20001220703125" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="250.80000915527341" minWidth="20.0" prefWidth="162.6000183105469" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="564.1999816894531" minWidth="100.0" percentWidth="40.0" prefWidth="564.1999816894531" />
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="778.3999938964844" minWidth="10.0" prefWidth="285.5999877929687" />
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="778.3999938964844" minWidth="10.0" prefWidth="288.0000122070312" />
                         <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
@@ -129,7 +129,7 @@
                                                         <Image url="@graphics/scoring_tokens/scoring.jpg" />
                                                     </image>
                                                 </ImageView>
-                                                <Label fx:id="cgHelp" alignment="CENTER" prefHeight="110.0" prefWidth="170.0" style="-fx-background-color: #2B2B2BC6;" text="%commonGoalHelp" textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS" visible="false" wrapText="true">
+                                                <Label fx:id="cgHelp" alignment="CENTER" prefHeight="110.0" prefWidth="178.0" style="-fx-background-color: #2B2B2BC6;" text="%commonGoalHelp" textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS" visible="false" wrapText="true">
                                                     <opaqueInsets>
                                                         <Insets />
                                                     </opaqueInsets>
@@ -365,7 +365,7 @@
                                                 <Image url="@graphics/our_variants/back.jpg" />
                                             </image>
                                         </ImageView>
-                                        <GridPane fx:id="bookshelfGrid1" alignment="CENTER" hgap="3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="120.0" prefWidth="133.0" vgap="3.0" StackPane.alignment="CENTER">
+                                        <GridPane fx:id="bookshelfGrid1" alignment="CENTER" hgap="3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="120.0" prefWidth="152.0" vgap="3.0" StackPane.alignment="CENTER">
                                             <columnConstraints>
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" prefWidth="16.0" />
                                                 <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" prefWidth="16.0" />

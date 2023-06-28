@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -97,6 +98,14 @@ public class GuiView extends Application implements GameView {
             System.err.println("Failed to load newLogin2.fxml");
             throw new RuntimeException(e);
         }
+
+/*
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
+                resizableResponsiveBackground(stage.getWidth(), stage.getHeight());
+
+        stage.widthProperty().addListener(stageSizeListener);
+        stage.heightProperty().addListener(stageSizeListener);
+        */
 
         loginProcedure();
     }
@@ -498,4 +507,9 @@ public class GuiView extends Application implements GameView {
     public void setClient(Client client) {
         GuiView.client = client;
     }
+
+    public void resizableResponsiveBackground(double width, double height){
+        System.out.println("width: " + width + " height: " + height);
+    }
+
 }

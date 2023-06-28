@@ -9,13 +9,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import java.util.ResourceBundle;
+
 public class LoginGuiController {
 
     private Client client;
     @FXML
     private TextField username, serverIp;
     @FXML
-    private Label usernameError, connectionStatus, userMessage;
+    private Label usernameError, connectionStatus, userMessage, insertUsername, firstPlay, selectedLang, confirmLanguage;
     @FXML
     private CheckBox firstGame;
     @FXML
@@ -105,6 +107,18 @@ public class LoginGuiController {
             case "Japanese" -> client.setLanguage("ja", "JP");
             case "Catalan" -> client.setLanguage("ca", "ES");
         }
+        selectedLang.setText(language.getValue());
+        selectedLang.setVisible(true);
+        confirmLanguage.setVisible(true);
+        changeDisplayedLanguageOnLogin();
+
+    }
+
+    private void changeDisplayedLanguageOnLogin() {
+        ResourceBundle language = client.bundle;
+        insertUsername.setText(language.getString("username"));
+        startButton.setText(language.getString("startGame"));
+        firstPlay.setText(language.getString("firstPlay"));
     }
 
     /**
@@ -112,8 +126,11 @@ public class LoginGuiController {
      */
     @FXML
     public void loadSettings() {
-        language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese", "Catalan");
-        language.setValue("English");
+        if(language.getItems().isEmpty()) {
+            language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese", "Catalan");
+            language.setValue("English");
+        }
+
     }
 
     /**
