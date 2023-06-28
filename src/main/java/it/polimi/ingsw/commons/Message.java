@@ -512,8 +512,8 @@ public class Message implements Serializable {
     public List<Integer> getCommonPoints(JSONObject player) {
         List<Integer> commonPoints = new ArrayList<>();
         JSONArray array = (JSONArray) player.get("CommonPoints");
-        for (int i = 0; i < array.size(); i++) {
-            String name = (String) array.get(i);
+        for (Object o : array) {
+            String name = (String) o;
             int points = Integer.parseInt(name);
             commonPoints.add(points);
 
@@ -1011,7 +1011,7 @@ public class Message implements Serializable {
     }
 
     public String getPlayerTurn() {
-        return (String) json.get("PlayerTurn");
+        return (String) json.get("playerTurn");
     }
 
 }

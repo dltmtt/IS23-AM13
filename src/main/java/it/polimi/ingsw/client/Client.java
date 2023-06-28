@@ -207,7 +207,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 theOnlyOne = false;
                 gameView.setTheOnlyOne(false);
                 String username = message.getArgument();
-                Boolean isMyTurn= message.getPlayerTurn().equals(username);
+                Boolean isMyTurn= message.getPlayerTurn().equals(this.username);
                 gameView.enableGame(isMyTurn);
                 gameView.showMessage(reconnectionMessage(username));
             }
