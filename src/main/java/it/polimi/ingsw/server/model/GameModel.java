@@ -66,7 +66,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @return the list of players.
      */
     public List<Player> getPlayers() {
@@ -74,7 +73,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @param players the list of players to set.
      */
     public void setPlayers(List<Player> players) {
@@ -84,8 +82,6 @@ public class GameModel {
 
     public void setGame(List<CommonGoal> commonGoals) {
 
-//        livingRoom.setItemBag(board.getItemBag());
-//        livingRoom.setBoardMatrix(board.getBoardMatrix());
         Player.setCommonGoal(commonGoals);
         for (CommonGoal cg : commonGoals) {
             System.out.println("name " + cg.getLayout().getName());
@@ -136,7 +132,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @return the current player.
      */
     public Player getCurrentPlayer() {
@@ -144,7 +139,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @param currentPlayer the current player to set.
      */
     public void setCurrentPlayer(Player currentPlayer) {
@@ -152,7 +146,6 @@ public class GameModel {
     }
 
     /**
-     *
      * @return the board of the game.
      */
     public Board getLivingRoom() {
