@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.layouts.FullLine;
 import it.polimi.ingsw.server.model.layouts.Group;
 import it.polimi.ingsw.server.model.layouts.XShape;
 import it.polimi.ingsw.utils.Color;
@@ -50,7 +49,11 @@ public class GameTest {
         Board board = new Board(players.size());
         List<CommonGoal> commonGoalList = new ArrayList<>();
         commonGoalList.add(new CommonGoal(new XShape(1, 1, 3), 2));
-        commonGoalList.add(new CommonGoal(new FullLine(1, 1, 2, true), 2));
+        List<Integer> scoringList = new ArrayList<>();
+        assertEquals(8, commonGoalList.get(0).getScoring());
+        scoringList.add(4);
+        commonGoalList.get(0).setScoringList(scoringList);
+
         players.get(0).setCommonGoals(commonGoalList);
         GameModel gameModel = new GameModel(players, board, commonGoalList);
         assertEquals(gameModel.getPlayers(), players);
@@ -71,7 +74,10 @@ public class GameTest {
         gameModel.setCurrentPlayer(players.get(0));
         gameModel.move(items, 0);
         assertEquals(gameModel.getCurrentPlayer(), players.get(0));
-        
+
+        CommonGoal commonGoal = new CommonGoal(new XShape(1, 1, 3), 0);
+        assertEquals(0, commonGoal.getScoring());
+
 
     }
 
