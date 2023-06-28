@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
 
@@ -66,7 +65,7 @@ public class PlayerTest {
 
     @Test
     void set_get_points() throws IOException, ParseException {
-        Player p = new Player("Ciao", 0, true, true, false);
+        Player p = new Player("Ciao", 0, true, true, true);
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Diagonal(1, 3, 2), 2));
         commonGoals.add(new CommonGoal(new Stair(1, 6, Bookshelf.getColumns()), 2));
@@ -81,7 +80,7 @@ public class PlayerTest {
         Bookshelf b = new Bookshelf(6, 5);
         p.setBookshelf(b);
         assertEquals(0, p.getPersonalGoalPoints());
-        assertEquals(12, p.calculateScore());
+        assertEquals(13, p.calculateScore());
         assert (p.getBookshelf() != null);
         assert (p.getCommonGoalScoreList().get(0) == 4);
 
@@ -100,5 +99,22 @@ public class PlayerTest {
         items.add(new Item(Color.BLUE, 1));
         p.move(items, 0);
         assert (p.getCommonGoalCompleted().get(0));
+    }
+
+    @Test
+    void checkExceptions() {
+        Player p = new Player("Ciao", 0, true, true, false);
+        List<Integer> sort = new ArrayList<>();
+        sort.add(1);
+        sort.add(0);
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.BLUE, 1));
+
+        assertThrows(IllegalArgumentException.class, () -> p.rearrangePickedItems(items, sort));
+        sort.clear();
+        sort.add(2);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> p.rearrangePickedItems(items, sort));
     }
 }
