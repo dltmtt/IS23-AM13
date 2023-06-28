@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.layouts.Diagonal;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.server.model.layouts.Stair;
+import it.polimi.ingsw.utils.BookshelfUtilities;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
@@ -86,5 +87,18 @@ public class PlayerTest {
 
     }
 
-
+    @Test
+    void commonGoalCompleted() {
+        Player p = new Player("Ciao", 0, true, true, false);
+        List<CommonGoal> commonGoals = new ArrayList<>();
+        commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), 2));
+        p.setCommonGoals(commonGoals);
+        Bookshelf b = new Bookshelf(6, 5);
+        p.setBookshelf(b);
+        BookshelfUtilities.createSingleRightDiagonal(b, 0, 0, 5);
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.BLUE, 1));
+        p.move(items, 0);
+        assert (p.getCommonGoalCompleted().get(0));
+    }
 }
