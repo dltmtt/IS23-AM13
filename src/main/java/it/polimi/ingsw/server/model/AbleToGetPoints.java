@@ -6,6 +6,7 @@ package it.polimi.ingsw.server.model;
 public interface AbleToGetPoints {
 
     /**
+     * This method return the points of the object.
      * @return the points of the object
      */
     int getPoints();

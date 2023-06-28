@@ -34,7 +34,7 @@ public interface ServerCommunicationInterface extends Remote {
      * Receive a message from an RMI client and act accordingly.
      *
      * @param message the message received from the client.
-     * @throws Exception if something goes wrong.
+     * @throws RemoteException if something goes wrong.
      */
     default void receiveMessage(Message message, ClientCommunicationInterface client) throws RemoteException {
         String category = message.getCategory();
