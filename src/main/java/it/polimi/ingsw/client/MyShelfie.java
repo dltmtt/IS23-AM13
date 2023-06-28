@@ -6,8 +6,6 @@ import it.polimi.ingsw.client.view.GuiView;
 import it.polimi.ingsw.utils.SettingLoader;
 import org.apache.commons.cli.*;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,15 +29,11 @@ public class MyShelfie {
 
     public static void main(String[] args) {
         SettingLoader.loadBookshelfSettings();
-        Option protocol = new Option("p", "protocol", true, "select network protocol to use (default: RMI)");
         Option view = new Option("v", "view", true, "launch CLI or GUI (default: GUI)");
-        Option hostname = new Option("n", "hostname", true, "set the hostname of the server (default: localhost)");
         Option help = new Option("h", "help", false, "show this help message");
 
         Options options = new Options();
-        options.addOption(protocol);
         options.addOption(view);
-        options.addOption(hostname);
         options.addOption(help);
 
         CommandLineParser parser = new DefaultParser();
@@ -95,22 +89,27 @@ public class MyShelfie {
         }
         client.setView(gameView);
         gameView.setClient(client);
-        //client.start();
     }
 
+    /**
+     * Checks if the given IP address is valid.
+     *
+     * @param ip the IP address to check.
+     * @return true if the IP address is valid, false otherwise.
+     */
+    public static boolean isIpValid(String ip) {
+        if (ip.equals("localhost"))
+            return true;
+        String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(ip);
+        return matcher.matches();
+    }
 
     /**
      * @param client The client to set.
      */
     public void setClient(Client client) {
         MyShelfie.client = client;
-    }
-
-    public static boolean isIpValid(String ip) {
-        if(ip.equals("localhost")) return true;
-        String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(ip);
-        return matcher.matches();
     }
 }
