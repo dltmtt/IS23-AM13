@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * A personal goal card, which contains the disposition of the items to be matched
- * by the player in the bookshelf to increase its score.
+ * This class represents a personal goal card, which contains the disposition of the items to be matched
+ * by the player in the bookshelf in order to increase its score.
  */
 public class PersonalGoal {
 
@@ -34,6 +34,8 @@ public class PersonalGoal {
     }
 
     /**
+     * This method returns the index of the Personal Goal card.
+     *
      * @return the index of the personal goal card
      */
     public int getIndex() {
@@ -41,6 +43,8 @@ public class PersonalGoal {
     }
 
     /**
+     * This method returns the color of the item to be matched in the space with the given coordinates.
+     *
      * @param key the coordinates of the space to check
      * @return the color of the item to be matched
      */
@@ -67,7 +71,7 @@ public class PersonalGoal {
     }
 
     /**
-     * This method returns the number of colors reached.
+     * This method computes the number of colors reached, depending on how many items-matches the player has reached.
      */
     public void colorReached() {
         currentReached++;
@@ -93,6 +97,8 @@ public class PersonalGoal {
     }
 
     /**
+     * This method returns the HashMap representing the personal goal card of the player.
+     *
      * @return the HashMap representing the personal goal card of the player
      */
     public HashMap<Coordinates, Color> getPersonalGoalCard() {
@@ -100,6 +106,8 @@ public class PersonalGoal {
     }
 
     /**
+     * This method returns the PersonalGoal of the player.
+     *
      * @return the PersonalGoal of the player
      */
     public PersonalGoal getPersonalGoal() {

@@ -54,7 +54,7 @@ public class GameTest {
         scoringList.add(4);
         commonGoalList.get(0).setScoringList(scoringList);
 
-        players.get(0).setCommonGoals(commonGoalList);
+        Player.setCommonGoal(commonGoalList);
         GameModel gameModel = new GameModel(players, board, commonGoalList);
         assertEquals(gameModel.getPlayers(), players);
         players.add(new Player("paperino", 2, false, false, false));

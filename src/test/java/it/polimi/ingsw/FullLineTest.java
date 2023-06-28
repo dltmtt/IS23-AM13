@@ -86,7 +86,7 @@ public class FullLineTest {
         List<Item> items = new ArrayList<>();
         Player player = new Player("test", 0, false, false, false);
         player.setBookshelf(bookshelf);
-        player.setCommonGoals(commonGoals);
+        Player.setCommonGoal(commonGoals);
 
         items.add(new Item(Color.BLUE, 1));
         items.add(new Item(Color.WHITE, 1));

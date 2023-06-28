@@ -47,7 +47,7 @@ public class PlayerTest {
         Layout s2 = new Stair(1, 6, Bookshelf.getColumns());
         commonGoal.add(new CommonGoal(s, 2));
         commonGoal.add(new CommonGoal(s2, 2));
-        player.setCommonGoals(commonGoal);
+        Player.setCommonGoal(commonGoal);
 
         assertEquals("diagonal", player.getCommonNames().get(0));
         assertEquals("stair", player.getCommonNames().get(1));
@@ -70,7 +70,7 @@ public class PlayerTest {
         commonGoals.add(new CommonGoal(new Diagonal(1, 3, 2), 2));
         commonGoals.add(new CommonGoal(new Stair(1, 6, Bookshelf.getColumns()), 2));
 
-        p.setCommonGoals(commonGoals);
+        Player.setCommonGoal(commonGoals);
         List<Integer> points = new ArrayList<>();
         points.add(4);
         points.add(8);
@@ -91,7 +91,7 @@ public class PlayerTest {
         Player p = new Player("Ciao", 0, true, true, false);
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), 2));
-        p.setCommonGoals(commonGoals);
+        Player.setCommonGoal(commonGoals);
         Bookshelf b = new Bookshelf(6, 5);
         p.setBookshelf(b);
         BookshelfUtilities.createSingleRightDiagonal(b, 0, 0, 5);
