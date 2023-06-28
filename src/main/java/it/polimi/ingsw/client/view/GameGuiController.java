@@ -31,22 +31,50 @@ import java.util.Objects;
 
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
+
+/**
+ * This class is the controller for the main game scene
+ */
 public class GameGuiController {
 
-    // Size of the main items in the bookshelf
+    /**
+     * Size of the main items in the bookshelf
+     */
     public static final double MAIN_ITEM_SIZE = 40;
 
-    // Path of the images
+    /**
+     * Path of the images of the board
+     */
     private static final String ITEM_BASE_PATH = "graphics/item_tiles/";
 
     // Size of the small items in the bookshelf (other players)
     private static final double SMALL_ITEM_SIZE = 17;
+
+    /**
+     * List of the coordinates of the items picked by the player
+     * It can have a size of 1 or 2
+     * It contains the coordinates of the starting item and the ending item or the coordinates of the only item picked
+     */
     public static List<Coordinates> pickedItems = new ArrayList<>();
-    // static reference to the client, in order to use the sendMessage() function
+
+    /**
+     * static reference to the client, in order to use the sendMessage() function
+     */
     public static Client client;
-    // static reference to the view
+
+    /**
+     * static reference to the view
+     */
     public static GuiView view;
+
+    /**
+     * static reference to the board model
+     */
     public static Board boardModel;
+
+    /**
+     * static reference to the bookshelf model
+     */
     public static Bookshelf bookshelfModel = new Bookshelf();
     private final List<Integer> indexList = new ArrayList<>();
     private final List<Integer> newOrder = new ArrayList<>();
@@ -55,8 +83,16 @@ public class GameGuiController {
      * Hash map used to associate each unique username to a number, in order to display the correct bookshelf
      */
     public HashMap<String, Integer> playersBookshelf = new HashMap<>();
+
+    /**
+     * JavaFX reference to the main bookshelf grid pane
+     */
     @FXML
     public GridPane bookshelfGrid;
+
+    /**
+     * JavaFX reference to the main grid pane
+     */
     @FXML
     public GridPane grid;
     @FXML
@@ -968,6 +1004,8 @@ public class GameGuiController {
      *
      * @param topOfScoringList the list of top of scoring
      * @param score            the list of personal score
+     * @see #updateCommonGoalScoring(List)
+     * @see #updatePlayerPoints(List)
      */
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         updateCommonGoalScoring(topOfScoringList);
@@ -983,7 +1021,7 @@ public class GameGuiController {
      *              2: adjacent groups
      *              3: total points
      */
-    private void updatePlayerPoints(List<Integer> score) {
+    public void updatePlayerPoints(List<Integer> score) {
         personalGoalLabel.setText(score.get(0).toString());
         commonGoalLabel.setText(score.get(1).toString());
         adjacentGroupsLabel.setText(score.get(2).toString());

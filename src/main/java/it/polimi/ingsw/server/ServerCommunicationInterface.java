@@ -333,7 +333,7 @@ public interface ServerCommunicationInterface extends Remote {
      * <ul>
      *     <li> "turn": sent to the current player</li>
      *     <li> "otherTurn", username: sent to all the other players</li>
-     *
+     *</ul>
      * @throws RemoteException if the connection fails
      */
     default void turn() throws RemoteException {
@@ -437,7 +437,7 @@ public interface ServerCommunicationInterface extends Remote {
      *     <li> checkStatus 1: the username is valid, the player can login unless the game is already started </li>
      *     <li> checkStatus 2: the username is not valid, the player has to change their nickname unless they have disconnected and the server has not noticed yet </li>
      *     <li> checkStatus 3: the username is not valid butthe player can login because they have disconnected and the server already noticed </li>
-     *
+     *</ul>
      * @param client      the client to send the message to
      * @param username    the username of the client
      * @param firstGame   true if it's the first game of the client

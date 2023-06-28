@@ -4,16 +4,9 @@ import it.polimi.ingsw.client.Client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+/**
+ * This class is the controller for the waiting room scene, since it's a static scene it doesn't have any method
+ */
 public class WaitingRoomController {
-    @FXML
-    private Label text;
-
-    public Client client;
-
-    @FXML
-    public void onTextChanged(){
-        text.setText("          You're in the waiting room...\n" + "Please wait for other players to join the game.");
-    }
-
 
 }

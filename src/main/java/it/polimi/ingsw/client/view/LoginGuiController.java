@@ -15,9 +15,7 @@ public class LoginGuiController {
     @FXML
     private TextField username, serverIp;
     @FXML
-    private Slider ageSlider, playerSlider;
-    @FXML
-    private Label ageValue, playerValue, usernameError, ageError, connectionStatus, userMessage;
+    private Label usernameError, connectionStatus, userMessage;
     @FXML
     private CheckBox firstGame;
     @FXML
@@ -40,21 +38,17 @@ public class LoginGuiController {
     @FXML
     private ProgressIndicator waitingConnection;
 
+    /**
+     * Constructor for the class
+     */
     public LoginGuiController() {
         this.client = MyShelfie.client;
-        //login.setVisible(false);
     }
 
-    @FXML
-    public void onSliderChanged() {
-        ageValue.setText(String.valueOf((int) ageSlider.getValue()));
-    }
-
-    @FXML
-    public void onPlayerSliderChanged() {
-        playerValue.setText(String.valueOf((int) playerSlider.getValue()));
-    }
-
+    /**
+     * This method is called when the start button is clicked, sending the login message to the server
+     * @see LoginGuiController#sendLoginMessage() for the actual sending of the message
+     */
     @FXML
     public void onStartButtonClicked() {
         if (username.getText().isEmpty()) {
@@ -67,6 +61,10 @@ public class LoginGuiController {
         }
     }
 
+    /**
+     * This method sends the <code>completeLogin</code> message to the server
+     * @see Message#Message(String, String, int, boolean, int) for the message constructor
+     */
     public void sendLoginMessage(){
         client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), 0));
         client.startPingThread(username.getText());
@@ -106,11 +104,17 @@ public class LoginGuiController {
 
     }
 
+    /**
+     * This method loads the settings in the Settings tab
+     */
     @FXML
-    void loadSettings() {
+    public void loadSettings() {
         language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese", "Catalan");
     }
 
+    /**
+     * This method shows the waiting element, to entertain the user while waiting for a response from the server
+     */
     public void showWaiting() {
         waiting.setVisible(true);
         startButton.setDisable(true);
@@ -118,6 +122,9 @@ public class LoginGuiController {
         firstGame.setDisable(true);
     }
 
+    /**
+     * This method hides the waiting element, to show the user that the server has responded
+     */
     public void hideWaiting() {
         waiting.setVisible(false);
         startButton.setDisable(false);
@@ -125,11 +132,16 @@ public class LoginGuiController {
         firstGame.setDisable(false);
     }
 
+    /**
+     * This message is called when the connect button is clicked, to connect to the server
+     */
     public void connectToServer() {
         if (serverIp.getText().isEmpty() || connectionType.getValue() == null) {
+            connectionStatus.setTextFill(javafx.scene.paint.Color.RED);
             connectionStatus.setText("Server IP or connection Type cannot be empty");
         }else {
             if(!MyShelfie.isIpValid(serverIp.getText())){
+                connectionStatus.setTextFill(javafx.scene.paint.Color.RED);
                 connectionStatus.setText("Server IP is not valid");
             }else{
                 connectionType.setDisable(true);
@@ -143,16 +155,25 @@ public class LoginGuiController {
     }
 
 
+    /**
+     * This method sets the possible connection settings in the connect area
+     */
     public void setSettings() {
         connectionType.getItems().addAll("TCP", "RMI");
         connectionType.setValue("TCP");
         settings.setDisable(true);
     }
 
+    /**
+     * This method is called when the connection is initiated, showing the loading graphic
+     */
     public void initiateConnection() {
         waitingConnection.setVisible(true);
     }
 
+    /**
+     * This method is called when the connection is successful, showing the login area (where the username can be inserted)
+     */
     public void connectionSuccess() {
         waitingConnection.setVisible(false);
         login.setVisible(true);
@@ -165,6 +186,9 @@ public class LoginGuiController {
         this.client=MyShelfie.client;
     }
 
+    /**
+     * This method is called when the connection is unsuccessful, showing the error message
+     */
     public void connectionError() {
         waitingConnection.setVisible(false);
         connectionStatus.setTextFill(javafx.scene.paint.Color.RED);

@@ -434,7 +434,13 @@ public class ServerController {
 
         for (Player player : players) {
             if (Objects.equals(finalPoints.get(players.indexOf(player)), max)) {
+
+                //Allows only one winner, the furthest to the first player
+                if(winners.size()!=0) {
+                    winners.clear();
+                }
                 winners.put(player.getNickname(), max);
+
             } else {
                 losers.put(player.getNickname(), finalPoints.get(players.indexOf(player)));
             }

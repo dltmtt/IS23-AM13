@@ -16,8 +16,10 @@ import java.util.ResourceBundle;
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 
-// This is abstract (non instantiable) because each client will either
-// be an RMI client or a Socket client
+/**
+ * This is abstract (non instantiable) because each client will either be an RMI client or a Socket client
+ */
+
 public abstract class Client extends UnicastRemoteObject implements Serializable, ClientCommunicationInterface {
 
     private final Object lock;

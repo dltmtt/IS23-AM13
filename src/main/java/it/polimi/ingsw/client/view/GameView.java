@@ -82,8 +82,6 @@ public interface GameView {
 
     void showRemovePlayer();
 
-    void showDisconnection(List<String> disconnectedPlayers);
-
     void rearrangeProcedure(List<Item> items);
 
     void updateScore(List<Integer> topOfScoringList, List<Integer> score);

@@ -19,16 +19,41 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the GUI view, it extends Application and implements GameView
+ * It contains all the methods to load the scenes and to show them
+ * @see GameView
+ */
 public class GuiView extends Application implements GameView {
-
+    /**
+     * Static reference to the client, to be placed in the controller constructors (used to send messages)
+     */
     public static Client client; // Static reference to the client, in order to use the sendMessage() function
-    public static List<Client> clients;
+
+    /**
+     * Static reference to the gui, to be placed in the controller constructors (used to show scenes)
+     */
     public static GuiView gui;
+
+    /**
+     * Static reference to the loaded scenes
+     */
     public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene, refusedScene; // Loaded scenes
-    public static Stage stage; // Main stage
+
+    /**
+     * Main stage
+     */
+    public static Stage stage;
+    /**
+     * Static reference to the game controller
+     * @see GameGuiController
+     */
     public static GameGuiController gameController;
     private static LoginGuiController loginController;
     private static EndGameGuiController endGameController;
+    /**
+     * Resource bundle for the language
+     */
     public ResourceBundle bundle;
     private boolean theOnlyOne = false;
 
@@ -179,11 +204,24 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Rearrange method, not used in the GUI
+     * @param items the items to be rearranged
+     * @return null, because the GUI handles the rearrangement itself, so this method shouldn't be called
+     * @see GameGuiController#rearrange(List)
+     */
     @Override
     public List<Integer> rearrange(List<Item> items) {
         return null;
     }
 
+
+    /**
+     * This method shows the current score of the player, not used in the GUI as it's handled by the GUI itself
+     *
+     * @param score the current score of the player
+     * @see GameGuiController#updatePlayerPoints(List)
+     */
     @Override
     public void showCurrentScore(int score) {
 
@@ -253,6 +291,9 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Changes the game scene to display the last round
+     */
     @Override
     public void showLastRound() {
         Platform.runLater(() -> {
@@ -260,22 +301,24 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Redirect a player to the closure scene, as it has denied the access to the game
+     * @see #showRemovePlayer()
+     */
     @Override
     public void showGameAlreadyStarted() {
         showRemovePlayer();
     }
 
+    /**
+     * Scene change to the refused scene, as the player has been removed from the game
+     */
     @Override
     public void showRemovePlayer() {
         Platform.runLater(() -> {
             stage.setScene(refusedScene);
             stage.show();
         });
-    }
-
-    @Override
-    public void showDisconnection(List<String> disconnectedPlayers) {
-
     }
 
     /**
@@ -289,6 +332,12 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * It forwards the score update message to GameGuiController, to update the points of the player in GUI
+     * @param topOfScoringList the top of the scoring list for the current common goals
+     * @param score the scores of the player
+     *              @see GameGuiController#updateScore(List, List)
+     */
     @Override
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         Platform.runLater(() -> {
@@ -296,6 +345,10 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Method that loads the language of the GUI, by loading the FXML files with the correct language
+     * @see Client#locale
+     */
     @Override
     public void loadLanguage() {
 
@@ -353,14 +406,18 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     *
-     * @return the client
+     *  Sets the parameter as it's the only player connected
+        * @param b the boolean to set
      */
     @Override
     public void setTheOnlyOne(boolean b) {
         theOnlyOne = b;
     }
 
+    /**
+     * Shows the waiting graphics in the login scene
+     * @see LoginGuiController#showWaiting()
+     */
     @Override
     public void showWaiting() {
         Platform.runLater(() -> {
@@ -368,6 +425,10 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Disables the game scene, called when the player is the only one connected
+     * @see GameGuiController#freezeGame()
+     */
     @Override
     public void disableGame() {
         Platform.runLater(() -> {
@@ -375,6 +436,11 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Enables the game scene, called when the player is not the only one connected
+     * @param currentTurn set as true if it's the player's turn, false otherwise
+     * @see GameGuiController#unfreezeGame(Boolean)
+     */
     @Override
     public void enableGame(Boolean currentTurn) {
         Platform.runLater(() -> {
@@ -382,6 +448,10 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Sets the connection status in the login scene, handling the start of the connection to the server
+     * @see LoginGuiController#initiateConnection()
+     */
     @Override
     public void initiateConnection() {
         Platform.runLater(() -> {
@@ -389,6 +459,10 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Sets the connection status as successful in the login scene
+     * @see LoginGuiController#connectionSuccess()
+     */
     @Override
     public void connectionSuccess() {
         Platform.runLater(() -> {
@@ -396,6 +470,10 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * Sets the connection status as failed in the login scene
+     * @see LoginGuiController#connectionError()
+     */
     @Override
     public void connectionError() {
         Platform.runLater(() -> {
@@ -403,6 +481,10 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    /**
+     * returns the set client
+     * @return client referred to the view
+     */
     @Override
     public Client getClient() {
         return client;

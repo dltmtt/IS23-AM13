@@ -617,20 +617,6 @@ public class GameCliView implements GameView {
         System.out.print(message);
     }
 
-    /**
-     * This method shows the disconnected players.
-     *
-     * @param disconnected the list of the disconnected players
-     */
-
-    public void showDisconnection(List<String> disconnected) {
-        showMessage("The following players disconnected: ");
-        for (String player : disconnected) {
-            showMessage(player + " ");
-        }
-        showMessage("\n");
-    }
-
 
     /**
      * This method shows the message for the rearrange procedure.
