@@ -103,13 +103,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         pingThread.start();
     }
 
-    /**
-     * Starts the <code>gameView</code> and starts the login procedure.
-     */
-    public void start() {
-        // gameView.setClient(this);
-        //gameView.startView();
-    }
 
     public void setView(GameView gameView) {
         this.gameView = gameView;
@@ -161,7 +154,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
             case "numOfPlayersNotOK" -> gameView.playerNumberError();
             case "update" -> {
                 HashMap<String, Bookshelf> bookshelves = message.getAllBookshelves();
-                // gameView.setPlayers
                 gameView.pickMyBookshelf(bookshelves);
                 gameView.pickOtherBookshelf(bookshelves);
                 gameView.showCurrentScore(message.getScore().get(3));

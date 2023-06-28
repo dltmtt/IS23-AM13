@@ -56,10 +56,6 @@ public class ServerController {
         pongLost.put(username, 0);
     }
 
-    public void removePong(String username) {
-        pongReceived.remove(username);
-    }
-
     public void addPongLost(String username) {
         int currentPongLost = pongLost.get(username);
         pongLost.remove(username);
@@ -108,7 +104,6 @@ public class ServerController {
             }
         }
         disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
-        //        changeTurn();
         isGameLoaded = true;
         for (Player p : players) {
             System.out.println(p.getNickname() + " " + p.getCommonGoalCompleted() + " " + p.getCommonGoalPoints() + " " + p.getCommonNames());
@@ -428,7 +423,6 @@ public class ServerController {
      * Sets the winner and the losers of the game.
      */
     public void setWinner() {
-        // List<Player> winners = new ArrayList<>();
         List<Integer> finalScoring = new ArrayList<>();
 
         for (Player player : players) {
@@ -510,7 +504,6 @@ public class ServerController {
 
         gameModel.move(currentPicked, column);
         System.out.println("You have inserted the picked items in the bookshelf");
-        // saveGame();
         return 1;
     }
 
@@ -602,11 +595,6 @@ public class ServerController {
      */
     public HashMap<String, List<Integer>> getInitialPoints() {
         HashMap<String, List<Integer>> initialPoints = new HashMap<>();
-        /*
-         * @param player the player to get the points of
-         * @return a list of all the points that the player has earned
-         *
-         */
 
         // procedure to load the zero points in the start game message, as it's a new game
         List<Integer> zeroPoints = List.of(new Integer[]{0, 0, 0, 0});

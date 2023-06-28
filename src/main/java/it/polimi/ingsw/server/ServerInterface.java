@@ -14,10 +14,6 @@ import java.rmi.RemoteException;
  * but it might be useful in the future.
  */
 public interface ServerInterface {
-
-    // Note: the actual implementation of the methods doesn't have
-    // to throw all the exceptions listed here
-
     /**
      * Starts the server.
      *

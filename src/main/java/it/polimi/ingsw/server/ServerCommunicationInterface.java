@@ -40,17 +40,10 @@ public interface ServerCommunicationInterface extends Remote {
         String category = message.getCategory();
 
         switch (category) {
-            // Maybe the controller should do something with the pong.
             case "ping" -> {
                 System.out.println("Received ping from " + client.getUsername());
                 controller.pong(client.getUsername());
                 controller.addPongLost(client.getUsername());
-                // if (controller.disconnectedPlayers.contains(client.getUsername())) {
-                //     System.out.println("Player " + client.getUsername() + " reconnected");
-                //     startPingThread(client);
-                //     sendAll(new Message("reconnected", client.getUsername()));
-                //     controller.disconnectedPlayers.remove(client.getUsername());
-                // }
                 try {
                     client.callBackSendMessage(new Message("pong"));
                 } catch (RemoteException e) {
@@ -158,7 +151,6 @@ public interface ServerCommunicationInterface extends Remote {
                 }
             }
         });
-        // pingThread.start();
 
         Thread checkThread = new Thread(() -> {
             while (true) {
@@ -248,9 +240,6 @@ public interface ServerCommunicationInterface extends Remote {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
-        // controller.addClient(client.getUsername(), client);
-
         // This is one of the few differences from the Socket implementation
         startPingThread(client);
 
@@ -297,8 +286,6 @@ public interface ServerCommunicationInterface extends Remote {
 
         if (controller.checkGameStatus() == -1) {
             // The game has ended
-            // List<String> winnersNickname = controller.getWinners();
-            // sendAll(new Message(winnersNickname, controller.getWinnersScore(), controller.getPlayersUsername(), controller.getFinalPoints()));
             controller.setWinner();
             sendAll(new Message(controller.getWinners(), controller.getLosers()));
             controller.resetSavedGame();

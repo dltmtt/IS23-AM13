@@ -153,7 +153,6 @@ public class SettingLoader {
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
             colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
         } catch (IOException ex) {
-            //ex.printStackTrace();
             System.err.println("settings.properties file not found at "+BASE_PATH+", using default values");
             // In case the file is not found or there is and error reading the file,
             // the default values will be used instead
@@ -163,39 +162,5 @@ public class SettingLoader {
 
         Bookshelf.setRows(rowsSetting);
         Bookshelf.setColumns(colsSetting);
-    }
-
-    public static String loadDefaultIP() {
-        Properties prop = new Properties();
-        String ipSetting;
-
-        try (InputStream settings = new FileInputStream(BASE_PATH + "settings.properties")) {
-            prop.load(settings);
-            ipSetting = prop.getProperty("connection.ip");
-        } catch (IOException ex) {
-            //ex.printStackTrace();
-            System.err.println("settings.properties file not found at " + BASE_PATH + ", using default values");
-            // In case the file is not found or there is and error reading the file,
-            // the default values will be used instead
-            ipSetting = "localhost";
-        }
-        return ipSetting;
-    }
-
-    public static String loadDefaultProtocol(){
-        Properties prop = new Properties();
-        String protocolSetting;
-
-        try (InputStream settings = new FileInputStream(BASE_PATH + "settings.properties")) {
-            prop.load(settings);
-            protocolSetting = prop.getProperty("connection.protocol");
-        } catch (IOException ex) {
-            //ex.printStackTrace();
-            System.err.println("settings.properties file not found at " + BASE_PATH + ", using default values");
-            // In case the file is not found or there is and error reading the file,
-            // the default values will be used instead
-            protocolSetting = "tcp";
-        }
-        return protocolSetting;
     }
 }

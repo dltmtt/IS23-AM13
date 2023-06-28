@@ -146,7 +146,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * this particular implementation of showRearrange always returns true, because the GUI doesn't really need to ask the user if they wants to rearrange the items
+     * this particular implementation of showRearrange always returns true, because the GUI doesn't really need to ask the user if they want to rearrange the items
      *
      * @param items the items to be rearranged
      * @return true (always)
