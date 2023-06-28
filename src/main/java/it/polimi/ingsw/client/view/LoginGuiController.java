@@ -93,7 +93,7 @@ public class LoginGuiController {
     @FXML
     public void changeLanguage(ActionEvent event) {
         String lang = language.getValue();
-
+        this.client = MyShelfie.client;
         switch (lang) {
             case "English" -> client.setLanguage("en", "US");
             case "Italian" -> client.setLanguage("it", "IT");
@@ -113,6 +113,7 @@ public class LoginGuiController {
     @FXML
     public void loadSettings() {
         language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese", "Catalan");
+        language.setValue("English");
     }
 
     /**
