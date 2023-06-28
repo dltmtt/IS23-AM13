@@ -42,4 +42,30 @@ public class RoomTest {
 
         assert (newRoom.startGame() != null);
     }
+
+    @Test
+    void tooManyPlayers() {
+        Room newRoom = new Room(1);
+        newRoom.setNumberOfPlayers(2);
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("pippo", 0, false, false, false));
+        players.add(new Player("pluto", 0, false, false, false));
+        players.add(new Player("paperino", 0, false, false, false));
+        newRoom.addPlayer(players.get(0));
+        newRoom.addPlayer(players.get(1));
+        newRoom.addPlayer(players.get(2));
+
+        assert (newRoom.tooManyPlayers());
+    }
+
+    @Test
+    void constructor2() {
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("pippo", 0, false, false, false));
+        players.add(new Player("pluto", 0, false, false, false));
+        Room newRoom = new Room(1, players);
+
+
+        assert (newRoom.full());
+    }
 }

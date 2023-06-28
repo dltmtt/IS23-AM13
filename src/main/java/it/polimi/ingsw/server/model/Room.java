@@ -32,6 +32,7 @@ public class Room {
     public Room(int roomId, List<Player> players) {
         this.roomId = roomId;
         this.players.addAll(players);
+        maxPlayers = players.size();
     }
 
     /**
