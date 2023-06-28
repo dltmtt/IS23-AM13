@@ -91,7 +91,6 @@ public class GameModel {
             System.out.println("minDiff " + cg.getLayout().getMinDifferent());
             System.out.println("maxDiff " + cg.getLayout().getMaxDifferent());
         }
-
     }
 
     /**
@@ -200,12 +199,12 @@ public class GameModel {
      * @return the list of common goal cards drawn
      */
     public List<CommonGoal> drawCommonGoals(boolean isFirstGame) {
-        Random randomNumberGenerator = new Random();
         List<CommonGoal> extracted = new ArrayList<>();
 
         int commonGoalNumber = isFirstGame ? 1 : 2;
 
         for (int i = 0; i < commonGoalNumber; i++) {
+            Random randomNumberGenerator = new Random();
             int randomLayoutIndex = randomNumberGenerator.nextInt(commonGoalDeck.size());
             extracted.add(commonGoalDeck.get(randomLayoutIndex));
             System.out.println("Common goal: " + extracted.get(i).getLayout().getName());
@@ -255,9 +254,9 @@ public class GameModel {
         }
     }
 
-
     /**
      * This method returns a list representing the CommonGoalDeck.
+     *
      * @return the CommonGoalDeck.
      */
     public List<CommonGoal> getCommonGoalDeck() {
@@ -266,6 +265,7 @@ public class GameModel {
 
     /**
      * This method returns the list representing the PersonalGoalDeck.
+     *
      * @return the PersonalGoalDeck.
      */
     public List<PersonalGoal> getPersonalGoalDeck() {
@@ -274,6 +274,7 @@ public class GameModel {
 
     /**
      * This method returns a boolean representing if the game has ended.
+     *
      * @return true id the game is ended, otherwise false.
      */
     public boolean isTheGameEnded() {
@@ -282,6 +283,7 @@ public class GameModel {
 
     /**
      * This method sets the boolean representing if the game has ended.
+     *
      * @param theGameEnded the boolean to set.
      */
     public void setTheGameEnded(boolean theGameEnded) {
@@ -290,6 +292,7 @@ public class GameModel {
 
     /**
      * This method returns a boolean representing if the last round has started.
+     *
      * @return true if the last round has started, otherwise false.
      */
     public boolean isLastRound() {
