@@ -47,14 +47,16 @@ public class LoginGuiController {
 
     /**
      * This method is called when the start button is clicked, sending the login message to the server
+     *
      * @see LoginGuiController#sendLoginMessage() for the actual sending of the message
      */
     @FXML
     public void onStartButtonClicked() {
         if (username.getText().isEmpty()) {
             usernameError.setText("Username cannot be empty");
-        }else {
+        } else {
             showWaiting();
+            this.client = MyShelfie.client;
             client.gameView.loadLanguage();
             Thread sendLoginMessageThread = new Thread(this::sendLoginMessage);
             sendLoginMessageThread.start();
@@ -63,9 +65,10 @@ public class LoginGuiController {
 
     /**
      * This method sends the <code>completeLogin</code> message to the server
+     *
      * @see Message#Message(String, String, int, boolean, int) for the message constructor
      */
-    public void sendLoginMessage(){
+    public void sendLoginMessage() {
         client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), 0));
         client.startPingThread(username.getText());
     }
@@ -84,6 +87,7 @@ public class LoginGuiController {
 
     /**
      * This method makes it possible to change the language of the game
+     *
      * @param event mouse event
      */
     @FXML
@@ -101,7 +105,6 @@ public class LoginGuiController {
             case "Japanese" -> client.setLanguage("ja", "JP");
             case "Catalan" -> client.setLanguage("ca", "ES");
         }
-
     }
 
     /**
@@ -139,21 +142,21 @@ public class LoginGuiController {
         if (serverIp.getText().isEmpty() || connectionType.getValue() == null) {
             connectionStatus.setTextFill(javafx.scene.paint.Color.RED);
             connectionStatus.setText("Server IP or connection Type cannot be empty");
-        }else {
-            if(!MyShelfie.isIpValid(serverIp.getText())){
+        } else {
+            if (!MyShelfie.isIpValid(serverIp.getText())) {
                 connectionStatus.setTextFill(javafx.scene.paint.Color.RED);
                 connectionStatus.setText("Server IP is not valid");
-            }else{
+            } else {
                 connectionType.setDisable(true);
                 connect.setDisable(true);
                 serverIp.setDisable(true);
-                Thread connectToServerThread = new Thread(()->{
-                        MyShelfie.setParameters(serverIp.getText(), connectionType.getValue().toLowerCase(), GuiView.gui);});
+                Thread connectToServerThread = new Thread(() -> {
+                    MyShelfie.setParameters(serverIp.getText(), connectionType.getValue().toLowerCase(), GuiView.gui);
+                });
                 connectToServerThread.start();
             }
         }
     }
-
 
     /**
      * This method sets the possible connection settings in the connect area
@@ -183,7 +186,7 @@ public class LoginGuiController {
         connectionType.setDisable(true);
         connectionStatus.setTextFill(javafx.scene.paint.Color.GREEN);
         connectionStatus.setText("Connected");
-        this.client=MyShelfie.client;
+        this.client = MyShelfie.client;
     }
 
     /**
@@ -192,7 +195,7 @@ public class LoginGuiController {
     public void connectionError() {
         waitingConnection.setVisible(false);
         connectionStatus.setTextFill(javafx.scene.paint.Color.RED);
-        connectionStatus.setText("Connection error, is the server running ("+serverIp.getText()+")?");
+        connectionStatus.setText("Connection error, is the server running (" + serverIp.getText() + ")?");
         connect.setDisable(false);
         serverIp.setDisable(false);
         connectionType.setDisable(false);
