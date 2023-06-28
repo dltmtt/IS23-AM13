@@ -4,12 +4,14 @@ import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.layouts.FullLine;
 import it.polimi.ingsw.server.model.layouts.Group;
 import it.polimi.ingsw.server.model.layouts.XShape;
+import it.polimi.ingsw.utils.Color;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GameTest {
 
@@ -43,11 +45,13 @@ public class GameTest {
         List<Player> players = new ArrayList<>();
         players.add(new Player("pippo", 0, false, true, false));
         players.add(new Player("pluto", 1, false, false, false));
+        Bookshelf bookshelf = new Bookshelf(6, 5);
+        players.get(0).setBookshelf(bookshelf);
         Board board = new Board(players.size());
         List<CommonGoal> commonGoalList = new ArrayList<>();
         commonGoalList.add(new CommonGoal(new XShape(1, 1, 3), 2));
         commonGoalList.add(new CommonGoal(new FullLine(1, 1, 2, true), 2));
-
+        players.get(0).setCommonGoals(commonGoalList);
         GameModel gameModel = new GameModel(players, board, commonGoalList);
         assertEquals(gameModel.getPlayers(), players);
         players.add(new Player("paperino", 2, false, false, false));
@@ -57,9 +61,17 @@ public class GameTest {
         gameModel.setGame(commonGoalList);
         //assertEquals(gameModel.getCommonGoalDeck(), commonGoalList);
         gameModel.setTheGameEnded(true);
-        assertEquals(gameModel.isTheGameEnded(), true);
+        assertTrue(gameModel.isTheGameEnded());
         assertEquals(gameModel.getLivingRoom(), board);
         gameModel.getTopScoringPoints();
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item(Color.BLUE, 1));
+
+        gameModel.setCurrentPlayer(players.get(0));
+        gameModel.move(items, 0);
+        assertEquals(gameModel.getCurrentPlayer(), players.get(0));
+        
 
     }
 
