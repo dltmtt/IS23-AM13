@@ -432,20 +432,17 @@ public interface ServerCommunicationInterface extends Remote {
     }
 
     /**
-     * Checks the game status and sends the appropriate message to the client. There are 3 different sitations:
+     * Checks the game status and sends the appropriate message to the client. There are 3 different situations:
      * <ul>
-     *     <li> "gameAlreadyStarted": the game has already started</li>
-     *     <li> "username", username: the username is valid and the client can join the game</li>
-     *     <li> "usernameNotValid": the username is not valid</li>
-     *     <li> "gameFull": the game is full</li>
-     *     <li> "": the game has already started</li>
+     *     <li> checkStatus 1: the username is valid, the player can login unless the game is already started </li>
+     *     <li> checkStatus 2: the username is not valid, the player has to change their nickname unless they have disconnected and the server has not noticed yet </li>
+     *     <li> checkStatus 3: the username is not valid butthe player can login because they have disconnected and the server already noticed </li>
      *
      * @param client      the client to send the message to
      * @param username    the username of the client
      * @param firstGame   true if it's the first game of the client
      * @param checkStatus the status of the check
-     * @throws RemoteException      if the connection fails
-     * @throws InterruptedException if the thread is interrupted
+     * @throws RemoteException if the connection fails
      */
 
     default void checkUsername(ClientCommunicationInterface client, String username, boolean firstGame, int checkStatus) throws RemoteException {
