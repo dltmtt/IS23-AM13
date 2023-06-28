@@ -74,6 +74,7 @@
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
                                                 <Label text="Is this the first time you play?" textAlignment="CENTER" GridPane.rowIndex="2">
@@ -131,7 +132,7 @@
                                                         <Insets left="30.0" right="30.0" />
                                                     </GridPane.margin>
                                                 </TextField>
-                                    <StackPane fx:id="waiting" prefHeight="150.0" prefWidth="200.0" visible="false" GridPane.rowIndex="4">
+                                    <StackPane fx:id="waiting" prefHeight="150.0" prefWidth="200.0" visible="false" GridPane.rowIndex="5">
                                        <children>
                                           <ProgressBar prefHeight="18.0" prefWidth="371.0" />
                                           <Label text="Waiting for a response from the server, it may take a while..." textFill="#26505e" />
