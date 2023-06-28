@@ -13,17 +13,16 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 
 public class SocketClientHandler implements Runnable, ServerCommunicationInterface {
+
     /**
      * The place to read incoming messages from the client.
      */
     public final BufferedReader clientBufferedReader;
     private final Socket socket;
-
     /**
      * The place to write outgoing messages to the client.
      */
     public PrintStream clientPrintStream;
-
     /**
      * The thread that listens for messages coming from the client.
      */
@@ -187,6 +186,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 }
             }
         });
+        controller.addCheckThread(checkThread);
         checkThread.start();
     }
 

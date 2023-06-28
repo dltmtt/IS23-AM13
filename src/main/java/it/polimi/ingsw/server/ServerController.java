@@ -25,11 +25,12 @@ public class ServerController {
     private final HashMap<String, ClientCommunicationInterface> rmiClients;
     private final HashMap<String, SocketClientHandler> tcpClients;
     private final List<Integer> finalPoints;
+    private final List<Thread> checkThreads;
     public int numberOfPlayers = 0;
     public boolean isGameLoaded = false;
+    GameModel gameModel;
     private boolean gameIsStarted = false;
     private List<Item> currentPicked;
-    GameModel gameModel;
     private Room room = null;
 
     /**
@@ -46,6 +47,7 @@ public class ServerController {
         pongLost = new HashMap<>();
         pongReceived = new ArrayList<>();
         finalPoints = new ArrayList<>();
+        checkThreads = new ArrayList<>();
     }
 
     public void pong(String username) {
@@ -109,7 +111,6 @@ public class ServerController {
             System.out.println(p.getNickname() + " " + p.getCommonGoalCompleted() + " " + p.getCommonGoalPoints() + " " + p.getCommonNames());
         }
 
-
         System.out.println("Last game loaded");
     }
 
@@ -139,7 +140,7 @@ public class ServerController {
         for (int i = numberOfPlayers; i < players.size(); i++) {
             extraPlayers.add(players.get(i).getNickname());
         }
-        //removePlayers(extraPlayers);
+        // removePlayers(extraPlayers);
         System.out.println("Extra players: " + extraPlayers);
         return extraPlayers;
     }
@@ -148,8 +149,8 @@ public class ServerController {
         List<Player> allPlayers = gameModel.getPlayers();
         System.out.println("Players to remove: " + playersToRemove);
         System.out.println("All players: " + allPlayers);
-        for(Player p : allPlayers) {
-            if(playersToRemove.contains(p.getNickname())) {
+        for (Player p : allPlayers) {
+            if (playersToRemove.contains(p.getNickname())) {
                 players.remove(p);
             }
         }
@@ -291,7 +292,6 @@ public class ServerController {
     }
 
     /**
-     *
      * @return true if the game has already started, false otherwise.
      */
     public boolean isGameStarted() {
@@ -436,12 +436,11 @@ public class ServerController {
         for (Player player : players) {
             if (Objects.equals(finalPoints.get(players.indexOf(player)), max)) {
 
-                //Allows only one winner, the furthest to the first player
-                if(winners.size()!=0) {
+                // Allows only one winner, the furthest to the first player
+                if (winners.size() != 0) {
                     winners.clear();
                 }
                 winners.put(player.getNickname(), max);
-
             } else {
                 losers.put(player.getNickname(), finalPoints.get(players.indexOf(player)));
             }
@@ -586,6 +585,7 @@ public class ServerController {
         currentPicked.clear();
         gameModel = null;
         room = null;
+        checkThreads.clear();
     }
 
     /**
@@ -630,5 +630,9 @@ public class ServerController {
             allCurrentPoints.put(player.getNickname(), gameModel.getAllPoints(player));
         }
         return allCurrentPoints;
+    }
+
+    public void addCheckThread(Thread checkThread) {
+        checkThreads.add(checkThread);
     }
 }
