@@ -139,21 +139,22 @@ public class ServerController {
         for (int i = numberOfPlayers; i < players.size(); i++) {
             extraPlayers.add(players.get(i).getNickname());
         }
-        removePlayers(extraPlayers);
+        //removePlayers(extraPlayers);
         System.out.println("Extra players: " + extraPlayers);
         return extraPlayers;
     }
 
-    /**
-     * @param playersToRemove the list of players to remove
-     */
     public void removePlayers(List<String> playersToRemove) {
-        playersToRemove.forEach((player) -> {
-            players.removeIf(p -> p.getNickname().equals(player));
-            rmiClients.remove(player);
-            tcpClients.remove(player);
-            disconnectedPlayers.remove(player);
-        });
+        List<Player> allPlayers = gameModel.getPlayers();
+        System.out.println("Players to remove: " + playersToRemove);
+        System.out.println("All players: " + allPlayers);
+        for(Player p : allPlayers) {
+            if(playersToRemove.contains(p.getNickname())) {
+                players.remove(p);
+            }
+        }
+        gameModel.setPlayers(players);
+        System.out.println("Players after removing: " + players);
     }
 
     /**

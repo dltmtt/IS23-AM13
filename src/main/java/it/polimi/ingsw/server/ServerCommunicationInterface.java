@@ -220,6 +220,7 @@ public interface ServerCommunicationInterface extends Remote {
                 tcpClients.get(username).sendMessageToClient(new Message("removePlayer"));
                 tcpClients.remove(username);
             }
+            controller.removePlayers(toRemove);
         }
     }
 
