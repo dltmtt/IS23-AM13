@@ -18,6 +18,11 @@ import java.util.Optional;
 
 import static it.polimi.ingsw.server.ServerController.BACKUP_FILE;
 
+/**
+ * This class represents a message.
+ * It's also the parser for both client and server.
+ * It parses a message to be sent or received with a set of constructors and getters.
+ */
 @SuppressWarnings("unchecked")
 public class Message implements Serializable {
 
@@ -26,19 +31,19 @@ public class Message implements Serializable {
     ///////////////////////////////////////////////////////CONSTRUCTORS////////////////////////////////////////////////////////
 
     /**
-     * Constructor for a normal json message.
+     * This is the constructor for a normal json message.
      *
-     * @param json the json object
+     * @param json the json object.
      */
     public Message(JSONObject json) {
         this.json = json;
     }
 
     /**
-     * Constructor for a normal json message from a file.
+     * This is the constructor for a normal json message from a file.
      *
-     * @param jsonFile the json file
-     * @throws IOException if the file is not found
+     * @param jsonFile the json file.
+     * @throws IOException if the file is not found.
      */
     public Message(File jsonFile) throws IOException {
         JSONParser parser = new JSONParser();
@@ -52,14 +57,14 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the login message.
-     * When called, only one of the parameters is used, the others are set to default values.
+     * This is the constructor for the login message.
+     * When it is called, only one of the parameters is used, the others are set to default values.
      *
-     * @param category    category of the message (what's the message about)
-     * @param username    username of the player
-     * @param age         age of the player
-     * @param isFirstGame if it's the first game of the player
-     * @param numPlayer   number of players in the game
+     * @param category    category of the message (what's the message about).
+     * @param username    username of the player.
+     * @param age         age of the player.
+     * @param isFirstGame if it's the first game of the player.
+     * @param numPlayer   number of players in the game.
      */
     public Message(String category, String username, int age, boolean isFirstGame, int numPlayer) {
         json = new JSONObject();
@@ -73,12 +78,12 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the current game backUp message.
+     * This is the constructor for the current game backUp message.
      *
-     * @param players        the current list of players
-     * @param commonGoalList the list of common goals
-     * @param board          the current board of the game
-     * @param currentPlayer  the current player
+     * @param players        the current list of players.
+     * @param commonGoalList the list of common goals.
+     * @param board          the current board of the game.
+     * @param currentPlayer  the current player.
      */
     public Message(List<Player> players, List<CommonGoal> commonGoalList, Board board, String currentPlayer) {
         json = new JSONObject();
@@ -127,10 +132,10 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the end game message.
+     * This is the constructor for the end game message.
      *
-     * @param winners HashMap containing the winners and their scores
-     * @param losers  HashMap containing the losers and their scores
+     * @param winners HashMap containing the winners and their scores.
+     * @param losers  HashMap containing the losers and their scores.
      */
     public Message(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
         json = new JSONObject();
@@ -160,15 +165,15 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the startGame message.
+     * This is the constructor for the startGame message.
      *
-     * @param personalGoal     personal goal of the player
-     * @param commonGoalList   list of common goals (of size 1 or 2)
-     * @param bookshelves      hashmap of bookshelves (bookshelf, username of the player who owns it)
-     * @param board            board of the game
-     * @param topOfScoringList top of the scoring list of the common goals points
-     * @param firstPlayer      username of the first player
-     * @param currentScores    Hashmap of the current scores of the players
+     * @param personalGoal     personal goal of the player.
+     * @param commonGoalList   list of common goals (of size 1 or 2).
+     * @param bookshelves      hashmap of bookshelves (bookshelf, username of the player who owns it).
+     * @param board            board of the game.
+     * @param topOfScoringList top of the scoring list of the common goals points.
+     * @param firstPlayer      username of the first player.
+     * @param currentScores    Hashmap of the current scores of the players.
      */
     public Message(int personalGoal, List<CommonGoal> commonGoalList, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> topOfScoringList, String firstPlayer, HashMap<String, List<Integer>> currentScores) {
         json = new JSONObject();
@@ -216,11 +221,11 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the update message.
+     * This is the constructor for the update message.
      *
-     * @param category    category of the message (what's the message about)
-     * @param bookshelves hashmap of bookshelves (bookshelf, username of the player who owns it)
-     * @param board       board of the game
+     * @param category    category of the message (what's the message about).
+     * @param bookshelves hashmap of bookshelves (bookshelf, username of the player who owns it).
+     * @param board       board of the game.
      * @param score       list of current scoring of the player where each element is a different scoring.
      */
     public Message(String category, HashMap<String, Bookshelf> bookshelves, Board board, List<Integer> score, List<Integer> topOfScoringList) {
@@ -248,11 +253,11 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for an int content message.
+     * This is the constructor for an int content message.
      *
-     * @param category category of the message (what's the message about)
-     * @param name     name of the content
-     * @param number   content of the message
+     * @param category category of the message (what's the message about).
+     * @param name     name of the content.
+     * @param number   content of the message.
      */
     public Message(String category, String name, int number) {
         json = new JSONObject();
@@ -262,10 +267,10 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the single message.
+     * This is the constructor for the single message.
      * It is used for response messages from the server.
      *
-     * @param singleMessage message to be sent
+     * @param singleMessage message to be sent.
      */
     public Message(String singleMessage) {
         json = new JSONObject();
@@ -273,10 +278,10 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the winners message.
+     * This is the constructor for the winners message.
      *
-     * @param size  size of the list of winners
-     * @param names usernames of the winners
+     * @param size  size of the list of winners.
+     * @param names usernames of the winners.
      */
     public Message(int size, List<String> names, List<Integer> scores) {
         json = new JSONObject();
@@ -292,10 +297,10 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the pick message. (Coordinates of items picked from the board)
+     * This is the constructor for the pick message. (Coordinates of items picked from the board)
      *
-     * @param from coordinates of the first item picked
-     * @param to   coordinates of the last item picked
+     * @param from coordinates of the first item picked.
+     * @param to   coordinates of the last item picked.
      */
     public Message(Coordinates from, Coordinates to) {
         json = new JSONObject();
@@ -325,9 +330,9 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the items picked message. (Items picked from the board)
+     * This is the constructor for the items picked message. (Items picked from the board)
      *
-     * @param picked list of items picked
+     * @param picked list of items picked.
      */
     public Message(List<Item> picked) {
         json = new JSONObject();
@@ -344,10 +349,10 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the sort message. (the new order of the items picked)
+     * This is constructor for the sort message. (the new order of the items picked)
      *
-     * @param category category of the message (sort)
-     * @param sort     list of the new order of the items picked
+     * @param category category of the message (sort).
+     * @param sort     list of the new order of the items picked.
      */
     public Message(String category, List<Integer> sort) {
         json = new JSONObject();
@@ -358,7 +363,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for the disconnection message. (the username/s of the player/s who disconnected)
+     * This is the constructor for the disconnection message. (the username/s of the player/s who disconnected)
      *
      * @param category     category of the message (disconnection)
      * @param disconnected list of the username/s of the player/s who disconnected

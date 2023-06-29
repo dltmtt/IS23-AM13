@@ -15,14 +15,18 @@ import java.rmi.RemoteException;
 import static it.polimi.ingsw.client.MyShelfie.HOSTNAME;
 import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_SOCKET;
 
+/**
+ * This class is the TCP implementation of the client.
+ * It extends the abstract class Client and implements the ClientCommunicationInterface.
+ */
 public class ClientTcp extends Client implements ClientCommunicationInterface {
 
     /**
-     * Used to send messages to the server.
+     * This is used to send messages to the server.
      */
     public final DataOutputStream dataOutputStream;
     /**
-     * Used to read messages from the server.
+     * This is used to read messages from the server.
      */
     public final BufferedReader serverBufferedReader;
     /**
@@ -35,8 +39,8 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     public Thread listenThread;
 
     /**
-     * Constructor to create DataOutputStream and BufferedReader
-     * Creates socket, DataOutputStream, BufferedReader from the server and keyboard
+     * This is the constructor used to create DataOutputStream and BufferedReader.
+     * It creates socket, DataOutputStream, BufferedReader from the server and keyboard.
      */
     public ClientTcp() throws RemoteException {
         super();
@@ -72,6 +76,10 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         listenThread.start();
     }
 
+    /**
+     * This method is used to send a message.
+     * @param message the message to send.
+     */
     @Override
     public void sendMessage(Message message) {
         String stringMessage = message.getJSONstring();
@@ -88,18 +96,16 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     }
 
     /**
-     * Receives a message from the server by reading it from the
-     * <code>serverBufferedReader</code>. If the message is not a valid JSON
-     * string, it is returned as a <code>String</code> object. If
-     * <code>serverBufferedReader.readLine()</code> throws an exception, the
-     * client is closed.
+     * This method receives a message from the server by reading it from the
+     * <code>serverBufferedReader</code>.
+     * If the message is not a valid JSON string, it is returned as a <code>String</code> object.
+     * If <code>serverBufferedReader.readLine()</code> throws an exception, the client is closed.
      *
-     * @return the message received from the server
+     * @return the message received from the server.
      */
     public Message receiveMessage() {
         String serverMessageString;
         try {
-
             serverMessageString = serverBufferedReader.readLine(); // Read a message from the server
 
             try {
@@ -121,6 +127,10 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
         return null;
     }
 
+    /**
+     * This method is used to connect to the server.
+     * @throws IOException if the connection fails.
+     */
     @Override
     public void connect() throws IOException {
         socket = new Socket(HOSTNAME, PORT_SOCKET);

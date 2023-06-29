@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * This is abstract (non instantiable) because each client will either be an RMI client or a Socket client
+ * This class represents the client. It is abstract (non instantiable) because each client will either be an RMI client or a Socket client.
  */
 
 public abstract class Client extends UnicastRemoteObject implements Serializable, ClientCommunicationInterface {
@@ -31,12 +31,31 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      * The username of the player using this client.
      */
     public String username;
+    /**
+     *
+     */
     public Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build(); // Default locale
+    /**
+     * This contains the package with all the languages.
+     */
     public ResourceBundle bundle = ResourceBundle.getBundle("game", locale);
+    /**
+     * This boolean is true if the players are all reconnected, false otherwise.
+     */
     private Boolean allReconnected = false; // Whether all the players have reconnected
+    /**
+     * This boolean is true if the player is the only one, false otherwise.
+     */
     private Boolean theOnlyOne = false; // Whether this client is the only one in the game
+    /**
+     * This boolean is true if there is a connection to the server, false otherwise.
+     */
     private Boolean serverConnection = false; // Whether there is a connection to the server
 
+    /**
+     * This is the constructor for the class.
+     * @throws RemoteException if the remote object cannot be exported
+     */
     public Client() throws RemoteException {
         super();
         gameView = MyShelfie.gameView;
@@ -53,7 +72,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         while (System.currentTimeMillis() < timeout) {
             try {
                 connect();
-
                 // If we get here, no exception was thrown and we are connected
                 connected = true;
                 break;
@@ -75,51 +93,63 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Sends a message to the server and returns the response.
+     * This method sends a message to the server and returns the response.
      *
-     * @param message the message to send
+     * @param message the message to send.
      */
     public abstract void sendMessage(Message message);
 
     /**
-     * Terminates the client.
+     * This method terminates the client.
      */
     public void stop() {
         System.exit(0);
     }
 
+    /**
+     * This method sets the view.
+     * @param gameView  the view to set.
+     */
     public void setView(GameView gameView) {
         this.gameView = gameView;
     }
 
     /**
-     * Connects to the server.
+     * This method makes it possible to connect to the server.
      *
-     * @throws IOException       if the connection fails
-     * @throws NotBoundException if the server is not bound
+     * @throws IOException       if the connection fails.
+     * @throws NotBoundException if the server is not bound.
      */
     public abstract void connect() throws IOException, NotBoundException;
 
     /**
-     * Shows a message or a graphic to let the player know he has to wait
+     * This method shows a message or a graphic to let the player know he has to wait
      * for other players to join in order to start the game.
      */
     public void waitingRoom() {
         gameView.waitingRoom();
     }
 
+    /**
+     * This method gets the username.
+     * @return the username.
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * This method sets the username.
+     * @param username the username to set.
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     * Parser method, called when a message is received from the server.
+     * This is the parser method, called when a message is received from the server.
      *
-     * @param message the message to parse
+     * @param message the message to parse.
      */
     @Override
     public void callBackSendMessage(Message message) {
@@ -212,8 +242,8 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Waits 60 seconds for other players to reconnect. If nobody reconnects,
-     * player wins the game and exits.
+     * This method waits 60 seconds for other players to reconnect.
+     * If nobody reconnects, player wins the game and exits.
      */
     public void waitForReconnection() {
         new Thread(() -> {
@@ -231,6 +261,9 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         }).start();
     }
 
+    /**
+     * This method waits 120 seconds for reconnection after the server is down.
+     */
     public void waitForReconnectionAfterServerDown() {
         Thread wait = new Thread(() -> {
             synchronized (lock2) {
@@ -250,7 +283,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Checks if the server is still connected.
+     * This method checks if the server is still connected.
      * If it's not, exits the game.
      */
     public void checkServerConnection() {
@@ -274,7 +307,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Asks the player to pick some tiles and sends the message to the server.
+     * This method asks the player to pick some tiles and sends the message to the server.
      */
     public void myTurn() {
         gameView.showMessage(yourTurnMessage());
@@ -283,8 +316,8 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Asks the player to insert the tiles they picked and sends the
-     * message to the server.
+     * This method asks the player to insert the tiles they picked
+     * and sends the message to the server.
      */
     public void insert() {
         Thread insThread = new Thread(() -> {
@@ -296,10 +329,10 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Asks the player to rearrange the tiles they picked and sends the
-     * message to the server.
+     * This method asks the player to rearrange the tiles they picked
+     * and sends the message to the server.
      *
-     * @param message the message containing the tiles to rearrange
+     * @param message the message containing the tiles to rearrange.
      */
     public void rearrange(Message message) {
         Thread threadRearrange = new Thread(() -> {
@@ -311,20 +344,29 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * Sets the game language to the specified one.
+     * This method sets the game language to the specified one.
      *
-     * @param language the language selected (2 letters)
-     * @param country  the country selected (2 letters)
+     * @param language the language selected (2 letters).
+     * @param country  the country selected (2 letters).
      */
     public void setLanguage(String language, String country) {
         locale = new Locale.Builder().setLanguage(language).setRegion(country).build();
         bundle = ResourceBundle.getBundle("game", locale);
     }
 
+    /**
+     * This method returns the message to show when it's the player's turn.
+     * @return the message to show when it's the player's turn.
+     */
     public String yourTurnMessage() {
         return bundle.getString("yourTurn");
     }
 
+    /**
+     * This method returns the message to show when it's another player's turn.
+     * @param username the username of the player whose turn it is.
+     * @return the message to show when it's another player's turn.
+     */
     public String otherTurnMessage(String username) {
         return bundle.getString("otherTurn") + username + bundle.getString("otherTurn2");
     }

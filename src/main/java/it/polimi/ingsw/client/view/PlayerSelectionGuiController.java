@@ -6,28 +6,31 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
+/**
+ * This class is the controller for the player selection Gui.
+ */
 public class PlayerSelectionGuiController {
 
     /**
-     * This is the button that starts the waiting room
+     * This is the button that starts the waiting room.
      */
     @FXML
     public Button createWaitingRoom;
 
     /**
-     * This is the slider that allows the player to choose the number of players, from 2 to 4
+     * This is the slider that allows the player to choose the number of players, from 2 to 4.
      */
     @FXML
     public Slider playerSlider;
 
     /**
-     * Constructor for the class
+     * This is the constructor for the class.
      */
     public PlayerSelectionGuiController() {
     }
 
     /**
-     * This method is called when the create waiting room button is clicked, sending the number of players to the server
+     * This method is called when the create waiting room button is clicked, sending the number of players to the server.
      */
     @FXML
     public void startWaitingRoom() {

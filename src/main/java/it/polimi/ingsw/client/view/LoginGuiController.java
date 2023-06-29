@@ -13,6 +13,11 @@ import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller for the login gui.
+ * It contains the methods to change the language.
+ * It also contains the method to warn the player if the username is already taken.
+ */
 public class LoginGuiController {
 
     private Client client;
@@ -45,7 +50,7 @@ public class LoginGuiController {
     private Stage stage;
 
     /**
-     * Constructor for the class
+     * This is the constructor for the class.
      */
     public LoginGuiController() {
         this.client = MyShelfie.client;
@@ -54,9 +59,9 @@ public class LoginGuiController {
     }
 
     /**
-     * This method is called when the start button is clicked, sending the login message to the server
+     * This method is called when the start button is clicked, sending the login message to the server.
      *
-     * @see LoginGuiController#sendLoginMessage() for the actual sending of the message
+     * @see LoginGuiController#sendLoginMessage() for the actual sending of the message.
      */
     @FXML
     public void onStartButtonClicked() {
@@ -72,16 +77,16 @@ public class LoginGuiController {
     }
 
     /**
-     * This method sends the <code>completeLogin</code> message to the server
+     * This method sends the <code>completeLogin</code> message to the server.
      *
-     * @see Message#Message(String, String, int, boolean, int) for the message constructor
+     * @see Message#Message(String, String, int, boolean, int) for the message constructor.
      */
     public void sendLoginMessage() {
         client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), 0));
     }
 
     /**
-     * This method warns that the username has already been taken
+     * This method warns that the username has already been taken.
      */
     @FXML
     public void usernameAlreadyTaken() {
@@ -93,7 +98,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method makes it possible to change the language of the game
+     * This method makes it possible to change the language of the game.
      *
      * @param event mouse event
      */
@@ -127,7 +132,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method loads the settings in the Settings tab
+     * This method loads the settings in the Settings tab.
      */
     @FXML
     public void loadSettings() {
@@ -139,7 +144,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method shows the waiting element, to entertain the user while waiting for a response from the server
+     * This method shows the waiting element, to entertain the user while waiting for a response from the server.
      */
     public void showWaiting() {
         waiting.setVisible(true);
@@ -149,7 +154,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method hides the waiting element, to show the user that the server has responded
+     * This method hides the waiting element, to show the user that the server has responded.
      */
     public void hideWaiting() {
         waiting.setVisible(false);
@@ -159,7 +164,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This message is called when the connect button is clicked, to connect to the server
+     * This message is called when the connect button is clicked, to connect to the server.
      */
     public void connectToServer() {
         if (serverIp.getText().isEmpty() || connectionType.getValue() == null) {
@@ -182,7 +187,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method sets the possible connection settings in the connect area
+     * This method sets the possible connection settings in the connect area.
      */
     public void setSettings() {
         connectionType.getItems().addAll("TCP", "RMI");
@@ -191,14 +196,14 @@ public class LoginGuiController {
     }
 
     /**
-     * This method is called when the connection is initiated, showing the loading graphic
+     * This method is called when the connection is initiated, showing the loading graphic.
      */
     public void initiateConnection() {
         waitingConnection.setVisible(true);
     }
 
     /**
-     * This method is called when the connection is successful, showing the login area (where the username can be inserted)
+     * This method is called when the connection is successful, showing the login area (where the username can be inserted).
      */
     public void connectionSuccess() {
         waitingConnection.setVisible(false);
@@ -213,7 +218,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method is called when the connection is unsuccessful, showing the error message
+     * This method is called when the connection is unsuccessful, showing the error message.
      */
     public void connectionError() {
         waitingConnection.setVisible(false);

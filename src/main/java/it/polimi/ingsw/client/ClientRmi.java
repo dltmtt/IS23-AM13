@@ -11,6 +11,10 @@ import java.rmi.registry.Registry;
 import static it.polimi.ingsw.client.MyShelfie.HOSTNAME;
 import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_RMI;
 
+/**
+ * This class is the RMI implementation of the client.
+ * It extends the abstract class Client and implements the ClientCommunicationInterface.
+ */
 public class ClientRmi extends Client implements ClientCommunicationInterface {
 
     private Registry registry;
@@ -23,6 +27,10 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
         super();
     }
 
+    /**
+     * This method is used to send a message.
+     * @param message the message to send.
+     */
     @Override
     public void sendMessage(Message message) {
         try {
@@ -33,6 +41,11 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
         }
     }
 
+    /**
+     * This method is used to connect to the server.
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
     @Override
     public void connect() throws RemoteException, NotBoundException {
         registry = LocateRegistry.getRegistry(HOSTNAME, PORT_RMI);
