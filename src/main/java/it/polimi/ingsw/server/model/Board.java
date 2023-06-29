@@ -89,7 +89,7 @@ public class Board {
     }
 
     /**
-     * This method creates a new square board of size <code>boardSize</code> and initializes:
+     * Creates a new square board of size <code>boardSize</code> and initializes:
      * <ul>
      *   <li>the bag of items;</li>
      *   <li>the list of usable cells;</li>
@@ -126,7 +126,7 @@ public class Board {
     }
 
     /**
-     * This method sets the Item.
+     * Sets the Item.
      *
      * @param row    the row of the board
      * @param column the column of the board
@@ -137,7 +137,7 @@ public class Board {
     }
 
     /**
-     * This method returns the item bag
+     * Returns the item bag
      *
      * @return the list of items contained in the bag
      */
@@ -146,7 +146,7 @@ public class Board {
     }
 
     /**
-     * This method enables to get an Item from the board.
+     * Enables to get an Item from the board.
      *
      * @param row    the row of the board
      * @param column the column of the board
@@ -170,7 +170,7 @@ public class Board {
     }
 
     /**
-     * This method the matrix
+     * Gets the board as a matrix of items.
      *
      * @return the board as a matrix of Items.
      */
@@ -179,7 +179,7 @@ public class Board {
     }
 
     /**
-     * This method returns the size of the board.
+     * Returns the size of the board.
      *
      * @return the size of the board
      */
@@ -188,7 +188,7 @@ public class Board {
     }
 
     /**
-     * This method puts all the Items in the usable cells of the board.
+     * Puts all the Items in the usable cells of the board.
      * It is used at the beginning of the game and when the board needs to be refilled.
      */
     public void fill() {
@@ -208,7 +208,7 @@ public class Board {
     }
 
     /**
-     * This method is used to extract a list of Items from the board.
+     * Used to extract a list of Items from the board.
      *
      * @param pickedFromTo the list of Coordinates of the Items to be extracted
      * @return the list of Items extracted
@@ -243,7 +243,7 @@ public class Board {
     }
 
     /**
-     * This method checks if all the tiles chosen have at least one free adjacent cell
+     * Checks if all the tiles chosen have at least one free adjacent cell
      *
      * @return true if at least one cell is free, false otherwise
      */
@@ -257,7 +257,7 @@ public class Board {
     }
 
     /**
-     * This method checks if the cell has a free side.
+     * Checks if the cell has a free side.
      *
      * @param cell contains the coordinates of the cell to be checked
      * @return true if the cell has at least one side free, false otherwise
@@ -276,7 +276,7 @@ public class Board {
     }
 
     /**
-     * This method calculates the number of tiles left on the board.
+     * Calculates the number of tiles left on the board.
      *
      * @return the number of tiles left on the board
      */
@@ -294,7 +294,7 @@ public class Board {
     }
 
     /**
-     * This method checks if the tile is not surrounded by other tiles.
+     * Checks if the tile is not surrounded by other tiles.
      *
      * @param i corresponds to the row of the tile
      * @param j corresponds to the column of the tile
@@ -323,7 +323,7 @@ public class Board {
     }
 
     /**
-     * This method checks if all the tiles left in the board have no tiles adjacent to them.
+     * Checks if all the tiles left in the board have no tiles adjacent to them.
      * It is used to see if the board needs to be refilled.
      *
      * @return true if all the tiles left in the board have no tiles adjacent to them, false otherwise
@@ -345,7 +345,7 @@ public class Board {
     }
 
     /**
-     * This method checks if the start and end items are not null.
+     * Checks if the start and end items are not null.
      *
      * @param cells the list of coordinates of the tiles chosen
      * @return true if all the tiles chosen are not null, false otherwise
@@ -360,7 +360,7 @@ public class Board {
     }
 
     /**
-     * This method checks if the distance between the tiles chosen is at most 3 and if the order is correct (ascending).
+     * Checks if the distance between the tiles chosen is at most 3 and if the order is correct (ascending).
      *
      * @param cells the list of coordinates of the tiles chosen
      * @return true if the order is correct and the distance is at most 3, false otherwise

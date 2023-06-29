@@ -22,7 +22,7 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     private ServerTcp socketServer;
 
     /**
-     * This method creates a new server.
+     * Creates a new server.
      * It initializes both the RMI and the socket servers.
      */
     public Server() {
@@ -65,7 +65,7 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     }
 
     /**
-     * This method starts both the RMI and the socket servers.
+     * Starts both the RMI and the socket servers.
      * It also sends a message to all clients to notify them that the server is up.
      */
     @Override
@@ -96,7 +96,7 @@ public class Server implements ServerCommunicationInterface, ServerInterface {
     }
 
     /**
-     * This method stops both the RMI and the socket servers.
+     * Stops both the RMI and the socket servers.
      * It also sends a message to all clients to notify them that the server is shutting down.
      */
     @Override

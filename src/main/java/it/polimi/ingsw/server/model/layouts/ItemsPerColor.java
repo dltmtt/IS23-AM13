@@ -3,13 +3,23 @@ package it.polimi.ingsw.server.model.layouts;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.Color;
 
+/**
+ * This is the common goal layout with eight items of the same color.
+ */
 public class ItemsPerColor extends Layout {
 
+    /**
+     * This is the constructor of the class.
+     * @param minDifferent this is the minimum number of different items.
+     * @param maxDifferent this is the maximum number of different items.
+     * @throws IllegalArgumentException if the parameters are invalid
+     */
     public ItemsPerColor(int minDifferent, int maxDifferent) throws IllegalArgumentException {
         super(1, 1, minDifferent, maxDifferent);
     }
 
     /**
+     * This method gets the info of the layout.
      * @return the name of the layout
      */
     @Override
@@ -18,6 +28,7 @@ public class ItemsPerColor extends Layout {
     }
 
     /**
+     * This method gets the name of the layout.
      * @return the name of the layout
      */
     @Override
@@ -46,7 +57,7 @@ public class ItemsPerColor extends Layout {
     }
 
     /**
-     * Checks if there are at least the minimum number of items of the
+     * This method checks if there are at least the minimum number of items of the
      * specified color in the bookshelf.
      *
      * @param b the bookshelf to check

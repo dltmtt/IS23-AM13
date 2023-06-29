@@ -14,7 +14,7 @@ public class Room {
     private final int roomId;
 
     /**
-     * This method creates a new room with the given ID.
+     * Creates a new room with the given ID.
      *
      * @param roomId the ID of the room
      */
@@ -23,7 +23,7 @@ public class Room {
     }
 
     /**
-     * This method creates a new room with the given ID and players.
+     * Creates a new room with the given ID and players.
      *
      * @param roomId  the ID of the room
      * @param players the list of players
@@ -35,7 +35,7 @@ public class Room {
     }
 
     /**
-     * This method sets the minimum and maximum number of players.
+     * Sets the minimum and maximum number of players.
      *
      * @param maxPlayers the maximum number of players
      */
@@ -44,7 +44,7 @@ public class Room {
     }
 
     /**
-     * This method tells whether the room is full or not.
+     * Tells whether the room is full or not.
      *
      * @return true if the room is full, false otherwise
      */
@@ -53,7 +53,7 @@ public class Room {
     }
 
     /**
-     * This method tells whether the maximum number of players is set or not.
+     * Tells whether the maximum number of players is set or not.
      *
      * @return true if the maximum number of players is set, false otherwise
      */
@@ -62,7 +62,7 @@ public class Room {
     }
 
     /**
-     * This method tells whether the room has too many players or not.
+     * Tells whether the room has too many players or not.
      *
      * @return true if the room has too many players, false otherwise
      */
@@ -72,7 +72,7 @@ public class Room {
     }
 
     /**
-     * This method adds a player to the room.
+     * Adds a player to the room.
      *
      * @param newPlayer the player to be added
      */
@@ -81,7 +81,7 @@ public class Room {
     }
 
     /**
-     * This method starts a new game.
+     * Starts a new game.
      *
      * @return the game model
      */

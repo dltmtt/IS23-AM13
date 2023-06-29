@@ -71,7 +71,7 @@ public class MyShelfie {
     }
 
     /**
-     * This method is used to set the parameters of the client.
+     * Used to set the parameters of the client.
      * @param hostname the hostname of the server.
      * @param protocolType the protocol used to communicate with the server.
      * @param gameView the view used to display the game.
@@ -105,7 +105,7 @@ public class MyShelfie {
     }
 
     /**
-     * This method checks if the given IP address is valid.
+     * Checks if the given IP address is valid.
      *
      * @param ip the IP address to check.
      * @return true if the IP address is valid, false otherwise.
@@ -120,7 +120,7 @@ public class MyShelfie {
     }
 
     /**
-     * This method is used to set the client.
+     * Used to set the client.
      * @param client The client to set.
      */
     public void setClient(Client client) {

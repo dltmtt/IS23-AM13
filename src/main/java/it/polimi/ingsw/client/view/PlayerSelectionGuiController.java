@@ -24,13 +24,13 @@ public class PlayerSelectionGuiController {
     public Slider playerSlider;
 
     /**
-     * This is the constructor for the class.
+     * Constructor for the class.
      */
     public PlayerSelectionGuiController() {
     }
 
     /**
-     * This method is called when the create waiting room button is clicked, sending the number of players to the server.
+     * Called when the create waiting room button is clicked, sending the number of players to the server.
      */
     @FXML
     public void startWaitingRoom() {

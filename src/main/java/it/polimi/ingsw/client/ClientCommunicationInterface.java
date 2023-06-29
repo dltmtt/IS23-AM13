@@ -14,7 +14,7 @@ import java.rmi.RemoteException;
 public interface ClientCommunicationInterface extends Remote {
 
     /**
-     * This method parses the received message and calls the appropriate method.
+     * Parses the received message and calls the appropriate method.
      *
      * @param message the message to parse.
      * @throws RemoteException if the connection is lost.
@@ -22,14 +22,14 @@ public interface ClientCommunicationInterface extends Remote {
     void callBackSendMessage(Message message) throws RemoteException;
 
     /**
-     * This method gets the Username.
+     * Gets the Username.
      * @return the username.
      * @throws RemoteException if the connection is lost.
      */
     String getUsername() throws RemoteException;
 
     /**
-     * This method sets the username.
+     * Sets the username.
      * @param username the username to set.
      * @throws RemoteException if the connection is lost.
      */

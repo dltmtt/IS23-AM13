@@ -26,7 +26,7 @@ public class CommonGoal {
     private final List<Integer> scoringList;
 
     /**
-     * This method creates a new common goal with the given layout.
+     * Creates a new common goal with the given layout.
      * It sets the scoring for the common goals according to the number of players.
      * <ul>
      *  <li>If there are 2 players, the scoringList is filled with 4 and 8.
@@ -52,6 +52,8 @@ public class CommonGoal {
     }
 
     /**
+     * Returns the scoring list of the common goal.
+     *
      * @return the list of scores
      */
     public List<Integer> getScoringList() {
@@ -59,24 +61,26 @@ public class CommonGoal {
     }
 
     /**
-     * This method sets the scoring list of the common goal.
+     * Sets the scoring list of the common goal.
+     *
      * @param scoringList the list of scores
      */
-
     public void setScoringList(List<Integer> scoringList) {
         this.scoringList.clear();
         this.scoringList.addAll(scoringList);
     }
 
     /**
-     * @return the layout of the common goal
+     * Gets the layout of the common goal.
+     *
+     * @return the layout of the common goal.
      */
     public Layout getLayout() {
         return layout;
     }
 
     /**
-     * This method returns the highest common goal scoring and removes it from the stack.
+     * Returns the highest common goal scoring and removes it from the stack.
      *
      * @return the first element of <code>scoringList</code>
      * @throws IndexOutOfBoundsException if the list is empty
@@ -91,7 +95,7 @@ public class CommonGoal {
     }
 
     /**
-     * This method checks if the bookshelf fulfills the layout of the common goal.
+     * Checks if the bookshelf fulfills the layout of the common goal.
      *
      * @param bookshelf the bookshelf to compare with the layout
      * @return true if the bookshelf fulfills the layout, false otherwise

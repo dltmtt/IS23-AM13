@@ -20,13 +20,13 @@ public class Bookshelf implements AbleToGetPoints {
     private static int columns;
     private final Optional<Item>[][] items;
     /**
-     * This matrix is used to check if a cell can be visited (and it has not been visited yet).
+     * Used to check if a cell can be visited (and it has not been visited yet).
      * <code>booleanMatrix[i][j] = true</code> means that the cell (i, j) can be visited.
      */
     private final boolean[][] booleanMatrix;
 
     /**
-     * This method creates a new bookshelf.
+     * Creates a new bookshelf.
      * <p>
      * <code>booleanMatrix</code> is used to check if a cell can be visited (and it has not been visited yet).
      * It is initialized to <code>true</code>.
@@ -57,6 +57,9 @@ public class Bookshelf implements AbleToGetPoints {
         clearBooleanMatrix();
     }
 
+    /**
+     * Creates a new bookshelf with the default number of rows and columns.
+     */
     public Bookshelf() {
         // noinspection unchecked
         items = (Optional<Item>[][]) new Optional[Bookshelf.rows][Bookshelf.columns];
@@ -66,28 +69,44 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * @return the number of rows in a bookshelf
+     * Gets the number of rows in a bookshelf.
+     *
+     * @return the number of rows in a bookshelf.
      */
     public static int getRows() {
         return rows;
     }
 
+    /**
+     * Sets the number of rows in a bookshelf.
+     *
+     * @param rows the number of rows to set in a bookshelf.
+     */
     public static void setRows(int rows) {
         Bookshelf.rows = rows;
     }
 
     /**
-     * @return the number of columns in a bookshelf
+     * Gets the number of columns in a bookshelf.
+     *
+     * @return the number of columns in a bookshelf.
      */
     public static int getColumns() {
         return columns;
     }
 
+    /**
+     * Sets the number of columns in a bookshelf.
+     *
+     * @param columns the number of columns to set in a bookshelf.
+     */
     public static void setColumns(int columns) {
         Bookshelf.columns = columns;
     }
 
     /**
+     * Gets the size of the bookshelf.
+     *
      * @return the number of cells in a bookshelf
      */
     public static int getSize() {
@@ -95,15 +114,19 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * @return the number of rows or columns, whichever is smaller
+     * Gets the number of rows or columns, whichever is smaller.
+     *
+     * @return the number of rows or columns, whichever is smaller.
      */
     public static int getDimension() {
         return Math.min(rows, columns);
     }
 
     /**
-     * @param column the column index
-     * @return the number of free cells in the column with index <code>column</code>
+     * Gets the number of free cells in the column of the bookshelf.
+     *
+     * @param column the column index.
+     * @return the number of free cells in the column with index <code>column</code>.
      */
     public int getFreeCellsInColumn(int column) {
         int freeCells = 0;
@@ -116,6 +139,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     * Returns the number of cells to highlight in the board.
      *
      * @return the maximum number of the cells to highlight in the board, depending on the number of free cells in the columns
      */
@@ -137,6 +161,8 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
+     * Gets the number of used cells in the column.
+     *
      * @param column the column index
      * @return the number of used cells in the column with index <code>column</code>
      */
@@ -173,7 +199,9 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * @return true if the bookshelf is full, false otherwise
+     * Returns a boolean to indicate whether the bookshelf is full or not.
+     *
+     * @return true if the bookshelf is full, false otherwise.
      */
     public boolean isBookshelfFull() {
         for (int i = 0; i < columns; i++) {
@@ -185,7 +213,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * This method inserts a list of items in a column.
+     * Inserts a list of items in a column.
      *
      * @param column the column index
      * @param items  the list of items to insert
@@ -213,9 +241,11 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * @param row    the row index (starting from 0)
-     * @param column the column index (starting from 0)
-     * @return the item in the position (<code>row</code>, <code>column</code>)
+     * Gets the item at a given position.
+     *
+     * @param row    the row index (starting from 0).
+     * @param column the column index (starting from 0).
+     * @return the item in the position (<code>row</code>, <code>column</code>).
      */
     public Optional<Item> getItemAt(int row, int column) throws ArrayIndexOutOfBoundsException {
         if (row >= rows || column >= columns || row < 0 || column < 0) {
@@ -226,8 +256,10 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * @param row the index of the row to check
-     * @return true if the row is completely full, false otherwise
+     * Returns a boolean  to indicate whether the row is full or not.
+     *
+     * @param row the index of the row to check.
+     * @return true if the row is completely full, false otherwise.
      */
     public boolean isRowFull(int row) throws IllegalArgumentException {
         int count=0;
@@ -244,9 +276,11 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * @param col the index of the column to check
-     * @return true if the column is completely full, false otherwise
-     * @throws IllegalArgumentException if the column index is not between 0 (inclusive) and the number of columns (exclusive)
+     * Returns a boolean to indicate whether the column is full or not.
+     *
+     * @param col the index of the column to check.
+     * @return true if the column is completely full, false otherwise.
+     * @throws IllegalArgumentException if the column index is not between 0 (inclusive) and the number of columns (exclusive).
      */
     public boolean isColumnFull(int col) throws IllegalArgumentException {
         if (col >= columns || col < 0) {
@@ -379,7 +413,7 @@ public class Bookshelf implements AbleToGetPoints {
     }
 
     /**
-     * This method is used to get all the items in the bookshelf.
+     * Used to get all the items in the bookshelf.
      *
      * @return the items in the bookshelf
      */

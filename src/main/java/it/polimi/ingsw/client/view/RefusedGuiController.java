@@ -15,7 +15,7 @@ public class RefusedGuiController {
     private Button homeButton;
 
     /**
-     * This is the constructor for the class.
+     * Constructor for the class.
      *
      * @param guiView the gui view.
      */
@@ -24,7 +24,7 @@ public class RefusedGuiController {
     }
 
     /**
-     * This method is called when the home button is clicked, changing the scene to the login one
+     * Called when the home button is clicked, changing the scene to the login one
      * @param event the event of the button being pressed.
      */
     @FXML

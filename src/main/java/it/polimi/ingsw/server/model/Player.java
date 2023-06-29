@@ -21,7 +21,7 @@ public class Player {
     private PersonalGoal personalGoal;
 
     /**
-     * This method creates a player.
+     * Creates a player.
      *
      * @param username       the player's username
      * @param isFirstGame    true if the player is playing for the first time
@@ -38,7 +38,7 @@ public class Player {
     }
 
     /**
-     * This method creates a player.
+     * Creates a player.
      *
      * @param username            the player's username
      * @param isFirstGame         true if the player is playing the first game
@@ -55,7 +55,7 @@ public class Player {
     }
 
     /**
-     * This method sets the CommonGoals.
+     * Sets the CommonGoals.
      *
      * @param commonGoals the common goals to set
      */
@@ -64,7 +64,7 @@ public class Player {
     }
 
     /**
-     * This method gets the CommonGoals.
+     * Gets the CommonGoals.
      *
      * @return the list of common goals
      */
@@ -73,7 +73,7 @@ public class Player {
     }
 
     /**
-     * This method gets the CommonGoals names.
+     * Gets the CommonGoals names.
      *
      * @return the list of common goals names
      */
@@ -86,7 +86,7 @@ public class Player {
     }
 
     /**
-     * This method sets the first player.
+     * Sets the first player.
      *
      * @param isFirstPlayer true if the player is the first player
      */
@@ -95,7 +95,7 @@ public class Player {
     }
 
     /**
-     * This method gets the username of the player.
+     * Gets the username of the player.
      *
      * @return the username of the player
      */
@@ -104,7 +104,7 @@ public class Player {
     }
 
     /**
-     * This method gets the bookshelf.
+     * Gets the bookshelf.
      *
      * @return the bookshelf of the player
      */
@@ -113,7 +113,7 @@ public class Player {
     }
 
     /**
-     * This method sets the bookshelf.
+     * Sets the bookshelf.
      *
      * @param bookshelf the bookshelf to set
      */
@@ -122,7 +122,7 @@ public class Player {
     }
 
     /**
-     * This method gets the PersonalGoal of the player.
+     * Gets the PersonalGoal of the player.
      *
      * @return the personal goal of the player
      */
@@ -131,7 +131,7 @@ public class Player {
     }
 
     /**
-     * This method sets the PersonalGoal of the player.
+     * Sets the PersonalGoal of the player.
      *
      * @param personalGoal the personal goal to set
      */
@@ -140,7 +140,7 @@ public class Player {
     }
 
     /**
-     * This method tells whether it is the player's first game or not.
+     * Tells whether it is the player's first game or not.
      * If it is, the game will be played with only one common goal instead of two.
      *
      * @return true if it is the player's first game, false otherwise
@@ -150,7 +150,7 @@ public class Player {
     }
 
     /**
-     * This method tells whether the player is the first to play or not.
+     * Tells whether the player is the first to play or not.
      * If it is, the player will hold the 1st player seat.
      *
      * @return true if the player is the first to play, false otherwise
@@ -160,7 +160,7 @@ public class Player {
     }
 
     /**
-     * This method sets whether the player has the end game card or not.
+     * Sets whether the player has the end game card or not.
      *
      * @param hasEndGameCard true if the player has the end game card, false otherwise
      */
@@ -169,7 +169,7 @@ public class Player {
     }
 
     /**
-     * This method moves a straight line of tiles from the board to the bookshelf.
+     * Moves a straight line of tiles from the board to the bookshelf.
      *
      * @param items  the list of the tiles to move
      * @param column the index of the column of the bookshelf where the tiles will be placed (starting from 0)
@@ -191,7 +191,7 @@ public class Player {
     }
 
     /**
-     * This method rearranges the picked items in the given order.
+     * Rearranges the picked items in the given order.
      * The order is an array of integers, where the i-th element is the new position of the i-th item (starting from 0).
      * For example, if the order is (2, 0, 1), the first item will be placed in the third position,
      * the second item will be placed in the first position and the third item will be placed in the second position.
@@ -223,7 +223,7 @@ public class Player {
     }
 
     /**
-     * This method calculates the score of the player.
+     * Calculates the score of the player.
      * It is made up of:
      * <ul>
      *     <li>the points given by adjacent items in the bookshelf</li>
@@ -250,7 +250,7 @@ public class Player {
     }
 
     /**
-     * This method returns the points given by the PersonalGoal.
+     * Returns the points given by the PersonalGoal.
      *
      * @return the points given by personal goals
      */
@@ -259,7 +259,7 @@ public class Player {
     }
 
     /**
-     * This method returns the points given by the CommonGoals.
+     * Returns the points given by the CommonGoals.
      *
      * @return the points given by common goals
      */
@@ -272,7 +272,7 @@ public class Player {
     }
 
     /**
-     * This method sets the CommonGoal points.
+     * Sets the CommonGoal points.
      *
      * @param commonGoalPoints the points of the common goals to be set
      */
@@ -281,7 +281,7 @@ public class Player {
     }
 
     /**
-     * This method sets the CommonGoal points.
+     * Sets the CommonGoal points.
      *
      * @param commonGoal the points of the common goal to be set
      */
@@ -290,7 +290,7 @@ public class Player {
     }
 
     /**
-     * This method returns the list of booleans that tells whether the CommonGoal is completed or not.
+     * Returns the list of booleans that tells whether the CommonGoal is completed or not.
      *
      * @return the list of booleans that tells whether the CommonGoal is completed or not
      */
@@ -299,7 +299,7 @@ public class Player {
     }
 
     /**
-     * This method gets the list of scores of the CommonGoals.
+     * Gets the list of scores of the CommonGoals.
      *
      * @return the list of scores of the CommonGoals
      */

@@ -11,6 +11,8 @@ import it.polimi.ingsw.utils.Color;
 public record Item(Color color, int number) {
 
     /**
+     * Returns the name of the image file containing the image of the item.
+     *
      * @return the name of the image file containing the image of the item
      */
     public String fileName() {

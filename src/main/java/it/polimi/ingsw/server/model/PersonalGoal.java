@@ -18,7 +18,7 @@ public class PersonalGoal {
     private int counter;
 
     /**
-     * This method creates a personal goal card.
+     * Creates a personal goal card.
      * It is a representation of the spaces that a player
      * has to fill with his bookshelf's items, to increase his final score.
      *
@@ -34,7 +34,7 @@ public class PersonalGoal {
     }
 
     /**
-     * This method returns the index of the Personal Goal card.
+     * Returns the index of the Personal Goal card.
      *
      * @return the index of the personal goal card
      */
@@ -43,7 +43,7 @@ public class PersonalGoal {
     }
 
     /**
-     * This method returns the color of the item to be matched in the space with the given coordinates.
+     * Returns the color of the item to be matched in the space with the given coordinates.
      *
      * @param key the coordinates of the space to check
      * @return the color of the item to be matched
@@ -53,7 +53,7 @@ public class PersonalGoal {
     }
 
     /**
-     * This method gets the number of points gained by the player according to how many spaces are matched.
+     * Gets the number of points gained by the player according to how many spaces are matched.
      *
      * @return the number of points gained by the player
      */
@@ -71,7 +71,7 @@ public class PersonalGoal {
     }
 
     /**
-     * This method computes the number of colors reached, depending on how many items-matches the player has reached.
+     * Computes the number of colors reached, depending on how many items-matches the player has reached.
      */
     public void colorReached() {
         currentlyReached++;
@@ -97,7 +97,7 @@ public class PersonalGoal {
     }
 
     /**
-     * This method returns the HashMap representing the personal goal card of the player.
+     * Returns the HashMap representing the personal goal card of the player.
      *
      * @return the HashMap representing the personal goal card of the player
      */
@@ -106,7 +106,7 @@ public class PersonalGoal {
     }
 
     /**
-     * This method returns the PersonalGoal of the player.
+     * Returns the PersonalGoal of the player.
      *
      * @return the PersonalGoal of the player
      */

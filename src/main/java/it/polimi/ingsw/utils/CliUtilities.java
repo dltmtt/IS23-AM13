@@ -11,32 +11,34 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * This class contains methods and constants used in the CLI, such as methods
+ * to ask questions and validate the answers and methods to print the board and
+ * the bookshelves.
+ */
 public final class CliUtilities {
-
-    public static final String emptyCell = "⬜️";
-    public static final String filledCell = "⬛";
-    public static final String diffCell = "\uD83D\uDFE5";
-    public static final String upperLeftBox = "╭";
-    public static final String upperRightBox = "╮";
-    public static final String lowerLeftBox = "╰";
-    public static final String lowerRightBox = "╯";
-    public static final String SUCCESS_COLOR = "\u001B[32m";
+    /**
+     * Escape sequence to print text in gray.
+     */
     public static final String GRAY = "\u001B[37m";
+    /**
+     * Escape sequence to reset the color of the text.
+     */
     public static final String RESET = "\u001B[0m";
-    public final static String topLeftBookshelfBorder = "╓─────";
-    public final static String topCenterBookshelfBorder = "╥─────";
-    public final static String topRightBookshelfBorder = "╥─────╖";
-    public final static String bookshelfBorder = "║";
-    public final static String middleLeftBookshelfBorder = "╟─────";
-    public final static String middleCenterBookshelfBorder = "╫─────";
-    public final static String middleRightBookshelfBorder = "╫─────╢";
-    public final static String bottomLeftBookshelfBorder = "╙─────";
-    public final static String bottomRightBookshelfBorder = "╨─────╜";
-    public final static String bottomCenterBookshelfBorder = "╨─────";
-    public final static String emptySpace = "     ";
-    public final static String smallTop = "╓─────╖";
-    public final static String smallVers = "╟─────╢";
-    public final static String smallBottom = "╙─────╜";
+    private final static String topLeftBookshelfBorder = "╓─────";
+    private final static String topCenterBookshelfBorder = "╥─────";
+    private final static String topRightBookshelfBorder = "╥─────╖";
+    private final static String bookshelfBorder = "║";
+    private final static String middleLeftBookshelfBorder = "╟─────";
+    private final static String middleCenterBookshelfBorder = "╫─────";
+    private final static String middleRightBookshelfBorder = "╫─────╢";
+    private final static String bottomLeftBookshelfBorder = "╙─────";
+    private final static String bottomRightBookshelfBorder = "╨─────╜";
+    private final static String bottomCenterBookshelfBorder = "╨─────";
+    private final static String emptySpace = "     ";
+    private final static String smallTop = "╓─────╖";
+    private final static String smallVers = "╟─────╢";
+    private final static String smallBottom = "╙─────╜";
 
     /**
      * Asks the user a close-ended question and returns the answer.
@@ -135,6 +137,13 @@ public final class CliUtilities {
         return answer.equals("y");
     }
 
+    /**
+     * This method is used to add emojis inside the tiles.
+     *
+     * @param color the color of the item.
+     * @param variant the different types of emojis.
+     * @return the emoji.
+     */
     public static String emoji(Color color, int variant) {
         // switch for the emoji type
         switch (Objects.requireNonNull(color)) {
@@ -162,13 +171,13 @@ public final class CliUtilities {
                         return "\uD83D\uDCF0"; // 📰
                     }
                     case 2 -> {
-                        return "\uD83D\uDDBC\uFE0F";// 🖼️
+                        return "\uD83D\uDDBC️";// 🖼️
                     }
                     case 3 -> {
                         return "\uD83D\uDCF7"; // 📷
                     }
                     default -> {
-                        return "\uD83D\uDDA8\uFE0F"; //🖨️ not found :(
+                        return "\uD83D\uDDA8️"; //🖨️ not found :(
                     }
                 }
             }
@@ -199,7 +208,7 @@ public final class CliUtilities {
                         return "\uD83C\uDFAE"; // 🎮
                     }
                     case 3 -> {
-                        return "\uD83D\uDD79\uFE0F"; // 🕹️
+                        return "\uD83D\uDD79️"; // 🕹️
                     }
                     default -> {
                         return "\uD83D\uDC7E"; //👾 not found :(
@@ -219,7 +228,7 @@ public final class CliUtilities {
                         return "\uD83C\uDF8B"; // 🎋
                     }
                     default -> {
-                        return "⚗\uFE0F"; //⚗️ not found :(
+                        return "⚗️"; //⚗️ not found :(
                     }
                 }
             }
@@ -247,10 +256,20 @@ public final class CliUtilities {
         }
     }
 
+    /**
+     * It represents the string representation of the cell.
+     * @param cell is the cell to represent.
+     * @return the string representation of the cell.
+     */
     public static String cellContent(Optional<Item> cell) {
         return cell.map(item -> Color.toANSItext(item.color(), true) + " " + emoji(item.color(), item.number()) + "  " + Color.RESET_COLOR).orElse(emptySpace);
     }
 
+    /**
+     * It returns the string representation of an item.
+     * @param item is the item to represent.
+     * @return the string representation of an item.
+     */
     public static String itemContent(Item item) {
         return Color.toANSItext(item.color(), true) + " " + emoji(item.color(), item.number()) + "  " + Color.RESET_COLOR;
     }
@@ -263,7 +282,7 @@ public final class CliUtilities {
      */
     public static List<String> stringifyBookshelf(Optional<Item>[][] items) {
         if (Bookshelf.getRows() == 1) {
-            if (Bookshelf.getColumns() == 1) // noinspection GrazieInspection
+            if (Bookshelf.getColumns() == 1)
             {
                 // Single row, single column case
                 //╓─────╖ top row

@@ -36,7 +36,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build(); // Default locale
     /**
-     * This contains the package with all the languages.
+     * Contains the package with all the languages.
      */
     public ResourceBundle bundle = ResourceBundle.getBundle("game", locale);
     /**
@@ -53,7 +53,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     private Boolean serverConnection = false; // Whether there is a connection to the server
 
     /**
-     * This is the constructor for the class.
+     * Constructor for the class.
      * @throws RemoteException if the remote object cannot be exported
      */
     public Client() throws RemoteException {
@@ -93,21 +93,21 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method sends a message to the server and returns the response.
+     * Sends a message to the server and returns the response.
      *
      * @param message the message to send.
      */
     public abstract void sendMessage(Message message);
 
     /**
-     * This method terminates the client.
+     * Terminates the client.
      */
     public void stop() {
         System.exit(0);
     }
 
     /**
-     * This method sets the view.
+     * Sets the view.
      * @param gameView  the view to set.
      */
     public void setView(GameView gameView) {
@@ -115,7 +115,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method makes it possible to connect to the server.
+     * Makes it possible to connect to the server.
      *
      * @throws IOException       if the connection fails.
      * @throws NotBoundException if the server is not bound.
@@ -123,7 +123,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public abstract void connect() throws IOException, NotBoundException;
 
     /**
-     * This method shows a message or a graphic to let the player know he has to wait
+     * Shows a message or a graphic to let the player know he has to wait
      * for other players to join in order to start the game.
      */
     public void waitingRoom() {
@@ -131,7 +131,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method gets the username.
+     * Gets the username.
      * @return the username.
      */
     public String getUsername() {
@@ -139,7 +139,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method sets the username.
+     * Sets the username.
      * @param username the username to set.
      */
     public void setUsername(String username) {
@@ -241,7 +241,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method waits 60 seconds for other players to reconnect.
+     * Waits 60 seconds for other players to reconnect.
      * If nobody reconnects, player wins the game and exits.
      */
     public void waitForReconnection() {
@@ -260,7 +260,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method waits 120 seconds for reconnection after the server is down.
+     * Waits 120 seconds for reconnection after the server is down.
      */
     public void waitForReconnectionAfterServerDown() {
         Thread wait = new Thread(() -> {
@@ -281,7 +281,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method checks if the server is still connected.
+     * Checks if the server is still connected.
      * If it's not, exits the game.
      */
     public void checkServerConnection() {
@@ -305,7 +305,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method asks the player to pick some tiles and sends the message to the server.
+     * Asks the player to pick some tiles and sends the message to the server.
      */
     public void myTurn() {
         gameView.showMessage(yourTurnMessage());
@@ -314,7 +314,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method asks the player to insert the tiles they picked
+     * Asks the player to insert the tiles they picked
      * and sends the message to the server.
      */
     public void insert() {
@@ -327,7 +327,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method asks the player to rearrange the tiles they picked
+     * Asks the player to rearrange the tiles they picked
      * and sends the message to the server.
      *
      * @param message the message containing the tiles to rearrange.
@@ -342,7 +342,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method sets the game language to the specified one.
+     * Sets the game language to the specified one.
      *
      * @param language the language selected (2 letters).
      * @param country  the country selected (2 letters).
@@ -353,7 +353,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method returns the message to show when it's the player's turn.
+     * Returns the message to show when it's the player's turn.
      * @return the message to show when it's the player's turn.
      */
     public String yourTurnMessage() {
@@ -361,7 +361,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     }
 
     /**
-     * This method returns the message to show when it's another player's turn.
+     * Returns the message to show when it's another player's turn.
      * @param username the username of the player whose turn it is.
      * @return the message to show when it's another player's turn.
      */

@@ -22,11 +22,11 @@ import static it.polimi.ingsw.server.ServerCommunicationInterface.PORT_SOCKET;
 public class ClientTcp extends Client implements ClientCommunicationInterface {
 
     /**
-     * This is used to send messages to the server.
+     * Used to send messages to the server.
      */
     public final DataOutputStream dataOutputStream;
     /**
-     * This is used to read messages from the server.
+     * Used to read messages from the server.
      */
     public final BufferedReader serverBufferedReader;
     /**
@@ -39,7 +39,7 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     public Thread listenThread;
 
     /**
-     * This is the constructor used to create DataOutputStream and BufferedReader.
+     * Constructor used to create DataOutputStream and BufferedReader.
      * It creates socket, DataOutputStream, BufferedReader from the server and keyboard.
      */
     public ClientTcp() throws RemoteException {
@@ -77,7 +77,7 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     }
 
     /**
-     * This method is used to send a message.
+     * Used to send a message.
      * @param message the message to send.
      */
     @Override
@@ -96,7 +96,7 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     }
 
     /**
-     * This method receives a message from the server by reading it from the
+     * Receives a message from the server by reading it from the
      * <code>serverBufferedReader</code>.
      * If the message is not a valid JSON string, it is returned as a <code>String</code> object.
      * If <code>serverBufferedReader.readLine()</code> throws an exception, the client is closed.
@@ -128,7 +128,7 @@ public class ClientTcp extends Client implements ClientCommunicationInterface {
     }
 
     /**
-     * This method is used to connect to the server.
+     * Used to connect to the server.
      * @throws IOException if the connection fails.
      */
     @Override

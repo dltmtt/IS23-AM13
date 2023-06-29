@@ -13,7 +13,7 @@ public class BoardView {
     private static Board board;
 
     /**
-     * This is the constructor of the board
+     * Constructor of the board
      * @param board is the board to set
      */
 
@@ -26,12 +26,12 @@ public class BoardView {
     }
 
     /**
-     * This method updates the board
+     * Updates the board
      * @param boardUpdated is the board to update
      */
 
     /**
-     * This method saves the update board
+     * Saves the update board
      * @param boardUpdated the updated board
      */
     public void updateBoard(Board boardUpdated) {
@@ -39,7 +39,7 @@ public class BoardView {
     }
 
     /**
-     * This method prints the board in the cli
+     * Prints the board in the cli
      * @see GameCliView
      */
     public void printBoard() {

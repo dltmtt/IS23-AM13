@@ -17,7 +17,7 @@ public class PersonalGoalView {
     private final HashMap<Coordinates, Color> personalGoalCard;
 
     /**
-     * This is the constructor of the class.
+     * Constructor of the class.
      * @param index the index of the personal goal card.
      * @throws IOException if the file is not found.
      * @throws ParseException if the file is not found.
@@ -27,7 +27,7 @@ public class PersonalGoalView {
     }
 
     /**
-     * It prints the personal goal card.
+     * Prints the personal goal card.
      */
     public void printLayout() {
         System.out.println("This is your Personal Goal Card");

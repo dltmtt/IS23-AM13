@@ -63,7 +63,7 @@ public class EndGameGuiController {
     private Stage stage;
 
     /**
-     * This is the constructor for the class
+     * Constructor for the class
      *
      * @param guiView the gui view
      * @param client  the client
@@ -88,7 +88,7 @@ public class EndGameGuiController {
     }
 
     /**
-     * This method is called when the home button is pressed, changing the scene to the login one
+     * Called when the home button is pressed, changing the scene to the login one
      *
      * @param event the event of the button being pressed
      */
@@ -98,7 +98,7 @@ public class EndGameGuiController {
     }
 
     /**
-     * This method is called when the scene is loaded, it sets the winner and the scores
+     * Called when the scene is loaded, it sets the winner and the scores
      *
      * @param winners the hash map associating the winner of the game to their score
      * @param losers  the hash map associating the losers of the game to their scores

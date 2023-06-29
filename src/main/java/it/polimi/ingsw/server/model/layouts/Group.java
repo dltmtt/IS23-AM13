@@ -2,6 +2,11 @@ package it.polimi.ingsw.server.model.layouts;
 
 import it.polimi.ingsw.server.model.Bookshelf;
 
+/**
+ *This class includes two different common goals:
+ * 1. the common goal with six groups of at least two equal items
+ * 2. the common goal with four groups of at least four equal items
+ */
 public class Group extends Layout {
 
     /**
@@ -15,13 +20,13 @@ public class Group extends Layout {
     private final int size;
 
     /**
-     * Creates a group layout.
+     * This method creates a group layout.
      *
-     * @param minDifferent the minimum number of different colors in the layout
-     * @param maxDifferent the maximum number of different colors in the layout
-     * @param occurrences  the number of occurrences of the layout
-     * @param size         the size of the group
-     * @throws IllegalArgumentException if the parameters are invalid
+     * @param minDifferent the minimum number of different colors in the layout.
+     * @param maxDifferent the maximum number of different colors in the layout.
+     * @param occurrences  the number of occurrences of the layout.
+     * @param size         the size of the group.
+     * @throws IllegalArgumentException if the parameters are invalid.
      */
     public Group(int minDifferent, int maxDifferent, int occurrences, int size) throws IllegalArgumentException {
         super(0, 0, minDifferent, maxDifferent);
@@ -40,7 +45,9 @@ public class Group extends Layout {
     }
 
     /**
-     * @return the name of the layout
+     * This method gets the name of the layout.
+     *
+     * @return the name of the layout.
      */
     @Override
     public String getName() {
@@ -50,8 +57,8 @@ public class Group extends Layout {
     /**
      * This method checks if the layout is valid for the bookshelf.
      *
-     * @param b the bookshelf to check
-     * @return true if the layout is valid for the bookshelf, false otherwise
+     * @param b the bookshelf to check.
+     * @return true if the layout is valid for the bookshelf, false otherwise.
      */
     @Override
     public boolean check(Bookshelf b) throws IllegalArgumentException {
@@ -70,18 +77,27 @@ public class Group extends Layout {
     }
 
     /**
-     * @return the number of occurrences of the layout within the bookshelf of the player
+     * This method gets the number of occurrences of the layout.
+     *
+     * @return the number of occurrences of the layout.
      */
     public int getOccurrences() {
         return occurrences;
     }
 
+    /**
+     * This method gets the size of the group.
+     *
+     * @return the size of the group
+     */
     public int getSize() {
         return size;
     }
 
     /**
-     * @return the info of the layout
+     * This method gets the info of the layout.
+     *
+     * @return the info of the layout.
      */
     @Override
     public String getInfo() {

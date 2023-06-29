@@ -59,7 +59,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method is called when the start button is clicked, sending the login message to the server.
+     * Called when the start button is clicked, sending the login message to the server.
      *
      * @see LoginGuiController#sendLoginMessage() for the actual sending of the message.
      */
@@ -77,7 +77,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method sends the <code>completeLogin</code> message to the server.
+     * Sends the <code>completeLogin</code> message to the server.
      *
      * @see Message#Message(String, String, int, boolean, int) for the message constructor.
      */
@@ -86,7 +86,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method warns that the username has already been taken.
+     * Warns that the username has already been taken.
      */
     @FXML
     public void usernameAlreadyTaken() {
@@ -98,7 +98,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method makes it possible to change the language of the game.
+     * Makes it possible to change the language of the game.
      *
      * @param event mouse event
      */
@@ -132,7 +132,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method loads the settings in the Settings tab.
+     * Loads the settings in the Settings tab.
      */
     @FXML
     public void loadSettings() {
@@ -144,7 +144,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method shows the waiting element, to entertain the user while waiting for a response from the server.
+     * Shows the waiting element, to entertain the user while waiting for a response from the server.
      */
     public void showWaiting() {
         waiting.setVisible(true);
@@ -154,7 +154,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method hides the waiting element, to show the user that the server has responded.
+     * Hides the waiting element, to show the user that the server has responded.
      */
     public void hideWaiting() {
         waiting.setVisible(false);
@@ -164,7 +164,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This message is called when the connect button is clicked, to connect to the server.
+     * Called when the connect button is clicked, to connect to the server.
      */
     public void connectToServer() {
         if (serverIp.getText().isEmpty() || connectionType.getValue() == null) {
@@ -187,7 +187,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method sets the possible connection settings in the connect area.
+     * Sets the possible connection settings in the connect area.
      */
     public void setSettings() {
         connectionType.getItems().addAll("TCP", "RMI");
@@ -196,14 +196,14 @@ public class LoginGuiController {
     }
 
     /**
-     * This method is called when the connection is initiated, showing the loading graphic.
+     * Called when the connection is initiated, showing the loading graphic.
      */
     public void initiateConnection() {
         waitingConnection.setVisible(true);
     }
 
     /**
-     * This method is called when the connection is successful, showing the login area (where the username can be inserted).
+     * Called when the connection is successful, showing the login area (where the username can be inserted).
      */
     public void connectionSuccess() {
         waitingConnection.setVisible(false);
@@ -218,7 +218,7 @@ public class LoginGuiController {
     }
 
     /**
-     * This method is called when the connection is unsuccessful, showing the error message.
+     * Called when the connection is unsuccessful, showing the error message.
      */
     public void connectionError() {
         waitingConnection.setVisible(false);

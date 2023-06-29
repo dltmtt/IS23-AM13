@@ -14,7 +14,7 @@ import java.util.List;
 public class ItemView {
 
     /**
-     * This method prints the items.
+     * Prints the items.
      *
      * @param items the list of items to print.
      */

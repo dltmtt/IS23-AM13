@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
-import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 
 /**
  * This class handles the CLI view of the game. It contains all the methods used to show the game state to the user by the command line and to get input from the user.
@@ -27,11 +26,15 @@ import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 public class GameCliView implements GameView {
 
     private static final String illegalNumberOfPlayersError = "The number of players must be between 2 and 4 (inclusive): ";
+    /**
+     * This is the client
+     */
     public Client client;
     private boolean theOnlyOne = false;
+    private static final String SUCCESS_COLOR = "\u001B[32m";
 
     /**
-     * This is the constructor of the class. It asks the user for the server IP and the protocol to use (RMI or TCP).
+     * Constructor of the class. It asks the user for the server IP and the protocol to use (RMI or TCP).
      */
     public GameCliView() {
         String ip = null;
@@ -77,7 +80,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method starts the login procedure, it asks the user for a username and sends it to the server. It also starts the ping thread for check the connection.
+     * Starts the login procedure, it asks the user for a username and sends it to the server. It also starts the ping thread for check the connection.
      */
 
     @Override
@@ -89,7 +92,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the start game.
+     * Shows the start game.
      */
 
     @Override
@@ -157,7 +160,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the loginPrompt for the user.
+     * Shows the loginPrompt for the user.
      */
 
     public String showLogin() {
@@ -166,7 +169,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the firt game question for the user.
+     * Shows the first game question for the user.
      */
 
     public boolean promptFirstGame() {
@@ -184,7 +187,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the insert question for the user.
+     * Shows the insert question for the user.
      */
 
     @Override
@@ -223,7 +226,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the pick question for the user and check if the input is valid.
+     * Shows the pick question for the user and check if the input is valid.
      */
     @Override
     public void showPick() {
@@ -278,7 +281,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method ignores the input if the player is alone.
+     * Ignores the input if the player is alone.
      */
     private void ignoreInputIfAlone(BufferedReader in) {
         while (theOnlyOne) {
@@ -305,7 +308,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method prints the bookshelf.
+     * Prints the bookshelf.
      *
      * @param bookshelf the bookshelf to show
      */
@@ -317,7 +320,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method prints the opening image of the CLI.
+     * Prints the opening image of the CLI.
      */
     public void showStartGame() {
         String title = """
@@ -334,7 +337,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method prints the end game message.
+     * Prints the end game message.
      *
      * @param winners the list of winners
      * @param losers  the list of losers
@@ -354,7 +357,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method asks the player if they want to rearrange the items they've picked.
+     * Asks the player if they want to rearrange the items they've picked.
      *
      * @param items the items the player has picked
      * @return true if the player wants to rearrange the items, false otherwise
@@ -366,7 +369,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method rearranges the order of the picked items.
+     * Rearranges the order of the picked items.
      *
      * @param items the items the player has picked
      * @return the new order of the items
@@ -430,7 +433,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the current score of the player.
+     * Shows the current score of the player.
      *
      * @param score the current score of the player
      */
@@ -440,7 +443,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message of the waiting room.
+     * Shows the message of the waiting room.
      */
     @Override
     public void waitingRoom() {
@@ -448,7 +451,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the game to the player. (the board, their bookshelf, the common goals, the personal goal, the current score, the bookshelves of the other players)
+     * Shows the game to the player. (the board, their bookshelf, the common goals, the personal goal, the current score, the bookshelves of the other players)
      */
     @Override
     public void startGame(Message message) {
@@ -479,7 +482,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows  to the player their bookshelf (picked from the message from the server).
+     * Shows to the player their bookshelf (picked from the message from the server).
      *
      * @param bookshelves the bookshelves of all the players
      */
@@ -510,7 +513,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows to the player the bookshelf of another player (picked from the message from the server).
+     * Shows to the player the bookshelf of another player (picked from the message from the server).
      *
      * @param bookshelf the bookshelf of  the players
      */
@@ -522,7 +525,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for an invalid username.
+     * Shows the message for an invalid username.
      */
     @Override
     public void usernameError() {
@@ -533,7 +536,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for an invalid username.
+     * Shows the message for an invalid username.
      *
      * @see #usernameError()
      */
@@ -543,7 +546,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for an invalid number of players.
+     * Shows the message for an invalid number of players.
      */
     @Override
     public void playerNumberError() {
@@ -552,7 +555,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for the choice of the player.
+     * Shows the message for the choice of the player.
      */
 
     @Override
@@ -562,7 +565,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for the last round.
+     * Shows the message for the last round.
      */
 
     @Override
@@ -571,7 +574,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for game already started.
+     * Shows the message for game already started.
      */
 
     @Override
@@ -581,7 +584,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method tells the player if the waiting room is already full.
+     * Tells the player if the waiting room is already full.
      */
     @Override
     public void showRemovePlayer() {
@@ -591,7 +594,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows a generic message.
+     * Shows a generic message.
      *
      * @param message the message to be shown
      */
@@ -602,7 +605,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for the rearrange procedure.
+     * Shows the message for the rearrange procedure.
      */
 
     @Override
@@ -631,7 +634,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method sets the only one player.
+     * This sets the only one player.
      */
 
     @Override
@@ -640,7 +643,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the waiting message for the server to check if the player disconnected.
+     * Shows the waiting message for the server to check if the player disconnected.
      */
     @Override
     public void showWaiting() {
@@ -664,7 +667,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for the connection to server.
+     * Shows the message for the connection to server.
      */
 
     @Override
@@ -673,7 +676,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for the connection to server success.
+     * Shows the message for the connection to server success.
      */
 
     @Override
@@ -682,7 +685,7 @@ public class GameCliView implements GameView {
     }
 
     /**
-     * This method shows the message for the connection to server error.
+     * Shows the message for the connection to server error.
      */
     @Override
     public void connectionError() {

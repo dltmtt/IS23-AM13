@@ -28,7 +28,7 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
     }
 
     /**
-     * This method is used to send a message.
+     * Used to send a message.
      * @param message the message to send.
      */
     @Override
@@ -42,9 +42,9 @@ public class ClientRmi extends Client implements ClientCommunicationInterface {
     }
 
     /**
-     * This method is used to connect to the server.
-     * @throws RemoteException
-     * @throws NotBoundException
+     * Used to connect to the server.
+     * @throws RemoteException if the connection fails.
+     * @throws NotBoundException if the connection fails.
      */
     @Override
     public void connect() throws RemoteException, NotBoundException {

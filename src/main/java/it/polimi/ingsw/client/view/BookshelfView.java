@@ -18,7 +18,7 @@ public class BookshelfView {
     private final Bookshelf bookshelf;
 
     /**
-     * This constructor initializes the bookshelf.
+     * Constructor initializes the bookshelf.
      *
      * @param bookshelf the bookshelf to be printed
      */
@@ -27,7 +27,7 @@ public class BookshelfView {
     }
 
     /**
-     * This method prints the bookshelf in the console.
+     * Prints the bookshelf in the console.
      */
     public void printBookshelf() {
         Optional<Item>[][] items = bookshelf.getItems();
@@ -35,7 +35,7 @@ public class BookshelfView {
     }
 
     /**
-     * This method prints the other bookshelves in the console.
+     * Prints the other bookshelves in the console.
      */
     public void printOtherBookshelf() {
         StringBuilder cell;
