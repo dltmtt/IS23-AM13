@@ -181,8 +181,8 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                     } else {
                         controller.pongReceived.remove(finalUsername);
                     }
-                } catch (InterruptedException | RemoteException e) {
-                    throw new RuntimeException(e);
+                } catch (InterruptedException | RemoteException ignored) {
+                    System.out.println("Ping thread interrupted.");
                 }
             }
         });

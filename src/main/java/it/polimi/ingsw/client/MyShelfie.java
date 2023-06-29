@@ -67,6 +67,7 @@ public class MyShelfie {
     public static void setParameters(String hostname, String protocolType, GameView gameView) {
         MyShelfie.HOSTNAME = hostname;
         MyShelfie.protocolType = protocolType;
+        MyShelfie.gameView = gameView;
         switch (protocolType) {
             case "rmi" -> {
                 try {
