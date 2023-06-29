@@ -42,10 +42,15 @@ To play My Shelfie, follow these steps:
     ```bash
     java -jar AM13_Server.jar
     ```
-4. In another terminal, run the client with:
-    ```bash
-    java -jar AM13_Client.jar
-    ```
+4. In another terminal, run the client, specific to the operating system it being used, with:\
+   - Windows:
+       ```bash
+       java -jar AM13_Client_Windows.jar
+       ```
+   - MacOS:
+      ```bash
+      java -jar AM13_Client_MacOS.jar
+       ```
 
 When launching the client, you can specify the following options (after `AM13_Client.jar`):
 
@@ -57,3 +62,15 @@ When launching the client, you can specify the following options (after `AM13_Cl
 Options that require an argument must be followed by a space or an equal sign and the argument itself.
 The default values are set in the `settings.properties`
 in [src/main/resources/it/polimi/ingsw](src/main/resources/it/polimi/ingsw) folder.
+
+## Notable Features
+### Multiple Languages
+After connecting to the server, in the login screen under the 'Settings' tab, the user can select the language they want to use.\
+The available languages are English, Italian, French, Spanish, Catalan, Japanese, Bergamasco, Siciliano and Pugliese. The last three being the spoken Italian dialects of our group
+### Highly Customizable
+Our vision, since the beginning of the project, was to create a highly modular and customizable game, making it easy to add new features and change existing ones.\
+In the folder [src/main/resources/it/polimi/ingsw](src/main/resources/it/polimi/ingsw) there are all the settings files and configurations:
+- `settings.properties` and `settings.json` contain the default values for the Bookshelf class, such as the number of rows and columns, making it possible to (maybe one day...) play with a custom-built bookshelf
+- `usable_cells.json` contains the usable cells for each player configuration in the Living Room
+- `common_goals.json` and `personal_goals.json` contain the goals for the game, leaving open the possibility to add new ones.
+In the Common Goal creation, it is possible to set different parameters when creating a specific Layout, as the foundation to a more customizable experience for the player.
