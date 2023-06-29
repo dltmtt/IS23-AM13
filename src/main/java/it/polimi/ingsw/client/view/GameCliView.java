@@ -40,7 +40,7 @@ public class GameCliView implements GameView {
         String ip = null;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         do {
-            System.out.println("Insert Server IP: ");
+            System.out.print("Insert server IP: ");
             try {
                 ip = reader.readLine();
             } catch (IOException e) {
@@ -82,7 +82,6 @@ public class GameCliView implements GameView {
     /**
      * Starts the login procedure, it asks the user for a username and sends it to the server. It also starts the ping thread for check the connection.
      */
-
     @Override
     public void loginProcedure() {
         showStartGame();
@@ -162,7 +161,6 @@ public class GameCliView implements GameView {
     /**
      * Shows the loginPrompt for the user.
      */
-
     public String showLogin() {
         showMessage(insertUsernamePrompt);
         return readUsername();
@@ -171,7 +169,6 @@ public class GameCliView implements GameView {
     /**
      * Shows the first game question for the user.
      */
-
     public boolean promptFirstGame() {
         return CliUtilities.askYesNoQuestion(firstGameQuestion, "y");
     }
@@ -189,7 +186,6 @@ public class GameCliView implements GameView {
     /**
      * Shows the insert question for the user.
      */
-
     @Override
     public void promptInsert() {
         showMessage("Insert the index of the column where you want to insert the picked items (starting from 0): ");
@@ -474,7 +470,6 @@ public class GameCliView implements GameView {
         // Bookshelves
         HashMap<String, Bookshelf> bookshelves = message.getAllBookshelves();
         pickMyBookshelf(bookshelves);
-        // showCurrentScore(message.getIntMessage("score"));
         pickOtherBookshelf(bookshelves);
 
         // Board
@@ -693,6 +688,9 @@ public class GameCliView implements GameView {
         System.exit(1);
     }
 
+    /**
+     * Shows the message that indicates that nobody reconnected.
+     */
     @Override
     public void endAlone() {
         showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");

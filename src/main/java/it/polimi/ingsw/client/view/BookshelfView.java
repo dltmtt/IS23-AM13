@@ -46,11 +46,9 @@ public class BookshelfView {
                 cell.append("[");
                 if (items[row][column].isEmpty()) {
                     cell.append(Color.BLACK)
-                            //.append(boardMatrix[row][column].color().toString().charAt(0))
                             .append("⏹").append(Color.RESET_COLOR);
                 } else {
                     cell.append(Color.toANSItext(items[row][column].get().color(), false))
-                            //.append(boardMatrix[row][column].color().toString().charAt(0))
                             .append("⏹").append(Color.RESET_COLOR);
                 }
                 cell.append("]");

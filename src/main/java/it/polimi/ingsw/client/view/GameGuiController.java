@@ -1066,6 +1066,9 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * Sends a message saying that nobody reconnected.
+     */
     public void endAlone() {
         showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
     }
