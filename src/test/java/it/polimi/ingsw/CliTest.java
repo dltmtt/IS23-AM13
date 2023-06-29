@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.view.CommonGoalView;
 import it.polimi.ingsw.client.view.ItemView;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,9 +1,11 @@
-package it.polimi.ingsw.utils;
+package it.polimi.ingsw;
 
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.CommonGoal;
 import it.polimi.ingsw.server.model.PersonalGoal;
 import it.polimi.ingsw.server.model.layouts.*;
+import it.polimi.ingsw.utils.Color;
+import it.polimi.ingsw.utils.Coordinates;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -153,7 +155,7 @@ public class SettingLoader {
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
             colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
         } catch (IOException ex) {
-            System.err.println("settings.properties file not found at "+BASE_PATH+", using default values");
+            System.err.println("settings.properties file not found at " + BASE_PATH + ", using default values");
             // In case the file is not found or there is and error reading the file,
             // the default values will be used instead
             rowsSetting = 6;

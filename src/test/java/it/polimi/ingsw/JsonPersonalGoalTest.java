@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
+import static it.polimi.ingsw.SettingLoader.BASE_PATH;
 
 public class JsonPersonalGoalTest {
 

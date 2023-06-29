@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
+import static it.polimi.ingsw.SettingLoader.BASE_PATH;
 
 /**
  * This class represents the board of the game as a matrix of items. It also contains:

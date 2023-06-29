@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.server.model.layouts.Square;
 import it.polimi.ingsw.utils.CliUtilities;
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

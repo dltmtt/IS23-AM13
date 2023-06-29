@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.model.layouts.Group;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.utils.BookshelfUtilities;
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GroupTest {
 
@@ -84,6 +82,6 @@ public class GroupTest {
         items.clear();
         BookshelfView bookshelfView = new BookshelfView(bookshelf);
         bookshelfView.printBookshelf();
-        assertTrue(!group.check(bookshelf));
+        assertFalse(group.check(bookshelf));
     }
 }

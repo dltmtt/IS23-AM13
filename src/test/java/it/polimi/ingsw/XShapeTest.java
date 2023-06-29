@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.server.model.layouts.XShape;
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,9 +49,9 @@ public class XShapeTest {
 
         //right column of the X
         List<Item> XRight = new ArrayList<>();
-        XRight.add(new Item(Xcolor,0));
+        XRight.add(new Item(Xcolor, 0));
         XRight.add(new Item(Color.getRandomColor(), 0));
-        XRight.add(new Item(Xcolor,0));
+        XRight.add(new Item(Xcolor, 0));
 
         List<Item> itemList = new ArrayList<>();
 
@@ -132,8 +131,9 @@ public class XShapeTest {
 
         assertTrue(commonGoal.check(b));
     }
+
     @Test
-    void XShape2(){
+    void XShape2() {
         Bookshelf b = new Bookshelf();
 
         List<Item> itemList = new ArrayList<>();

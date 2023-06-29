@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
+import static it.polimi.ingsw.SettingLoader.BASE_PATH;
 
 public class JsonCommonGoalTest {
 

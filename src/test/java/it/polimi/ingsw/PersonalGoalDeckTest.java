@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.PersonalGoal;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,57 +38,57 @@ public class PersonalGoalDeckTest {
         assertEquals(0, personalGoal.getPoints(b));
     }
 
-        @Test
-        void lessThan3Points() throws IOException, ParseException {
-            Bookshelf b = new Bookshelf();
-            List<Item> items = new ArrayList<>();
-            personalGoal = SettingLoader.loadSpecificPersonalGoal(2);
-            items.add(new Item(Color.BLUE, 1));
-            items.add(new Item(Color.BLUE, 1));
-            items.add(new Item(Color.WHITE, 1));
-            items.add(new Item(Color.YELLOW, 1));
-            b.insert(0, items);
+    @Test
+    void lessThan3Points() throws IOException, ParseException {
+        Bookshelf b = new Bookshelf();
+        List<Item> items = new ArrayList<>();
+        personalGoal = SettingLoader.loadSpecificPersonalGoal(2);
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(0, items);
 
-            items.clear();
-            items.add(new Item(Color.PINK, 1));
-            items.add(new Item(Color.BLUE, 1));
-            items.add(new Item(Color.YELLOW, 1));
-            items.add(new Item(Color.GREEN, 1));
-            items.add(new Item(Color.WHITE, 1));
-            items.add(new Item(Color.WHITE, 1));
-            b.insert(1, items);
+        items.clear();
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        b.insert(1, items);
 
-            items.clear();
-            items.add(new Item(Color.WHITE, 1));
-            items.add(new Item(Color.YELLOW, 1));
-            items.add(new Item(Color.BLUE, 1));
-            items.add(new Item(Color.YELLOW, 1));
-            items.add(new Item(Color.YELLOW, 1));
-            items.add(new Item(Color.PINK, 1));
-            b.insert(2, items);
+        items.clear();
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.PINK, 1));
+        b.insert(2, items);
 
-            items.clear();
-            items.add(new Item(Color.LIGHTBLUE, 1));
-            items.add(new Item(Color.WHITE, 1));
-            items.add(new Item(Color.PINK, 1));
-            items.add(new Item(Color.GREEN, 1));
-            items.add(new Item(Color.BLUE, 1));
-            b.insert(3, items);
+        items.clear();
+        items.add(new Item(Color.LIGHTBLUE, 1));
+        items.add(new Item(Color.WHITE, 1));
+        items.add(new Item(Color.PINK, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        b.insert(3, items);
 
-            items.clear();
-            items.add(new Item(Color.YELLOW, 1));
-            items.add(new Item(Color.GREEN, 1));
-            items.add(new Item(Color.BLUE, 1));
-            items.add(new Item(Color.YELLOW, 1));
-            items.add(new Item(Color.YELLOW, 1));
-            b.insert(4, items);
+        items.clear();
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.GREEN, 1));
+        items.add(new Item(Color.BLUE, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        items.add(new Item(Color.YELLOW, 1));
+        b.insert(4, items);
 
-            items.clear();
+        items.clear();
 
-            personalGoal.colorReached();
-            personalGoal.colorReached();
-            assertEquals(12, personalGoal.getPoints(b));
-        }
+        personalGoal.colorReached();
+        personalGoal.colorReached();
+        assertEquals(12, personalGoal.getPoints(b));
+    }
 
     @Test
     void getRightColor() throws IOException, ParseException {

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.SettingLoader;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -18,8 +18,9 @@ public class PersonalGoalView {
 
     /**
      * Constructor of the class.
+     *
      * @param index the index of the personal goal card.
-     * @throws IOException if the file is not found.
+     * @throws IOException    if the file is not found.
      * @throws ParseException if the file is not found.
      */
     public PersonalGoalView(int index) throws IOException, ParseException {

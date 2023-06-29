@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static it.polimi.ingsw.utils.SettingLoader.BASE_PATH;
+import static it.polimi.ingsw.SettingLoader.BASE_PATH;
 import static java.lang.Integer.parseInt;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StairTest {
@@ -58,10 +59,11 @@ public class StairTest {
         BookshelfUtilities.createRightStair(b);
         assertTrue(stair.check(b));
     }
+
     @Test
-    void getName(){
+    void getName() {
         Layout l = new Stair(1, 6, Bookshelf.getColumns());
-        assertTrue(l.getName().equals("stair"));
+        assertEquals("stair", l.getName());
     }
 
     @Test
@@ -83,8 +85,9 @@ public class StairTest {
         BookshelfUtilities.createRightStair(b);
         assertTrue(stair.check(b));
     }
+
     @Test
-    void MirroredStairCheckRowZero(){
+    void MirroredStairCheckRowZero() {
         BookshelfUtilities.createRightStair(b);
         assertTrue(stair.check(b));
         CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
@@ -92,7 +95,7 @@ public class StairTest {
     }
 
     @Test
-    void MirroredStairCheckRowOne(){
+    void MirroredStairCheckRowOne() {
         List<Item> itemList = new ArrayList<>();
         for (int i = 0; i < Bookshelf.getColumns(); i++) {
             itemList.clear();

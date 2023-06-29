@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.utils.SettingLoader;
+import it.polimi.ingsw.SettingLoader;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;

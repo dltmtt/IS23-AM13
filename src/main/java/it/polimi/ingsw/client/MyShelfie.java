@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.SettingLoader;
 import it.polimi.ingsw.client.view.GameCliView;
 import it.polimi.ingsw.client.view.GameView;
 import it.polimi.ingsw.client.view.GuiView;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.apache.commons.cli.*;
 
 import java.rmi.RemoteException;
@@ -72,9 +72,10 @@ public class MyShelfie {
 
     /**
      * Used to set the parameters of the client.
-     * @param hostname the hostname of the server.
+     *
+     * @param hostname     the hostname of the server.
      * @param protocolType the protocol used to communicate with the server.
-     * @param gameView the view used to display the game.
+     * @param gameView     the view used to display the game.
      */
     public static void setParameters(String hostname, String protocolType, GameView gameView) {
         MyShelfie.HOSTNAME = hostname;
@@ -121,6 +122,7 @@ public class MyShelfie {
 
     /**
      * Used to set the client.
+     *
      * @param client The client to set.
      */
     public void setClient(Client client) {

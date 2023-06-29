@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.model.layouts.Diagonal;
 import it.polimi.ingsw.server.model.layouts.Layout;
 import it.polimi.ingsw.server.model.layouts.XShape;
 import it.polimi.ingsw.utils.Color;
-import it.polimi.ingsw.utils.SettingLoader;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

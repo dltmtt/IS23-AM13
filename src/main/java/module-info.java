@@ -20,4 +20,5 @@ module it.polimi.ingsw.client.view {
 
     exports it.polimi.ingsw.server to java.rmi;
     exports it.polimi.ingsw.server.model to javafx.fxml;
+    exports it.polimi.ingsw;
 }

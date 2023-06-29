@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.layouts;
 
+import it.polimi.ingsw.SettingLoader;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
-import it.polimi.ingsw.utils.SettingLoader;
 
 import java.util.List;
 
@@ -38,7 +38,6 @@ public class FullLine extends Layout {
     }
 
     /**
-     *
      * @return the number of occurrences of the layout
      */
     @Override
@@ -47,7 +46,6 @@ public class FullLine extends Layout {
     }
 
     /**
-     *
      * @return true if the layout is horizontal, false if it is vertical
      */
     @Override
@@ -56,7 +54,6 @@ public class FullLine extends Layout {
     }
 
     /**
-     *
      * @return the name of the layout
      */
     @Override
@@ -109,7 +106,6 @@ public class FullLine extends Layout {
     }
 
     /**
-     *
      * @return a string containing the representation of the layout
      */
     public String getInfo() {
