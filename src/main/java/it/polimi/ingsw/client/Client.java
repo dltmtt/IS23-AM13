@@ -54,6 +54,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     /**
      * Constructor for the class.
+     *
      * @throws RemoteException if the remote object cannot be exported
      */
     public Client() throws RemoteException {
@@ -108,7 +109,8 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     /**
      * Sets the view.
-     * @param gameView  the view to set.
+     *
+     * @param gameView the view to set.
      */
     public void setView(GameView gameView) {
         this.gameView = gameView;
@@ -132,6 +134,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     /**
      * Gets the username.
+     *
      * @return the username.
      */
     public String getUsername() {
@@ -140,6 +143,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     /**
      * Sets the username.
+     *
      * @param username the username to set.
      */
     public void setUsername(String username) {
@@ -256,6 +260,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                     gameView.endAlone();
                 }
             }
+            Thread.currentThread().interrupt();
         }).start();
     }
 
@@ -354,6 +359,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     /**
      * Returns the message to show when it's the player's turn.
+     *
      * @return the message to show when it's the player's turn.
      */
     public String yourTurnMessage() {
@@ -362,6 +368,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     /**
      * Returns the message to show when it's another player's turn.
+     *
      * @param username the username of the player whose turn it is.
      * @return the message to show when it's another player's turn.
      */

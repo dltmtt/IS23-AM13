@@ -28,7 +28,7 @@ public class ServerController {
     private final List<Thread> checkThreads;
     public int numberOfPlayers = 0;
     public boolean isGameLoaded = false;
-    GameModel gameModel;
+    public GameModel gameModel;
     private boolean gameIsStarted = false;
     private List<Item> currentPicked;
     private Room room = null;
@@ -404,6 +404,8 @@ public class ServerController {
      * Changes the turn in the model or ends the game.
      */
     public void changeTurn() {
+        System.out.println(players.stream().map(Player::getUsername).collect(Collectors.toList()));
+
         int currentPlayerIndex = players.indexOf(gameModel.getCurrentPlayer());
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
         while (disconnectedPlayers.contains(players.get(nextPlayerIndex).getUsername())) {
@@ -570,7 +572,9 @@ public class ServerController {
         if (!deleted) {
             System.err.println("Error in deleting the saved game.");
         }
-
+        for (String username : tcpClients.keySet()) {
+            tcpClients.get(username).listenThread.interrupt();
+        }
         disconnectedPlayers.clear();
         pongLost.clear();
         pongReceived.clear();
@@ -584,11 +588,13 @@ public class ServerController {
         gameIsStarted = false;
         currentPicked.clear();
         gameModel = null;
+        isGameLoaded = false;
         room = null;
         for (Thread thread : checkThreads) {
             thread.interrupt();
         }
         checkThreads.clear();
+
     }
 
     /**

@@ -139,6 +139,9 @@ public interface ServerCommunicationInterface extends Remote {
             while (true) {
                 try {
                     Thread.sleep(20000);
+                    if (controller.gameModel == null) {
+                        break;
+                    }
                     if (!controller.pongReceived.contains(finalUsername) && !controller.disconnectedPlayers.contains(finalUsername)) {
                         System.err.println("Ping not received from " + finalUsername + ". Disconnecting.");
                         Thread.sleep(10000);
@@ -149,8 +152,8 @@ public interface ServerCommunicationInterface extends Remote {
                     } else {
                         controller.pongReceived.remove(finalUsername);
                     }
-                } catch (InterruptedException | RemoteException e) {
-                    throw new RuntimeException(e);
+                } catch (InterruptedException | RemoteException ignored) {
+
                 }
             }
         });
@@ -173,7 +176,7 @@ public interface ServerCommunicationInterface extends Remote {
             // reconnects, they will win.
             sendAll(new Message("youAloneBitch"));
         } else {
-            if (controller.getCurrentPlayer().equals(username)) {
+            if (controller.gameModel != null && controller.getCurrentPlayer().equals(username)) {
                 nextTurn();
             }
         }
@@ -269,6 +272,7 @@ public interface ServerCommunicationInterface extends Remote {
             controller.setWinner();
             sendAll(new Message(controller.getWinners(), controller.getLosers()));
             controller.resetSavedGame();
+
         } else if (controller.checkGameStatus() == 0) {
             // It's the last round
             sendAll(new Message("lastRound"));

@@ -22,16 +22,15 @@ import static it.polimi.ingsw.utils.CliUtilities.RESET;
 /**
  * This class handles the CLI view of the game. It contains all the methods used to show the game state to the user by the command line and to get input from the user.
  */
-
 public class GameCliView implements GameView {
 
     private static final String illegalNumberOfPlayersError = "The number of players must be between 2 and 4 (inclusive): ";
+    private static final String SUCCESS_COLOR = "\u001B[32m";
     /**
      * This is the client
      */
     public Client client;
     private boolean theOnlyOne = false;
-    private static final String SUCCESS_COLOR = "\u001B[32m";
 
     /**
      * Constructor of the class. It asks the user for the server IP and the protocol to use (RMI or TCP).
@@ -173,6 +172,11 @@ public class GameCliView implements GameView {
         return CliUtilities.askYesNoQuestion(firstGameQuestion, "y");
     }
 
+    /**
+     * Shows the prompt for the number of players choice.
+     *
+     * @return the number of players chosen by the user
+     */
     public int promptNumberOfPlayers() {
         showMessage(insertNumberOfPlayersPrompt);
         int n = readNumber();
@@ -510,7 +514,7 @@ public class GameCliView implements GameView {
     /**
      * Shows to the player the bookshelf of another player (picked from the message from the server).
      *
-     * @param bookshelf the bookshelf of  the players
+     * @param bookshelf the bookshelf of the players
      */
     @Override
     public void showOtherBookshelf(Bookshelf bookshelf, String name) {
