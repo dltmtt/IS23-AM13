@@ -150,17 +150,16 @@ public final class CliUtilities {
             case GREEN -> {
                 switch (variant) {
                     case 1 -> {
-                        return "\uD83D\uDE3C"; //😼
+                        return "😼";
                     }
                     case 2 -> {
-                        return "\uD83D\uDE3B"; // 😻
+                        return "😻";
                     }
                     case 3 -> {
-                        return "\uD83D\uDE38"; // 😸
+                        return "😸";
                     }
-
                     default -> {
-                        return "\uD83D\uDE3F"; //😿 not found :(
+                        return "😿"; // Not found :(
                     }
                 }
             }
@@ -168,16 +167,16 @@ public final class CliUtilities {
             case BLUE -> {
                 switch (variant) {
                     case 1 -> {
-                        return "\uD83D\uDCF0"; // 📰
+                        return "📰";
                     }
                     case 2 -> {
-                        return "\uD83D\uDDBC️";// 🖼️
+                        return "🖼️";
                     }
                     case 3 -> {
-                        return "\uD83D\uDCF7"; // 📷
+                        return "📷";
                     }
                     default -> {
-                        return "\uD83D\uDDA8️"; //🖨️ not found :(
+                        return "🖨️"; // Not found :(
                     }
                 }
             }
@@ -185,16 +184,16 @@ public final class CliUtilities {
             case LIGHTBLUE -> {
                 switch (variant) {
                     case 1 -> {
-                        return "\uD83C\uDFC6"; // 🏆
+                        return "🏆";
                     }
                     case 2 -> {
-                        return "\uD83C\uDFC5"; // 🏅
+                        return "🏅";
                     }
                     case 3 -> {
-                        return "\uD83E\uDE99"; //🪙
+                        return "🪙";
                     }
                     default -> {
-                        return "\uD83E\uDD48"; //🥈 not found :(
+                        return "🥈"; // Not found :(
                     }
                 }
             }
@@ -202,16 +201,16 @@ public final class CliUtilities {
             case YELLOW -> {
                 switch (variant) {
                     case 1 -> {
-                        return "\uD83C\uDFB2"; // 🎲
+                        return "🎲";
                     }
                     case 2 -> {
-                        return "\uD83C\uDFAE"; // 🎮
+                        return "🎮";
                     }
                     case 3 -> {
-                        return "\uD83D\uDD79️"; // 🕹️
+                        return "🕹️";
                     }
                     default -> {
-                        return "\uD83D\uDC7E"; //👾 not found :(
+                        return "👾"; // Not found :(
                     }
                 }
             }
@@ -219,16 +218,16 @@ public final class CliUtilities {
             case PINK -> {
                 switch (variant) {
                     case 1 -> {
-                        return "\uD83E\uDEB4"; // 🪴
+                        return "🪴";
                     }
                     case 2 -> {
-                        return "\uD83C\uDF35"; // 🌵
+                        return "🌵";
                     }
                     case 3 -> {
-                        return "\uD83C\uDF8B"; // 🎋
+                        return "🎋";
                     }
                     default -> {
-                        return "⚗️"; //⚗️ not found :(
+                        return "⚗️"; // Not found :(
                     }
                 }
             }
@@ -236,16 +235,16 @@ public final class CliUtilities {
             case WHITE -> {
                 switch (variant) {
                     case 1 -> {
-                        return "\uD83D\uDCD4"; // 📔
+                        return "📔";
                     }
                     case 2 -> {
-                        return "\uD83D\uDCD5"; // 📕
+                        return "📕";
                     }
                     case 3 -> {
-                        return "\uD83D\uDCD7"; // 📗
+                        return "📗";
                     }
                     default -> {
-                        return "\uD83D\uDCCB"; //📋 not found :(
+                        return "📋"; // Not found :(
                     }
                 }
             }
