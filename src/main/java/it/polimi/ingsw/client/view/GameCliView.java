@@ -49,21 +49,14 @@ public class GameCliView implements GameView {
                 System.err.println("Invalid IP address: " + ip);
             }
         } while (!MyShelfie.isIpValid(ip));
-
-
+        
         String protocolType = null;
-        do {
-            System.out.println("Choose a protocol (rmi or tcp): ");
-            try {
-                protocolType = reader.readLine();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-                System.exit(1);
-            }
-            if (!protocolType.equals("rmi") && !protocolType.equals("tcp")) {
-                System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'tcp'.");
-            }
-        } while (!protocolType.equals("rmi") && !protocolType.equals("tcp"));
+        try {
+            protocolType = CliUtilities.askCloseEndedQuestion("Choose a protocol (rmi or tcp): ", List.of("rmi", "tcp"), "tcp");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
 
         MyShelfie.setParameters(ip, protocolType, this);
     }

@@ -3,7 +3,7 @@
 
 autonumber
 
-Client -> Server:
+'Client -> Server:
 Server->Server: nextTurn
 alt game is ended
 Server->Client: "winners": lista nomi vincitori e punteggi
