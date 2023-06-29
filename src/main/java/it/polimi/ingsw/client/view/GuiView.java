@@ -21,45 +21,45 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
- * This class is the GUI view, it extends Application and implements GameView
- * It contains all the methods to load the scenes and to show them
+ * This class is the GUI view, it extends Application and implements GameView.
+ * It contains all the methods to load the scenes and to show them.
  * @see GameView
  */
 public class GuiView extends Application implements GameView {
     /**
-     * Static reference to the client, to be placed in the controller constructors (used to send messages)
+     * This is the static reference to the client, to be placed in the controller constructors (used to send messages).
      */
     public static Client client; // Static reference to the client, in order to use the sendMessage() function
 
     /**
-     * Static reference to the gui, to be placed in the controller constructors (used to show scenes)
+     * This is the static reference to the gui, to be placed in the controller constructors (used to show scenes).
      */
     public static GuiView gui;
 
     /**
-     * Static reference to the loaded scenes
+     * This is the static reference to the loaded scenes.
      */
     public static Scene loginScene, playerNumberScene, waitingRoomScene, gameScene, endGameScene, refusedScene; // Loaded scenes
 
     /**
-     * Main stage
+     * This is the Main stage
      */
     public static Stage stage;
     /**
-     * Static reference to the game controller
+     * This is the static reference to the game controller.
      * @see GameGuiController
      */
     public static GameGuiController gameController;
     private static LoginGuiController loginController;
     private static EndGameGuiController endGameController;
     /**
-     * Resource bundle for the language
+     * This is the resource bundle for the language
      */
     public ResourceBundle bundle;
     private boolean theOnlyOne = false;
 
     /**
-     * Launches the GUI.
+     * This method launches the GUI.
      */
     @Override
     public void startView() {
@@ -71,10 +71,10 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Starting method for GUI, loads all scene loader and loads all the scenes.
-     * calls method <code>loginProcedure()</code>
+     * This is the starting method for GUI, loads all scene loader and loads all the scenes.
+     * It calls method <code>loginProcedure()</code>.
      *
-     * @param stage internal parameter, set by <code>launch()</code>
+     * @param stage internal parameter, set by <code>launch()</code>.
      */
     @Override
     public void start(Stage stage) {
@@ -98,22 +98,13 @@ public class GuiView extends Application implements GameView {
             System.err.println("Failed to load newLogin2.fxml");
             throw new RuntimeException(e);
         }
-
-/*
-        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
-                resizableResponsiveBackground(stage.getWidth(), stage.getHeight());
-
-        stage.widthProperty().addListener(stageSizeListener);
-        stage.heightProperty().addListener(stageSizeListener);
-        */
-
         loginProcedure();
     }
 
     /**
-     * sets the main stage to the gameScene
+     * This sets the main stage to the gameScene.
      *
-     * @param message the message containing the game information
+     * @param message the message containing the game information.
      */
     @Override
     public void startGame(Message message) {
@@ -125,7 +116,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Sets the waiting room scene
+     * This method sets the waiting room scene.
      */
     @Override
     public void waitingRoom() {
@@ -136,7 +127,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Sets the login scene
+     * This method sets the login scene.
      */
     @Override
     public void loginProcedure() {
@@ -149,9 +140,9 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Shows a message in a label inside the game scene
+     * This method shows a message in a label inside the game scene.
      *
-     * @param message the message to be shown
+     * @param message the message to be shown.
      */
     @Override
     public void showMessage(String message) {
@@ -159,7 +150,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * enables the items with one free side, allowing the player to pick them
+     * This method enables the items with one free side, allowing the player to pick them.
      */
     @Override
     public void showPick() {
@@ -167,9 +158,9 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * updates the board model in the GUI interface, then it updates the GUI accordingly
+     * This method updates the board model in the GUI interface, then it updates the GUI accordingly.
      *
-     * @param board the board to be shown
+     * @param board the board to be shown.
      */
     @Override
     public void showBoard(Board board) {
@@ -180,10 +171,12 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * this particular implementation of showRearrange always returns true, because the GUI doesn't really need to ask the user if they want to rearrange the items
+     * This particular implementation of showRearrange always returns true,
+     * because the GUI doesn't really need to ask the user if they want to rearrange
+     * the items.
      *
-     * @param items the items to be rearranged
-     * @return true (always)
+     * @param items the items to be rearranged.
+     * @return true (always).
      */
     @Override
     public boolean showRearrange(List<Item> items) {
@@ -191,7 +184,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * enables the available columns, allowing the player to insert the item they picked
+     * This method enables the available columns, allowing the player to insert the item they picked.
      */
     @Override
     public void promptInsert() {
@@ -200,9 +193,9 @@ public class GuiView extends Application implements GameView {
 
 
     /**
-     * Shows the end game scene
-     * @param winners the winners of the game
-     * @param losers the losers of the game
+     * This method shows the end game scene.
+     * @param winners the winners of the game.
+     * @param losers the losers of the game.
      */
     @Override
     public void showEndGame(HashMap<String, Integer> winners, HashMap<String, Integer> losers) {
@@ -214,10 +207,10 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Rearrange method, not used in the GUI
-     * @param items the items to be rearranged
-     * @return null, because the GUI handles the rearrangement itself, so this method shouldn't be called
-     * @see GameGuiController#rearrange(List)
+     * This is the rearrange method, not used in the GUI.
+     * @param items the items to be rearranged.
+     * @return null, because the GUI handles the rearrangement itself, so this method shouldn't be called.
+     * @see GameGuiController#rearrange(List).
      */
     @Override
     public List<Integer> rearrange(List<Item> items) {
@@ -271,9 +264,9 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Sets an error message in the login scene
+     * This method sets an error message in the login scene.
      *
-     * @see #usernameError() (GUI-wise there's no difference)
+     * @see #usernameError() (GUI-wise there's no difference).
      */
     @Override
     public void completeLoginError() {
@@ -282,7 +275,8 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * It sets an error message in the player number scene, but since the number of players is set by a slider, which minimum and maximum are valid, this method is never called and does nothing
+     * It sets an error message in the player number scene, but since the number of players is set by a slider,
+     * which minimum and maximum are valid, this method is never called and does nothing.
      */
     @Override
     public void playerNumberError() {
@@ -290,7 +284,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * It sets the player number scene
+     * It sets the player number scene.
      */
     @Override
     public void playerChoice() {
@@ -301,7 +295,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Changes the game scene to display the last round
+     * This method changes the game scene to display the last round.
      */
     @Override
     public void showLastRound() {
@@ -311,8 +305,8 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Redirect a player to the closure scene, as it has denied the access to the game
-     * @see #showRemovePlayer()
+     * This method redirects a player to the closure scene, as it has denied the access to the game.
+     * @see #showRemovePlayer().
      */
     @Override
     public void showGameAlreadyStarted() {
@@ -320,7 +314,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Scene change to the refused scene, as the player has been removed from the game
+     * Scene change to the refused scene, as the player has been removed from the game.
      */
     @Override
     public void showRemovePlayer() {
@@ -331,7 +325,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * It enables the rearrange area in the GUI, allowing the player to rearrange the items
+     * It enables the rearrange area in the GUI, allowing the player to rearrange the items.
      */
     @Override
     public void rearrangeProcedure(List<Item> items) {
@@ -342,10 +336,10 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * It forwards the score update message to GameGuiController, to update the points of the player in GUI
-     * @param topOfScoringList the top of the scoring list for the current common goals
-     * @param score the scores of the player
-     *              @see GameGuiController#updateScore(List, List)
+     * It forwards the score update message to GameGuiController, to update the points of the player in GUI.
+     * @param topOfScoringList the top of the scoring list for the current common goals.
+     * @param score the scores of the player.
+     * @see GameGuiController#updateScore(List, List).
      */
     @Override
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
@@ -355,7 +349,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Method that loads the language of the GUI, by loading the FXML files with the correct language
+     * This method loads the language of the GUI, by loading the FXML files with the correct language.
      * @see Client#locale
      */
     @Override
@@ -415,8 +409,8 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     *  Sets the parameter as it's the only player connected
-        * @param b the boolean to set
+     *  This method sets the parameter as it's the only player connected.
+     * @param b the boolean to set.
      */
     @Override
     public void setTheOnlyOne(boolean b) {
@@ -424,7 +418,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Shows the waiting graphics in the login scene
+     * This method shows the waiting graphics in the login scene.
      * @see LoginGuiController#showWaiting()
      */
     @Override
@@ -435,8 +429,8 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Disables the game scene, called when the player is the only one connected
-     * @see GameGuiController#freezeGame()
+     * This method disables the game scene, called when the player is the only one connected.
+     * @see GameGuiController#freezeGame().
      */
     @Override
     public void disableGame() {
@@ -446,9 +440,9 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Enables the game scene, called when the player is not the only one connected
-     * @param currentTurn set as true if it's the player's turn, false otherwise
-     * @see GameGuiController#unfreezeGame(Boolean)
+     * This method enables the game scene, called when the player is not the only one connected.
+     * @param currentTurn set as true if it's the player's turn, false otherwise.
+     * @see GameGuiController#unfreezeGame(Boolean).
      */
     @Override
     public void enableGame(Boolean currentTurn) {
@@ -458,7 +452,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Sets the connection status in the login scene, handling the start of the connection to the server
+     * This method sets the connection status in the login scene, handling the start of the connection to the server.
      * @see LoginGuiController#initiateConnection()
      */
     @Override
@@ -469,8 +463,8 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Sets the connection status as successful in the login scene
-     * @see LoginGuiController#connectionSuccess()
+     * This method sets the connection status as successful in the login scene.
+     * @see LoginGuiController#connectionSuccess().
      */
     @Override
     public void connectionSuccess() {
@@ -480,7 +474,7 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * Sets the connection status as failed in the login scene
+     * This method sets the connection status as failed in the login scene.
      * @see LoginGuiController#connectionError()
      */
     @Override
@@ -491,8 +485,8 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     * returns the set client
-     * @return client referred to the view
+     * This method returns the set client.
+     * @return client referred to the view.
      */
     @Override
     public Client getClient() {
@@ -500,8 +494,8 @@ public class GuiView extends Application implements GameView {
     }
 
     /**
-     *
-     * @param client the client to set
+     * This method sets the client.
+     * @param client the client to set.
      */
     @Override
     public void setClient(Client client) {

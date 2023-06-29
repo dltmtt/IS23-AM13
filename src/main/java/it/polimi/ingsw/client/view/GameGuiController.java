@@ -33,17 +33,17 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
 
 
 /**
- * This class is the controller for the main game scene
+ * This class is the controller for the main game scene.
  */
 public class GameGuiController {
 
     /**
-     * Size of the main items in the bookshelf
+     * This is the size of the main items in the bookshelf.
      */
     public static final double MAIN_ITEM_SIZE = 40;
 
     /**
-     * Path of the images of the board
+     * This is the path of the images of the board
      */
     private static final String ITEM_BASE_PATH = "graphics/item_tiles/";
 
@@ -51,47 +51,47 @@ public class GameGuiController {
     private static final double SMALL_ITEM_SIZE = 17;
 
     /**
-     * List of the coordinates of the items picked by the player
-     * It can have a size of 1 or 2
-     * It contains the coordinates of the starting item and the ending item or the coordinates of the only item picked
+     * List of the coordinates of the items picked by the player.
+     * It can have a size of 1 or 2.
+     * It contains the coordinates of the starting item and the ending item or the coordinates of the only item picked.
      */
     public static List<Coordinates> pickedItems = new ArrayList<>();
 
     /**
-     * static reference to the client, in order to use the sendMessage() function
+     * This is the static reference to the client, in order to use the sendMessage() function.
      */
     public static Client client;
 
     /**
-     * static reference to the view
+     * This is the static reference to the view.
      */
     public static GuiView view;
 
     /**
-     * static reference to the board model
+     * This is the static reference to the board model.
      */
     public static Board boardModel;
 
     /**
-     * static reference to the bookshelf model
+     * This is the static reference to the bookshelf model.
      */
     public static Bookshelf bookshelfModel = new Bookshelf();
     private final List<Integer> indexList = new ArrayList<>();
     private final List<Integer> newOrder = new ArrayList<>();
 
     /**
-     * Hash map used to associate each unique username to a number, in order to display the correct bookshelf
+     * This is the hash map used to associate each unique username to a number, in order to display the correct bookshelf.
      */
     public HashMap<String, Integer> playersBookshelf = new HashMap<>();
 
     /**
-     * JavaFX reference to the main bookshelf grid pane
+     * This is the JavaFX reference to the main bookshelf grid pane.
      */
     @FXML
     public GridPane bookshelfGrid;
 
     /**
-     * JavaFX reference to the main grid pane
+     * This is the JavaFX reference to the main grid pane.
      */
     @FXML
     public GridPane grid;
@@ -109,7 +109,7 @@ public class GameGuiController {
     private HBox firstPlayer0;
 
     /**
-     * Creates a new GameGuiController, setting the static references to the client and the view.
+     * This method creates a new GameGuiController, setting the static references to the client and the view.
      * The required references are taken from the MyShelfie class and the GuiView class.
      */
     public GameGuiController() {
@@ -118,10 +118,10 @@ public class GameGuiController {
     }
 
     /**
-     * set as enabled every ImageView in boardGridPane that is on the same row or same column of the given parameters
+     * This method sets as enabled every ImageView in boardGridPane that is on the same row or same column of the given parameters.
      *
-     * @param row the row of the selected ImageView
-     * @param col the column of the selected ImageView
+     * @param row the row of the selected ImageView.
+     * @param col the column of the selected ImageView.
      */
     private void highlightPickableItems(int row, int col) {
         int b = 0;
@@ -178,13 +178,13 @@ public class GameGuiController {
     }
 
     /**
-     * Returns the Node at the given row and column position.
+     * This method returns the Node at the given row and column position.
      * Please note that the row and column index are referred to the Board System, not to the GridPane.
      * Therefore, the cell (0,0) is the bottom left corner of the board.
      *
-     * @param row    the row index of the node (Board-wise)
-     * @param column the column index of the node (Board-wise)
-     * @return the Node at the given row and column position
+     * @param row    the row index of the node (Board-wise).
+     * @param column the column index of the node (Board-wise).
+     * @return the Node at the given row and column position.
      */
     public Node getNodeByRowColumnIndex(GridPane selectedGrid, final int row, final int column) {
         Node result = null;
@@ -203,10 +203,9 @@ public class GameGuiController {
     }
 
     /**
-     * Enables the items that have at least one free side.
+     * This method enables the items that have at least one free side.
      */
     public void enableItemsWithOneFreeSide() {
-        // ObservableList<Node> children = this.boardGridPane.getChildren();
         for (int row = 0; row < boardGridPane.getRowCount(); row++) {
             for (int col = 0; col < boardGridPane.getColumnCount(); col++) {
                 if (boardModel.checkBorder(new Coordinates(row, col))) {
@@ -219,11 +218,11 @@ public class GameGuiController {
     }
 
     /**
-     * Enables the item at the given row and column position.
-     * Method called when the user clicks on the element.
+     * This method enables the item at the given row and column position.
+     * It is called when the user clicks on the element.
      *
-     * @param row the row index of the node (Model-wise)
-     * @param col the column index of the node (Model-wise)
+     * @param row the row index of the node (Model-wise).
+     * @param col the column index of the node (Model-wise).
      */
     public void enableItem(int row, int col) {
         Node selectedNode = getNodeByRowColumnIndex(boardGridPane, row, col);
@@ -236,10 +235,10 @@ public class GameGuiController {
     }
 
     /**
-     * Disables the item at the given row and column position.
+     * This method disables the item at the given row and column position.
      *
-     * @param row the row index of the node (Model-wise)
-     * @param col the column index of the node (Model-wise)
+     * @param row the row index of the node (Model-wise).
+     * @param col the column index of the node (Model-wise).
      */
     public void disableItem(GridPane grid, int row, int col) {
         Node selectedNode = getNodeByRowColumnIndex(grid, row, col);
@@ -255,21 +254,19 @@ public class GameGuiController {
     }
 
     /**
-     * Enables all the items in the <code>boardGridPane</code>.
+     * This method enables all the items in the <code>boardGridPane</code>.
      */
     public void enableAllItems(GridPane gridPane) {
-        //   pickedItems = new ArrayList<>();
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
             node.setDisable(false);
-            //   node.setEffect(new DropShadow(20, Color.ORANGE));
             // set node cursor as a hand
             node.setCursor(Cursor.HAND);
         }
     }
 
     /**
-     * Disables all the items in the <code>boardGridPane</code>.
+     * This method disables all the items in the <code>boardGridPane</code>.
      */
     public void disableAllItems() {
         ObservableList<Node> children = this.boardGridPane.getChildren();
@@ -284,8 +281,10 @@ public class GameGuiController {
     }
 
     /**
-     * Method that handles the selection of an item.
-     * If it's the first element selected then it highlights the pickable items, otherwise if the second element is selected it removes the items from the board and adds them to the rearrange area.
+     * This is the method that handles the selection of an item.
+     * If it's the first element selected, then it highlights the pickable items,
+     * otherwise in case it's the second element selected, it removes the items from the board
+     * and adds them to the rearrange area.
      *
      * @param row the row index of the node (Model-wise)
      * @param col the column index of the node (Model-wise)
@@ -298,9 +297,7 @@ public class GameGuiController {
         if (boardModel.checkBorder(new Coordinates(row, col))) {
 
             pickedItems.add(new Coordinates(row, col));
-            // synchronized (listLock) {
             if (pickedItems.size() == 1) {
-                // pickedItems.add(new Coordinates(row, col));
                 highlightPickableItems(row, col);
                 highlightItem(boardGridPane, row, col, Color.GREEN);
                 confirmSelection.setDisable(false);
@@ -309,10 +306,8 @@ public class GameGuiController {
                 delete.setOnMouseClicked(mouseEvent -> deleteCurrentSelection());
             } else {
                 if (pickedItems.size() == 2) {
-                    // removeItemsFromBoard(pickedItems);
                     disableAllItems();
                     System.out.println("picked items: " + pickedItems);
-                    // addPickedItemsToRearrangeArea();
 
                     highlightSelection(pickedItems);
                 }
@@ -321,11 +316,11 @@ public class GameGuiController {
     }
 
     /**
-     * Highlights the specified item with the given color.
+     * This method highlights the specified item with the given color.
      *
-     * @param row   the row index of the node (Model-wise)
-     * @param col   the column index of the node (Model-wise)
-     * @param color the color to highlight the item with
+     * @param row   the row index of the node (Model-wise).
+     * @param col   the column index of the node (Model-wise).
+     * @param color the color to highlight the item with.
      */
     public void highlightItem(GridPane grid, int row, int col, Color color) {
         Node selectedNode = getNodeByRowColumnIndex(grid, row, col);
@@ -335,9 +330,9 @@ public class GameGuiController {
     }
 
     /**
-     * Highlights the picked items.
+     * This method highlights the picked items.
      *
-     * @param pickedItems the list of the starting and ending coordinates of the picked items
+     * @param pickedItems the list of the starting and ending coordinates of the picked items.
      */
     public void highlightSelection(List<Coordinates> pickedItems) {
         int startX;
@@ -363,9 +358,9 @@ public class GameGuiController {
     }
 
     /**
-     * Removes the chosen items from the board.
+     * This method removes the chosen items from the board.
      *
-     * @param pickedItems the list of the items to remove
+     * @param pickedItems the list of the items to remove.
      */
     public void removeItemsFromBoard(List<Coordinates> pickedItems) {
         int startX;
@@ -394,7 +389,7 @@ public class GameGuiController {
     }
 
     /**
-     * Enables the columns of the bookshelfGrid that have enough space to insert the pickedItems
+     * This method enables the columns of the bookshelfGrid that have enough space to insert the pickedItems.
      */
     public void enableInsert() {
         ObservableList<Node> children = bookshelfGrid.getChildren();
@@ -439,7 +434,7 @@ public class GameGuiController {
     }
 
     /**
-     * Disable all items in the bookshelf, to avoid the user to select a column when it's not his turn or not the right moment.
+     * This method disables all items in the bookshelf, to avoid the user to select a column when it's not his turn or not the right moment.
      */
     public void disableBookshelf() {
         ObservableList<Node> children = bookshelfGrid.getChildren();
@@ -450,19 +445,25 @@ public class GameGuiController {
         }
     }
 
+    /**
+     * This method enables all items in the bookshelf, to allow the user to select a column
+     * when it's his turn and the right moment.
+     */
     public void enableBookshelf() {
         ObservableList<Node> children = bookshelfGrid.getChildren();
         for (Node node : children) {
             node.setDisable(false);
             // set node cursor as a default
-            //node.setCursor(Cursor.DEFAULT);
         }
     }
 
     /**
-     * Method that is called when the "Send Selection" button is pressed, sending the List of Coordinates to the server, disabling the remaining items on the board and removing the selected items from the board.
+     * This method is called when the "Send Selection" button is pressed,
+     * sending the List of Coordinates to the server, disabling
+     * the remaining items on the board and
+     * removing the selected items from the board.
      *
-     * @param event the event that triggered the method
+     * @param event the event that triggered the method.
      */
     @FXML
     void sendSelection(ActionEvent event) {
@@ -479,7 +480,7 @@ public class GameGuiController {
     }
 
     /**
-     * Method that updates the boardGridPane with the items in the boardModel.
+     * This is the method that updates the boardGridPane with the items in the boardModel.
      * It's called when the board is updated by the server.
      */
     public void updateBoard() {
@@ -492,10 +493,8 @@ public class GameGuiController {
         for (int i = 0; i < boardModel.getBoardSize(); i++) {
             for (int j = 0; j < boardModel.getBoardSize(); j++) {
                 if (boardModel.getItem(i, j) != null) {
-                    // String fileName = boardModel.getItem(i, j).color().toString().toLowerCase().charAt(0) + String.valueOf(boardModel.getItem(i, j).number());
                     String fileName = boardModel.getItemFileName(i, j);
                     try {
-                        // Image itemImage = new Image(getClass().getResource(ITEM_BASE_PATH + fileName + ".png").toExternalForm());
 
                         Image itemImage = new Image(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + fileName)).toExternalForm());
 
@@ -520,7 +519,7 @@ public class GameGuiController {
     }
 
     /**
-     * Method that resets the boardGridPane, the bookshelfGrid and the labels.
+     * This is the method that resets the boardGridPane, the bookshelfGrid and the labels.
      */
     public void reset() {
         boardGridPane.getChildren().clear();
@@ -540,11 +539,11 @@ public class GameGuiController {
     }
 
     /**
-     * Method called when the complete game is sent from the server.
-     * Loads the personal goal card, the common goal cards, the board and the bookshelf.
-     * Loads the current points (0 in case of a new game).
+     * This is the method called when the complete game is sent from the server.
+     * It loads the personal goal card, the common goal cards, the board and the bookshelf.
+     * It loads the current points (0 in case of a new game).
      *
-     * @param message the message containing the complete game
+     * @param message the message containing the complete game.
      */
     public void showGame(Message message) {
         reset();
@@ -605,9 +604,9 @@ public class GameGuiController {
     }
 
     /**
-     * Method that sets the starting scores on the screen.
+     * This is the method that sets the starting scores on the screen.
      *
-     * @param startingScores the list of the starting scores
+     * @param startingScores the list of the starting scores.
      */
     private void setStartingScores(List<Integer> startingScores) {
         personalGoalLabel.setText(startingScores.get(0).toString());
@@ -617,9 +616,9 @@ public class GameGuiController {
     }
 
     /**
-     * Method that sets the first player on the screen.
+     * This is the method that sets the first player on the screen.
      *
-     * @param firstPlayer the username of first player
+     * @param firstPlayer the username of first player.
      */
     private void assignFirstPlayer(String firstPlayer) {
         if (firstPlayer.equals(client.getUsername())) {
@@ -634,7 +633,9 @@ public class GameGuiController {
     }
 
     /**
-     * Method that sets the other players name on the screen, creating the association between the username and the player number and setting as hidden the unused players.
+     * This is the method that sets the other players name on the screen,
+     * creating the association between the username and the player number
+     * and setting as hidden the unused players.
      */
     private void setPlayersName(Message message) {
         // Players name loading
@@ -644,18 +645,10 @@ public class GameGuiController {
         HashMap<String, Bookshelf> allBookshelves = message.getAllBookshelves();
         for (int i = 0; i < playersName.size(); i++) {
             switch (i) {
-                case 0 -> {
-                    player1.setText(playersName.get(i));
-                }
-                case 1 -> {
-                    player2.setText(playersName.get(i));
-                }
-                case 2 -> {
-                    player3.setText(playersName.get(i));
-                }
-                default -> {
-                    System.err.println("Error on loading players name, too many players, what the fuck?");
-                }
+                case 0 -> player1.setText(playersName.get(i));
+                case 1 -> player2.setText(playersName.get(i));
+                case 2 -> player3.setText(playersName.get(i));
+                default -> System.err.println("Error on loading players name, too many players, what the fuck?");
             }
             playersBookshelf.put(playersName.get(i), i + 1);
         }
@@ -677,9 +670,9 @@ public class GameGuiController {
     }
 
     /**
-     * Method that updates the current scoring of the common goals
+     * This is the method that updates the current scoring of the common goals
      *
-     * @param topScoring List of the top scoring
+     * @param topScoring List of the top scoring.
      */
     private void updateCommonGoalScoring(List<Integer> topScoring) {
         try {
@@ -707,7 +700,7 @@ public class GameGuiController {
     }
 
     /**
-     * Toggles the help hints.
+     * It toggles the help hints.
      */
     public void toggleHelp() {
         boardHelp.setVisible(!boardHelp.isVisible());
@@ -720,10 +713,10 @@ public class GameGuiController {
     }
 
     /**
-     * Method that creates an ImageView for the item with the given fileName.
+     * This method creates an ImageView for the item with the given fileName.
      *
-     * @param itemFileName the name of the file of the item
-     * @return the ImageView of the item
+     * @param itemFileName the name of the file of the item.
+     * @return the ImageView of the item.
      */
     private ImageView createImageView(String itemFileName) {
         try {
@@ -742,10 +735,10 @@ public class GameGuiController {
     }
 
     /**
-     * Method that updates the opponents' bookshelves.
+     * This is the method that updates the opponents' bookshelves.
      *
-     * @param bookshelf the bookshelf to be updated
-     * @param name      the name of the player that owns the bookshelf
+     * @param bookshelf the bookshelf to be updated.
+     * @param name      the name of the player that owns the bookshelf.
      */
     public void updateOtherBookshelves(Bookshelf bookshelf, String name) {
         int playerNumber = playersBookshelf.get(name);
@@ -759,9 +752,9 @@ public class GameGuiController {
     }
 
     /**
-     * Show a message on the messageLabel
+     * This method shows a message on the messageLabel.
      *
-     * @param message the message to be shown
+     * @param message the message to be shown.
      */
     public void showMessage(String message) {
         messageLabel.setText(message);
@@ -769,10 +762,10 @@ public class GameGuiController {
     }
 
     /**
-     * Method used to swap the items in the indexList
+     * This method is used to swap the items in the indexList.
      *
-     * @param sourceIndex the index of the item to be moved
-     * @param targetIndex the index of the item to be swapped with
+     * @param sourceIndex the index of the item to be moved.
+     * @param targetIndex the index of the item to be swapped with.
      */
     private void rearrangeItems(int sourceIndex, int targetIndex) {
         int sourcePosition = indexList.get(sourceIndex);
@@ -786,8 +779,8 @@ public class GameGuiController {
     }
 
     /**
-     * Method called when the user clicks on the delete button.
-     * This method makes it possible to delete the current selection and to bring the items back in the board
+     * This method is called when the user clicks on the delete button.
+     * It makes it possible to delete the current selection and to bring the items back in the board.
      */
     public void deleteCurrentSelection() {
         pickedItems.clear();
@@ -796,7 +789,7 @@ public class GameGuiController {
     }
 
     /**
-     * This method makes it possible to highlight the item in the grid before changing their order
+     * This method makes it possible to highlight the item in the grid before changing their order.
      *
      * @param row the row of the item
      * @param col the column of the item
@@ -806,10 +799,10 @@ public class GameGuiController {
     }
 
     /**
-     * This method changes the order of the first two items in the grid
+     * This method changes the order of the first two items in the grid.
      *
-     * @param grid  the grid where the items are
-     * @param items the list of items
+     * @param grid  the grid where the items are.
+     * @param items the list of items.
      */
     public void changeOrderUp(GridPane grid, List<Item> items) {
         newOrder.clear();
@@ -835,10 +828,10 @@ public class GameGuiController {
     }
 
     /**
-     * This method changes the order of the last two items in the grid
+     * This method changes the order of the last two items in the grid.
      *
-     * @param grid  the grid of the items
-     * @param items the list of the items
+     * @param grid  the grid of the items.
+     * @param items the list of the items.
      */
     public void changeOrderDown(GridPane grid, List<Item> items) {
 
@@ -861,14 +854,13 @@ public class GameGuiController {
 
 
     /**
-     * Initialize the bookshelf grid with empty image views.
+     * This method initializes the bookshelf grid with empty image views.
      */
     private void initializeBookshelfGrid() {
         for (int i = 0; i < Bookshelf.getRows(); i++) {
             for (int j = 0; j < Bookshelf.getColumns(); j++) {
                 try {
                     ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
-                    //ImageView itemImageView = new ImageView();
                     itemImageView.setFitHeight(MAIN_ITEM_SIZE);
                     itemImageView.setFitWidth(MAIN_ITEM_SIZE);
                     itemImageView.setPreserveRatio(true);
@@ -876,7 +868,6 @@ public class GameGuiController {
                     itemImageView.setCache(true);
                     itemImageView.setCursor(Cursor.DEFAULT); // Set the cursor to default
                     // set image to be transparent
-                    // itemImageView.setOpacity(0.0);
                     bookshelfGrid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                 } catch (NullPointerException e) {
                     System.err.println("Error on loading item image: null.png");
@@ -886,20 +877,20 @@ public class GameGuiController {
     }
 
     /**
-     * Enables the grid to be rearranged
+     * This method enables the grid to be rearranged
      */
     public void enableRearrange() {
         grid.setDisable(false);
     }
 
     /**
-     * Updates the bookshelf view, displaying the given bookshelf in the given grid.
+     * This method updates the bookshelf view, displaying the given bookshelf in the given grid.
      *
-     * @param grid         the grid to be updated
-     * @param bookshelf    the bookshelf to be displayed
-     * @param isMainPlayer whether the bookshelf is for the main player
-     *                     (if false, the bookshelf is for the opponent)
-     * @param itemSize     the size of the item
+     * @param grid         the grid to be updated.
+     * @param bookshelf    the bookshelf to be displayed.
+     * @param isMainPlayer whether the bookshelf is for the main player.
+     *                     (if false, the bookshelf is for the opponent).
+     * @param itemSize     the size of the item.
      */
     public void updateBookshelf(GridPane grid, Bookshelf bookshelf, boolean isMainPlayer, double itemSize) {
         grid.getChildren().clear();
@@ -922,7 +913,6 @@ public class GameGuiController {
                     if (isMainPlayer) {
                         try {
                             ImageView itemImageView = new ImageView(Objects.requireNonNull(getClass().getResource(ITEM_BASE_PATH + "null.png")).toExternalForm());
-                            //ImageView itemImageView = new ImageView();
                             itemImageView.setFitHeight(itemSize);
                             itemImageView.setFitWidth(itemSize);
                             itemImageView.setPreserveRatio(true);
@@ -930,7 +920,6 @@ public class GameGuiController {
                             itemImageView.setCache(true);
                             itemImageView.setCursor(Cursor.DEFAULT); // Set the cursor to default
                             // set image to be transparent
-                            // itemImageView.setOpacity(0.0);
                             grid.add(itemImageView, j, Bookshelf.getRows() - i - 1);
                         } catch (NullPointerException e) {
                             System.err.println("Error on loading item image: null.png");
@@ -942,9 +931,9 @@ public class GameGuiController {
     }
 
     /**
-     * This method putts the selected items in the rearrange Area
+     * This method putts the selected items in the rearrange Area.
      *
-     * @param items the items to be put in the rearrange Area
+     * @param items the items to be put in the rearrange Area.
      */
     public void rearrange(List<Item> items) {
         int i = 0;
@@ -1000,12 +989,12 @@ public class GameGuiController {
     }
 
     /**
-     * Updates the scoring view, updating common goals, personal goals, adjacent groups and total points.
+     * This method updates the scoring view, updating common goals, personal goals, adjacent groups and total points.
      *
-     * @param topOfScoringList the list of top of scoring
-     * @param score            the list of personal score
-     * @see #updateCommonGoalScoring(List)
-     * @see #updatePlayerPoints(List)
+     * @param topOfScoringList the list of top of scoring.
+     * @param score            the list of personal score.
+     * @see #updateCommonGoalScoring(List).
+     * @see #updatePlayerPoints(List).
      */
     public void updateScore(List<Integer> topOfScoringList, List<Integer> score) {
         updateCommonGoalScoring(topOfScoringList);
@@ -1013,7 +1002,7 @@ public class GameGuiController {
     }
 
     /**
-     * Updates the personal points
+     * This method updates the personal points.
      *
      * @param score the list of personal score
      *              0: personal goal
@@ -1030,17 +1019,24 @@ public class GameGuiController {
     }
 
     /**
-     * It removes the end game token
+     * It removes the end game token.
      */
     public void showLastRound() {
         endGameImage.setVisible(false);
     }
 
+    /**
+     * This method is used to stop the game.
+     */
     public void freezeGame() {
         disableBookshelf();
         disableAllItems();
     }
 
+    /**
+     * This method is used to unfreeze the game.
+     * @param currentTurn true if it's the current turn of the player, false otherwise.
+     */
     public void unfreezeGame(Boolean currentTurn) {
         enableBookshelf();
         enableAllItems(boardGridPane);

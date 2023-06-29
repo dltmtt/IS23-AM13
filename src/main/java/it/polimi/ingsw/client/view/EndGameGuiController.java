@@ -54,7 +54,7 @@ public class EndGameGuiController {
     private Label winnerPhrase;
 
     /**
-     * Constructor for the class
+     * This is the constructor for the class
      *
      * @param guiView the gui view
      * @param client  the client
@@ -111,23 +111,23 @@ public class EndGameGuiController {
 
 
         for (int i = 0; i < players.size(); i++) {
-            String playername = players.get(i);
+            String playerName = players.get(i);
             switch (i) {
                 case 0 -> {
-                    player0.setText(playername);
-                    points0.setText(scores.get(playername).toString());
+                    player0.setText(playerName);
+                    points0.setText(scores.get(playerName).toString());
                 }
                 case 1 -> {
-                    player1.setText(playername);
-                    points1.setText(scores.get(playername).toString());
+                    player1.setText(playerName);
+                    points1.setText(scores.get(playerName).toString());
                 }
                 case 2 -> {
-                    player2.setText(playername);
-                    points2.setText(scores.get(playername).toString());
+                    player2.setText(playerName);
+                    points2.setText(scores.get(playerName).toString());
                 }
                 case 3 -> {
-                    player3.setText(playername);
-                    points3.setText(scores.get(playername).toString());
+                    player3.setText(playerName);
+                    points3.setText(scores.get(playerName).toString());
                 }
             }
 

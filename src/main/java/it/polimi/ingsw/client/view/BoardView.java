@@ -12,9 +12,19 @@ public class BoardView {
 
     private static Board board;
 
+    /**
+     * This is the constructor of the board
+     * @param board is the board to set
+     */
+
     public BoardView(Board board) {
         BoardView.board = board;
     }
+
+    /**
+     * This method updates the board
+     * @param boardUpdated is the board to update
+     */
 
     public void updateBoard(Board boardUpdated) {
         board = boardUpdated;
