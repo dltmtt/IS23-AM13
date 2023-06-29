@@ -107,6 +107,7 @@ public class ServerController {
         }
         disconnectedPlayers.addAll(players.stream().map(Player::getUsername).toList());
         isGameLoaded = true;
+        gameIsStarted = true;
         for (Player p : players) {
             System.out.println(p.getUsername() + " " + p.getCommonGoalCompleted() + " " + p.getCommonGoalPoints() + " " + p.getCommonNames());
         }
