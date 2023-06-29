@@ -38,7 +38,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     /**
      * Contains the package with all the languages.
      */
-    public ResourceBundle bundle = ResourceBundle.getBundle("game", locale);
+    public ResourceBundle bundle = ResourceBundle.getBundle("it/polimi/ingsw/game", locale);
     /**
      * This boolean is true if the players are all reconnected, false otherwise.
      */
@@ -354,7 +354,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public void setLanguage(String language, String country) {
         locale = new Locale.Builder().setLanguage(language).setRegion(country).build();
-        bundle = ResourceBundle.getBundle("game", locale);
+        bundle = ResourceBundle.getBundle("it/polimi/ingsw/game", locale);
     }
 
     /**

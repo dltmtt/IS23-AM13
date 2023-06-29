@@ -53,7 +53,7 @@ public class GuiView extends Application implements GameView {
     /**
      * This is the resource bundle for the language
      */
-    public ResourceBundle bundle=ResourceBundle.getBundle("game", new Locale.Builder().setLanguage("en").setRegion("US").build());
+    public ResourceBundle bundle=ResourceBundle.getBundle("it/polimi/ingsw/game", new Locale.Builder().setLanguage("en").setRegion("US").build());
     private boolean theOnlyOne = false;
 
     /**
@@ -354,7 +354,7 @@ public class GuiView extends Application implements GameView {
     @Override
     public void loadLanguage() {
 
-        bundle = ResourceBundle.getBundle("game", client.locale);
+        bundle = ResourceBundle.getBundle("it/polimi/ingsw/game", client.locale);
 
         FXMLLoader playerNumberSceneLoader = new FXMLLoader(GuiView.class.getResource("playerSelection.fxml"), bundle);
 
