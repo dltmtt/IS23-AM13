@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+
+
+
+
+loop true
+Client -> Server: single message("ping");
+opt Server is responding
+Server -> Client: single message("pong");
+end
+Client->Client: Sleep 20 seconds;
+Client->Client: checkServerConnection();
+alt Server is not responding
+Client->Client: close();
+else Server is responding
+Client->Client: continue;
+end
+end
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+opt Client is still connected to Server
+Client -> Server: single message ("ping");
+Server-> Server: addClientPing(client);
+Server-> Client: single message ("pong");
+end
+loop true
+Server->Server: Sleep 20 seconds;
+Server->Server: checkConnection();
+alt connection is ok
+    Server->Server: continue;
+else connection is not ok
+    Server->Server: Sleep 10 seconds;
+    alt connection still not ok
+        Server->Server: disconnect(clientUsername);
+    else connection is ok
+        Server->Server: continue;
+        end
+    end
+end loop
+@enduml
