@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * This class is the controller for the end game gui
- * It shows the winner and the scores of all the players
- * It also shows a different message if the player is the winner
+ * This class is the controller for the end game gui.
+ * It shows the winner and the scores of all the players.
+ * It also shows a different message if the player is the winner.
  */
 
 public class EndGameGuiController {

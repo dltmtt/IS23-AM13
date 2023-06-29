@@ -20,11 +20,17 @@ public class MyShelfie {
 
     /**
      * The hostname of the server. It's set when the game is launched.
-     * It's shared by RMI and TCP.
+     * It's shared between RMI and TCP.
      */
     public static String HOSTNAME;
+    /**
+     * The protocol used to communicate with the server.
+     */
     public static String protocolType;
 
+    /**
+     * The view used to display the game.
+     */
     public static GameView gameView;
 
     public static void main(String[] args) {
@@ -64,6 +70,12 @@ public class MyShelfie {
         gameView.startView();
     }
 
+    /**
+     * This method is used to set the parameters of the client.
+     * @param hostname the hostname of the server.
+     * @param protocolType the protocol used to communicate with the server.
+     * @param gameView the view used to display the game.
+     */
     public static void setParameters(String hostname, String protocolType, GameView gameView) {
         MyShelfie.HOSTNAME = hostname;
         MyShelfie.protocolType = protocolType;
@@ -93,7 +105,7 @@ public class MyShelfie {
     }
 
     /**
-     * Checks if the given IP address is valid.
+     * This method checks if the given IP address is valid.
      *
      * @param ip the IP address to check.
      * @return true if the IP address is valid, false otherwise.
@@ -108,6 +120,7 @@ public class MyShelfie {
     }
 
     /**
+     * This method is used to set the client.
      * @param client The client to set.
      */
     public void setClient(Client client) {
