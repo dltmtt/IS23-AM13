@@ -247,7 +247,7 @@ public class Board {
      *
      * @return true if at least one cell is free, false otherwise
      */
-    public boolean AtLeastOneFree(List<Coordinates> cells) {
+    public boolean atLeastOneFree(List<Coordinates> cells) {
         for (Coordinates cell : cells) {
             if (!checkBorder(cell)) {
                 return false;
@@ -281,7 +281,7 @@ public class Board {
      * @return the number of tiles left on the board
      */
     // it returns the number of tiles left on the board
-    public int numLeft() {
+    public int numberOfTilesLeft() {
         int count = 0;
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -329,7 +329,7 @@ public class Board {
      * @return true if all the tiles left in the board have no tiles adjacent to them, false otherwise
      */
     public boolean allIsolated() {
-        int count = numLeft();
+        int count = numberOfTilesLeft();
         if (count == 0) {
             return true;
         }

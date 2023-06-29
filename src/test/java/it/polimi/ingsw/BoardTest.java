@@ -287,39 +287,37 @@ public class BoardTest {
     }
 
     @Test
-    void fileNameTest(){
-        Board b= new Board();
+    void fileNameTest() {
+        Board b = new Board();
         Item i = new Item(Color.YELLOW, 0);
         b.setItem(0, 0, i);
         assertEquals(i, b.getItem(0, 0));
-        assertEquals("y0.png", b.getItemFileName(0,0));
-        assertEquals(1, b.numLeft());
-        assertTrue(b.isAlone(0,0));
+        assertEquals("y0.png", b.getItemFileName(0, 0));
+        assertEquals(1, b.numberOfTilesLeft());
+        assertTrue(b.isAlone(0, 0));
         b.setItem(2, 2, i);
         assertTrue(b.allIsolated());
         List<Coordinates> coord = new ArrayList<>();
-        coord.add(new Coordinates(4,4));
-        coord.add(new Coordinates(4,5));
+        coord.add(new Coordinates(4, 4));
+        coord.add(new Coordinates(4, 5));
         assertFalse(b.startEndNotNull(coord));
     }
 
     @Test
-    void freeSideItems(){
+    void freeSideItems() {
         Item[][] items = new Item[Board.boardSize][Board.boardSize];
         items[0][0] = new Item(Color.YELLOW, 0);
         items[0][1] = new Item(Color.YELLOW, 1);
         items[0][2] = new Item(Color.YELLOW, 2);
-        List<Item> itemBag= new ArrayList<>();
+        List<Item> itemBag = new ArrayList<>();
         itemBag.add(new Item(Color.WHITE, 3));
 
-        Board b=new Board(items, itemBag, 2);
+        Board b = new Board(items, itemBag, 2);
         List<Coordinates> coord = new ArrayList<>();
-        coord.add(new Coordinates(0,0));
-        coord.add(new Coordinates(0,2));
-        assertTrue(b.checkBorder(new Coordinates(0,0)));
-        assertTrue(b.AtLeastOneFree(coord));
+        coord.add(new Coordinates(0, 0));
+        coord.add(new Coordinates(0, 2));
+        assertTrue(b.checkBorder(new Coordinates(0, 0)));
+        assertTrue(b.atLeastOneFree(coord));
         assertTrue(b.OrderAndMaxOf3(coord));
     }
-
-
 }

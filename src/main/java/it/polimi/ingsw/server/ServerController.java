@@ -341,7 +341,7 @@ public class ServerController {
      */
     public boolean refill() {
         // If there are no more items to pick or if all the items are isolated and if the item bag is not empty
-        return (gameModel.getLivingRoom().numLeft() == 0 || gameModel.getLivingRoom().allIsolated());
+        return (gameModel.getBoard().numberOfTilesLeft() == 0 || gameModel.getBoard().allIsolated());
     }
 
     /**
@@ -351,9 +351,9 @@ public class ServerController {
      */
     public Board getBoard() {
         if (refill()) {
-            gameModel.getLivingRoom().fill();
+            gameModel.getBoard().fill();
         }
-        return gameModel.getLivingRoom();
+        return gameModel.getBoard();
     }
 
     /**
@@ -367,7 +367,7 @@ public class ServerController {
      * </ul>
      */
     public int checkGameStatus() {
-        if (gameModel.isTheGameEnded()) {
+        if (gameModel.isHasGameEnded()) {
             return -1;
         } else if (gameModel.isLastRound()) {
             return 0;
@@ -388,9 +388,9 @@ public class ServerController {
         }
         if (Objects.equals(move.get(0), move.get(2)) || Objects.equals(move.get(1), move.get(3))) {
             List<Coordinates> coordinatesOfPick = createCoordinateList(move);
-            if (gameModel.getLivingRoom().OrderAndMaxOf3(coordinatesOfPick)) {
-                if (gameModel.getLivingRoom().startEndNotNull(coordinatesOfPick)) {
-                    if (gameModel.getLivingRoom().AtLeastOneFree(coordinatesOfPick)) {
+            if (gameModel.getBoard().OrderAndMaxOf3(coordinatesOfPick)) {
+                if (gameModel.getBoard().startEndNotNull(coordinatesOfPick)) {
+                    if (gameModel.getBoard().atLeastOneFree(coordinatesOfPick)) {
                         return "ok";
                     }
                 }
@@ -410,7 +410,7 @@ public class ServerController {
         }
         if (gameModel.isLastRound()) {
             if (players.get(nextPlayerIndex).isFirstPlayer()) {
-                gameModel.setTheGameEnded(true);
+                gameModel.setHasGameEnded(true);
             } else {
                 gameModel.setCurrentPlayer(players.get(nextPlayerIndex));
             }
@@ -472,7 +472,7 @@ public class ServerController {
         for (int i = 0; i < picked.size(); i += 2) {
             currentPickedCoordinates.add(new Coordinates(picked.get(i), picked.get(i + 1)));
         }
-        currentPicked = gameModel.getLivingRoom().pickFromBoard(currentPickedCoordinates);
+        currentPicked = gameModel.getBoard().pickFromBoard(currentPickedCoordinates);
         return currentPicked;
     }
 

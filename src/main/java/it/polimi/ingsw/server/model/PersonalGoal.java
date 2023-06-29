@@ -14,7 +14,7 @@ public class PersonalGoal {
 
     private final HashMap<Coordinates, Color> personalGoalCard;
     private final int index;
-    private int currentReached;
+    private int currentlyReached;
     private int counter;
 
     /**
@@ -58,7 +58,7 @@ public class PersonalGoal {
      * @return the number of points gained by the player
      */
     public int getPoints(Bookshelf bookshelf) {
-        currentReached = 0;
+        currentlyReached = 0;
         counter = 0;
         for (Coordinates coordinates : personalGoalCard.keySet()) {
             if (bookshelf.getItemAt(coordinates.x(), coordinates.y()).isPresent()) {
@@ -67,23 +67,23 @@ public class PersonalGoal {
                 }
             }
         }
-        return currentReached < 3 ? currentReached : currentReached + counter;
+        return currentlyReached < 3 ? currentlyReached : currentlyReached + counter;
     }
 
     /**
      * This method computes the number of colors reached, depending on how many items-matches the player has reached.
      */
     public void colorReached() {
-        currentReached++;
+        currentlyReached++;
 
-        if (currentReached > 2) {
-            if (currentReached < 5) {
-                counter = (currentReached - 2);
+        if (currentlyReached > 2) {
+            if (currentlyReached < 5) {
+                counter = (currentlyReached - 2);
             } else {
-                if (currentReached == 5) {
-                    counter = currentReached - 1;
+                if (currentlyReached == 5) {
+                    counter = currentlyReached - 1;
                 } else {
-                    counter = currentReached;
+                    counter = currentlyReached;
                 }
             }
         }

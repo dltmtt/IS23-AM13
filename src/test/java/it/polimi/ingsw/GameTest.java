@@ -36,7 +36,7 @@ public class GameTest {
 
         gameModel = new GameModel(players);
         gameModel.start();
-        //        gameModel.getLivingRoom().cli_print();
+        //        gameModel.getBoard().cli_print();
     }
 
     @Test
@@ -63,9 +63,9 @@ public class GameTest {
         commonGoalList.add(new CommonGoal(new Group(1, 1, 2, 2), 2));
         gameModel.setGame(commonGoalList);
         // assertEquals(gameModel.getCommonGoalDeck(), commonGoalList);
-        gameModel.setTheGameEnded(true);
-        assertTrue(gameModel.isTheGameEnded());
-        assertEquals(gameModel.getLivingRoom(), board);
+        gameModel.setHasGameEnded(true);
+        assertTrue(gameModel.isHasGameEnded());
+        assertEquals(gameModel.getBoard(), board);
         gameModel.getTopScoringPoints();
 
         List<Item> items = new ArrayList<>();

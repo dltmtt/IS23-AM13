@@ -1,0 +1,164 @@
+@startuml
+'https://plantuml.com/class-diagram
+'https://plantuml.com/commons
+
+GameModel -- Board
+GameModel "1" -- "2..4" Player
+Board - Player
+Player "1" - "1" Bookshelf
+Player "1" -- "1" PersonalGoal
+Player "1" -- "1..2" CommonGoal
+note on link
+    Player's reference to the common goals is static.
+end note
+CommonGoal "1" -- "1" Layout
+Item -- Color
+Board "1" o-- "81" Item
+Bookshelf "1" o-- "0..30" Item
+
+class GameModel {
+    -List<CommonGoal> commonGoalDeck
+    -List<PersonalGoal> personalGoalDeck
+    -List<Integer> topScoringPoints
+    -Player currentPlayer
+    -boolean lastRound
+    -boolean hasGameEnded
+    ----
+    +start()
+    +drawPersonalGoal()
+    +drawCommonGoals(boolean isFirstGame)
+    +move(List<Item> items, int column)
+    .. Particular getters and setters ..
+    +fillPersonalGoalDeck()
+    +fillCommonGoalDeck(int numberOfPlayers)
+    +getAllPoints(Player player)
+    +getTopScoringPoints()
+    +setGame(List<CommonGoal> commonGoals)
+}
+
+class Item {
+    -Color color
+    -int number
+}
+
+class Player {
+    -String username
+    -boolean hasEndGameCard
+    -boolean isFirstGame
+    -boolean isFirstPlayer
+    -List<Boolean> commonGoalCompleted
+    -List<Integer> commonGoalPoints
+    ----
+    +calculateScore()
+    +rearrangePickedItems(List<Item> items, List<Integer> order)
+    +move(Coordinates from, Coordinates to, int column)
+    .. Particular getters and setters ..
+    +getCommonGoalPoints()
+    +move(List<Item> items, int column)
+}
+
+class Board {
+    -{static} int boardSize
+    -List<Item> itemBag
+    -List<Coordinates> usableCells
+    ----
+    +pickFromBoard(List<Coordinates> pickedFromTo)
+    +fill()
+    +checkBorder(Coordinates cell)
+    +isAlone(int i, int j)
+    +numberOfTilesLeft()
+    +atLeastOneFree(List<Coordinates> cells)
+}
+
+interface AbleToGetPoints {
+    +{abstract} getPoints()
+}
+
+class PersonalGoal implements AbleToGetPoints {
+    -HashMap<Coordinates, Color> personalGoalCard
+    -int currentlyReached
+    -int index
+    -int counter
+    +getColor(Coordinates key)
+    +colorReached()
+}
+
+note left of PersonalGoal::reached
+    It indicates the number of cells filled with the "right color"
+end note
+
+note right of PersonalGoal::goal
+    The goal's configuration.
+end note
+
+class CommonGoal implements AbleToGetPoints {
+    -List<Integer> scoringList
+    ----
+    +check(Bookshelf bookshelf)
+    +getScoring()
+}
+
+enum Color {
+    GREEN
+    WHITE
+    YELLOW
+    BLUE
+    LIGHTBLUE
+    PINK
+    +getRandomColor()
+}
+
+class Bookshelf implements AbleToGetPoints {
+    -int rows
+    -int columns
+    -Optional<Item>[][] items;
+    ----
+    +insert(int column, List<Item> items)
+    +clearBookshelf()
+    +isBookshelfFull()
+    +adjacentGroups(Color color, int row, int column)
+    +calculateGroupPoints(int matches)
+    +getItemAt(int row, int column)
+}
+
+abstract Layout {
+    -int width
+    -int height
+    -int minDifferent
+    -int maxDifferent
+    ----
+    +{abstract} check(Bookshelf b)
+}
+
+note right of Layout::getCurrent
+    Returns the number of items in the correct position for a specific common goal.
+end note
+
+class XShape extends Layout {
+    +XShape(int width, int height, int maxDifferent, int minDifferent)
+}
+
+class FullLine extends Layout {
+    -int occurrences
+    +FullLine(int width, int height, int maxDifferent, int minDifferent, int occurrences)
+}
+
+class Square extends Layout {
+    -int occurrences
+    ----
+    +getCurrent(Bookshelf b)
+    +Square(int dimension, int minDifferent, int maxDifferent, int occurrences)
+}
+
+class Diagonal extends Layout {
+    +Diagonal(int width, int height, int minDifferent, int maxDifferent)
+}
+
+class Stairs extends Layout {
+    +Stairs(int width, int height, int minDifferent, int maxDifferent)
+}
+
+class Corners extends Layout {
+    +Corners()
+}
+@enduml

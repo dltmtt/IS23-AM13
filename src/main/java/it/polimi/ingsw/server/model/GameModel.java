@@ -13,17 +13,17 @@ public class GameModel {
     private final List<PersonalGoal> personalGoalDeck;
     private final List<Player> players;
     private final List<Integer> topScoringPoints;
-    private final Board livingRoom;
+    private final Board board;
     private List<CommonGoal> commonGoalDeck;
     private Player currentPlayer;
     private boolean lastRound;
-    private boolean isTheGameEnded;
+    private boolean hasGameEnded;
 
     public GameModel(List<Player> players) {
         SettingLoader.loadBookshelfSettings();
         this.players = new ArrayList<>();
         this.players.addAll(players);
-        livingRoom = new Board(players.size());
+        board = new Board(players.size());
 
         commonGoalDeck = new ArrayList<>();
         personalGoalDeck = new ArrayList<>();
@@ -34,7 +34,7 @@ public class GameModel {
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e + ", error in loading the goal decks");
         }
-        isTheGameEnded = false;
+        hasGameEnded = false;
         topScoringPoints = new ArrayList<>();
     }
 
@@ -42,7 +42,7 @@ public class GameModel {
         SettingLoader.loadBookshelfSettings();
         this.players = new ArrayList<>();
         this.players.addAll(players);
-        livingRoom = board;
+        this.board = board;
 
         commonGoalDeck = new ArrayList<>();
         personalGoalDeck = new ArrayList<>();
@@ -53,7 +53,7 @@ public class GameModel {
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e + ", error in loading the goal decks");
         }
-        isTheGameEnded = false;
+        hasGameEnded = false;
         topScoringPoints = new ArrayList<>();
         for (CommonGoal cg : commonGoals) {
             topScoringPoints.add(cg.getScoringList().get(0));
@@ -76,7 +76,6 @@ public class GameModel {
     }
 
     public void setGame(List<CommonGoal> commonGoals) {
-
         Player.setCommonGoal(commonGoals);
         for (CommonGoal cg : commonGoals) {
             System.out.println("name " + cg.getLayout().getName());
@@ -142,15 +141,15 @@ public class GameModel {
     /**
      * @return the board of the game.
      */
-    public Board getLivingRoom() {
-        return livingRoom;
+    public Board getBoard() {
+        return board;
     }
 
     // drawPersonalGoal() and drawCommonGoals() are basically the same method,
     // we could parametrize them and use a single method for both.
 
     /**
-     * Creates the <code>personalGoalDeck</code>, the <code>commonGoalDeck</code> and the <code>livingRoom</code>.
+     * Creates the <code>personalGoalDeck</code>, the <code>commonGoalDeck</code> and the <code>board</code>.
      */
     public void start() {
         // Draw a personal goal card for each player
@@ -170,7 +169,7 @@ public class GameModel {
         // Draw two common goal cards
         Player.setCommonGoal(drawCommonGoals(isFirstGame));
 
-        livingRoom.fill();
+        board.fill();
     }
 
     /**
@@ -201,8 +200,8 @@ public class GameModel {
         for (int i = 0; i < commonGoalNumber; i++) {
             Random randomNumberGenerator = new Random();
 
-            //fuck those randoms
-            for(int j=0; j<3; j++){
+            // fuck those randoms
+            for (int j = 0; j < 3; j++) {
                 randomLayoutIndex = randomNumberGenerator.nextInt(commonGoalDeck.size());
             }
             extracted.add(commonGoalDeck.get(randomLayoutIndex));
@@ -217,9 +216,9 @@ public class GameModel {
     /**
      * Creates a deck with all the possible layouts for the common goals.
      */
-    private void fillCommonGoalDeck(int numOfPlayers) throws IOException, ParseException {
+    private void fillCommonGoalDeck(int numberOfPlayers) throws IOException, ParseException {
         // int dimension = Math.min(Bookshelf.getColumns(), Bookshelf.getRows());
-        commonGoalDeck = SettingLoader.commonGoalLoader(numOfPlayers);
+        commonGoalDeck = SettingLoader.commonGoalLoader(numberOfPlayers);
     }
 
     /**
@@ -276,17 +275,17 @@ public class GameModel {
      *
      * @return true ID the game is ended, otherwise false.
      */
-    public boolean isTheGameEnded() {
-        return isTheGameEnded;
+    public boolean isHasGameEnded() {
+        return hasGameEnded;
     }
 
     /**
      * This method sets the boolean representing if the game has ended.
      *
-     * @param theGameEnded the boolean to set.
+     * @param hasGameEnded the boolean to set.
      */
-    public void setTheGameEnded(boolean theGameEnded) {
-        isTheGameEnded = theGameEnded;
+    public void setHasGameEnded(boolean hasGameEnded) {
+        this.hasGameEnded = hasGameEnded;
     }
 
     /**
