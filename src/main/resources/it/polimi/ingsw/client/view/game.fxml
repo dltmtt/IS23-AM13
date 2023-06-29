@@ -202,7 +202,7 @@
                                                 <Insets right="10.0" />
                                             </padding>
                                         </VBox>
-                                        <Label fx:id="rearrangeHelp" alignment="CENTER" prefHeight="222.0" prefWidth="218.0" style="-fx-background-color: #2B2B2BC6;" text="%rearrangeHelp" textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS" visible="false" wrapText="true">
+                                        <Label fx:id="rearrangeHelp" alignment="CENTER" prefHeight="214.0" prefWidth="273.0" style="-fx-background-color: #2B2B2BC6;" text="%rearrangeHelp" textAlignment="CENTER" textFill="WHITE" textOverrun="LEADING_ELLIPSIS" visible="false" wrapText="true">
                                             <opaqueInsets>
                                                 <Insets />
                                             </opaqueInsets>
