@@ -152,4 +152,17 @@ public class EndGameGuiController {
 
         }
     }
+
+    public void endAlone() {
+        player0.setText("");
+        points0.setText("");
+        player1.setText("");
+        points1.setText("");
+        player2.setText("");
+        points2.setText("");
+        player3.setText("");
+        points3.setText("");
+        this.winner.setText("");
+        this.winnerPhrase.setText(view.bundle.getString("alone"));
+    }
 }

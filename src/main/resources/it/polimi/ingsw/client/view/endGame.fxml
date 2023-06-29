@@ -31,22 +31,25 @@
                         </ImageView>
                     </children>
                 </StackPane>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #1A6100AA;">
+                <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: #1A6100AA;">
                     <VBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </VBox.margin>
                     <children>
                         <Label fx:id="winner" text="Player / you" textFill="#fff7be">
                             <font>
-                                <Font name="Ink Free" size="33.0" />
+                                <Font name="Ink Free" size="32.0" />
                             </font>
                         </Label>
                         <Label fx:id="winnerPhrase" text="%winPhrase" textFill="#fff7be">
                             <font>
-                                <Font name="Ink Free" size="33.0" />
+                                <Font name="Ink Free" size="32.0" />
                             </font>
                         </Label>
                     </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="251.0" prefWidth="791.0" spacing="60.0">
                     <children>

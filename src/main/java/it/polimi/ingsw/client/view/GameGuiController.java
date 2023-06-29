@@ -1065,4 +1065,8 @@ public class GameGuiController {
             }
         }
     }
+
+    public void endAlone() {
+        showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
+    }
 }

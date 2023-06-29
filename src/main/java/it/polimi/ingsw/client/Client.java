@@ -156,8 +156,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
         String category = message.getCategory();
 
         switch (category) {
-            case "ping" -> serverConnection = true;
-            case "pong" -> serverConnection = true;
+            case "ping", "pong" -> serverConnection = true;
             case "username" -> {
                 setUsername(message.getUsername());
                 checkServerConnection();
@@ -254,8 +253,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                     e.printStackTrace();
                 }
                 if (theOnlyOne) {
-                    gameView.showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
-                    System.exit(0);
+                    gameView.endAlone();
                 }
             }
         }).start();

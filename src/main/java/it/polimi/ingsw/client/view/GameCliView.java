@@ -689,4 +689,10 @@ public class GameCliView implements GameView {
         System.err.println("Unable to connect to the server. Is it running?");
         System.exit(1);
     }
+
+    @Override
+    public void endAlone() {
+        showMessage("Nobody reconnected, everyone hates you, nobody wants to play with you. You won champion!\n");
+        System.exit(0);
+    }
 }

@@ -485,6 +485,15 @@ public class GuiView extends Application implements GameView {
         });
     }
 
+    @Override
+    public void endAlone() {
+        Platform.runLater(() -> {
+            stage.setScene(endGameScene);
+            stage.show();
+            endGameController.endAlone();
+        });
+    }
+
     /**
      * This method returns the set client.
      * @return client referred to the view.

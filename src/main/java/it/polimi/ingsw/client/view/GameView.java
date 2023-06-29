@@ -101,4 +101,6 @@ public interface GameView {
     void connectionSuccess();
 
     void connectionError();
+
+    void endAlone();
 }
