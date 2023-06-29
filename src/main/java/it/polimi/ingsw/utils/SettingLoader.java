@@ -156,8 +156,8 @@ public class SettingLoader {
             System.err.println("settings.properties file not found at "+BASE_PATH+", using default values");
             // In case the file is not found or there is and error reading the file,
             // the default values will be used instead
-            rowsSetting = 5;
-            colsSetting = 6;
+            rowsSetting = 6;
+            colsSetting = 5;
         }
 
         Bookshelf.setRows(rowsSetting);
