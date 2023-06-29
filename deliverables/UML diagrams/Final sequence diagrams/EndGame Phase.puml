@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Server->Server: nextTurn();
+
+alt game is ended
+Client<-Server: endGame message(HashMap<String, Integer> winners,HashMap<String, Integer> losers);
+Server->Server: resetGame();
+else is last round
+Client<-Server: single message("lastRound");
+Server->Server: turn();
+'poi è come in game phase
+else the game has not ended and is not last round
+Server->Server: turn();
+else
+end
+@enduml

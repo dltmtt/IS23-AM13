@@ -52,7 +52,6 @@ public interface ServerCommunicationInterface extends Remote {
             }
             case "numOfPlayersMessage" -> {
                 int numberOfPlayers = message.getNumPlayer();
-                System.out.println("Number of players: " + numberOfPlayers);
                 String isOk = controller.checkNumPlayer(numberOfPlayers);
                 if (!isOk.equals("ok")) {
                     try {
@@ -93,7 +92,6 @@ public interface ServerCommunicationInterface extends Remote {
             }
             case "insertMessage" -> {
                 if (controller.checkInsert(message.getInsert()) == 1) {
-                    System.out.println("Inserting " + message.getInsert());
                     sendUpdate();
                     nextTurn();
                 } else if (controller.checkInsert(message.getInsert()) == 0) {

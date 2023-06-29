@@ -3,28 +3,36 @@
 
 autonumber
 
-Client -> Server: "Complete Login": username, 0,firstGame,0
+Client -> Server: login message: ("Complete Login", username,firstGame,0);
 Server->Server: checkLogin
 
 alt username invalid
-Server->Client: "UsernameRetry"
+Server->Client: single message("UsernameRetry");
 else username valid
-Server->Client: "username"
+Server->Client: username message("username",username);
 Client->Client: setUsername
 alt first Player
-Server->Client: "chooseNumOfPlayer"
-Server->Client: "waitingRoom"
-else not first Player
-Server->Client: "waitingRoom"
-alt there are enough players
-Server->Client: "removePlayer"
-else not enough players
-Server->Client: "waitingRoom"
-Server->Client: "startGame": personalGoalCard, CommonGoalCards, Bookshelves,Board
+Server->Client: single message("chooseNumOfPlayer");
+Client->>Client: numOfPlayerPrompt();
+Client->Server: int content message("numOfPlayer",numOfPlayer);
+Server->Server:checkNumPlayer(numOfPlayer);
+alt numOfPlayer invalid
+Server->Client: single message("numOfPlayerNotOk");
+else numOfPlayer valid
+Server->Client: single message("waitingRoom");
 end
+end
+else not first Player
+alt there are enough players
+Server->Client: single message("removePlayer");
+else not enough players
+Server->Client: single message("waitingRoom");
+else the last one to join
+Server->Client: single message("waitingRoom");
+Server->Client: start game message( "startGame": personalGoalCard, List<CommonGoal> CommonGoalCards, HashMap<String,Bookshelf> Bookshelves,Board,List<Integer> topOfScoringList, firstPlayer,HashMap<String,List<Integer>> currentScore);
 end
 else game is already started
-Server->Client: "gameAlreadyStarted"
+Server->Client: single message("gameAlreadyStarted");
 Client->Client: stop
 end
 

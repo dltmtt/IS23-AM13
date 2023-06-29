@@ -2,27 +2,33 @@
 'https://plantuml.com/sequence-diagram
 
 autonumber
-Client->Server:
-Server->Server: turn
+Server->Server: turn();
 alt is your turn
-Server->Client: "turn"
+Server->Client: single message("turn");
 Client->Client: myTurn()
-Client->Server: "pick": coordinata prima cella, coordinata ultima cella
-Server->Server: check
+Client->Server: pick message ("pick", Coordinates firstCoordinate, Coordinates lastCoordinate);
+Server->Server: checkPick();
 alt is valid
-Server->Client: "picked": lista degli item pescati
+Server->Client: item picked message ("picked": List<Item> itemPicked);
 Client->Client: choose rearrange
 alt rearrange yes
-Client->Server: "sort": lista di int che rappresenta il nuovo ordine
+Client->Server: sort message ("sort": List<Integer> newSort);
 end
-Client->Server: "insertMessage": int della colonna
-Server->Client: "update": bookshelves, board, lista degli score (viene mandato a tutti i client)
+Client->Server: int content message ("insertMessage",int column);
+Server->Server: checkInsert();
+alt is valid
+Server->Client: update message("update",HashMap<String,Bookshelf> bookshelves,Board board, List<Integer> allPoints,List<Integer> topOfScoring);
+Server->Server: saveGame();
+Server->Server: nextTurn();
+else is not valid
+Server->Client: generic String message("insertRetry", "notValidNumber");
+end
 else not valid
-Server->Client: "pickRetry"
+Server->Client: single message("pickRetry");
 end
 else not your turn
-Server->Client: "otherTurn": username of other player
-Client->Client: otherTurn()
+Server->Client: generic String message("otherTurn": username of other player);
+Client->Client: otherTurn();
 end
 
 @enduml
