@@ -1,10 +1,14 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.MyShelfie;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +57,11 @@ public class EndGameGuiController {
     @FXML
     private Label winnerPhrase;
 
+    @FXML
+    private ImageView background, header;
+
+    private Stage stage;
+
     /**
      * This is the constructor for the class
      *
@@ -62,6 +71,20 @@ public class EndGameGuiController {
     public EndGameGuiController(GuiView guiView, Client client) {
         view = guiView;
         this.client = client;
+        stage= GuiView.stage;
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
+                setBackgroundSize(stage.getWidth(), stage.getHeight());
+        stage.widthProperty().addListener(stageSizeListener);
+        stage.heightProperty().addListener(stageSizeListener);
+        stage.setResizable(true);
+    }
+
+    private void setBackgroundSize(double width, double height) {
+        background.setPreserveRatio(false);
+        background.setFitWidth(width);
+        background.setFitHeight(height);
+        header.setFitWidth(width);
+        header.setPreserveRatio(true);
     }
 
     /**
@@ -103,10 +126,6 @@ public class EndGameGuiController {
 
         HashMap<String, Integer> scores = new HashMap<>(winners);
         scores.putAll(losers);
-
-        //order scores by value
-
-
         List<String> players = new ArrayList<>(scores.keySet());
 
 

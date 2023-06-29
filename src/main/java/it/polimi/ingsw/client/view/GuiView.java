@@ -98,6 +98,7 @@ public class GuiView extends Application implements GameView {
             System.err.println("Failed to load newLogin2.fxml");
             throw new RuntimeException(e);
         }
+
         loginProcedure();
     }
 
@@ -502,8 +503,5 @@ public class GuiView extends Application implements GameView {
         GuiView.client = client;
     }
 
-    public void resizableResponsiveBackground(double width, double height){
-        System.out.println("width: " + width + " height: " + height);
-    }
 
 }

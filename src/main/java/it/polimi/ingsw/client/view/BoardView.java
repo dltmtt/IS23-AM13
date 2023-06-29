@@ -17,6 +17,10 @@ public class BoardView {
      * @param board is the board to set
      */
 
+    /**
+     * Constructor for the class
+     * @param board
+     */
     public BoardView(Board board) {
         BoardView.board = board;
     }
@@ -26,6 +30,10 @@ public class BoardView {
      * @param boardUpdated is the board to update
      */
 
+    /**
+     * This method saves the update board
+     * @param boardUpdated the updated board
+     */
     public void updateBoard(Board boardUpdated) {
         board = boardUpdated;
     }

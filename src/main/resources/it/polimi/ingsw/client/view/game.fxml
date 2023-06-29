@@ -19,7 +19,7 @@
     <children>
         <StackPane prefHeight="666.0" prefWidth="1205.0" VBox.vgrow="ALWAYS">
             <children>
-                <ImageView fitHeight="665.0" fitWidth="1284.0" pickOnBounds="true" StackPane.alignment="CENTER">
+                <ImageView fx:id="background" fitHeight="665.0" fitWidth="1284.0" pickOnBounds="true" StackPane.alignment="CENTER">
                     <image>
                         <Image url="@graphics/misc/sfondo_parquet.jpg" />
                     </image>

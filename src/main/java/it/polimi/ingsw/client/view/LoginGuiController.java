@@ -3,11 +3,13 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.MyShelfie;
 import it.polimi.ingsw.commons.Message;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
 
@@ -40,11 +42,15 @@ public class LoginGuiController {
     @FXML
     private ProgressIndicator waitingConnection;
 
+    private Stage stage;
+
     /**
      * Constructor for the class
      */
     public LoginGuiController() {
         this.client = MyShelfie.client;
+        this.stage = GuiView.stage;
+        this.stage.setResizable(false);
     }
 
     /**
@@ -217,4 +223,5 @@ public class LoginGuiController {
         serverIp.setDisable(false);
         connectionType.setDisable(false);
     }
+
 }

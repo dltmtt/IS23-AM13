@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.utils.Coordinates;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,7 +100,7 @@ public class GameGuiController {
     @FXML
     private Button top, down, confirmSelection, delete, help;
     @FXML
-    private ImageView board, bookshelf, pg, cg1, cg2, topOfScoring1, topOfScoring2, endGameImage, firstPlayer1, firstPlayer2, firstPlayer3;
+    private ImageView board, bookshelf, pg, cg1, cg2, topOfScoring1, topOfScoring2, endGameImage, firstPlayer1, firstPlayer2, firstPlayer3, background;
     @FXML
     private GridPane boardGridPane, bookshelfGrid1, bookshelfGrid2, bookshelfGrid3;
     @FXML
@@ -108,6 +110,8 @@ public class GameGuiController {
     @FXML
     private HBox firstPlayer0;
 
+    private Stage stage;
+
     /**
      * This method creates a new GameGuiController, setting the static references to the client and the view.
      * The required references are taken from the MyShelfie class and the GuiView class.
@@ -115,6 +119,18 @@ public class GameGuiController {
     public GameGuiController() {
         client = MyShelfie.client;
         view = GuiView.gui;
+        stage=GuiView.stage;
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
+               setBackgroundSize(stage.getWidth(), stage.getHeight());
+        stage.widthProperty().addListener(stageSizeListener);
+        stage.heightProperty().addListener(stageSizeListener);
+        stage.setResizable(true);
+    }
+
+    private void setBackgroundSize(double width, double height) {
+        background.setPreserveRatio(false);
+        background.setFitWidth(width);
+        background.setFitHeight(height);
     }
 
     /**

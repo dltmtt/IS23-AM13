@@ -1,122 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="610.0" prefWidth="885.0" xmlns="http://javafx.com/javafx/19">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="711.0" prefWidth="1046.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <ImageView fitHeight="620.0" fitWidth="890.0" pickOnBounds="true" StackPane.alignment="CENTER">
+        <ImageView fx:id="background" fitHeight="728.0" fitWidth="1075.0" pickOnBounds="true" StackPane.alignment="CENTER">
             <image>
-                <Image url="@sfondo_parquet.jpg"/>
+                <Image url="@sfondo_parquet.jpg" />
             </image>
         </ImageView>
-        <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-              minWidth="-Infinity" prefHeight="618.0" prefWidth="890.0" StackPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="1054.0" StackPane.alignment="TOP_CENTER">
             <children>
                 <StackPane prefHeight="77.0" prefWidth="600.0">
                     <children>
-                        <ImageView fitHeight="175.0" fitWidth="890.0" pickOnBounds="true">
+                        <ImageView fx:id="header" fitHeight="233.0" fitWidth="1066.0" pickOnBounds="true">
                             <image>
-                                <Image url="@graphics/publisher_material/banner_1386x400px.png"/>
+                                <Image url="@graphics/publisher_material/banner_1386x400px.png" />
                             </image>
                         </ImageView>
                     </children>
                 </StackPane>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0"
-                      style="-fx-background-color: #1A6100AA;">
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #1A6100AA;">
                     <VBox.margin>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </VBox.margin>
                     <children>
                         <Label fx:id="winner" text="Player / you" textFill="#fff7be">
                             <font>
-                                <Font name="Ink Free" size="33.0"/>
+                                <Font name="Ink Free" size="33.0" />
                             </font>
                         </Label>
                         <Label fx:id="winnerPhrase" text="%winPhrase" textFill="#fff7be">
                             <font>
-                                <Font name="Ink Free" size="33.0"/>
+                                <Font name="Ink Free" size="33.0" />
                             </font>
                         </Label>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="251.0" prefWidth="791.0" spacing="60.0">
                     <children>
-                        <GridPane prefHeight="251.0" prefWidth="362.0" style="-fx-background-color: #560a0ad6;">
+                        <GridPane prefHeight="251.0" prefWidth="573.0" style="-fx-background-color: #560a0ad6;">
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label text="%leaderBoard" textFill="#fff2d6" GridPane.columnSpan="2"
-                                       GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                <Label text="%leaderBoard" textFill="#fff2d6" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                     <font>
-                                        <Font name="Ink Free" size="36.0"/>
+                                        <Font name="Ink Free" size="36.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="player0" text="Label" textFill="#eaa214" GridPane.halignment="CENTER"
-                                       GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                <Label fx:id="player0" text="Label" textFill="#ffad16" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                     <font>
-                                        <Font name="Ink Free" size="27.0"/>
+                                        <Font name="Ink Free" size="27.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="points0" text="Label" textFill="#eaa214" GridPane.columnIndex="1"
-                                       GridPane.rowIndex="1">
+                                <Label fx:id="points0" text="Label" textFill="#ffefd1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                     <font>
-                                        <Font name="Ink Free" size="24.0"/>
+                                        <Font name="Ink Free" size="24.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="player1" text="Label" textFill="#b1b1b1" GridPane.halignment="CENTER"
-                                       GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                <Label fx:id="player1" text="Label" textFill="#ffad16" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                     <font>
-                                        <Font name="Ink Free" size="25.0"/>
+                                        <Font name="Ink Free" size="27.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="points1" text="Label" textFill="#b1b1b1" GridPane.columnIndex="1"
-                                       GridPane.rowIndex="2">
+                                <Label fx:id="points1" text="Label" textFill="#ffefd1" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                     <font>
-                                        <Font name="Ink Free" size="24.0"/>
+                                        <Font name="Ink Free" size="24.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="player2" alignment="CENTER" text="Label" textFill="#ff866b"
-                                       GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                                <Label fx:id="player2" alignment="CENTER" text="Label" textFill="#ffad16" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                     <font>
-                                        <Font name="Ink Free" size="24.0"/>
+                                        <Font name="Ink Free" size="27.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="player3" alignment="CENTER" layoutX="73.0" layoutY="170.0" text="Label"
-                                       textFill="#fff2d6" GridPane.halignment="CENTER" GridPane.rowIndex="4"
-                                       GridPane.valignment="CENTER">
+                                <Label fx:id="player3" alignment="CENTER" layoutX="73.0" layoutY="170.0" text="Label" textFill="#ffad16" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                     <font>
-                                        <Font name="Ink Free" size="24.0"/>
+                                        <Font name="Ink Free" size="27.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="points2" text="Label" textFill="#ff866b" GridPane.columnIndex="1"
-                                       GridPane.rowIndex="3">
+                                <Label fx:id="points2" text="Label" textFill="#ffefd1" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                     <font>
-                                        <Font name="Ink Free" size="24.0"/>
+                                        <Font name="Ink Free" size="24.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="points3" text="Label" textFill="#fff2d6" GridPane.columnIndex="1"
-                                       GridPane.rowIndex="4">
+                                <Label fx:id="points3" text="Label" textFill="#ffefd1" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                     <font>
-                                        <Font name="Ink Free" size="24.0"/>
+                                        <Font name="Ink Free" size="24.0" />
                                     </font>
                                 </Label>
                             </children>
                         </GridPane>
-                        <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeScreen" prefHeight="87.0"
-                                prefWidth="122.0" text="%playAgain"/>
+                        <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeScreen" prefHeight="87.0" prefWidth="122.0" text="%playAgain" />
                     </children>
                 </HBox>
             </children>
