@@ -228,7 +228,7 @@ public interface ServerCommunicationInterface extends Remote {
         // This is one of the few differences from the Socket implementation
         startPingThread(client);
 
-        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername(), controller.gameModel.getCurrentPlayer().getNickname()));
+        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername(), controller.gameModel.getCurrentPlayer().getUsername()));
         System.out.println("Sent reconnected message to all clients except " + client.getUsername());
         sendTurn(client);
     }
@@ -444,7 +444,7 @@ public interface ServerCommunicationInterface extends Remote {
                         throw new RemoteException();
                     }
 
-                    controller.addPlayer(username, 0, firstGame);
+                    controller.addPlayer(username, firstGame);
                     System.out.println(username + " logged in.");
 
                     client.setUsername(username);

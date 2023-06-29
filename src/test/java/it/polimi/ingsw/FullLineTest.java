@@ -84,7 +84,7 @@ public class FullLineTest {
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(commonGoal);
         List<Item> items = new ArrayList<>();
-        Player player = new Player("test", 0, false, false, false);
+        Player player = new Player("test", false, false, false);
         player.setBookshelf(bookshelf);
         Player.setCommonGoal(commonGoals);
 

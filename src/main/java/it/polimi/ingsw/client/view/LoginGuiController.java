@@ -72,7 +72,6 @@ public class LoginGuiController {
      */
     public void sendLoginMessage() {
         client.sendMessage(new Message("completeLogin", username.getText(), 0, firstGame.isSelected(), 0));
-        client.startPingThread(username.getText());
     }
 
     /**

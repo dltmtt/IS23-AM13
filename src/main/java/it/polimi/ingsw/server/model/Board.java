@@ -47,7 +47,7 @@ public class Board {
     /**
      * The matrix of items that represents the board.
      */
-    private Item[][] boardMatrix;
+    private final Item[][] boardMatrix;
 
     /**
      * This method:
@@ -138,6 +138,7 @@ public class Board {
 
     /**
      * This method returns the item bag
+     *
      * @return the list of items contained in the bag
      */
     public List<Item> getItemBag() {
@@ -170,6 +171,7 @@ public class Board {
 
     /**
      * This method the matrix
+     *
      * @return the board as a matrix of Items.
      */
     public Item[][] getBoardMatrix() {
@@ -178,6 +180,7 @@ public class Board {
 
     /**
      * This method returns the size of the board.
+     *
      * @return the size of the board
      */
     public int getBoardSize() {

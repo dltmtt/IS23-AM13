@@ -11,13 +11,11 @@ import java.util.List;
 public class Player {
 
     private static List<CommonGoal> commonGoals = new ArrayList<>();
-    private static Board board;
-    private final String nickname;
-    private final int age;
-    private List<Integer> commonGoalPoints = new ArrayList<>(2);
-    private boolean isFirstPlayer;
+    private final String username;
     private final boolean isFirstGame;
     private final List<Boolean> commonGoalCompleted = new ArrayList<>(2);
+    private List<Integer> commonGoalPoints = new ArrayList<>(2);
+    private boolean isFirstPlayer;
     private Bookshelf bookshelf;
     private boolean hasEndGameCard;
     private PersonalGoal personalGoal;
@@ -25,12 +23,13 @@ public class Player {
     /**
      * This method creates a player.
      *
-     * @param nickname the player's nickname
-     * @param age      the player's age
+     * @param username       the player's username
+     * @param isFirstGame    true if the player is playing for the first time
+     * @param isFirstPlayer  true if the player is the first player
+     * @param hasEndGameCard true if the player has the end game card
      */
-    public Player(String nickname, int age, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard) {
-        this.nickname = nickname;
-        this.age = age;
+    public Player(String username, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard) {
+        this.username = username;
         this.isFirstGame = isFirstGame;
         this.isFirstPlayer = isFirstPlayer;
         this.hasEndGameCard = hasEndGameCard;
@@ -41,17 +40,14 @@ public class Player {
     /**
      * This method creates a player.
      *
-     * @param nickname the player's nickname
-     * @param age the player's age
-     * @param isFirstGame  true if the player is playing the first game
-     * @param isFirstPlayer true if the player is the first player
-     * @param hasEndGameCard true if the player has the end game card
+     * @param username            the player's username
+     * @param isFirstGame         true if the player is playing the first game
+     * @param isFirstPlayer       true if the player is the first player
+     * @param hasEndGameCard      true if the player has the end game card
      * @param commonGoalCompleted a list of booleans that indicates if the player has completed the common goals
      */
-
-    public Player(String nickname, int age, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard, List<Boolean> commonGoalCompleted) {
-        this.nickname = nickname;
-        this.age = age;
+    public Player(String username, boolean isFirstGame, boolean isFirstPlayer, boolean hasEndGameCard, List<Boolean> commonGoalCompleted) {
+        this.username = username;
         this.isFirstGame = isFirstGame;
         this.isFirstPlayer = isFirstPlayer;
         this.hasEndGameCard = hasEndGameCard;
@@ -60,6 +56,7 @@ public class Player {
 
     /**
      * This method sets the CommonGoals.
+     *
      * @param commonGoals the common goals to set
      */
     public static void setCommonGoal(List<CommonGoal> commonGoals) {
@@ -67,15 +64,8 @@ public class Player {
     }
 
     /**
-     * This method sets the board.
-     * @param board the board to set
-     */
-    public static void setBoard(Board board) {
-        Player.board = board;
-    }
-
-    /**
      * This method gets the CommonGoals.
+     *
      * @return the list of common goals
      */
     public static List<CommonGoal> getCommonGoals() {
@@ -84,6 +74,7 @@ public class Player {
 
     /**
      * This method gets the CommonGoals names.
+     *
      * @return the list of common goals names
      */
     public List<String> getCommonNames() {
@@ -96,6 +87,7 @@ public class Player {
 
     /**
      * This method sets the first player.
+     *
      * @param isFirstPlayer true if the player is the first player
      */
     public void setIsFirstPlayer(boolean isFirstPlayer) {
@@ -103,15 +95,17 @@ public class Player {
     }
 
     /**
-     * This method gets the nickname of the player.
-     * @return the nickname of the player
+     * This method gets the username of the player.
+     *
+     * @return the username of the player
      */
-    public String getNickname() {
-        return nickname;
+    public String getUsername() {
+        return username;
     }
 
     /**
      * This method gets the bookshelf.
+     *
      * @return the bookshelf of the player
      */
     public Bookshelf getBookshelf() {
@@ -120,6 +114,7 @@ public class Player {
 
     /**
      * This method sets the bookshelf.
+     *
      * @param bookshelf the bookshelf to set
      */
     public void setBookshelf(Bookshelf bookshelf) {
@@ -128,6 +123,7 @@ public class Player {
 
     /**
      * This method gets the PersonalGoal of the player.
+     *
      * @return the personal goal of the player
      */
     public PersonalGoal getPersonalGoal() {
@@ -136,6 +132,7 @@ public class Player {
 
     /**
      * This method sets the PersonalGoal of the player.
+     *
      * @param personalGoal the personal goal to set
      */
     public void setPersonalGoal(PersonalGoal personalGoal) {
@@ -183,7 +180,7 @@ public class Player {
         for (int i = 0; i < commonGoals.size(); i++) {
             if (!commonGoalCompleted.get(i)) {
                 if (commonGoals.get(i).check(bookshelf)) {
-                    System.out.println("Player " + nickname + " completed the common goal " + commonGoals.get(i).getLayout().getName() + " and earned " + commonGoals.get(i).getScoringList().get(0) + " points!");
+                    System.out.println("Player " + username + " completed the common goal " + commonGoals.get(i).getLayout().getName() + " and earned " + commonGoals.get(i).getScoringList().get(0) + " points!");
                     BookshelfView bookshelfView = new BookshelfView(bookshelf);
                     bookshelfView.printBookshelf();
                     setCommonGoalPoints(commonGoals.get(i));
@@ -248,12 +245,13 @@ public class Player {
         }
         score += personalGoal.getPoints(bookshelf);
         score += bookshelf.getPoints();
-        System.out.println(this.getNickname() + " " + score);
+        System.out.println(this.getUsername() + " " + score);
         return score;
     }
 
     /**
      * This method returns the points given by the PersonalGoal.
+     *
      * @return the points given by personal goals
      */
     public int getPersonalGoalPoints() {
@@ -262,6 +260,7 @@ public class Player {
 
     /**
      * This method returns the points given by the CommonGoals.
+     *
      * @return the points given by common goals
      */
     public int getCommonGoalPoints() {
@@ -274,6 +273,7 @@ public class Player {
 
     /**
      * This method sets the CommonGoal points.
+     *
      * @param commonGoalPoints the points of the common goals to be set
      */
     public void setCommonGoalPoints(List<Integer> commonGoalPoints) {
@@ -282,6 +282,7 @@ public class Player {
 
     /**
      * This method sets the CommonGoal points.
+     *
      * @param commonGoal the points of the common goal to be set
      */
     public void setCommonGoalPoints(CommonGoal commonGoal) {
@@ -290,6 +291,7 @@ public class Player {
 
     /**
      * This method returns the list of booleans that tells whether the CommonGoal is completed or not.
+     *
      * @return the list of booleans that tells whether the CommonGoal is completed or not
      */
     public List<Boolean> getCommonGoalCompleted() {
@@ -298,6 +300,7 @@ public class Player {
 
     /**
      * This method gets the list of scores of the CommonGoals.
+     *
      * @return the list of scores of the CommonGoals
      */
     public List<Integer> getCommonGoalScoreList() {

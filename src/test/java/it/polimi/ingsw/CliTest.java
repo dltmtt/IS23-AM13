@@ -23,9 +23,9 @@ public class CliTest {
     @Test
     void PersonalGoal() {
         List<Player> players = new ArrayList<>();
-        players.add(new Player("Player1", 20, true, true, false));
-        players.add(new Player("Player2", 20, false, false, false));
-        players.add(new Player("Player3", 20, false, false, false));
+        players.add(new Player("Player1", true, true, false));
+        players.add(new Player("Player2", false, false, false));
+        players.add(new Player("Player3", false, false, false));
         GameModel game = new GameModel(players);
         game.start();
         PersonalGoal personalGoal = game.getCurrentPlayer().getPersonalGoal();

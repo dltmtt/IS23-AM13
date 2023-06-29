@@ -1,6 +1,5 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.view.BookshelfView;
 import it.polimi.ingsw.server.model.Bookshelf;
 import it.polimi.ingsw.server.model.Item;
 import it.polimi.ingsw.server.model.layouts.FullLine;
@@ -15,8 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SquareTest {
 
@@ -26,9 +24,9 @@ public class SquareTest {
     }
 
     @Test
-    void getName(){
+    void getName() {
         Layout square = new Square(1, 1, 2, 2);
-        assertTrue(square.getName().equals("square"));
+        assertEquals("square", square.getName());
     }
 
     @Test
@@ -319,8 +317,9 @@ public class SquareTest {
         assertTrue(square.check(b));
         assertTrue(fullLine.check(b));
     }
+
     @Test
-    void checkFromGui2(){
+    void checkFromGui2() {
         Layout square = new Square(1, 1, 2, 2);
 
         Bookshelf b = new Bookshelf();
@@ -348,7 +347,7 @@ public class SquareTest {
         items.add(new Item(Color.BLUE, 1));
         b.insert(1, items);
 
-        CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
+        CliUtilities.stringifyBookshelf(b.getItems()).forEach(System.out::println);
         assertFalse(square.check(b));
     }
 
@@ -381,8 +380,6 @@ public class SquareTest {
         items.add(new Item(Color.PINK, 1));
         b.insert(4, items);
         items.clear();
-        BookshelfView view = new BookshelfView(b);
-        // view.printBookshelf();
         assertTrue(square.check(b));
     }
 }

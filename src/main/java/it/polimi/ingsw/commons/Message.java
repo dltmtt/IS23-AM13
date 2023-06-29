@@ -119,7 +119,6 @@ public class Message implements Serializable {
         json.put("items", itemBagFill(board.getItemBag()));
         json.put("currentPlayer", currentPlayer);
 
-
         try (PrintWriter out = new PrintWriter(new FileWriter(BACKUP_FILE))) {
             out.write(json.toString());
         } catch (Exception e) {
@@ -159,7 +158,6 @@ public class Message implements Serializable {
         json.put("winners", winnersJson);
         json.put("losers", losersJson);
     }
-
 
     /**
      * Constructor for the startGame message.
@@ -374,7 +372,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Constructor for  a generic  String message.
+     * Constructor for a generic String message.
      *
      * @param type     category of the message (reconnection)
      * @param argument the argument of the message
@@ -389,9 +387,9 @@ public class Message implements Serializable {
     /**
      * Message for the reconnect of a player
      *
-     * @param type     type of the message (reconnection)
-     * @param argument username of the reconnected player
-     * @param player   username whose turn is
+     * @param type     the type of the message (reconnection)
+     * @param argument the username of the reconnected player
+     * @param player   the username whose turn is
      */
     public Message(String type, String argument, String player) {
         json = new JSONObject();
@@ -529,7 +527,6 @@ public class Message implements Serializable {
         } else {
             return new FullLine(6, 6, occurrences, horizontal);
         }
-
     }
 
     /**
@@ -540,7 +537,7 @@ public class Message implements Serializable {
      */
     public JSONObject createPlayer(Player player) {
         JSONObject playerObject = new JSONObject();
-        String nickname = player.getNickname();
+        String nickname = player.getUsername();
         boolean isFirstPlayer = player.isFirstPlayer();
         String isFirstString = Boolean.toString(isFirstPlayer);
         int personalGoal = player.getPersonalGoal().getIndex();
@@ -586,7 +583,7 @@ public class Message implements Serializable {
             int pg = Integer.parseInt((String) playerJson.get("personalGoal"));
             Bookshelf bookshelf;
             bookshelf = getBookshelf(playerJson);
-            Player player = new Player((String) playerJson.get("username"), 0, false, isFirstPlayerBoolean, false, getCommonGoalCompleted(playerJson));
+            Player player = new Player((String) playerJson.get("username"), false, isFirstPlayerBoolean, false, getCommonGoalCompleted(playerJson));
             player.setBookshelf(bookshelf);
             try {
                 PersonalGoal personalGoal = SettingLoader.loadSpecificPersonalGoal(pg);
@@ -635,7 +632,6 @@ public class Message implements Serializable {
         return commonGoalCompleted;
     }
 
-
     /**
      * Getter for the list of common Goal points
      *
@@ -649,19 +645,8 @@ public class Message implements Serializable {
             String name = (String) o;
             int points = Integer.parseInt(name);
             commonPoints.add(points);
-
         }
         return commonPoints;
-    }
-
-    public List<String> getDisconnected() {
-        List<String> disconnected = new ArrayList<>();
-        JSONArray array = (JSONArray) json.get("disconnected");
-        for (int i = 0; i < array.size(); i++) {
-            String name = (String) json.get(i);
-            disconnected.add(name);
-        }
-        return disconnected;
     }
 
     /**
@@ -706,7 +691,7 @@ public class Message implements Serializable {
     /**
      * Getter for the column chosen from the json.
      *
-     * @return the  column chosen.
+     * @return the chosen column.
      */
     public int getInsert() {
         String insertString = json.get("insert").toString();
@@ -733,14 +718,13 @@ public class Message implements Serializable {
     }
 
     /**
-     * Getter for the username of  the current player of the json.
+     * Getter for the username of the current player of the json.
      *
-     * @return the username of  the current player of the json.
+     * @return the username of the current player of the json.
      */
     public String getCurrentPlayer() {
         return (String) json.get("currentPlayer");
     }
-
 
     /**
      * Getter for the first game boolean.
@@ -751,7 +735,6 @@ public class Message implements Serializable {
         return (boolean) json.get("bool");
     }
 
-
     /**
      * Getter for the number of players.
      *
@@ -761,7 +744,6 @@ public class Message implements Serializable {
         String numPlayer = (String) json.get("numOfPlayers");
         return Integer.parseInt(numPlayer);
     }
-
 
     /**
      * Getter for the top scoring list of common goals.
@@ -782,7 +764,6 @@ public class Message implements Serializable {
         return topScoringList;
     }
 
-
     /**
      * Getter for the personal goal of the json.
      *
@@ -792,7 +773,6 @@ public class Message implements Serializable {
         String personalGoal = (String) json.get("personal_goal");
         return Integer.parseInt(personalGoal);
     }
-
 
     /**
      * Getter for the picked items of the json.
@@ -879,7 +859,6 @@ public class Message implements Serializable {
         return bookshelves;
     }
 
-
     /**
      * Getter for the board of the json.
      *
@@ -909,7 +888,6 @@ public class Message implements Serializable {
         return board;
     }
 
-
     /**
      * Getter for the card types of common goals of the json.
      *
@@ -928,7 +906,7 @@ public class Message implements Serializable {
     /**
      * Getter for the card occurrences of common goals of the json.
      *
-     * @return the occurences of the json.
+     * @return the occurrences of the json.
      */
 
     public List<Integer> getCardOccurrences() {
@@ -996,7 +974,6 @@ public class Message implements Serializable {
         return commonGoals;
     }
 
-
     /**
      * Getter for the scoring of the json. (scoring of common gaol)
      *
@@ -1047,7 +1024,6 @@ public class Message implements Serializable {
         return json.toJSONString();
     }
 
-
     /**
      * Getter for the score of the player.
      *
@@ -1066,7 +1042,6 @@ public class Message implements Serializable {
         score.add(Integer.parseInt(tString));
         return score;
     }
-
 
     /**
      * Getter for the winners.
@@ -1107,7 +1082,7 @@ public class Message implements Serializable {
     }
 
     /**
-     * Getter for the firts player.
+     * Getter for the first player.
      *
      * @return the first player
      */
@@ -1115,7 +1090,6 @@ public class Message implements Serializable {
     public String getFirstPlayer() {
         return (String) json.get("firstPlayer");
     }
-
 
     /**
      * Getters for the item bag.
@@ -1145,5 +1119,4 @@ public class Message implements Serializable {
     public String getPlayerTurn() {
         return (String) json.get("playerTurn");
     }
-
 }

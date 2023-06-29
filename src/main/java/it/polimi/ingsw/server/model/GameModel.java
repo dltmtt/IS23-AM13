@@ -10,7 +10,6 @@ import java.util.Random;
 
 public class GameModel {
 
-    private static final int personalGoalDeckSize = 12; // This value is tied to the switch statement in the PersonalGoal class
     private final List<PersonalGoal> personalGoalDeck;
     private final List<Player> players;
     private final List<Integer> topScoringPoints;
@@ -25,8 +24,6 @@ public class GameModel {
         this.players = new ArrayList<>();
         this.players.addAll(players);
         livingRoom = new Board(players.size());
-
-        Player.setBoard(livingRoom);
 
         commonGoalDeck = new ArrayList<>();
         personalGoalDeck = new ArrayList<>();
@@ -46,8 +43,6 @@ public class GameModel {
         this.players = new ArrayList<>();
         this.players.addAll(players);
         livingRoom = board;
-
-        Player.setBoard(livingRoom);
 
         commonGoalDeck = new ArrayList<>();
         personalGoalDeck = new ArrayList<>();
@@ -85,7 +80,7 @@ public class GameModel {
         Player.setCommonGoal(commonGoals);
         for (CommonGoal cg : commonGoals) {
             System.out.println("name " + cg.getLayout().getName());
-            System.out.println("occurences " + cg.getLayout().getOccurrences());
+            System.out.println("occurrences " + cg.getLayout().getOccurrences());
             System.out.println("size " + cg.getLayout().getSize());
             System.out.println("horizontal " + cg.getLayout().isHorizontal());
             System.out.println("minDiff " + cg.getLayout().getMinDifferent());
@@ -279,7 +274,7 @@ public class GameModel {
     /**
      * This method returns a boolean representing if the game has ended.
      *
-     * @return true id the game is ended, otherwise false.
+     * @return true ID the game is ended, otherwise false.
      */
     public boolean isTheGameEnded() {
         return isTheGameEnded;

@@ -13,9 +13,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static it.polimi.ingsw.utils.CliUtilities.RESET;
-import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
-
 /**
  * This is abstract (non instantiable) because each client will either be an RMI client or a Socket client
  */
@@ -35,14 +32,14 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public String username;
     public Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build(); // Default locale
-    public ResourceBundle bundle= ResourceBundle.getBundle("game", locale);
+    public ResourceBundle bundle = ResourceBundle.getBundle("game", locale);
     private Boolean allReconnected = false; // Whether all the players have reconnected
     private Boolean theOnlyOne = false; // Whether this client is the only one in the game
     private Boolean serverConnection = false; // Whether there is a connection to the server
 
     public Client() throws RemoteException {
         super();
-        gameView=MyShelfie.gameView;
+        gameView = MyShelfie.gameView;
 
         gameView.initiateConnection();
 
@@ -90,21 +87,6 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
     public void stop() {
         System.exit(0);
     }
-
-    // TODO: check if this is used
-    public void startPingThread(String username) {
-        Thread pingThread = new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(15000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        pingThread.start();
-    }
-
 
     public void setView(GameView gameView) {
         this.gameView = gameView;
@@ -201,7 +183,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
                 theOnlyOne = false;
                 gameView.setTheOnlyOne(false);
                 String username = message.getArgument();
-                Boolean isMyTurn= message.getPlayerTurn().equals(this.username);
+                Boolean isMyTurn = message.getPlayerTurn().equals(this.username);
                 gameView.enableGame(isMyTurn);
                 gameView.showMessage(reconnectionMessage(username));
             }
@@ -296,9 +278,7 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
      */
     public void myTurn() {
         gameView.showMessage(yourTurnMessage());
-        Thread turnThread = new Thread(() -> {
-            gameView.showPick();
-        });
+        Thread turnThread = new Thread(() -> gameView.showPick());
         turnThread.start();
     }
 
@@ -332,23 +312,20 @@ public abstract class Client extends UnicastRemoteObject implements Serializable
 
     /**
      * Sets the game language to the specified one.
+     *
      * @param language the language selected (2 letters)
-     * @param country the country selected (2 letters)
+     * @param country  the country selected (2 letters)
      */
     public void setLanguage(String language, String country) {
         locale = new Locale.Builder().setLanguage(language).setRegion(country).build();
         bundle = ResourceBundle.getBundle("game", locale);
     }
 
-    public String yourTurnMessage(){
+    public String yourTurnMessage() {
         return bundle.getString("yourTurn");
     }
 
-    public String otherTurnMessage(String username){
+    public String otherTurnMessage(String username) {
         return bundle.getString("otherTurn") + username + bundle.getString("otherTurn2");
     }
-
-
-
-
 }

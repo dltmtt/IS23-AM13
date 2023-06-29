@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class Room {
 
-    private static int minPlayers;
     private static int maxPlayers;
     private final List<Player> players = new ArrayList<>();
     private final int roomId;
@@ -42,7 +41,6 @@ public class Room {
      */
     public void setNumberOfPlayers(int maxPlayers) {
         Room.maxPlayers = maxPlayers;
-        Room.minPlayers = 2;
     }
 
     /**

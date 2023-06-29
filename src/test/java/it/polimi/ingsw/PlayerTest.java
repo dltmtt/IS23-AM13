@@ -23,7 +23,7 @@ public class PlayerTest {
 
     @Test
     void rearrange() {
-        Player player = new Player("test", 0, true, true, true);
+        Player player = new Player("test", true, true, true);
         List<Item> coordinates = new ArrayList<>();
         coordinates.add(new Item(Color.BLUE, 1));
         coordinates.add(new Item(Color.BLUE, 2));
@@ -42,7 +42,7 @@ public class PlayerTest {
         commons.add(true);
         commons.add(false);
 
-        Player player = new Player("test", 0, true, true, true, commons);
+        Player player = new Player("test", true, true, true, commons);
         Layout s = new Diagonal(1, 3, 2);
         Layout s2 = new Stair(1, 6, Bookshelf.getColumns());
         commonGoal.add(new CommonGoal(s, 2));
@@ -51,21 +51,20 @@ public class PlayerTest {
 
         assertEquals("diagonal", player.getCommonNames().get(0));
         assertEquals("stair", player.getCommonNames().get(1));
-
     }
 
     @Test
     void setPlayer() {
-        Player p = new Player("Ciao", 0, true, true, true);
+        Player p = new Player("Ciao", true, true, true);
         p.setIsFirstPlayer(true);
         assertTrue(p.isFirstPlayer());
-        assertEquals("Ciao", p.getNickname());
+        assertEquals("Ciao", p.getUsername());
         p.setHasEndGameCard(true);
     }
 
     @Test
     void set_get_points() throws IOException, ParseException {
-        Player p = new Player("Ciao", 0, true, true, true);
+        Player p = new Player("Ciao", true, true, true);
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Diagonal(1, 3, 2), 2));
         commonGoals.add(new CommonGoal(new Stair(1, 6, Bookshelf.getColumns()), 2));
@@ -83,12 +82,11 @@ public class PlayerTest {
         assertEquals(13, p.calculateScore());
         assert (p.getBookshelf() != null);
         assert (p.getCommonGoalScoreList().get(0) == 4);
-
     }
 
     @Test
     void commonGoalCompleted() {
-        Player p = new Player("Ciao", 0, true, true, false);
+        Player p = new Player("Ciao", true, true, false);
         List<CommonGoal> commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoal(new Diagonal(1, 1, 5), 2));
         Player.setCommonGoal(commonGoals);
@@ -103,7 +101,7 @@ public class PlayerTest {
 
     @Test
     void checkExceptions() {
-        Player p = new Player("Ciao", 0, true, true, false);
+        Player p = new Player("Ciao", true, true, false);
         List<Integer> sort = new ArrayList<>();
         sort.add(1);
         sort.add(0);

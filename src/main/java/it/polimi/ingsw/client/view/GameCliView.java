@@ -20,7 +20,6 @@ import java.util.List;
 import static it.polimi.ingsw.utils.CliUtilities.RESET;
 import static it.polimi.ingsw.utils.CliUtilities.SUCCESS_COLOR;
 
-
 /**
  * This class handles the CLI view of the game. It contains all the methods used to show the game state to the user by the command line and to get input from the user.
  */
@@ -49,7 +48,6 @@ public class GameCliView implements GameView {
                 System.err.println("Invalid IP address: " + ip);
             }
         } while (!MyShelfie.isIpValid(ip));
-        
         String protocolType = null;
         try {
             protocolType = CliUtilities.askCloseEndedQuestion("Choose a protocol (rmi or tcp): ", List.of("rmi", "tcp"), "tcp");
@@ -87,7 +85,6 @@ public class GameCliView implements GameView {
         showStartGame();
         String username = showLogin();
         boolean firstGame = promptFirstGame();
-        client.startPingThread(username);
         client.sendMessage(new Message("completeLogin", username, 0, firstGame, 0));
     }
 
@@ -225,7 +222,6 @@ public class GameCliView implements GameView {
         CommonGoalView.print(card, occurrences, size, horizontal);
     }
 
-
     /**
      * This method shows the pick question for the user and check if the input is valid.
      */
@@ -284,7 +280,6 @@ public class GameCliView implements GameView {
     /**
      * This method ignores the input if the player is alone.
      */
-
     private void ignoreInputIfAlone(BufferedReader in) {
         while (theOnlyOne) {
             try {
@@ -452,7 +447,6 @@ public class GameCliView implements GameView {
         showMessage("Waiting for other players to join...\n");
     }
 
-
     /**
      * This method shows the game to the player. (the board, their bookshelf, the common goals, the personal goal, the current score, the bookshelves of the other players)
      */
@@ -483,7 +477,6 @@ public class GameCliView implements GameView {
         // Board
         showBoard(message.getBoard());
     }
-
 
     /**
      * This method shows  to the player their bookshelf (picked from the message from the server).
@@ -516,7 +509,6 @@ public class GameCliView implements GameView {
         this.client = client;
     }
 
-
     /**
      * This method shows to the player the bookshelf of another player (picked from the message from the server).
      *
@@ -528,7 +520,6 @@ public class GameCliView implements GameView {
         BookshelfView bookshelfView = new BookshelfView(bookshelf);
         bookshelfView.printOtherBookshelf();
     }
-
 
     /**
      * This method shows the message for an invalid username.
@@ -610,7 +601,6 @@ public class GameCliView implements GameView {
         System.out.print(message);
     }
 
-
     /**
      * This method shows the message for the rearrange procedure.
      */
@@ -690,7 +680,6 @@ public class GameCliView implements GameView {
     public void connectionSuccess() {
         System.out.println(SUCCESS_COLOR + "connected" + RESET);
     }
-
 
     /**
      * This method shows the message for the connection to server error.

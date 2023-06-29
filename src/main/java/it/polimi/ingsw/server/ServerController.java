@@ -100,15 +100,15 @@ public class ServerController {
         gameModel.setGame(lastGame.getCommonGoals(players.size()));
         String currentPlayer = lastGame.getCurrentPlayer();
         for (Player player : players) {
-            if (player.getNickname().equals(currentPlayer)) {
+            if (player.getUsername().equals(currentPlayer)) {
                 gameModel.setCurrentPlayer(player);
                 break;
             }
         }
-        disconnectedPlayers.addAll(players.stream().map(Player::getNickname).toList());
+        disconnectedPlayers.addAll(players.stream().map(Player::getUsername).toList());
         isGameLoaded = true;
         for (Player p : players) {
-            System.out.println(p.getNickname() + " " + p.getCommonGoalCompleted() + " " + p.getCommonGoalPoints() + " " + p.getCommonNames());
+            System.out.println(p.getUsername() + " " + p.getCommonGoalCompleted() + " " + p.getCommonGoalPoints() + " " + p.getCommonNames());
         }
 
         System.out.println("Last game loaded");
@@ -138,7 +138,7 @@ public class ServerController {
     public List<String> getExtraPlayers() {
         List<String> extraPlayers = new ArrayList<>();
         for (int i = numberOfPlayers; i < players.size(); i++) {
-            extraPlayers.add(players.get(i).getNickname());
+            extraPlayers.add(players.get(i).getUsername());
         }
         // removePlayers(extraPlayers);
         System.out.println("Extra players: " + extraPlayers);
@@ -150,7 +150,7 @@ public class ServerController {
         System.out.println("Players to remove: " + playersToRemove);
         System.out.println("All players: " + allPlayers);
         for (Player p : allPlayers) {
-            if (playersToRemove.contains(p.getNickname())) {
+            if (playersToRemove.contains(p.getUsername())) {
                 players.remove(p);
             }
         }
@@ -207,7 +207,7 @@ public class ServerController {
         //     return -2;
         // }
         for (Player player : players) {
-            if (player.getNickname().equals(username)) {
+            if (player.getUsername().equals(username)) {
                 if (disconnectedPlayers.contains(username)) {
                     disconnectedPlayers.remove(username);
                     return -1;
@@ -229,7 +229,7 @@ public class ServerController {
      */
     public int getPositionByUsername(String username) {
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getNickname().equals(username)) {
+            if (players.get(i).getUsername().equals(username)) {
                 return i;
             }
         }
@@ -240,11 +240,10 @@ public class ServerController {
      * Saves a player in the list of players.
      *
      * @param username  the username of the player
-     * @param age       the age of the player
      * @param firstGame true if it's the first game of the player
      */
-    public void addPlayer(String username, int age, boolean firstGame) {
-        players.add(new Player(username, age, firstGame, false, false));
+    public void addPlayer(String username, boolean firstGame) {
+        players.add(new Player(username, firstGame, false, false));
     }
 
     /**
@@ -302,14 +301,14 @@ public class ServerController {
      * @return the username of the current player
      */
     public String getCurrentPlayer() {
-        return gameModel.getCurrentPlayer().getNickname();
+        return gameModel.getCurrentPlayer().getUsername();
     }
 
     /**
      * @return a map of the bookshelves and the players who own them
      */
     public HashMap<String, Bookshelf> getBookshelves() {
-        return gameModel.getPlayers().stream().collect(Collectors.toMap(Player::getNickname, Player::getBookshelf, (a, b) -> b, HashMap::new));
+        return gameModel.getPlayers().stream().collect(Collectors.toMap(Player::getUsername, Player::getBookshelf, (a, b) -> b, HashMap::new));
     }
 
     /**
@@ -406,7 +405,7 @@ public class ServerController {
     public void changeTurn() {
         int currentPlayerIndex = players.indexOf(gameModel.getCurrentPlayer());
         int nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        while (disconnectedPlayers.contains(players.get(nextPlayerIndex).getNickname())) {
+        while (disconnectedPlayers.contains(players.get(nextPlayerIndex).getUsername())) {
             nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
         }
         if (gameModel.isLastRound()) {
@@ -440,9 +439,9 @@ public class ServerController {
                 if (winners.size() != 0) {
                     winners.clear();
                 }
-                winners.put(player.getNickname(), max);
+                winners.put(player.getUsername(), max);
             } else {
-                losers.put(player.getNickname(), finalPoints.get(players.indexOf(player)));
+                losers.put(player.getUsername(), finalPoints.get(players.indexOf(player)));
             }
         }
     }
@@ -514,7 +513,7 @@ public class ServerController {
     }
 
     public void saveGame() {
-        new Message(players, getCommonGoals(), getBoard(), gameModel.getCurrentPlayer().getNickname());
+        new Message(players, getCommonGoals(), getBoard(), gameModel.getCurrentPlayer().getUsername());
     }
 
     public List<Coordinates> createCoordinateList(List<Integer> integers) {
@@ -555,7 +554,7 @@ public class ServerController {
         String firstPlayer = "";
         for (Player player : players) {
             if (player.isFirstPlayer()) {
-                firstPlayer = player.getNickname();
+                firstPlayer = player.getUsername();
             }
         }
         return firstPlayer;
@@ -610,7 +609,7 @@ public class ServerController {
         List<Integer> zeroPoints = List.of(new Integer[]{0, 0, 0, 0});
 
         for (Player username : players) {
-            initialPoints.put(username.getNickname(), zeroPoints);
+            initialPoints.put(username.getUsername(), zeroPoints);
         }
         return initialPoints;
     }
@@ -630,7 +629,7 @@ public class ServerController {
     public HashMap<String, List<Integer>> getAllCurrentPoints() {
         HashMap<String, List<Integer>> allCurrentPoints = new HashMap<>();
         for (Player player : players) {
-            allCurrentPoints.put(player.getNickname(), gameModel.getAllPoints(player));
+            allCurrentPoints.put(player.getUsername(), gameModel.getAllPoints(player));
         }
         return allCurrentPoints;
     }

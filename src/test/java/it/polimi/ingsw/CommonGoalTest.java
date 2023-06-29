@@ -73,7 +73,7 @@ public class CommonGoalTest {
         items.add(new Item(Color.GREEN, 1));
         items.add(new Item(Color.BLUE, 1));
 
-        Player p = new Player("test", 0, false, true, false);
+        Player p = new Player("test", false, true, false);
         p.setBookshelf(b);
 
         List<CommonGoal> commonGoals = new ArrayList<>();

@@ -38,7 +38,7 @@ public class ItemsPerColorTest {
         for (Color color : Color.values()) {
             b.clearBookshelf();
             BookshelfUtilities.createRandomElements(b, color, 8);
-            CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
+            CliUtilities.stringifyBookshelf(b.getItems()).forEach(System.out::println);
             assert L.check(b);
         }
 
@@ -53,17 +53,18 @@ public class ItemsPerColorTest {
                     if (!L.check(b)) {
                         System.out.println(L.getInfo());
                     }
-                    CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
+                    CliUtilities.stringifyBookshelf(b.getItems()).forEach(System.out::println);
                     assertTrue(L.check(b));
                 } else {
-                    CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
+                    CliUtilities.stringifyBookshelf(b.getItems()).forEach(System.out::println);
                     assert true;
                 }
             }
         }
     }
+
     @Test
-    void getName(){
+    void getName() {
         Layout L = new ItemsPerColor(1, 1);
         assert L.getName().equals("itemsPerColor");
     }
@@ -133,7 +134,7 @@ public class ItemsPerColorTest {
         items.add(new Item(Color.GREEN, 1));
         b.insert(2, items);
 
-        CliUtilities.stringifyBookshelf(b.getItems()).stream().forEach(System.out::println);
+        CliUtilities.stringifyBookshelf(b.getItems()).forEach(System.out::println);
         assertFalse(L.check(b));
     }
 }

@@ -42,8 +42,8 @@ public class GameTest {
     @Test
     public void GameModelTest() {
         List<Player> players = new ArrayList<>();
-        players.add(new Player("pippo", 0, false, true, false));
-        players.add(new Player("pluto", 1, false, false, false));
+        players.add(new Player("pippo", false, true, false));
+        players.add(new Player("pluto", false, false, false));
         Bookshelf bookshelf = new Bookshelf(6, 5);
         players.get(0).setBookshelf(bookshelf);
         Board board = new Board(players.size());
@@ -57,12 +57,12 @@ public class GameTest {
         Player.setCommonGoal(commonGoalList);
         GameModel gameModel = new GameModel(players, board, commonGoalList);
         assertEquals(gameModel.getPlayers(), players);
-        players.add(new Player("paperino", 2, false, false, false));
+        players.add(new Player("paperino", false, false, false));
         gameModel.setPlayers(players);
         assertEquals(gameModel.getPlayers(), players);
         commonGoalList.add(new CommonGoal(new Group(1, 1, 2, 2), 2));
         gameModel.setGame(commonGoalList);
-        //assertEquals(gameModel.getCommonGoalDeck(), commonGoalList);
+        // assertEquals(gameModel.getCommonGoalDeck(), commonGoalList);
         gameModel.setTheGameEnded(true);
         assertTrue(gameModel.isTheGameEnded());
         assertEquals(gameModel.getLivingRoom(), board);
@@ -77,8 +77,5 @@ public class GameTest {
 
         CommonGoal commonGoal = new CommonGoal(new XShape(1, 1, 3), 0);
         assertEquals(0, commonGoal.getScoring());
-
-
     }
-
 }

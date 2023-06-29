@@ -204,7 +204,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
         Message myGame = new Message(controller.getPersonalGoalCard(position), controller.getCommonGoals(), controller.getBookshelves(), controller.getBoard(), controller.getTopOfScoring(), controller.getFirstPlayer(), controller.getAllCurrentPoints());
         client.sendMessageToClient(myGame);
 
-        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername(), controller.gameModel.getCurrentPlayer().getNickname()));
+        sendAllExcept(client.getUsername(), new Message("reconnected", client.getUsername(), controller.gameModel.getCurrentPlayer().getUsername()));
 
         startPingThread(client);
         sendTurn(client);
@@ -231,7 +231,7 @@ public class SocketClientHandler implements Runnable, ServerCommunicationInterfa
                 } else {
                     client.sendMessageToClient(new Message("username", username));
 
-                    controller.addPlayer(username, 0, firstGame);
+                    controller.addPlayer(username, firstGame);
                     System.out.println(username + " logged in.");
 
                     setUsername(username);

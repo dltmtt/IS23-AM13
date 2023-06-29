@@ -12,8 +12,8 @@ public class RoomTest {
     @Test
     public void isFull() {
         List<Player> players = new ArrayList<>();
-        players.add(new Player("pippo", 0, false, false, false));
-        players.add(new Player("pluto", 0, false, false, false));
+        players.add(new Player("pippo", false, false, false));
+        players.add(new Player("pluto", false, false, false));
         Room newRoom = new Room(1);
         newRoom.setNumberOfPlayers(2);
         newRoom.addPlayer(players.get(0));
@@ -35,8 +35,8 @@ public class RoomTest {
         Room newRoom = new Room(1);
         newRoom.setNumberOfPlayers(2);
         List<Player> players = new ArrayList<>();
-        players.add(new Player("pippo", 0, false, false, false));
-        players.add(new Player("pluto", 0, false, false, false));
+        players.add(new Player("pippo", false, false, false));
+        players.add(new Player("pluto", false, false, false));
         newRoom.addPlayer(players.get(0));
         newRoom.addPlayer(players.get(1));
 
@@ -48,9 +48,9 @@ public class RoomTest {
         Room newRoom = new Room(1);
         newRoom.setNumberOfPlayers(2);
         List<Player> players = new ArrayList<>();
-        players.add(new Player("pippo", 0, false, false, false));
-        players.add(new Player("pluto", 0, false, false, false));
-        players.add(new Player("paperino", 0, false, false, false));
+        players.add(new Player("pippo", false, false, false));
+        players.add(new Player("pluto", false, false, false));
+        players.add(new Player("paperino", false, false, false));
         newRoom.addPlayer(players.get(0));
         newRoom.addPlayer(players.get(1));
         newRoom.addPlayer(players.get(2));
@@ -61,10 +61,9 @@ public class RoomTest {
     @Test
     void constructor2() {
         List<Player> players = new ArrayList<>();
-        players.add(new Player("pippo", 0, false, false, false));
-        players.add(new Player("pluto", 0, false, false, false));
+        players.add(new Player("pippo", false, false, false));
+        players.add(new Player("pluto", false, false, false));
         Room newRoom = new Room(1, players);
-
 
         assert (newRoom.full());
     }
