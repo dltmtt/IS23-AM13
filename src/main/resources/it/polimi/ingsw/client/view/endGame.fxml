@@ -113,7 +113,7 @@
                                 </Label>
                             </children>
                         </GridPane>
-                        <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeScreen" prefHeight="87.0" prefWidth="122.0" text="%playAgain" />
+                        <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeScreen" prefHeight="87.0" prefWidth="122.0" text="%playAgain" visible="false" />
                     </children>
                 </HBox>
             </children>

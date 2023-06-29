@@ -22,256 +22,287 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="828.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="632.0" prefWidth="832.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <StackPane prefHeight="537.0" prefWidth="754.0">
+        <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
             <children>
-                <ImageView fitHeight="532.0" fitWidth="832.0" pickOnBounds="true">
+                <ImageView fx:id="background" fitHeight="630.0" fitWidth="832.0" pickOnBounds="true">
                     <image>
                         <Image url="@sfondo_parquet.jpg" />
                     </image>
                 </ImageView>
-                <StackPane prefHeight="150.0" prefWidth="200.0">
-                    <children>
-                        <ImageView fitHeight="63.0" fitWidth="817.0" opacity="0.7" pickOnBounds="true" StackPane.alignment="TOP_CENTER">
-                            <image>
-                                <Image url="@graphics/misc/base_pagina2.jpg" />
-                            </image>
-                        </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
-                            <image>
-                                <Image url="@graphics/publisher_material/title_2000x618px.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </StackPane>
-                <TabPane prefHeight="550.0" prefWidth="754.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
+            <VBox>
+               <children>
+                      <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                          <children>
+                              <ImageView fx:id="header" fitHeight="63.0" fitWidth="832.0" opacity="0.7" pickOnBounds="true" StackPane.alignment="TOP_CENTER">
+                                  <image>
+                                      <Image url="@graphics/misc/base_pagina2.jpg" />
+                                  </image>
+                              </ImageView>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
+                                  <image>
+                                      <Image url="@graphics/publisher_material/title_2000x618px.png" />
+                                  </image>
+                              </ImageView>
+                          </children>
+                      </StackPane>
+                      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                          <tabs>
                         <Tab text="Play">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                    <children>
-                                        <GridPane fx:id="login" layoutX="360.0" layoutY="84.0" prefHeight="335.0" prefWidth="387.0" visible="false">
-                                            <columnConstraints>
-                                                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                            <children>
-                                                <Label fx:id="firstPlay" text="Is this the first time you play?" textAlignment="CENTER" GridPane.rowIndex="2">
-                                                    <textFill>
-                                                        <LinearGradient endX="1.0">
-                                                            <stops>
-                                                                <Stop>
-                                                                    <color>
-                                                                        <Color red="0.40789473056793213" green="0.16510924696922302" blue="0.024549219757318497" />
-                                                                    </color>
-                                                                </Stop>
-                                                                <Stop offset="1.0">
-                                                                    <color>
-                                                                        <Color red="0.5921052694320679" green="0.2722953259944916" blue="0.04385964944958687" />
-                                                                    </color>
-                                                                </Stop>
-                                                            </stops>
-                                                        </LinearGradient>
-                                                    </textFill>
-                                                    <font>
-                                                        <Font size="28.0" />
-                                                    </font>
-                                                    <GridPane.margin>
-                                                        <Insets />
-                                                    </GridPane.margin>
-                                                </Label>
-                                                <Label fx:id="insertUsername" alignment="CENTER" text="Insert your username" textAlignment="CENTER">
-                                                    <textFill>
-                                                        <LinearGradient endX="1.0">
-                                                            <stops>
-                                                                <Stop>
-                                                                    <color>
-                                                                        <Color red="0.40789473056793213" green="0.16510924696922302" blue="0.024549219757318497" />
-                                                                    </color>
-                                                                </Stop>
-                                                                <Stop offset="1.0">
-                                                                    <color>
-                                                                        <Color red="0.5921052694320679" green="0.2722953259944916" blue="0.04385964944958687" />
-                                                                    </color>
-                                                                </Stop>
-                                                            </stops>
-                                                        </LinearGradient>
-                                                    </textFill>
-                                                    <font>
-                                                        <Font size="28.0" />
-                                                    </font>
-                                                    <GridPane.margin>
-                                                        <Insets />
-                                                    </GridPane.margin>
-                                                </Label>
-                                                <CheckBox fx:id="firstGame" mnemonicParsing="false" GridPane.rowIndex="3" />
-                                                <Label fx:id="usernameError" translateX="-80.0" translateY="215.0" />
-                                                <TextField fx:id="username" prefHeight="26.0" prefWidth="308.0" GridPane.rowIndex="1">
-                                                    <GridPane.margin>
-                                                        <Insets left="30.0" right="30.0" />
-                                                    </GridPane.margin>
-                                                </TextField>
-                                    <StackPane fx:id="waiting" prefHeight="150.0" prefWidth="200.0" visible="false" GridPane.rowIndex="5">
-                                       <children>
-                                          <ProgressBar prefHeight="18.0" prefWidth="371.0" />
-                                          <Label text="Waiting for a response from the server, it may take a while..." textFill="#26505e" />
-                                       </children>
-                                    </StackPane>
-                                              <Button fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClicked" prefHeight="43.0" prefWidth="124.0" text="Start game" GridPane.rowIndex="4" />
-                                            </children>
-                                        </GridPane>
-                              <VBox alignment="CENTER" layoutX="14.0" layoutY="91.0" prefHeight="320.0" prefWidth="294.0" spacing="10.0" style="-fx-background-color: #560a0ad6;">
+                           <content>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                                  <children>
-                                    <HBox alignment="CENTER" fillHeight="false" prefHeight="72.0" prefWidth="294.0" spacing="10.0" VBox.vgrow="NEVER">
+                                    <VBox alignment="CENTER" prefHeight="320.0" prefWidth="294.0" spacing="10.0" style="-fx-background-color: #560a0ad6;">
                                        <children>
-                                          <Label text="Server IP Address" textFill="#fcffe5">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="serverIp" />
+                                          <HBox alignment="CENTER" fillHeight="false" prefHeight="72.0" prefWidth="294.0" spacing="10.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <Label text="Server IP Address" textFill="#fcffe5">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="serverIp" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" fillHeight="false" prefHeight="70.0" prefWidth="294.0" spacing="10.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <Label text="Connection Type" textFill="#fcffe5">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <ComboBox fx:id="connectionType" prefHeight="26.0" prefWidth="78.0" />
+                                             </children>
+                                          </HBox>
+                                          <Button fx:id="connect" mnemonicParsing="false" onAction="#connectToServer" text="Connect" />
+                                          <ProgressIndicator fx:id="waitingConnection" prefHeight="37.0" prefWidth="55.0" visible="false" />
+                                                      <Label fx:id="connectionStatus" prefHeight="54.0" prefWidth="234.0" />
                                        </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" fillHeight="false" prefHeight="70.0" prefWidth="294.0" spacing="10.0" VBox.vgrow="NEVER">
-                                       <children>
-                                          <Label text="Connection Type" textFill="#fcffe5">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <ComboBox fx:id="connectionType" prefHeight="26.0" prefWidth="78.0" />
-                                       </children>
-                                    </HBox>
-                                    <Button fx:id="connect" mnemonicParsing="false" onAction="#connectToServer" text="Connect" />
-                                    <ProgressIndicator fx:id="waitingConnection" prefHeight="37.0" prefWidth="55.0" visible="false" />
-                                                <Label fx:id="connectionStatus" prefHeight="54.0" prefWidth="234.0" />
-                                 </children>
-                              </VBox>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
-                        <Tab disable="true" text="Rules">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane fitToWidth="true" layoutX="14.0" layoutY="66.0" prefHeight="429.0" prefWidth="736.0">
-                                 <content>
-                                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                                       <children>
-                                          <Label text="Players take item tiles from the living room and place them intheir bookshelves to score points; &#10;the game ends when a player completely fills their bookshelf. &#10;The player with more points at the end will win the game. There are 4 ways to score points" textAlignment="JUSTIFY" />
-                                          <Label text="Personal Goal card">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Label" />
-                                       </children>
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
                                     </VBox>
-                                 </content>
-                              </ScrollPane>
-                           </children></AnchorPane>
-                            </content>
+                                              <GridPane fx:id="login" prefHeight="335.0" prefWidth="387.0" visible="false" HBox.hgrow="ALWAYS">
+                                                  <columnConstraints>
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                  <children>
+                                                      <Label fx:id="usernameError" GridPane.rowIndex="1" />
+                                                      <Label fx:id="insertUsername" alignment="CENTER" text="%username" textAlignment="CENTER">
+                                                          <textFill>
+                                                              <LinearGradient endX="1.0">
+                                                                  <stops>
+                                                                      <Stop>
+                                                                          <color>
+                                                                              <Color red="0.40789473056793213" green="0.16510924696922302" blue="0.024549219757318497" />
+                                                                          </color>
+                                                                      </Stop>
+                                                                      <Stop offset="1.0">
+                                                                          <color>
+                                                                              <Color red="0.5921052694320679" green="0.2722953259944916" blue="0.04385964944958687" />
+                                                                          </color>
+                                                                      </Stop>
+                                                                  </stops>
+                                                              </LinearGradient>
+                                                          </textFill>
+                                                          <font>
+                                                              <Font size="28.0" />
+                                                          </font>
+                                                          <GridPane.margin>
+                                                              <Insets />
+                                                          </GridPane.margin>
+                                                      </Label>
+                                                      <CheckBox fx:id="firstGame" alignment="CENTER_RIGHT" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="%firstPlay" textAlignment="CENTER" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font size="28.0" />
+                                             </font>
+                                             <textFill>
+                                                <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.40789473056793213" green="0.16510924696922302" blue="0.024549219757318497" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.5921052694320679" green="0.2722953259944916" blue="0.04385964944958687" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </RadialGradient>
+                                             </textFill>
+                                          </CheckBox>
+                                                      <TextField fx:id="username" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="308.0" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                                                          <GridPane.margin>
+                                                              <Insets left="30.0" right="30.0" />
+                                                          </GridPane.margin>
+                                                      </TextField>
+                                          <StackPane fx:id="waiting" prefHeight="150.0" prefWidth="200.0" visible="false" GridPane.rowIndex="4">
+                                             <children>
+                                                <ProgressBar prefHeight="18.0" prefWidth="371.0" />
+                                                <Label text="Waiting for a response from the server, it may take a while..." textFill="#26505e" />
+                                             </children>
+                                          </StackPane>
+                                                    <Button fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClicked" prefHeight="43.0" prefWidth="124.0" text="%startGame" GridPane.rowIndex="3" />
+                                                  </children>
+                                              </GridPane>
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </HBox>
+                           </content>
                         </Tab>
-                        <Tab fx:id="settings" onSelectionChanged="#loadSettings" text="Settings">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                    <children>
-                                        <VBox layoutY="63.0" prefHeight="442.0" prefWidth="762.0">
-                                            <children>
-                                                <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
-                                                    <children>
-                                                        <Label fx:id="l" text="Language">
-                                                            <font>
-                                                                <Font size="19.0" />
-                                                            </font>
-                                                        </Label>
-                                                        <ComboBox fx:id="language" prefWidth="150.0" />
-                                                        <Button fx:id="setLanguage" mnemonicParsing="false" onAction="#changeLanguage" text="Set" />
-                                          <Label fx:id="selectedLang" text="LANG" visible="false" />
-                                          <Label fx:id="confirmLanguage" text="set as language" visible="false" />
-                                                    </children>
-                                                    <padding>
-                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                                    </padding>
-                                                </HBox>
-                                            </children>
-                                        </VBox>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
+                              <Tab fx:id="settings" onSelectionChanged="#loadSettings" text="Settings">
+                                  <content>
+                                      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
+                                          <children>
+                                              <VBox layoutY="63.0" prefHeight="442.0" prefWidth="762.0">
+                                                  <children>
+                                                      <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+                                                          <children>
+                                                              <Label fx:id="l" text="Language">
+                                                                  <font>
+                                                                      <Font size="19.0" />
+                                                                  </font>
+                                                              </Label>
+                                                              <ComboBox fx:id="language" prefWidth="150.0" />
+                                                              <Button fx:id="setLanguage" mnemonicParsing="false" onAction="#changeLanguage" text="Set" />
+                                                <Label fx:id="selectedLang" text="LANG" visible="false" />
+                                                <Label fx:id="confirmLanguage" text="set as language" visible="false" />
+                                                          </children>
+                                                          <padding>
+                                                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                          </padding>
+                                                      </HBox>
+                                                  </children>
+                                              </VBox>
+                                          </children>
+                                      </AnchorPane>
+                                  </content>
+                              </Tab>
                         <Tab text="Credits">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <VBox alignment="CENTER" layoutX="8.0" layoutY="62.0" prefHeight="437.0" prefWidth="744.0">
+                           <content>
+                              <VBox alignment="CENTER" prefHeight="434.0" prefWidth="818.0" style="-fx-background-color: FFFFFF00;">
                                  <children>
-                                    <Label text="IS23-AM13" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="38.0" />
-                                       </font>
-                                    </Label>
-                                    <GridPane prefHeight="247.0" prefWidth="704.0">
-                                      <columnConstraints>
-                                        <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                                          <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                                        <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints maxHeight="218.60001220703126" minHeight="10.0" percentHeight="60.0" prefHeight="203.4" valignment="CENTER" vgrow="NEVER" />
-                                        <RowConstraints maxHeight="133.79999389648438" minHeight="10.0" prefHeight="75.4" valignment="TOP" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <children>
-                                          <ImageView fitHeight="133.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@graphics/us/simocorbo.jpg" />
-                                             </image>
-                                          </ImageView>
-                                          <Label text="Valeria De Gennaro&#10;&#10;@" textAlignment="CENTER" textFill="#713114" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Matteo Delton&#10;&#10;@" textAlignment="CENTER" textFill="#713114" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Beatrice di Raimondo&#10;Metallo&#10;@" textAlignment="CENTER" textFill="#713114" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Simone Corbo&#10;&#10;@simocorbo" textAlignment="CENTER" textFill="#713114" GridPane.rowIndex="1">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </GridPane>
+                                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="392.0" prefWidth="778.0" style="-fx-background-color: #560a0ad6;" VBox.vgrow="ALWAYS">
+                                       <content>
+                                          <VBox alignment="TOP_CENTER" prefHeight="554.0" prefWidth="762.0" spacing="30.0" style="-fx-background-color: #560a0ad6;">
+                                             <children>
+                                                <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="IS23-AM13" textFill="#fff3f3">
+                                                   <font>
+                                                      <Font size="45.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                                   <children>
+                                                      <Label alignment="CENTER" text="Simone Corbo" textAlignment="CENTER" textFill="#fff3f3">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" text="Valeria De Gennaro" textAlignment="CENTER" textFill="#fff3f3">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" text="Matteo Delton" textAlignment="CENTER" textFill="#fff3f3">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" text="Beatrice di Raimondo Metallo" textAlignment="CENTER" textFill="#fff3f3">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                                <Label text="Behind the scenes ..." textFill="WHITE" />
+                                                <HBox alignment="CENTER" prefHeight="242.0" prefWidth="762.0" spacing="10.0">
+                                                   <children>
+                                                      <ImageView fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/1.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/2.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/3.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/4.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                                   <children>
+                                                      <ImageView fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/5.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/6.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/7.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/8.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@graphics/us/9.jpg" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="30.0" top="30.0" />
+                                             </padding>
+                                          </VBox>
+                                       </content>
+                                    </ScrollPane>
                                  </children>
                                  <padding>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                  </padding>
                               </VBox>
-                           </children></AnchorPane>
-                            </content>
+                           </content>
                         </Tab>
-                    </tabs>
-                </TabPane>
+                          </tabs>
+                      </TabPane>
+               </children>
+            </VBox>
             </children>
         </StackPane>
     </children>

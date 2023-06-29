@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -24,7 +25,7 @@ public class LoginGuiController {
     @FXML
     private TextField username, serverIp;
     @FXML
-    private Label usernameError, connectionStatus, userMessage, insertUsername, firstPlay, selectedLang, confirmLanguage;
+    private Label usernameError, connectionStatus, userMessage, insertUsername, selectedLang, confirmLanguage;
     @FXML
     private CheckBox firstGame;
     @FXML
@@ -47,6 +48,9 @@ public class LoginGuiController {
     @FXML
     private ProgressIndicator waitingConnection;
 
+    @FXML
+    private ImageView background, header;
+
     private Stage stage;
 
     /**
@@ -56,6 +60,8 @@ public class LoginGuiController {
         this.client = MyShelfie.client;
         this.stage = GuiView.stage;
         this.stage.setResizable(false);
+
+        stage= GuiView.stage;
     }
 
     /**
@@ -128,7 +134,7 @@ public class LoginGuiController {
         ResourceBundle language = client.bundle;
         insertUsername.setText(language.getString("username"));
         startButton.setText(language.getString("startGame"));
-        firstPlay.setText(language.getString("firstPlay"));
+        firstGame.setText(language.getString("firstPlay"));
     }
 
     /**

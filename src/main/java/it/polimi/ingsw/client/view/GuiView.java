@@ -15,10 +15,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * This class is the GUI view, it extends Application and implements GameView.
@@ -52,10 +49,11 @@ public class GuiView extends Application implements GameView {
     public static GameGuiController gameController;
     private static LoginGuiController loginController;
     private static EndGameGuiController endGameController;
+
     /**
      * This is the resource bundle for the language
      */
-    public ResourceBundle bundle;
+    public ResourceBundle bundle=ResourceBundle.getBundle("game", new Locale.Builder().setLanguage("en").setRegion("US").build());
     private boolean theOnlyOne = false;
 
     /**
@@ -89,7 +87,7 @@ public class GuiView extends Application implements GameView {
         setClient(MyShelfie.client);
 
         // Scene loader
-        FXMLLoader loginSceneLoader = new FXMLLoader(GuiView.class.getResource("newLogin2.fxml"));
+        FXMLLoader loginSceneLoader = new FXMLLoader(GuiView.class.getResource("newLogin2.fxml"), bundle);
         loginController = new LoginGuiController();
         loginSceneLoader.setController(loginController);
         try {

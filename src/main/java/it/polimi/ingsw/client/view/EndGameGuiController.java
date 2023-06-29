@@ -153,6 +153,9 @@ public class EndGameGuiController {
         }
     }
 
+    /**
+     * Called when the player is alone in the game, it sets the winner (the champion) and the scores (null)
+     */
     public void endAlone() {
         player0.setText("");
         points0.setText("");

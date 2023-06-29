@@ -1,0 +1,8 @@
+module:it.polimi.ingsw.client.view
+it.polimi.ingsw.client
+it.polimi.ingsw.client.view
+it.polimi.ingsw.commons
+it.polimi.ingsw.server
+it.polimi.ingsw.server.model
+it.polimi.ingsw.server.model.layouts
+it.polimi.ingsw.utils
