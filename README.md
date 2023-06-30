@@ -36,7 +36,7 @@ The UML diagrams and our peer reviews can be found in the [deliverables](deliver
 To play My Shelfie, follow these steps:
 
 1. Make sure to have the `java` executable in your `PATH`;
-2. Open a terminal and type `cd <project-root>`, where `<project-root>` is the root of this
+2. Open a terminal and type `cd <project-root>/deliverables/JARs/`, where `<project-root>` is the root of this
    repository;
 3. Run the server with:
     ```bash
@@ -52,7 +52,7 @@ To play My Shelfie, follow these steps:
        java -jar AM13_Client_macOS.jar
         ```
 
-When launching the client, you can specify the following options (after `AM13_Client.jar`):
+When launching the client, you can specify the following options (after `AM13_Client_*.jar`):
 
 | Option           | Possible value(s) | Default value | Description                       |
 |------------------|:-----------------:|:-------------:|-----------------------------------|
