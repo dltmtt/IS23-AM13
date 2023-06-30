@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.SettingLoader;
 import it.polimi.ingsw.utils.Color;
 import it.polimi.ingsw.utils.Coordinates;
 import org.json.simple.JSONArray;
@@ -15,6 +16,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import static it.polimi.ingsw.SettingLoader.BASE_PATH;
+import static it.polimi.ingsw.SettingLoader.loadUsableCells;
 
 /**
  * This class represents the board of the game as a matrix of items. It also contains:
@@ -65,11 +67,7 @@ public class Board {
         usableCells = new ArrayList<>();
         JSONParser parser = new JSONParser();
         JSONObject personalGoalJson;
-        try {
-            personalGoalJson = (JSONObject) parser.parse(new FileReader(BASE_PATH + "usable_cells.json"));
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+            personalGoalJson = loadUsableCells();
         JSONArray usableCellsArray = (JSONArray) personalGoalJson.get("usable_cells");
 
         for (int i = 0; i <= numOfPlayers - 2; i++) {
@@ -108,11 +106,7 @@ public class Board {
         usableCells = new ArrayList<>();
         JSONParser parser = new JSONParser();
         JSONObject personalGoalJson;
-        try {
-            personalGoalJson = (JSONObject) parser.parse(new FileReader(BASE_PATH + "usable_cells.json"));
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+            personalGoalJson = SettingLoader.loadUsableCells();
         JSONArray usableCellsArray = (JSONArray) personalGoalJson.get("usable_cells");
 
         for (int i = 0; i <= numOfPlayers - 2; i++) {

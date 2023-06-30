@@ -12,10 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -43,7 +40,7 @@ public class SettingLoader {
 
         JSONParser parser = new JSONParser();
 
-        JSONObject personalGoalCards = (JSONObject) parser.parse(new FileReader(BASE_PATH + "personal_goals.json"));
+        JSONObject personalGoalCards = (JSONObject) parser.parse(new InputStreamReader(SettingLoader.class.getResource("personal_goals.json").openStream()));
         JSONArray personalGoalConfigurations = (JSONArray) personalGoalCards.get("personal_goal_configurations");
         JSONObject personalGoalCard = (JSONObject) personalGoalConfigurations.get(randomPersonalGoalIndex);
         JSONArray configuration = (JSONArray) personalGoalCard.get("configuration");
@@ -68,7 +65,7 @@ public class SettingLoader {
 
         // Retrieving from file
         try {
-            a = (JSONObject) parser.parse(new FileReader(BASE_PATH + "common_goals.json"));
+            a = (JSONObject) parser.parse(new InputStreamReader(SettingLoader.class.getResource("common_goals.json").openStream()));
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e + " common_goals.json not found in filling the Common Goal Deck");
         }
@@ -150,7 +147,9 @@ public class SettingLoader {
         int rowsSetting;
         int colsSetting;
 
-        try (InputStream settings = new FileInputStream(BASE_PATH + "settings.properties")) {
+        //JSONObject personalGoalCards = (JSONObject) parser.parse(new InputStreamReader(SettingLoader.class.getResource("personal_goals.json").openStream()));
+
+        try (InputStreamReader settings = new InputStreamReader(SettingLoader.class.getResource("settings.properties").openStream())) {
             prop.load(settings);
             rowsSetting = parseInt(prop.getProperty("bookshelf.rows"));
             colsSetting = parseInt(prop.getProperty("bookshelf.columns"));
@@ -165,4 +164,15 @@ public class SettingLoader {
         Bookshelf.setRows(rowsSetting);
         Bookshelf.setColumns(colsSetting);
     }
+
+    public static JSONObject loadUsableCells(){
+        JSONParser parser = new JSONParser();
+        try {
+            return (JSONObject) parser.parse(new InputStreamReader(SettingLoader.class.getResource("usable_cells.json").openStream()));
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

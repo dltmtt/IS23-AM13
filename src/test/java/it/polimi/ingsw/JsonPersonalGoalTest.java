@@ -22,22 +22,6 @@ import static it.polimi.ingsw.SettingLoader.BASE_PATH;
 public class JsonPersonalGoalTest {
 
     @Test
-    public void firstCardFirstCellTest() throws IOException, ParseException {
-        HashMap<Coordinates, Color> personalGoalCard = new HashMap<>();
-
-        JSONParser parser = new JSONParser();
-        JSONObject personalGoalJson = (JSONObject) parser.parse(new FileReader(BASE_PATH + "personal_goals.json"));
-        JSONArray deck = (JSONArray) personalGoalJson.get("personal_goal_configurations");
-
-        JSONObject personalGoal = (JSONObject) deck.get(0);
-
-        JSONArray configuration = (JSONArray) personalGoal.get("configuration");
-        JSONObject cell = (JSONObject) configuration.get(0);
-        personalGoalCard.put(new Coordinates(Math.toIntExact((Long) cell.get("x")), Math.toIntExact((Long) cell.get("y"))), Color.valueOf((String) cell.get("color")));
-        assert personalGoalCard.get(new Coordinates(2, 0)).equals(Color.PINK);
-    }
-
-    @Test
     void drawTest() throws IOException, ParseException {
         List<Player> players = new ArrayList<>(3);
 

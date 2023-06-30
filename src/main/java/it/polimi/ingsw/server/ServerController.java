@@ -15,7 +15,7 @@ public class ServerController {
     /**
      * The names of the players that have lost the connection
      */
-    public static final String BACKUP_FILE = "src/main/java/it/polimi/ingsw/commons/backUp.json";
+    public static final String BACKUP_FILE = "backUp.json";
     public final List<String> disconnectedPlayers;
     public final HashMap<String, Integer> pongLost;
     public final List<String> pongReceived;
