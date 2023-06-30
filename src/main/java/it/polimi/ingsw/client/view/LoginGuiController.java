@@ -116,7 +116,6 @@ public class LoginGuiController {
             case "English" -> client.setLanguage("en", "US");
             case "Italian" -> client.setLanguage("it", "IT");
             case "Sicilian" -> client.setLanguage("si", "IT");
-            case "Pugliese" -> client.setLanguage("pu", "IT");
             case "Bergamasco" -> client.setLanguage("bg", "IT");
             case "French" -> client.setLanguage("fr", "FR");
             case "Spanish" -> client.setLanguage("es", "ES");
@@ -143,7 +142,7 @@ public class LoginGuiController {
     @FXML
     public void loadSettings() {
         if(language.getItems().isEmpty()) {
-            language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "Pugliese", "French", "Spanish", "Japanese", "Catalan");
+            language.getItems().addAll("English", "Italian", "Sicilian", "Bergamasco", "French", "Spanish", "Japanese", "Catalan");
             language.setValue("English");
         }
 

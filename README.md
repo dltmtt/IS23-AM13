@@ -69,8 +69,8 @@ in [src/main/resources/it/polimi/ingsw](src/main/resources/it/polimi/ingsw) fold
 
 After connecting to the server, in the login screen under the 'Settings' tab, the user can select the language they want
 to use.\
-The available languages are English, Italian, French, Spanish, Catalan, Japanese, Bergamasco, Siciliano and Pugliese.
-The last three being the spoken Italian dialects of our group.
+The available languages are English, Italian, French, Spanish, Catalan, Japanese, Bergamasco and Siciliano.
+The last two being the spoken Italian dialects of our group.
 
 ### Highly Customizable
 
