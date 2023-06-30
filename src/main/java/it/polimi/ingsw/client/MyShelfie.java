@@ -54,7 +54,7 @@ public class MyShelfie {
         }
 
         if (line.hasOption("help")) {
-            formatter.printHelp("java -jar <project-root>/AM13_Client.jar", options);
+            formatter.printHelp("java -jar <project-root>/deliverables/JARs/AM13_Client.jar", options);
             System.exit(0);
         }
 
